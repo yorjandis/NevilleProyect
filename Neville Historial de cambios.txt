@@ -9,6 +9,7 @@ version 2.0.9 versionCode 26 (por publicar)
 (+) Integración con Firebase (crashlytics) Para análisis/corecciones de bugs
 (+)Creación de un repositorio del proyecto en github. De esta forma podemos siempre tener la última versión online.
 (-)Crear ayuda contextual contextual utilizando la libreria de tercero Balloom (esto nos puede ser útil para mostrar ayuda y funciones contextuales)
+(+)esta es una linea extra Yorjandis
 
 
 
