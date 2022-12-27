@@ -2,6 +2,7 @@ package com.ypg.neville.Ui.frag;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.preference.PreferenceManager;
 
+import com.skydoves.balloon.Balloon;
 import com.ypg.neville.MainActivity;
 import com.ypg.neville.R;
 import com.ypg.neville.model.db.DBManager;
@@ -29,6 +31,7 @@ import com.ypg.neville.model.db.DatabaseHelper;
 import com.ypg.neville.model.db.utilsDB;
 import com.ypg.neville.model.utils.QRManager;
 import com.ypg.neville.model.utils.UiModalWindows;
+import com.ypg.neville.model.utils.balloon.HelpBalloon;
 import com.ypg.neville.model.utils.utilsFields;
 
 import java.util.Objects;
@@ -47,15 +50,15 @@ public class frag_home extends Fragment {
     ImageButton ayudaContextual;
     ImageView masinfo;
 
+    public static frag_home frag_home_this; //Referencia a esta clase
+
     public static String elementLoaded_home = "";
 
-
-
-
-
+    public static int ShowHelpCount = 0;
 
     public frag_home() {
         // Required empty public constructor
+        frag_home_this = frag_home.this; //referencia a este fragmento
     }
 
 
@@ -92,6 +95,9 @@ public class frag_home extends Fragment {
 
 
 
+
+
+
          //Seting: Mostrando/Ocultando la Ayuda contextual
         if (PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("help_inline",true)){
             ayudaContextual.setVisibility(View.VISIBLE);
@@ -101,8 +107,11 @@ public class frag_home extends Fragment {
         ayudaContextual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UiModalWindows.showAyudaContectual(getContext(),"Ayuda Contextual","Aprenda como utilizar las nuevas funciones",
-                        getString(R.string.ayuda_frag_home),true, null);
+                frag_home.ShowHelpCount = 0;
+                ShowAyudaContextual(MainActivity.mainActivityThis);
+
+               // UiModalWindows.showAyudaContectual(getContext(),"Ayuda Contextual","Aprenda como utilizar las nuevas funciones",
+                      //  getString(R.string.ayuda_frag_home),true, null);
             }
         });
 
@@ -424,9 +433,10 @@ public class frag_home extends Fragment {
     }
 
 
-
-
-//establecer el color del favorito
+    /**
+     * Establece el color del icono del favorito
+     * @param fav_state
+     */
     private void setFavColor(String fav_state){
         if(Objects.equals(fav_state, "1")) {
             ic_fav.setColorFilter(getContext().getResources().getColor(R.color.fav_active,null));
@@ -438,7 +448,10 @@ public class frag_home extends Fragment {
 
     }
 
-    //Anima un icono
+    /**
+     * Anima un icono
+     * @param view
+     */
     private void animate(View view){
         ObjectAnimator scaleDown = ObjectAnimator.ofPropertyValuesHolder(view,
                 PropertyValuesHolder.ofFloat("scaleX", 1.3f),
@@ -451,5 +464,35 @@ public class frag_home extends Fragment {
          scaleDown.start();
     }
 
+
+    /**
+     * Muestra la ayuda contextual para los elementos
+     * @param context contexto de trabajo
+     */
+    @SuppressLint("SuspiciousIndentation")
+    private void ShowAyudaContextual(Context context){
+
+        HelpBalloon helpBalloon = new HelpBalloon(getContext());
+        linearLayout_IconosInlineFrases.setVisibility(View.VISIBLE);
+        Balloon balloon1, balloon2, balloon3,balloon4,balloon5, balloon6;
+
+        balloon1 = helpBalloon.buildFactory("Añadir un apunte");
+        balloon2 = helpBalloon.buildFactory("Añadir una frase");
+        balloon3 = helpBalloon.buildFactory("toque largo sobre frase para añadir una nota asociada");
+        balloon4 = helpBalloon.buildFactory("Marca la frase como favorita");
+        balloon5 = helpBalloon.buildFactory("Compartir la frase");
+        balloon6 = helpBalloon.buildFactory("Mostrar/ocultar los iconos");
+
+                balloon1
+                .relayShowAlignBottom(balloon2, MainActivity.mainActivityThis.ic_toolsBar_frase_add)
+                .relayShowAlignTop(balloon3, text_frase)
+                .relayShowAlignBottom(balloon4, ic_fav)
+                .relayShowAlignBottom(balloon5, ic_shared)
+                .relayShowAlignTop(balloon6, masinfo);
+
+        balloon1.showAlignBottom(MainActivity.mainActivityThis.ic_toolsBar_nota_add);
+
+
+    }
 
 }

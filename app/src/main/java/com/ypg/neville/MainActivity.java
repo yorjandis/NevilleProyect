@@ -50,10 +50,10 @@ import com.ypg.neville.model.db.utilsDB;
 import com.ypg.neville.model.utils.QRManager;
 import com.ypg.neville.model.utils.UiModalWindows;
 import com.ypg.neville.model.utils.Utils;
+import com.ypg.neville.model.utils.balloon.HelpBalloon;
 import com.ypg.neville.model.utils.myListener_In_App_Update;
 import com.ypg.neville.model.utils.utilsFields;
 import com.ypg.neville.services.serviceStreaming;
-import com.ypg.neville.testYor.baloom;
 
 import java.util.List;
 import java.util.Objects;
@@ -191,11 +191,7 @@ public class MainActivity extends AppCompatActivity {
 
         //:::::::::::::::::::::::::::::::::::::::   ZONA DE TEST ::::::::::::::::::::::::::::::::::::::::::::
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(MainActivity.this);
-        Bundle bundle = new Bundle();
-        bundle.putString("yor","esto es un ejemplo");
-        bundle.putString("yor2","Yorjandis");
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
 
         //:::::::::::::::::::::::::::::::::::::::   FIN ZONA DE TEST ::::::::::::::::::::::::::::::::::::::::::::
 
@@ -205,7 +201,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 UiModalWindows.Add_New_frase(MainActivity.this, null);
-
             }
         });
 
@@ -213,9 +208,7 @@ public class MainActivity extends AppCompatActivity {
         ic_toolsBar_nota_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
               UiModalWindows.ApunteManager(MainActivity.this,"", null, false);
-
             }
         });
 
@@ -427,7 +420,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-    } //onCreate
+    } // FIN onCreate
 
 
 
@@ -499,10 +492,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case (R.id.main_menu_shared_app): //Online
                 if (!Utils.isConnection(getApplicationContext())){break;}
-               //QRManager.ShowQRDialog(this,"https://play.google.com/store/apps/details?id=com.ypg.neville","Compartir App Neville",null );
-
-                baloom.showBallon(MainActivity.this, ic_toolsBar_frase_add);
-
+              QRManager.ShowQRDialog(this,"https://play.google.com/store/apps/details?id=com.ypg.neville","Compartir App Neville",null );
                 break;
             case (R.id.main_menu_leerQR):
                 QRManager.launch_QRRead();

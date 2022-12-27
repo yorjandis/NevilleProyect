@@ -1,6 +1,8 @@
 package com.ypg.neville.Ui.frag;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.preference.PreferenceManager;
 
+import com.skydoves.balloon.Balloon;
 import com.ypg.neville.MainActivity;
 import com.ypg.neville.R;
 import com.ypg.neville.model.db.DBManager;
@@ -28,6 +31,7 @@ import com.ypg.neville.model.db.utilsDB;
 import com.ypg.neville.model.utils.UiModalWindows;
 import com.ypg.neville.model.utils.Utils;
 import com.ypg.neville.model.utils.adapter.MyListAdapterList_info;
+import com.ypg.neville.model.utils.balloon.HelpBalloon;
 import com.ypg.neville.model.utils.utilsFields;
 
 import java.util.LinkedList;
@@ -39,6 +43,8 @@ public class frag_list_info extends Fragment {
 
    public List<String> listado = new LinkedList<>();
     ImageButton ayudaContextual;
+    Spinner spinner;
+    ListView list;
     public static  Spinner spinnerStatic;
 
     public frag_list_info() {
@@ -64,8 +70,8 @@ public class frag_list_info extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Spinner spinner = view.findViewById(R.id.frag_listinfo_spinne_filtro);
-        ListView list =  view.findViewById(R.id.frag_listinfo_list);
+         spinner = view.findViewById(R.id.frag_listinfo_spinne_filtro);
+         list =  view.findViewById(R.id.frag_listinfo_list);
         ayudaContextual = view.findViewById(R.id.frag_list_info_ayuda);
 
         spinnerStatic = spinner;
@@ -77,8 +83,7 @@ public class frag_list_info extends Fragment {
         ayudaContextual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UiModalWindows.showAyudaContectual(getContext(),"Ayuda Contextual","Aprenda como utilizar las nuevas funciones",
-                        getString(R.string.ayuda_frag_list_info),true, null);
+                ShowAyudaContextual(getContext());
             }
         });
 
@@ -338,5 +343,32 @@ public class frag_list_info extends Fragment {
         }
 
     }
+
+    /**
+     * Muestra la ayuda contextual para los elementos
+     * @param context contexto de trabajo
+     */
+    @SuppressLint("SuspiciousIndentation")
+    private void ShowAyudaContextual(Context context){
+
+        HelpBalloon helpBalloon = new HelpBalloon(getContext());
+        Balloon balloon1, balloon2, balloon3,balloon4,balloon5;
+
+        balloon1 = helpBalloon.buildFactory("Añadir un apunte");
+        balloon2 = helpBalloon.buildFactory("Añadir una frase");
+        balloon3 = helpBalloon.buildFactory("lista de elementos a filtrar");
+        balloon4 = helpBalloon.buildFactory("Listado de elementos. Toque un elemento para abrirlo. Toque largo sobre un elemento para más opciones");
+
+
+        balloon1
+                .relayShowAlignBottom(balloon2, MainActivity.mainActivityThis.ic_toolsBar_frase_add)
+                .relayShowAlignTop(balloon3, spinner)
+                .relayShowAlignBottom(balloon4, list);
+
+        balloon1.showAlignBottom(MainActivity.mainActivityThis.ic_toolsBar_nota_add);
+
+
+    }
+
 
 }

@@ -1,5 +1,7 @@
 package com.ypg.neville.Ui.frag;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +29,7 @@ import androidx.preference.PreferenceManager;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerCallback;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
+import com.skydoves.balloon.Balloon;
 import com.ypg.neville.MainActivity;
 import com.ypg.neville.R;
 import com.ypg.neville.model.db.DBManager;
@@ -35,6 +38,7 @@ import com.ypg.neville.model.db.utilsDB;
 import com.ypg.neville.model.utils.UiModalWindows;
 import com.ypg.neville.model.utils.Utils;
 import com.ypg.neville.model.utils.adapter.MyListAdapterItemsList;
+import com.ypg.neville.model.utils.balloon.HelpBalloon;
 import com.ypg.neville.model.utils.utilsFields;
 
 import java.io.File;
@@ -131,8 +135,7 @@ public class frag_listado extends Fragment {
         ayudaContextual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UiModalWindows.showAyudaContectual(getContext(),"Ayuda Contextual","Aprenda como utilizar las nuevas funciones",
-                        getString(R.string.ayuda_frag_listado),true, null);
+           ShowAyudaContextual(getContext());
             }
         });
 
@@ -608,7 +611,6 @@ public class frag_listado extends Fragment {
     }
 
 
-
     //Reproduce video inbuilt de Youtube (Utiliza el reproductor playView)
     private void playVideo(String urlVideo){
 
@@ -732,8 +734,6 @@ public class frag_listado extends Fragment {
 
         }
 
-
-
     //lee y actualiza el estado de favorito de un elemento cargado
     private void  handlefavState(){
         String favState = "";
@@ -744,6 +744,33 @@ public class frag_listado extends Fragment {
             MainActivity.mainActivityThis.setFavColor(favState);
         }catch (Exception ignored){}
 
+
+
+    }
+
+
+    /**
+     * Muestra la ayuda contextual para los elementos
+     * @param context contexto de trabajo
+     */
+    @SuppressLint("SuspiciousIndentation")
+    private void ShowAyudaContextual(Context context){
+
+        HelpBalloon helpBalloon = new HelpBalloon(getContext());
+
+        Balloon balloon1, balloon2, balloon3,balloon4,balloon5;
+
+        balloon1 = helpBalloon.buildFactory("Añadir un apunte");
+        balloon2 = helpBalloon.buildFactory("filtro de listado");
+        balloon3 = helpBalloon.buildFactory("listado de elementos. Toque un elemento para abrirlo");
+
+
+        balloon1
+                .relayShowAlignBottom(balloon2, mostrar_opciones)
+                .relayShowAlignTop(balloon3, listView);
+
+// show sequentially customListBalloon-customProfileBalloon-customTagBalloon
+        balloon1.showAlignBottom(MainActivity.mainActivityThis.ic_toolsBar_nota_add);
 
 
     }

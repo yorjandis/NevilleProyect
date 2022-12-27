@@ -1,0 +1,61 @@
+package com.ypg.neville.model.utils.balloon;
+
+
+import android.content.Context;
+import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+
+import com.skydoves.balloon.ArrowOrientation;
+import com.skydoves.balloon.ArrowPositionRules;
+import com.skydoves.balloon.Balloon;
+import com.skydoves.balloon.BalloonAnimation;
+import com.skydoves.balloon.BalloonSizeSpec;
+import com.skydoves.balloon.OnBalloonClickListener;
+import com.ypg.neville.R;
+
+/**
+ * Clase que se encarga de mostrar la ayuda contextual
+ */
+public class HelpBalloon {
+
+Context context;
+
+    public HelpBalloon(Context context) {
+        this.context = context;
+    }
+
+
+    /**
+     * Construye un objeto Balloon
+     * @param message Mensaje para mostrar
+     * @return retorna un objeto de tipo Balloon
+     */
+    public Balloon buildFactory(String message){
+
+        Balloon balloon;
+        balloon = new Balloon.Builder(context)
+                .setArrowSize(10)
+                .setArrowOrientation(ArrowOrientation.TOP)
+                .setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
+                .setArrowPosition(0.5f)
+                .setWidth(BalloonSizeSpec.WRAP)
+                .setHeight(BalloonSizeSpec.WRAP)
+                .setPadding(6)
+                .setTextSize(18f)
+                .setCornerRadius(4f)
+                .setAlpha(0.9f)
+                .setText(message)
+                .setTextColor(ContextCompat.getColor(context, R.color.black))
+                .setTextIsHtml(true)
+                .setIconDrawable(ContextCompat.getDrawable(context, R.drawable.ic_tips))
+                .setBackgroundColor(ContextCompat.getColor(context, R.color.white))
+                .setBalloonAnimation(BalloonAnimation.FADE)
+                .build();
+
+        return  balloon;
+
+    }
+
+}
