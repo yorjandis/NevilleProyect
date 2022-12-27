@@ -58,7 +58,9 @@ import com.ypg.neville.testYor.baloom;
 import java.util.List;
 import java.util.Objects;
 
-
+/**
+ * Esta es la clase principal
+ */
 public class MainActivity extends AppCompatActivity {
 
     serviceStreaming mservise;

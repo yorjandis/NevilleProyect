@@ -1,0 +1,64 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.ypg.wearneville"
+        minSdk 26
+        targetSdk 33
+        versionCode 701002
+        versionName "1.0.2"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    buildFeatures {
+        viewBinding true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+dependencies {
+    implementation 'com.google.android.gms:play-services-wearable:17.1.0'
+
+    implementation 'androidx.percentlayout:percentlayout:1.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
+    //for Android Wear support:
+    implementation 'androidx.wear:wear:1.2.0'
+    //// includes support for wearable specific inputs
+    implementation 'androidx.wear:wear-input:1.1.0'
+
+
+    implementation 'androidx.appcompat:appcompat:1.5.0'
+    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+
+    // Use to implement support for interactions between the Wearables and Phones
+    implementation "androidx.wear:wear-remote-interactions:1.0.0"
+
+
+    //para Tiles
+    // Use to implement support for wear tiles
+    implementation "androidx.wear.tiles:tiles:1.1.0-rc01"
+
+
+    //para la implementacion de futures (Tiles):
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-guava:1.6.1'
+
+}

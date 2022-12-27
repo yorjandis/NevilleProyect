@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Neville</string>
+    <string name="label" />
+    <string name="tile_label">Label</string>
+    <string name="tile_description">descriptions</string>
+
+</resources>
