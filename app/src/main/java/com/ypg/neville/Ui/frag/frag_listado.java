@@ -35,7 +35,6 @@ import com.ypg.neville.R;
 import com.ypg.neville.model.db.DBManager;
 import com.ypg.neville.model.db.DatabaseHelper;
 import com.ypg.neville.model.db.utilsDB;
-import com.ypg.neville.model.utils.UiModalWindows;
 import com.ypg.neville.model.utils.Utils;
 import com.ypg.neville.model.utils.adapter.MyListAdapterItemsList;
 import com.ypg.neville.model.utils.balloon.HelpBalloon;

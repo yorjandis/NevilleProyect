@@ -2,9 +2,7 @@ package com.ypg.neville.model.utils.balloon;
 
 
 import android.content.Context;
-import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 
@@ -12,8 +10,8 @@ import com.skydoves.balloon.ArrowOrientation;
 import com.skydoves.balloon.ArrowPositionRules;
 import com.skydoves.balloon.Balloon;
 import com.skydoves.balloon.BalloonAnimation;
+import com.skydoves.balloon.BalloonHighlightAnimation;
 import com.skydoves.balloon.BalloonSizeSpec;
-import com.skydoves.balloon.OnBalloonClickListener;
 import com.ypg.neville.R;
 
 /**
@@ -54,6 +52,7 @@ Context context;
                 .setBackgroundColor(ContextCompat.getColor(context, R.color.white))
                 .setBalloonAnimation(BalloonAnimation.FADE)
                 .setLifecycleOwner(lifecycleOwner)
+                .setBalloonHighlightAnimation(BalloonHighlightAnimation.SHAKE)
                 .build();
 
         return  balloon;
