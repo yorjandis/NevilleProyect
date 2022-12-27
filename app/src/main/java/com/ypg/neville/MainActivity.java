@@ -58,9 +58,7 @@ import com.ypg.neville.testYor.baloom;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Esta es la clase principal
- */
+
 public class MainActivity extends AppCompatActivity {
 
     serviceStreaming mservise;
@@ -78,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView headerImage;
 
 
-
+//este es el nav controles Yorjandis
     public NavController navController;
 
 
