@@ -1,0 +1,332 @@
+Proyecto neville - historial de cambios
+
+
+version 2.0.9 versionCode 26 (por publicar)
+(-) Aplicar buenas prácticas y separación de responsabilidades.
+(-+) Documentar todo el código con JavaDocs
+
+(+) Permitir poner una nota en una frase favorita en frag_list_info. (metodo SetOnLOngClick del list)
+(+) Integración con Firebase (crashlytics) Para análisis/corecciones de bugs
+(+)Creación de un repositorio del proyecto en github. De esta forma podemos siempre tener la última versión online.
+(-)Crear ayuda contextual contextual utilizando la libreria de tercero Balloom (esto nos puede ser útil para mostrar ayuda y funciones contextuales)
+
+
+
+
+
+version 2.0.8 versioncode 25 (Publicado)
+(+) Actualizar las imágines de la App en la play store
+(+) corregir  que no muestra el diálogo de QR en el icono de compartir en el frag_list_info
+(+) Se creo un método separado dialogo para crear apuntes personales
+(+) Se creo un método en utilsDB para actualizar un apunte
+(+)Crear una ventana de diálogo para visualizar/modificar las notas asocidas a una conf, video, videoOffline...
+(+)Se creó un método para mostrar/actualizar el campo nota de una tabla determinada
+
+
+versión 2.0.7 versioncode 24 (Publicado)
+(+) Customizar la paleta de colores de la app
+(+) Corrección de error cuando se accede al repositorio de frases
+(+) Adaptación de la lista interna de frases (xml) para que pueda adicionar un autor (hasta ahora se había declarado explícitmente "neville")
+(+) Se sincronizó el compendio interno (xml) de frases con el reposirorio externo (202 frases)
+
+
+
+
+version 2.0.6 versionCode 23 (Publicado)
+(+) Añadir capacidad de generar QR de  frases y notas para ser compartido
+(+) Añadir capacidad de generar QR para compartir link de la app en play store
+(+) Capacidad de leer los códigos QR para importar el contenido (notas y frases)
+(+) Chequeo del # de carácteres posibles para generar el QR
+(+)	Habilitar el asistente para frases personales cuando abrimos una conferencia
+(+) Habilitar el botón atrás de Android
+(+)	Corregido error gramatical en frases en la BD, tabla frases (esto lo hace un metodo en MainActivity)
+(+)	Corregido texto de título en el asistente de compartir app desde el menú pricipal
+(+)	Añadir chequeo de conexión a las funciones que necesiten acceso a internet
+(+) Añadido 28 frases nuevas a neville web site
+
+
+version 2.0.5 versionCode:22 (Publicado)
+
+(+) Corregido error de conexión con el sitio web mozello (yor, el sitio dejo de funcionar por cambio en la extension de .es a .com)
+(+) cambio y renombre de la variable static boolean flag de UtilsFields a boolean flag_checkbox a UiModalWindows
+(+) Se adicionaron algunos modificadores de acceso a variables en UtilsFields para que sean constantes
+
+
+versión 2.0.4 versionCode:21 (Publicado)
+
+(+) Se Agregó una animación a la app para cuando esta se reinicie
+
+(+) Se movió el metodo que pide los permiso de acceso al almacenamiento a los eventos click de las opciones Videos y Audios externos, en el menú lateral. Esto evitaba que se cerrara la app mientras se cargaban las bases de datos la primera vez.
+
+Yor!!: La app no cambia correctamente al modo noche cuando el sistema tiene el modo claro
+
+(+) se eliminó el parámetro bundleInfo en MainActivity en las opciones en drawer para algunos elementos
+(+) Se ha cambiado la implementación del metodo fav_ico en la barra de tareas de MainActivity)
+(+) se reparó error de asignación/lectura de elementos favoritos
+(+) se eliminó la variable elementLoaded de la clase UtilsFields. Ahora cada frag tiene sus propios campos staticos de info.
+(+) Se corrigió pequeños errores en la asignación de notas
+(+) Dotar de animación a los elementos Ui que cambian su visibilidad
+(+) Se agregó 11 nuevas frases al sitio web
+(+) corregir error de que no se reproduce los videos marcados de favoritos en frag_list_info
+
+
+versión 2.0.3 versionCode:20 (Publicado)
+
+
+(echo_fix) Se modificó el método getFrasesFromWeb en la clase repo para admitir la publicación del resultado en el subproceso principal UI.
+			//yor, con ello comprendimos el funcionamiento del modelo de proceso unico de Android y sus dos reglas fundamentales:
+				//No se debe bloquear el subproceso UI con la ejecución de tareas intensivas
+				//No se debe actualizar los componentes UI desde un subproceso que no sea el principal
+(echo_fix) se corrigió error que evitaba que se mostrara la pantalla de novedades al inicio de la app
+(echo_fix) se modificó el nombre de la opción "Mostrar novedades" en Configuración. Se usa un nombre mas aclarativo.
+(echo_reparado) establecer bien los colores del tema y estilos			
+
+(por hacer) Compartir el listado de todas las frases personales, Crear un método para ello.
+(echo_change) Se aplicó un thema general en el manifiesto a nivel de la aplication:Theme.AppCompat.DayNight.NoActionBar
+(echo_minor): Ahora el botón para ocultar la ayuda contextual cierra el cuadro de diálogo
+(echo_minor): Pequeñas mejoras en el cuadro de diálogo de addfrase
+
+
+
+
+(por hacer) Permitir reproducir solo las conferencias seleccionadas como favoritas.
+
+(por hacer)permitir reproducir continuamente
+	(Yor hay que reparar el metodo setOnCompleteListener del Mediaplayer)
+
+*(REPARAR YOR)Se deshabilitó el botón atrás en Android. (en MainActivity) para evitar error conocido con la carga de listado en frag_listado y el filtro
+	Además, dá problemas con la navegación entre los frag. el frag_listado no muestra correctamente la lista
+	
+
+
+
+versión 2.0.2 versionCode:19 (publicado)
+
+(Parcialmente)Optimizar y reestructurar el código. Aplicar separación de responsabilidades
+	(echo)se convirtió los metodos en UiModalWindows a static; para evitar tener que instanciar la clase
+	
+(echo) hacer una función para actualizar el texto de las frases sin tocar los campos de fav,nota, etc
+(echo) Nueva función que actualiza la BD de las frases. leyendo el contenido desde la web
+(echo_nuevo) se adicionó una nueva configuración en el reproductor: ahora setPlayingLoop
+(echo_nuevo) Actualizar la tabla frases desde la web. Opción añadida a Configuración
+(echo) probar obtener información desde internet, desde una página web con la librería jsoup.
+	(echo) Actualización de las frases desde la página web del proyecto.
+	(echo:fix)se mejoró el código html de las frases en la web y el método para su procesamiento
+	
+	
+	
+	
+versión 2.0.1 verionCode:18 (publicado)
+
+(echo) corregir errores ortográfico en frases (email de proyecto). Recuerda que hay que implementar una función que carge la tabla de frases inbuilt, pero sin alterar los campos de favoritos. Solo el campo frase. Esto es para corregir los errores ortográficos. Poner esto como una opción en Configuración.
+
+*(echo) Buscar dentro del contenido de las conferencias
+	se implementó un cuadro de búsqueda en frag_listado para realizar las búsquedas
+*(echo_fix) reparado error: No se muestra los apuntes personales cuando se da click sobre ellos en el frag_list_info
+*(echo_fix) reparado error: No se cargaba las conferencias seleccionadas en el frag_list_info
+*(echo_fix) reparado error: No se visualizaba bien el texto en en los dialogos UI. (se aplicó un tema específico para diálogos)
+*(echo) Add nuevo contenido: Acceso al canal de telegram de audios, al grupo de facebook, etc
+
+
+
+
+
+
+
+version 2.0.0 versionCode:17 (publicado)
+
+*(echo_new): se añadió 158 nuevas conferencias de neville
+*(echo)Implementación de In_App_Update. Para actualizaciones directas desde play store. Creación de un customListener.
+*(echo-new) Mover la función de enviar email a clase Utils. Método dedicado.
+*(echo_new) Opción en el menú principal para compartir un enlace de la app
+*(echo) se organizó el contenido en subcarpetas en assets
+*(echo-modif) se reescribió el método que lista los ficheros en assets. Ahora es  más simple.
+*(echo-fix) Ajuste de los componentes webView y listView (layout_padding) para mostrar correctamente el contenido final
+*(echo-fix) se cambió el layout xml de frag_list para un linear layout. de esta forma se muetra correctamente el contenido
+*(echo-modif) se deshabilitó setJavaScriptEnabled(true) en webView. No es requerido. Mayor seguridad.
+*(echo-modif) se movió las variables Listado y UrlListado de MainActivity a utils.
+*(echo-modif) migrar contenidos (Frases) a BD Sqlite
+*(echo-modif) migrar contenidos (videos,audiolibros,videos gregg) a BD Sqlite
+*(echo_add) Colocar nuevos iconos en la toolbar para acciones específicas (notas,favoritos, nueva frase etc)
+*(echo_new) Se cambió el componente de la barra inferior (BottonBar), se utiliza una librería externa)
+*(echo_new) crear la tabla notas (Para almacenar notas personales)
+*(echo_modif) estilizar la apariencia de los bordes internos con shape, hacer bordes cóncavos y convexos.
+*(echo) Implementación de la lógica para la gestión de frases en la BD
+	*(echo_new) Adicionar una nueva frase a la BD (icono en toolbar)
+	*(echo_new)	Logica de los favoritos (la tabla frases tiene un campo para favoritos)
+	*(echo_new) acceso para compartir una frase
+*(echo_new) implementación lógica de favoritos en Videos, conferencias, ayudas...
+*(echo_modif) Convertir los ListView  en custom listview (Para un manejo mas intuitivo)
+*(echo_new) se pasó el contenido de conferencias (listado de ficheros en assets) a la tabla conf de BD. Para un mejor manejo
+*(echo_new) Implementar un onlongClick en el texto de la frase para adicionarle una nota a la frase
+*(echo) Corrección ortográfica en frases de neville
+*(echo_new) Adición de un panel de opciones en frag_listado para hacer operaciones de filtrado y búsqueda en el listado
+	*(echo)Implementacion de la busqueda por titulo
+	*(echo) Implementación de las opciones de filtrado por criterio (favoritos, con notas...)
+
+
+
+*(echo_FIX) Se reparó el problema de visualiación del widget. Pero deja de funcionar si se cierra la app.
+
+*(echo) se terminó de implementar el icono ic_del en las filas de elementos para frag_list_info
+
+*(echo_new) implementar la lógica de la tabla notas
+		(echo) notas libres (apuntes)
+		(echo) notas en conferencias, videos y audios.
+
+*(echo_new) implementar itemclick de la lista info ("frag_list_info") para editar el contenido según el tipo de elemento cargado (frases inbuilt, Frases personales, etc)
+
+
+*(echo_new) determinar al inicio (onCreate de Mainactivity) si las tablas frases, conf y videos contienen datos. Si estan vacias hay que popularlas y reiniciar la activity:
+	este es el código para reiniciar una activity:
+		Intent intent = getIntent();
+		intent.putExtra(STRINGTOSAVE, "Save this string"); //Línea Opcional
+		finish();
+		startActivity(intent);
+	
+
+*(Echo_new) Permitir almacenar y acceder a contenido multimedia (audio/video) offile, desde la memoria externa.
+	*(echo_crear tabla dedicada a videos externos) Esta tabla se actualiza a partir del contenido de la carpeta repo. Acción manual por el usuario
+	*(echo_manejo de notas)
+	*(echo_manejo de favoritos)
+	*(echo_frag list info)
+
+	*** PROBLEMAS***
+		*La tabla repo contiene entradas de varias carpetas en el almacenamiento externo. Se puede dar el caso de duplicado de fichero. 
+			*fixed: especificar una restricción UNIQUE a la columna title (echo!)
+
+*(echo) Ocultar mostrar los iconos debajo de las frases (para menor distracción). Poner una imagen discreta como switch. Quitar la opción en Configuración para "poner/quitar" los iconos inline debajo de las frases.
+	mover para este bloque, los textview de autor y fuente.
+
+	
+
+
+*(echo_new)Crear un servicio de streaming para escuchar los audios y audios de videos con la pantalla apagada.
+	(echo) permitir terminar, pausar y detener la reproducción desde una notificacion
+	(echo) Yor Se ha implementado un metodo static de la clase service para reproducir un medio (el servicio debe estar activo)
+			La forma llamar a este método es:
+			if (serviceStreaming.mserviseThis != null) {
+                    serviceStreaming.mserviseThis.playMediaP(utilsFields.repoDirVideos, "LA REVISION.mp4",true);
+                }
+	
+
+*(echo) Implementación de un metodo que actualize automáticamente la tabla repo cuando cambia el contenido del directorio externo
+
+
+
+
+
+*(Por hacer) Implementar una forma de mostrar ayuda al usuario final (para que se familiarice con las nuevas funciones)
+	Nota yor: Una idea es mostrar un LinearLayout con el texto de la ayuda en la parte superior/inferior del fragment y establecer un flag de priman
+	
+	
+	
+	
+(Por hacer) Crear la página de preferencias. Cambios permitidos:
+	-General
+		(echo)*Establecer frase de bienvenida (header del menú lateral)
+
+	-Aspecto visual:
+		(echo)*Cambio de tamaño de fuente en: visor html, tamaño en  frases, lista de conferencias, lista de videos,  fuente en menu.
+		(echo::mejorar)*Tema: oscuro, claro, sistema
+		*Ocultar/mostrar los iconos inline de las frases (fav y shared)
+		*Cambiar colores de : Shape, iconos de toolbars
+	
+	-Contenido:
+		(echo)*Empezar con: frase aleatoria, frase aleatoria favorita, frase aleatoria personal, conferencia aleatoria, conferencia aleatoria favorita
+		(echo)*Ocultar/mostrar botones inline de las frases (Menor distracción)
+		
+
+	-Reproductor desatendido:
+		*(echo)Reproducir los videos en primer/segundo plano
+		*(echo)repetir pista de audio en primer/segundo plano
+
+	-Contacto:
+		*(echo) link a la página del proyecto
+		*(echo) link a la google play
+		*(echo)Crear una página para reportar un error o hacer una sugerencia
+		*(echo)Crear un enlace para hacer un donativo al proyecto
+		
+
+
+
+
+
+
+
+version 1.1.2 versioncode:12 (publicado)
+*Corregido error al verificar nueva versión en la play store (yor)
+*Optimizaciones internas para una experiencia más fluída
+*Soporte para notificaciones (Ahora notifica las actualizaciones disponibles)
+*Nuevo contenido en el apartado "Ayudas"
+*Opción en menú principal para reportar un error.
+
+
+
+(nuevos accesos a recursos de neville goddad en la red)
+
+
+versión 1.1.1 versioncode:11 (publicado)
+*Se revisaron todas las frases y se corrigieron errores ortográficos y gramaticales
+
+
+versión 1.1.0 versioncode:10 (publicado)
+*Add barra de navegación inferior
+*Add menú principal (actualizar app, sitio web y configurar app[por hacer])
+*Add nuevas frases de neville
+
+version 1.0.9 versioncode 9
+*Add nuevas frases de neville
+
+versión 1.0.8 versióncode:8 (publicado)
+*nuevas frases de neville
+*mejoras en la presentación visual del contenido
+
+versión 1.0.7 versioncode:7 (publicado)
+*Nuevas Frases de Neville
+*corregido fallo en liberar un objeto null: en onDestroy de MainActivity.class
+
+
+version 1.0.6 versioncode:6 (publicado)
+
+*corregido texto largo en los item del menu lateral
+*Adicionado más frases de neville
+*Adicionado botón en widget para abrir la app
+
+
+
+version 1.0.5 versioncode:5 (publicado)
+*Soporte de widget para mostrar las frases de neville
+*se corrijo algunos errores de tipografía en las frases
+
+
+
+version 1.0.2 version code:4 (publicado)
+*Se disminuyó la verión minSDK a 19. Ahora se puede ejecutar a partir de android 4.4+
+
+versión 1.0.2 versioncode:3(publicado)
+*Nuevas frases de neville (tomado de sus libros y conferencias)
+*(corrregido)corregir el error se queda el título de un fragment al ser reemplazado
+*Se modificó la estructura interna de presentación. Ahora se utiliza el componente Navigation de Android JetPack
+*Se corrigió error de cierra de app cuando no existe conección a internet
+*Se mejoró el chequeo online de una nueva versión. Ahora chequea si existe una conección disponible y analiza la propia página de la play store.
+
+
+version 1.0.1 versioncode:2(Publicado)
+*Agregado al menú lateral ficha "que dice la ciencia" con el item gregg braden
+	con videos, libros y enlaces a su pagina y canal de youtube oficial
+*Modificación del compendio de citas (se listó extratos de sus enseñanzas)
+*Se agrego audiolibros de neville
+*Ahora los videos se reproducen sobre el listado, para mayor comodidad
+*Se pasaron todas las cadenas a referencias en fichero xml
+*Se adicionó una función para comprobar si existe una nueva version
+*Se adicionó una opción de menu para actualizar la App, en el navigation view.
+
+
+
+
+version 1.0.0 versioncode:1(liberación inicial) 24/02/2022
+
+(+) Menú lateral a modo de índice temático
+
+
