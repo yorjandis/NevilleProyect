@@ -760,9 +760,9 @@ public class frag_listado extends Fragment {
 
         Balloon balloon1, balloon2, balloon3,balloon4,balloon5;
 
-        balloon1 = helpBalloon.buildFactory("Añadir un apunte");
-        balloon2 = helpBalloon.buildFactory("filtro de listado");
-        balloon3 = helpBalloon.buildFactory("listado de elementos. Toque un elemento para abrirlo");
+        balloon1 = helpBalloon.buildFactory("Añadir un apunte",getViewLifecycleOwner());
+        balloon2 = helpBalloon.buildFactory("filtro de listado",getViewLifecycleOwner());
+        balloon3 = helpBalloon.buildFactory("listado de elementos. Toque un elemento para abrirlo",getViewLifecycleOwner());
 
 
         balloon1

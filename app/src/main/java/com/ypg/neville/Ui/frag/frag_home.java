@@ -7,6 +7,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -476,12 +477,12 @@ public class frag_home extends Fragment {
         linearLayout_IconosInlineFrases.setVisibility(View.VISIBLE);
         Balloon balloon1, balloon2, balloon3,balloon4,balloon5, balloon6;
 
-        balloon1 = helpBalloon.buildFactory("Añadir un apunte");
-        balloon2 = helpBalloon.buildFactory("Añadir una frase");
-        balloon3 = helpBalloon.buildFactory("toque largo sobre frase para añadir una nota asociada");
-        balloon4 = helpBalloon.buildFactory("Marca la frase como favorita");
-        balloon5 = helpBalloon.buildFactory("Compartir la frase");
-        balloon6 = helpBalloon.buildFactory("Mostrar/ocultar los iconos");
+        balloon1 = helpBalloon.buildFactory("Añadir un apunte", getViewLifecycleOwner());
+        balloon2 = helpBalloon.buildFactory("Añadir una frase", getViewLifecycleOwner());
+        balloon3 = helpBalloon.buildFactory("toque largo sobre frase para añadir una nota asociada", getViewLifecycleOwner());
+        balloon4 = helpBalloon.buildFactory("Marca la frase como favorita", getViewLifecycleOwner());
+        balloon5 = helpBalloon.buildFactory("Compartir la frase", getViewLifecycleOwner());
+        balloon6 = helpBalloon.buildFactory("Mostrar/ocultar los iconos", getViewLifecycleOwner());
 
                 balloon1
                 .relayShowAlignBottom(balloon2, MainActivity.mainActivityThis.ic_toolsBar_frase_add)

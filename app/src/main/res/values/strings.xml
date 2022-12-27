@@ -147,33 +147,6 @@
     <!-- Preferences otros textos -->
     <string name="mensaje_vienbenida_pordefecto">La imaginación crea la realidad</string>
 
-
-    <string name="ayuda_frag_home">
-                "*Esta pantalla puede mostrar varios contenidos iniciales como: Una frase o conferencia aleatoria, y más. Explore todas las opciones en Menú Principal/Configuración/Contenido/Iniciar pantalla con:\n\n"
-                "*En la barra superior de la app encontrará botones para crear sus propias frases personales y para adicionar apuntes y/o notas asociadas a la frase actual\n\n"
-                "*Haga una pulsación larga sobre el texto de la frase para adicionarle una nota asociada\n\n"
-                "*Utilice el icono de favorito (debajo de la frase) para marcar la frase como favorita\n\n"
-                "*Utilice el icono de compartir (debajo de la frase) para compartir la frase en redes sociales, email, mensajes, notas, etc\n\n"
-                "*Los contenidos marcados como favoritos o con notas asociadas pueden ser administrados a través de la pantalla: Menú principal/Mi información\n\n"
-                "*Si llegara a notar algún error de contenido o de funcionamiento, no dude en dejarme un comentario en el Menú Principal/Configuración/Contacto/Enviar un comentario"
-    </string>
-
-    <string name="ayuda_frag_listado">
-                "*Esta pantalla muestra un listado de medios (conferencias, videos, audios, etc) a los que puede acceder pulsando sobre ellos\n\n"
-                "*En la barra superior de la app encontrará un icono para adicionar apuntes personales\n\n"
-                "*Ahora puede utilizar las opciones de filtrado y búsqueda de contenido. Para ello utilice el botón 'Mostrar Opciones'\n\n"
-                "*Si llegara a notar algún error de contenido o de funcionamiento, no dude en dejarme un comentario en el Menú Principal/Configuración/Contacto/Enviar un comentario"
-    </string>
-
-    <string name="ayuda_frag_list_info"> "*Esta pantalla le permite administrar su contenido personal\n\n"
-                "*En la barra superior de la app encontrará iconos para adicionar nuevas frases y apuntes personales \n\n"
-                "*Utilice el filtro para mostrar elementos marcados como favoritos, elementos con notas, frases personales y apuntes \n\n"
-                "*Las frases inbuilt no se pueden eliminar de la app. Pero se pueden marcar o desmarcar como favoritas y también compartirse en redes sociales, email, etc \n\n"
-                "*Los elementos listados pueden responder a una pulsación corta o larga sobre ellos. Por ejemplo, las conferencias pueden abrirse o los videos pueden reproducirse \n\n"
-                "*En la barra superior de la app encontrará iconos para adicionar nuevas frases y apuntes personales \n\n"
-                "*Si llegara a notar algún error de contenido o de funcionamiento, no dude en dejarme un comentario en el Menú Principal/Configuración/Contacto/Enviar un comentario"
-    </string>
-
     <string name="news">
         "Bienvenidos a Neville Para Todos!!! \n\n"
         "La version actual cuenta con las siguientes características: \n\n"

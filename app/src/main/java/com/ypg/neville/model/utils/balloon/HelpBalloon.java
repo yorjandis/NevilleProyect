@@ -6,6 +6,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.skydoves.balloon.ArrowOrientation;
 import com.skydoves.balloon.ArrowPositionRules;
@@ -32,7 +33,7 @@ Context context;
      * @param message Mensaje para mostrar
      * @return retorna un objeto de tipo Balloon
      */
-    public Balloon buildFactory(String message){
+    public Balloon buildFactory(String message, LifecycleOwner lifecycleOwner){
 
         Balloon balloon;
         balloon = new Balloon.Builder(context)
@@ -48,10 +49,11 @@ Context context;
                 .setAlpha(0.9f)
                 .setText(message)
                 .setTextColor(ContextCompat.getColor(context, R.color.black))
-                .setTextIsHtml(true)
+                .setTextIsHtml(false)
                 .setIconDrawable(ContextCompat.getDrawable(context, R.drawable.ic_tips))
                 .setBackgroundColor(ContextCompat.getColor(context, R.color.white))
                 .setBalloonAnimation(BalloonAnimation.FADE)
+                .setLifecycleOwner(lifecycleOwner)
                 .build();
 
         return  balloon;

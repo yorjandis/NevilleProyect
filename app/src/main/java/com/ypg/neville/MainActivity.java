@@ -33,7 +33,6 @@ import androidx.preference.PreferenceManager;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
@@ -50,7 +49,6 @@ import com.ypg.neville.model.db.utilsDB;
 import com.ypg.neville.model.utils.QRManager;
 import com.ypg.neville.model.utils.UiModalWindows;
 import com.ypg.neville.model.utils.Utils;
-import com.ypg.neville.model.utils.balloon.HelpBalloon;
 import com.ypg.neville.model.utils.myListener_In_App_Update;
 import com.ypg.neville.model.utils.utilsFields;
 import com.ypg.neville.services.serviceStreaming;

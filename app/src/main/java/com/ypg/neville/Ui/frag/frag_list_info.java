@@ -354,10 +354,10 @@ public class frag_list_info extends Fragment {
         HelpBalloon helpBalloon = new HelpBalloon(getContext());
         Balloon balloon1, balloon2, balloon3,balloon4,balloon5;
 
-        balloon1 = helpBalloon.buildFactory("Añadir un apunte");
-        balloon2 = helpBalloon.buildFactory("Añadir una frase");
-        balloon3 = helpBalloon.buildFactory("lista de elementos a filtrar");
-        balloon4 = helpBalloon.buildFactory("Listado de elementos. Toque un elemento para abrirlo. Toque largo sobre un elemento para más opciones");
+        balloon1 = helpBalloon.buildFactory("Añadir un apunte", getViewLifecycleOwner());
+        balloon2 = helpBalloon.buildFactory("Añadir una frase",getViewLifecycleOwner());
+        balloon3 = helpBalloon.buildFactory("lista de elementos a filtrar",getViewLifecycleOwner());
+        balloon4 = helpBalloon.buildFactory("Listado de elementos. Toque un elemento para abrirlo. Toque largo sobre un elemento para más opciones",getViewLifecycleOwner());
 
 
         balloon1
