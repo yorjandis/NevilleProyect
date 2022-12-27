@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="15dp">
+
+
+
+        <TextView
+            android:id="@+id/row_list_info_text_conf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="Yorjandis"
+            android:layout_marginStart="4dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+            <TextView
+                android:id="@+id/row_list_info_text_autor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_marginEnd="40dp"/>
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/row_list_info_ic_shared"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_share"
+                android:tint="@color/shared_social"
+                android:layout_marginEnd="25dp"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/row_list_info_ic_del"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_delete"
+                android:tint="@color/fav_active"
+                android:layout_marginEnd="25dp"/>
+
+
+        </LinearLayout>
+
+
+</LinearLayout>

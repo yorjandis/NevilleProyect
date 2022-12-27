@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <EditText
+        android:id="@+id/mod_add_frase_edit_frase"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:ems="10"
+        android:hint="@string/frase_Frase"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center|top"
+        android:inputType="textMultiLine"
+        android:layout_marginTop="5dp" />
+
+    <EditText
+        android:id="@+id/mod_add_frase_edit_autor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/nota_title"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:hint="@string/autor"
+        android:minHeight="48dp" />
+
+    <EditText
+        android:id="@+id/mod_add_frase_edit_fuente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="@string/fuente"
+        android:minHeight="48dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="25dp">
+
+        <Button
+            android:id="@+id/mod_add_frase_btn_salir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/salir"
+            />
+        <Button
+            android:id="@+id/mod_add_frase_btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/guardar"
+            android:layout_marginStart="50dp"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/mod_add_frase_shared"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_share"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

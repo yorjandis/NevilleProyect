@@ -1,0 +1,29 @@
+<resources>
+
+    <style name="Widget.NevilleProyect.AppWidget.Container" parent="android:Widget">
+        <item name="android:id">@android:id/background</item>
+        <item name="android:background">?android:attr/colorBackground</item>
+    </style>
+
+    <style name="Widget.NevilleProyect.AppWidget.InnerView" parent="android:Widget">
+        <item name="android:background">?android:attr/colorBackground</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+
+    <!-- Apariencia del texto en el menú principal  -->
+    <style name="optionMenuTextApearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <style name="Dialog" parent="android:Theme.Material.Dialog.Presentation">
+        <item name="android:windowBackground">@color/color_base</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
+
+
+</resources>

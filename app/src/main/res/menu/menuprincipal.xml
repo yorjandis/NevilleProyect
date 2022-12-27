@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <item
+        android:id="@+id/main_menu_shared_app"
+        android:title="@string/recomendar_app" />
+    <item
+        android:id="@+id/main_menu_leerQR"
+        android:title="@string/lector_qr" />
+    <item
+        android:id="@+id/main_menu_myinfo"
+        android:title="@string/mi_informacion" />
+    <item
+        android:id="@+id/main_menu_setup"
+        android:title="@string/configuraci_n" />
+
+</menu>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp">
+
+
+    <com.skydoves.colorpickerview.ColorPickerView
+        android:id="@+id/color_picker"
+        android:layout_margin="8dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"/>
+
+    <com.skydoves.colorpickerview.sliders.AlphaSlideBar
+        android:id="@+id/alphaSlideBar"
+        android:layout_width="match_parent"
+        android:layout_margin="8dp"
+        android:layout_height="wrap_content"
+        app:selector_AlphaSlideBar="@drawable/wheel"
+    app:borderColor_AlphaSlideBar="@android:color/darker_gray"
+    app:borderSize_AlphaSlideBar="5"/>
+
+    <com.skydoves.colorpickerview.sliders.BrightnessSlideBar
+        android:id="@+id/brightnessSlide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:selector_BrightnessSlider="@drawable/wheel"
+    app:borderColor_BrightnessSlider="@android:color/darker_gray"
+    app:borderSize_BrightnessSlider="5"/>
+
+    <Button
+        android:id="@+id/colorpicker_btn_ok"
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ok"
+        android:layout_gravity="center"/>
+
+
+
+</LinearLayout>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Ui.frag.frag_listado">
+
+    <ImageButton
+        android:id="@+id/frag_listado_ayuda"
+        android:layout_margin="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_help"
+        android:layout_gravity="end"
+        android:backgroundTint="#322F29"
+        android:background="@drawable/shape_modal_windows"/>
+    <TextView
+        android:id="@+id/text_fraglist_showoptions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mostrar Opciones"
+        android:layout_gravity="end"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold|italic"
+        android:textSize="18sp"
+        android:textColor="@color/nota_title"/>
+
+<LinearLayout
+    android:id="@+id/layout_fraglistado_option"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="8dp"
+    android:visibility="gone"
+    android:padding="8dp"
+    android:background="@drawable/shape_modal_windows">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/filtrar"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginStart="50dp"/>
+        <Spinner
+            android:id="@+id/spinner_fraglistado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/frag_list_element"
+            android:textAlignment="center"/>
+    </LinearLayout>
+
+    <SearchView
+        android:id="@+id/searchView_fraglistado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="Buscar en titulos"/>
+
+    <SearchView
+        android:id="@+id/searchView_conf_fraglistado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="Buscar dentro de las conferencias"
+        android:visibility="gone"/>
+
+</LinearLayout>
+
+
+    <VideoView
+        android:id="@+id/fraglist_videoView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:fitsSystemWindows="true"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
+    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+        android:id="@+id/fraglist_videoplayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"/>
+
+
+    <ListView
+        android:id="@+id/frag_listado_list1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteY="228dp" />
+</LinearLayout>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:animateLayoutChanges="true">
+
+    <EditText
+        android:id="@+id/modal_add_nota_edit_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/titulo"
+        android:textSize="30sp"
+        android:textColor="@color/nota_title"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:layout_marginTop="10dp"/>
+
+    <EditText
+        android:id="@+id/modal_add_nota_edit_nota"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:inputType="textMultiLine"
+        android:textColor="@color/light_blue_50"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textSize="26sp"
+        android:hint="@string/nota"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/modal_add_nota_edit_btnsalir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cerrar"
+            android:layout_marginEnd="50dp"/>
+        <Button
+            android:id="@+id/modal_add_nota_edit_btnguardar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/guardar" />
+
+        <ImageView
+            android:id="@+id/modal_add_nota_shared"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:src="@drawable/ic_share"
+            app:tint="@color/shared_social" />
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

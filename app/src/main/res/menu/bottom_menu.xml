@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/bottom_menu_conf"
+        android:title="@string/conferencias"
+        android:icon="@drawable/ic_conf"
+        app:cnb_textColor ="@color/black"
+        app:cnb_iconColor="#041029"
+        app:cnb_backgroundColor="#8F7B49"/>
+    <item
+        android:id="@+id/bottom_menu_videos"
+        android:title="@string/videos"
+        android:icon="@drawable/ic_video"
+        app:cnb_textColor ="@color/black"
+        app:cnb_iconColor="#041029"
+        app:cnb_backgroundColor="#8F7B49"/>
+    <item
+        android:id="@+id/bottom_menu_books"
+        android:title="@string/libros"
+        android:icon="@drawable/ic_icon_drawer"
+        app:cnb_textColor ="@color/black"
+        app:cnb_iconColor="#041029"
+        app:cnb_backgroundColor="#8F7B49"/>
+    <item
+        android:id="@+id/bottom_menu_citas"
+        android:title="@string/citas"
+        android:icon="@drawable/ic_item"
+        app:cnb_textColor ="@color/black"
+        app:cnb_iconColor="#041029"
+        app:cnb_backgroundColor="#8F7B49"/>
+    <item
+        android:id="@+id/bottom_menu"
+        android:title="@string/menu"
+        android:icon="@drawable/ic_menu_open"
+        app:cnb_textColor ="@color/black"
+        app:cnb_iconColor="#041029"
+        app:cnb_backgroundColor="#8F7B49"/>
+</menu>

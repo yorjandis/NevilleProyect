@@ -1,0 +1,193 @@
+<resources>
+    <string name="app_name">Neville</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nav_abierto">Nav Abierto</string>
+    <string name="nav_cerrado">Nav Cerrado</string>
+    <string name="videos">Videos</string>
+    <string name="libros">Libros</string>
+    <string name="gregg_braden_biografia">Gregg Braden (nacido el 28 de junio de 1954) es autor, investigador, educador, conferencista y reconocido internacionalmente como un pionero que une la ciencia moderna, la espiritualidad y el potencial humano. Su investigación ha dado lugar a 15 créditos cinematográficos y 12 libros premiados publicados en más de 40 idiomas. Braden ha presentado sus descubrimientos en más de 30 países en seis continentes y ha sido invitado a hablar ante las Naciones Unidas, compañías Fortune 500 y el ejército de los EE. UU. El Watkins Journal del Reino Unido incluye a Gregg entre los 100 principales \"personas vivas con mayor influencia espiritual del mundo\" por sexto año consecutivo, y en 2020 es nominado al prestigioso premio Templeton, establecido para honrar a \"individuos destacados que han dedicado su talento a expandir nuestra visión del propósito humano y la realidad última”.</string>
+    <string name="canal_oficial_en_youtube">Canal Oficial en Youtube</string>
+    <string name="pagina_web_oficial">Pagina Web Oficial</string>
+    <string name="gregg_image">gregg image</string>
+    <string name="nota_greeg"><![CDATA[Nota: En el libro <La Matrix Divina> Segunda parte, Capítulo 3, Gregg Braden hace mención a las enseñanzas de Neville Goddard.]]></string>
+    <string name="sobre_neville_goddard">-Sobre Neville Goddard-</string>
+    <string name="galeria_de_fotos">Galeria de Fotos</string>
+    <string name="quien_fue_el_maestro_de_neville">Quien fue el maestro de neville</string>
+    <string name="conferencias">Conferencias</string>
+    <string name="conferencias_en_texto">Conferencias en Texto</string>
+    <string name="conferencias_en_videos">Conferencias en Videos</string>
+    <string name="conferencias_en_audios">Conferencias en Audios</string>
+    <string name="mas_contenidos">-Mas contenidos-</string>
+    <string name="descargar_libros_de_neville">Descargar Libros de Neville</string>
+    <string name="audio_libros_de_neville">Audio libros de Neville</string>
+    <string name="frases_de_neville">Citas de neville</string>
+    <string name="preguntas_y_respuestas">Preguntas y Respuestas</string>
+    <string name="citas_de_conferencias">Citas de conferencias</string>
+    <string name="qu_dice_la_ciencia_actual">-Qué dice la ciencia actual-</string>
+    <string name="gregg_braden">Gregg Braden</string>
+    <string name="image_de_neville">image de neville</string>
+    <string name="la_imaginaci_n_crea_la_realidad">La imaginación crea la realidad</string>
+    <string name="el_m_todo_de_manifestaci_n">El método de manifestación</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">Compendio de frases de neville</string>
+    <string name="play_store">Play Store</string>
+    <string name="sitio_web">Sitio Web</string>
+    <string name="configurar">Configurar</string>
+    <string name="citas">Citas</string>
+    <string name="menu">Menu</string>
+    <string name="reportar_error">Reportar error</string>
+    <string name="biografia">Biografia</string>
+    <string name="ayudas">Ayudas</string>
+    <string name="audios_neville_en_telegram">Audios neville en Telegram</string>
+    <string name="web_neville_blogspot">Web Neville blogspot</string>
+    <string name="web_neville_en_espa_ol">Web Neville en Español</string>
+    <string name="web_real_neville_ingl_s">Web Real Neville (inglés)</string>
+    <string name="ocultar_opciones">Ocultar opciones</string>
+    <string name="mostrar_opciones">Mostrar Opciones</string>
+    <string name="lector_qr">Leer Código QR</string>
+
+
+    <!-- Preference Titles -->
+    <string name="conf_header_visual">Aspecto Visual</string>
+    <string name="conf_header_features">Comportamiento</string>
+
+    <!-- Messages Preferences -->
+    <string name="frase">Frase de Bienvenida</string>
+    <string name="reply_title">Iniciar pantalla con:</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="configuraci_n">Configuración</string>
+    <string name="neville">Neville</string>
+    <string name="frase_Frase">Frase</string>
+    <string name="autor">Autor</string>
+    <string name="fuente">Fuente(opcional)</string>
+    <string name="guardar">Guardar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="salir">Salir</string>
+    <string name="nota">Nota</string>
+    <string name="titulo">Título</string>
+    <string name="nota_libre">Nota libre</string>
+    <string name="frase_actual">frase actual</string>
+    <string name="nota_asociado">Nota asociada</string>
+    <string name="cerrar">Cerrar</string>
+    <string name="modificar">Modificar</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="filtro">Filtro:</string>
+    <string name="adicionar">Adicionar</string>
+    <string name="mi_informacion">Mi Información</string>
+    <string name="filtrar">Filtrar:</string>
+    <string name="nota_asociada">Nota Asociada</string>
+    <string name="nuevo_apunte">Nuevo apunte</string>
+    <string name="contenido_off_line">Contenido off-line</string>
+    <string name="videos_off_line">Videos</string>
+    <string name="audios_off_line">Audios</string>
+    <string name="actualizar_contenido">Actualizar contenido local</string>
+    <string name="recomendar_app">Recomendar App</string>
+    <string name="ok">OK</string>
+
+
+    <array name="modal_notas_list_itemsfilter">
+        <item>Todas las notas</item>
+        <item>Notas libres</item>
+        <item>Notas asociadas</item>
+    </array>
+
+
+    <string-array name="frag_listinfo_element">
+        <item>Frases inbuilt</item>
+        <item>Frases inbuilt favoritas</item>
+        <item>Frases inbuilt con notas</item>
+
+        <item>Frases personales</item>
+        <item>Frases personales favoritas</item>
+        <item>Frases personales con notas</item>
+
+        <item>Conferencias favoritas</item>
+        <item>Conferencias con notas</item>
+
+        <item>Videos inbuilt favoritos</item>
+        <item>Videos inbuilt con notas</item>
+
+        <item>Videos offline favoritos</item>
+        <item>Videos offline con notas</item>
+
+        <item>Audios offline favoritos</item>
+        <item>Audios offline con notas</item>
+
+        <item>Apuntes</item>
+    </string-array>
+
+
+    <!-- Listado de opciones de filtr o para los items listados en frag_listado -->
+    <string-array name="frag_list_element">
+        <item>Todas</item>
+        <item>Favoritos</item>
+        <item>Con notas</item>
+        <item>Favoritas con notas</item>
+    </string-array>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference headers -->
+    <string name="general">General</string>
+    <string name="aspecto_visual">Aspecto Visual</string>
+    <string name="contenido">Contenido</string>
+    <string name="reproductor">Reproductor</string>
+    <string name="contacto">Contacto</string>
+
+    <!-- Preferences titles -->
+    <string name="mensaje_vienbenida">Mensaje de bienvenida</string>
+
+
+    <!-- Preferences otros textos -->
+    <string name="mensaje_vienbenida_pordefecto">La imaginación crea la realidad</string>
+
+
+    <string name="ayuda_frag_home">
+                "*Esta pantalla puede mostrar varios contenidos iniciales como: Una frase o conferencia aleatoria, y más. Explore todas las opciones en Menú Principal/Configuración/Contenido/Iniciar pantalla con:\n\n"
+                "*En la barra superior de la app encontrará botones para crear sus propias frases personales y para adicionar apuntes y/o notas asociadas a la frase actual\n\n"
+                "*Haga una pulsación larga sobre el texto de la frase para adicionarle una nota asociada\n\n"
+                "*Utilice el icono de favorito (debajo de la frase) para marcar la frase como favorita\n\n"
+                "*Utilice el icono de compartir (debajo de la frase) para compartir la frase en redes sociales, email, mensajes, notas, etc\n\n"
+                "*Los contenidos marcados como favoritos o con notas asociadas pueden ser administrados a través de la pantalla: Menú principal/Mi información\n\n"
+                "*Si llegara a notar algún error de contenido o de funcionamiento, no dude en dejarme un comentario en el Menú Principal/Configuración/Contacto/Enviar un comentario"
+    </string>
+
+    <string name="ayuda_frag_listado">
+                "*Esta pantalla muestra un listado de medios (conferencias, videos, audios, etc) a los que puede acceder pulsando sobre ellos\n\n"
+                "*En la barra superior de la app encontrará un icono para adicionar apuntes personales\n\n"
+                "*Ahora puede utilizar las opciones de filtrado y búsqueda de contenido. Para ello utilice el botón 'Mostrar Opciones'\n\n"
+                "*Si llegara a notar algún error de contenido o de funcionamiento, no dude en dejarme un comentario en el Menú Principal/Configuración/Contacto/Enviar un comentario"
+    </string>
+
+    <string name="ayuda_frag_list_info"> "*Esta pantalla le permite administrar su contenido personal\n\n"
+                "*En la barra superior de la app encontrará iconos para adicionar nuevas frases y apuntes personales \n\n"
+                "*Utilice el filtro para mostrar elementos marcados como favoritos, elementos con notas, frases personales y apuntes \n\n"
+                "*Las frases inbuilt no se pueden eliminar de la app. Pero se pueden marcar o desmarcar como favoritas y también compartirse en redes sociales, email, etc \n\n"
+                "*Los elementos listados pueden responder a una pulsación corta o larga sobre ellos. Por ejemplo, las conferencias pueden abrirse o los videos pueden reproducirse \n\n"
+                "*En la barra superior de la app encontrará iconos para adicionar nuevas frases y apuntes personales \n\n"
+                "*Si llegara a notar algún error de contenido o de funcionamiento, no dude en dejarme un comentario en el Menú Principal/Configuración/Contacto/Enviar un comentario"
+    </string>
+
+    <string name="news">
+        "Bienvenidos a Neville Para Todos!!! \n\n"
+        "La version actual cuenta con las siguientes características: \n\n"
+        "*301 conferencias de neville, en texto\n\n"
+        "*200 frases de neville\n\n"
+        "*123 Videos conferencias\n\n"
+        "*10 Audiolibros\n\n"
+        "*33 citas de conferencias\n\n"
+        "*37 preguntas y respuestas de neville\n\n"
+        "*Posibilidad de adicionar nuestras propias frases y de compartirlas\n\n"
+        "*Acceso a contenido fuera de la red (Audios y videos), en el almacenamiento externo\n\n"
+        "*Personalización del tema y del contenido\n\n"
+    "Vosotros sois la luz del mundo, una luz no es para esconderse; ponerla alto y que alumbre a todos!" </string>
+
+
+
+</resources>

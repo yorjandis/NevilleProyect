@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "759601905788",
+    "project_id": "ypg-neville",
+    "storage_bucket": "ypg-neville.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:759601905788:android:8654156a8f2cf31e6a09f9",
+        "android_client_info": {
+          "package_name": "com.ypg.neville"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "759601905788-mcmqulh2u6n0hfibauthq78k960kboa1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyszJOvoAnLVfkVTLPeayfujkjKpV7TnE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "759601905788-mcmqulh2u6n0hfibauthq78k960kboa1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

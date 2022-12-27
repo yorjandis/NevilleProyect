@@ -1,0 +1,150 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+    <PreferenceCategory app:title="@string/general"
+        app:icon="@drawable/ic_setting">
+
+        <EditTextPreference
+            app:key="frase"
+            app:title="@string/mensaje_vienbenida"
+            app:defaultValue="@string/mensaje_vienbenida_pordefecto"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            app:key="help_inline"
+            app:defaultValue="true"
+            app:title="Ayuda contextual"
+            app:summaryOn="La ayuda contextual activa"
+            app:summaryOff="La ayuda contextual no activa"
+            />
+        <Preference
+            app:key="show_news"
+            app:title="Consultar las novedades"
+            app:summary="Información de la versión actual"
+            />
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/aspecto_visual"
+        app:icon="@drawable/ic_show">
+
+        <SwitchPreferenceCompat
+            app:key="tema"
+            app:defaultValue="true"
+            app:title="Tema oscuro"
+            app:summaryOn="El tema oscuro esta activo"
+            app:summaryOff="El tema claro esta activo"
+            />
+
+        <EditTextPreference
+            app:key="fuente_frase"
+            app:title="Tamaño de letra en frases"
+            app:defaultValue="28"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:key="fuente_conf"
+            app:title="Tamaño de letra del visor interno"
+            app:defaultValue="170"
+            app:useSimpleSummaryProvider="true" />
+        <Preference
+            app:key="color_marcos"
+            app:title="Color de marcos"
+            />
+        <Preference
+            app:key="color_letra_frases"
+            app:title="Color de letra de frases"
+            />
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/contenido"
+        app:icon="@drawable/ic_web_site">
+        <ListPreference
+            app:key="list_start_load"
+            app:title="@string/reply_title"
+            app:defaultValue="Frase_azar"
+            app:entries="@array/load_star_entries"
+            app:entryValues="@array/load_star_values"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            app:key="hide_frase_controles"
+            app:title="Ocultar iconos en frases"
+            app:summary="Oculta los iconos debajo de la frase"
+            app:defaultValue="false"/>
+
+        <Preference
+            app:key="index_offline"
+            app:title="Indexar contenido off-line"
+            app:summary="Actualiza contenido en almacenamiento externo"
+            />
+        <Preference
+            app:key="update_frases_from_web"
+            app:title="Actualizar compendio de frases"
+            app:summary="Actualiza el listado de frases inbuilt"
+            />
+
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory app:title="@string/reproductor"
+        app:icon="@drawable/ic_video">
+
+    <SwitchPreferenceCompat
+        app:key="play_video_background"
+        app:title="Play videos offline en streaming"
+        app:defaultValue="false"
+        android:summaryOn="Escuchar incluso con app cerrada"
+        app:summaryOff="Ver video offline en reproductor interno"/>
+
+        <SwitchPreferenceCompat
+            app:key="play_audio_background"
+            app:title="Play audio offline en streaming"
+            app:defaultValue="true"
+            android:summaryOn="Escuchar incluso con app cerrada"
+            app:summaryOff="Escuchar audio offline en reproductor interno"/>
+
+        <SwitchPreferenceCompat
+            app:key="play_video_playloop"
+            app:title="Reproducción continua"
+            app:defaultValue="false"
+            android:summaryOn="Reproducir medio continuamente"
+            app:summaryOff="No reproducir medio continuamente"/>
+
+    </PreferenceCategory>
+    <PreferenceCategory app:title="@string/contacto"
+        app:icon="@drawable/ic_contact">
+
+        <Preference
+            app:key="write_comment"
+            app:title="Enviar un comentario"
+            app:summary="Pángase en contacto con el desarrollador"/>
+        <Preference
+            app:key="web_site"
+            app:title="Sitio del Proyecto"
+            app:summary="Abrir página web del proyecto"/>
+        <Preference
+            app:key="resena_app"
+            app:title="Valore esta app"
+            app:summary="Valore esta app en google play"/>
+
+
+    </PreferenceCategory>
+
+    <Preference
+        app:key="donar"
+        app:icon="@drawable/ic_toolbar_favorite"
+        app:title="Hacer una donación"
+        app:summary="Apoye el crecimiento de este proyecto"
+        app:allowDividerAbove="true"
+        app:allowDividerBelow="true"/>
+
+
+
+</PreferenceScreen>

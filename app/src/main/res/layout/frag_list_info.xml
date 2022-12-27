@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Ui.frag.frag_list_info"
+    android:fitsSystemWindows="true">
+
+    <ImageButton
+        android:id="@+id/frag_list_info_ayuda"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_help"
+        android:layout_gravity="end"
+        android:backgroundTint="#322F29"
+        android:background="@drawable/shape_modal_windows"/>
+
+    <TextView
+        android:id="@+id/frag_listinfo_text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gestione su infomación"
+        android:textSize="22sp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/filtro"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginStart="25dp"/>
+        <Spinner
+            android:id="@+id/frag_listinfo_spinne_filtro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:entries="@array/frag_listinfo_element"
+            android:layout_margin="10dp" />
+    </LinearLayout>
+
+
+    <ListView
+        android:id="@+id/frag_listinfo_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <!--  android:choiceMode="singleChoice" -->
+    <!--android:listSelector="#7C6D61"-->
+
+</LinearLayout>

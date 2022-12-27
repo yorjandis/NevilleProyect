@@ -1,0 +1,27 @@
+<resources>
+    <!-- Reply Preference -->
+    <string-array name="load_star_entries">
+        <item>Frase al azar</item>
+        <item>Frase favorita al azar</item>
+        <item>Última frase vista</item>
+        <item>Conferencia al azar</item>
+        <item>Conferencia favorita al azar</item>
+        <item>Última conferencia vista</item>
+
+    </string-array>
+
+    <string-array name="load_star_values">
+        <item>Frase_azar</item>
+        <item>Frase_fav_azar</item>
+        <item>Ultima_frase_vista</item>
+        <item>Conf_azar</item>
+        <item>Conf_fav_azar</item>
+        <item>Ultima_conf_vista</item>
+    </string-array>
+
+
+
+
+
+
+</resources>

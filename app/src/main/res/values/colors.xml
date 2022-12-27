@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="color_base">#7C8F9F</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="light_blue_50">#FFE1F5FE</color>
+    <color name="light_blue_200">#D8B69C</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
+
+    <!-- esquema de colores yor -->
+
+    <!--  Colores para texto -->
+    <color name="nota_title">#F69E29</color>
+    <color name="nota_nota">#000000</color>
+
+
+    <!--  Colores de fondo pra views -->
+    <color name="shape_toolbar_bottom">#745E4C</color>
+
+
+
+    <color name="fav_active">#FF6F00</color>
+    <color name="fav_inactive">#757474</color>
+
+    <color name="shared_social">#9FB84C</color>
+
+
+</resources>

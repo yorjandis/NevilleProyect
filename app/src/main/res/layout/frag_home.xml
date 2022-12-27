@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    tools:context=".Ui.frag.frag_home"
+    android:animateLayoutChanges="true">
+
+    <ImageButton
+        android:id="@+id/frag_home_ayuda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_margin="15dp"
+        android:background="@drawable/shape_modal_windows"
+        android:backgroundTint="#322F29"
+        android:contentDescription="@string/app_name"
+        android:minWidth="24dp"
+        android:minHeight="24dp"
+        android:src="@drawable/ic_help"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <TextView
+        android:id="@+id/frag_home_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-smallcaps"
+        android:padding="10dp"
+        android:textAlignment="center"
+        android:textSize="28sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/frag_home_textautor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginEnd="10dp"
+        android:textAlignment="textEnd"
+        android:textSize="18sp" />
+
+
+
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:id="@+id/frag_home_frases_img_abajo"
+        android:src="@drawable/ic_abajo"
+        android:layout_gravity="end"
+        android:layout_marginEnd="10dp"/>
+
+    <LinearLayout
+        android:id="@+id/layout_fraghome_icons_inlines_frase"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="end"
+        android:orientation="horizontal"
+        android:visibility="invisible">
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ic_frase_fav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_toolbar_favorite"
+            android:tint="@color/fav_inactive" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ic_frase_shared"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:src="@drawable/ic_share"
+            android:tint="@color/shared_social" />
+    </LinearLayout>
+
+</LinearLayout>
+
+

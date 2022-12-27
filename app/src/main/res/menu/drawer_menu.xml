@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+    <item android:title="@string/sobre_neville_goddard">
+
+        <menu>
+            <group>
+                <item
+                    android:id="@+id/drawer_menu_biografia"
+                    android:title="@string/biografia"
+                    android:icon="@drawable/ic_item"/>
+                <item
+                    android:id="@+id/drawer_menu_galeriafotos"
+                    android:title="@string/galeria_de_fotos"
+                    android:icon="@drawable/ic_item"/>
+                <item android:id="@+id/drawer_menu_abdullah"
+                     android:title="@string/quien_fue_el_maestro_de_neville"
+                    android:icon="@drawable/ic_item"/>
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="@string/conferencias">
+
+        <menu>
+            <group>
+                <item
+                    android:id="@+id/drawer_menu_conferen_texto"
+                    android:title="@string/conferencias_en_texto"
+                    android:icon="@drawable/ic_conf">
+                </item>
+
+                <item
+                    android:id="@+id/drawer_menu_conferen_video"
+                    android:title="@string/conferencias_en_videos"
+                    android:icon="@drawable/ic_video">
+                </item>
+                <item
+                    android:id="@+id/drawer_menu_conferen_audio"
+                    android:title="@string/conferencias_en_audios"
+                    android:icon="@drawable/ic_audio">
+                </item>
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="@string/contenido_off_line">
+    <menu>
+        <group>
+            <item
+                android:id="@+id/drawer_menu_offline_videos"
+                android:title="@string/videos_off_line"
+                android:icon="@drawable/ic_video">
+            </item>
+            <item
+                android:id="@+id/drawer_menu_offline_audios"
+                android:title="@string/audios_off_line"
+                android:icon="@drawable/ic_audio">
+            </item>
+        </group>
+
+    </menu>
+
+    </item>
+
+
+
+
+
+    <item android:title="@string/mas_contenidos">
+
+        <menu>
+            <group>
+                <item
+                    android:id="@+id/drawer_menu_books"
+                    android:title="@string/descargar_libros_de_neville"
+                    android:icon="@drawable/ic_conf">
+                </item>
+                <item
+                    android:id="@+id/drawer_menu_audiobook"
+                    android:title="@string/audio_libros_de_neville"
+                    android:icon="@drawable/ic_icon_drawer">
+                </item>
+                <item
+                    android:id="@+id/drawer_menu_frases"
+                    android:title="@string/frases_de_neville"
+                    android:icon="@drawable/ic_item"/>
+                <item
+                    android:id="@+id/drawer_menu_preguntas"
+                    android:title="@string/preguntas_y_respuestas"
+                    android:icon="@drawable/ic_item">
+                </item>
+
+                <item
+                    android:id="@+id/drawer_menu_citas_conf"
+                    android:title="@string/citas_de_conferencias"
+                    android:icon="@drawable/ic_item">
+                </item>
+                <item
+                    android:id="@+id/drawer_menu_ayudas"
+                    android:title="@string/ayudas"
+                    android:icon="@drawable/ic_ayuda">
+                </item>
+            </group>
+        </menu>
+    </item>
+    <item android:title="@string/qu_dice_la_ciencia_actual">
+
+        <menu>
+            <group>
+                <item
+                    android:id="@+id/drawer_menu_gregg"
+                    android:title="@string/gregg_braden"
+                    android:icon="@drawable/ic_item">
+                </item>
+            </group>
+        </menu>
+
+    </item>
+    <item android:title="Recursos externos">
+
+        <menu>
+            <group>
+                <item
+                    android:id="@+id/drawer_menu_audio_telegram"
+                    android:title="@string/audios_neville_en_telegram"
+                    android:icon="@drawable/ic_item">
+                </item>
+                <item
+                    android:id="@+id/drawer_menu_web_neville_blog"
+                    android:title="@string/web_neville_blogspot"
+                    android:icon="@drawable/ic_item">
+                </item>
+                <item
+                    android:id="@+id/drawer_menu_web_neville_espanol"
+                    android:title="@string/web_neville_en_espa_ol"
+                    android:icon="@drawable/ic_item">
+                </item>
+                <item
+                    android:id="@+id/drawer_menu_web_real_neville"
+                    android:title="@string/web_real_neville_ingl_s"
+                    android:icon="@drawable/ic_item">
+                </item>
+
+            </group>
+        </menu>
+
+    </item>
+
+
+</menu>
