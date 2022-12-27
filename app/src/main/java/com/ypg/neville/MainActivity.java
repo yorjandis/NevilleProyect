@@ -69,11 +69,13 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     public ChipNavigationBar bottomNavigationView;
-     Toolbar toolbar;
+    Toolbar toolbar;
     ActionBarDrawerToggle toggle;
 
     TextView fraseBienvenida;
     ImageView headerImage;
+
+    private FirebaseAnalytics firebaseAnalytics;
 
 
 //este es el nav controles Yorjandis
@@ -129,8 +131,6 @@ public class MainActivity extends AppCompatActivity {
         View navigationHeader = navigationView.getHeaderView(0); //para tener acceso a los elementos del header
         fraseBienvenida = navigationHeader.findViewById(R.id.drawer_header_frase);
         headerImage = navigationHeader.findViewById(R.id.drawer_header_imgbutton);
-
-
 
 
 
@@ -191,6 +191,11 @@ public class MainActivity extends AppCompatActivity {
 
         //:::::::::::::::::::::::::::::::::::::::   ZONA DE TEST ::::::::::::::::::::::::::::::::::::::::::::
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(MainActivity.this);
+        Bundle bundle = new Bundle();
+        bundle.putString("yor","esto es un ejemplo");
+        bundle.putString("yor2","Yorjandis");
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
         //:::::::::::::::::::::::::::::::::::::::   FIN ZONA DE TEST ::::::::::::::::::::::::::::::::::::::::::::
 
