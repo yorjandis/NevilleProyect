@@ -51,7 +51,7 @@ Context context;
                 .setIconDrawable(ContextCompat.getDrawable(context, R.drawable.ic_tips))
                 .setBackgroundColor(ContextCompat.getColor(context, R.color.white))
                 .setBalloonAnimation(BalloonAnimation.FADE)
-                .setLifecycleOwner(lifecycleOwner)
+                .setLifecycleOwner(lifecycleOwner) //Para adecuar el objeto al ciclo de vida del propietario
                 .setBalloonHighlightAnimation(BalloonHighlightAnimation.SHAKE)
                 .build();
 
