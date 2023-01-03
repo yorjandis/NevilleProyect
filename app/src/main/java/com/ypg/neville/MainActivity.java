@@ -33,6 +33,8 @@ import androidx.preference.PreferenceManager;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.analytics.connector.AnalyticsConnectorImpl;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
@@ -189,7 +191,8 @@ public class MainActivity extends AppCompatActivity {
 
         //:::::::::::::::::::::::::::::::::::::::   ZONA DE TEST ::::::::::::::::::::::::::::::::::::::::::::
 
-
+        //FirebaseCrashlytics.getInstance().log("Esto es un nuevo mensaje yor");
+        // FirebaseCrashlytics.getInstance().recordException(new Exception("juanitoYor"));
 
         //:::::::::::::::::::::::::::::::::::::::   FIN ZONA DE TEST ::::::::::::::::::::::::::::::::::::::::::::
 
@@ -346,7 +349,8 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case (R.id.drawer_menu_audio_telegram): //Online
                     if (!Utils.isConnection(getApplicationContext())){break;}
-                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/nevilleGoddardaudios"));
+                    Uri webpage = Uri.parse("https://t.me/nevilleGoddardaudios");
+                    intent = new Intent(Intent.ACTION_VIEW, webpage);
                     intent.setPackage("org.telegram.messenger");
                     startActivity(intent);
                     break;
