@@ -33,6 +33,7 @@ import androidx.preference.PreferenceManager;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
@@ -56,6 +57,8 @@ import com.ypg.neville.services.serviceStreaming;
 import java.util.List;
 import java.util.Objects;
 
+import kotlin.Triple;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -76,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAnalytics firebaseAnalytics;
 
 
-//este es el nav controles Yorjandis
+    //este es el nav controles Yorjandis
     public NavController navController;
 
 
@@ -129,7 +132,6 @@ public class MainActivity extends AppCompatActivity {
         View navigationHeader = navigationView.getHeaderView(0); //para tener acceso a los elementos del header
         fraseBienvenida = navigationHeader.findViewById(R.id.drawer_header_frase);
         headerImage = navigationHeader.findViewById(R.id.drawer_header_imgbutton);
-
 
 
         //Setting: Estableciendo el color de los marcos de la app
@@ -189,8 +191,8 @@ public class MainActivity extends AppCompatActivity {
 
         //:::::::::::::::::::::::::::::::::::::::   ZONA DE TEST ::::::::::::::::::::::::::::::::::::::::::::
 
-        //FirebaseCrashlytics.getInstance().log("Esto es un nuevo mensaje yor");
-        // FirebaseCrashlytics.getInstance().recordException(new Exception("juanitoYor"));
+        // FirebaseCrashlytics.getInstance().log("Esto es un nuevo mensaje yor");
+        // FirebaseCrashlytics.getInstance().recordException(new RuntimeException("juanitoYor"));
 
         //:::::::::::::::::::::::::::::::::::::::   FIN ZONA DE TEST ::::::::::::::::::::::::::::::::::::::::::::
 
@@ -207,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
         ic_toolsBar_nota_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              UiModalWindows.ApunteManager(MainActivity.this,"", null, false);
+                UiModalWindows.ApunteManager(MainActivity.this, "", null, false);
             }
         });
 
@@ -218,12 +220,12 @@ public class MainActivity extends AppCompatActivity {
 
             String fragName = frag_container.getFragment().getClass().getSimpleName();
 
-            if( fragName.contains("frag_content_WebView")){
+            if (fragName.contains("frag_content_WebView")) {
                 result = utilsDB.UpdateFavorito(this, DatabaseHelper.T_Conf, DatabaseHelper.C_conf_title, utilsFields.ID_Str_row_ofElementLoad, -1);
 
-            }else if(fragName.contains("frag_listado")){ //si se esta mostrando el frag_listado
+            } else if (fragName.contains("frag_listado")) { //si se esta mostrando el frag_listado
 
-                switch (frag_listado.elementLoaded){
+                switch (frag_listado.elementLoaded) {
                     case "video_conf":
                     case "video_book":
                     case "video_gredd":
@@ -268,7 +270,7 @@ public class MainActivity extends AppCompatActivity {
                     frag_content_WebView.urlPath = "file:///android_asset/biog_quien es neville goddard.html";
                     navController.navigate(R.id.frag_content_webview);
 
-                   // QRManager.ShowQRDialog(MainActivity.this, "Esto es solo un ejemplo de lo que podemos hacer", "Compartir Frase", null);
+                    // QRManager.ShowQRDialog(MainActivity.this, "Esto es solo un ejemplo de lo que podemos hacer", "Compartir Frase", null);
 
                     break;
                 case (R.id.drawer_menu_galeriafotos):
@@ -278,7 +280,9 @@ public class MainActivity extends AppCompatActivity {
                     navController.navigate(R.id.frag_content_webview);
                     break;
                 case (R.id.drawer_menu_abdullah): //Online
-                    if (!Utils.isConnection(getApplicationContext())){break;}
+                    if (!Utils.isConnection(getApplicationContext())) {
+                        break;
+                    }
                     frag_listado.elementLoaded = "play_youtube";
                     frag_listado.urlPath = "mgbdcv606Rg";
                     navController.navigate(R.id.frag_listado);
@@ -307,13 +311,17 @@ public class MainActivity extends AppCompatActivity {
                     navController.navigate(R.id.frag_listado);
                     break;
                 case (R.id.drawer_menu_conferen_video)://Online
-                    if (!Utils.isConnection(getApplicationContext())){break;}
+                    if (!Utils.isConnection(getApplicationContext())) {
+                        break;
+                    }
                     frag_listado.elementLoaded = "video_conf";
                     bottomNavigationView.setItemSelected(R.id.bottom_menu_videos, true);
                     navController.navigate(R.id.frag_listado);
                     break;
                 case (R.id.drawer_menu_conferen_audio): //Online
-                    if (!Utils.isConnection(getApplicationContext())){break;}
+                    if (!Utils.isConnection(getApplicationContext())) {
+                        break;
+                    }
                     intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse("https://www.ivoox.com/escuchar-neville-goddard_nq_102778_1.html"));
@@ -325,14 +333,18 @@ public class MainActivity extends AppCompatActivity {
                     navController.navigate(R.id.frag_home);
                     break;
                 case (R.id.drawer_menu_books)://Online
-                    if (!Utils.isConnection(getApplicationContext())){break;}
+                    if (!Utils.isConnection(getApplicationContext())) {
+                        break;
+                    }
                     intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse("https://drive.google.com/file/d/1NjUDZfjSOjdPRd6vsyhfDKmjdDus25YM/view?usp=sharing"));
                     startActivity(intent);
                     break;
                 case (R.id.drawer_menu_audiobook): //Online
-                    if (!Utils.isConnection(getApplicationContext())){break;}
+                    if (!Utils.isConnection(getApplicationContext())) {
+                        break;
+                    }
                     frag_listado.elementLoaded = "video_book";
                     bottomNavigationView.setItemSelected(R.id.bottom_menu_books, true);
                     navController.navigate(R.id.frag_listado);
@@ -346,28 +358,36 @@ public class MainActivity extends AppCompatActivity {
                     navController.navigate(R.id.frag_gregg);
                     break;
                 case (R.id.drawer_menu_audio_telegram): //Online
-                    if (!Utils.isConnection(getApplicationContext())){break;}
+                    if (!Utils.isConnection(getApplicationContext())) {
+                        break;
+                    }
                     Uri webpage = Uri.parse("https://t.me/nevilleGoddardaudios");
                     intent = new Intent(Intent.ACTION_VIEW, webpage);
                     intent.setPackage("org.telegram.messenger");
                     startActivity(intent);
                     break;
                 case (R.id.drawer_menu_web_neville_blog): //Online
-                    if (!Utils.isConnection(getApplicationContext())){break;}
+                    if (!Utils.isConnection(getApplicationContext())) {
+                        break;
+                    }
                     intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse("https://nevilleenespanol.blogspot.com/"));
                     startActivity(intent);
                     break;
                 case (R.id.drawer_menu_web_neville_espanol)://Online
-                    if (!Utils.isConnection(getApplicationContext())){break;}
+                    if (!Utils.isConnection(getApplicationContext())) {
+                        break;
+                    }
                     intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse("https://neville-espanol.com/"));
                     startActivity(intent);
                     break;
                 case (R.id.drawer_menu_web_real_neville): //Online
-                    if (!Utils.isConnection(getApplicationContext())){break;}
+                    if (!Utils.isConnection(getApplicationContext())) {
+                        break;
+                    }
                     intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse("https://realneville.com/"));
@@ -399,12 +419,16 @@ public class MainActivity extends AppCompatActivity {
                         navController.navigate(R.id.frag_listado);
                         break;
                     case (R.id.bottom_menu_videos): //Online
-                        if (!Utils.isConnection(getApplicationContext())){break;}
+                        if (!Utils.isConnection(getApplicationContext())) {
+                            break;
+                        }
                         frag_listado.elementLoaded = "video_conf";
                         navController.navigate(R.id.frag_listado);
                         break;
                     case (R.id.bottom_menu_books)://Online
-                        if (!Utils.isConnection(getApplicationContext())){break;}
+                        if (!Utils.isConnection(getApplicationContext())) {
+                            break;
+                        }
                         frag_listado.elementLoaded = "video_book";
                         navController.navigate(R.id.frag_listado);
                         break;
@@ -423,20 +447,19 @@ public class MainActivity extends AppCompatActivity {
     } // FIN onCreate
 
 
-
     //Método que resuelve las callbacks enviados por llamadas de intents
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-    //Lectura de código QR:
-        if (QRManager.Request_Code){
-           IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-           if (intentResult != null){
+        //Lectura de código QR:
+        if (QRManager.Request_Code) {
+            IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+            if (intentResult != null) {
                 ProcesarQRCode(intentResult);
-           }else{
-               Toast.makeText(this, "Error al leer el código QR", Toast.LENGTH_SHORT).show();
-           }
+            } else {
+                Toast.makeText(this, "Error al leer el código QR", Toast.LENGTH_SHORT).show();
+            }
             QRManager.Request_Code = false; //Reinicio de la variable controladora
         }
     }
@@ -491,8 +514,10 @@ public class MainActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case (R.id.main_menu_shared_app): //Online
-                if (!Utils.isConnection(getApplicationContext())){break;}
-              QRManager.ShowQRDialog(this,"https://play.google.com/store/apps/details?id=com.ypg.neville","Compartir App Neville",null );
+                if (!Utils.isConnection(getApplicationContext())) {
+                    break;
+                }
+                QRManager.ShowQRDialog(this, "https://play.google.com/store/apps/details?id=com.ypg.neville", "Compartir App Neville", null);
                 break;
             case (R.id.main_menu_leerQR):
                 QRManager.launch_QRRead();
@@ -518,6 +543,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Establece el color del icono del  favorito
+     *
      * @param fav_state
      */
     public void setFavColor(String fav_state) {
@@ -554,13 +580,14 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Procesa el código QR leído
-     @param intentResult  Objeto a procesar
+     *
+     * @param intentResult Objeto a procesar
      */
-    private void ProcesarQRCode(IntentResult intentResult){
+    private void ProcesarQRCode(IntentResult intentResult) {
         //Comprobando que no sea una cadena vacía:
         String result = intentResult.getContents(); //Aquí esta el contenido
 
-        if (result.trim().isEmpty()){
+        if (result.trim().isEmpty()) {
             Toast.makeText(this, "No se puede importar un texto vacío", Toast.LENGTH_SHORT).show();
             QRManager.Request_Code = false;
             return;
@@ -570,40 +597,41 @@ public class MainActivity extends AppCompatActivity {
 
         //Pasando a procesamiento
 
-            //Separando campos( [f, texto, autor, fuente] [a, title, apunte] ): f de frase, a de apunte
+        //Separando campos( [f, texto, autor, fuente] [a, title, apunte] ): f de frase, a de apunte
 
-            String[] temp = result.split("&&");
+        String[] temp = result.split("&&");
 
-            if (temp[0].contains("f")){ //Importando frases
+        if (temp[0].contains("f")) { //Importando frases
 
-                    ContentValues contentValues = new ContentValues();
-                    contentValues.put("frase", temp[1]);
-                    contentValues.put("autor", temp[2]);
-                    contentValues.put("fuente", temp[3]);
-                    UiModalWindows.Add_New_frase(this, contentValues);
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("frase", temp[1]);
+            contentValues.put("autor", temp[2]);
+            contentValues.put("fuente", temp[3]);
+            UiModalWindows.Add_New_frase(this, contentValues);
 
-            } else if (temp[0].contains("a")){
+        } else if (temp[0].contains("a")) {
 
-                ContentValues contentValues = new ContentValues();
-                contentValues.put("title", temp[1]);
-                contentValues.put("apunte", temp[2]);
-                UiModalWindows.ApunteManager(this,"",contentValues,false);
-            }
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("title", temp[1]);
+            contentValues.put("apunte", temp[2]);
+            UiModalWindows.ApunteManager(this, "", contentValues, false);
+        }
 
-}
+    }
 
     /**
      * Establece el color de las barras de la app
+     *
      * @param color valor de color como R.color...
      */
-    public void AuxSetColorBar(int color){
-    Drawable background = toolbar.getBackground();
-    if (color != 0){
-        background.setColorFilter(BlendModeColorFilterCompat.createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP));
-        background = bottomNavigationView.getBackground();background.setColorFilter(BlendModeColorFilterCompat.createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP));
+    public void AuxSetColorBar(int color) {
+        Drawable background = toolbar.getBackground();
+        if (color != 0) {
+            background.setColorFilter(BlendModeColorFilterCompat.createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP));
+            background = bottomNavigationView.getBackground();
+            background.setColorFilter(BlendModeColorFilterCompat.createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP));
+        }
     }
-}
-
 
 
 } //class
