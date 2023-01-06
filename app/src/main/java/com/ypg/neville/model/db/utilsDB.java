@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.preference.PreferenceManager;
 
+import com.ypg.neville.MainActivity;
 import com.ypg.neville.R;
 import com.ypg.neville.model.utils.GetFromRepo;
 import com.ypg.neville.model.utils.utilsFields;
@@ -258,6 +259,13 @@ public class utilsDB {
             }
 
             //UI thread: informa del resultado
+
+            //Chequeando si es un contexto UI válido
+            if (context instanceof MainActivity){
+                MainActivity mainActivity = (MainActivity) context;
+                if(mainActivity.isFinishing()){return;} //sale
+            }
+
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -520,8 +528,6 @@ public class utilsDB {
                 }
                 cursor.close();
                 dbManager.close();
-
-
 
             }
         }); //thread pool

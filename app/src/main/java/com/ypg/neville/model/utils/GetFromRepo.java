@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
 
+import com.ypg.neville.MainActivity;
 import com.ypg.neville.R;
 import com.ypg.neville.model.db.utilsDB;
 
@@ -31,13 +32,11 @@ Context context;
     //Obtiene la lista de frases desde una página web: Devuelve el arreglo de frases
         //Nota: si no existe conección a internet procesa las frases que tiene en internamente en el xml
     public static void getFrasesFromWeb(Context context){
-        
 
         if (Utils.isConnection(context)) {
             ExecutorService exec = Executors.newSingleThreadExecutor();
             Handler handler = new Handler(Looper.getMainLooper());
             exec.execute(new Runnable() {
-
                 @Override
                 public void run() {
                     String url = "https://projectsypg.mozello.com/productos/neville/frases-de-neville/";
@@ -59,8 +58,6 @@ Context context;
                             String[] temp = arrayFrase[i].split("\">"); //obteniendo: autor  y  texto de frase (index:0 autor; index:1 texto frase)
 
                            noFrasesNuevas += utilsDB.insertNewFrase(context, temp[1], temp[0], "","1"); //Inserta una frase a la BD
-
-
                         }
                     } catch (IOException ignored) {
                         error = true;
@@ -69,23 +66,36 @@ Context context;
                     //UI thread
                     boolean error2 = error;
                     long finalResult = noFrasesNuevas;
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
 
-                            if(error2){
-                                Toast.makeText(context, "Se produjo un error, código: 001", Toast.LENGTH_SHORT).show();
-                            }else{
+                    //Chequeando si es un contexto UI válido
+                    if (context instanceof  MainActivity){
+                        MainActivity mainActivity = (MainActivity) context;
+                        if(mainActivity.isFinishing()){return;}
+                    }
 
-                                if (finalResult < 0){
-                                    Toast.makeText(context, "No existe frases nuevas para añadir", Toast.LENGTH_SHORT).show();
+                   // UI thread
+                    //Chequeando si es un contexto UI válido
+                    if (context instanceof  MainActivity){
+                        MainActivity mainActivity = (MainActivity) context;
+                        if(mainActivity.isFinishing()){return;}
+                    }
+
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                if(error2){
+                                    Toast.makeText(context, "Se produjo un error, código: 001", Toast.LENGTH_SHORT).show();
                                 }else{
-                                    Toast.makeText(context, "Se han añadido: "+ finalResult + " Frases nuevas", Toast.LENGTH_SHORT).show();
-                                }
+                                    if (finalResult < 0){
+                                        Toast.makeText(context, "No existe frases nuevas para añadir", Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        Toast.makeText(context, "Se han añadido: "+ finalResult + " Frases nuevas", Toast.LENGTH_SHORT).show();
+                                    }
 
+                                }
                             }
-                        }
-                    });
+                        });
 
                 }
 

@@ -507,11 +507,11 @@ public class MainActivity extends AppCompatActivity {
     } //onCreateOptionsMenu
 
 
-    //handle eventos del menú principal
+    // eventos del menú principal
     @SuppressLint("Range")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
+        //  item selection
         switch (item.getItemId()) {
             case (R.id.main_menu_shared_app): //Online
                 if (!Utils.isConnection(getApplicationContext())) {
