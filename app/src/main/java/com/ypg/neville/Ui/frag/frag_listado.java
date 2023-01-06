@@ -622,7 +622,12 @@ public class frag_listado extends Fragment {
                 player.loadVideo(urlVideo, 0);}
 
             try {
+
+                if (MainActivity.mainActivityThis.isFinishing()){return;}// chequeando el estado del ciclo de vida de MainActivity
+
                 MainActivity.mainActivityThis.ic_toolsBar_fav.setVisibility(View.VISIBLE);
+
+
             }catch (Exception ignored){}
 
 
@@ -633,6 +638,8 @@ public class frag_listado extends Fragment {
             favstate =   utilsDB.readFavState(requireContext(), DatabaseHelper.T_Videos,DatabaseHelper.C_videos_link,utilsFields.ID_Str_row_ofElementLoad );
 
            try {
+               if (MainActivity.mainActivityThis.isFinishing()){return;}// chequeando el estado del ciclo de vida de MainActivity
+
                MainActivity.mainActivityThis.setFavColor(favstate);
            }catch (Exception ignored){}
 

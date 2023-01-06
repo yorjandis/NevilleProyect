@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -587,11 +588,14 @@ public class MainActivity extends AppCompatActivity {
         //Comprobando que no sea una cadena vacía:
         String result = intentResult.getContents(); //Aquí esta el contenido
 
-        if (result.trim().isEmpty()) {
+
+        if (TextUtils.isEmpty(result)) { //Chequear si la caden es un valor null
             Toast.makeText(this, "No se puede importar un texto vacío", Toast.LENGTH_SHORT).show();
             QRManager.Request_Code = false;
             return;
         }
+
+
 
         long res; //resultado de las operaciones de insert a la BD
 

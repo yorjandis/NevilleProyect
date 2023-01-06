@@ -15,9 +15,6 @@ public class myReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-
-
-
             if (intent.getAction().contains(myReceiver.ACTION_SIGNAL)){
 
                 String action = intent.getStringExtra("action");
@@ -52,11 +49,6 @@ public class myReceiver extends BroadcastReceiver {
                     FirebaseCrashlytics.getInstance().log("esto es un ejemplo Yorjandis");
                 }
 
-
-
             }
-
     }
-
-
 }
