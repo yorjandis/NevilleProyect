@@ -198,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
         //:::::::::::::::::::::::::::::::::::::::   FIN ZONA DE TEST ::::::::::::::::::::::::::::::::::::::::::::
 
 
+
         //evento click del botón add frase de la toolbar
         ic_toolsBar_frase_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -580,7 +581,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     /**
-     * Procesa el código QR leído
+     * Procesa el código QR leído. Importa el contenido
      *
      * @param intentResult Objeto a procesar
      */

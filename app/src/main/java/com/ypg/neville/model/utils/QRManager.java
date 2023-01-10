@@ -57,18 +57,18 @@ public static void ShowQRDialog(Context context, String textoQR, String title, @
 
     alert.setView(view);
 
-AlertDialog alertDialog = alert.create();
-    alertDialog.show();
+    AlertDialog alertDialog = alert.create();
+        alertDialog.show();
 
-image_shared.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, textoQR);
-        context.startActivity(Intent.createChooser(intent, title));
-    }
-});
+    image_shared.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, textoQR);
+            context.startActivity(Intent.createChooser(intent, title));
+        }
+    });
 
 }
 

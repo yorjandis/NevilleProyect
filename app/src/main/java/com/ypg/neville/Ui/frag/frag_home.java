@@ -226,7 +226,10 @@ public class frag_home extends Fragment {
                 String autor = textAutor.getText().toString().replace("<","");
                 autor = autor.replace(">","");
 
-                QRManager.ShowQRDialog(getContext(),"f&&"+ text_frase.getText().toString()+ "&&" + autor + "&&","Compartir Frase","Puede utilizar el lector QR para importar frases");
+                QRManager.ShowQRDialog(getContext(),"f::"+
+                                                    text_frase.getText().toString()+ "::" +
+                                                    autor + "::",
+                                                "Compartir Frase","Puede utilizar el lector QR para importar frases");
             }
         });
 

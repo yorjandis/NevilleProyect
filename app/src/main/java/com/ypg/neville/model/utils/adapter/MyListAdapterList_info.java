@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -64,8 +65,9 @@ public class MyListAdapterList_info extends ArrayAdapter<String> {
                     if (!frag_list_info.spinnerStatic.getSelectedItem().toString().contains("Frases")){
                         return;
                     }
-                    String frase = "f&&"+viewHolder.text.getText().toString()+"&&";
-                    QRManager.ShowQRDialog(getContext(),frase,"Compartir Frase", null);
+
+                    String texto = "f&&"+viewHolder.text.getText().toString()+"&&";
+                    QRManager.ShowQRDialog(getContext(),texto,"Compartir Frase", null);
                 }
             });
 

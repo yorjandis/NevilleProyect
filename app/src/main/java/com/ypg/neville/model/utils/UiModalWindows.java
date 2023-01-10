@@ -111,9 +111,9 @@ public class UiModalWindows {
 
                 if (!editFrase.getText().toString().trim().isEmpty()){
 
-                    QRManager.ShowQRDialog(pcontext, "f&&" +
-                            editFrase.getText().toString() + "&&"  +
-                            editAutor.getText().toString() + "&&"  +
+                    QRManager.ShowQRDialog(pcontext, "f::" +
+                            editFrase.getText().toString() + "::"  +
+                            editAutor.getText().toString() + "::"  +
                             editFuente.getText().toString(),"Compartir Frase",
                             "Puede utilizar el lector QR para importar frases");
                 }else{
@@ -135,11 +135,11 @@ public class UiModalWindows {
 
 
     /**
-     * Muestra, guarda, actualiza Apuntes
-     * @param context
+     * Muestra, guarda, actualiza Apuntes. Trabaja sobre la tabla de apuntes
+     * @param context contexto de trabajo
      * @param titleInDB Si es dado: carga la info del apunte desde la BD
      * @param contentValues Si es dado: Carga los valores contenidos en el contentValue
-     * @param isUpdate Si es true, actualiza la info del apunte (solo el apunte no el titulo)
+     * @param isUpdate Si es true, actualiza la info del apunte (solo el apunte no el título)
      */
     public static void ApunteManager(Context context,String titleInDB,  @Nullable ContentValues contentValues, boolean isUpdate){
 
@@ -186,6 +186,21 @@ public class UiModalWindows {
         }
 
 
+        //Botón shared QR
+        img_shared.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!edit_titulo.getText().toString().trim().isEmpty() && !edit_nota.getText().toString().trim().isEmpty()){
+
+                    QRManager.ShowQRDialog(context, "a::" +
+                                    edit_titulo.getText().toString() + "::"  +
+                                    edit_nota.getText().toString() ,"Compartir Apunte",
+                            "Puede utilizar el lector QR para importar apuntes");
+                }else{
+                    Toast.makeText(context, "Debe establecer un título y una nota", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
             //botón save
             btn_save.setOnClickListener(new View.OnClickListener() {
@@ -194,7 +209,7 @@ public class UiModalWindows {
 
                     //chequeo de campos
                     if(edit_titulo.getText().toString().trim().isEmpty() || edit_nota.getText().toString().trim().isEmpty()){
-                        Toast.makeText(context, "Debe colocar un texto y un título", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Debe establecer un título y una nota", Toast.LENGTH_LONG).show();
 
                     }else{
 
@@ -230,7 +245,7 @@ public class UiModalWindows {
 
 
     /**
-     * Muestra/modifica el contenidod de una nota
+     * Muestra/modifica el contenido de una nota
      * @param context contexto de trabajp
      * @param nota  Texto de la nota
      * @param tableName Nombre de la tabla
@@ -244,13 +259,14 @@ public class UiModalWindows {
 
         View view = LayoutInflater.from(context).inflate(R.layout.modal_add_notas, null);
         view.findViewById(R.id.modal_add_nota_edit_title).setVisibility(View.GONE);
-        EditText edi_nota = view.findViewById(R.id.modal_add_nota_edit_nota);
+        EditText edit_nota = view.findViewById(R.id.modal_add_nota_edit_nota);
         Button btn_calcel = view.findViewById(R.id.modal_add_nota_edit_btnsalir);
         Button btn_save = view.findViewById(R.id.modal_add_nota_edit_btnguardar);
+        ImageView ic_shared = view.findViewById(R.id.modal_add_nota_shared);
 
         builder.setView(view);
 
-        edi_nota.setText(nota);
+        edit_nota.setText(nota);
 
 
         AlertDialog alert = builder.create();
@@ -267,7 +283,7 @@ public class UiModalWindows {
             @Override
             public void onClick(View v) {
                 //Actualizando el contenido del campo
-               if (utilsDB.updateNota(context,tableName,clumn_id,valor_id,edi_nota.getText().toString().trim())){
+               if (utilsDB.updateNota(context,tableName,clumn_id,valor_id,edit_nota.getText().toString().trim())){
                    Toast.makeText(context, "La nota fué actualizada",Toast.LENGTH_LONG).show();
                 }else{
                    Toast.makeText(context, "Error al actualizar la nota",Toast.LENGTH_LONG).show();
@@ -275,7 +291,15 @@ public class UiModalWindows {
             }
         });
 
-
+        ic_shared.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (edit_nota.getText().toString().trim().isEmpty()){
+                        Toast.makeText(context, "Debe haber una nota para generar el QR", Toast.LENGTH_SHORT).show();
+                    return;}
+                QRManager.ShowQRDialog(context,edit_nota.getText().toString().trim(),"Compartir texto",null );
+            }
+        });
 
 
 
