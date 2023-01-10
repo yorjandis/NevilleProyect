@@ -29,7 +29,7 @@ public class QRManager {
 
 
     /**
-     * Dialogo que genera el código QR generado
+     * Genera el código QR generado y lo muestra en un diálogo
      @param context contexto
      @param textoQR texto de qr
      @param title título del diálogo

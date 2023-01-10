@@ -228,7 +228,7 @@ public class frag_home extends Fragment {
 
                 QRManager.ShowQRDialog(getContext(),"f::"+
                                                     text_frase.getText().toString()+ "::" +
-                                                    autor + "::",
+                                                    autor + ":: ",
                                                 "Compartir Frase","Puede utilizar el lector QR para importar frases");
             }
         });

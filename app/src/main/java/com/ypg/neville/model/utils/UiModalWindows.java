@@ -112,8 +112,8 @@ public class UiModalWindows {
                 if (!editFrase.getText().toString().trim().isEmpty()){
 
                     QRManager.ShowQRDialog(pcontext, "f::" +
-                            editFrase.getText().toString() + "::"  +
-                            editAutor.getText().toString() + "::"  +
+                            editFrase.getText().toString() + ":: "  +
+                            editAutor.getText().toString() + ":: "  +
                             editFuente.getText().toString(),"Compartir Frase",
                             "Puede utilizar el lector QR para importar frases");
                 }else{

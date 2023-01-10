@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -596,26 +597,29 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-
-
-        long res; //resultado de las operaciones de insert a la BD
-
-        //Pasando a procesamiento
-
         //Separando campos( [f, texto, autor, fuente] [a, title, apunte] ): f de frase, a de apunte
 
-        String[] temp = result.split("&&");
+        String[] temp = result.split("::");
 
         if (temp[0].contains("f")) { //Importando frases
 
             ContentValues contentValues = new ContentValues();
+            //Chequeando los campos:
+            if (temp.length < 4 ) {
+                Toast.makeText(MainActivity.this, "No se pudo importar el código", Toast.LENGTH_SHORT).show();
+                return;
+            }
             contentValues.put("frase", temp[1]);
             contentValues.put("autor", temp[2]);
             contentValues.put("fuente", temp[3]);
             UiModalWindows.Add_New_frase(this, contentValues);
 
         } else if (temp[0].contains("a")) {
-
+//Chequeando los campos:
+            if (temp.length < 3 ) {
+                Toast.makeText(MainActivity.this, "No se pudo importar el código", Toast.LENGTH_SHORT).show();
+                return;
+            }
             ContentValues contentValues = new ContentValues();
             contentValues.put("title", temp[1]);
             contentValues.put("apunte", temp[2]);
