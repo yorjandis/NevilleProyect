@@ -19,6 +19,7 @@ import com.ypg.neville.Ui.frag.frag_list_info;
 import com.ypg.neville.model.db.DBManager;
 import com.ypg.neville.model.db.DatabaseHelper;
 import com.ypg.neville.model.utils.QRManager;
+import com.ypg.neville.model.utils.UiModalWindows;
 import com.ypg.neville.model.utils.utilsFields;
 
 import java.util.LinkedList;
@@ -62,12 +63,18 @@ public class MyListAdapterList_info extends ArrayAdapter<String> {
                 @Override
                 public void onClick(View view) {
 
-                    if (!frag_list_info.spinnerStatic.getSelectedItem().toString().contains("Frases")){
-                        return;
+                    String spinnerText = frag_list_info.spinnerStatic.getSelectedItem().toString();
+
+                    if (spinnerText.contains("Frases")){
+                        String texto = "f&&"+viewHolder.text.getText().toString()+"&&";
+                        QRManager.ShowQRDialog(getContext(),texto,"Compartir Frase", null);
+
+                    }else if(spinnerText.contains("Apuntes")){
+                        //Mostrarel cuadro de diálogo de Apuntes
+                        UiModalWindows.ApunteManager(getContext(),viewHolder.text.getText().toString(),null, true);
                     }
 
-                    String texto = "f&&"+viewHolder.text.getText().toString()+"&&";
-                    QRManager.ShowQRDialog(getContext(),texto,"Compartir Frase", null);
+
                 }
             });
 
