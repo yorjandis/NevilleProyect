@@ -34,6 +34,7 @@
 
                 <ImageView
                     android:id="@+id/ic_toolbar_add_frase"
+                    android:contentDescription="@string/img"
                     android:src="@drawable/ic_note_add"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -44,6 +45,7 @@
                 <ImageView
                     android:id="@+id/ic_toolbar_add_note"
                     android:src="@drawable/ic_add_note"
+                    android:contentDescription="@string/img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
@@ -52,6 +54,7 @@
                 <ImageView
                     android:id="@+id/ic_toolbar_fav"
                     android:src="@drawable/ic_toolbar_favorite"
+                    android:contentDescription="@string/img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
@@ -80,7 +83,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolsbar"
-            app:navGraph="@navigation/nav_graf" />
+            app:navGraph="@navigation/nav_graf"
+            tools:ignore="FragmentTagUsage" />
 
 
         <!-- menú inferior -->

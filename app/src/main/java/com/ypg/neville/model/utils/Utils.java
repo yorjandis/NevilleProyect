@@ -43,8 +43,8 @@ public   class Utils {
 
     /**
      *
-     * @param bigtext
-     * @param intent
+     * @param bigtext texto grande
+     * @param intent intent
      */
     @TargetApi(Build.VERSION_CODES.O)
     public void show_Notification(String bigtext, Intent intent) {

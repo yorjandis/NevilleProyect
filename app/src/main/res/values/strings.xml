@@ -160,7 +160,7 @@
         "*Acceso a contenido fuera de la red (Audios y videos), en el almacenamiento externo\n\n"
         "*Personalización del tema y del contenido\n\n"
     "Vosotros sois la luz del mundo, una luz no es para esconderse; ponerla alto y que alumbre a todos!" </string>
-
+    <string name="img">img</string>
 
 
 </resources>

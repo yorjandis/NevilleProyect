@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public static String prefijo = "";  //variable que almacena el tipo de fichero a cargar (conf_=conferencia, biog_=biografia, etc)
+
     FragmentContainerView frag_container;
 
 
