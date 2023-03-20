@@ -137,7 +137,7 @@ public class frag_home extends Fragment {
         // Setting: determinando si el fragment se ha iniciado la primera vez
         if (isPrimeracarga){
             Init();
-           isPrimeracarga = false;
+           isPrimeracarga = false; //resetea el valor a false
         }else {
             Loadfrases(false);
         }
@@ -351,7 +351,7 @@ public class frag_home extends Fragment {
 
 
     //Carga una frase aleatoria
-    private  void Loadfrases(boolean isfav){
+    private  void Loadfrases(boolean isfavList){
     //ArrayList<String> tagList = new ArrayList();
     //String[] someArray = getResources().getStringArray(R.array.list_frases);
     //Random r = new Random();
@@ -360,7 +360,7 @@ public class frag_home extends Fragment {
         DBManager dbManager = new DBManager(getContext()).open();
         Cursor cursor;
         //Determina si cargar lista de frases favoritas o lista de frases totales
-        if (isfav){
+        if (isfavList){
             cursor = dbManager.getListado("Frases favoritas");
         }else {
             cursor = dbManager.getListado("Todas las frases");

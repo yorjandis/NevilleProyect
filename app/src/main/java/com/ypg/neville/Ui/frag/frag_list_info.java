@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,6 +37,7 @@ import com.ypg.neville.model.utils.utilsFields;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 
 //fragmento que mostrará un listado con las: Favoritos, Notas y Frases
@@ -285,13 +287,20 @@ public class frag_list_info extends Fragment {
                     case "Videos inbuilt favoritos": //Abrir el video en el reproductor
                     case "Videos inbuilt con notas":
                         if(!Utils.isConnection(requireContext())){break;}
-                        frag_listado.elementLoaded = "video_conf";
+                        frag_listado.elementLoaded = "play_youtube";
+                        String temp = "";
                         dbManager.open();
-                            urlvideo.putString("urlvideo", dbManager.getDbInfoFromItem(itemText, DatabaseHelper.T_Videos));
+                            temp = dbManager.getDbInfoFromItem(itemText, DatabaseHelper.T_Videos);
                         dbManager.close();
-                        navController.navigate(R.id.frag_listado, urlvideo);
+                        if (!Objects.equals(temp, "")) {
+                            frag_listado.urlPath = temp;
+                            navController.navigate(R.id.frag_listado );
+                         }else {
+                            Toast.makeText(getContext(), "Error al cargar el video", Toast.LENGTH_SHORT).show();
+                        }
+                        
                         break;
-                    case "Videos offline favoritos": //abrir el video en el reproductor
+                    /*case "Videos offline favoritos": //abrir el video en el reproductor
                     case "Videos offline con notas":
                         frag_listado.elementLoaded = "play_video_repo";
                         frag_listado.urlPath = itemText;
@@ -303,7 +312,7 @@ public class frag_list_info extends Fragment {
                         frag_listado.elementLoaded = "audio_ext";
                         frag_listado.urlPath = itemText;
                         navController.navigate(R.id.frag_listado);
-                        break;
+                        break;*/
                     case "Apuntes":
                         //Carga la info del apunte
                         UiModalWindows.ApunteManager(getContext(),itemText,null, true);

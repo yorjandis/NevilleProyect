@@ -39,10 +39,10 @@ public   class Utils {
         this.context = pcontext;
     }
 
-    //Muestra una notificación en la barra de tareas
+
 
     /**
-     *
+     *Muestra una notificación en la barra de tareas
      * @param bigtext texto grande
      * @param intent intent
      */
@@ -102,8 +102,13 @@ public   class Utils {
 
 
 
-    // Lista los ficheros en el directorio assets y sus carpetas
-    //el parámetro dir puede ser "" para la raiz de assets o el nombre de una subcarpeta como "config"
+
+    /**
+     * Lista los ficheros en el directorio assets y sus carpetas
+     * @param dir puede ser "" para la raiz de assets o el nombre de una subcarpeta como "config"
+     * @param lista Objeto de tipo List que es devuelto con los datos
+     * @throws IOException Puede larzar una excepción de IO
+     */
     public void listFilesInAssets(String dir, List <String> lista) throws IOException {
 
         lista.clear(); //limpia el arreglo de String
@@ -118,7 +123,12 @@ public   class Utils {
 
 
 
-    //Inicia el servicio de streaming reproduciendo un medio en particular (solo para medios offline)
+    /**
+     * Inicia el servicio de streaming reproduciendo un medio en particular (solo para medios offline)
+     * @param context contexto
+     * @param repoDir nombre del directorio repo
+     * @param ItemName nombre del fichero a reproducir
+     */
     public static void playInStreaming(Context context, String repoDir, String ItemName){
         Intent intent = new Intent(context, serviceStreaming.class);
 

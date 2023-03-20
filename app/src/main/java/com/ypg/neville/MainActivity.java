@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,7 +34,6 @@ import androidx.preference.PreferenceManager;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
@@ -59,47 +57,45 @@ import com.ypg.neville.services.serviceStreaming;
 import java.util.List;
 import java.util.Objects;
 
-import kotlin.Triple;
-
 
 public class MainActivity extends AppCompatActivity {
 
-    serviceStreaming mservise;
+            serviceStreaming mservise;
 
-    public static MainActivity mainActivityThis;
-
-
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
-    public ChipNavigationBar bottomNavigationView;
-    Toolbar toolbar;
-    ActionBarDrawerToggle toggle;
-
-    TextView fraseBienvenida;
-    ImageView headerImage;
-
-    private FirebaseAnalytics firebaseAnalytics;
+            public static MainActivity mainActivityThis;
 
 
-    //este es el nav controles Yorjandis
-    public NavController navController;
+            DrawerLayout drawerLayout;
+            NavigationView navigationView;
+            public ChipNavigationBar bottomNavigationView;
+            Toolbar toolbar;
+            ActionBarDrawerToggle toggle;
+
+            TextView fraseBienvenida;
+            ImageView headerImage;
+
+            private FirebaseAnalytics firebaseAnalytics;
 
 
-    //iconos de la  toolsbar:
-    public ImageView ic_toolsBar_nota_add, ic_toolsBar_frase_add, ic_toolsBar_fav;
-
-    public static String version = ""; //Almacena la version de la app publicada
-    Utils utils = new Utils(MainActivity.this); //clase para las funciones útiles
+            //este es el nav controles Yorjandis
+            public NavController navController;
 
 
-    public static String prefijo = "";  //variable que almacena el tipo de fichero a cargar (conf_=conferencia, biog_=biografia, etc)
+            //iconos de la  toolsbar:
+            public ImageView ic_toolsBar_nota_add, ic_toolsBar_frase_add, ic_toolsBar_fav;
 
-    FragmentContainerView frag_container;
+            public static String version = ""; //Almacena la version de la app publicada
+            Utils utils = new Utils(MainActivity.this); //clase para las funciones útiles
 
 
-    //PERMISSION request constant, assign any value
-    private static final int STORAGE_PERMISSION_CODE = 100;
-    private static final String TAG = "PERMISSION_TAG";
+            public static String prefijo = "";  //variable que almacena el tipo de fichero a cargar (conf_=conferencia, biog_=biografia, etc)
+
+            FragmentContainerView frag_container;
+
+
+            //PERMISSION request constant, assign any value
+            private static final int STORAGE_PERMISSION_CODE = 100;
+            private static final String TAG = "PERMISSION_TAG";
 
 
     @Override

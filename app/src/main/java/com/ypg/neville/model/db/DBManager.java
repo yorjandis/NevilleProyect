@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.ypg.neville.model.utils.utilsFields;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -170,6 +172,7 @@ public class DBManager {
 
         switch (filtro){
             //Para Frases:
+            
             case "Todas las frases": //listar todas las Fases
                 sqlite = "SELECT * FROM "+DatabaseHelper.T_Frases+";";
                 break;
@@ -209,7 +212,7 @@ public class DBManager {
                 sqlite = "SELECT * FROM "  + DatabaseHelper.T_Videos + " WHERE " + DatabaseHelper.CC_favorito + "=1;" ;
                 break;
             case "Videos inbuilt con notas":
-                sqlite = "SELECT * FROM "  + DatabaseHelper.T_Videos + " WHERE TRIM(" + DatabaseHelper.CC_nota + ",'') !='';";
+                sqlite = "SELECT * FROM "  + DatabaseHelper.T_Videos + " WHERE TRIM(" + DatabaseHelper.CC_nota + ",'') !='' ;";
                 break;
 
             //Para videos off line

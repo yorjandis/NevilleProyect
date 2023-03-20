@@ -53,4 +53,10 @@ public class utilsFields {
         //: flag para activar y desactivar el reproductor:
         //: Flag de switch para a activaci´pn / desacticacion
 
+    //Enum para consultas específicas a la BD
+
+    public static enum consultasBD{
+       NADA,TODAS_LAS_FRASES, FRASES_INBUILT
+    }
+
 }

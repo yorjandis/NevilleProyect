@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,11 +66,8 @@ public class frag_listado extends Fragment {
 
     Utils utils = new Utils(getContext());
 
-
-
-
     //Campos estáticos de información
-    public static String elementLoaded          = "";  //Elemento actualmente listado:
+    public static String elementLoaded          = "";  //Elemento actualmente listado/a cargar:
     public static String urlPath                = "";  //almacena la url a cargar en el navegador
     public static String extension              = "";  //almacena la extension del fichero a cargar (.html | .txt)
     public static String urlDirAssets           = "";  //almacena la carpeta en el directorio  Assets donde se encuentra el elemento a cargar
@@ -126,17 +124,17 @@ public class frag_listado extends Fragment {
 
 
         //Seting: Mostrando/Ocultando la Ayuda contextual
-        if (PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("help_inline",true)){
-            ayudaContextual.setVisibility(View.VISIBLE);
-        }else{
-            ayudaContextual.setVisibility(View.GONE);
-        }
-        ayudaContextual.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-           ShowAyudaContextual(getContext());
+            if (PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("help_inline",true)){
+                ayudaContextual.setVisibility(View.VISIBLE);
+            }else{
+                ayudaContextual.setVisibility(View.GONE);
             }
-        });
+            ayudaContextual.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+               ShowAyudaContextual(getContext());
+                }
+            });
 
 
         playerView.getLayoutParams().height = 0;
@@ -281,6 +279,7 @@ public class frag_listado extends Fragment {
                             if (Objects.equals(elementLoaded, "conf")){
 
                                 cursor = dbManager.getListado("Conferencias favoritas");
+
                                 if (cursor.moveToFirst()){
                                     listado.clear();
                                     do {
@@ -293,7 +292,8 @@ public class frag_listado extends Fragment {
                                 cursor.close();
 
                             }else if (Objects.equals(elementLoaded, "video_conf")){
-                                cursor = dbManager.getListado("Videos favoritos");
+                                cursor = dbManager.getListado("Videos inbuilt favoritos");
+
                                 if (cursor.moveToFirst()) {
                                     listado.clear();
                                     listadoUrlVideos.clear();
@@ -303,6 +303,7 @@ public class frag_listado extends Fragment {
                                     } while (cursor.moveToNext());
                                 }
                                 cursor.close();
+
                             }else if (Objects.equals(elementLoaded, "video_ext")){
                                 cursor = dbManager.getListado("Videos offline favoritos");
                                 if (cursor.moveToFirst()) {
@@ -340,7 +341,7 @@ public class frag_listado extends Fragment {
                             }
 
                             break;
-                        case ("Con notas"):
+                        case ("Con notas"): // Yorj: Solo las conferencias llevan notas asociadas
                             if (Objects.equals(elementLoaded, "conf")){
                                 cursor = dbManager.getListado("Conferencias con notas");
 
@@ -352,54 +353,17 @@ public class frag_listado extends Fragment {
                                 }
                                 cursor.close();
 
-                            } else if (Objects.equals(elementLoaded, "video_conf")){
-                                cursor = dbManager.getListado("Videos con notas");
+                            }
+                            if (Objects.equals(elementLoaded, "video_conf")){
+                                cursor = dbManager.getListado("Videos inbuilt con notas");
 
                                 if (cursor.moveToFirst()) {
                                     listado.clear();
-                                    listadoUrlVideos.clear();
                                     do {
                                         listado.add(cursor.getString(1));
-                                        listadoUrlVideos.add(cursor.getString(2));
                                     } while (cursor.moveToNext());
                                 }
                                 cursor.close();
-                            }else if (Objects.equals(elementLoaded, "video_ext")){
-                                cursor = dbManager.getListado("Videos offline con notas");
-
-                                if (cursor.moveToFirst()) {
-                                    listado.clear();
-                                    listadoUrlVideos.clear();
-                                    do {
-                                        listado.add(cursor.getString(1));
-                                        listadoUrlVideos.add(cursor.getString(2));
-                                    } while (cursor.moveToNext());
-                                }
-                                cursor.close();
-                            }else if (Objects.equals(elementLoaded, "audio_ext")){
-                                cursor = dbManager.getListado("Audios offline con notas");
-
-                                if (cursor.moveToFirst()) {
-                                    listado.clear();
-                                    listadoUrlVideos.clear();
-                                    do {
-                                        listado.add(cursor.getString(1));
-                                        listadoUrlVideos.add(cursor.getString(2));
-                                    } while (cursor.moveToNext());
-                                }
-                                cursor.close();
-                            }else if (Objects.equals(elementLoaded, "video_gredd")){
-                                cursor = dbManager.getListado("Videos gregg con notas");
-                                if (cursor.moveToFirst()) {
-                                    listado.clear();
-                                    listadoUrlVideos.clear();
-                                    do {
-                                        listado.add(cursor.getString(1));
-                                        listadoUrlVideos.add(cursor.getString(2));
-                                    } while (cursor.moveToNext());
-                                }
-                                cursor.close();
-
 
                             }
 
@@ -682,6 +646,7 @@ public class frag_listado extends Fragment {
 
         MainActivity.mainActivityThis.ic_toolsBar_fav.setColorFilter(requireContext().getResources().getColor(R.color.black, null));
         MainActivity.mainActivityThis.ic_toolsBar_fav.setVisibility(View.GONE);
+        MainActivity.mainActivityThis.ic_toolsBar_frase_add.setVisibility(View.VISIBLE);
 
     }
 
