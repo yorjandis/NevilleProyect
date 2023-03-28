@@ -13,8 +13,8 @@ android {
         applicationId "com.ypg.neville"
         minSdk 24 //Valor anterior:19 (Android 5. para In_App_Update features)
         targetSdk 33
-        versionCode 28
-        versionName "2.1.1"
+        versionCode 29
+        versionName "2.1.2"
 
 
         signingConfig signingConfigs.debug

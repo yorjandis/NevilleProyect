@@ -669,7 +669,7 @@ public class frag_listado extends Fragment {
         private void GenerarListado(){
             Utils utils = new Utils(getContext());
 
-            switch (elementLoaded){
+            switch (frag_listado.elementLoaded){
                 case "conf":
                     listado = utilsDB.loadConferenciaList(getContext());
                     break;
