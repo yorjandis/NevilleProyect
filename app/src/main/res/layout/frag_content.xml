@@ -10,7 +10,8 @@
     <WebView
         android:id="@+id/frag_content_webview"
         android:layout_width="match_parent"
-        android:layout_height="734dp"/>
+        android:layout_height="match_parent"
+        android:layout_marginBottom="5dp"/>
 
 
 </FrameLayout>
