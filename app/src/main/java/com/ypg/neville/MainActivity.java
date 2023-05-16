@@ -361,11 +361,43 @@ public class MainActivity extends AppCompatActivity {
                     if (!Utils.isConnection(getApplicationContext())) {
                         break;
                     }
-                    Uri webpage = Uri.parse("https://t.me/nevilleGoddardaudios");
-                    intent = new Intent(Intent.ACTION_VIEW, webpage);
-                    intent.setPackage("org.telegram.messenger");
-                    startActivity(intent);
+                    if (Utils.isPackageInstalled("org.telegram.messenger", getBaseContext())){
+                        Uri webpage = Uri.parse("https://t.me/nevilleGoddardaudios");
+                        intent = new Intent(Intent.ACTION_VIEW, webpage);
+                        intent.setPackage("org.telegram.messenger");
+                        startActivity(intent);
+                    }else{
+                        Toast.makeText(this, "Debe estar instalado Telegram", Toast.LENGTH_SHORT).show();
+                    }
+                    
                     break;
+                case (R.id.drawer_menu_audio_telegram_ii): //Online
+                    if (!Utils.isConnection(getApplicationContext())) {
+                        break;
+                    }
+                    if (Utils.isPackageInstalled("org.telegram.messenger", getApplicationContext())){
+                        Uri webpage2 = Uri.parse("https://t.me/NevilleAudiosII");
+                        intent = new Intent(Intent.ACTION_VIEW, webpage2);
+                        intent.setPackage("org.telegram.messenger");
+                        startActivity(intent);
+                    }else{
+                        Toast.makeText(this, "Debe estar instalado Telegram", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case (R.id.drawer_menu_audio_telegram_ypg): //Online
+                    if (!Utils.isConnection(getApplicationContext())) {
+                        break;
+                    }
+                    if (Utils.isPackageInstalled("org.telegram.messenger", getBaseContext())){
+                        Uri webpage3 = Uri.parse("https://t.me/+rODRAz2S6nVmMmY0");
+                        intent = new Intent(Intent.ACTION_VIEW, webpage3);
+                        intent.setPackage("org.telegram.messenger");
+                        startActivity(intent);
+                    }else{
+                        Toast.makeText(this, "Debe estar instalado Telegram", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+
                 case (R.id.drawer_menu_web_neville_blog): //Online
                     if (!Utils.isConnection(getApplicationContext())) {
                         break;

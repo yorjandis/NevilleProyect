@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -39,6 +40,22 @@ public   class Utils {
         this.context = pcontext;
     }
 
+
+    /**
+     *
+     * @param packageName  Nombre del paquete
+     * @param context contexto
+     * @return Debuelve true si existe la app, false de lo contrario
+     */
+    public static boolean isPackageInstalled(String packageName, Context context) {
+        PackageManager pm = context.getPackageManager();
+        try {
+            pm.getPackageInfo(packageName, 0);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
 
 
     /**

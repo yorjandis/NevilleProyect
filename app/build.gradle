@@ -64,8 +64,6 @@ dependencies {
     //for video player
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:12.0.0'
 
-    //for online fetch operations
-   // implementation 'org.jsoup:jsoup:1.15.3'
 
     //for In_App_Update Features
     implementation 'com.google.android.play:core:1.10.3'
