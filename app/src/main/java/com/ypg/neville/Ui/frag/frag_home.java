@@ -29,8 +29,10 @@ import com.ypg.neville.R;
 import com.ypg.neville.model.db.DBManager;
 import com.ypg.neville.model.db.DatabaseHelper;
 import com.ypg.neville.model.db.utilsDB;
+import com.ypg.neville.model.utils.GetFromRepo;
 import com.ypg.neville.model.utils.QRManager;
 import com.ypg.neville.model.utils.UiModalWindows;
+import com.ypg.neville.model.utils.Utils;
 import com.ypg.neville.model.utils.balloon.HelpBalloon;
 import com.ypg.neville.model.utils.utilsFields;
 
@@ -163,12 +165,13 @@ public class frag_home extends Fragment {
 
 
 
-        //Onclick del texto en frases
+        //Onclick del texto en frases: Cambiar el texto de la frase
         text_frase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (PreferenceManager.getDefaultSharedPreferences(getContext()).getString("list_start_load","Nada").contains("Frase_fav_azar")){
+
+               if (PreferenceManager.getDefaultSharedPreferences(getContext()).getString("list_start_load","Nada").contains("Frase_fav_azar")){
                     Loadfrases(true); //Carga una frase favorita  al azar
                 }else{
                     Loadfrases(false);

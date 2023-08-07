@@ -4,6 +4,7 @@ package com.ypg.neville.model.utils;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.ypg.neville.MainActivity;
@@ -17,7 +18,7 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-//Clase de métodos estaticos  que obtendra datos de diversa fuentes
+//Clase de métodos estáticos  que obtendrá datos de diversa fuentes (internas y externas)
 public class GetFromRepo {
 
 Context context;
@@ -30,7 +31,7 @@ Context context;
 
 
     //Obtiene la lista de frases desde una página web: Devuelve el arreglo de frases
-        //Nota: si no existe conección a internet procesa las frases que tiene en internamente en el xml
+        
     public static void getFrasesFromWeb(Context context){
 
         if (Utils.isConnection(context)) {
@@ -40,7 +41,9 @@ Context context;
                 @Override
                 public void run() {
                     String url = "https://projectsypg.mozello.com/productos/neville/frases-de-neville/";
-                    long noFrasesNuevas = 0;
+                    long result = 0; //Almacena el valor de resultado de la operación de insertar a BD
+                    long noFrasesAnadidas = 0; //número de frases añadidas correctamente a la BD
+                    long noFrasesConError = 0; //número de frases que NO han podido importarse a la BD
                     boolean error = false;
                     try {
                         Document document = Jsoup.connect(url).maxBodySize(0).get();
@@ -57,7 +60,15 @@ Context context;
 
                             String[] temp = arrayFrase[i].split("\">"); //obteniendo: autor  y  texto de frase (index:0 autor; index:1 texto frase)
 
-                           noFrasesNuevas += utilsDB.insertNewFrase(context, temp[1], temp[0], "","1"); //Inserta una frase a la BD
+                          result =  utilsDB.insertNewFrase(context, temp[1], temp[0], "","1"); //Inserta una frase a la BD
+
+                            //Obteniendo estadísticas del resultado
+                            if (result > 0){
+                                noFrasesAnadidas += 1;
+                            }else{
+                                noFrasesConError += 1;
+                            }
+
                         }
                     } catch (IOException ignored) {
                         error = true;
@@ -65,13 +76,8 @@ Context context;
 
                     //UI thread
                     boolean error2 = error;
-                    long finalResult = noFrasesNuevas;
-
-                    //Chequeando si es un contexto UI válido
-                    if (context instanceof  MainActivity){
-                        MainActivity mainActivity = (MainActivity) context;
-                        if(mainActivity.isFinishing()){return;}
-                    }
+                    long finalResult = noFrasesAnadidas;
+                    long finalResultError = noFrasesConError;
 
                    // UI thread
                     //Chequeando si es un contexto UI válido
@@ -87,10 +93,13 @@ Context context;
                                 if(error2){
                                     Toast.makeText(context, "Se produjo un error, código: 001", Toast.LENGTH_SHORT).show();
                                 }else{
-                                    if (finalResult < 0){
-                                        Toast.makeText(context, "No existe frases nuevas para añadir", Toast.LENGTH_SHORT).show();
-                                    }else{
+
+                                    if (finalResult > 0){
                                         Toast.makeText(context, "Se han añadido: "+ finalResult + " Frases nuevas", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    if (finalResultError > 0 ){
+                                        Toast.makeText(context, "No se han podido añadir: "+ finalResultError + " Frases", Toast.LENGTH_SHORT).show();
                                     }
 
                                 }
@@ -100,14 +109,9 @@ Context context;
                 }
 
             });
-        }else { //Si no existe conección a internet: utiliza la lista de frases del fichero xml interno
+        }else { //Si no existe conección a internet: 
 
-            String [] arrayFrases = GetFromRepo.getFrasesFromXML(context);
-            String[] temp;
-            for (int i = 1; i < arrayFrases.length; ++i) {
-                temp = arrayFrases[i].split("::");
-                utilsDB.insertNewFrase(context, temp[1], temp[2],"","1"); //Inserta una frase a la BD
-            }
+            Toast.makeText(context, "Error al importar frases. No se detecta conección internet", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -116,18 +120,18 @@ Context context;
     }//fin de method
 
 
-    //Obtiene la lista de frases del fichero xml interno
+    //Obtiene un arreglo con la lista de frases del fichero xml interno
     public static String[] getFrasesFromXML(Context context){
        return  context.getResources().getStringArray(R.array.list_frases);
     }
 
-    //Obtiene la lista de url de videos de youtube del fichero xml interno
+    //Obtiene un arreglo con la lista de url de videos de youtube del fichero xml interno
 
     public static String[] getUrlsVideosFromXML(Context context){
         return context.getResources().getStringArray(R.array.listvideos); //lista de videos en youtube
     }
 
-    //Obtiene la lista de conferencias del directorio Assets interno
+    //Obtiene un arrglo con la lista de conferencias del directorio Assets interno
     public static String[] getConfListFromAssets(Context context) throws IOException {
         return  context.getAssets().list("conf");
 
