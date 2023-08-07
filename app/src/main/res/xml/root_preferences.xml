@@ -43,7 +43,7 @@
             app:key="fuente_frase"
             app:title="Tamaño de letra en frases"
             app:defaultValue="28"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true"/>
 
         <EditTextPreference
             app:key="fuente_conf"

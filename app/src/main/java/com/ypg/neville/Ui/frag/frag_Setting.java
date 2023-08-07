@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -50,11 +51,10 @@ public class frag_Setting extends PreferenceFragmentCompat {
             public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
 
                 //Extrayendo los valores numericos del texto dado (si aplicamos un caracter nos da error)
-                String numberOnly= newValue.toString().replaceAll("[^0-9]", "");
+                String numberOnly = newValue.toString().replaceAll("[^0-9]", "");
                 if (numberOnly.isEmpty()){numberOnly = "28";}
                 if (Integer.parseInt(numberOnly) >= 40 ){numberOnly = "28";}
                 PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putString("fuente_frase",numberOnly).apply();
-
                 return false;
             }
         });
