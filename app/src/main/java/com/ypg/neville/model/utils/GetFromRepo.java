@@ -99,7 +99,7 @@ Context context;
                                     }
 
                                     if (finalResultError > 0 ){
-                                        Toast.makeText(context, "No se han podido añadir: "+ finalResultError + " Frases", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, "No se han añadido: "+ finalResultError + " Frases", Toast.LENGTH_SHORT).show();
                                     }
 
                                 }
