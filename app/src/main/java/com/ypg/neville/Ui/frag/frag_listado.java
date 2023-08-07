@@ -599,7 +599,7 @@ public class frag_listado extends Fragment {
             //leyendo el estado de los favoritos
             Utils utils = new Utils(getContext());
             String favstate = "";
-            favstate =   utilsDB.readFavState(requireContext(), DatabaseHelper.T_Videos,DatabaseHelper.C_videos_link,utilsFields.ID_Str_row_ofElementLoad );
+            favstate =   utilsDB.readFavState(getContext(), DatabaseHelper.T_Videos,DatabaseHelper.C_videos_link,utilsFields.ID_Str_row_ofElementLoad );
 
            try {
                if (MainActivity.mainActivityThis.isFinishing()){return;}// chequeando el estado del ciclo de vida de MainActivity
