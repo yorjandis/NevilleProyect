@@ -129,6 +129,17 @@
                     android:icon="@drawable/ic_item">
                 </item>
                 <item
+                    android:id="@+id/drawer_menu_audio_telegram_ii"
+                    android:title="@string/audios_neville_en_telegram_ii"
+                    android:icon="@drawable/ic_item">
+                </item>
+                <item
+                    android:id="@+id/drawer_menu_audio_telegram_ypg"
+                    android:title="@string/canal_telegram_neville_para_todos"
+                    android:icon="@drawable/ic_item">
+                </item>
+
+                <item
                     android:id="@+id/drawer_menu_web_neville_blog"
                     android:title="@string/web_neville_blogspot"
                     android:icon="@drawable/ic_item">
