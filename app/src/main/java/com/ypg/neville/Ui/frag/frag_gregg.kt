@@ -1,99 +1,57 @@
-package com.ypg.neville.Ui.frag;
+package com.ypg.neville.Ui.frag
 
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.text.Html;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
+import android.content.Intent
+import android.net.Uri
+import android.os.Bundle
+import android.text.Html
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import com.ypg.neville.R
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
+// representa el contenido sobre gregg braden
+class frag_gregg : Fragment() {
 
-import com.ypg.neville.R;
-
-
-//representa el contenido sobre gregg draden
-public class frag_gregg extends Fragment {
-
-
-    public frag_gregg() {
-        // Required empty public constructor
-    }
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.frag_gregg, container, false);
+        return inflater.inflate(R.layout.frag_gregg, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        val btn_libros = view.findViewById<Button>(R.id.frag_gregg_libros)
+        val btn_videos = view.findViewById<Button>(R.id.frag_gregg_videos)
+        val text_youtube = view.findViewById<TextView>(R.id.frag_gregg_youtube)
+        val text_website = view.findViewById<TextView>(R.id.frag_gregg_website)
 
-        Html html;
+        text_website.text = Html.fromHtml(getString(R.string.app_name))
 
-        Button btn_libros = view.findViewById(R.id.frag_gregg_libros);
-        Button btn_videos = view.findViewById(R.id.frag_gregg_videos);
-        TextView text_youtube = view.findViewById(R.id.frag_gregg_youtube);
-        TextView text_website = view.findViewById(R.id.frag_gregg_website);
+        btn_libros.setOnClickListener {
+            val ii = Intent(Intent.ACTION_VIEW)
+            ii.data = Uri.parse("https://drive.google.com/file/d/1_fTTJDpyTSqOtZ4shdbsXeEQSVWqpO_a/view?usp=sharing")
+            startActivity(ii)
+        }
 
-        text_website.setText(Html.fromHtml(getString(R.string.app_name)));
+        btn_videos.setOnClickListener {
+            frag_listado.elementLoaded = "video_gredd"
+            Navigation.findNavController(view).navigate(R.id.frag_listado)
+        }
 
+        text_youtube.setOnClickListener {
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse("https://www.youtube.com/c/GreggBradenOfficial")
+            startActivity(i)
+        }
 
-        btn_libros.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent ii = new Intent(Intent.ACTION_VIEW);
-                ii.setData(Uri.parse("https://drive.google.com/file/d/1_fTTJDpyTSqOtZ4shdbsXeEQSVWqpO_a/view?usp=sharing"));
-                startActivity(ii);
-            }
-        });
-
-        btn_videos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                frag_listado.elementLoaded ="video_gredd";
-                Navigation.findNavController(view).navigate(R.id.frag_listado);
-            }
-        });
-
-        text_youtube.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse("https://www.youtube.com/c/GreggBradenOfficial"));
-                startActivity(i);
-            }
-        });
-
-        text_website.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse("https://www.greggbraden.com/about-gregg-braden/"));
-                startActivity(i);
-            }
-        });
-
-
+        text_website.setOnClickListener {
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse("https://www.greggbraden.com/about-gregg-braden/")
+            startActivity(i)
+        }
     }
-
-
-
-
 }
