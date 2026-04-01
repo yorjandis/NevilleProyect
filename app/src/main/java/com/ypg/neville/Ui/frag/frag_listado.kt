@@ -27,7 +27,6 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.You
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
-import com.ypg.neville.model.db.DBManager
 import com.ypg.neville.model.db.DatabaseHelper
 import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.utils.Utils
@@ -124,68 +123,47 @@ class frag_listado : Fragment() {
         spinnerFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>, view: View?, position: Int, l: Long) {
                 val itemSelected = adapterView.selectedItem.toString()
-                val dbManager = DBManager(requireContext()).open()
                 myListAdapterItemsList?.clear()
 
                 when (itemSelected) {
                     "Todas" -> {
-                        val sql = when (elementLoaded) {
-                            "conf" -> "SELECT title FROM ${DatabaseHelper.T_Conf};"
-                            "video_conf" -> "SELECT title FROM ${DatabaseHelper.T_Videos};"
-                            "video_ext" -> "SELECT title FROM ${DatabaseHelper.T_Repo} WHERE ${DatabaseHelper.C_repo_type}='video';"
-                            "audio_ext" -> "SELECT title FROM ${DatabaseHelper.T_Repo} WHERE ${DatabaseHelper.C_repo_type}='audio';"
-                            "video_gredd" -> "SELECT title FROM ${DatabaseHelper.T_Videos} WHERE ${DatabaseHelper.C_videos_type}='gregg';"
-                            else -> ""
-                        }
-                        if (sql.isNotEmpty()) {
-                            val cursor = dbManager.ejectSQLRawQuery(sql)
-                            if (cursor.moveToFirst()) {
-                                listado.clear()
-                                do {
-                                    listado.add(cursor.getString(0))
-                                } while (cursor.moveToNext())
+                        listado.clear()
+                        listado.addAll(
+                            when (elementLoaded) {
+                                "conf" -> utilsDB.getAllConfTitles(requireContext())
+                                "video_conf" -> utilsDB.getAllVideoTitles(requireContext())
+                                "video_ext" -> utilsDB.getRepoTitlesByType(requireContext(), "video")
+                                "audio_ext" -> utilsDB.getRepoTitlesByType(requireContext(), "audio")
+                                "video_gredd" -> utilsDB.getVideoTitlesByType(requireContext(), "gregg")
+                                else -> emptyList()
                             }
-                            cursor.close()
-                        }
+                        )
                     }
                     "Favoritos" -> {
-                        val cursor = when (elementLoaded) {
-                            "conf" -> dbManager.getListado("Conferencias favoritas")
-                            "video_conf" -> dbManager.getListado("Videos inbuilt favoritos")
-                            "video_ext" -> dbManager.getListado("Videos offline favoritos")
-                            "audio_ext" -> dbManager.getListado("Audios offline favoritos")
-                            "video_gredd" -> dbManager.getListado("Videos gregg favoritos")
-                            else -> null
-                        }
-                        if (cursor != null && cursor.moveToFirst()) {
-                            listado.clear()
-                            listadoUrlVideos.clear()
-                            do {
-                                listado.add(cursor.getString(1))
-                                if (cursor.columnCount > 2) {
-                                    listadoUrlVideos.add(cursor.getString(2))
-                                }
-                            } while (cursor.moveToNext())
-                            cursor.close()
-                        }
+                        listado.clear()
+                        listado.addAll(
+                            when (elementLoaded) {
+                                "conf" -> utilsDB.getListadoTitles(requireContext(), "Conferencias favoritas")
+                                "video_conf" -> utilsDB.getListadoTitles(requireContext(), "Videos inbuilt favoritos")
+                                "video_ext" -> utilsDB.getListadoTitles(requireContext(), "Videos offline favoritos")
+                                "audio_ext" -> utilsDB.getListadoTitles(requireContext(), "Audios offline favoritos")
+                                "video_gredd" -> utilsDB.getListadoTitles(requireContext(), "Videos gregg favoritos")
+                                else -> emptyList()
+                            }
+                        )
                     }
                     "Con notas" -> {
-                        val cursor = when (elementLoaded) {
-                            "conf" -> dbManager.getListado("Conferencias con notas")
-                            "video_conf" -> dbManager.getListado("Videos inbuilt con notas")
-                            else -> null
-                        }
-                        if (cursor != null && cursor.moveToFirst()) {
-                            listado.clear()
-                            do {
-                                listado.add(cursor.getString(1))
-                            } while (cursor.moveToNext())
-                            cursor.close()
-                        }
+                        listado.clear()
+                        listado.addAll(
+                            when (elementLoaded) {
+                                "conf" -> utilsDB.getListadoTitles(requireContext(), "Conferencias con notas")
+                                "video_conf" -> utilsDB.getListadoTitles(requireContext(), "Videos inbuilt con notas")
+                                else -> emptyList()
+                            }
+                        )
                     }
                 }
                 myListAdapterItemsList?.notifyDataSetChanged()
-                dbManager.close()
                 searchView.queryHint = "Buscar en títulos(${listado.size} elementos)"
             }
 
@@ -241,11 +219,9 @@ class frag_listado : Fragment() {
             when (elementLoaded) {
                 "video_gredd", "video_conf", "video_book" -> {
                     if (Utils.isConnection(requireContext())) {
-                        val dbManager = DBManager(requireContext()).open()
                         playerView.visibility = View.VISIBLE
                         utilsFields.ID_Str_row_ofElementLoad = selectedItemText
-                        playVideo(dbManager.getDbInfoFromItem(selectedItemText, DatabaseHelper.T_Videos))
-                        dbManager.close()
+                        playVideo(utilsDB.getVideoLinkByTitle(requireContext(), selectedItemText))
                         handlefavState()
                     }
                 }

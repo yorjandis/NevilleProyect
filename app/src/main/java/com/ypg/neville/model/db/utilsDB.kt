@@ -1,9 +1,7 @@
 package com.ypg.neville.model.db
 
-import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
-import android.database.SQLException
+import android.database.sqlite.SQLiteDatabase
 import android.os.Environment
 import android.os.Handler
 import android.os.Looper
@@ -11,131 +9,330 @@ import android.widget.Toast
 import androidx.preference.PreferenceManager
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
+import com.ypg.neville.model.db.room.ConfEntity
+import com.ypg.neville.model.db.room.FraseEntity
+import com.ypg.neville.model.db.room.NevilleRoomDatabase
+import com.ypg.neville.model.db.room.NotaEntity
+import com.ypg.neville.model.db.room.RepoEntity
+import com.ypg.neville.model.db.room.VideoEntity
 import com.ypg.neville.model.utils.GetFromRepo
 import com.ypg.neville.model.utils.utilsFields
 import java.io.File
 import java.io.IOException
 import java.util.LinkedList
-import java.util.Objects
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
 
 // Clase que se encarga de realizar operaciones específicas y de ayuda a la BD
 object utilsDB {
 
+    @Volatile
+    private var legacyMigrationChecked = false
+
+    private fun db(context: Context) = NevilleRoomDatabase.getInstance(context)
+
+    @JvmStatic
+    fun hasLegacyDatabase(context: Context): Boolean {
+        return context.getDatabasePath(DatabaseHelper.DB_NAME).exists()
+    }
+
     /**
-     * Pasa las frases (inbuilt) de xml a la tabla frases de sqlite
+     * Migra datos desde la BD legacy (neville.db) al esquema Room actual.
+     * El fichero legacy se elimina al finalizar.
+     */
+    @JvmStatic
+    fun migrateLegacyDatabaseIfNeeded(context: Context): Boolean {
+        synchronized(this) {
+            if (legacyMigrationChecked) return false
+            legacyMigrationChecked = true
+        }
+
+        val legacyFile = context.getDatabasePath(DatabaseHelper.DB_NAME)
+        if (!legacyFile.exists()) return false
+
+        var migratedAny = false
+        val room = db(context)
+        val legacyDb = SQLiteDatabase.openDatabase(legacyFile.absolutePath, null, SQLiteDatabase.OPEN_READONLY)
+
+        try {
+            if (tableExists(legacyDb, DatabaseHelper.T_Frases) && room.fraseDao().count() == 0) {
+                room.fraseDao().insertAll(readLegacyFrases(legacyDb))
+                migratedAny = true
+            }
+
+            if (tableExists(legacyDb, DatabaseHelper.T_Conf) && room.confDao().count() == 0) {
+                room.confDao().insertAll(readLegacyConf(legacyDb))
+                migratedAny = true
+            }
+
+            if (tableExists(legacyDb, DatabaseHelper.T_Videos) && room.videoDao().count() == 0) {
+                room.videoDao().insertAll(readLegacyVideos(legacyDb))
+                migratedAny = true
+            }
+
+            if (tableExists(legacyDb, DatabaseHelper.T_Repo) && room.repoDao().getAll().isEmpty()) {
+                room.repoDao().insertAll(readLegacyRepo(legacyDb))
+                migratedAny = true
+            }
+
+            // legacy notas(title, nota) -> Room notas(titulo, nota, fecha...)
+            if (tableExists(legacyDb, DatabaseHelper.T_Apuntes)) {
+                val legacyNotas = readLegacyApuntes(legacyDb)
+                val now = System.currentTimeMillis()
+                for ((title, note) in legacyNotas) {
+                    if (room.notaDao().getByTitulo(title) == null) {
+                        room.notaDao().insert(
+                            NotaEntity(
+                                titulo = title,
+                                nota = note,
+                                fechaCreacion = now,
+                                fechaModificacion = now
+                            )
+                        )
+                        migratedAny = true
+                    }
+                }
+            }
+        } finally {
+            legacyDb.close()
+        }
+
+        context.deleteDatabase(DatabaseHelper.DB_NAME)
+        return migratedAny
+    }
+
+    private fun tableExists(db: SQLiteDatabase, table: String): Boolean {
+        db.rawQuery(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name=?",
+            arrayOf(table)
+        ).use { cursor ->
+            return cursor.moveToFirst()
+        }
+    }
+
+    private fun readLegacyFrases(db: SQLiteDatabase): List<FraseEntity> {
+        val list = mutableListOf<FraseEntity>()
+        db.rawQuery("SELECT id, frase, autor, fuente, fav, nota, inbuild, shared FROM frases", null).use { c ->
+            while (c.moveToNext()) {
+                list.add(
+                    FraseEntity(
+                        id = c.getLong(0),
+                        frase = c.getString(1) ?: "",
+                        autor = c.getString(2) ?: "",
+                        fuente = c.getString(3) ?: "",
+                        fav = c.getString(4) ?: "0",
+                        nota = c.getString(5) ?: "",
+                        inbuild = c.getString(6) ?: "0",
+                        shared = c.getString(7) ?: "0"
+                    )
+                )
+            }
+        }
+        return list
+    }
+
+    private fun readLegacyVideos(db: SQLiteDatabase): List<VideoEntity> {
+        val list = mutableListOf<VideoEntity>()
+        db.rawQuery("SELECT id, title, link, type, fav, nota, shared FROM videos", null).use { c ->
+            while (c.moveToNext()) {
+                list.add(
+                    VideoEntity(
+                        id = c.getLong(0),
+                        title = c.getString(1) ?: "",
+                        link = c.getString(2) ?: "",
+                        type = c.getString(3) ?: "",
+                        fav = c.getString(4) ?: "0",
+                        nota = c.getString(5) ?: "",
+                        shared = c.getString(6) ?: "0"
+                    )
+                )
+            }
+        }
+        return list
+    }
+
+    private fun readLegacyRepo(db: SQLiteDatabase): List<RepoEntity> {
+        val list = mutableListOf<RepoEntity>()
+        db.rawQuery("SELECT id, title, link, type, fav, nota, shared FROM repo", null).use { c ->
+            while (c.moveToNext()) {
+                list.add(
+                    RepoEntity(
+                        id = c.getLong(0),
+                        title = c.getString(1) ?: "",
+                        link = c.getString(2) ?: "",
+                        type = c.getString(3) ?: "",
+                        fav = c.getString(4) ?: "0",
+                        nota = c.getString(5) ?: "",
+                        shared = c.getString(6) ?: "0"
+                    )
+                )
+            }
+        }
+        return list
+    }
+
+    private fun readLegacyConf(db: SQLiteDatabase): List<ConfEntity> {
+        val list = mutableListOf<ConfEntity>()
+        db.rawQuery("SELECT id, title, link, fav, nota, shared FROM conf", null).use { c ->
+            while (c.moveToNext()) {
+                list.add(
+                    ConfEntity(
+                        id = c.getLong(0),
+                        title = c.getString(1) ?: "",
+                        link = c.getString(2) ?: "",
+                        fav = c.getString(3) ?: "0",
+                        nota = c.getString(4) ?: "",
+                        shared = c.getString(5) ?: "0"
+                    )
+                )
+            }
+        }
+        return list
+    }
+
+    private fun readLegacyApuntes(db: SQLiteDatabase): List<Pair<String, String>> {
+        val list = mutableListOf<Pair<String, String>>()
+        db.rawQuery("SELECT title, nota FROM notas", null).use { c ->
+            while (c.moveToNext()) {
+                list.add((c.getString(0) ?: "") to (c.getString(1) ?: ""))
+            }
+        }
+        return list
+    }
+
+    /**
+     * Pasa las frases (inbuilt) de xml a la tabla frases (Room)
      */
     @JvmStatic
     fun yor_populateFraseTable(context: Context) {
-        val dbManager = DBManager(context).open()
-        dbManager.DeleteTable(DatabaseHelper.T_Frases)
-        dbManager.CreateTable(DatabaseHelper.CREATE_TABLE_Frases)
+        val dao = db(context).fraseDao()
+        dao.clearAll()
 
-        val listFrases = GetFromRepo.getFrasesFromXML(context)
-        for (frase in listFrases) {
-            val temp = frase.split("::").toTypedArray()
-            insertNewFrase(context, temp[1], temp[0], "", "1")
+        val frases = GetFromRepo.getFrasesFromXML(context).mapNotNull { raw ->
+            val temp = raw.split("::")
+            if (temp.size >= 2) {
+                FraseEntity(
+                    frase = temp[1].trim(),
+                    autor = temp[0].trim(),
+                    fuente = "",
+                    inbuild = "1",
+                    fav = "0",
+                    nota = "",
+                    shared = "0"
+                )
+            } else {
+                null
+            }
         }
-        dbManager.close()
+        dao.insertAll(frases)
     }
 
     /**
-     * Pasa la información de los videos de xml a la tabla videos en sqlite
+     * Pasa la información de videos de xml a la tabla videos (Room)
      */
     @JvmStatic
     fun yor_populateVideosTable(context: Context) {
-        val dbManager = DBManager(context).open()
-        dbManager.DeleteTable(DatabaseHelper.T_Videos)
-        dbManager.CreateTable(DatabaseHelper.CREATE_TABLE_Videos)
+        val dao = db(context).videoDao()
+        dao.clearAll()
 
-        val arrayVideoYoutube = GetFromRepo.getUrlsVideosFromXML(context)
-        val contentValues = ContentValues()
+        val videos = mutableListOf<VideoEntity>()
 
-        for (video in arrayVideoYoutube) {
-            val temp = video.split("::").toTypedArray()
-            contentValues.put(DatabaseHelper.C_videos_link, temp[0])
-            contentValues.put(DatabaseHelper.C_videos_title, temp[1])
-            contentValues.put(DatabaseHelper.C_videos_type, "conf")
-            contentValues.put(DatabaseHelper.CC_favorito, "0")
-            contentValues.put(DatabaseHelper.CC_nota, "")
-            contentValues.put(DatabaseHelper.C_videos_shared, "0")
-            dbManager.insert(DatabaseHelper.T_Videos, contentValues)
-            contentValues.clear()
+        for (video in GetFromRepo.getUrlsVideosFromXML(context)) {
+            val temp = video.split("::")
+            if (temp.size >= 2) {
+                videos.add(
+                    VideoEntity(
+                        title = temp[1],
+                        link = temp[0],
+                        type = "conf",
+                        fav = "0",
+                        nota = "",
+                        shared = "0"
+                    )
+                )
+            }
         }
 
-        val arrayAudioLibrosYoutube = context.resources.getStringArray(R.array.list_audiolibros)
-        for (audioLibro in arrayAudioLibrosYoutube) {
-            val temp = audioLibro.split("::").toTypedArray()
-            contentValues.put(DatabaseHelper.C_videos_link, temp[0])
-            contentValues.put(DatabaseHelper.C_videos_title, temp[1])
-            contentValues.put(DatabaseHelper.C_videos_type, "audioLibro")
-            contentValues.put(DatabaseHelper.CC_favorito, "0")
-            contentValues.put(DatabaseHelper.CC_nota, "")
-            contentValues.put(DatabaseHelper.C_videos_shared, "0")
-            dbManager.insert(DatabaseHelper.T_Videos, contentValues)
-            contentValues.clear()
+        for (audioLibro in context.resources.getStringArray(R.array.list_audiolibros)) {
+            val temp = audioLibro.split("::")
+            if (temp.size >= 2) {
+                videos.add(
+                    VideoEntity(
+                        title = temp[1],
+                        link = temp[0],
+                        type = "audioLibro",
+                        fav = "0",
+                        nota = "",
+                        shared = "0"
+                    )
+                )
+            }
         }
 
-        val arrayVideosGreggYoutube = context.resources.getStringArray(R.array.list_gregg_videos)
-        for (videoGregg in arrayVideosGreggYoutube) {
-            val temp = videoGregg.split("::").toTypedArray()
-            contentValues.put(DatabaseHelper.C_videos_link, temp[0])
-            contentValues.put(DatabaseHelper.C_videos_title, temp[1])
-            contentValues.put(DatabaseHelper.C_videos_type, "gregg")
-            contentValues.put(DatabaseHelper.CC_favorito, "0")
-            contentValues.put(DatabaseHelper.CC_nota, "")
-            contentValues.put(DatabaseHelper.C_videos_shared, "0")
-            dbManager.insert(DatabaseHelper.T_Videos, contentValues)
-            contentValues.clear()
+        for (videoGregg in context.resources.getStringArray(R.array.list_gregg_videos)) {
+            val temp = videoGregg.split("::")
+            if (temp.size >= 2) {
+                videos.add(
+                    VideoEntity(
+                        title = temp[1],
+                        link = temp[0],
+                        type = "gregg",
+                        fav = "0",
+                        nota = "",
+                        shared = "0"
+                    )
+                )
+            }
         }
-        dbManager.close()
+
+        dao.insertAll(videos)
     }
 
     /**
-     * Pasa el contenido de las conferencias inbuilt a la tabla conf
+     * Pasa conferencias inbuilt a tabla conf (Room)
      */
     @JvmStatic
     @Throws(IOException::class)
     fun yor_populateConfTable(context: Context) {
-        val dbManager = DBManager(context).open()
-        dbManager.DeleteTable(DatabaseHelper.T_Conf)
-        dbManager.CreateTable(DatabaseHelper.CREATE_TABLE_Conf)
+        val dao = db(context).confDao()
+        dao.clearAll()
 
-        val contentValues = ContentValues()
         val fileList = GetFromRepo.getConfListFromAssets(context)
+        val confs = mutableListOf<ConfEntity>()
 
         if (fileList != null) {
             for (file in fileList) {
-                contentValues.put(DatabaseHelper.C_conf_title, file.replace(".txt", ""))
-                contentValues.put(DatabaseHelper.C_conf_link, file)
-                contentValues.put(DatabaseHelper.CC_favorito, "0")
-                contentValues.put(DatabaseHelper.CC_nota, "")
-                contentValues.put(DatabaseHelper.C_conf_shared, "0")
-                dbManager.insert(DatabaseHelper.T_Conf, contentValues)
-                contentValues.clear()
+                confs.add(
+                    ConfEntity(
+                        title = file.replace(".txt", ""),
+                        link = file,
+                        fav = "0",
+                        nota = "",
+                        shared = "0"
+                    )
+                )
             }
         }
-        dbManager.close()
+
+        dao.insertAll(confs)
     }
 
     /**
-     * Restaurar automaticamente la información de las tablas si no existe
+     * Restaura tablas semilla cuando están vacías
      */
     @JvmStatic
     fun RestoreDBInfo(context: Context): Boolean {
-        var result = false
-        val dbManager = DBManager(context).open()
+        migrateLegacyDatabaseIfNeeded(context)
 
-        var cursor = dbManager.ejectSQLRawQuery("SELECT * FROM ${DatabaseHelper.T_Frases};")
-        if (cursor.count == 0) {
+        var result = false
+        val room = db(context)
+
+        if (room.fraseDao().count() == 0) {
             yor_populateFraseTable(context)
             result = true
         }
-        cursor.close()
 
-        cursor = dbManager.ejectSQLRawQuery("SELECT * FROM ${DatabaseHelper.T_Conf};")
-        if (cursor.count == 0) {
+        if (room.confDao().count() == 0) {
             try {
                 yor_populateConfTable(context)
             } catch (e: IOException) {
@@ -143,21 +340,17 @@ object utilsDB {
             }
             result = true
         }
-        cursor.close()
 
-        cursor = dbManager.ejectSQLRawQuery("SELECT * FROM ${DatabaseHelper.T_Videos};")
-        if (cursor.count == 0) {
+        if (room.videoDao().count() == 0) {
             yor_populateVideosTable(context)
             result = true
         }
-        cursor.close()
 
-        dbManager.close()
         return result
     }
 
     /**
-     * Actualiza el contenido de las tablas audios_ext, videos_ext a partir del almacenamiento externo.
+     * Actualiza la tabla repo desde almacenamiento externo
      */
     @JvmStatic
     fun popularDB_Repo(context: Context) {
@@ -167,51 +360,65 @@ object utilsDB {
         val executor = Executors.newSingleThreadExecutor()
         val handler = Handler(Looper.getMainLooper())
         executor.execute {
-            val dbManager = DBManager(context).open()
-            val contentValues = ContentValues()
+            val repoDao = db(context).repoDao()
+            repoDao.clearAll()
 
-            dbManager.DeleteTable(DatabaseHelper.T_Repo)
-            dbManager.CreateTable(DatabaseHelper.CREATE_TABLE_Repo)
+            val dirPathVideos = Environment.getExternalStorageDirectory().toString() +
+                File.separator + utilsFields.REPO_DIR_ROOT + File.separator + utilsFields.REPO_DIR_VIDEOS
+            val dirPathAudios = Environment.getExternalStorageDirectory().toString() +
+                File.separator + utilsFields.REPO_DIR_ROOT + File.separator + utilsFields.REPO_DIR_AUDIOS
 
-            val dirPathVideos = Environment.getExternalStorageDirectory().toString() + File.separator + utilsFields.REPO_DIR_ROOT + File.separator + utilsFields.REPO_DIR_VIDEOS
-            val dirPathAudios = Environment.getExternalStorageDirectory().toString() + File.separator + utilsFields.REPO_DIR_ROOT + File.separator + utilsFields.REPO_DIR_AUDIOS
-            val fVideos = File(dirPathVideos)
-            val fAudios = File(dirPathAudios)
+            val filesVideos = File(dirPathVideos).listFiles()
+            val filesAudios = File(dirPathAudios).listFiles()
 
-            val filesVideos = fVideos.listFiles()
-            val filesAudios = fAudios.listFiles()
+            val toInsert = mutableListOf<RepoEntity>()
 
             if (filesVideos != null && filesVideos.isNotEmpty()) {
                 countVideos.addAndGet(filesVideos.size)
                 for (file in filesVideos) {
-                    val temp = file.toString().split("/").toTypedArray()
-                    contentValues.put("title", temp[temp.size - 1])
-                    contentValues.put("link", temp[temp.size - 1])
-                    contentValues.put("type", "video")
-                    dbManager.insert(DatabaseHelper.T_Repo, contentValues)
-                    contentValues.clear()
+                    val title = file.name
+                    toInsert.add(
+                        RepoEntity(
+                            title = title,
+                            link = title,
+                            type = "video",
+                            fav = "0",
+                            nota = "",
+                            shared = "0"
+                        )
+                    )
                 }
             }
 
             if (filesAudios != null && filesAudios.isNotEmpty()) {
                 countAudios.addAndGet(filesAudios.size)
                 for (file in filesAudios) {
-                    val temp = file.toString().split("/").toTypedArray()
-                    contentValues.put("title", temp[temp.size - 1])
-                    contentValues.put("link", temp[temp.size - 1])
-                    contentValues.put("type", "audio")
-                    dbManager.insert(DatabaseHelper.T_Repo, contentValues)
-                    contentValues.clear()
+                    val title = file.name
+                    toInsert.add(
+                        RepoEntity(
+                            title = title,
+                            link = title,
+                            type = "audio",
+                            fav = "0",
+                            nota = "",
+                            shared = "0"
+                        )
+                    )
                 }
             }
-            dbManager.close()
 
-            if (context is MainActivity) {
-                if (context.isFinishing) return@execute
+            if (toInsert.isNotEmpty()) {
+                repoDao.insertAll(toInsert)
             }
 
+            if (context is MainActivity && context.isFinishing) return@execute
+
             handler.post {
-                Toast.makeText(context, "Se actualizaron en total: ${countAudios.get()} audios ${countVideos.get()} videos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Se actualizaron en total: ${countAudios.get()} audios ${countVideos.get()} videos",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -228,7 +435,7 @@ object utilsDB {
             prefs.edit().putInt("dir_checksum", md5Result).apply()
             try {
                 popularDB_Repo(context)
-            } catch (ignored: Exception) {
+            } catch (_: Exception) {
             }
         }
     }
@@ -239,206 +446,289 @@ object utilsDB {
         var resultError = false
 
         try {
-            val folderVideos = File(utilsFields.PATH_ROOT_REPO + utilsFields.REPO_DIR_VIDEOS)
-            val filesVideos = folderVideos.listFiles()
+            val filesVideos = File(utilsFields.PATH_ROOT_REPO + utilsFields.REPO_DIR_VIDEOS).listFiles()
             if (filesVideos != null && filesVideos.isNotEmpty()) {
                 for (file in filesVideos) {
                     md5DirVideos += file.hashCode()
                 }
             }
-        } catch (ignored: Exception) {
+        } catch (_: Exception) {
             resultError = true
         }
 
         try {
-            val folderAudios = File(utilsFields.PATH_ROOT_REPO + utilsFields.REPO_DIR_AUDIOS)
-            val filesAudios = folderAudios.listFiles()
+            val filesAudios = File(utilsFields.PATH_ROOT_REPO + utilsFields.REPO_DIR_AUDIOS).listFiles()
             if (filesAudios != null && filesAudios.isNotEmpty()) {
                 for (file in filesAudios) {
                     md5DirAudios += file.hashCode()
                 }
             }
-        } catch (ignored: Exception) {
+        } catch (_: Exception) {
             resultError = true
         }
 
         if (resultError) return 0
-        return Math.abs(md5DirVideos) + Math.abs(md5DirAudios)
+        return kotlin.math.abs(md5DirVideos) + kotlin.math.abs(md5DirAudios)
     }
 
     @JvmStatic
-    fun LoadRepoFromDB(context: Context, DirRepo: String, lista: MutableList<String>): Int {
-        var result = 0
-        val dbManager = DBManager(context).open()
-        val cursor = dbManager.ejectSQLRawQuery("SELECT title FROM ${DatabaseHelper.T_Repo} WHERE ${DatabaseHelper.C_repo_type}='$DirRepo';")
+    fun LoadRepoFromDB(context: Context, dirRepo: String, lista: MutableList<String>): Int {
+        val items = db(context).repoDao().getByType(dirRepo)
         lista.clear()
-        if (cursor.moveToFirst()) {
-            result = cursor.count
-            while (!cursor.isAfterLast) {
-                val temp = cursor.getString(0).split("/").toTypedArray()
-                lista.add(temp[temp.size - 1])
-                cursor.moveToNext()
-            }
+        for (item in items) {
+            lista.add(item.title.substringAfterLast('/'))
         }
-        cursor.close()
-        dbManager.close()
-        return result
+        return items.size
     }
 
     @JvmStatic
-    fun readFavState(context: Context, TableName: String, ColumnID: String, id: String): String {
-        var result = ""
-        val dbManager = DBManager(context).open()
-        val cursor = dbManager.ejectSQLRawQuery("SELECT ${DatabaseHelper.CC_favorito} FROM $TableName WHERE $ColumnID='$id';")
-        if (cursor.moveToFirst()) {
-            result = cursor.getString(0)
+    fun readFavState(context: Context, tableName: String, columnID: String, id: String): String {
+        val room = db(context)
+        return when (tableName) {
+            DatabaseHelper.T_Frases -> {
+                when (columnID) {
+                    DatabaseHelper.C_frases_frase -> room.fraseDao().getByFrase(id)?.fav ?: ""
+                    else -> ""
+                }
+            }
+            DatabaseHelper.T_Conf -> room.confDao().getByTitle(id)?.fav ?: ""
+            DatabaseHelper.T_Videos -> {
+                when (columnID) {
+                    DatabaseHelper.C_videos_title -> room.videoDao().getByTitle(id)?.fav ?: ""
+                    DatabaseHelper.C_videos_link -> room.videoDao().getByLink(id)?.fav ?: ""
+                    else -> ""
+                }
+            }
+            DatabaseHelper.T_Repo -> room.repoDao().getByTitle(id)?.fav ?: ""
+            else -> ""
         }
-        cursor.close()
-        dbManager.close()
-        return result
     }
 
     @JvmStatic
-    fun UpdateFavorito(context: Context, TableName: String, ColumnID: String, id_str: String, id_int: Int): String {
-        val dbManager = DBManager(context).open()
-        var result = ""
-        val cursor = if (id_str == "") {
-            dbManager.ejectSQLRawQuery("SELECT fav FROM $TableName WHERE $ColumnID=$id_int;")
-        } else {
-            dbManager.ejectSQLRawQuery("SELECT fav FROM $TableName WHERE $ColumnID='$id_str';")
-        }
-
-        val contentValues = ContentValues()
-        if (cursor.moveToFirst()) {
-            if (cursor.getString(0) == "0") {
-                contentValues.put("fav", "1")
-                result = "1"
-            } else if (cursor.getString(0) == "1") {
-                contentValues.put("fav", "0")
-                result = "0"
+    fun UpdateFavorito(context: Context, tableName: String, columnID: String, id_str: String, id_int: Int): String {
+        val room = db(context)
+        return when (tableName) {
+            DatabaseHelper.T_Frases -> {
+                if (id_str.isEmpty() && columnID == DatabaseHelper.CC_id) {
+                    val item = room.fraseDao().getById(id_int.toLong()) ?: return ""
+                    val target = if (item.fav == "1") "0" else "1"
+                    room.fraseDao().updateFavById(item.id, target)
+                    target
+                } else {
+                    val item = room.fraseDao().getByFrase(id_str) ?: return ""
+                    val target = if (item.fav == "1") "0" else "1"
+                    room.fraseDao().updateFavByFrase(item.frase, target)
+                    target
+                }
             }
-
-            if (id_str == "") {
-                dbManager.update_ForIdInt(TableName, ColumnID, id_int.toLong(), contentValues)
-            } else {
-                dbManager.update_ForIdStr(TableName, ColumnID, id_str, contentValues)
+            DatabaseHelper.T_Conf -> {
+                val item = room.confDao().getByTitle(id_str) ?: return ""
+                val target = if (item.fav == "1") "0" else "1"
+                room.confDao().updateFavByTitle(item.title, target)
+                target
             }
+            DatabaseHelper.T_Videos -> {
+                val item = room.videoDao().getByTitle(id_str) ?: return ""
+                val target = if (item.fav == "1") "0" else "1"
+                room.videoDao().updateFavByTitle(item.title, target)
+                target
+            }
+            DatabaseHelper.T_Repo -> {
+                val item = room.repoDao().getByTitle(id_str) ?: return ""
+                val target = if (item.fav == "1") "0" else "1"
+                room.repoDao().updateFavByTitle(item.title, target)
+                target
+            }
+            else -> ""
         }
-        cursor.close()
-        dbManager.close()
-        return result
     }
 
     @JvmStatic
     fun CorrectOrtogFrases(pcontext: Context) {
         val executor = Executors.newSingleThreadExecutor()
         executor.execute {
-            val dbManager = DBManager(pcontext).open()
-            val cursor = dbManager.ejectSQLRawQuery("SELECT id,frase FROM ${DatabaseHelper.T_Frases};")
-            val contentValues = ContentValues()
-            if (cursor.moveToFirst()) {
-                while (!cursor.isAfterLast) {
-                    var temp = cursor.getString(1)
-                    temp = temp.replace(" echos ", " hechos ")
-                    temp = temp.replace("enanmórate", "enamórate")
-                    contentValues.put(DatabaseHelper.C_frases_frase, temp)
-                    dbManager.update_ForIdStr(DatabaseHelper.T_Frases, DatabaseHelper.C_frases_frase, cursor.getString(1), contentValues)
-                    contentValues.clear()
-                    cursor.moveToNext()
+            val dao = db(pcontext).fraseDao()
+            val items = dao.getAll()
+            for (item in items) {
+                var temp = item.frase
+                temp = temp.replace(" echos ", " hechos ")
+                temp = temp.replace("enanmórate", "enamórate")
+                if (temp != item.frase) {
+                    dao.updateFraseTextById(item.id, temp)
                 }
             }
-            cursor.close()
-            dbManager.close()
         }
     }
 
     @JvmStatic
     fun insertNewFrase(pcontext: Context, textFrase: String, autor: String, fuente: String, inbuilt: String): Long {
-        val dbManager = DBManager(pcontext).open()
-        val contentValues = ContentValues()
-        contentValues.put(DatabaseHelper.C_frases_frase, textFrase.trim())
-        contentValues.put(DatabaseHelper.C_frases_autor, autor.trim())
-        contentValues.put(DatabaseHelper.C_frases_fuente, fuente.trim())
-        contentValues.put(DatabaseHelper.CC_favorito, "0")
-        contentValues.put(DatabaseHelper.CC_nota, "")
-        contentValues.put(DatabaseHelper.C_frases_in_built, inbuilt)
-        contentValues.put(DatabaseHelper.C_frases_shared, "0")
-        val result = dbManager.insert(DatabaseHelper.T_Frases, contentValues)
-        dbManager.close()
-        return result
+        return db(pcontext).fraseDao().insert(
+            FraseEntity(
+                frase = textFrase.trim(),
+                autor = autor.trim(),
+                fuente = fuente.trim(),
+                fav = "0",
+                nota = "",
+                inbuild = inbuilt,
+                shared = "0"
+            )
+        )
     }
 
     @JvmStatic
     fun insertNewApunte(context: Context, title: String, apunte: String): Long {
-        val dbManager = DBManager(context).open()
-        val contentValues = ContentValues()
-        contentValues.put(DatabaseHelper.C_apunte_title, title.trim())
-        contentValues.put(DatabaseHelper.CC_nota, apunte.trim())
-        val result = dbManager.insert(DatabaseHelper.T_Apuntes, contentValues)
-        dbManager.close()
-        return result
+        val now = System.currentTimeMillis()
+        return db(context).notaDao().insert(
+            NotaEntity(
+                titulo = title.trim(),
+                nota = apunte.trim(),
+                fechaCreacion = now,
+                fechaModificacion = now
+            )
+        )
     }
 
     @JvmStatic
     fun updateApunte(context: Context, title: String, apunte: String): Boolean {
-        var result = false
-        val dbManager = DBManager(context).open()
-        val query = "UPDATE ${DatabaseHelper.T_Apuntes} SET ${DatabaseHelper.CC_nota}='$apunte' WHERE ${DatabaseHelper.C_apunte_title}='$title';"
-        try {
-            dbManager.ejectSQLCommand(query)
-            result = true
-        } catch (e: SQLException) {
-            e.printStackTrace()
-        }
-        dbManager.close()
-        return result
+        val dao = db(context).notaDao()
+        val current = dao.getByTitulo(title) ?: return false
+        dao.update(
+            current.copy(
+                nota = apunte,
+                fechaModificacion = System.currentTimeMillis()
+            )
+        )
+        return true
     }
 
     @JvmStatic
     fun updateNota(context: Context, tableName: String, columnID: String, valorID: String, nota: String): Boolean {
-        var result = false
-        val dbManager = DBManager(context).open()
-        val query = "UPDATE $tableName SET ${DatabaseHelper.CC_nota}='$nota' WHERE $columnID='$valorID';"
-        try {
-            dbManager.ejectSQLCommand(query)
-            result = true
-        } catch (e: SQLException) {
-            e.printStackTrace()
+        val room = db(context)
+        when (tableName) {
+            DatabaseHelper.T_Frases -> if (columnID == DatabaseHelper.C_frases_frase) room.fraseDao().updateNotaByFrase(valorID, nota)
+            DatabaseHelper.T_Conf -> room.confDao().updateNotaByTitle(valorID, nota)
+            DatabaseHelper.T_Videos -> room.videoDao().updateNotaByTitle(valorID, nota)
+            DatabaseHelper.T_Repo -> room.repoDao().updateNotaByTitle(valorID, nota)
+            else -> return false
         }
-        dbManager.close()
-        return result
+        return true
     }
 
     @JvmStatic
     fun loadConferenciaList(pcontext: Context): List<String> {
-        val result: MutableList<String> = LinkedList()
-        val dbManager = DBManager(pcontext).open()
-        val cursor = dbManager.ejectSQLRawQuery("SELECT ${DatabaseHelper.C_conf_title} FROM ${DatabaseHelper.T_Conf}")
-        if (cursor.moveToFirst()) {
-            while (!cursor.isAfterLast) {
-                result.add(cursor.getString(0).replace(".txt", ""))
-                cursor.moveToNext()
-            }
-        }
-        cursor.close()
-        dbManager.close()
-        return result
+        return db(pcontext).confDao().getAll().map { it.title.replace(".txt", "") }
     }
 
     @JvmStatic
     fun LoadVideoList(context: Context, typeOfVideo: String, listaUrl: MutableList<String>, lista: MutableList<String>) {
+        val items = db(context).videoDao().getByType(typeOfVideo)
         lista.clear()
         listaUrl.clear()
-        val dbManager = DBManager(context).open()
-        val cursor = dbManager.ejectSQLRawQuery("SELECT * FROM ${DatabaseHelper.T_Videos} WHERE ${DatabaseHelper.C_videos_type}='$typeOfVideo';")
-        if (cursor.moveToFirst()) {
-            while (!cursor.isAfterLast) {
-                lista.add(cursor.getString(1))
-                listaUrl.add(cursor.getString(2))
-                cursor.moveToNext()
-            }
+        for (item in items) {
+            lista.add(item.title)
+            listaUrl.add(item.link)
         }
-        cursor.close()
-        dbManager.close()
     }
+
+    // Métodos de soporte para reemplazar lógica SQL legacy en vistas
+    @JvmStatic
+    fun getFraseNota(context: Context, frase: String): String {
+        return db(context).fraseDao().getByFrase(frase)?.nota ?: ""
+    }
+
+    @JvmStatic
+    fun getConfNota(context: Context, title: String): String {
+        return db(context).confDao().getByTitle(title)?.nota ?: ""
+    }
+
+    @JvmStatic
+    fun getVideoNota(context: Context, title: String): String {
+        return db(context).videoDao().getByTitle(title)?.nota ?: ""
+    }
+
+    @JvmStatic
+    fun getRepoNota(context: Context, title: String): String {
+        return db(context).repoDao().getByTitle(title)?.nota ?: ""
+    }
+
+    @JvmStatic
+    fun getVideoLinkByTitle(context: Context, title: String): String {
+        return db(context).videoDao().getByTitle(title)?.link ?: ""
+    }
+
+    @JvmStatic
+    fun getFraseById(context: Context, id: Long): FraseEntity? {
+        return db(context).fraseDao().getById(id)
+    }
+
+    @JvmStatic
+    fun getApunteByTitle(context: Context, title: String): NotaEntity? {
+        return db(context).notaDao().getByTitulo(title)
+    }
+
+    @JvmStatic
+    fun deleteFraseByText(context: Context, frase: String) {
+        db(context).fraseDao().deleteByFrase(frase)
+    }
+
+    @JvmStatic
+    fun deleteApunteByTitle(context: Context, title: String) {
+        db(context).notaDao().deleteByTitulo(title)
+    }
+
+    @JvmStatic
+    fun getListadoTitles(context: Context, filtro: String): List<String> {
+        val room = db(context)
+        val result = when (filtro) {
+            "Todas las frases" -> room.fraseDao().getAll().map { it.frase }
+            "Frases inbuilt" -> room.fraseDao().getInbuilt().map { it.frase }
+            "Frases favoritas" -> room.fraseDao().getFavoritas().map { it.frase }
+            "Frases inbuilt favoritas" -> room.fraseDao().getInbuiltFavoritas().map { it.frase }
+            "Frases inbuilt con notas" -> room.fraseDao().getInbuiltConNotas().map { it.frase }
+            "Frases personales" -> room.fraseDao().getPersonales().map { it.frase }
+            "Frases personales favoritas" -> room.fraseDao().getPersonalesFavoritas().map { it.frase }
+            "Frases personales con notas" -> room.fraseDao().getPersonalesConNotas().map { it.frase }
+            "Todas las conf" -> room.confDao().getAll().map { it.title }
+            "Conferencias favoritas" -> room.confDao().getFavoritas().map { it.title }
+            "Conferencias con notas" -> room.confDao().getConNotas().map { it.title }
+            "Videos inbuilt favoritos" -> room.videoDao().getFavoritos().map { it.title }
+            "Videos inbuilt con notas" -> room.videoDao().getConNotas().map { it.title }
+            "Videos offline favoritos" -> room.repoDao().getFavoritosByType("video").map { it.title }
+            "Videos offline con notas" -> room.repoDao().getConNotasByType("video").map { it.title }
+            "Audios offline favoritos" -> room.repoDao().getFavoritosByType("audio").map { it.title }
+            "Audios offline con notas" -> room.repoDao().getConNotasByType("audio").map { it.title }
+            "Apuntes" -> room.notaDao().getAll().map { it.titulo }
+            "Videos gregg favoritos" -> room.videoDao().getByType("gregg").filter { it.fav == "1" }.map { it.title }
+            "Videos gregg con notas" -> room.videoDao().getByType("gregg").filter { it.nota.trim().isNotEmpty() }.map { it.title }
+            else -> emptyList()
+        }
+
+        return LinkedList(result)
+    }
+
+    @JvmStatic
+    fun getRandomFrase(context: Context, onlyFav: Boolean): FraseEntity? {
+        val items = if (onlyFav) db(context).fraseDao().getFavoritas() else db(context).fraseDao().getAll()
+        if (items.isEmpty()) return null
+        return items.random()
+    }
+
+    @JvmStatic
+    fun getRandomConf(context: Context, onlyFav: Boolean): ConfEntity? {
+        val items = if (onlyFav) db(context).confDao().getFavoritas() else db(context).confDao().getAll()
+        if (items.isEmpty()) return null
+        return items.random()
+    }
+
+    @JvmStatic
+    fun getAllConfTitles(context: Context): List<String> = db(context).confDao().getAll().map { it.title }
+
+    @JvmStatic
+    fun getAllVideoTitles(context: Context): List<String> = db(context).videoDao().getAll().map { it.title }
+
+    @JvmStatic
+    fun getRepoTitlesByType(context: Context, type: String): List<String> = db(context).repoDao().getByType(type).map { it.title }
+
+    @JvmStatic
+    fun getVideoTitlesByType(context: Context, type: String): List<String> = db(context).videoDao().getByType(type).map { it.title }
 }

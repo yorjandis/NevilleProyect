@@ -68,4 +68,10 @@
         android:id="@+id/fragSetting"
         android:name="com.ypg.neville.Ui.frag.frag_Setting"
         android:label="fragSetting" />
+
+    <fragment
+        android:id="@+id/frag_notas"
+        android:name="com.ypg.neville.Ui.frag.frag_notas"
+        android:label="frag_notas"
+        tools:layout="@layout/frag_notas" />
 </navigation>

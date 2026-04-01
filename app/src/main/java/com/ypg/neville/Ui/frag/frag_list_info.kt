@@ -18,7 +18,6 @@ import androidx.navigation.Navigation
 import androidx.preference.PreferenceManager
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
-import com.ypg.neville.model.db.DBManager
 import com.ypg.neville.model.db.DatabaseHelper
 import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.utils.UiModalWindows
@@ -60,19 +59,9 @@ class frag_list_info : Fragment() {
                 val itemtxt = parentView.getItemAtPosition(position).toString()
                 utilsFields.spinnerListInfoItemSelected = itemtxt
                 myListAdapterList_info.clear()
-
-                val dbManager = DBManager(requireContext()).open()
-                val cursor = dbManager.getListado(itemtxt)
-
-                if (cursor.moveToFirst()) {
-                    while (!cursor.isAfterLast) {
-                        listado.add(cursor.getString(1))
-                        cursor.moveToNext()
-                    }
-                }
+                listado.clear()
+                listado.addAll(utilsDB.getListadoTitles(requireContext(), itemtxt))
                 myListAdapterList_info.notifyDataSetChanged()
-                cursor.close()
-                dbManager.close()
             }
 
             override fun onNothingSelected(adapterView: AdapterView<*>) {}
@@ -80,50 +69,26 @@ class frag_list_info : Fragment() {
 
         list.onItemLongClickListener = AdapterView.OnItemLongClickListener { parent, _, position, _ ->
             val itemText = parent.getItemAtPosition(position).toString()
-            val dbManager = DBManager(requireContext()).open()
-            var query = ""
 
             when (spinner.selectedItem.toString()) {
                 "Frases inbuilt favoritas", "Frases personales favoritas", "Frases inbuilt" -> {
-                    query = "SELECT nota FROM ${DatabaseHelper.T_Frases} WHERE ${DatabaseHelper.C_frases_frase}='$itemText';"
-                    val cursor = dbManager.ejectSQLRawQuery(query)
-                    if (cursor.moveToFirst()) {
-                        UiModalWindows.NotaManager(requireContext(), cursor.getString(0), DatabaseHelper.T_Frases, DatabaseHelper.C_frases_frase, itemText)
-                    }
-                    cursor.close()
+                    UiModalWindows.NotaManager(requireContext(), utilsDB.getFraseNota(requireContext(), itemText), DatabaseHelper.T_Frases, DatabaseHelper.C_frases_frase, itemText)
                 }
                 "Conferencias favoritas", "Conferencias con notas" -> {
-                    query = "SELECT nota FROM ${DatabaseHelper.T_Conf} WHERE ${DatabaseHelper.C_conf_title}='$itemText';"
-                    val cursor = dbManager.ejectSQLRawQuery(query)
-                    if (cursor.moveToFirst()) {
-                        UiModalWindows.NotaManager(requireContext(), cursor.getString(0), DatabaseHelper.T_Conf, DatabaseHelper.C_conf_title, itemText)
-                    }
-                    cursor.close()
+                    UiModalWindows.NotaManager(requireContext(), utilsDB.getConfNota(requireContext(), itemText), DatabaseHelper.T_Conf, DatabaseHelper.C_conf_title, itemText)
                 }
                 "Videos inbuilt favoritos", "Videos inbuilt con notas" -> {
-                    query = "SELECT nota FROM ${DatabaseHelper.T_Videos} WHERE ${DatabaseHelper.C_videos_title}='$itemText';"
-                    val cursor = dbManager.ejectSQLRawQuery(query)
-                    if (cursor.moveToFirst()) {
-                        UiModalWindows.NotaManager(requireContext(), cursor.getString(0), DatabaseHelper.T_Videos, DatabaseHelper.C_videos_title, itemText)
-                    }
-                    cursor.close()
+                    UiModalWindows.NotaManager(requireContext(), utilsDB.getVideoNota(requireContext(), itemText), DatabaseHelper.T_Videos, DatabaseHelper.C_videos_title, itemText)
                 }
                 "Videos offline favoritos", "Videos offline con notas" -> {
-                    query = "SELECT nota FROM ${DatabaseHelper.T_Repo} WHERE ${DatabaseHelper.C_repo_title}='$itemText';"
-                    val cursor = dbManager.ejectSQLRawQuery(query)
-                    if (cursor.moveToFirst()) {
-                        UiModalWindows.NotaManager(requireContext(), cursor.getString(0), DatabaseHelper.T_Repo, DatabaseHelper.C_repo_title, itemText)
-                    }
-                    cursor.close()
+                    UiModalWindows.NotaManager(requireContext(), utilsDB.getRepoNota(requireContext(), itemText), DatabaseHelper.T_Repo, DatabaseHelper.C_repo_title, itemText)
                 }
             }
-            dbManager.close()
             true
         }
 
         list.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view1, position, _ ->
             val itemText = adapterView.getItemAtPosition(position).toString()
-            val dbManager = DBManager(requireContext()).open()
             val navController = Navigation.findNavController(view1)
 
             when (spinner.selectedItem.toString()) {
@@ -133,27 +98,15 @@ class frag_list_info : Fragment() {
                     alert.setPositiveButton("Quitar favorito") { _, _ ->
                         utilsDB.UpdateFavorito(requireContext(), DatabaseHelper.T_Frases, DatabaseHelper.C_frases_frase, itemText, -1)
                         listado.clear()
-                        val cursor = dbManager.getListado(utilsFields.spinnerListInfoItemSelected)
-                        if (cursor.moveToFirst()) {
-                            do {
-                                listado.add(cursor.getString(1))
-                            } while (cursor.moveToNext())
-                        }
+                        listado.addAll(utilsDB.getListadoTitles(requireContext(), utilsFields.spinnerListInfoItemSelected))
                         myListAdapterList_info.clear()
                         myListAdapterList_info.addAll(listado)
                         myListAdapterList_info.notifyDataSetChanged()
-                        cursor.close()
-                        dbManager.close()
                     }
                     alert.show()
                 }
                 "Frases personales", "Frases inbuilt con notas", "Frases personales con notas" -> {
-                    val query = "SELECT nota FROM ${DatabaseHelper.T_Frases} WHERE ${DatabaseHelper.C_frases_frase}='$itemText';"
-                    val cursor = dbManager.ejectSQLRawQuery(query)
-                    if (cursor.moveToFirst()) {
-                        UiModalWindows.NotaManager(requireContext(), cursor.getString(0), DatabaseHelper.T_Frases, DatabaseHelper.C_frases_frase, itemText)
-                    }
-                    cursor.close()
+                    UiModalWindows.NotaManager(requireContext(), utilsDB.getFraseNota(requireContext(), itemText), DatabaseHelper.T_Frases, DatabaseHelper.C_frases_frase, itemText)
                 }
                 "Conferencias favoritas", "Conferencias con notas" -> {
                     utilsFields.ID_Str_row_ofElementLoad = itemText
@@ -165,7 +118,7 @@ class frag_list_info : Fragment() {
                 "Videos inbuilt favoritos", "Videos inbuilt con notas" -> {
                     if (Utils.isConnection(requireContext())) {
                         frag_listado.elementLoaded = "play_youtube"
-                        val temp = dbManager.getDbInfoFromItem(itemText, DatabaseHelper.T_Videos)
+                        val temp = utilsDB.getVideoLinkByTitle(requireContext(), itemText)
                         if (temp.isNotEmpty()) {
                             frag_listado.urlPath = temp
                             navController.navigate(R.id.frag_listado)

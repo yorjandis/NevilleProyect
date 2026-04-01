@@ -21,7 +21,6 @@ import androidx.preference.PreferenceManager
 import com.skydoves.balloon.Balloon
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
-import com.ypg.neville.model.db.DBManager
 import com.ypg.neville.model.db.DatabaseHelper
 import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.utils.QRManager
@@ -123,15 +122,8 @@ class frag_home : Fragment() {
 
         // onLong click sobre el texto para abrir el cuadro de adicionar una nota asociada
         text_frase.setOnLongClickListener {
-            val dbManager = DBManager(requireContext()).open()
-            val query = "SELECT nota FROM ${DatabaseHelper.T_Frases} WHERE ${DatabaseHelper.C_frases_frase}='${text_frase.text}';"
-            val cursor = dbManager.ejectSQLRawQuery(query)
-
-            if (cursor.moveToFirst()) {
-                UiModalWindows.NotaManager(requireContext(), cursor.getString(0), DatabaseHelper.T_Frases, DatabaseHelper.C_frases_frase, text_frase.text.toString())
-            }
-            cursor.close()
-            dbManager.close()
+            val nota = utilsDB.getFraseNota(requireContext(), text_frase.text.toString())
+            UiModalWindows.NotaManager(requireContext(), nota, DatabaseHelper.T_Frases, DatabaseHelper.C_frases_frase, text_frase.text.toString())
             true
         }
 
@@ -188,20 +180,16 @@ class frag_home : Fragment() {
         when (temp) {
             "Ultima_frase_vista" -> {
                 val idUltimaFrase = PreferenceManager.getDefaultSharedPreferences(requireContext()).getString(utilsFields.SETTING_KEY_ID_ULTIMA_FRASE, "0")
-                val sql = "SELECT * FROM ${DatabaseHelper.T_Frases} WHERE ${DatabaseHelper.CC_id}=${idUltimaFrase?.toInt() ?: 0}"
-                val dbManager = DBManager(requireContext()).open()
-                val cursor = dbManager.ejectSQLRawQuery(sql)
+                val frase = utilsDB.getFraseById(requireContext(), idUltimaFrase?.toLongOrNull() ?: 0)
 
-                if (cursor.moveToFirst()) {
-                    text_frase.text = cursor.getString(1)
-                    textAutor.text = "<${cursor.getString(2)}>"
-                    id_frase = cursor.getInt(0).toLong()
-                    utilsFields.ID_row_ofElementLoad = cursor.getInt(0)
-                    utilsFields.ID_Str_row_ofElementLoad = cursor.getString(1)
-                    setFavColor(cursor.getString(4))
+                if (frase != null) {
+                    text_frase.text = frase.frase
+                    textAutor.text = "<${frase.autor}>"
+                    id_frase = frase.id
+                    utilsFields.ID_row_ofElementLoad = frase.id.toInt()
+                    utilsFields.ID_Str_row_ofElementLoad = frase.frase
+                    setFavColor(frase.fav)
                 }
-                cursor.close()
-                dbManager.close()
             }
             "Frase_azar" -> Loadfrases(false)
             "Frase_fav_azar" -> Loadfrases(true)
@@ -224,67 +212,38 @@ class frag_home : Fragment() {
     }
 
     private fun Loadfrases(isfavList: Boolean) {
-        val dbManager = DBManager(requireContext()).open()
-        val cursor = if (isfavList) {
-            dbManager.getListado("Frases favoritas")
-        } else {
-            dbManager.getListado("Todas las frases")
-        }
+        val frase = utilsDB.getRandomFrase(requireContext(), isfavList)
 
-        if (cursor.moveToFirst()) {
-            var randomNumber = 0
-            val random = Random()
-            if (cursor.count > 1) {
-                randomNumber = random.nextInt(cursor.count)
-            }
+        if (frase != null) {
+            text_frase.text = frase.frase
+            textAutor.text = "<${frase.autor}>"
 
-            cursor.move(randomNumber)
-            text_frase.text = cursor.getString(1)
-            textAutor.text = "<${cursor.getString(2)}>"
+            id_frase = frase.id
+            utilsFields.ID_row_ofElementLoad = frase.id.toInt()
+            utilsFields.ID_Str_row_ofElementLoad = frase.frase
 
-            id_frase = cursor.getInt(0).toLong()
-            utilsFields.ID_row_ofElementLoad = cursor.getInt(0)
-            utilsFields.ID_Str_row_ofElementLoad = cursor.getString(1)
-
-            PreferenceManager.getDefaultSharedPreferences(requireContext()).edit().putString(utilsFields.SETTING_KEY_ID_ULTIMA_FRASE, cursor.getInt(0).toString()).apply()
-            setFavColor(cursor.getString(4))
-            cursor.close()
+            PreferenceManager.getDefaultSharedPreferences(requireContext()).edit().putString(utilsFields.SETTING_KEY_ID_ULTIMA_FRASE, frase.id.toString()).apply()
+            setFavColor(frase.fav)
         } else {
             Toast.makeText(requireContext(), "No hay frase para mostrar. Cargando frases inbuilt", Toast.LENGTH_SHORT).show()
             PreferenceManager.getDefaultSharedPreferences(requireContext()).edit().putString("list_start_load", "Frase_azar").apply()
         }
-        dbManager.close()
     }
 
     private fun LoadConfAzar(isfav: Boolean) {
-        val dbManager = DBManager(requireContext()).open()
-        val cursor = if (isfav) {
-            dbManager.getListado("Conferencias favoritas")
-        } else {
-            dbManager.getListado("Todas las conf")
-        }
+        val conf = utilsDB.getRandomConf(requireContext(), isfav)
 
-        if (cursor.moveToFirst()) {
-            var randomNumber = 0
-            val random = Random()
-            if (cursor.count > 1) {
-                randomNumber = random.nextInt(cursor.count)
-            }
-
-            cursor.move(randomNumber)
-
-            utilsFields.ID_Str_row_ofElementLoad = cursor.getString(1)
+        if (conf != null) {
+            utilsFields.ID_Str_row_ofElementLoad = conf.title
             frag_content_WebView.extension = ".txt"
             frag_content_WebView.urlDirAssets = "conf"
 
-            frag_content_WebView.urlPath = "file:///android_asset/${frag_content_WebView.urlDirAssets}/${cursor.getString(1)}${frag_content_WebView.extension}"
+            frag_content_WebView.urlPath = "file:///android_asset/${frag_content_WebView.urlDirAssets}/${conf.title}${frag_content_WebView.extension}"
             navController.navigate(R.id.frag_content_webview)
         } else {
             Toast.makeText(requireContext(), "No hay Conferencia favorita para mostrar. Cargando Conferencias inbuilt", Toast.LENGTH_SHORT).show()
             PreferenceManager.getDefaultSharedPreferences(requireContext()).edit().putString("list_start_load", "Conf_azar").apply()
         }
-        cursor.close()
-        dbManager.close()
     }
 
     private fun setFavColor(fav_state: String) {

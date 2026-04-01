@@ -29,6 +29,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.preference.PreferenceManager
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.zxing.integration.android.IntentIntegrator
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
@@ -69,6 +70,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var ic_toolsBar_nota_add: ImageView
     lateinit var ic_toolsBar_frase_add: ImageView
     lateinit var ic_toolsBar_fav: ImageView
+    lateinit var fabTestNotas: FloatingActionButton
 
     val utils = Utils(this)
 
@@ -91,6 +93,7 @@ class MainActivity : AppCompatActivity() {
         ic_toolsBar_nota_add = findViewById(R.id.ic_toolbar_add_note)
         ic_toolsBar_frase_add = findViewById(R.id.ic_toolbar_add_frase)
         ic_toolsBar_fav = findViewById(R.id.ic_toolbar_fav)
+        fabTestNotas = findViewById(R.id.fab_test_notas)
 
         drawerLayout = findViewById(R.id.drawer_layout)
         navigationView = findViewById(R.id.nav_view)
@@ -120,12 +123,23 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        val hadLegacyDatabase = utilsDB.hasLegacyDatabase(this)
+        if (hadLegacyDatabase) {
+            Toast.makeText(this, "Estamos migrando tus datos a la nueva base de datos. Por favor espera...", Toast.LENGTH_LONG).show()
+        }
+
         if (utilsDB.RestoreDBInfo(this)) {
+            if (hadLegacyDatabase) {
+                Toast.makeText(this, "Migración de datos completada.", Toast.LENGTH_SHORT).show()
+            }
             val intent = intent
             finish()
             startActivity(intent)
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         } else {
+            if (hadLegacyDatabase) {
+                Toast.makeText(this, "Migración de datos completada.", Toast.LENGTH_SHORT).show()
+            }
             if (prefs.getBoolean("Is_primeraVez", true)) {
                 UiModalWindows.showAyudaContectual(this, "Novedades", "Que hay de nuevo?", getString(R.string.news), false, getDrawable(R.drawable.neville))
                 prefs.edit().putBoolean("Is_primeraVez", false).apply()
@@ -143,6 +157,11 @@ class MainActivity : AppCompatActivity() {
 
         ic_toolsBar_nota_add.setOnClickListener {
             UiModalWindows.ApunteManager(this, "", null, false)
+        }
+
+        fabTestNotas.setOnClickListener {
+            deselecItemBottom()
+            navController.navigate(R.id.frag_notas)
         }
 
         ic_toolsBar_fav.setOnClickListener {

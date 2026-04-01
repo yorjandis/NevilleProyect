@@ -10,8 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageView
 import com.ypg.neville.R
 import com.ypg.neville.Ui.frag.frag_list_info
-import com.ypg.neville.model.db.DBManager
-import com.ypg.neville.model.db.DatabaseHelper
+import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.utils.QRManager
 import com.ypg.neville.model.utils.UiModalWindows
 import com.ypg.neville.model.utils.utilsFields
@@ -66,26 +65,18 @@ class MyListAdapterList_info(context: Context, private val layout: Int, objects:
             val builder = AlertDialog.Builder(context)
             builder.setTitle("¿Eliminando elemento en: ${utilsFields.spinnerListInfoItemSelected}?")
             builder.setPositiveButton("Eliminar") { _, _ ->
-                val dbManager = DBManager(context).open()
                 internalList.clear()
 
                 when (utilsFields.spinnerListInfoItemSelected) {
                     "Frases personales", "Frases favoritas personales", "Frases personales con notas" -> {
-                        dbManager.delete_ForIdStr(DatabaseHelper.T_Frases, DatabaseHelper.C_frases_frase, holder.text?.text.toString())
+                        utilsDB.deleteFraseByText(context, holder.text?.text.toString())
                     }
                     "Apuntes" -> {
-                        dbManager.delete_ForIdStr(DatabaseHelper.T_Apuntes, DatabaseHelper.C_apunte_title, holder.text?.text.toString())
+                        utilsDB.deleteApunteByTitle(context, holder.text?.text.toString())
                     }
                 }
 
-                val cursor = dbManager.getListado(utilsFields.spinnerListInfoItemSelected)
-                if (cursor.moveToFirst()) {
-                    do {
-                        internalList.add(cursor.getString(1))
-                    } while (cursor.moveToNext())
-                }
-                cursor.close()
-                dbManager.close()
+                internalList.addAll(utilsDB.getListadoTitles(context, utilsFields.spinnerListInfoItemSelected))
 
                 clear()
                 addAll(internalList)

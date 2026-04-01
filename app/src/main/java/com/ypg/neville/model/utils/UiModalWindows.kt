@@ -15,8 +15,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.preference.PreferenceManager
 import com.ypg.neville.R
-import com.ypg.neville.model.db.DBManager
-import com.ypg.neville.model.db.DatabaseHelper
 import com.ypg.neville.model.db.utilsDB
 
 object UiModalWindows {
@@ -116,15 +114,11 @@ object UiModalWindows {
         alertDialog.show()
 
         if (titleInDB.isNotEmpty()) {
-            val query = "SELECT * FROM ${DatabaseHelper.T_Apuntes} WHERE ${DatabaseHelper.C_apunte_title} = '$titleInDB';"
-            val dbManager = DBManager(context).open()
-            val cursor = dbManager.ejectSQLRawQuery(query)
-            if (cursor.moveToFirst()) {
-                edit_titulo.setText(cursor.getString(1))
-                edit_nota.setText(cursor.getString(2))
+            val nota = utilsDB.getApunteByTitle(context, titleInDB)
+            if (nota != null) {
+                edit_titulo.setText(nota.titulo)
+                edit_nota.setText(nota.nota)
             }
-            cursor.close()
-            dbManager.close()
         }
 
         if (contentValues != null) {
