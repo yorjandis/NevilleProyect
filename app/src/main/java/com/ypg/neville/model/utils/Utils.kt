@@ -1,6 +1,5 @@
 package com.ypg.neville.model.utils
 
-import android.annotation.TargetApi
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -9,8 +8,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Build
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import android.graphics.drawable.Icon
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
@@ -31,7 +33,7 @@ class Utils(private val context: Context) {
             return try {
                 pm.getPackageInfo(packageName, 0)
                 true
-            } catch (e: PackageManager.NameNotFoundException) {
+            } catch (_: PackageManager.NameNotFoundException) {
                 false
             }
         }
@@ -44,8 +46,10 @@ class Utils(private val context: Context) {
         @JvmStatic
         fun isConnection(contextP: Context): Boolean {
             val connectivityManager = contextP.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            val activeNetworkInfo = connectivityManager.activeNetworkInfo
-            val isConnected = activeNetworkInfo != null && activeNetworkInfo.isConnected
+            val network = connectivityManager.activeNetwork
+            val capabilities = network?.let { connectivityManager.getNetworkCapabilities(it) }
+            val isConnected = capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true &&
+                capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
 
             if (!isConnected) {
                 Toast.makeText(contextP, "Contenido no accesible sin conexión", Toast.LENGTH_SHORT).show()
@@ -53,21 +57,11 @@ class Utils(private val context: Context) {
             return isConnected
         }
 
-        // Devuelve una cadena legible de elementos que pueden tener una nota asociada
-        @JvmStatic
-        fun getElementLoad(key: String): String {
-            return when (key) {
-                "frases" -> "Esta frase"
-                "conf" -> "Esta Conferencia"
-                else -> ""
-            }
-        }
-
         // devuelve una lista de conferencias en Assets que contiene una subcadena de texto
         @JvmStatic
         @Throws(IOException::class)
         fun searchInConf(pcontext: Context, string: String): List<String> {
-            val listFiles = pcontext.assets.list("conf") ?: return emptyList()
+            val listFiles = pcontext.assets.list("autores/neville/conf") ?: return emptyList()
             var `is`: InputStream
             var confText: String
             var size: Int
@@ -75,7 +69,9 @@ class Utils(private val context: Context) {
             val lista: MutableList<String> = LinkedList()
 
             for (file in listFiles) {
-                `is` = pcontext.assets.open("conf" + File.separator + file)
+                if (!file.startsWith("conf_") || !file.endsWith(".txt", ignoreCase = true)) continue
+
+                `is` = pcontext.assets.open("autores/neville/conf" + File.separator + file)
                 size = `is`.available()
                 buffer = ByteArray(size)
                 `is`.read(buffer)
@@ -83,7 +79,11 @@ class Utils(private val context: Context) {
                 confText = String(buffer)
 
                 if (confText.contains(string, ignoreCase = true)) {
-                    lista.add(file.replace(".txt", ""))
+                    lista.add(
+                        file
+                            .removePrefix("conf_")
+                            .replace(".txt", "")
+                    )
                 }
             }
             return lista
@@ -110,16 +110,21 @@ class Utils(private val context: Context) {
      * @param bigtext texto grande
      * @param intent intent
      */
-    @TargetApi(Build.VERSION_CODES.O)
+    @RequiresApi(Build.VERSION_CODES.O)
     fun show_Notification(bigtext: String, intent: Intent) {
         val notificationChannel = NotificationChannel(utilsFields.NOTIFICACION_CHANNEL_ID, "name", NotificationManager.IMPORTANCE_LOW)
         val pendingIntent = PendingIntent.getActivity(context, 1, intent, PendingIntent.FLAG_IMMUTABLE)
+        val updateAction = Notification.Action.Builder(
+            Icon.createWithResource(context, android.R.drawable.sym_action_chat),
+            "Actualizar",
+            pendingIntent
+        ).build()
 
         val notification = Notification.Builder(context, utilsFields.NOTIFICACION_CHANNEL_ID)
             .setContentTitle("")
             .setContentIntent(pendingIntent)
             .setStyle(Notification.BigTextStyle().bigText(bigtext))
-            .addAction(android.R.drawable.sym_action_chat, "Actualizar", pendingIntent)
+            .addAction(updateAction)
             .setChannelId(utilsFields.NOTIFICACION_CHANNEL_ID)
             .setSmallIcon(android.R.drawable.sym_action_chat)
             .build()

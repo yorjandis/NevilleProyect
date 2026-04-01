@@ -53,6 +53,21 @@
             app:destination="@id/frag_home" />
     </fragment>
     <fragment
+        android:id="@+id/frag_neville_goddard"
+        android:name="com.ypg.neville.ui.frag.FragNevilleGoddard"
+        android:label="frag_neville_goddard"
+        tools:layout="@layout/frag_author_placeholder" />
+    <fragment
+        android:id="@+id/frag_joe_dispenza"
+        android:name="com.ypg.neville.ui.frag.FragJoeDispenza"
+        android:label="frag_joe_dispenza"
+        tools:layout="@layout/frag_author_placeholder" />
+    <fragment
+        android:id="@+id/frag_bruce_lipton"
+        android:name="com.ypg.neville.ui.frag.FragBruceLipton"
+        android:label="frag_bruce_lipton"
+        tools:layout="@layout/frag_author_placeholder" />
+    <fragment
         android:id="@+id/frag_list_info"
         android:name="com.ypg.neville.ui.frag.frag_list_info"
         android:label="frag_list_info"

@@ -25,6 +25,15 @@
     <string name="citas_de_conferencias">Citas de conferencias</string>
     <string name="qu_dice_la_ciencia_actual">-Qué dice la ciencia actual-</string>
     <string name="gregg_braden">Gregg Braden</string>
+    <string name="neville_goddard">Neville Goddard</string>
+    <string name="joe_dispenza">Joe Dispenza</string>
+    <string name="bruce_lipton">Bruce Lipton</string>
+    <string name="author_image_content_description" tools:ignore="Typos">Imagen del autor</string>
+    <string name="author_quotes_section_title">Frases</string>
+    <string name="author_resources_section_title">Recursos</string>
+    <string name="author_biography_button_placeholder">Biografía (próximamente)</string>
+    <string name="author_quote_placeholder">Frase placeholder de %1$s. El contenido del compendio se añadirá próximamente.</string>
+    <string name="autores">Autores</string>
     <string name="image_de_neville">image de neville</string>
     <string name="la_imaginaci_n_crea_la_realidad">La imaginación crea la realidad</string>
     <string name="el_m_todo_de_manifestaci_n">El método de manifestación</string>
@@ -40,6 +49,7 @@
     <string name="biografia">Biografia</string>
     <string name="ayudas">Ayudas</string>
     <string name="audios_neville_en_telegram">Audios neville en Telegram</string>
+    <string name="recursos_externos">Recursos externos</string>
     <string name="web_neville_blogspot">Web Neville blogspot</string>
     <string name="web_neville_en_espa_ol">Web Neville en Español</string>
     <string name="web_real_neville_ingl_s">Web Real Neville (inglés)</string>

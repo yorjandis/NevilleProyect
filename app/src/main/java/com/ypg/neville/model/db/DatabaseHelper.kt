@@ -4,12 +4,13 @@ package com.ypg.neville.model.db
  * Contrato de tablas/columnas compartido por la app.
  * Ya no implementa SQLiteOpenHelper: la persistencia está en Room.
  */
+@Suppress("unused")
 object DatabaseHelper {
     const val DB_NAME = "neville.db"
 
     // Tablas
     const val T_Frases = "frases"
-    const val T_Conf = "conf"
+    const val T_Conf = "autores/neville/conf"
     const val T_Apuntes = "notas"
 
     // Campos comunes

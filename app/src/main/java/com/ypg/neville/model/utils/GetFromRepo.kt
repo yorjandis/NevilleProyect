@@ -46,7 +46,7 @@ class GetFromRepo(var context: Context) {
                                 noFrasesConError += 1
                             }
                         }
-                    } catch (ignored: IOException) {
+                    } catch (_: IOException) {
                         error = true
                     }
 
@@ -86,6 +86,7 @@ class GetFromRepo(var context: Context) {
 
         // Obtiene un arreglo con la lista de url de videos de youtube del fichero xml interno
         @JvmStatic
+        @Suppress("unused")
         fun getUrlsVideosFromXML(context: Context): Array<String> {
             return context.resources.getStringArray(R.array.listvideos)
         }
@@ -94,7 +95,11 @@ class GetFromRepo(var context: Context) {
         @JvmStatic
         @Throws(IOException::class)
         fun getConfListFromAssets(context: Context): Array<String>? {
-            return context.assets.list("conf")
+            return context.assets
+                .list("autores/neville/conf")
+                ?.filter { it.startsWith("conf_") && it.endsWith(".txt", ignoreCase = true) }
+                ?.sorted()
+                ?.toTypedArray()
         }
     }
 }

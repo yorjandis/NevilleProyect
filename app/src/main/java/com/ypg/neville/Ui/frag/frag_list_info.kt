@@ -103,8 +103,10 @@ class frag_list_info : Fragment() {
                 "Conferencias favoritas", "Conferencias con notas" -> {
                     utilsFields.ID_Str_row_ofElementLoad = itemText
                     FragContentWebView.extension = ".txt"
-                    FragContentWebView.urlDirAssets = "conf"
-                    FragContentWebView.urlPath = "file:///android_asset/${FragContentWebView.urlDirAssets}/$itemText${FragContentWebView.extension}"
+                    FragContentWebView.urlDirAssets = "autores/neville/conf"
+                    val confFileName = FragContentWebView.confAssetFileNameFromTitle(itemText)
+                    FragContentWebView.urlPath =
+                        "file:///android_asset/${FragContentWebView.urlDirAssets}/$confFileName${FragContentWebView.extension}"
                     navController.navigate(R.id.frag_content_webview)
                 }
                 "Apuntes" -> {

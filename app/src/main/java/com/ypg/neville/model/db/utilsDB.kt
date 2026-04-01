@@ -179,9 +179,12 @@ object utilsDB {
 
         if (fileList != null) {
             for (file in fileList) {
+                val titleNormalized = file
+                    .removePrefix("conf_")
+                    .replace(".txt", "")
                 confs.add(
                     ConfEntity(
-                        title = file.replace(".txt", ""),
+                        title = titleNormalized,
                         link = file,
                         fav = "0",
                         nota = "",
@@ -192,6 +195,90 @@ object utilsDB {
         }
 
         dao.insertAll(confs)
+    }
+
+    /**
+     * Normaliza conferencias existentes para el nuevo esquema de nombres:
+     * - title: sin prefijo "conf_" y sin ".txt"
+     * - link: con prefijo "conf_" y extensión ".txt"
+     *
+     * Si encuentra duplicados por título normalizado, los fusiona preservando
+     * favoritos/notas y se queda con un único registro.
+     */
+    @JvmStatic
+    fun migrateConfNamingIfNeeded(context: Context): Boolean {
+        val dao = db(context).confDao()
+        val current = dao.getAll()
+        if (current.isEmpty()) return false
+
+        var changed = false
+        val mergedByTitle = linkedMapOf<String, ConfEntity>()
+
+        for (item in current) {
+            val normalizedTitle = normalizeConfTitle(item.title)
+            val normalizedLink = normalizeConfLink(item.link, normalizedTitle)
+
+            val normalizedItem = item.copy(
+                title = normalizedTitle,
+                link = normalizedLink
+            )
+
+            if (normalizedItem != item) {
+                changed = true
+            }
+
+            val existing = mergedByTitle[normalizedTitle]
+            if (existing == null) {
+                mergedByTitle[normalizedTitle] = normalizedItem
+            } else {
+                changed = true
+                mergedByTitle[normalizedTitle] = mergeConf(existing, normalizedItem)
+            }
+        }
+
+        if (!changed && mergedByTitle.size == current.size) return false
+
+        // Reescribir la tabla deja el estado consistente para lecturas por título.
+        dao.clearAll()
+        dao.insertAll(
+            mergedByTitle.values.map { it.copy(id = 0) }
+        )
+        return true
+    }
+
+    private fun normalizeConfTitle(raw: String): String {
+        return raw
+            .trim()
+            .removePrefix("conf_")
+            .removeSuffix(".txt")
+    }
+
+    private fun normalizeConfLink(raw: String, normalizedTitle: String): String {
+        val source = raw.trim().ifEmpty { normalizedTitle }
+        val baseName = source
+            .removePrefix("autores/neville/conf/")
+            .removeSuffix(".txt")
+
+        val prefixed = if (baseName.startsWith("conf_")) baseName else "conf_$baseName"
+        return "$prefixed.txt"
+    }
+
+    private fun mergeConf(a: ConfEntity, b: ConfEntity): ConfEntity {
+        val nota = when {
+            a.nota.isNotBlank() && b.nota.isBlank() -> a.nota
+            b.nota.isNotBlank() && a.nota.isBlank() -> b.nota
+            b.nota.length > a.nota.length -> b.nota
+            else -> a.nota
+        }
+
+        return a.copy(
+            // Mantener título y link normalizados
+            title = a.title,
+            link = if (a.link.length >= b.link.length) a.link else b.link,
+            fav = if (a.fav == "1" || b.fav == "1") "1" else "0",
+            nota = nota,
+            shared = if (a.shared == "1" || b.shared == "1") "1" else "0"
+        )
     }
 
     /**
@@ -215,6 +302,10 @@ object utilsDB {
             } catch (e: IOException) {
                 e.printStackTrace()
             }
+            result = true
+        }
+
+        if (migrateConfNamingIfNeeded(context)) {
             result = true
         }
 

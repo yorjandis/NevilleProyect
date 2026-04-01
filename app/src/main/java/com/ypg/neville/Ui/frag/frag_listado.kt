@@ -61,7 +61,7 @@ class frag_listado : Fragment() {
         }
         ayudaContextual.setOnClickListener { showAyudaContextual() }
 
-        if (elementLoaded.equals("conf", ignoreCase = true)) {
+        if (elementLoaded.equals("autores/neville/conf", ignoreCase = true)) {
             mostrar_opciones.visibility = View.VISIBLE
             searchViewConf.visibility = View.VISIBLE
             spinnerFilter.visibility = View.VISIBLE
@@ -91,7 +91,7 @@ class frag_listado : Fragment() {
 
         spinnerFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>, view: View?, position: Int, l: Long) {
-                if (!elementLoaded.equals("conf", ignoreCase = true)) return
+                if (!elementLoaded.equals("autores/neville/conf", ignoreCase = true)) return
 
                 val itemSelected = adapterView.selectedItem.toString()
                 myListAdapterItemsList?.clear()
@@ -128,7 +128,7 @@ class frag_listado : Fragment() {
         })
 
         searchView.setOnCloseListener {
-            if (elementLoaded.equals("conf", ignoreCase = true)) {
+            if (elementLoaded.equals("autores/neville/conf", ignoreCase = true)) {
                 spinnerFilter.performClick()
             }
             true
@@ -164,25 +164,26 @@ class frag_listado : Fragment() {
             val selectedItemText = parent.getItemAtPosition(position) as String
 
             when (elementLoaded) {
-                "conf" -> {
-                    FragContentWebView.elementLoaded = "conf"
+                "autores/neville/conf" -> {
+                    FragContentWebView.elementLoaded = "autores/neville/conf"
                     utilsFields.ID_Str_row_ofElementLoad = selectedItemText
-                    FragContentWebView.urlPath = "file:///android_asset/conf/$selectedItemText.txt"
+                    val confFileName = FragContentWebView.confAssetFileNameFromTitle(selectedItemText)
+                    FragContentWebView.urlPath = "file:///android_asset/autores/neville/conf/$confFileName.txt"
                     navController.navigate(R.id.frag_content_webview)
                 }
                 "preguntas" -> {
                     utilsFields.ID_Str_row_ofElementLoad = selectedItemText
-                    FragContentWebView.urlPath = "file:///android_asset/preg/$selectedItemText.txt"
+                    FragContentWebView.urlPath = "file:///android_asset/autores/neville/preg/$selectedItemText.txt"
                     navController.navigate(R.id.frag_content_webview)
                 }
                 "citasConferencias" -> {
                     utilsFields.ID_Str_row_ofElementLoad = selectedItemText
-                    FragContentWebView.urlPath = "file:///android_asset/cita/$selectedItemText.txt"
+                    FragContentWebView.urlPath = "file:///android_asset/autores/neville/cita/$selectedItemText.txt"
                     navController.navigate(R.id.frag_content_webview)
                 }
                 "ayudas" -> {
                     utilsFields.ID_Str_row_ofElementLoad = selectedItemText
-                    FragContentWebView.urlPath = "file:///android_asset/ayuda/$selectedItemText.txt"
+                    FragContentWebView.urlPath = "file:///android_asset/autores/neville/ayuda/$selectedItemText.txt"
                     navController.navigate(R.id.frag_content_webview)
                 }
             }
@@ -193,7 +194,7 @@ class frag_listado : Fragment() {
         super.onStart()
         MainActivity.currentInstance()?.let {
             it.ic_toolsBar_fav.setColorFilter(requireContext().resources.getColor(R.color.black, null))
-            it.ic_toolsBar_fav.visibility = if (elementLoaded.equals("conf", ignoreCase = true)) View.VISIBLE else View.GONE
+            it.ic_toolsBar_fav.visibility = if (elementLoaded.equals("autores/neville/conf", ignoreCase = true)) View.VISIBLE else View.GONE
             it.ic_toolsBar_frase_add.visibility = View.VISIBLE
         }
     }
@@ -201,9 +202,9 @@ class frag_listado : Fragment() {
     private fun GenerarListado() {
         val utils = Utils(requireContext())
         when (elementLoaded) {
-            "conf" -> listado = utilsDB.loadConferenciaList(requireContext()).toMutableList()
-            "preguntas" -> try { utils.listFilesInAssets("preg", listado) } catch (e: IOException) { e.printStackTrace() }
-            "citasConferencias" -> try { utils.listFilesInAssets("cita", listado) } catch (e: IOException) { e.printStackTrace() }
+            "autores/neville/conf" -> listado = utilsDB.loadConferenciaList(requireContext()).toMutableList()
+            "preguntas" -> try { utils.listFilesInAssets("autores/neville/preg", listado) } catch (e: IOException) { e.printStackTrace() }
+            "citasConferencias" -> try { utils.listFilesInAssets("autores/neville/cita", listado) } catch (e: IOException) { e.printStackTrace() }
             "ayudas" -> try { utils.listFilesInAssets("ayuda", listado) } catch (e: IOException) { e.printStackTrace() }
         }
     }

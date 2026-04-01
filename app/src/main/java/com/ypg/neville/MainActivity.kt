@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
+import android.os.Build
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
@@ -116,7 +117,11 @@ class MainActivity : AppCompatActivity() {
             override fun onUpdateAvailable(pUpdateAvailable: Boolean) {
                 if (pUpdateAvailable) {
                     val intentNotification = Intent(Intent.ACTION_VIEW, "market://details?id=$packageName".toUri())
-                    utils.show_Notification("Nueva actualización disponible!", intentNotification)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        utils.show_Notification("Nueva actualización disponible!", intentNotification)
+                    } else {
+                        Toast.makeText(this@MainActivity, "Nueva actualización disponible!", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         })
@@ -188,13 +193,13 @@ class MainActivity : AppCompatActivity() {
                 R.id.drawer_menu_biografia -> {
                     FragContentWebView.elementLoaded = "biografia"
                     FragContentWebView.extension = ".html"
-                    FragContentWebView.urlPath = "file:///android_asset/biog_quien es neville goddard.html"
+                    FragContentWebView.urlPath = "file:///android_asset/autores/neville/biografia/biografia.txt"
                     navController.navigate(R.id.frag_content_webview)
                 }
                 R.id.drawer_menu_galeriafotos -> {
                     FragContentWebView.elementLoaded = "galeriafotos"
                     FragContentWebView.extension = ".html"
-                    FragContentWebView.urlPath = "file:///android_asset/gale_Galeria de fotos.html"
+                    FragContentWebView.urlPath = "file:///android_asset/autores/neville/biografia/gale_Galeria de fotos.html"
                     navController.navigate(R.id.frag_content_webview)
                 }
                 R.id.drawer_menu_abdullah -> {
@@ -204,7 +209,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 R.id.drawer_menu_conferen_texto -> {
-                    frag_listado.elementLoaded = "conf"
+                    frag_listado.elementLoaded = "autores/neville/conf"
                     setBottomActive(R.id.nav_btn_conf)
                     navController.navigate(R.id.frag_listado)
                 }
@@ -242,8 +247,17 @@ class MainActivity : AppCompatActivity() {
                     frag_listado.elementLoaded = "ayudas"
                     navController.navigate(R.id.frag_listado)
                 }
+                R.id.drawer_menu_neville_autor -> {
+                    navController.navigate(R.id.frag_neville_goddard)
+                }
                 R.id.drawer_menu_gregg -> {
                     navController.navigate(R.id.frag_gregg)
+                }
+                R.id.drawer_menu_joe -> {
+                    navController.navigate(R.id.frag_joe_dispenza)
+                }
+                R.id.drawer_menu_bruce -> {
+                    navController.navigate(R.id.frag_bruce_lipton)
                 }
                 R.id.drawer_menu_audio_telegram -> {
                     if (Utils.isConnection(this)) {
@@ -372,7 +386,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupBottomNav() {
         navBtnConf.setOnClickListener {
             setBottomActive(R.id.nav_btn_conf)
-            frag_listado.elementLoaded = "conf"
+            frag_listado.elementLoaded = "autores/neville/conf"
             navController.navigate(R.id.frag_listado)
         }
 

@@ -78,20 +78,35 @@
             </group>
         </menu>
     </item>
-    <item android:title="@string/qu_dice_la_ciencia_actual">
+    <item android:title="@string/autores">
 
         <menu>
             <group>
                 <item
+                    android:id="@+id/drawer_menu_neville_autor"
+                    android:title="@string/neville_goddard"
+                    android:icon="@drawable/ic_item">
+                </item>
+                <item
                     android:id="@+id/drawer_menu_gregg"
                     android:title="@string/gregg_braden"
+                    android:icon="@drawable/ic_item">
+                </item>
+                <item
+                    android:id="@+id/drawer_menu_joe"
+                    android:title="@string/joe_dispenza"
+                    android:icon="@drawable/ic_item">
+                </item>
+                <item
+                    android:id="@+id/drawer_menu_bruce"
+                    android:title="@string/bruce_lipton"
                     android:icon="@drawable/ic_item">
                 </item>
             </group>
         </menu>
 
     </item>
-    <item android:title="Recursos externos">
+    <item android:title="@string/recursos_externos">
 
         <menu>
             <group>
