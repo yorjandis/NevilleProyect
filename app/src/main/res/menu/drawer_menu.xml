@@ -33,11 +33,6 @@
                 </item>
 
                 <item
-                    android:id="@+id/drawer_menu_conferen_video"
-                    android:title="@string/conferencias_en_videos"
-                    android:icon="@drawable/ic_video">
-                </item>
-                <item
                     android:id="@+id/drawer_menu_conferen_audio"
                     android:title="@string/conferencias_en_audios"
                     android:icon="@drawable/ic_audio">
@@ -45,29 +40,6 @@
             </group>
         </menu>
     </item>
-
-    <item android:title="@string/contenido_off_line">
-    <menu>
-        <group>
-            <item
-                android:id="@+id/drawer_menu_offline_videos"
-                android:title="@string/videos_off_line"
-                android:icon="@drawable/ic_video">
-            </item>
-            <item
-                android:id="@+id/drawer_menu_offline_audios"
-                android:title="@string/audios_off_line"
-                android:icon="@drawable/ic_audio">
-            </item>
-        </group>
-
-    </menu>
-
-    </item>
-
-
-
-
 
     <item android:title="@string/mas_contenidos">
 

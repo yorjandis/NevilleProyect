@@ -77,7 +77,7 @@
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="60dp"
+            android:layout_marginBottom="106dp"
             app:defaultNavHost="true"
             android:layout_marginTop="?attr/actionBarSize"
             app:layout_constraintEnd_toEndOf="parent"
@@ -88,31 +88,91 @@
 
 
         <!-- menú inferior -->
-
-        <com.ismaeldivita.chipnavigation.ChipNavigationBar
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/bottom_navigation_view"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@drawable/botton_shape"
-            app:cnb_iconSize="30dp"
-            app:cnb_menuResource="@menu/bottom_menu"
-            app:cnb_unselectedColor="@color/black"
+            android:layout_width="0dp"
+            android:layout_height="68dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginBottom="14dp"
+            android:backgroundTint="@android:color/transparent"
+            android:elevation="16dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="16dp"
+            app:cardUseCompatPadding="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:strokeColor="#44FFFFFF"
+            app:strokeWidth="1dp">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_test_notas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="80dp"
-            android:contentDescription="Abrir notas"
-            android:src="@drawable/ic_note"
-            app:backgroundTint="@color/light_blue_200"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:tint="@android:color/black" />
+            <LinearLayout
+                android:id="@+id/bottom_nav_inner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_floating_nav_metal"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp">
+
+                <ImageButton
+                    android:id="@+id/nav_btn_conf"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_nav_item_active"
+                    android:contentDescription="@string/nav_conferencias"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_conf"
+                    app:tint="#1E2A32" />
+
+                <ImageButton
+                    android:id="@+id/nav_btn_notas"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/nav_notas"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_note"
+                    app:tint="#2E3B44" />
+
+                <ImageButton
+                    android:id="@+id/nav_btn_home"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/nav_home"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_nav_home"
+                    app:tint="#2E3B44" />
+
+                <ImageButton
+                    android:id="@+id/nav_btn_diario"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/nav_diario"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_nav_journal"
+                    app:tint="#2E3B44" />
+
+                <ImageButton
+                    android:id="@+id/nav_btn_chat"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/nav_chat"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_nav_chat"
+                    app:tint="#2E3B44" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
 
 

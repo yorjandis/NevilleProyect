@@ -1,6 +1,5 @@
 package com.ypg.neville
 
-import android.Manifest
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.annotation.SuppressLint
@@ -10,12 +9,12 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -28,16 +27,10 @@ import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.preference.PreferenceManager
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.zxing.integration.android.IntentIntegrator
-import com.ismaeldivita.chipnavigation.ChipNavigationBar
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.MultiplePermissionsReport
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.ypg.neville.Ui.frag.frag_content_WebView
 import com.ypg.neville.Ui.frag.frag_home
 import com.ypg.neville.Ui.frag.frag_listado
@@ -48,15 +41,12 @@ import com.ypg.neville.model.utils.UiModalWindows
 import com.ypg.neville.model.utils.Utils
 import com.ypg.neville.model.utils.myListener_In_App_Update
 import com.ypg.neville.model.utils.utilsFields
-import com.ypg.neville.services.serviceStreaming
 
 class MainActivity : AppCompatActivity() {
 
-    var mservise: serviceStreaming? = null
-
     lateinit var drawerLayout: DrawerLayout
     lateinit var navigationView: NavigationView
-    lateinit var bottomNavigationView: ChipNavigationBar
+    lateinit var bottomNavigationView: MaterialCardView
     lateinit var toolbar: Toolbar
     lateinit var toggle: ActionBarDrawerToggle
 
@@ -70,7 +60,11 @@ class MainActivity : AppCompatActivity() {
     lateinit var ic_toolsBar_nota_add: ImageView
     lateinit var ic_toolsBar_frase_add: ImageView
     lateinit var ic_toolsBar_fav: ImageView
-    lateinit var fabTestNotas: FloatingActionButton
+    lateinit var navBtnConf: ImageButton
+    lateinit var navBtnNotas: ImageButton
+    lateinit var navBtnHome: ImageButton
+    lateinit var navBtnDiario: ImageButton
+    lateinit var navBtnChat: ImageButton
 
     val utils = Utils(this)
 
@@ -93,12 +87,16 @@ class MainActivity : AppCompatActivity() {
         ic_toolsBar_nota_add = findViewById(R.id.ic_toolbar_add_note)
         ic_toolsBar_frase_add = findViewById(R.id.ic_toolbar_add_frase)
         ic_toolsBar_fav = findViewById(R.id.ic_toolbar_fav)
-        fabTestNotas = findViewById(R.id.fab_test_notas)
 
         drawerLayout = findViewById(R.id.drawer_layout)
         navigationView = findViewById(R.id.nav_view)
         toolbar = findViewById(R.id.toolsbar)
         bottomNavigationView = findViewById(R.id.bottom_navigation_view)
+        navBtnConf = findViewById(R.id.nav_btn_conf)
+        navBtnNotas = findViewById(R.id.nav_btn_notas)
+        navBtnHome = findViewById(R.id.nav_btn_home)
+        navBtnDiario = findViewById(R.id.nav_btn_diario)
+        navBtnChat = findViewById(R.id.nav_btn_chat)
         frag_container = findViewById(R.id.frag_container)
 
         val navigationHeader = navigationView.getHeaderView(0)
@@ -159,10 +157,7 @@ class MainActivity : AppCompatActivity() {
             UiModalWindows.ApunteManager(this, "", null, false)
         }
 
-        fabTestNotas.setOnClickListener {
-            deselecItemBottom()
-            navController.navigate(R.id.frag_notas)
-        }
+        setupBottomNav()
 
         ic_toolsBar_fav.setOnClickListener {
             var result = ""
@@ -171,15 +166,6 @@ class MainActivity : AppCompatActivity() {
 
             if (fragName.contains("frag_content_WebView")) {
                 result = utilsDB.UpdateFavorito(this, DatabaseHelper.T_Conf, DatabaseHelper.C_conf_title, utilsFields.ID_Str_row_ofElementLoad, -1)
-            } else if (fragName.contains("frag_listado")) {
-                when (frag_listado.elementLoaded) {
-                    "video_conf", "video_book", "video_gredd" -> {
-                        result = utilsDB.UpdateFavorito(this, DatabaseHelper.T_Videos, DatabaseHelper.C_videos_title, utilsFields.ID_Str_row_ofElementLoad, -1)
-                    }
-                    "video_ext", "audio_ext" -> {
-                        result = utilsDB.UpdateFavorito(this, DatabaseHelper.T_Repo, DatabaseHelper.C_repo_title, utilsFields.ID_Str_row_ofElementLoad, -1)
-                    }
-                }
             }
 
             if (result != "") {
@@ -209,24 +195,13 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.drawer_menu_abdullah -> {
                     if (Utils.isConnection(this)) {
-                        frag_listado.elementLoaded = "play_youtube"
-                        frag_listado.urlPath = "mgbdcv606Rg"
-                        navController.navigate(R.id.frag_listado)
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=mgbdcv606Rg"))
+                        startActivity(intent)
                     }
                 }
                 R.id.drawer_menu_conferen_texto -> {
                     frag_listado.elementLoaded = "conf"
-                    bottomNavigationView.setItemSelected(R.id.bottom_menu_conf, true)
-                    navController.navigate(R.id.frag_listado)
-                }
-                R.id.drawer_menu_offline_videos -> {
-                    obtenerPermisos()
-                    frag_listado.elementLoaded = "video_ext"
-                    navController.navigate(R.id.frag_listado)
-                }
-                R.id.drawer_menu_offline_audios -> {
-                    obtenerPermisos()
-                    frag_listado.elementLoaded = "audio_ext"
+                    setBottomActive(R.id.nav_btn_conf)
                     navController.navigate(R.id.frag_listado)
                 }
                 R.id.drawer_menu_preguntas -> {
@@ -237,13 +212,6 @@ class MainActivity : AppCompatActivity() {
                     frag_listado.elementLoaded = "citasConferencias"
                     navController.navigate(R.id.frag_listado)
                 }
-                R.id.drawer_menu_conferen_video -> {
-                    if (Utils.isConnection(this)) {
-                        frag_listado.elementLoaded = "video_conf"
-                        bottomNavigationView.setItemSelected(R.id.bottom_menu_videos, true)
-                        navController.navigate(R.id.frag_listado)
-                    }
-                }
                 R.id.drawer_menu_conferen_audio -> {
                     if (Utils.isConnection(this)) {
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.ivoox.com/escuchar-neville-goddard_nq_102778_1.html"))
@@ -252,7 +220,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.drawer_menu_frases -> {
                     frag_home.elementLoaded_home = "frases"
-                    bottomNavigationView.setItemSelected(R.id.bottom_menu_citas, true)
+                    setBottomActive(null)
                     navController.navigate(R.id.frag_home)
                 }
                 R.id.drawer_menu_books -> {
@@ -263,9 +231,8 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.drawer_menu_audiobook -> {
                     if (Utils.isConnection(this)) {
-                        frag_listado.elementLoaded = "video_book"
-                        bottomNavigationView.setItemSelected(R.id.bottom_menu_books, true)
-                        navController.navigate(R.id.frag_listado)
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.ivoox.com/escuchar-neville-goddard_nq_102778_1.html"))
+                        startActivity(intent)
                     }
                 }
                 R.id.drawer_menu_ayudas -> {
@@ -334,36 +301,6 @@ class MainActivity : AppCompatActivity() {
             false
         }
 
-        bottomNavigationView.setOnItemSelectedListener(object : ChipNavigationBar.OnItemSelectedListener {
-            override fun onItemSelected(i: Int) {
-                when (i) {
-                    R.id.bottom_menu -> {
-                        drawerLayout.open()
-                        bottomNavigationView.setItemSelected(R.id.bottom_menu, false)
-                    }
-                    R.id.bottom_menu_conf -> {
-                        frag_listado.elementLoaded = "conf"
-                        navController.navigate(R.id.frag_listado)
-                    }
-                    R.id.bottom_menu_videos -> {
-                        if (Utils.isConnection(this@MainActivity)) {
-                            frag_listado.elementLoaded = "video_conf"
-                            navController.navigate(R.id.frag_listado)
-                        }
-                    }
-                    R.id.bottom_menu_books -> {
-                        if (Utils.isConnection(this@MainActivity)) {
-                            frag_listado.elementLoaded = "video_book"
-                            navController.navigate(R.id.frag_listado)
-                        }
-                    }
-                    R.id.bottom_menu_citas -> {
-                        frag_listado.elementLoaded = "frases"
-                        navController.navigate(R.id.frag_home)
-                    }
-                }
-            }
-        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -376,21 +313,6 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Error al leer el código QR", Toast.LENGTH_SHORT).show()
             }
             QRManager.Request_Code = false
-        }
-    }
-
-    private fun obtenerPermisos() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && !Environment.isExternalStorageManager()) {
-            Dexter.withContext(this)
-                .withPermissions(
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ).withListener(object : MultiplePermissionsListener {
-                    override fun onPermissionsChecked(report: MultiplePermissionsReport) {}
-                    override fun onPermissionRationaleShouldBeShown(permissions: List<PermissionRequest>, token: PermissionToken) {}
-                }).check()
-        } else {
-            Utils.CrearDirectoriosRepo(this)
         }
     }
 
@@ -444,10 +366,46 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun deselecItemBottom() {
-        bottomNavigationView.setItemSelected(R.id.bottom_menu_conf, false)
-        bottomNavigationView.setItemSelected(R.id.bottom_menu_books, false)
-        bottomNavigationView.setItemSelected(R.id.bottom_menu_citas, false)
-        bottomNavigationView.setItemSelected(R.id.bottom_menu_videos, false)
+        setBottomActive(null)
+    }
+
+    private fun setupBottomNav() {
+        navBtnConf.setOnClickListener {
+            setBottomActive(R.id.nav_btn_conf)
+            frag_listado.elementLoaded = "conf"
+            navController.navigate(R.id.frag_listado)
+        }
+
+        navBtnNotas.setOnClickListener {
+            setBottomActive(R.id.nav_btn_notas)
+            navController.navigate(R.id.frag_notas)
+        }
+
+        navBtnHome.setOnClickListener {
+            setBottomActive(R.id.nav_btn_home)
+            Toast.makeText(this, "Inicio próximamente", Toast.LENGTH_SHORT).show()
+        }
+
+        navBtnDiario.setOnClickListener {
+            setBottomActive(R.id.nav_btn_diario)
+            Toast.makeText(this, "Diario próximamente", Toast.LENGTH_SHORT).show()
+        }
+
+        navBtnChat.setOnClickListener {
+            setBottomActive(R.id.nav_btn_chat)
+            Toast.makeText(this, "Chat próximamente", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun setBottomActive(activeId: Int?) {
+        val buttons = listOf(navBtnConf, navBtnNotas, navBtnHome, navBtnDiario, navBtnChat)
+        buttons.forEach { button ->
+            val isActive = button.id == activeId
+            button.background = if (isActive) getDrawable(R.drawable.bg_nav_item_active) else null
+            button.imageAlpha = if (isActive) 255 else 185
+            button.scaleX = if (isActive) 1.06f else 1f
+            button.scaleY = if (isActive) 1.06f else 1f
+        }
     }
 
     private fun ProcesarQRCode(result: String?) {

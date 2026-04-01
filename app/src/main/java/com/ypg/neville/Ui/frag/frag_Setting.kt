@@ -5,13 +5,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
-import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.utils.ColorPickerManager
 import com.ypg.neville.model.utils.GetFromRepo
 import com.ypg.neville.model.utils.UiModalWindows
@@ -68,18 +66,6 @@ class frag_Setting : PreferenceFragmentCompat() {
         // Lleva a la página de proyecto, sección donar:
         findPreference<Preference>("donar")?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://projectsypg.mozello.com/donar/")))
-            false
-        }
-
-        // Permite indexar el contenido off-line manualmente:
-        findPreference<Preference>("index_offline")?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-            val aler = AlertDialog.Builder(requireContext())
-            aler.setTitle("Indexar el contenido off-line")
-            aler.setMessage("Se actualizará el índice de medios off-line de videos y audios en el almacenamiento externo. Utilizar si ha cambiado el contenido en esta carpeta")
-            aler.setPositiveButton("Indexar Contenido") { _, _ ->
-                utilsDB.indexOffLineMedios(requireContext())
-            }
-            aler.show()
             false
         }
 

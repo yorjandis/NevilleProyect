@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
 import com.ypg.neville.R
 
 // representa el contenido sobre gregg braden
@@ -38,8 +37,9 @@ class frag_gregg : Fragment() {
         }
 
         btn_videos.setOnClickListener {
-            frag_listado.elementLoaded = "video_gredd"
-            Navigation.findNavController(view).navigate(R.id.frag_listado)
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse("https://www.youtube.com/c/GreggBradenOfficial")
+            startActivity(i)
         }
 
         text_youtube.setOnClickListener {

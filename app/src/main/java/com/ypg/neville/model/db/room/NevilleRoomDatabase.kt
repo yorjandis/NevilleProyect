@@ -8,16 +8,14 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 @Database(
-    entities = [NotaEntity::class, FraseEntity::class, VideoEntity::class, RepoEntity::class, ConfEntity::class],
-    version = 2,
+    entities = [NotaEntity::class, FraseEntity::class, ConfEntity::class],
+    version = 3,
     exportSchema = false
 )
 abstract class NevilleRoomDatabase : RoomDatabase() {
 
     abstract fun notaDao(): NotaDao
     abstract fun fraseDao(): FraseDao
-    abstract fun videoDao(): VideoDao
-    abstract fun repoDao(): RepoDao
     abstract fun confDao(): ConfDao
 
     companion object {
@@ -40,19 +38,6 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
                 database.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_frases_frase` ON `frases` (`frase`)")
 
                 database.execSQL(
-                    "CREATE TABLE IF NOT EXISTS `videos` (" +
-                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-                        "`title` TEXT NOT NULL, " +
-                        "`link` TEXT NOT NULL, " +
-                        "`type` TEXT NOT NULL, " +
-                        "`fav` TEXT NOT NULL, " +
-                        "`nota` TEXT NOT NULL, " +
-                        "`shared` TEXT NOT NULL)"
-                )
-                database.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_videos_title` ON `videos` (`title`)")
-                database.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_videos_link` ON `videos` (`link`)")
-
-                database.execSQL(
                     "CREATE TABLE IF NOT EXISTS `repo` (" +
                         "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                         "`title` TEXT NOT NULL, " +
@@ -64,6 +49,19 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
                 )
                 database.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_repo_title` ON `repo` (`title`)")
                 database.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_repo_link` ON `repo` (`link`)")
+
+                database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `videos` (" +
+                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`title` TEXT NOT NULL, " +
+                        "`link` TEXT NOT NULL, " +
+                        "`type` TEXT NOT NULL, " +
+                        "`fav` TEXT NOT NULL, " +
+                        "`nota` TEXT NOT NULL, " +
+                        "`shared` TEXT NOT NULL)"
+                )
+                database.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_videos_title` ON `videos` (`title`)")
+                database.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_videos_link` ON `videos` (`link`)")
 
                 database.execSQL(
                     "CREATE TABLE IF NOT EXISTS `conf` (" +
@@ -79,6 +77,13 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("DROP TABLE IF EXISTS `videos`")
+                database.execSQL("DROP TABLE IF EXISTS `repo`")
+            }
+        }
+
         fun getInstance(context: Context): NevilleRoomDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
@@ -86,7 +91,7 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
                     NevilleRoomDatabase::class.java,
                     "neville_room.db"
                 )
-                    .addMigrations(MIGRATION_1_2)
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                     .allowMainThreadQueries()
                     .build()
                 INSTANCE = instance

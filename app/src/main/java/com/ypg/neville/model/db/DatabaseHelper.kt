@@ -9,8 +9,6 @@ object DatabaseHelper {
 
     // Tablas
     const val T_Frases = "frases"
-    const val T_Videos = "videos"
-    const val T_Repo = "repo"
     const val T_Conf = "conf"
     const val T_Apuntes = "notas"
 
@@ -25,18 +23,6 @@ object DatabaseHelper {
     const val C_frases_fuente = "fuente"
     const val C_frases_in_built = "inbuild"
     const val C_frases_shared = "shared"
-
-    // videos
-    const val C_videos_title = "title"
-    const val C_videos_link = "link"
-    const val C_videos_type = "type"
-    const val C_videos_shared = "shared"
-
-    // repo
-    const val C_repo_title = "title"
-    const val C_repo_link = "link"
-    const val C_repo_type = "type"
-    const val C_repo_shared = "shared"
 
     // conf
     const val C_conf_title = "title"

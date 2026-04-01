@@ -72,23 +72,6 @@
 
 </LinearLayout>
 
-
-    <VideoView
-        android:id="@+id/fraglist_videoView"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:fitsSystemWindows="true"
-        android:layout_gravity="center"
-        android:visibility="gone"/>
-
-    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-        android:id="@+id/fraglist_videoplayer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:visibility="gone"/>
-
-
     <ListView
         android:id="@+id/frag_listado_list1"
         android:layout_width="match_parent"

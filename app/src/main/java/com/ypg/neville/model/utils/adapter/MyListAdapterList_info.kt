@@ -56,9 +56,7 @@ class MyListAdapterList_info(context: Context, private val layout: Int, objects:
                 utilsFields.spinnerListInfoItemSelected == "Frases inbuilt favoritas" ||
                 utilsFields.spinnerListInfoItemSelected == "Frases inbuilt con notas" ||
                 utilsFields.spinnerListInfoItemSelected == "Conferencias favoritas" ||
-                utilsFields.spinnerListInfoItemSelected == "Conferencias con notas" ||
-                utilsFields.spinnerListInfoItemSelected == "Videos inbuilt favoritos" ||
-                utilsFields.spinnerListInfoItemSelected == "Videos inbuilt con notas") {
+                utilsFields.spinnerListInfoItemSelected == "Conferencias con notas") {
                 return@setOnClickListener
             }
 

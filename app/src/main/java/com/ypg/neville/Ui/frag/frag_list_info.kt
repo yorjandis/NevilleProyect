@@ -11,7 +11,6 @@ import android.widget.AdapterView
 import android.widget.ImageButton
 import android.widget.ListView
 import android.widget.Spinner
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
@@ -21,7 +20,6 @@ import com.ypg.neville.R
 import com.ypg.neville.model.db.DatabaseHelper
 import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.utils.UiModalWindows
-import com.ypg.neville.model.utils.Utils
 import com.ypg.neville.model.utils.adapter.MyListAdapterList_info
 import com.ypg.neville.model.utils.balloon.HelpBalloon
 import com.ypg.neville.model.utils.utilsFields
@@ -77,12 +75,6 @@ class frag_list_info : Fragment() {
                 "Conferencias favoritas", "Conferencias con notas" -> {
                     UiModalWindows.NotaManager(requireContext(), utilsDB.getConfNota(requireContext(), itemText), DatabaseHelper.T_Conf, DatabaseHelper.C_conf_title, itemText)
                 }
-                "Videos inbuilt favoritos", "Videos inbuilt con notas" -> {
-                    UiModalWindows.NotaManager(requireContext(), utilsDB.getVideoNota(requireContext(), itemText), DatabaseHelper.T_Videos, DatabaseHelper.C_videos_title, itemText)
-                }
-                "Videos offline favoritos", "Videos offline con notas" -> {
-                    UiModalWindows.NotaManager(requireContext(), utilsDB.getRepoNota(requireContext(), itemText), DatabaseHelper.T_Repo, DatabaseHelper.C_repo_title, itemText)
-                }
             }
             true
         }
@@ -114,18 +106,6 @@ class frag_list_info : Fragment() {
                     frag_content_WebView.urlDirAssets = "conf"
                     frag_content_WebView.urlPath = "file:///android_asset/${frag_content_WebView.urlDirAssets}/$itemText${frag_content_WebView.extension}"
                     navController.navigate(R.id.frag_content_webview)
-                }
-                "Videos inbuilt favoritos", "Videos inbuilt con notas" -> {
-                    if (Utils.isConnection(requireContext())) {
-                        frag_listado.elementLoaded = "play_youtube"
-                        val temp = utilsDB.getVideoLinkByTitle(requireContext(), itemText)
-                        if (temp.isNotEmpty()) {
-                            frag_listado.urlPath = temp
-                            navController.navigate(R.id.frag_listado)
-                        } else {
-                            Toast.makeText(context, "Error al cargar el video", Toast.LENGTH_SHORT).show()
-                        }
-                    }
                 }
                 "Apuntes" -> {
                     UiModalWindows.ApunteManager(requireContext(), itemText, null, true)

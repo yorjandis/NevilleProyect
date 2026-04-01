@@ -10,11 +10,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.os.Build
-import android.os.Environment
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import com.ypg.neville.model.db.utilsDB
-import com.ypg.neville.services.serviceStreaming
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
@@ -57,73 +53,13 @@ class Utils(private val context: Context) {
             return isConnected
         }
 
-        /**
-         * Inicia el servicio de streaming reproduciendo un medio en particular (solo para medios offline)
-         * @param context contexto
-         * @param repoDir nombre del directorio repo
-         * @param ItemName nombre del fichero a reproducir
-         */
-        @JvmStatic
-        fun playInStreaming(context: Context, repoDir: String, ItemName: String) {
-            val intent = Intent(context, serviceStreaming::class.java)
-            context.applicationContext.stopService(intent) // detiene el servicio
-
-            intent.action = "play_medio"
-            intent.putExtra("file", utilsFields.PATH_ROOT_REPO + repoDir + File.separator + ItemName)
-            intent.putExtra("title", ItemName)
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                context.startForegroundService(intent)
-            } else {
-                context.startService(intent)
-            }
-        }
-
-        // Carga el contenido de los directorios externos. Genera el listado para los archivos en las carpetas "videos" y "audios"
-        @JvmStatic
-        fun loadRepo(context: Context) {
-            val alert = AlertDialog.Builder(context)
-            alert.setTitle("Indexar el contenido offline")
-            alert.setMessage(" Utilize esta opción Si ha cambiado el contenido en la carpeta NevilleRepo en su almacenamiento externo")
-            alert.setPositiveButton("Actualizar") { _, _ ->
-                utilsDB.popularDB_Repo(context) // Actualiza la tabla repo con el nuevo contenido en las carpetas del sistema
-                Toast.makeText(context, "El contenido se ha actualizado", Toast.LENGTH_SHORT).show()
-            }
-            alert.show()
-        }
-
         // Devuelve una cadena legible de elementos que pueden tener una nota asociada
         @JvmStatic
         fun getElementLoad(key: String): String {
             return when (key) {
                 "frases" -> "Esta frase"
                 "conf" -> "Esta Conferencia"
-                "video_conf" -> "Este Video Conferencia"
-                "video_gredd" -> "Video gregg"
-                "video_book" -> "Este Audio libro"
-                "video_ext" -> "Este video offline"
-                "audio_ext" -> "Este Audio offline"
                 else -> ""
-            }
-        }
-
-        // Crear la estructura de directorios
-        @JvmStatic
-        fun CrearDirectoriosRepo(pcontext: Context) {
-            // Creando la estructura de directorios en el almacenamiento externo, Si no existe
-            val path = Environment.getExternalStoragePublicDirectory(utilsFields.REPO_DIR_ROOT).toString() + File.separator + utilsFields.REPO_DIR_VIDEOS
-            val file = File(path)
-            if (!file.exists()) {
-                if (!file.mkdirs()) {
-                    Toast.makeText(pcontext, "Directorio Videos NO creado", Toast.LENGTH_SHORT).show()
-                }
-            }
-            val path2 = Environment.getExternalStoragePublicDirectory(utilsFields.REPO_DIR_ROOT).toString() + File.separator + utilsFields.REPO_DIR_AUDIOS
-            val file2 = File(path2)
-            if (!file2.exists()) {
-                if (!file2.mkdirs()) {
-                    Toast.makeText(pcontext, "Directorio Audios NO creado", Toast.LENGTH_SHORT).show()
-                }
             }
         }
 

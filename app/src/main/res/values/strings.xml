@@ -16,7 +16,6 @@
     <string name="quien_fue_el_maestro_de_neville">Quien fue el maestro de neville</string>
     <string name="conferencias">Conferencias</string>
     <string name="conferencias_en_texto">Conferencias en Texto</string>
-    <string name="conferencias_en_videos">Conferencias en Videos</string>
     <string name="conferencias_en_audios">Conferencias en Audios</string>
     <string name="mas_contenidos">-Mas contenidos-</string>
     <string name="descargar_libros_de_neville">Descargar Libros de Neville</string>
@@ -84,9 +83,6 @@
     <string name="filtrar">Filtrar:</string>
     <string name="nota_asociada">Nota Asociada</string>
     <string name="nuevo_apunte">Nuevo apunte</string>
-    <string name="contenido_off_line">Contenido off-line</string>
-    <string name="videos_off_line">Videos</string>
-    <string name="audios_off_line">Audios</string>
     <string name="actualizar_contenido">Actualizar contenido local</string>
     <string name="recomendar_app">Recomendar App</string>
     <string name="ok">OK</string>
@@ -110,9 +106,6 @@
 
         <item>Conferencias favoritas</item>
         <item>Conferencias con notas</item>
-
-        <item>Videos inbuilt favoritos</item>
-        <item>Videos inbuilt con notas</item>
 
         <item>Apuntes</item>
     </string-array>
@@ -146,18 +139,20 @@
         "La version actual cuenta con las siguientes características: \n\n"
         "*301 conferencias de neville, en texto\n\n"
         "*231 frases de neville\n\n"
-        "*123 Videos conferencias\n\n"
-        "*10 Audiolibros\n\n"
         "*33 citas de conferencias\n\n"
         "*37 preguntas y respuestas de neville\n\n"
         "*Posibilidad de adicionar nuestras propias frases y de compartirlas\n\n"
-        "*Acceso a contenido offline (Audios y videos), en el almacenamiento externo\n\n"
         "*Acceso a contenido online\n\n"
         "*Personalización del tema y del contenido\n\n"
     "En vosotros mora el espíritu del Dios viviente!" </string>
     <string name="img">img</string>
     <string name="audios_neville_en_telegram_ii">Audios neville en Telegram II</string>
     <string name="canal_telegram_neville_para_todos">Canal Telegram Neville Para Todos</string>
+    <string name="nav_conferencias">Conferencias</string>
+    <string name="nav_notas">Notas</string>
+    <string name="nav_home">Inicio</string>
+    <string name="nav_diario">Diario</string>
+    <string name="nav_chat">Chat</string>
 
 
 </resources>

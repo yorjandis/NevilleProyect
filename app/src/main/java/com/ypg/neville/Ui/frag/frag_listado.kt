@@ -3,8 +3,6 @@ package com.ypg.neville.Ui.frag
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,36 +10,25 @@ import android.widget.AdapterView
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.ListView
-import android.widget.MediaController
 import android.widget.SearchView
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
-import android.widget.VideoView
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.preference.PreferenceManager
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerCallback
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
-import com.ypg.neville.model.db.DatabaseHelper
 import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.utils.Utils
 import com.ypg.neville.model.utils.adapter.MyListAdapterItemsList
 import com.ypg.neville.model.utils.balloon.HelpBalloon
 import com.ypg.neville.model.utils.utilsFields
-import java.io.File
 import java.io.IOException
 import java.util.LinkedList
 
 class frag_listado : Fragment() {
 
-    private lateinit var playerView: YouTubePlayerView
-    private var player: YouTubePlayer? = null
-    private lateinit var videoView: VideoView
     private lateinit var listView: ListView
     private var myListAdapterItemsList: MyListAdapterItemsList? = null
     private lateinit var mostrar_opciones: TextView
@@ -52,7 +39,6 @@ class frag_listado : Fragment() {
     private lateinit var ayudaContextual: ImageButton
 
     private var listado: MutableList<String> = LinkedList()
-    private val listadoUrlVideos: MutableList<String> = LinkedList()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.frag_listado, container, false)
@@ -62,13 +48,11 @@ class frag_listado : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         listView = view.findViewById(R.id.frag_listado_list1)
-        playerView = view.findViewById(R.id.fraglist_videoplayer)
         mostrar_opciones = view.findViewById(R.id.text_fraglist_showoptions)
         linearLayout = view.findViewById(R.id.layout_fraglistado_option)
         spinnerFilter = view.findViewById(R.id.spinner_fraglistado)
         searchView = view.findViewById(R.id.searchView_fraglistado)
         searchViewConf = view.findViewById(R.id.searchView_conf_fraglistado)
-        videoView = view.findViewById(R.id.fraglist_videoView)
         ayudaContextual = view.findViewById(R.id.frag_listado_ayuda)
 
         if (PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean("help_inline", true)) {
@@ -78,34 +62,20 @@ class frag_listado : Fragment() {
         }
         ayudaContextual.setOnClickListener { ShowAyudaContextual(requireContext()) }
 
-        playerView.layoutParams.height = 0
-        playerView.requestLayout()
-        playerView.visibility = View.VISIBLE
+        if (elementLoaded.equals("conf", ignoreCase = true)) {
+            mostrar_opciones.visibility = View.VISIBLE
+            searchViewConf.visibility = View.VISIBLE
+            spinnerFilter.visibility = View.VISIBLE
+        } else {
+            mostrar_opciones.visibility = View.GONE
+            linearLayout.visibility = View.GONE
+            searchViewConf.visibility = View.GONE
+            spinnerFilter.visibility = View.GONE
+        }
+
+        GenerarListado()
 
         val navController = Navigation.findNavController(view)
-
-        playerView.getYouTubePlayerWhenReady(object : YouTubePlayerCallback {
-            override fun onYouTubePlayer(youTubePlayer: YouTubePlayer) {
-                player = youTubePlayer
-            }
-        })
-
-        if (elementLoaded.contains("play_youtube")) {
-            mostrar_opciones.visibility = View.INVISIBLE
-            ManagerPlayVideo(urlPath)
-        } else if (elementLoaded.contains("play_video_repo")) {
-            mostrar_opciones.visibility = View.INVISIBLE
-            ManagerPlayVideo(urlPath)
-        } else {
-            mostrar_opciones.visibility = View.VISIBLE
-            GenerarListado()
-        }
-
-        if (elementLoaded.equals("conf", ignoreCase = true)) {
-            searchViewConf.visibility = View.VISIBLE
-        } else {
-            searchViewConf.visibility = View.GONE
-        }
 
         myListAdapterItemsList = MyListAdapterItemsList(requireContext(), R.layout.row_list_item, listado)
         listView.adapter = myListAdapterItemsList
@@ -122,45 +92,23 @@ class frag_listado : Fragment() {
 
         spinnerFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>, view: View?, position: Int, l: Long) {
+                if (!elementLoaded.equals("conf", ignoreCase = true)) return
+
                 val itemSelected = adapterView.selectedItem.toString()
                 myListAdapterItemsList?.clear()
 
                 when (itemSelected) {
                     "Todas" -> {
                         listado.clear()
-                        listado.addAll(
-                            when (elementLoaded) {
-                                "conf" -> utilsDB.getAllConfTitles(requireContext())
-                                "video_conf" -> utilsDB.getAllVideoTitles(requireContext())
-                                "video_ext" -> utilsDB.getRepoTitlesByType(requireContext(), "video")
-                                "audio_ext" -> utilsDB.getRepoTitlesByType(requireContext(), "audio")
-                                "video_gredd" -> utilsDB.getVideoTitlesByType(requireContext(), "gregg")
-                                else -> emptyList()
-                            }
-                        )
+                        listado.addAll(utilsDB.getAllConfTitles(requireContext()))
                     }
                     "Favoritos" -> {
                         listado.clear()
-                        listado.addAll(
-                            when (elementLoaded) {
-                                "conf" -> utilsDB.getListadoTitles(requireContext(), "Conferencias favoritas")
-                                "video_conf" -> utilsDB.getListadoTitles(requireContext(), "Videos inbuilt favoritos")
-                                "video_ext" -> utilsDB.getListadoTitles(requireContext(), "Videos offline favoritos")
-                                "audio_ext" -> utilsDB.getListadoTitles(requireContext(), "Audios offline favoritos")
-                                "video_gredd" -> utilsDB.getListadoTitles(requireContext(), "Videos gregg favoritos")
-                                else -> emptyList()
-                            }
-                        )
+                        listado.addAll(utilsDB.getListadoTitles(requireContext(), "Conferencias favoritas"))
                     }
                     "Con notas" -> {
                         listado.clear()
-                        listado.addAll(
-                            when (elementLoaded) {
-                                "conf" -> utilsDB.getListadoTitles(requireContext(), "Conferencias con notas")
-                                "video_conf" -> utilsDB.getListadoTitles(requireContext(), "Videos inbuilt con notas")
-                                else -> emptyList()
-                            }
-                        )
+                        listado.addAll(utilsDB.getListadoTitles(requireContext(), "Conferencias con notas"))
                     }
                 }
                 myListAdapterItemsList?.notifyDataSetChanged()
@@ -181,7 +129,9 @@ class frag_listado : Fragment() {
         })
 
         searchView.setOnCloseListener {
-            spinnerFilter.performClick()
+            if (elementLoaded.equals("conf", ignoreCase = true)) {
+                spinnerFilter.performClick()
+            }
             true
         }
 
@@ -213,18 +163,8 @@ class frag_listado : Fragment() {
 
         listView.onItemClickListener = AdapterView.OnItemClickListener { parent, _, position, _ ->
             val selectedItemText = parent.getItemAtPosition(position) as String
-            playerView.visibility = View.GONE
-            videoView.visibility = View.GONE
 
             when (elementLoaded) {
-                "video_gredd", "video_conf", "video_book" -> {
-                    if (Utils.isConnection(requireContext())) {
-                        playerView.visibility = View.VISIBLE
-                        utilsFields.ID_Str_row_ofElementLoad = selectedItemText
-                        playVideo(utilsDB.getVideoLinkByTitle(requireContext(), selectedItemText))
-                        handlefavState()
-                    }
-                }
                 "conf" -> {
                     frag_content_WebView.elementLoaded = "conf"
                     utilsFields.ID_Str_row_ofElementLoad = selectedItemText
@@ -246,70 +186,7 @@ class frag_listado : Fragment() {
                     frag_content_WebView.urlPath = "file:///android_asset/ayuda/$selectedItemText.txt"
                     navController.navigate(R.id.frag_content_webview)
                 }
-                "video_ext" -> {
-                    if (PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean("play_video_background", false)) {
-                        Utils.playInStreaming(requireContext(), utilsFields.REPO_DIR_VIDEOS, selectedItemText)
-                    } else {
-                        videoView.visibility = View.VISIBLE
-                        playRepo(utilsFields.REPO_DIR_VIDEOS, selectedItemText)
-                    }
-                }
-                "audio_ext" -> {
-                    if (PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean("play_audio_background", false)) {
-                        Utils.playInStreaming(requireContext(), utilsFields.REPO_DIR_AUDIOS, selectedItemText)
-                    } else {
-                        videoView.visibility = View.VISIBLE
-                        playRepo(utilsFields.REPO_DIR_AUDIOS, selectedItemText)
-                    }
-                }
             }
-        }
-    }
-
-    private fun ManagerPlayVideo(urlVideo: String) {
-        if (urlVideo.isNotEmpty()) {
-            Handler(Looper.getMainLooper()).postDelayed({
-                when (elementLoaded) {
-                    "play_youtube", "video_conf" -> {
-                        playerView.visibility = View.VISIBLE
-                        videoView.visibility = View.GONE
-                        playVideo(urlVideo)
-                    }
-                    "video_ext", "play_video_repo" -> {
-                        playerView.visibility = View.GONE
-                        videoView.visibility = View.VISIBLE
-                        playRepo(utilsFields.REPO_DIR_VIDEOS, urlVideo)
-                    }
-                }
-            }, 1300)
-        }
-    }
-
-    private fun playVideo(urlVideo: String) {
-        playerView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-        playerView.requestLayout()
-        player?.loadVideo(urlVideo, 0f)
-
-        MainActivity.mainActivityThis?.let {
-            if (!it.isFinishing) {
-                it.ic_toolsBar_fav.visibility = View.VISIBLE
-                val favstate = utilsDB.readFavState(requireContext(), DatabaseHelper.T_Videos, DatabaseHelper.C_videos_link, utilsFields.ID_Str_row_ofElementLoad)
-                it.setFavColor(favstate)
-            }
-        }
-    }
-
-    private fun playRepo(RepoDir: String, urlVideo: String) {
-        utilsFields.ID_Str_row_ofElementLoad = urlVideo
-        videoView.setVideoPath("/sdcard/${utilsFields.REPO_DIR_ROOT}/$RepoDir/$urlVideo")
-        videoView.setMediaController(MediaController(requireContext()))
-        videoView.requestFocus()
-        videoView.start()
-
-        MainActivity.mainActivityThis?.let {
-            it.ic_toolsBar_fav.visibility = View.VISIBLE
-            val favstate = utilsDB.readFavState(requireContext(), DatabaseHelper.T_Repo, DatabaseHelper.C_repo_title, utilsFields.ID_Str_row_ofElementLoad)
-            it.setFavColor(favstate)
         }
     }
 
@@ -317,20 +194,9 @@ class frag_listado : Fragment() {
         super.onStart()
         MainActivity.mainActivityThis?.let {
             it.ic_toolsBar_fav.setColorFilter(requireContext().resources.getColor(R.color.black, null))
-            it.ic_toolsBar_fav.visibility = View.GONE
+            it.ic_toolsBar_fav.visibility = if (elementLoaded.equals("conf", ignoreCase = true)) View.VISIBLE else View.GONE
             it.ic_toolsBar_frase_add.visibility = View.VISIBLE
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        playerView.layoutParams.height = 0
-        playerView.requestLayout()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        playerView.release()
     }
 
     private fun GenerarListado() {
@@ -339,18 +205,8 @@ class frag_listado : Fragment() {
             "conf" -> listado = utilsDB.loadConferenciaList(requireContext()).toMutableList()
             "preguntas" -> try { utils.listFilesInAssets("preg", listado) } catch (e: IOException) { e.printStackTrace() }
             "citasConferencias" -> try { utils.listFilesInAssets("cita", listado) } catch (e: IOException) { e.printStackTrace() }
-            "video_conf" -> utilsDB.LoadVideoList(requireContext(), "conf", listadoUrlVideos, listado)
-            "video_book" -> utilsDB.LoadVideoList(requireContext(), "audioLibro", listadoUrlVideos, listado)
             "ayudas" -> try { utils.listFilesInAssets("ayuda", listado) } catch (e: IOException) { e.printStackTrace() }
-            "video_gredd" -> utilsDB.LoadVideoList(requireContext(), "gregg", listadoUrlVideos, listado)
-            "video_ext" -> if (utilsDB.LoadRepoFromDB(requireContext(), "video", listado) == 0) Utils.loadRepo(requireContext())
-            "audio_ext" -> if (utilsDB.LoadRepoFromDB(requireContext(), "audio", listado) == 0) Utils.loadRepo(requireContext())
         }
-    }
-
-    private fun handlefavState() {
-        val favState = utilsDB.readFavState(requireContext(), DatabaseHelper.T_Videos, DatabaseHelper.C_videos_title, utilsFields.ID_Str_row_ofElementLoad)
-        MainActivity.mainActivityThis?.setFavColor(favState)
     }
 
     @SuppressLint("SuspiciousIndentation")

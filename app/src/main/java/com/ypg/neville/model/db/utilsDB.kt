@@ -2,26 +2,14 @@ package com.ypg.neville.model.db
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
-import android.os.Environment
-import android.os.Handler
-import android.os.Looper
-import android.widget.Toast
-import androidx.preference.PreferenceManager
-import com.ypg.neville.MainActivity
-import com.ypg.neville.R
 import com.ypg.neville.model.db.room.ConfEntity
 import com.ypg.neville.model.db.room.FraseEntity
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
 import com.ypg.neville.model.db.room.NotaEntity
-import com.ypg.neville.model.db.room.RepoEntity
-import com.ypg.neville.model.db.room.VideoEntity
 import com.ypg.neville.model.utils.GetFromRepo
-import com.ypg.neville.model.utils.utilsFields
-import java.io.File
 import java.io.IOException
 import java.util.LinkedList
 import java.util.concurrent.Executors
-import java.util.concurrent.atomic.AtomicInteger
 
 // Clase que se encarga de realizar operaciones específicas y de ayuda a la BD
 object utilsDB {
@@ -62,16 +50,6 @@ object utilsDB {
 
             if (tableExists(legacyDb, DatabaseHelper.T_Conf) && room.confDao().count() == 0) {
                 room.confDao().insertAll(readLegacyConf(legacyDb))
-                migratedAny = true
-            }
-
-            if (tableExists(legacyDb, DatabaseHelper.T_Videos) && room.videoDao().count() == 0) {
-                room.videoDao().insertAll(readLegacyVideos(legacyDb))
-                migratedAny = true
-            }
-
-            if (tableExists(legacyDb, DatabaseHelper.T_Repo) && room.repoDao().getAll().isEmpty()) {
-                room.repoDao().insertAll(readLegacyRepo(legacyDb))
                 migratedAny = true
             }
 
@@ -124,46 +102,6 @@ object utilsDB {
                         nota = c.getString(5) ?: "",
                         inbuild = c.getString(6) ?: "0",
                         shared = c.getString(7) ?: "0"
-                    )
-                )
-            }
-        }
-        return list
-    }
-
-    private fun readLegacyVideos(db: SQLiteDatabase): List<VideoEntity> {
-        val list = mutableListOf<VideoEntity>()
-        db.rawQuery("SELECT id, title, link, type, fav, nota, shared FROM videos", null).use { c ->
-            while (c.moveToNext()) {
-                list.add(
-                    VideoEntity(
-                        id = c.getLong(0),
-                        title = c.getString(1) ?: "",
-                        link = c.getString(2) ?: "",
-                        type = c.getString(3) ?: "",
-                        fav = c.getString(4) ?: "0",
-                        nota = c.getString(5) ?: "",
-                        shared = c.getString(6) ?: "0"
-                    )
-                )
-            }
-        }
-        return list
-    }
-
-    private fun readLegacyRepo(db: SQLiteDatabase): List<RepoEntity> {
-        val list = mutableListOf<RepoEntity>()
-        db.rawQuery("SELECT id, title, link, type, fav, nota, shared FROM repo", null).use { c ->
-            while (c.moveToNext()) {
-                list.add(
-                    RepoEntity(
-                        id = c.getLong(0),
-                        title = c.getString(1) ?: "",
-                        link = c.getString(2) ?: "",
-                        type = c.getString(3) ?: "",
-                        fav = c.getString(4) ?: "0",
-                        nota = c.getString(5) ?: "",
-                        shared = c.getString(6) ?: "0"
                     )
                 )
             }
@@ -228,67 +166,6 @@ object utilsDB {
     }
 
     /**
-     * Pasa la información de videos de xml a la tabla videos (Room)
-     */
-    @JvmStatic
-    fun yor_populateVideosTable(context: Context) {
-        val dao = db(context).videoDao()
-        dao.clearAll()
-
-        val videos = mutableListOf<VideoEntity>()
-
-        for (video in GetFromRepo.getUrlsVideosFromXML(context)) {
-            val temp = video.split("::")
-            if (temp.size >= 2) {
-                videos.add(
-                    VideoEntity(
-                        title = temp[1],
-                        link = temp[0],
-                        type = "conf",
-                        fav = "0",
-                        nota = "",
-                        shared = "0"
-                    )
-                )
-            }
-        }
-
-        for (audioLibro in context.resources.getStringArray(R.array.list_audiolibros)) {
-            val temp = audioLibro.split("::")
-            if (temp.size >= 2) {
-                videos.add(
-                    VideoEntity(
-                        title = temp[1],
-                        link = temp[0],
-                        type = "audioLibro",
-                        fav = "0",
-                        nota = "",
-                        shared = "0"
-                    )
-                )
-            }
-        }
-
-        for (videoGregg in context.resources.getStringArray(R.array.list_gregg_videos)) {
-            val temp = videoGregg.split("::")
-            if (temp.size >= 2) {
-                videos.add(
-                    VideoEntity(
-                        title = temp[1],
-                        link = temp[0],
-                        type = "gregg",
-                        fav = "0",
-                        nota = "",
-                        shared = "0"
-                    )
-                )
-            }
-        }
-
-        dao.insertAll(videos)
-    }
-
-    /**
      * Pasa conferencias inbuilt a tabla conf (Room)
      */
     @JvmStatic
@@ -341,144 +218,7 @@ object utilsDB {
             result = true
         }
 
-        if (room.videoDao().count() == 0) {
-            yor_populateVideosTable(context)
-            result = true
-        }
-
         return result
-    }
-
-    /**
-     * Actualiza la tabla repo desde almacenamiento externo
-     */
-    @JvmStatic
-    fun popularDB_Repo(context: Context) {
-        val countAudios = AtomicInteger()
-        val countVideos = AtomicInteger()
-
-        val executor = Executors.newSingleThreadExecutor()
-        val handler = Handler(Looper.getMainLooper())
-        executor.execute {
-            val repoDao = db(context).repoDao()
-            repoDao.clearAll()
-
-            val dirPathVideos = Environment.getExternalStorageDirectory().toString() +
-                File.separator + utilsFields.REPO_DIR_ROOT + File.separator + utilsFields.REPO_DIR_VIDEOS
-            val dirPathAudios = Environment.getExternalStorageDirectory().toString() +
-                File.separator + utilsFields.REPO_DIR_ROOT + File.separator + utilsFields.REPO_DIR_AUDIOS
-
-            val filesVideos = File(dirPathVideos).listFiles()
-            val filesAudios = File(dirPathAudios).listFiles()
-
-            val toInsert = mutableListOf<RepoEntity>()
-
-            if (filesVideos != null && filesVideos.isNotEmpty()) {
-                countVideos.addAndGet(filesVideos.size)
-                for (file in filesVideos) {
-                    val title = file.name
-                    toInsert.add(
-                        RepoEntity(
-                            title = title,
-                            link = title,
-                            type = "video",
-                            fav = "0",
-                            nota = "",
-                            shared = "0"
-                        )
-                    )
-                }
-            }
-
-            if (filesAudios != null && filesAudios.isNotEmpty()) {
-                countAudios.addAndGet(filesAudios.size)
-                for (file in filesAudios) {
-                    val title = file.name
-                    toInsert.add(
-                        RepoEntity(
-                            title = title,
-                            link = title,
-                            type = "audio",
-                            fav = "0",
-                            nota = "",
-                            shared = "0"
-                        )
-                    )
-                }
-            }
-
-            if (toInsert.isNotEmpty()) {
-                repoDao.insertAll(toInsert)
-            }
-
-            if (context is MainActivity && context.isFinishing) return@execute
-
-            handler.post {
-                Toast.makeText(
-                    context,
-                    "Se actualizaron en total: ${countAudios.get()} audios ${countVideos.get()} videos",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
-
-    @JvmStatic
-    fun indexOffLineMedios(context: Context) {
-        val md5Result = dirCheckSum()
-        if (md5Result == 0) return
-
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        val temp = prefs.getInt("dir_checksum", 0)
-
-        if (temp == 0 || temp != md5Result) {
-            prefs.edit().putInt("dir_checksum", md5Result).apply()
-            try {
-                popularDB_Repo(context)
-            } catch (_: Exception) {
-            }
-        }
-    }
-
-    private fun dirCheckSum(): Int {
-        var md5DirVideos = 0
-        var md5DirAudios = 0
-        var resultError = false
-
-        try {
-            val filesVideos = File(utilsFields.PATH_ROOT_REPO + utilsFields.REPO_DIR_VIDEOS).listFiles()
-            if (filesVideos != null && filesVideos.isNotEmpty()) {
-                for (file in filesVideos) {
-                    md5DirVideos += file.hashCode()
-                }
-            }
-        } catch (_: Exception) {
-            resultError = true
-        }
-
-        try {
-            val filesAudios = File(utilsFields.PATH_ROOT_REPO + utilsFields.REPO_DIR_AUDIOS).listFiles()
-            if (filesAudios != null && filesAudios.isNotEmpty()) {
-                for (file in filesAudios) {
-                    md5DirAudios += file.hashCode()
-                }
-            }
-        } catch (_: Exception) {
-            resultError = true
-        }
-
-        if (resultError) return 0
-        return kotlin.math.abs(md5DirVideos) + kotlin.math.abs(md5DirAudios)
-    }
-
-    @JvmStatic
-    fun LoadRepoFromDB(context: Context, dirRepo: String, lista: MutableList<String>): Int {
-        val items = db(context).repoDao().getByType(dirRepo)
-        lista.clear()
-        for (item in items) {
-            lista.add(item.title.substringAfterLast('/'))
-        }
-        return items.size
     }
 
     @JvmStatic
@@ -492,14 +232,6 @@ object utilsDB {
                 }
             }
             DatabaseHelper.T_Conf -> room.confDao().getByTitle(id)?.fav ?: ""
-            DatabaseHelper.T_Videos -> {
-                when (columnID) {
-                    DatabaseHelper.C_videos_title -> room.videoDao().getByTitle(id)?.fav ?: ""
-                    DatabaseHelper.C_videos_link -> room.videoDao().getByLink(id)?.fav ?: ""
-                    else -> ""
-                }
-            }
-            DatabaseHelper.T_Repo -> room.repoDao().getByTitle(id)?.fav ?: ""
             else -> ""
         }
     }
@@ -525,18 +257,6 @@ object utilsDB {
                 val item = room.confDao().getByTitle(id_str) ?: return ""
                 val target = if (item.fav == "1") "0" else "1"
                 room.confDao().updateFavByTitle(item.title, target)
-                target
-            }
-            DatabaseHelper.T_Videos -> {
-                val item = room.videoDao().getByTitle(id_str) ?: return ""
-                val target = if (item.fav == "1") "0" else "1"
-                room.videoDao().updateFavByTitle(item.title, target)
-                target
-            }
-            DatabaseHelper.T_Repo -> {
-                val item = room.repoDao().getByTitle(id_str) ?: return ""
-                val target = if (item.fav == "1") "0" else "1"
-                room.repoDao().updateFavByTitle(item.title, target)
                 target
             }
             else -> ""
@@ -607,8 +327,6 @@ object utilsDB {
         when (tableName) {
             DatabaseHelper.T_Frases -> if (columnID == DatabaseHelper.C_frases_frase) room.fraseDao().updateNotaByFrase(valorID, nota)
             DatabaseHelper.T_Conf -> room.confDao().updateNotaByTitle(valorID, nota)
-            DatabaseHelper.T_Videos -> room.videoDao().updateNotaByTitle(valorID, nota)
-            DatabaseHelper.T_Repo -> room.repoDao().updateNotaByTitle(valorID, nota)
             else -> return false
         }
         return true
@@ -617,17 +335,6 @@ object utilsDB {
     @JvmStatic
     fun loadConferenciaList(pcontext: Context): List<String> {
         return db(pcontext).confDao().getAll().map { it.title.replace(".txt", "") }
-    }
-
-    @JvmStatic
-    fun LoadVideoList(context: Context, typeOfVideo: String, listaUrl: MutableList<String>, lista: MutableList<String>) {
-        val items = db(context).videoDao().getByType(typeOfVideo)
-        lista.clear()
-        listaUrl.clear()
-        for (item in items) {
-            lista.add(item.title)
-            listaUrl.add(item.link)
-        }
     }
 
     // Métodos de soporte para reemplazar lógica SQL legacy en vistas
@@ -639,21 +346,6 @@ object utilsDB {
     @JvmStatic
     fun getConfNota(context: Context, title: String): String {
         return db(context).confDao().getByTitle(title)?.nota ?: ""
-    }
-
-    @JvmStatic
-    fun getVideoNota(context: Context, title: String): String {
-        return db(context).videoDao().getByTitle(title)?.nota ?: ""
-    }
-
-    @JvmStatic
-    fun getRepoNota(context: Context, title: String): String {
-        return db(context).repoDao().getByTitle(title)?.nota ?: ""
-    }
-
-    @JvmStatic
-    fun getVideoLinkByTitle(context: Context, title: String): String {
-        return db(context).videoDao().getByTitle(title)?.link ?: ""
     }
 
     @JvmStatic
@@ -691,15 +383,7 @@ object utilsDB {
             "Todas las conf" -> room.confDao().getAll().map { it.title }
             "Conferencias favoritas" -> room.confDao().getFavoritas().map { it.title }
             "Conferencias con notas" -> room.confDao().getConNotas().map { it.title }
-            "Videos inbuilt favoritos" -> room.videoDao().getFavoritos().map { it.title }
-            "Videos inbuilt con notas" -> room.videoDao().getConNotas().map { it.title }
-            "Videos offline favoritos" -> room.repoDao().getFavoritosByType("video").map { it.title }
-            "Videos offline con notas" -> room.repoDao().getConNotasByType("video").map { it.title }
-            "Audios offline favoritos" -> room.repoDao().getFavoritosByType("audio").map { it.title }
-            "Audios offline con notas" -> room.repoDao().getConNotasByType("audio").map { it.title }
             "Apuntes" -> room.notaDao().getAll().map { it.titulo }
-            "Videos gregg favoritos" -> room.videoDao().getByType("gregg").filter { it.fav == "1" }.map { it.title }
-            "Videos gregg con notas" -> room.videoDao().getByType("gregg").filter { it.nota.trim().isNotEmpty() }.map { it.title }
             else -> emptyList()
         }
 
@@ -722,13 +406,4 @@ object utilsDB {
 
     @JvmStatic
     fun getAllConfTitles(context: Context): List<String> = db(context).confDao().getAll().map { it.title }
-
-    @JvmStatic
-    fun getAllVideoTitles(context: Context): List<String> = db(context).videoDao().getAll().map { it.title }
-
-    @JvmStatic
-    fun getRepoTitlesByType(context: Context, type: String): List<String> = db(context).repoDao().getByType(type).map { it.title }
-
-    @JvmStatic
-    fun getVideoTitlesByType(context: Context, type: String): List<String> = db(context).videoDao().getByType(type).map { it.title }
 }

@@ -79,11 +79,6 @@
             app:defaultValue="false"/>
 
         <Preference
-            app:key="index_offline"
-            app:title="Indexar contenido off-line"
-            app:summary="Actualiza contenido en almacenamiento externo"
-            />
-        <Preference
             app:key="update_frases_from_web"
             app:title="Actualizar compendio de frases"
             app:summary="Actualiza el listado de frases inbuilt"
@@ -92,32 +87,6 @@
 
     </PreferenceCategory>
 
-
-    <PreferenceCategory app:title="@string/reproductor"
-        app:icon="@drawable/ic_video">
-
-    <SwitchPreferenceCompat
-        app:key="play_video_background"
-        app:title="Play videos offline en streaming"
-        app:defaultValue="false"
-        android:summaryOn="Escuchar incluso con app cerrada"
-        app:summaryOff="Ver video offline en reproductor interno"/>
-
-        <SwitchPreferenceCompat
-            app:key="play_audio_background"
-            app:title="Play audio offline en streaming"
-            app:defaultValue="true"
-            android:summaryOn="Escuchar incluso con app cerrada"
-            app:summaryOff="Escuchar audio offline en reproductor interno"/>
-
-        <SwitchPreferenceCompat
-            app:key="play_video_playloop"
-            app:title="Reproducción continua"
-            app:defaultValue="false"
-            android:summaryOn="Reproducir medio continuamente"
-            app:summaryOff="No reproducir medio continuamente"/>
-
-    </PreferenceCategory>
     <PreferenceCategory app:title="@string/contacto"
         app:icon="@drawable/ic_contact">
 
