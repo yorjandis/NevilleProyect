@@ -88,7 +88,7 @@
 
 
         <!-- menú inferior -->
-        <com.google.android.material.card.MaterialCardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/bottom_navigation_view"
             android:layout_width="0dp"
             android:layout_height="68dp"
@@ -103,9 +103,7 @@
             app:cardUseCompatPadding="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:strokeColor="#44FFFFFF"
-            app:strokeWidth="1dp">
+            app:layout_constraintStart_toStartOf="parent">
 
             <LinearLayout
                 android:id="@+id/bottom_nav_inner"
@@ -172,7 +170,7 @@
                     android:src="@drawable/ic_nav_chat"
                     app:tint="#2E3B44" />
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+        </androidx.cardview.widget.CardView>
 
 
 

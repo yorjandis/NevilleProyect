@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Neville</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -6,7 +6,7 @@
     <string name="nav_cerrado">Nav Cerrado</string>
     <string name="videos">Videos</string>
     <string name="libros">Libros</string>
-    <string name="gregg_braden_biografia">Gregg Braden (nacido el 28 de junio de 1954) es autor, investigador, educador, conferencista y reconocido internacionalmente como un pionero que une la ciencia moderna, la espiritualidad y el potencial humano. Su investigación ha dado lugar a 15 créditos cinematográficos y 12 libros premiados publicados en más de 40 idiomas. Braden ha presentado sus descubrimientos en más de 30 países en seis continentes y ha sido invitado a hablar ante las Naciones Unidas, compañías Fortune 500 y el ejército de los EE. UU. El Watkins Journal del Reino Unido incluye a Gregg entre los 100 principales \"personas vivas con mayor influencia espiritual del mundo\" por sexto año consecutivo, y en 2020 es nominado al prestigioso premio Templeton, establecido para honrar a \"individuos destacados que han dedicado su talento a expandir nuestra visión del propósito humano y la realidad última”.</string>
+    <string name="gregg_braden_biografia" tools:ignore="Typos">Gregg Braden (nacido el 28 de junio de 1954) es autor, investigador, educador, conferencista y reconocido internacionalmente como un pionero que une la ciencia moderna, la espiritualidad y el potencial humano. Su investigación ha dado lugar a 15 créditos cinematográficos y 12 libros premiados publicados en más de 40 idiomas. Braden ha presentado sus descubrimientos en más de 30 países en seis continentes y ha sido invitado a hablar ante las Naciones Unidas, compañías Fortune 500 y el ejército de los EE. UU. El Watkins Journal del Reino Unido incluye a Gregg entre los 100 principales \"personas vivas con mayor influencia espiritual del mundo\" por sexto año consecutivo, y en 2020 es nominado al prestigioso premio Templeton, establecido para honrar a \"individuos destacados que han dedicado su talento a expandir nuestra visión del propósito humano y la realidad última”.</string>
     <string name="canal_oficial_en_youtube">Canal Oficial en Youtube</string>
     <string name="pagina_web_oficial">Pagina Web Oficial</string>
     <string name="gregg_image">gregg image</string>
@@ -64,7 +64,7 @@
     <string name="configuraci_n">Configuración</string>
     <string name="neville">Neville</string>
     <string name="frase_Frase">Frase</string>
-    <string name="autor">Autor</string>
+    <string name="autor" tools:ignore="Typos">Autor</string>
     <string name="fuente">Fuente(opcional)</string>
     <string name="guardar">Guardar</string>
     <string name="cancelar">Cancelar</string>
@@ -153,6 +153,9 @@
     <string name="nav_home">Inicio</string>
     <string name="nav_diario">Diario</string>
     <string name="nav_chat">Chat</string>
+    <string name="autor_tag_format">&lt;%1$s&gt;</string>
+    <string name="qr_share_frase_payload">f::%1$s::%2$s:: </string>
+    <string name="mostrar_ocultar_controles_frase">Mostrar u ocultar controles de la frase</string>
 
 
 </resources>

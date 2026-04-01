@@ -45,7 +45,7 @@ object QRManager {
         val imageView = view.findViewById<ImageView>(R.id.qr_image_view)
         val imageShared = view.findViewById<ImageView>(R.id.qr_image_shared)
 
-        imageView.setImageBitmap(generarQR(textoQR, 300))
+        imageView.setImageBitmap(generarQR(textoQR))
 
         alert.setView(view)
         val alertDialog = alert.create()
@@ -64,7 +64,7 @@ object QRManager {
      */
     @JvmStatic
     fun launch_QRRead() {
-        MainActivity.mainActivityThis?.let {
+        MainActivity.currentInstance()?.let {
             val intentIntegrator = IntentIntegrator(it)
             intentIntegrator.setPrompt("neville - Leyendo Código QR")
             intentIntegrator.setBarcodeImageEnabled(true)
@@ -78,16 +78,15 @@ object QRManager {
     /**
      * Genera un bitmap de QR del texto pasado como parametro
      * @param textP Texto del código QR
-     * @param dimension Dimension ancho/alto de la imagen generada
      */
-    private fun generarQR(textP: String, dimension: Int): Bitmap? {
-        val qrgEncoder = QRGEncoder(textP, null, QRGContents.Type.TEXT, dimension)
+    private fun generarQR(textP: String): Bitmap? {
+        val qrgEncoder = QRGEncoder(textP, null, QRGContents.Type.TEXT, 300)
         qrgEncoder.colorBlack = Color.WHITE
         qrgEncoder.colorWhite = Color.BLACK
 
         return try {
             qrgEncoder.bitmap
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             null
         }
     }

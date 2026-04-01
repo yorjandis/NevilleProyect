@@ -1,7 +1,6 @@
-package com.ypg.neville.Ui.frag
+package com.ypg.neville.ui.frag
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.preference.PreferenceManager
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
@@ -60,7 +59,7 @@ class frag_listado : Fragment() {
         } else {
             ayudaContextual.visibility = View.GONE
         }
-        ayudaContextual.setOnClickListener { ShowAyudaContextual(requireContext()) }
+        ayudaContextual.setOnClickListener { showAyudaContextual() }
 
         if (elementLoaded.equals("conf", ignoreCase = true)) {
             mostrar_opciones.visibility = View.VISIBLE
@@ -75,7 +74,7 @@ class frag_listado : Fragment() {
 
         GenerarListado()
 
-        val navController = Navigation.findNavController(view)
+        val navController = view.findNavController()
 
         myListAdapterItemsList = MyListAdapterItemsList(requireContext(), R.layout.row_list_item, listado)
         listView.adapter = myListAdapterItemsList
@@ -143,7 +142,7 @@ class frag_listado : Fragment() {
                         listado = Utils.searchInConf(requireContext(), query).toMutableList()
                         myListAdapterItemsList?.addAll(listado)
                         myListAdapterItemsList?.notifyDataSetChanged()
-                    } catch (e: IOException) {
+                    } catch (_: IOException) {
                         Toast.makeText(requireContext(), "No se pudo realizar la búsqueda", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -166,24 +165,24 @@ class frag_listado : Fragment() {
 
             when (elementLoaded) {
                 "conf" -> {
-                    frag_content_WebView.elementLoaded = "conf"
+                    FragContentWebView.elementLoaded = "conf"
                     utilsFields.ID_Str_row_ofElementLoad = selectedItemText
-                    frag_content_WebView.urlPath = "file:///android_asset/conf/$selectedItemText.txt"
+                    FragContentWebView.urlPath = "file:///android_asset/conf/$selectedItemText.txt"
                     navController.navigate(R.id.frag_content_webview)
                 }
                 "preguntas" -> {
                     utilsFields.ID_Str_row_ofElementLoad = selectedItemText
-                    frag_content_WebView.urlPath = "file:///android_asset/preg/$selectedItemText.txt"
+                    FragContentWebView.urlPath = "file:///android_asset/preg/$selectedItemText.txt"
                     navController.navigate(R.id.frag_content_webview)
                 }
                 "citasConferencias" -> {
                     utilsFields.ID_Str_row_ofElementLoad = selectedItemText
-                    frag_content_WebView.urlPath = "file:///android_asset/cita/$selectedItemText.txt"
+                    FragContentWebView.urlPath = "file:///android_asset/cita/$selectedItemText.txt"
                     navController.navigate(R.id.frag_content_webview)
                 }
                 "ayudas" -> {
                     utilsFields.ID_Str_row_ofElementLoad = selectedItemText
-                    frag_content_WebView.urlPath = "file:///android_asset/ayuda/$selectedItemText.txt"
+                    FragContentWebView.urlPath = "file:///android_asset/ayuda/$selectedItemText.txt"
                     navController.navigate(R.id.frag_content_webview)
                 }
             }
@@ -192,7 +191,7 @@ class frag_listado : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        MainActivity.mainActivityThis?.let {
+        MainActivity.currentInstance()?.let {
             it.ic_toolsBar_fav.setColorFilter(requireContext().resources.getColor(R.color.black, null))
             it.ic_toolsBar_fav.visibility = if (elementLoaded.equals("conf", ignoreCase = true)) View.VISIBLE else View.GONE
             it.ic_toolsBar_frase_add.visibility = View.VISIBLE
@@ -210,7 +209,7 @@ class frag_listado : Fragment() {
     }
 
     @SuppressLint("SuspiciousIndentation")
-    private fun ShowAyudaContextual(context: Context) {
+    private fun showAyudaContextual() {
         val helpBalloon = HelpBalloon(requireContext())
         val balloon1 = helpBalloon.buildFactory("Añadir un apunte", viewLifecycleOwner)
         val balloon2 = helpBalloon.buildFactory("filtro de listado", viewLifecycleOwner)
@@ -220,7 +219,7 @@ class frag_listado : Fragment() {
             .relayShowAlignBottom(balloon2, mostrar_opciones)
             .relayShowAlignTop(balloon3, listView)
 
-        MainActivity.mainActivityThis?.let {
+        MainActivity.currentInstance()?.let {
             balloon1.showAlignBottom(it.ic_toolsBar_nota_add)
         }
     }
@@ -228,11 +227,5 @@ class frag_listado : Fragment() {
     companion object {
         @JvmField
         var elementLoaded = ""
-        @JvmField
-        var urlPath = ""
-        @JvmField
-        var extension = ""
-        @JvmField
-        var urlDirAssets = ""
     }
 }

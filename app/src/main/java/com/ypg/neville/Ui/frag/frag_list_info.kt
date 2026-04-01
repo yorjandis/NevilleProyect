@@ -1,8 +1,6 @@
-package com.ypg.neville.Ui.frag
+package com.ypg.neville.ui.frag
 
 import android.annotation.SuppressLint
-import android.content.ContentValues
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +11,7 @@ import android.widget.ListView
 import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.preference.PreferenceManager
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
@@ -43,23 +41,25 @@ class frag_list_info : Fragment() {
         list = view.findViewById(R.id.frag_listinfo_list)
         ayudaContextual = view.findViewById(R.id.frag_list_info_ayuda)
 
-        spinnerStatic = spinner
-
         showHideAyudaContextual()
 
-        ayudaContextual.setOnClickListener { ShowAyudaContextual(requireContext()) }
+        ayudaContextual.setOnClickListener { showAyudaContextual() }
 
-        val myListAdapterList_info = MyListAdapterList_info(requireContext(), R.layout.row_list_info_item, listado)
-        list.adapter = myListAdapterList_info
+        val myListAdapterListInfo = MyListAdapterList_info(
+            requireContext(),
+            R.layout.row_list_info_item,
+            listado
+        ) { spinner.selectedItem?.toString().orEmpty() }
+        list.adapter = myListAdapterListInfo
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View?, position: Int, id: Long) {
                 val itemtxt = parentView.getItemAtPosition(position).toString()
                 utilsFields.spinnerListInfoItemSelected = itemtxt
-                myListAdapterList_info.clear()
+                myListAdapterListInfo.clear()
                 listado.clear()
                 listado.addAll(utilsDB.getListadoTitles(requireContext(), itemtxt))
-                myListAdapterList_info.notifyDataSetChanged()
+                myListAdapterListInfo.notifyDataSetChanged()
             }
 
             override fun onNothingSelected(adapterView: AdapterView<*>) {}
@@ -81,7 +81,7 @@ class frag_list_info : Fragment() {
 
         list.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view1, position, _ ->
             val itemText = adapterView.getItemAtPosition(position).toString()
-            val navController = Navigation.findNavController(view1)
+            val navController = view1.findNavController()
 
             when (spinner.selectedItem.toString()) {
                 "Frases inbuilt favoritas" -> {
@@ -91,9 +91,9 @@ class frag_list_info : Fragment() {
                         utilsDB.UpdateFavorito(requireContext(), DatabaseHelper.T_Frases, DatabaseHelper.C_frases_frase, itemText, -1)
                         listado.clear()
                         listado.addAll(utilsDB.getListadoTitles(requireContext(), utilsFields.spinnerListInfoItemSelected))
-                        myListAdapterList_info.clear()
-                        myListAdapterList_info.addAll(listado)
-                        myListAdapterList_info.notifyDataSetChanged()
+                        myListAdapterListInfo.clear()
+                        myListAdapterListInfo.addAll(listado)
+                        myListAdapterListInfo.notifyDataSetChanged()
                     }
                     alert.show()
                 }
@@ -102,9 +102,9 @@ class frag_list_info : Fragment() {
                 }
                 "Conferencias favoritas", "Conferencias con notas" -> {
                     utilsFields.ID_Str_row_ofElementLoad = itemText
-                    frag_content_WebView.extension = ".txt"
-                    frag_content_WebView.urlDirAssets = "conf"
-                    frag_content_WebView.urlPath = "file:///android_asset/${frag_content_WebView.urlDirAssets}/$itemText${frag_content_WebView.extension}"
+                    FragContentWebView.extension = ".txt"
+                    FragContentWebView.urlDirAssets = "conf"
+                    FragContentWebView.urlPath = "file:///android_asset/${FragContentWebView.urlDirAssets}/$itemText${FragContentWebView.extension}"
                     navController.navigate(R.id.frag_content_webview)
                 }
                 "Apuntes" -> {
@@ -116,14 +116,8 @@ class frag_list_info : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        try {
-            MainActivity.mainActivityThis?.ic_toolsBar_frase_add?.visibility = View.VISIBLE
-        } catch (ignored: Exception) {
-        }
-        try {
-            MainActivity.mainActivityThis?.ic_toolsBar_fav?.visibility = View.GONE
-        } catch (ignored: Exception) {
-        }
+        runCatching { MainActivity.currentInstance()?.ic_toolsBar_frase_add?.visibility = View.VISIBLE }
+        runCatching { MainActivity.currentInstance()?.ic_toolsBar_fav?.visibility = View.GONE }
     }
 
     private fun showHideAyudaContextual() {
@@ -135,7 +129,7 @@ class frag_list_info : Fragment() {
     }
 
     @SuppressLint("SuspiciousIndentation")
-    private fun ShowAyudaContextual(context: Context) {
+    private fun showAyudaContextual() {
         val helpBalloon = HelpBalloon(requireContext())
         val balloon1 = helpBalloon.buildFactory("Añadir un apunte", viewLifecycleOwner)
         val balloon2 = helpBalloon.buildFactory("Añadir una frase", viewLifecycleOwner)
@@ -143,15 +137,10 @@ class frag_list_info : Fragment() {
         val balloon4 = helpBalloon.buildFactory("Listado de elementos. Toque un elemento para abrirlo. Toque largo sobre un elemento para más opciones", viewLifecycleOwner)
 
         balloon1
-            .relayShowAlignBottom(balloon2, MainActivity.mainActivityThis!!.ic_toolsBar_frase_add)
+            .relayShowAlignBottom(balloon2, MainActivity.currentInstance()!!.ic_toolsBar_frase_add)
             .relayShowAlignTop(balloon3, spinner)
             .relayShowAlignBottom(balloon4, list)
 
-        balloon1.showAlignBottom(MainActivity.mainActivityThis!!.ic_toolsBar_nota_add)
-    }
-
-    companion object {
-        @JvmField
-        var spinnerStatic: Spinner? = null
+        balloon1.showAlignBottom(MainActivity.currentInstance()!!.ic_toolsBar_nota_add)
     }
 }

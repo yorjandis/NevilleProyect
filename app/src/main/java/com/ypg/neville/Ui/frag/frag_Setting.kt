@@ -1,14 +1,15 @@
-package com.ypg.neville.Ui.frag
+package com.ypg.neville.ui.frag
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.edit
+import androidx.core.net.toUri
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
-import com.ypg.neville.MainActivity
 import com.ypg.neville.R
 import com.ypg.neville.model.utils.ColorPickerManager
 import com.ypg.neville.model.utils.GetFromRepo
@@ -21,11 +22,7 @@ class frag_Setting : PreferenceFragmentCompat() {
 
         // Establecer el tema de la app:
         findPreference<Preference>("tema")?.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, _ ->
-            activity?.let {
-                it.startActivity(Intent(context, MainActivity::class.java))
-                it.finish()
-                it.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-            }
+            activity?.recreate()
             true
         }
 
@@ -38,7 +35,9 @@ class frag_Setting : PreferenceFragmentCompat() {
             if (numberOnly.toInt() >= 40) {
                 numberOnly = "28"
             }
-            PreferenceManager.getDefaultSharedPreferences(requireContext()).edit().putString("fuente_frase", numberOnly).apply()
+            PreferenceManager.getDefaultSharedPreferences(requireContext()).edit {
+                putString("fuente_frase", numberOnly)
+            }
             false
         }
 
@@ -47,7 +46,9 @@ class frag_Setting : PreferenceFragmentCompat() {
             if (numberOnly.isEmpty()) {
                 numberOnly = "170"
             }
-            PreferenceManager.getDefaultSharedPreferences(requireContext()).edit().putString("fuente_conf", numberOnly).apply()
+            PreferenceManager.getDefaultSharedPreferences(requireContext()).edit {
+                putString("fuente_conf", numberOnly)
+            }
             false
         }
 
@@ -65,7 +66,7 @@ class frag_Setting : PreferenceFragmentCompat() {
 
         // Lleva a la página de proyecto, sección donar:
         findPreference<Preference>("donar")?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://projectsypg.mozello.com/donar/")))
+            startActivity(Intent(Intent.ACTION_VIEW, "https://projectsypg.mozello.com/donar/".toUri()))
             false
         }
 
@@ -78,23 +79,23 @@ class frag_Setting : PreferenceFragmentCompat() {
 
         // Lleva a la página de proyecto, sección escribir comentario:
         findPreference<Preference>("write_comment")?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://projectsypg.mozello.com/contacto/")))
+            startActivity(Intent(Intent.ACTION_VIEW, "https://projectsypg.mozello.com/contacto/".toUri()))
             false
         }
 
         // Lleva a la página de proyecto:
         findPreference<Preference>("web_site")?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://projectsypg.mozello.com/")))
+            startActivity(Intent(Intent.ACTION_VIEW, "https://projectsypg.mozello.com/".toUri()))
             false
         }
 
         // Lleva al sitio web en google play, para escribir una reseña
         findPreference<Preference>("resena_app")?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-            val uri = Uri.parse("market://details?id=" + requireContext().packageName)
+            val uri = "market://details?id=${requireContext().packageName}".toUri()
             val myAppLinkToMarket = Intent(Intent.ACTION_VIEW, uri)
             try {
                 startActivity(myAppLinkToMarket)
-            } catch (e: ActivityNotFoundException) {
+            } catch (_: ActivityNotFoundException) {
                 Toast.makeText(requireContext(), " unable to find market app", Toast.LENGTH_LONG).show()
             }
             false
@@ -102,7 +103,14 @@ class frag_Setting : PreferenceFragmentCompat() {
 
         // Muestra el mensaje con las novedades:
         findPreference<Preference>("show_news")?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-            UiModalWindows.showAyudaContectual(requireContext(), "Novedades", "Que hay de nuevo?", getString(R.string.news), false, requireContext().getDrawable(R.drawable.neville))
+            UiModalWindows.showAyudaContectual(
+                requireContext(),
+                "Novedades",
+                "Que hay de nuevo?",
+                getString(R.string.news),
+                false,
+                AppCompatResources.getDrawable(requireContext(), R.drawable.neville)
+            )
             false
         }
     }

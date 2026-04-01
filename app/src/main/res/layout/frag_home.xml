@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:orientation="vertical"
-    tools:context=".Ui.frag.frag_home"
+    tools:context=".ui.frag.FragHome"
     android:animateLayoutChanges="true">
 
     <ImageButton
@@ -49,6 +49,7 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:id="@+id/frag_home_frases_img_abajo"
+        android:contentDescription="@string/mostrar_ocultar_controles_frase"
         android:src="@drawable/ic_abajo"
         android:layout_gravity="end"
         android:layout_marginEnd="10dp"/>
@@ -83,5 +84,3 @@
     </LinearLayout>
 
 </LinearLayout>
-
-

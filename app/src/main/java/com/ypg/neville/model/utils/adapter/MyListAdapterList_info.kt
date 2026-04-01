@@ -9,14 +9,18 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageView
 import com.ypg.neville.R
-import com.ypg.neville.Ui.frag.frag_list_info
 import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.utils.QRManager
 import com.ypg.neville.model.utils.UiModalWindows
 import com.ypg.neville.model.utils.utilsFields
 import java.util.LinkedList
 
-class MyListAdapterList_info(context: Context, private val layout: Int, objects: List<String>) :
+class MyListAdapterList_info(
+    context: Context,
+    private val layout: Int,
+    objects: List<String>,
+    private val selectedFilterProvider: () -> String
+) :
     ArrayAdapter<String>(context, layout, objects) {
 
     private val internalList: MutableList<String> = LinkedList()
@@ -42,7 +46,7 @@ class MyListAdapterList_info(context: Context, private val layout: Int, objects:
         holder.text?.text = item
 
         holder.ic_share?.setOnClickListener {
-            val spinnerText = frag_list_info.spinnerStatic?.selectedItem?.toString() ?: ""
+            val spinnerText = selectedFilterProvider()
             if (spinnerText.contains("Frases")) {
                 val texto = "f&&${holder.text?.text}&&"
                 QRManager.ShowQRDialog(context, texto, "Compartir Frase", null)

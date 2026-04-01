@@ -56,7 +56,7 @@ object ColorPickerManager {
             PreferenceManager.getDefaultSharedPreferences(context).edit {
                 putInt(keyPreferences, colorValue)
             }
-            MainActivity.mainActivityThis?.AuxSetColorBar(colorValue)
+            MainActivity.currentInstance()?.AuxSetColorBar(colorValue)
             alertDialog.dismiss()
         }
 

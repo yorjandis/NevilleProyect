@@ -5,9 +5,6 @@ import android.animation.PropertyValuesHolder
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Intent
-import android.graphics.drawable.Drawable
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.Menu
@@ -15,25 +12,27 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
+import androidx.cardview.widget.CardView
+import androidx.core.content.edit
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
+import androidx.core.net.toUri
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.preference.PreferenceManager
-import com.google.android.material.card.MaterialCardView
 import com.google.android.material.navigation.NavigationView
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.zxing.integration.android.IntentIntegrator
-import com.ypg.neville.Ui.frag.frag_content_WebView
-import com.ypg.neville.Ui.frag.frag_home
-import com.ypg.neville.Ui.frag.frag_listado
+import com.ypg.neville.ui.frag.FragContentWebView
+import com.ypg.neville.ui.frag.frag_listado
 import com.ypg.neville.model.db.DatabaseHelper
 import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.utils.QRManager
@@ -41,19 +40,18 @@ import com.ypg.neville.model.utils.UiModalWindows
 import com.ypg.neville.model.utils.Utils
 import com.ypg.neville.model.utils.myListener_In_App_Update
 import com.ypg.neville.model.utils.utilsFields
+import java.lang.ref.WeakReference
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var drawerLayout: DrawerLayout
     lateinit var navigationView: NavigationView
-    lateinit var bottomNavigationView: MaterialCardView
+    lateinit var bottomNavigationView: CardView
     lateinit var toolbar: Toolbar
     lateinit var toggle: ActionBarDrawerToggle
 
     lateinit var fraseBienvenida: TextView
     lateinit var headerImage: ImageView
-
-    private var firebaseAnalytics: FirebaseAnalytics? = null
 
     lateinit var navController: NavController
 
@@ -65,6 +63,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var navBtnHome: ImageButton
     lateinit var navBtnDiario: ImageButton
     lateinit var navBtnChat: ImageButton
+    lateinit var bottomNavInner: LinearLayout
 
     val utils = Utils(this)
 
@@ -73,7 +72,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mainActivityThis = this
+        setCurrentInstance(this)
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         if (prefs.getBoolean("tema", true)) {
@@ -97,6 +96,7 @@ class MainActivity : AppCompatActivity() {
         navBtnHome = findViewById(R.id.nav_btn_home)
         navBtnDiario = findViewById(R.id.nav_btn_diario)
         navBtnChat = findViewById(R.id.nav_btn_chat)
+        bottomNavInner = findViewById(R.id.bottom_nav_inner)
         frag_container = findViewById(R.id.frag_container)
 
         val navigationHeader = navigationView.getHeaderView(0)
@@ -109,13 +109,13 @@ class MainActivity : AppCompatActivity() {
         fraseBienvenida.text = prefs.getString("frase", "Imaginar crea la realidad")
         headerImage.clipToOutline = true
 
-        navController = Navigation.findNavController(frag_container)
+        navController = frag_container.findNavController()
 
         val in_app_update = myListener_In_App_Update(this)
         in_app_update.setMylistener(object : myListener_In_App_Update.In_mylistener {
             override fun onUpdateAvailable(pUpdateAvailable: Boolean) {
                 if (pUpdateAvailable) {
-                    val intentNotification = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName"))
+                    val intentNotification = Intent(Intent.ACTION_VIEW, "market://details?id=$packageName".toUri())
                     utils.show_Notification("Nueva actualización disponible!", intentNotification)
                 }
             }
@@ -130,23 +130,27 @@ class MainActivity : AppCompatActivity() {
             if (hadLegacyDatabase) {
                 Toast.makeText(this, "Migración de datos completada.", Toast.LENGTH_SHORT).show()
             }
-            val intent = intent
-            finish()
-            startActivity(intent)
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+            recreate()
         } else {
             if (hadLegacyDatabase) {
                 Toast.makeText(this, "Migración de datos completada.", Toast.LENGTH_SHORT).show()
             }
             if (prefs.getBoolean("Is_primeraVez", true)) {
-                UiModalWindows.showAyudaContectual(this, "Novedades", "Que hay de nuevo?", getString(R.string.news), false, getDrawable(R.drawable.neville))
-                prefs.edit().putBoolean("Is_primeraVez", false).apply()
+                UiModalWindows.showAyudaContectual(
+                    this,
+                    "Novedades",
+                    "Que hay de nuevo?",
+                    getString(R.string.news),
+                    false,
+                    AppCompatResources.getDrawable(this, R.drawable.neville)
+                )
+                prefs.edit { putBoolean("Is_primeraVez", false) }
             }
         }
 
         if (prefs.getBoolean("updateFrases", true)) {
             utilsDB.CorrectOrtogFrases(this)
-            prefs.edit().putBoolean("updateFrases", false).apply()
+            prefs.edit { putBoolean("updateFrases", false) }
         }
 
         ic_toolsBar_frase_add.setOnClickListener {
@@ -164,7 +168,7 @@ class MainActivity : AppCompatActivity() {
             val fragment = frag_container.getFragment<androidx.fragment.app.Fragment>()
             val fragName = fragment.javaClass.simpleName
 
-            if (fragName.contains("frag_content_WebView")) {
+            if (fragName.contains("FragContentWebView")) {
                 result = utilsDB.UpdateFavorito(this, DatabaseHelper.T_Conf, DatabaseHelper.C_conf_title, utilsFields.ID_Str_row_ofElementLoad, -1)
             }
 
@@ -182,20 +186,20 @@ class MainActivity : AppCompatActivity() {
             deselecItemBottom()
             when (item.itemId) {
                 R.id.drawer_menu_biografia -> {
-                    frag_content_WebView.elementLoaded = "biografia"
-                    frag_content_WebView.extension = ".html"
-                    frag_content_WebView.urlPath = "file:///android_asset/biog_quien es neville goddard.html"
+                    FragContentWebView.elementLoaded = "biografia"
+                    FragContentWebView.extension = ".html"
+                    FragContentWebView.urlPath = "file:///android_asset/biog_quien es neville goddard.html"
                     navController.navigate(R.id.frag_content_webview)
                 }
                 R.id.drawer_menu_galeriafotos -> {
-                    frag_content_WebView.elementLoaded = "galeriafotos"
-                    frag_content_WebView.extension = ".html"
-                    frag_content_WebView.urlPath = "file:///android_asset/gale_Galeria de fotos.html"
+                    FragContentWebView.elementLoaded = "galeriafotos"
+                    FragContentWebView.extension = ".html"
+                    FragContentWebView.urlPath = "file:///android_asset/gale_Galeria de fotos.html"
                     navController.navigate(R.id.frag_content_webview)
                 }
                 R.id.drawer_menu_abdullah -> {
                     if (Utils.isConnection(this)) {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=mgbdcv606Rg"))
+                        val intent = Intent(Intent.ACTION_VIEW, "https://www.youtube.com/watch?v=mgbdcv606Rg".toUri())
                         startActivity(intent)
                     }
                 }
@@ -214,24 +218,23 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.drawer_menu_conferen_audio -> {
                     if (Utils.isConnection(this)) {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.ivoox.com/escuchar-neville-goddard_nq_102778_1.html"))
+                        val intent = Intent(Intent.ACTION_VIEW, "https://www.ivoox.com/escuchar-neville-goddard_nq_102778_1.html".toUri())
                         startActivity(intent)
                     }
                 }
                 R.id.drawer_menu_frases -> {
-                    frag_home.elementLoaded_home = "frases"
                     setBottomActive(null)
                     navController.navigate(R.id.frag_home)
                 }
                 R.id.drawer_menu_books -> {
                     if (Utils.isConnection(this)) {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://drive.google.com/file/d/1NjUDZfjSOjdPRd6vsyhfDKmjdDus25YM/view?usp=sharing"))
+                        val intent = Intent(Intent.ACTION_VIEW, "https://drive.google.com/file/d/1NjUDZfjSOjdPRd6vsyhfDKmjdDus25YM/view?usp=sharing".toUri())
                         startActivity(intent)
                     }
                 }
                 R.id.drawer_menu_audiobook -> {
                     if (Utils.isConnection(this)) {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.ivoox.com/escuchar-neville-goddard_nq_102778_1.html"))
+                        val intent = Intent(Intent.ACTION_VIEW, "https://www.ivoox.com/escuchar-neville-goddard_nq_102778_1.html".toUri())
                         startActivity(intent)
                     }
                 }
@@ -245,8 +248,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.drawer_menu_audio_telegram -> {
                     if (Utils.isConnection(this)) {
                         if (Utils.isPackageInstalled("org.telegram.messenger", this)) {
-                            val webpage = Uri.parse("https://t.me/nevilleGoddardaudios")
-                            val intent = Intent(Intent.ACTION_VIEW, webpage)
+                            val intent = Intent(Intent.ACTION_VIEW, "https://t.me/nevilleGoddardaudios".toUri())
                             intent.setPackage("org.telegram.messenger")
                             startActivity(intent)
                         } else {
@@ -257,8 +259,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.drawer_menu_audio_telegram_ii -> {
                     if (Utils.isConnection(this)) {
                         if (Utils.isPackageInstalled("org.telegram.messenger", this)) {
-                            val webpage2 = Uri.parse("https://t.me/NevilleAudiosII")
-                            val intent = Intent(Intent.ACTION_VIEW, webpage2)
+                            val intent = Intent(Intent.ACTION_VIEW, "https://t.me/NevilleAudiosII".toUri())
                             intent.setPackage("org.telegram.messenger")
                             startActivity(intent)
                         } else {
@@ -269,8 +270,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.drawer_menu_audio_telegram_ypg -> {
                     if (Utils.isConnection(this)) {
                         if (Utils.isPackageInstalled("org.telegram.messenger", this)) {
-                            val webpage3 = Uri.parse("https://t.me/+rODRAz2S6nVmMmY0")
-                            val intent = Intent(Intent.ACTION_VIEW, webpage3)
+                            val intent = Intent(Intent.ACTION_VIEW, "https://t.me/+rODRAz2S6nVmMmY0".toUri())
                             intent.setPackage("org.telegram.messenger")
                             startActivity(intent)
                         } else {
@@ -280,19 +280,19 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.drawer_menu_web_neville_blog -> {
                     if (Utils.isConnection(this)) {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://nevilleenespanol.blogspot.com/"))
+                        val intent = Intent(Intent.ACTION_VIEW, "https://nevilleenespanol.blogspot.com/".toUri())
                         startActivity(intent)
                     }
                 }
                 R.id.drawer_menu_web_neville_espanol -> {
                     if (Utils.isConnection(this)) {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://neville-espanol.com/"))
+                        val intent = Intent(Intent.ACTION_VIEW, "https://neville-espanol.com/".toUri())
                         startActivity(intent)
                     }
                 }
                 R.id.drawer_menu_web_real_neville -> {
                     if (Utils.isConnection(this)) {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://realneville.com/"))
+                        val intent = Intent(Intent.ACTION_VIEW, "https://realneville.com/".toUri())
                         startActivity(intent)
                     }
                 }
@@ -401,7 +401,7 @@ class MainActivity : AppCompatActivity() {
         val buttons = listOf(navBtnConf, navBtnNotas, navBtnHome, navBtnDiario, navBtnChat)
         buttons.forEach { button ->
             val isActive = button.id == activeId
-            button.background = if (isActive) getDrawable(R.drawable.bg_nav_item_active) else null
+            button.background = if (isActive) AppCompatResources.getDrawable(this, R.drawable.bg_nav_item_active) else null
             button.imageAlpha = if (isActive) 255 else 185
             button.scaleX = if (isActive) 1.06f else 1f
             button.scaleY = if (isActive) 1.06f else 1f
@@ -439,20 +439,39 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun AuxSetColorBar(color: Int) {
-        val background = toolbar.background
         if (color != 0) {
-            background.setColorFilter(BlendModeColorFilterCompat.createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP))
-            val backgroundBottom = bottomNavigationView.background
-            backgroundBottom.setColorFilter(BlendModeColorFilterCompat.createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP))
+            toolbar.background?.setColorFilter(
+                BlendModeColorFilterCompat.createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP)
+            )
+            bottomNavInner.background?.setColorFilter(
+                BlendModeColorFilterCompat.createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP)
+            )
         }
     }
 
     companion object {
-        @JvmField
-        var mainActivityThis: MainActivity? = null
+        private var currentActivityRef: WeakReference<MainActivity>? = null
+
+        @JvmStatic
+        fun setCurrentInstance(activity: MainActivity) {
+            currentActivityRef = WeakReference(activity)
+        }
+
+        @JvmStatic
+        fun currentInstance(): MainActivity? = currentActivityRef?.get()
+
+        @JvmStatic
+        fun clearCurrentInstance(activity: MainActivity) {
+            val current = currentActivityRef?.get()
+            if (current === activity) currentActivityRef = null
+        }
+
         @JvmField
         var version = ""
-        @JvmField
-        var prefijo = ""
+    }
+
+    override fun onDestroy() {
+        clearCurrentInstance(this)
+        super.onDestroy()
     }
 }
