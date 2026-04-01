@@ -1,0 +1,53 @@
+
+Almacenamiento de las emociones
+
+Las emociones no se almacenan como “archivos” separados en un lugar único del cerebro; más bien, son patrones de activación y conexión entre varias regiones cerebrales que incluyen aspectos sensoriales, cognitivos y fisiológicos.
+
+
+
+🟢 Estructuras clave involucradas en el almacenamiento emocional
+    1.    Amígdala
+    •    Es la región central para detectar y codificar emociones, especialmente miedo y ansiedad.
+    •    Funciona como un “centinela”: cuando percibe estímulos emocionalmente significativos, activa respuestas corporales y refuerza la memoria de esa experiencia.
+    •    Ejemplo práctico: si una persona tiene una experiencia traumática con un perro, la amígdala codifica el miedo y se “conecta” con recuerdos de la situación para alertar al cerebro en el futuro.
+    2.    Hipocampo
+    •    Se encarga de la memoria declarativa (hechos y eventos) y contextualiza la emoción dentro de una situación.
+    •    Esto significa que no solo recuerdas el miedo, sino que recuerdas dónde, cuándo y cómo ocurrió.
+    •    Ejemplo: recuerdas que tu miedo a los perros ocurrió en un parque específico durante tu infancia.
+    3.    Corteza prefrontal (CPF)
+    •    Modula las emociones: regula su intensidad y las vincula con procesos racionales.
+    •    La CPF dorsolateral participa en la planificación y control cognitivo sobre emociones; la ventromedial se conecta más con valor y motivación.
+    •    Ejemplo: cuando ves un perro ahora, la CPF ayuda a evaluar que “no todos los perros son peligrosos” y puede reducir la reacción de miedo.
+    4.    Ínsula
+    •    Procesa emociones relacionadas con sensaciones internas, como asco o dolor.
+    •    Participa en la percepción de tu propio estado corporal durante una emoción (latidos, sudor, tensión).
+    5.    Estriado y núcleo accumbens
+    •    Asociados con placer y recompensa.
+    •    Memorizan emociones positivas y refuerzan comportamientos gratificantes.
+
+
+
+🟢 Cómo se almacena la emoción
+    •    Memoria asociativa y sináptica:
+La emoción se almacena mediante cambios en la fuerza de las sinapsis (plasticidad sináptica) entre neuronas de estas regiones.
+    •    LTP (potenciación a largo plazo) y LTD (depresión a largo plazo) son los mecanismos básicos.
+    •    Ejemplo: la amígdala establece conexiones más fuertes con el hipocampo y la corteza sensorial después de un evento emocional intenso, lo que facilita que recordemos el contexto y la sensación de esa emoción.
+    •    Redes neuronales distribuídas:
+No hay un “archivo de miedo” ni un “archivo de alegría” específico; más bien, cada emoción es un patrón de activación de varias redes que incluyen sensaciones corporales, memoria, atención y juicio.
+    •    Memoria implícita vs explícita:
+    •    Implícita: recuerdos emocionales automáticos (temores, ansiedades) que pueden activarse sin consciencia.
+    •    Explícita: recuerdos conscientes de la situación emocional.
+
+
+
+🟢 Ejemplo práctico integrador
+
+Imagina que alguien experimenta una caída en bicicleta de niño:
+    1.    La amígdala detecta miedo y envía señales al sistema autónomo (aumento de ritmo cardíaco).
+    2.    El hipocampo codifica “yo caí en esa pendiente” con detalles del entorno.
+    3.    La corteza prefrontal puede intentar racionalizar: “puedo montar con cuidado”.
+    4.    Con el tiempo, la experiencia se almacena como un patrón de conexión entre estas áreas.
+    5.    La próxima vez que vea una pendiente similar, la red se reactiva automáticamente, provocando miedo (implícito) y recordando el contexto (explícito).
+
+
+En resumen: las emociones se almacenan como patrones de conexiones sinápticas y activación de redes neuronales distribuidas, no como recuerdos estáticos. La intensidad, duración y contexto de la emoción dependen de cuánto refuercen estas conexiones la amígdala, el hipocampo y la corteza prefrontal.

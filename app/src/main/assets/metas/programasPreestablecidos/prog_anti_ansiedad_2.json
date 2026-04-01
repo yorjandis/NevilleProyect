@@ -1,0 +1,134 @@
+{
+  "title": "Programa Neuroadaptativo Avanzado para Revertir Ansiedad Crónica",
+  "detalles": "Programa estructurado en 30 días. Cada unidad corresponde a un día con protocolos detallados paso a paso. Basado en regulación del sistema nervioso autónomo, reconsolidación de memoria emocional y fortalecimiento prefrontal.",
+  "description": "Objetivo neurobiológico: Reducir hiperactividad de la amígdala, normalizar el eje HPA (cortisol), aumentar tono vagal, optimizar GABA y serotonina, y fortalecer corteza prefrontal dorsolateral.\n\nEstructura:\nFase 1 (Días 1–6): Regulación fisiológica profunda.\nFase 2 (Días 7–12): Entrenamiento cognitivo-atencional.\nFase 3 (Días 13–18): Exposición progresiva estructurada.\nFase 4 (Días 19–24): Tolerancia a incertidumbre y estrés.\nFase 5 (Días 25–30): Consolidación y automatización.\n\nDuración diaria: 60–75 minutos distribuidos.",
+  "noUnidades": 30,
+  "tipoUnidad": "dias",
+  "frecuencia": 1,
+  "unidadesinfo": [
+    {
+      "name": "Día 1",
+      "info": "Evaluación basal:\n1) Puntúa ansiedad 1–10 mañana/tarde.\n2) Anota síntomas físicos y pensamientos frecuentes.\nRespiración 4-8 (10 min): Inhala 4 seg por nariz, exhala 8 seg por boca, abdomen se expande al inhalar.\nCaminar 25 min con luz solar directa.\nDormir a la misma hora."
+    },
+    {
+      "name": "Día 2",
+      "info": "Respiración diafragmática 15 min (mano en abdomen).\nEliminar cafeína.\nEjercicio zona 2: 30 min (puedes hablar pero no cantar).\nEscribe 3 detonantes frecuentes."
+    },
+    {
+      "name": "Día 3",
+      "info": "Fuerza cuerpo completo 30 min (sentadillas, flexiones, peso muerto ligero).\nInterocepción 10 min: observa latido sin modificarlo.\nCena ligera 3h antes dormir."
+    },
+    {
+      "name": "Día 4",
+      "info": "Meditación focalizada 15 min (cuenta respiraciones hasta 10 y reinicia).\nNaturaleza 30 min sin móvil.\nRegistrar calidad sueño."
+    },
+    {
+      "name": "Día 5",
+      "info": "Ducha fría 45 seg (respira lento durante exposición).\nEscribe 5 pensamientos ansiosos.\nReformula cada uno con evidencia objetiva.\nZona 2 30 min."
+    },
+    {
+      "name": "Día 6",
+      "info": "Revisión semanal.\nRespiración coherente 15 min (5 seg inhalar / 5 seg exhalar).\nDescanso activo y estiramientos."
+    },
+
+    {
+      "name": "Día 7",
+      "info": "Entrenamiento atencional 20 min: enfoca atención en sonidos lejanos.\nFuerza 30 min.\nEvita multitarea todo el día."
+    },
+    {
+      "name": "Día 8",
+      "info": "Reestructuración cognitiva profunda:\n1) Escribe predicción negativa.\n2) Estima probabilidad real.\n3) Define resultado alternativo.\nZona 2 35 min."
+    },
+    {
+      "name": "Día 9",
+      "info": "Mindfulness 20 min observando pensamientos sin intervenir.\nReducir redes sociales a 30 min total."
+    },
+    {
+      "name": "Día 10",
+      "info": "HIIT moderado 15 min (intervalos 30 seg rápidos / 90 seg suaves).\nEscribe comparación: miedo anticipado vs resultado real pasado."
+    },
+    {
+      "name": "Día 11",
+      "info": "Respiración 4-6 20 min.\nConversación breve voluntaria con desconocido (exposición social leve)."
+    },
+    {
+      "name": "Día 12",
+      "info": "Evaluación progreso.\nNaturaleza 45 min.\nEscribe mejoras físicas (digestión, sueño)."
+    },
+
+    {
+      "name": "Día 13",
+      "info": "Crear jerarquía de exposición (10 niveles de ansiedad).\nZona 2 40 min."
+    },
+    {
+      "name": "Día 14",
+      "info": "Exposición nivel 1:\nPermanece hasta que ansiedad baje 50%.\nNo escapar.\nRegistrar intensidad inicial, pico y final."
+    },
+    {
+      "name": "Día 15",
+      "info": "Fuerza 30 min.\nEscribe qué aprendió tu cerebro tras exposición."
+    },
+    {
+      "name": "Día 16",
+      "info": "Exposición nivel 2.\nRespiración lenta 10 min posterior."
+    },
+    {
+      "name": "Día 17",
+      "info": "Meditación enfocada en incomodidad corporal 20 min.\nCaminar 45 min."
+    },
+    {
+      "name": "Día 18",
+      "info": "Exposición nivel 3.\nEvita conductas de seguridad (no buscar tranquilización)."
+    },
+
+    {
+      "name": "Día 19",
+      "info": "HIIT corto.\nEjercicio tolerancia incertidumbre: no revisar mensajes durante 4h."
+    },
+    {
+      "name": "Día 20",
+      "info": "Exposición nivel 4.\nEscribe predicción vs resultado real."
+    },
+    {
+      "name": "Día 21",
+      "info": "Fuerza.\nEscribe 3 logros del mes.\nRespiración 15 min."
+    },
+    {
+      "name": "Día 22",
+      "info": "Exposición nivel 5.\nMantener hasta reducción clara ansiedad."
+    },
+    {
+      "name": "Día 23",
+      "info": "Zona 2 larga 50 min.\nSin redes sociales todo el día."
+    },
+    {
+      "name": "Día 24",
+      "info": "Exposición nivel 6.\nEvaluación semanal cuantitativa."
+    },
+
+    {
+      "name": "Día 25",
+      "info": "Meditación 25 min.\nExposición nivel 7."
+    },
+    {
+      "name": "Día 26",
+      "info": "Fuerza.\nRevisión cognitiva profunda: ¿Qué temores ya no se sostienen?"
+    },
+    {
+      "name": "Día 27",
+      "info": "Exposición nivel 8.\nRespiración coherente 20 min."
+    },
+    {
+      "name": "Día 28",
+      "info": "Zona 2.\nEscribir identidad fortalecida: 'Tolero incomodidad sin huir'."
+    },
+    {
+      "name": "Día 29",
+      "info": "Exposición nivel 9-10.\nRegistrar cambio fisiológico comparado con Día 1."
+    },
+    {
+      "name": "Día 30",
+      "info": "Evaluación final completa.\nComparar puntuaciones iniciales.\nDiseñar protocolo permanente:\n- Respiración diaria 10 min.\n- Ejercicio 4x semana.\n- 2 exposiciones semanales.\n- Revisión cognitiva semanal."
+    }
+  ]
+}

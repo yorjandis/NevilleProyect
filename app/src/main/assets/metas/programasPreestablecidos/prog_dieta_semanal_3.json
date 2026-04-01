@@ -1,0 +1,38 @@
+{
+  "title": "Protocolo semanal optimizado para longevidad, sensibilidad a la insulina y mantenimiento muscular",
+  "detalles": "Programa de 7 unidades, cada unidad corresponde a un día de la semana",
+  "description": "Programa orientado a maximizar longevidad, mantener masa muscular y minimizar activación crónica de S6K.\n\nEstructura del programa:\n1. Ayuno diario (14–16h) -> activa AMPK -> reduce S6K basal\n2. Entrenamiento en ayunas -> aumenta GLUT4 independiente de insulina\n3. Café post-entreno -> prolonga AMPK -> mejora sensibilidad\n4. Comida única o principal post-entreno -> activación pulsátil de mTOR\n5. Distribución proteica estratégica -> maximiza síntesis muscular sin exceso de S6K\n6. Días de descanso activo -> reducción global de mTOR\n7. Día de reset metabólico -> aumento de autofagia\n\nResultado esperado (8-12 semanas):\n* Mejora sensibilidad a la insulina\n* Reducción de S6K basal\n* Mantenimiento o mejora de masa muscular\n* Mejora flexibilidad metabólica\n* Mayor eficiencia en uso de nutrientes\n* Reducción inflamación sistémica",
+  "noUnidades": 7,
+  "tipoUnidad": "dias",
+  "frecuencia": 1,
+  "unidadesinfo": [
+    {
+      "name": "Día 1 - Fuerza + Cardio",
+      "info": "Ayuno 14–16h + infusión matutina\nEntrenamiento: Fuerza 30–45min + correr 5K\nCafé post-entreno (2:1 descafeinado:normal) + espera 30min\n\nMini pulso proteico (opcional):\n* 25g proteína (whey o pollo)\n\nComida principal:\n* 250g pechuga de pollo\n* 2 huevos\n* 200g arroz basmati cocido\n* 250g alubias negras\n* 250g verduras (brócoli, espinaca)\n* 25ml AOVE\n* Omega 3 + multivitamínico\n\nOrden de ingesta:\n1. Proteína + grasa\n2. Verdura\n3. Carbohidratos\n\nObjetivo metabólico:\nAlta sensibilidad a insulina + activación mTOR pulsátil controlada"
+    },
+    {
+      "name": "Día 2 - Fuerza + Cardio",
+      "info": "Misma estructura que Día 1\n\nVariación proteica:\n* 200g pollo + 100g pescado azul\n\nObjetivo metabólico:\nMantener estímulo anabólico con variabilidad nutricional"
+    },
+    {
+      "name": "Día 3 - Descanso Activo",
+      "info": "Ayuno 14–16h\nActividad: caminar 8–12K pasos + movilidad\n\nComida principal:\n* 180g pollo\n* 200g alubias\n* 120g arroz basmati\n* 350g verduras\n* 20ml AOVE\n\nObjetivo metabólico:\nDisminución de mTOR y S6K + aumento de autofagia"
+    },
+    {
+      "name": "Día 4 - Fuerza + Cardio",
+      "info": "Misma estructura que Día 1\n\nVariación:\n* Sustituir parte de arroz por patata cocida (250g)\n\nObjetivo metabólico:\nOptimización de reposición de glucógeno y señalización de insulina"
+    },
+    {
+      "name": "Día 5 - Fuerza + Cardio",
+      "info": "Misma estructura que Día 1\n\nVariación:\n* Añadir 10–20g carbohidratos extra si fatiga\n\nObjetivo metabólico:\nMaximizar rendimiento sin aumentar S6K basal"
+    },
+    {
+      "name": "Día 6 - Descanso Activo",
+      "info": "Ayuno 14–16h\nActividad ligera: caminar + zona 2 suave\n\nComida principal:\n* 150g pollo\n* 200g legumbres\n* 100g arroz\n* 400g verduras\n* 20ml AOVE\n\nObjetivo metabólico:\nReducción acumulativa de mTOR semanal + mejora longevidad"
+    },
+    {
+      "name": "Día 7 - Reset Metabólico",
+      "info": "Ayuno prolongado 18–20h\nActividad ligera opcional\n\nComida única ligera:\n* 150g legumbres\n* 400–500g verduras\n* 30g proteína (pollo o pescado)\n* 15ml AOVE\n\nObjetivo metabólico:\nAutofagia profunda + reducción máxima de S6K + resensibilización metabólica"
+    }
+  ]
+}

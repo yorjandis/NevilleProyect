@@ -1,0 +1,160 @@
+
+La memoria episódica es un tipo de memoria declarativa (explícita) que nos permite recordar experiencias personales concretas, situadas en un tiempo y un lugar, junto con el contexto emocional y sensorial en el que ocurrieron. Desde la neurociencia, no es solo “recordar hechos”, sino revivir mentalmente un episodio de nuestra vida.
+
+
+
+🟢 ¿Qué caracteriza a la memoria episódica?
+
+Desde un punto de vista neurocientífico, la memoria episódica tiene cuatro rasgos clave:
+    1.    Autobiográfica
+El recuerdo es “mío”. Por ejemplo:
+“Recuerdo mi primer día de trabajo, estaba nervioso y hacía calor.”
+
+    2.    Contextual
+Incluye dónde, cuándo y con quién ocurrió el evento.
+
+    3.    Multimodal
+Integra información visual, auditiva, emocional, olfativa, etc.
+
+    4.    Conciencia autonoética
+Término de Endel Tulving: la capacidad de sentirse viajando mentalmente al pasado.
+
+
+
+🟢 Bases neuroanatómicas de la memoria episódica
+
+La memoria episódica no vive en una sola región del cerebro, sino en una red distribuida:
+
+🧠 Hipocampo (pieza central)
+    •    Actúa como un índice que enlaza distintos elementos del episodio.
+    •    No almacena el recuerdo completo, sino cómo reconstruirlo.
+    •    Es esencial para la formación inicial de recuerdos episódicos.
+
+📌 Ejemplo:
+
+El hipocampo une el lugar, la cara de una persona, la emoción y la conversación en un solo episodio coherente.
+
+
+
+🧠 Corteza entorrinal
+    •    Puerta de entrada y salida de información hacia el hipocampo.
+    •    Codifica relaciones espaciales y temporales.
+
+
+
+🧠 Corteza prefrontal
+    •    Organiza, selecciona y recupera recuerdos.
+    •    Decide qué es relevante y cuándo acceder a ello.
+
+
+
+🧠 Amígdala
+    •    Modula la memoria episódica cuando hay carga emocional.
+    •    Los eventos emocionalmente intensos se consolidan mejor.
+
+📌 Ejemplo:
+
+Recuerdas con claridad dónde estabas cuando recibiste una noticia impactante.
+
+
+
+🟢 ¿Cómo se crea un recuerdo episódico a largo plazo?
+
+El proceso ocurre en varias fases:
+
+1️⃣ Codificación
+    •    Atención + significado + emoción.
+    •    Si no hay atención, no hay memoria episódica.
+
+📌 Ejemplo práctico:
+
+Leer un texto distraído → memoria débil
+Vivir una experiencia novedosa y emocional → memoria fuerte
+
+
+
+2️⃣ Consolidación
+    •    Ocurre horas o días después.
+    •    Implica plasticidad sináptica (LTP: potenciación a largo plazo).
+    •    El sueño, especialmente el sueño profundo y REM, es crucial.
+
+🛌 Durante el sueño:
+    •    El hipocampo “reproduce” los recuerdos.
+    •    La información se transfiere progresivamente a la neocorteza.
+
+
+
+3️⃣ Almacenamiento a largo plazo
+    •    Con el tiempo, los recuerdos se vuelven menos dependientes del hipocampo.
+    •    Se distribuyen en redes corticales.
+
+📌 Esto explica por qué:
+
+Lesiones hipocampales afectan recuerdos recientes, pero no tan fácilmente los muy antiguos.
+
+
+
+4️⃣ Recuperación
+    •    El recuerdo se reconstruye, no se reproduce como un vídeo.
+    •    Cada recuperación puede modificar el recuerdo (reconsolidación).
+
+
+
+🟢 Importancia de la memoria episódica en la memoria a largo plazo
+
+🔸 1. Es la base del aprendizaje experiencial
+
+Aprendemos mejor de lo vivido que de lo leído.
+
+📌 Ejemplo:
+
+Un error cometido en una inversión real se recuerda mucho más que una regla teórica.
+
+
+
+🔸 2. Construye la identidad personal
+
+Nuestra sensación de “quién soy” se basa en recuerdos episódicos.
+    •    Pacientes con amnesia episódica:
+    •    Conservan habilidades y conocimientos.
+    •    Pero pierden continuidad del yo.
+
+
+
+🔸 3. Permite imaginar el futuro
+
+El cerebro usa la memoria episódica para simular escenarios futuros.
+
+📌 Ejemplo:
+
+Imaginar cómo te sentirás en una decisión importante usa los mismos circuitos que recordar el pasado.
+
+
+
+🔸 4. Influye en la toma de decisiones
+
+Las experiencias previas guían elecciones futuras.
+    •    Da contexto emocional a las decisiones.
+    •    Acelera el aprendizaje adaptativo.
+
+
+
+🟢 Ejemplo integrador
+
+Imagina que aprendes a programar una nueva tecnología:
+    •    Leer documentación → memoria semántica.
+    •    Resolver un bug complejo a las 2 a.m., frustrado pero satisfecho → memoria episódica.
+
+Años después:
+    •    Quizá olvides la sintaxis exacta.
+    •    Pero recordarás la experiencia, lo que te ayuda a resolver problemas similares más rápido.
+
+
+
+🟢 En resumen
+
+La memoria episódica:
+    •    Es el sistema que transforma experiencias vividas en recuerdos duraderos.
+    •    Depende críticamente del hipocampo y redes corticales.
+    •    Se fortalece con atención, emoción, significado y sueño.
+    •    No solo almacena el pasado: moldea quiénes somos y cómo decidimos.

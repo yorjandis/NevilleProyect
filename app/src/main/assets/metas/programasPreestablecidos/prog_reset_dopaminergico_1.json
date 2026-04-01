@@ -1,0 +1,94 @@
+{
+  "title": "Reset Dopaminérgico 21 días para Adultos (Redes Sociales) I",
+  "detalles":"Programa de 21 unidades, cada unidad corresponde a un día",
+  "description": "Programa orientado a restaurar la sensibilidad dopaminérgica y recuperar el control ejecutivo sobre el uso de redes sociales.\n\nFases:\n1) Conciencia y medición\n2) Reducción estructurada\n3) Sustitución neuroadaptativa\n4) Consolidación y automatización\n\nBase neurocientífica: Disminuir picos dopaminérgicos rápidos, fortalecer corteza prefrontal dorsolateral y debilitar el circuito estímulo-recompensa automático.\n\nPor qué funciona?\n*Reducir notificaciones disminuye liberación dopaminérgica anticipatoria.\n*Retrasar impulsos fortalece corteza prefrontal.\n*Eliminar apps del móvil rompe automatización del ganglio basal.\n*Aburrimiento voluntario recalibra umbral dopaminérgico.\n*Ejercicio y meditación aumentan control inhibitorio y neuroplasticidad.",
+  "noUnidades": 21,
+  "tipoUnidad": "dias",
+  "frecuencia": 1,
+  "unidadesinfo": [
+    {
+      "name": "Día 1",
+      "info": "Medición basal. Registrar tiempo real de uso. Anotar momentos de impulso y emoción asociada. No modificar conducta."
+    },
+    {
+      "name": "Día 2",
+      "info": "Identificar disparadores (aburrimiento, ansiedad, procrastinación). Escribirlos en papel."
+    },
+    {
+      "name": "Día 3",
+      "info": "Eliminar notificaciones no esenciales. Mantener uso habitual."
+    },
+    {
+      "name": "Día 4",
+      "info": "Establecer 3 ventanas de uso de 20 minutos. Prohibido uso fuera de ellas."
+    },
+    {
+      "name": "Día 5",
+      "info": "Retrasar cada impulso 10 minutos. Técnica: respiración 4-6 y caminar 5 minutos."
+    },
+    {
+      "name": "Día 6",
+      "info": "Mover redes sociales fuera de pantalla principal. Introducir fricción conductual."
+    },
+    {
+      "name": "Día 7",
+      "info": "Día con solo 1 ventana de 30 minutos."
+    },
+    {
+      "name": "Día 8",
+      "info": "Sustitución activa: cada impulso se reemplaza por 10 flexiones o 2 páginas de lectura."
+    },
+    {
+      "name": "Día 9",
+      "info": "Implementar bloqueo nocturno (últimas 2 horas sin redes)."
+    },
+    {
+      "name": "Día 10",
+      "info": "Eliminar apps del teléfono. Solo acceso desde ordenador."
+    },
+    {
+      "name": "Día 11",
+      "info": "Ejercicio aeróbico 30 min (aumenta BDNF y regula dopamina)."
+    },
+    {
+      "name": "Día 12",
+      "info": "Meditación 15 minutos enfocada en observar impulsos sin actuar."
+    },
+    {
+      "name": "Día 13",
+      "info": "Jornada sin redes sociales."
+    },
+    {
+      "name": "Día 14",
+      "info": "Análisis de mejora cognitiva (concentración, energía, estado de ánimo)."
+    },
+    {
+      "name": "Día 15",
+      "info": "Solo uso intencional con objetivo definido antes de abrir app."
+    },
+    {
+      "name": "Día 16",
+      "info": "Práctica de aburrimiento voluntario 20 min sin estímulos."
+    },
+    {
+      "name": "Día 17",
+      "info": "Reforzar recompensas naturales: exposición solar y contacto social real."
+    },
+    {
+      "name": "Día 18",
+      "info": "Eliminar cuentas innecesarias."
+    },
+    {
+      "name": "Día 19",
+      "info": "Revisión de identidad: escribir quién eres sin redes sociales."
+    },
+    {
+      "name": "Día 20",
+      "info": "Segundo día completo sin redes."
+    },
+    {
+      "name": "Día 21",
+      "info": "Definir reglas permanentes: máximo 30 min diarios, sin uso matutino."
+    }
+  ]
+}

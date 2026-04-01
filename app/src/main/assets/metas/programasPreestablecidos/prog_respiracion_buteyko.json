@@ -1,0 +1,94 @@
+{
+  "title": "Programa práctico de Respiración Buteyko",
+  "detalles": "Programa estructurado en 21 días. Cada día incluye instrucciones claras y simples. Progresión en tres fases: adaptación, mejora y consolidación.",
+  "description": "Programa orientado a disminuir la respiración excesiva, mejorar la tolerancia al CO2 y favorecer respiración nasal tranquila.\n\nINSTRUCCIONES GENERALES (leer antes de empezar):\n\n1) Siempre respirar por la nariz (entrada y salida de aire).\n2) La respiración debe ser silenciosa y suave.\n3) Nunca forzar la pausa hasta sentir ahogo fuerte.\n4) Practicar sentado con espalda recta o caminando despacio.\n5) Si aparece mareo fuerte, detenerse y respirar normal.\n\nQUÉ ES LA PAUSA DE CONTROL (PC):\n- Sentado tranquilo.\n- Inhalar normal por nariz.\n- Exhalar normal por nariz.\n- Tapar la nariz y contar segundos hasta la primera necesidad clara de respirar.\n- Soltar y respirar suave por nariz.\n\nObjetivo orientativo:\n10–20 s = bajo\n20–30 s = mejorando\n30–40 s = bueno\n40+ s = óptimo funcional\n\nFrecuencia: 2 sesiones al día (mañana y noche). 10–25 minutos.",
+  "noUnidades": 21,
+  "tipoUnidad": "dias",
+  "frecuencia": 1,
+  "unidadesinfo": [
+    {
+      "name": "Día 1",
+      "info": "1) Medir PC 3 veces y anotar el mejor valor.\n2) Sesión mañana (10 min): respirar suave por nariz. Intentar que el aire sea tan ligero que casi no se info.\n3) Sesión noche (10 min): repetir.\nObjetivo: aprender a respirar más lento y menos profundo."
+    },
+    {
+      "name": "Día 2",
+      "info": "2 sesiones de 12 min.\nCada 2 minutos hacer una pausa corta de 5 segundos después de exhalar.\nCaminar 5 minutos respirando solo por nariz."
+    },
+    {
+      "name": "Día 3",
+      "info": "2 sesiones de 12–15 min.\nIntentar que el abdomen se mueva suave (no el pecho).\nHacer 6 pausas cortas en cada sesión.\nMeta: PC +2 segundos respecto al día 1."
+    },
+    {
+      "name": "Día 4",
+      "info": "2 sesiones de 15 min.\nEjercicio principal: respirar tan suave que apenas se escuche.\nSi aparece ligera necesidad de aire, es correcto (sin forzar)."
+    },
+    {
+      "name": "Día 5",
+      "info": "2 sesiones de 15 min.\nDurante 5 minutos seguidos, mantener respiración reducida continua.\nCaminar 10 min solo nasal."
+    },
+    {
+      "name": "Día 6",
+      "info": "2 sesiones de 15 min.\nDespués de cada exhalación normal, hacer pausa cómoda 6–8 veces.\nMedir PC por la mañana."
+    },
+    {
+      "name": "Día 7",
+      "info": "Evaluación semanal.\nMedir PC.\nUna sesión larga de 20 min enfocada en calma total y respiración silenciosa."
+    },
+    {
+      "name": "Día 8",
+      "info": "2 sesiones de 15–18 min.\nEjercicio: respirar menos aire del que el cuerpo quiere (ligera sensación de falta de aire suave).\nCaminar 10 min nasal."
+    },
+    {
+      "name": "Día 9",
+      "info": "2 sesiones de 18 min.\nAñadir 8 pausas cortas por sesión.\nDurante el día, vigilar que la boca esté siempre cerrada."
+    },
+    {
+      "name": "Día 10",
+      "info": "Medir PC.\nObjetivo aproximado: 25–30 s.\nRespiración reducida continua 8 minutos dentro de la sesión."
+    },
+    {
+      "name": "Día 11",
+      "info": "Caminar 15 minutos solo nasal.\nSi falta aire, bajar ritmo.\n2 sesiones de 18–20 min."
+    },
+    {
+      "name": "Día 12",
+      "info": "Ejercicio especial: reducir volumen de respiración al mínimo cómodo durante 10 min.\nSentir ligero calor corporal (señal positiva)."
+    },
+    {
+      "name": "Día 13",
+      "info": "2 sesiones de 20 min.\nHacer 10 pausas cómodas distribuidas.\nMantener hombros relajados."
+    },
+    {
+      "name": "Día 14",
+      "info": "Evaluación semanal.\nMedir PC.\nMeta común: 30–35 s.\nSesión suave de mantenimiento."
+    },
+    {
+      "name": "Día 15",
+      "info": "Respiración nasal obligatoria todo el día.\n2 sesiones de 20 min.\nRespiración muy ligera y tranquila."
+    },
+    {
+      "name": "Día 16",
+      "info": "Caminar 20 min solo nasal.\nSi PC es mayor de 30 s, hacer pequeñas pausas caminando (2–3 s tras exhalar)."
+    },
+    {
+      "name": "Día 17",
+      "info": "Respiración reducida continua 12 min dentro de cada sesión.\nControlar que el pecho no se eleve demasiado."
+    },
+    {
+      "name": "Día 18",
+      "info": "Aplicar técnica en momento de estrés (trabajo o discusión).\nRespirar suave por nariz 5 min hasta calmarse."
+    },
+    {
+      "name": "Día 19",
+      "info": "Actividad física ligera manteniendo respiración nasal.\nSi se abre la boca, bajar intensidad."
+    },
+    {
+      "name": "Día 20",
+      "info": "Sesión profunda de 25 min.\nRespiración mínima sostenible.\nSensación leve y controlada de necesidad de aire."
+    },
+    {
+      "name": "Día 21",
+      "info": "Evaluación final.\nMedir PC.\nComparar con día 1.\nPlan de mantenimiento: 1 sesión diaria de 15–20 min + respiración nasal constante."
+    }
+  ]
+}

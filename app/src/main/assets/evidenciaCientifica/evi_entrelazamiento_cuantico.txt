@@ -1,0 +1,39 @@
+
+Pruebas científicas que respaldan el entrelazamiento cuántico
+
+Concepto: El entrelazamiento cuántico es un fenómeno en el que dos o más partículas se vuelven correlacionadas de tal manera que el estado de una depende instantáneamente del estado de la otra, sin importar la distancia que las separa. Esto significa que si se mide una propiedad de una partícula, como su spin o polarización, el valor correspondiente de la otra partícula queda determinado de manera inmediata, de forma que no puede explicarse por variables locales clásicas. Es la base de tecnologías como la criptografía cuántica, la teleportación cuántica y el cómputo cuántico, y ha sido comprobado experimentalmente en fotones, átomos y partículas de alta energía mediante la violación de desigualdades de Bell.
+
+
+🟢 Prueba experimental de desigualdades de Bell:
+Aspect, A., Dalibard, J., & Roger, G. (1982). Experimental Test of Bell’s Inequalities Using Time‑Varying Analyzers. Physical Review Letters, 49(25), 1804–1807.
+https://doi.org/10.1103/PhysRevLett.49.1804
+
+🟢 Test de teorías locales ocultas
+Freedman, S. J., & Clauser, J. F. (1972). Experimental Test of Local Hidden‑Variable Theories (Bell’s Inequalities). Physical Review Letters, 28, 938–941.
+https://doi.org/10.1103/PhysRevLett.28.938
+
+🟢 Violación de desigualdades de Bell con separación estricta
+Weihs, G., Jennewein, T., Simon, C., Weinfurter, H., & Zeilinger, A. (1998). Violation of Bell’s Inequality under Strict Einstein Locality Conditions. arXiv:quant‑ph/9810080
+enlace:https://arxiv.org/abs/quant-ph/9810080
+
+🟢 Entrelazamiento de fotones en momento angular total:
+Kam, A., Tsesses, S., Ilin, Y., Cohen, K., Lumer, Y., Fridman, L., & Lotan, S. (2025). Near‑field photon entanglement in total angular momentum. Nature, 640(8059), 634–640. https://doi.org/10.1038/s41586-025-08761-1
+Este experimento en Nature demuestra la generación y medición de entrelazamiento cuántico entre pares de fotones basados en su momento angular total, mostrando correlaciones no locales que solo pueden explicarse mediante entrelazamiento cuántico entre los estados de los fotones.
+
+🟢 Prueba experimental de mejora cuántica con fotones entrelazados
+Qian, G., Liu, X., Xu, C., Xu, X., & Wang, D.-W. (2024). Experimental test of the entanglement enhancement in two‑photon fluorescence. Quantum Frontiers, 3, 5. https://doi.org/10.1007/s44214-024-00052-6
+Este artículo reporta un test experimental con fotones entrelazados temporal y energéticamente, donde la estructura de la señal observada evidencia la existencia de estados cuánticamente correlacionados que no se explican por luz clásica, apoyando la realidad física del entrelazamiento cuántico.
+
+🟢 Control híbrido de entrelazamiento en nodos cuánticos:
+Chang, X. Y., et al. (2025). Hybrid entanglement and bit‑flip error correction in a diamond‑based quantum node. Nature Physics, 21, 583–589.
+Aunque centrado en redes cuánticas, este trabajo demuestra entrelazamiento multipartito entre espines de electrones, núcleos y fotones, validado con mediciones de correlaciones estadísticas que solo son posibles si existe entrelazamiento cuántico entre diferentes qubits físicos.
+
+🟢 Detección de entrelazamiento mediante test de Bell en espacio profundo
+Equipo de SEAQUE (2025). Resultados preliminares de Bell test con fuente de entrelazamiento en órbita terrestre baja. APS Global Physics Summit Proceedings.
+Este experimento espacial describe resultados de violaciones repetidas de desigualdades de Bell con fotones generados y medidos desde la Estación Espacial Internacional, lo que demuestra de forma robusta entrelazamiento cuántico incluso en condiciones de espacio libre.
+
+🟢 Observación de entrelazamiento cuántico en altas energías
+Colaboración ATLAS & CMS (2025). Quantum entanglement observed at 13 TeV in proton collisions. Nature.
+La colaboración en el LHC ha observado correlaciones indicativas de entrelazamiento cuántico entre quarks top producidos a muy alta energía, apoyando que el fenómeno no se limita a sistemas ópticos sino que también ocurre en la física de partículas fundamental.
+
+

@@ -1,0 +1,7 @@
+{
+"titulo": "El conocimiento",
+"autor": "Yorj",
+"contenido": [
+"Conocimiento es sinónimo de identificación. Conocer algo es identificarnos con lo conocido. Hasta que no sintamos ser algo no lo conocemos verdaderamente. Sentir al Padre en vosotros, identificarse con él, es conocer al Padre. Una cosa más, cuando nos identificamos con algo, no solamente llegamos a conocerlo sino que también no convertimos en aquello que conocemos. Y todavía una cosa más; la disposición del poder en nosotros es tal que aquello que conocemos llega a expresarse y sentirse en nuestra vida."
+]
+}

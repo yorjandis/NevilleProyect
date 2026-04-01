@@ -1,0 +1,831 @@
+id=gregg_001
+autor=gregg
+nota=
+fuente=Braden, G. (2007), Capítulo 1, La Matriz Divina, p. 22, New York: Hay House, Inc., ISBN: 978-1-4019-2177-4
+contexto=
+texto=Sea lo que sea que decidamos llamar a ese “algo” misterioso, todos lo tenemos; y el nuestro se entremezcla con el de todos los demás como parte del campo de energía que impregna todas las cosas
+relacionadas=
+
+id=gregg_002
+autor=gregg
+nota=
+fuente=Braden, G. (2007), Capítulo 1, La Matriz Divina, p. 20, New York: Hay House, Inc., ISBN:978-1-4019-2177-4
+contexto=
+texto=Parece que cuanto más nos alejamos de nuestra relación natural con la tierra, con nuestros cuerpos, con nuestros semejantes y con Dios, más vacíos nos volvemos
+relacionadas=
+
+id=gregg_003
+autor=gregg
+nota=
+fuente=Braden, G. (2007), Introducción, La Matriz Divina, p. 10 , New York: Hay House, Inc., ISBN: 978-1-4019-2177-4
+contexto=
+texto=La ciencia moderna ha descubierto que a través de cada emoción que experimentamos en nuestros cuerpos, también pasamos por cambios químicos tales como pH y hormonas que reflejan nuestros sentimientos. A través de las experiencias “positivas” de amor, compasión y perdón, y de las emociones “negativas” del odio, el juicio y la envidia, cada uno de nosotros posee el poder de afirmar o negar nuestra existencia a cada momento del día
+relacionadas=
+
+id=gregg_004
+autor=gregg
+nota=
+fuente=Braden, G. (2007), Introducción, La Matriz Divina, p. 8 , New York: Hay House, Inc., ISBN: 978-1-4019-2177-4
+contexto=
+texto=Lo que vemos como nuestro mundo es, en realidad, la proyección de algo aun más real que está ocurriendo en un nivel más profundo de la creación
+relacionadas=
+
+id=gregg_005
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+texto=la oración es más que lo que hacemos. La oración es lo que somos
+relacionadas=
+
+id=gregg_006
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+texto=Si el sentimiento es la plegaria y sentimos continuamente, eso significa que siempre nos encontramos en estado de oración
+relacionadas=
+
+id=gregg_007
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+texto=La bendición se puede definir como una cualidad de pensamiento, sentimiento o emoción que nos permite redefinir los sentimientos que albergamos sobre algo que nos duele ahora o nos dolió en el pasado
+relacionadas=
+
+id=gregg_008
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+texto=Las antiguas tradiciones señalan que la única diferencia entre los ángeles de los Cielos y los de la Tierra es que los primeros recuerdan que son ángeles
+relacionadas=
+
+id=gregg_009
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+texto=En nuestro interior disponemos de la tecnología necesaria para conectar con la Matriz Divina. Esto se Logra a través de la coherencia cerebro-corazón
+relacionadas=
+
+id=gregg_010
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+texto=La sutil diferencia entre el alivio y el anhelo es la fuerza que distingue el pedir del recibir
+relacionadas=
+
+id=gregg_011
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+texto=El sentimiento es la oración», había dicho el abad tibetano, en consonancia con las enseñanzas de las tradiciones de los grandes maestros de los nativos americanos, y también de la cristiana y la judía
+relacionadas=
+
+id=gregg_012
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+texto=La Matríz Divina es el campo cuántico de infinitas posibilidades, descrito por la ciencia.
+relacionadas=
+
+id=gregg_013
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+texto=El sentimiento es el lenguaje que la Mente de Dios reconoce
+relacionadas=
+
+id=gregg_014
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+texto=La verdadera oración es el sentimiento del deseo ya cumplido. Siente la realidad de lo que deseas experimentar. Respira hondo y siente la plenitud de tu plegaria hecha realidad en todos los detalles y formas posible. Acto seguido, siente gratitud y cómo es tu vida con esa plegaria ya respondida
+relacionadas=
+
+id=gregg_015
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+texto=Me volví hacia mi amigo y le pregunté: —Si no pediste que llueva, ¿qué es lo que hiciste? —Es muy sencillo –contestó–. Comencé a sentir la lluvia. Percibí la sensación del agua caer sobre mi cuerpo y lo que se siente al estar de pie en el barro con los pies descalzos en la plaza de nuestro pueblo. Sentí los olores de la lluvia cayendo sobre las paredes de barro de nuestras casas y la emoción de andar por los campos de maíz con el pecho henchido porque había llovido copiosamente
+relacionadas=
+
+id=gregg_016
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+texto=Seguir pidiendo que se produzca algo no hace sino darle mayor fuerza a aquello que quisiéramos cambiar -dijo mi amigo. Cuando pedimos que algo ocurra, perpetuamos su carencia. Las oraciones que piden la sanación le otorgan mayor fuerza a la enfermedad. Las plegarias que piden la lluvia le dan fuerza a la sequía...Pedir con sentimiento que algo ocurra es reconocer su falta en nuestra experiencia, el campo cuántico, entonces,  recibe nuestra intención y produce esa carencia en nuestra experiencia.
+relacionadas=
+
+id=gregg_017
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=Cada pensamiento y emoción que sentimos tiene el poder de influir en nuestra realidad.
+relacionadas=
+
+id=gregg_018
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=La gratitud es una de las herramientas más potentes para conectarnos con la Matriz.
+relacionadas=
+
+id=gregg_019
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=No existe separación real: todo en el universo está interconectado.
+relacionadas=
+
+id=gregg_020
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=Nuestras emociones son el lenguaje con el que interactuamos con el campo universal.
+relacionadas=
+
+id=gregg_021
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=La intención clara combinada con emociones coherentes activa cambios en la realidad.
+relacionadas=
+
+id=gregg_022
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=Pequeños cambios internos pueden generar grandes transformaciones externas.
+relacionadas=
+
+id=gregg_023
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=Cultivar estados de amor y compasión impacta no solo nuestra vida, sino también la colectiva.
+relacionadas=
+
+id=gregg_024
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=Nuestra conciencia enfocada co-crea la realidad que experimentamos.
+relacionadas=
+
+id=gregg_025
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=El presente, pasado y futuro están entrelazados en la Matriz.
+relacionadas=
+
+id=gregg_026
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=Sanar experiencias pasadas transforma la percepción del presente y posibles futuros.
+relacionadas=
+
+id=gregg_027
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=Visualizar lo que deseamos con emociones auténticas imprime esa realidad en la Matriz.
+relacionadas=
+
+id=gregg_028
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=Sentir como si ya tuviéramos aquello que deseamos es más poderoso que solo pensarlo.
+relacionadas=
+
+id=gregg_029
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=La coherencia entre mente y corazón amplifica el efecto de nuestra intención.
+relacionadas=
+
+id=gregg_030
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=La meditación ayuda a alinear nuestra conciencia con la energía universal.
+relacionadas=
+
+id=gregg_031
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=Cada emoción negativa sostenida puede limitar nuestro acceso a la Matriz.
+relacionadas=
+
+id=gregg_032
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=La percepción de separación es solo una ilusión; en el fondo todo es uno.
+relacionadas=
+
+id=gregg_033
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=Al enfocarnos en soluciones en lugar de problemas, activamos respuestas creativas del campo.
+relacionadas=
+
+id=gregg_034
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=Los pensamientos repetitivos actúan como señales que la Matriz interpreta y responde.
+relacionadas=
+
+id=gregg_035
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=El poder de la intención no depende del tamaño del deseo, sino de la claridad y emoción que lo acompaña.
+relacionadas=
+
+id=gregg_036
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=La verdadera transformación comienza dentro de nosotros antes de reflejarse afuera.
+relacionadas=
+
+id=gregg_037
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=Cultivar la confianza y la paciencia fortalece la conexión con la Matriz.
+relacionadas=
+
+id=gregg_038
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=Nuestra percepción puede limitar o expandir nuestra experiencia de la realidad.
+relacionadas=
+
+id=gregg_039
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=Actuar desde la compasión genera efectos que van más allá de lo inmediato y visible.
+relacionadas=
+
+id=gregg_040
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=Cada instante es una oportunidad de alinear mente, corazón y espíritu con el campo universal.
+relacionadas=
+
+id=gregg_041
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=La conexión con la Matriz no requiere fórmulas complicadas, solo presencia y coherencia interna.
+relacionadas=
+
+id=gregg_042
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=Nuestra realidad puede cambiar más rápido cuando nuestras emociones y pensamientos son coherentes.
+relacionadas=
+
+id=gregg_043
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=El campo de energía responde a la autenticidad de nuestros sentimientos más que a nuestras palabras.
+relacionadas=
+
+id=gregg_044
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=Cuidar nuestro mundo interior es tan importante como nuestras acciones externas.
+relacionadas=
+
+id=gregg_045
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=La Matriz refleja el patrón energético que sostenemos de manera consistente.
+relacionadas=
+
+id=gregg_046
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=Sentir gratitud antes de recibir algo activa respuestas positivas del campo universal.
+relacionadas=
+
+id=gregg_047
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=Nuestro entorno cambia cuando cambiamos nuestra percepción y vibración interna.
+relacionadas=
+
+id=gregg_048
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=La intención sin emoción tiene menos fuerza; la emoción sin intención puede dispersarse.
+relacionadas=
+
+id=gregg_049
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=Cada acción consciente nos acerca a la experiencia de una realidad alineada con nuestros deseos.
+relacionadas=
+
+id=gregg_050
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=La coherencia interna actúa como un imán que atrae circunstancias alineadas con nuestra visión.
+relacionadas=
+
+id=gregg_051
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=Lo que sentimos profundamente tiene más influencia en nuestra realidad que lo que pensamos superficialmente.
+relacionadas=
+
+id=gregg_052
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=Cuando armonizamos intención, emoción y acción, abrimos la puerta a posibilidades antes impensables.
+relacionadas=
+
+id=gregg_053
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=La práctica diaria de presencia y gratitud fortalece nuestra conexión con el campo universal.
+relacionadas=
+
+id=gregg_054
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=Transformar nuestro mundo interno transforma automáticamente la manera en que experimentamos la vida.
+relacionadas=
+
+id=gregg_055
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+texto=Cada pensamiento y emoción coherente actúa como una semilla plantada en la Matriz para crecer en nuestra realidadd.
+relacionadas=
+
+id=gregg_056
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+texto=La resiliencia verdadera no consiste en resistir el cambio, sino en transformarse conscientemente a través de él.
+relacionadas=
+
+id=gregg_057
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+texto=El corazón posee una inteligencia propia que puede guiarnos con mayor claridad que el pensamiento puramente racional.
+relacionadas=
+
+id=gregg_058
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+texto=Cuando mente y corazón están en coherencia, nuestras decisiones se vuelven más equilibradas y efectivas.
+relacionadas=
+
+id=gregg_059
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+texto=La coherencia cardíaca reduce el estrés y permite responder a la vida desde la calma en lugar del miedo.
+relacionadas=
+
+id=gregg_060
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+texto=Las emociones no son debilidades, sino señales que el corazón utiliza para orientarnos.
+relacionadas=
+
+id=gregg_061
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+texto=La resiliencia comienza con la capacidad de observar nuestras reacciones sin identificarnos con ellas.
+relacionadas=
+
+id=gregg_062
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+texto=El miedo se debilita cuando aprendemos a escucharlo sin obedecerlo automáticamente.
+relacionadas=
+
+id=gregg_063
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+texto=La respiración consciente es una herramienta directa para restaurar la coherencia entre corazón y cerebro.
+relacionadas=
+
+id=gregg_064
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+texto=Adaptarse al cambio es una habilidad entrenable, no un rasgo fijo de la personalidad.
+relacionadas=
+
+id=gregg_065
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+texto=La esperanza surge cuando elegimos interpretar los desafíos como oportunidades de aprendizaje.
+relacionadas=
+
+id=gregg_066
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+texto=El corazón responde mejor a la autenticidad que a la autoexigencia extrema.
+relacionadas=
+
+id=gregg_067
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+texto=La resiliencia personal se fortalece cuando conocemos nuestros límites y los respetamos.
+relacionadas=
+
+id=gregg_068
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+texto=Las crisis revelan patrones internos que permanecen ocultos en tiempos de estabilidad.
+relacionadas=
+
+id=gregg_069
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+texto=Responder con presencia es más poderoso que reaccionar con rapidez.
+relacionadas=
+
+id=gregg_070
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+texto=La resiliencia se construye en pequeñas decisiones cotidianas, no solo en grandes eventos.
+relacionadas=
+
+id=gregg_071
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+texto=El cuerpo es un aliado fundamental para detectar cuándo estamos en coherencia o en conflicto interno.
+relacionadas=
+
+id=gregg_072
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+texto=La flexibilidad emocional permite adaptarse sin perder la identidad personal.
+relacionadas=
+
+id=gregg_073
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+texto=La conexión humana fortalece la resiliencia tanto individual como colectiva.
+relacionadas=
+
+id=gregg_074
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+texto=El aprendizaje continuo es una característica esencial de los sistemas resilientes.
+relacionadas=
+
+id=gregg_075
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+texto=La claridad interna surge cuando dejamos de luchar contra lo que es.
+relacionadas=
+
+id=gregg_076
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+texto=La resiliencia no elimina el dolor, pero evita que se convierta en sufrimiento prolongado.
+relacionadas=
+
+id=gregg_077
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+texto=El equilibrio emocional es el resultado de una relación consciente con nuestros pensamientos.
+relacionadas=
+
+id=gregg_078
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+texto=Escuchar al corazón nos permite actuar alineados con nuestros valores más profundos.
+relacionadas=
+
+id=gregg_079
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+texto=La resiliencia florece cuando aceptamos la incertidumbre como parte natural de la vida.
+relacionadas=
+
+id=gregg_080
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+texto=Vivir desde el corazón es una práctica diaria que fortalece nuestra capacidad de adaptación y sentido.
+relacionadas=
+
+id=gregg_081
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+texto=El ser humano no es una versión incompleta de sí mismo, sino una expresión plenamente funcional de la vida con capacidades internas olvidadas.
+relacionadas=
+
+id=gregg_082
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+texto=La verdadera evolución humana no consiste en añadir tecnología al cuerpo, sino en recuperar la coherencia entre mente, corazón y biología.
+relacionadas=
+
+id=gregg_083
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+texto=Nuestros pensamientos y emociones influyen directamente en la expresión genética y en la salud del cuerpo.
+relacionadas=
+
+id=gregg_084
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+texto=El corazón actúa como un centro de inteligencia que coordina al cerebro y regula el equilibrio del sistema nervioso.
+relacionadas=
+
+id=gregg_085
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+texto=Las emociones no son reacciones accidentales, sino señales biológicas diseñadas para guiarnos y protegernos.
+relacionadas=
+
+id=gregg_086
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+texto=La coherencia emocional crea estados internos que favorecen la resiliencia, la claridad mental y la sanación.
+relacionadas=
+
+id=gregg_087
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+texto=El estrés crónico surge cuando vivimos desconectados de nuestros ritmos biológicos naturales.
+relacionadas=
+
+id=gregg_088
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+texto=La biología humana responde más al significado emocional de una experiencia que al evento externo en sí.
+relacionadas=
+
+id=gregg_089
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+texto=Sentir emociones elevadas de forma consciente es una forma de influir activamente en nuestro estado físico y mental.
+relacionadas=
+
+id=gregg_090
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+texto=La intuición es una forma legítima de inteligencia que surge de la integración entre cuerpo, emoción y mente.
+relacionadas=
+
+id=gregg_091
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+texto=Delegar nuestras decisiones internas a sistemas externos debilita nuestra autonomía biológica y emocional.
+relacionadas=
+
+id=gregg_092
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+texto=La tecnología debe ser una extensión consciente del ser humano, no un sustituto de su percepción interior.
+relacionadas=
+
+id=gregg_093
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+texto=El cuerpo humano posee una memoria profunda que responde a la seguridad, la calma y el sentido de pertenencia.
+relacionadas=
+
+id=gregg_094
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+texto=La coherencia entre lo que pensamos y lo que sentimos es clave para una vida equilibrada.
+relacionadas=
+
+id=gregg_095
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+texto=La verdadera fuerza humana surge de la integración emocional, no de la supresión de las emociones.
+relacionadas=
+
+id=gregg_096
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+texto=Vivir en estado de amenaza constante altera la biología y limita nuestro potencial creativo.
+relacionadas=
+
+id=gregg_097
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+texto=Cuando el corazón y el cerebro están en coherencia, las decisiones se vuelven más claras y eficaces.
+relacionadas=
+
+id=gregg_098
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+texto=La gratitud sostenida es una de las formas más simples y poderosas de inducir coherencia biológica.
+relacionadas=
+
+id=gregg_099
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+texto=El ser humano está diseñado para autorregularse cuando se siente seguro, visto y conectado.
+relacionadas=
+
+id=gregg_100
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+texto=La evolución consciente comienza cuando dejamos de vivir en reacción y empezamos a elegir desde la presencia.
+relacionadas=
+
+id=gregg_101
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+texto=La salud no es solo ausencia de enfermedad, sino un estado de coherencia integral.
+relacionadas=
+
+id=gregg_102
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+texto=Recordar quiénes somos es más transformador que intentar convertirnos en algo distinto.
+relacionadas=
+
+id=gregg_103
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+texto=La conciencia aplicada a la vida diaria es la forma más elevada de tecnología humana.
+relacionadas=
+
+id=gregg_104
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+texto=Ser puramente humano implica vivir desde la coherencia, la responsabilidad emocional y la conexión interior.
+relacionadas=

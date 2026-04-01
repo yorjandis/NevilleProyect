@@ -1,0 +1,17 @@
+
+Estudios que demuestran el efecto de las emociones negativas en la coherencia de ondas cerebrales
+
+🟢 La coherencia normal que aparece en sujetos sanos frente a estímulos emocionales negativos desaparece o se altera en estos pacientes, sugiriendo que las emociones negativas están ligadas a cambios en la sincronía de oscilaciones cerebrales
+ fuente: https://pubmed.ncbi.nlm.nih.gov/25766267/
+ 
+🟢 Además de la coherencia, otros estudios han observado modulaciones específicas en la potencia y sincronía de bandas EEG (theta, alpha, beta, gamma) durante estados emocionales negativos.
+Aunque no siempre se expresa en el término “coherencia”, estas modulaciones reflejan cambios en cómo se organiza y coordina la actividad cerebral según el estado emocional.
+fuente:https://www.nature.com/articles/s41598-022-07403-0
+
+
+🟠 Conclusión
+
+La literatura científica sugiere de forma consistente que las emociones negativas no sólo cambian la potencia de ciertas bandas EEG, sino también la coherencia o sincronía entre regiones cerebrales. En términos prácticos:
+    •    Estados emocionales negativos modulan cómo se sincronizan los diferentes ritmos del EEG entre áreas del cerebro.
+    •    Esto se traduce en alteraciones en la conectividad funcional (medida por coherencia) que pueden ser detectadas mediante electroencefalografía.
+    •    Estas alteraciones reflejan el modo en que el cerebro reorganiza sus redes en respuesta a experiencias emocionales adversas.

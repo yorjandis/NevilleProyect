@@ -1,0 +1,38 @@
+{
+  "title": "Dieta semanal para longevidad, ayuno intermitente y enfoque antiinflamatorio",
+  "detalles": "Programa de 7 unidades, cada unidad corresponde a un día de la semana",
+  "description": "Programa orientado a mejorar la sensibilidad a la insulina, promover la flexibilidad metabólica y reducir inflamación sistémica.\n\nEstructura del programa:\n- Ventana de ayuno intermitente 16:8 (ayuno de 16 horas, alimentación en ventana de 8 horas, por ejemplo de 12:00 a 20:00).\n- Hidratación durante el ayuno: agua, agua con limón, café solo o té verde sin edulcorantes.\n- Prioridad a alimentos reales, densos en nutrientes, ricos en polifenoles, omega-3, fibra y proteínas de calidad.\n- Carbohidratos estratégicos alrededor del entrenamiento.\n- Cena ligera y temprana para optimizar descanso y autofagia nocturna.\n\nRecomendaciones generales:\n1. Cocinar con aceite de oliva virgen extra en crudo o a baja temperatura.\n2. Priorizar verduras de hoja verde, crucíferas, frutos rojos, legumbres y pescado azul.\n3. Evitar azúcares añadidos, harinas refinadas y aceites vegetales refinados.\n4. Consumir proteína suficiente (1.6–2 g/kg/día si se entrena fuerza).\n5. Dormir 7–8 horas para maximizar beneficios metabólicos.",
+  "noUnidades": 7,
+  "tipoUnidad": "dias",
+  "frecuencia": 1,
+  "unidadesinfo": [
+    {
+      "name": "Lunes",
+      "info": "Entrenamiento matutino de fuerza en ayunas (45 min).\nDurante el ayuno: café solo + agua con pizca de sal marina.\nDesayuno tardío (12:00, post-entreno): Tortilla de 3 huevos con espinacas y champiñones salteados en aceite de oliva. 1/2 aguacate. 1 taza de frutos rojos. Procedimiento: saltear verduras 5–7 min, añadir huevos batidos y cocinar a fuego medio.\nComida (16:00): Ensalada grande con salmón a la plancha (150–200 g), mezcla de hojas verdes, nueces, aceite de oliva y limón. Preparar el salmón a fuego medio 3–4 min por lado.\nCena (19:30): Crema de calabacín con cúrcuma y jengibre + yogur griego natural con semillas de chía."
+    },
+    {
+      "name": "Martes",
+      "info": "Correr en zona 2 en ayunas (40–60 min, ritmo conversacional).\nDesayuno tardío: Avena cocida con bebida vegetal sin azúcar, proteína en polvo natural, arándanos y nueces. Cocinar avena 5–10 min hasta textura cremosa.\nComida: Lentejas estofadas con verduras (zanahoria, pimiento, cebolla) y aceite de oliva. Cocción lenta 25–35 min.\nCena: Sardinas al horno con ensalada de tomate, rúcula y aceitunas."
+    },
+    {
+      "name": "Miércoles",
+      "info": "Descanso activo: caminar 8.000–10.000 pasos.\nDesayuno tardío: Yogur griego natural con semillas de lino molidas, fresas y almendras.\nComida: Pechuga de pollo ecológico a la plancha + brócoli al vapor + quinoa (1/2 taza cocida). Cocer quinoa 12–15 min.\nCena: Sopa de verduras variadas con tofu o huevo escalfado."
+    },
+    {
+      "name": "Jueves",
+      "info": "Entrenamiento de fuerza (45–60 min).\nDesayuno tardío (post-entreno): Huevos revueltos con salmón ahumado, espárragos y aguacate.\nComida: Ensalada templada de garbanzos con espinacas, pimiento asado y aceite de oliva.\nCena: Pescado blanco al horno (merluza) con coliflor asada (horno 180°C, 25 min)."
+    },
+    {
+      "name": "Viernes",
+      "info": "HIIT (15–20 min intensos).\nDesayuno tardío: Batido antioxidante: espinaca, proteína natural, frutos rojos, cacao puro y bebida de almendras.\nComida: Ternera magra (150 g) a la plancha con ensalada variada y aceite de oliva.\nCena: Revuelto de setas con ajo y ensalada de pepino con yogur natural."
+    },
+    {
+      "name": "Sábado",
+      "info": "Carrera larga en zona 2 (60–90 min).\nDesayuno tardío (post-entreno): Tortitas de avena y huevo (mezclar 1 huevo + 40 g avena molida, cocinar 2–3 min por lado) con frutos rojos y yogur.\nComida: Arroz integral (1 taza cocida) con salteado de verduras y gambas.\nCena: Crema de verduras + ensalada pequeña con aceite de oliva."
+    },
+    {
+      "name": "Domingo",
+      "info": "Descanso total (ligeramente más bajo en carbohidratos).\nDesayuno tardío: Omelette de verduras y queso curado de calidad + aguacate.\nComida: Ensalada grande con atún, huevo cocido, hojas verdes y aceite de oliva.\nCena temprana: Caldo de huesos o sopa ligera de verduras. Opcional: infusión relajante antes de dormir."
+    }
+  ]
+}

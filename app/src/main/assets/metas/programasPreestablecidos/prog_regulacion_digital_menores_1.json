@@ -1,0 +1,122 @@
+{
+  "title": "Regulación Digital Familiar 28 días (Menores)",
+  "detalles":"Programa de 28 unidades, cada unidad corresponde a un día",
+  "description": "Programa orientado a desarrollar autocontrol digital en menores de edad mediante acompañamiento familiar.\n\nBase neurocientífica:\n- La corteza prefrontal en desarrollo requiere estructura externa.\n- El sistema dopaminérgico adolescente es más sensible a recompensa social.\n- El aprendizaje de hábitos depende del entorno.\n\nObjetivo: Reducir dependencia, fortalecer autorregulación y convertir el uso digital en una herramienta consciente.\n\nFundamento neurocientífico\n* La adolescencia tiene mayor sensibilidad a recompensa social.\n* La estructura externa ayuda a consolidar circuitos de autocontrol.\n* El refuerzo positivo fortalece aprendizaje más que el castigo.\n* La coherencia parental es el predictor más fuerte de éxito.\n\nPautas esenciales para padres/tutores (aplican a ambos programas)\n1. Modelar la conducta: los adultos deben cumplir las mismas reglas básicas.\n2. Evitar castigos extremos: funcionan peor que el refuerzo estructurado.\n3. Priorizar conexión emocional sobre control rígido.\n4. Crear alternativas atractivas (deporte, música, proyectos).\n5. Supervisión gradual, no invasiva.\n6. Mantener coherencia: reglas claras y constantes.\n\nPrincipio clave en menores\nEn cerebros en desarrollo:\n* El entorno estructura la neuroplasticidad.\n* La repetición crea hábitos.\n* El acompañamiento adulto actúa como “corteza prefrontal externa\n* La regulación temprana previene patrones compulsivos en adultez.",
+  "noUnidades": 28,
+  "tipoUnidad": "dias",
+  "frecuencia": 1,
+  "unidadesinfo": [
+    {
+      "name": "Semana 1 - Día 1",
+      "info": "Reunión familiar. Explicar el programa sin tono punitivo. Definir reglas claras y consensuadas."
+    },
+    {
+      "name": "Semana 1 - Día 2",
+      "info": "Medición de uso actual. Padres registran tiempo real sin juzgar."
+    },
+    {
+      "name": "Semana 1 - Día 3",
+      "info": "Eliminar notificaciones no esenciales."
+    },
+    {
+      "name": "Semana 1 - Día 4",
+      "info": "Establecer zonas sin dispositivos (mesa, dormitorio). Padres deben cumplir la misma regla."
+    },
+    {
+      "name": "Semana 1 - Día 5",
+      "info": "Introducir límite diario reducido (ej: 80% del uso habitual)."
+    },
+    {
+      "name": "Semana 1 - Día 6",
+      "info": "Actividad alternativa obligatoria en familia (deporte o paseo)."
+    },
+    {
+      "name": "Semana 1 - Día 7",
+      "info": "Revisión emocional: ¿qué sienten cuando no usan redes?"
+    },
+    {
+      "name": "Semana 2 - Día 8",
+      "info": "Reducir uso a 60% del inicial."
+    },
+    {
+      "name": "Semana 2 - Día 9",
+      "info": "Implementar temporizador visible."
+    },
+    {
+      "name": "Semana 2 - Día 10",
+      "info": "Un día parcial sin redes (mínimo 6 horas consecutivas)."
+    },
+    {
+      "name": "Semana 2 - Día 11",
+      "info": "Entrenamiento en tolerancia al aburrimiento (30 minutos sin pantallas)."
+    },
+    {
+      "name": "Semana 2 - Día 12",
+      "info": "Refuerzo positivo por cumplimiento (elogio específico, no material)."
+    },
+    {
+      "name": "Semana 2 - Día 13",
+      "info": "Revisión de contenido seguido. Eliminar cuentas que generen comparación negativa."
+    },
+    {
+      "name": "Semana 2 - Día 14",
+      "info": "Día familiar sin redes en horarios compartidos."
+    },
+    {
+      "name": "Semana 3 - Día 15",
+      "info": "Reducir a 40% del uso inicial."
+    },
+    {
+      "name": "Semana 3 - Día 16",
+      "info": "Introducir actividad de desarrollo (música, deporte, programación, lectura)."
+    },
+    {
+      "name": "Semana 3 - Día 17",
+      "info": "Padres modelan conducta: cero uso durante comidas."
+    },
+    {
+      "name": "Semana 3 - Día 18",
+      "info": "Un día completo sin redes (supervisado)."
+    },
+    {
+      "name": "Semana 3 - Día 19",
+      "info": "Entrenamiento en metas personales a corto plazo."
+    },
+    {
+      "name": "Semana 3 - Día 20",
+      "info": "Uso solo en horario fijo acordado."
+    },
+    {
+      "name": "Semana 4 - Día 21",
+      "info": "Reducir a 30% del uso inicial."
+    },
+    {
+      "name": "Semana 4 - Día 22",
+      "info": "Practicar retraso de impulso (esperar 10 minutos antes de abrir app)."
+    },
+    {
+      "name": "Semana 4 - Día 23",
+      "info": "Reforzar actividades sociales presenciales."
+    },
+    {
+      "name": "Semana 4 - Día 24",
+      "info": "Evaluación conjunta de avances."
+    },
+    {
+      "name": "Semana 4 - Día 25",
+      "info": "Día sin redes."
+    },
+    {
+      "name": "Semana 4 - Día 26",
+      "info": "Establecer plan de mantenimiento."
+    },
+    {
+      "name": "Semana 4 - Día 27",
+      "info": "Revisión de reglas familiares definitivas."
+    },
+    {
+      "name": "Semana 4 - Día 28",
+      "info": "Celebración del logro y compromiso a largo plazo."
+    }
+  ]
+}

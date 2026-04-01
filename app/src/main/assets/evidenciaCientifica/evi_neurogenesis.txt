@@ -1,0 +1,25 @@
+
+Estudios que respaldan la Neurogénesis
+
+
+🟢 Identificación de neurogénesis adulta en humanos (2025)
+Título y referencia: Identification of proliferating neural progenitors in the adult human hippocampus – Science (2025).
+Este estudio reciente utilizó secuenciación de ARN de núcleo único, citometría y modelos de aprendizaje automático para identificar progenitores neuronales que se dividen en el hipocampo de personas de entre 0 y 78 años, confirmando que hay formación de nuevas neuronas en el cerebro adulto.
+Nota: esto significa que aún en adultos se pueden detectar células precursoras activas y fases tempranas de desarrollo neuronal, algo crucial para funciones como la memoria y el aprendizaje
+enlace:https://www.sciencedaily.com/releases/2025/07/250704032928.htm
+
+🟢 Evidencia detallada de neurogénesis en humanos (2021)
+Referencia: Evidences for Adult Hippocampal Neurogenesis in Humans – Journal of Neuroscience, Moreno-Jiménez et al. (2021).
+Este artículo revisa múltiples líneas de evidencia de que existen nuevas neuronas en el hipocampo humano adulto, describiendo la presencia de marcadores específicos y células inmaduras que sugieren neurogénesis continua
+enlace:https://pubmed.ncbi.nlm.nih.gov/33762406/
+
+🟢 Human Adult Neurogenesis: Evidence and Remaining Questions – Cell Stem Cell (2018)
+Autores como Kempermann, Gage y Curtis resumen líneas de evidencia desde modelos animales hasta humanos, sosteneniendo que hay datos suficientes para considerar que la neurogénesis adulta contribuye a la plasticidad cerebral
+enlace:https://pubmed.ncbi.nlm.nih.gov/29681514/
+nota: estos autores discuten cómo los datos histológicos y moleculares en humanos y animales convergen en que las nuevas neuronas se integran funcionalmente en circuitos existentes
+
+Existe evidencia robusta y moderna — especialmente a partir de métodos moleculares avanzados — que respalda la idea de que el cerebro humano adulto puede generar nuevas neuronas, particularmente en el hipocampo
+enlace:https://www.sciencedaily.com/releases/2025/07/250704032928.htm
+
+Estos estudios emplean marcadores como DCX (proteína asociada a neuronas jóvenes) o la medición de carbono-14 en ADN para estimar cuándo se formaron las neuronas, evidenciando neurogénesis a lo largo de la vida
+enlace:https://www.sciencedaily.com/releases/2025/07/250704032928.htm

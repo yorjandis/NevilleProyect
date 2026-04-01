@@ -1,0 +1,26 @@
+
+Cuando hablamos de coherencia corazón–cerebro en la literatura científica rigurosa, el concepto se aproxima más a interacciones fisiológicas entre la actividad cardíaca y la función cerebral. La evidencia científica disponible se concentra en:
+🔸 Cómo la variabilidad de la actividad eléctrica del corazón se sincroniza o correlaciona con aspectos de la actividad cerebral y cognitiva, y
+🔸 Cómo esta sincronización se asocia con estados emocionales y cognitivos específicos. A continuación explico esto con referencias científicas claras.
+
+🟢 En un artículo publicado en PMC (Centro Nacional de Información Biotecnológica, NIH), se postula la llamada “Heart Rhythm Coherence Hypothesis”. Aquí se demuestra que durante estados de mayor coherencia de la variabilidad del ritmo cardíaco (HRV), la sincronización entre la actividad cardíaca y ritmos cerebrales (como la actividad alfa del EEG) se incrementa. Esto implica que patrones específicos de latidos influencian directamente la actividad eléctrica cerebral
+    enlace:https://pmc.ncbi.nlm.nih.gov/articles/PMC9214473/
+    
+🟢 Estudios mostró que una mayor coherencia de ritmo cardíaco se asociaba con una sincronización más fuerte de las señales cerebrales, sugiriendo una interacción fisiológica directa entre ambos sistemas
+    enlace:https://pmc.ncbi.nlm.nih.gov/articles/PMC9214473/
+    
+    
+🟢 Estudios de biofeedback han encontrado que cuando las personas inducen estados de coherencia cardíaca (usando respiración o técnicas similares), el ritmo alfa del EEG cerebral se correlaciona positivamente con la coherencia cardíaca. Esto indica que hay una relación medible entre la organización del ritmo cardíaco y patrones de actividad cerebral asociados a atención y relajación
+enlace:https://help.heartmath.com/v1/en/asmts_hrv.html
+
+🟢 La literatura en neurocardiología muestra que el corazón envía una cantidad significativa de señales aferentes al cerebro, más de las que recibe, y que estas señales están relacionadas con la modulación de funciones cognitivas y emocionales
+enlace:https://www.limbicsalud.es/es-coherente-tu-corazon/
+
+🟢 Coherencia HRV y rendimiento cognitivo
+En múltiples estudios asociados a las hipótesis del HeartMath Institute, se ha encontrado que mayor coherencia en el patrón de latidos del corazón se correlaciona con mejoras en funciones cognitivas como tiempo de reacción, memoria y rendimiento en tareas complejas
+enlace:https://pmc.ncbi.nlm.nih.gov/articles/PMC9214473/
+
+🟢 Aunque no mide campos magnéticos per se, se ha confirmado que la variabilidad coherente de la frecuencia cardíaca refleja estados psicológicos (como calma o estrés) que a su vez están estrechamente relacionados con la actividad cerebral en regiones implicadas en atención y procesamiento emocional
+enlace:https://miradorsalud.com/cerebro-corazon/
+
+

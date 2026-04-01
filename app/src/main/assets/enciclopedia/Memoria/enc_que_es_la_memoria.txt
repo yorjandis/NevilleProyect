@@ -1,0 +1,234 @@
+
+
+Desde la neurociencia, la memoria es la capacidad del sistema nervioso para codificar, almacenar y recuperar información. No es un “archivo” estático, sino un proceso dinámico que cambia con el tiempo.
+
+Dicho de forma simple:
+👉 Recordar es volver a activar patrones de actividad neuronal que ya ocurrieron antes.
+
+Cada recuerdo es una red de neuronas que se activan juntas. Cuantas más veces se activan juntas, más fuerte se vuelve esa red.
+
+“Las neuronas que se disparan juntas, se conectan juntas” (principio de Hebb).
+
+
+
+🟢 Tipos de memoria (muy importante para entender cómo funciona)
+
+🔸 Memoria sensorial
+    •    Dura milisegundos o segundos.
+    •    Ejemplo: la imagen residual cuando cierras los ojos tras mirar una luz.
+
+🔸 Memoria a corto plazo / memoria de trabajo
+    •    Dura segundos o minutos.
+    •    Capacidad limitada (≈ 4–7 elementos).
+    •    Ejemplo: recordar un número mientras lo marcas.
+
+🧠 Área clave: corteza prefrontal
+
+🔸 Memoria a largo plazo
+
+Aquí está lo interesante:
+
+🔸 Memoria declarativa (explícita)
+    •    Episódica: recuerdos personales (qué hiciste ayer).
+    •    Semántica: conocimientos (capitales, conceptos).
+
+🧠 Área clave: hipocampo (para crear el recuerdo)
+
+🔸 Memoria no declarativa (implícita)
+    •    Hábitos y habilidades.
+    •    Ejemplo: montar en bici, escribir en teclado.
+
+🧠 Áreas clave:
+    •    Ganglios basales
+    •    Cerebelo
+
+
+
+🟢 ¿Cómo se crea un recuerdo?
+
+La creación de memoria tiene tres fases:
+
+1️⃣ Codificación
+
+Es el momento en el que el cerebro decide si algo merece ser recordado.
+
+Factores clave:
+    •    Atención
+    •    Emoción
+    •    Significado
+
+📌 Ejemplo:
+    •    Lees una frase distraído → no se codifica.
+    •    Lees algo que te sorprende → el cerebro dice “esto importa”.
+
+
+
+2️⃣ Consolidación
+
+Es el proceso por el cual un recuerdo se estabiliza.
+
+Aquí ocurre:
+    •    Plasticidad sináptica
+    •    Potenciación a largo plazo (LTP)
+
+🧠 El hipocampo “repite” la información y la distribuye a otras áreas del cerebro, sobre todo durante el sueño profundo.
+
+📌 Ejemplo:
+    •    Estudias hoy → duermes bien → mañana recuerdas mejor.
+
+
+
+3️⃣ Recuperación
+
+Acceder al recuerdo.
+
+Importante:
+    •    Recordar modifica el recuerdo.
+    •    Cada vez que recuerdas algo, lo “reescribes”.
+
+📌 Ejemplo:
+    •    Un recuerdo de la infancia cambia con el tiempo porque lo reinterpretas.
+
+
+
+🟢 4. ¿Dónde se almacena la memoria?
+
+👉 No existe un único lugar donde se guarden los recuerdos.
+
+Los recuerdos están:
+    •    Distribuidos en redes neuronales
+    •    En diferentes zonas según el tipo de información
+
+Ejemplos:
+    •    Colores → corteza visual
+    •    Sonidos → corteza auditiva
+    •    Emociones → amígdala
+    •    Contexto → hipocampo
+
+📌 Un recuerdo es como una “playlist” neuronal: si activas una parte, el resto se enciende.
+
+
+
+🟢 5. El papel clave de las sinapsis
+
+La memoria vive en:
+    •    La fuerza de las conexiones sinápticas
+    •    El número de receptores
+    •    La estructura de la sinapsis
+
+Aprender = cambiar físicamente el cerebro.
+
+No es metáfora:
+🧠 el cerebro se remodela.
+
+
+
+🟢 6. ¿Cómo podemos mejorar nuestra capacidad de memorizar?
+
+
+🔸1. Atención profunda (sin esto no hay memoria)
+
+La multitarea destruye la codificación.
+
+ Qué hacer:
+    •    Estudiar sin notificaciones
+    •    Bloques de 25–50 min (tipo Pomodoro)
+
+ Ejemplo:
+    •    30 min concentrado > 3 horas distraído
+
+
+
+🔸2. Asociar y dar significado
+
+El cerebro recuerda relaciones, no datos aislados.
+
+ Técnicas:
+    •    Analogías
+    •    Historias
+    •    Mapas mentales
+
+ Ejemplo:
+    •    En vez de memorizar “mitocondria”, piensa:
+“la central eléctrica de la célula”
+
+
+
+🔸3. Emoción y sorpresa
+
+La amígdala potencia la memoria.
+
+ Qué hacer:
+    •    Estudiar con curiosidad
+    •    Hacer preguntas raras
+    •    Enseñar a otros
+
+ Ejemplo:
+    •    Explicar un concepto como si fuera un cuento
+
+
+
+🔸4. Repetición espaciada (clave)
+
+Repetir en intervalos crecientes.
+
+ Esto refuerza las sinapsis.
+
+ Ejemplo:
+    •    Día 1
+    •    Día 3
+    •    Día 7
+    •    Día 21
+
+(Anki funciona muy bien para esto)
+
+
+
+🔸5. Recuperación activa (mejor que releer)
+
+Intentar recordar sin mirar.
+
+ Ejemplos:
+    •    Preguntarte a ti mismo
+    •    Hacer exámenes simulados
+    •    Escribir lo que recuerdas
+
+ Leer ≠ aprender
+ Recordar = aprender
+
+
+
+🔸6. Dormir bien (no negociable)
+
+Durante el sueño:
+    •    Se consolidan recuerdos
+    •    Se limpian conexiones inútiles
+
+❌ Dormir poco = aprender poco
+
+
+
+🔸7. Ejercicio físico
+
+Aumenta:
+    •    BDNF (factor neurotrófico)
+    •    Neuroplasticidad
+
+ Caminar 30 min mejora la memoria más de lo que parece.
+
+
+
+🔸8. Alimentación y metabolismo cerebral
+
+Importante para la memoria:
+    •    Omega-3
+    •    Glucosa estable
+    •    Evitar picos de azúcar
+
+ El cerebro es ~2% del peso corporal pero consume ~20% de la energía.
+
+
+
+🟢 Idea clave para cerrar
+
+La memoria no es almacenar información, es transformar el cerebro

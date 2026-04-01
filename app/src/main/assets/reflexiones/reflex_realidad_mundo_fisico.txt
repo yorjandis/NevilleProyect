@@ -1,0 +1,7 @@
+{
+"titulo": "La realidad del mundo físico",
+"autor": "Yorj",
+"contenido": [
+"El mundo físico es solo energía, nuestros sentidos y razón le dan interpretación en concordancia con nuestras ideas y juicios preconcebidos. Una cosa llega a ser verdad cuando nos sentimos identificados con ella; entonces le permitimos su expresión en nuestro mundo. A nivel  físico-emocional todos estamos separados en razón de nuestra individualizada subjetividad. Sin embargo, a nivel de nuestro origen común todos somos una sola conciencia, una gran fuerza creadora y expansiva que llamamos la imaginación humana. Somos poderosos creadores, amorosas llamas individualizadas que como niños jugamos a sentirnos incapaces y pequeños. Nos asustamos con las sombras de nuestros sueños y reimos de nuestros propios encantamientos. ¿Qué es la vida sino la expresión y expansión de este ser amoroso en cada uno de nosotros? ¡El ser que realmente somos!"
+]
+}

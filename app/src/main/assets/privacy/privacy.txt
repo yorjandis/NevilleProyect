@@ -1,0 +1,31 @@
+Terms and Privacy Policy (Términos y Política de Privacidad)
+
+Last Update(Ultima Actualización): 10.11.2025
+
+Yorjandis Pérez G. (el "autor") es el desarrollador, propietario y publicador de la Aplicación para plataformas Apple: La Ley (el "software").
+
+PRIVACY (PRIVACIDAD)
+-The software does not use, collect or share any personal information of the user or stored.
+-El software no recoge ninguna información personal del usuario.
+
+USE OF ARTIFICIAL INTELLIGENCE (AI)(USO DE INTELIGENCIA ARTIFICIAL)
+-The program may contain text created by artificial intelligence (AI)
+-AI-generated content may be inaccurate and contain errors.
+-The Developer is not responsible for the use or inability to use AI-generated content.
+-El programa puede contener texto creado por inteligencia artificial(IA)
+-El contenido generado por IA puede ser impreciso y contener errores.
+-El Desarrollador no se hace responsable del uso o imposibilidad de uso del contenido generado por IA.
+
+
+DISCLAIMER, LIMITATION OF LIABILITY (EXENCIÓN DE RESPONSABILIDAD, LIMITACIÓN DE RESPONSABILIDAD)
+-The end user acknowledges and accepts that the sofwate may have imperfections and may not fully meet the end user's needs. The installation and use of the software is the sole responsibility of the end user. The end user is solely responsible for any loss or alteration of stored data. The software is provided "as is", without any express or implied warranty. In no event shall the author be liable for any damages arising from the use or inability to use the software.
+-El usuario final reconoce y acepta que el sofwate puede tener imperfecciones y no cubrir totalmente sus necesidades. La instalación y uso del software solo es responsabilidad del usuario final. El usuario final es el único responsable de cualquier pérdida o alteración de los datos almacenados. El software se proporciona "tal cual", sin ninguna garantía expresa o implícita. El autor no será responsable en ningún caso de los daños derivados del uso o de la imposibilidad de utilizar el software.
+
+COPYRIGHT
+-The software is property of Yorjandi Perez G. The fully functional source code is provided and can be freely compiled and distributed. It is not allowed to use the source code files to generate profit in any way. For personal use only.
+-El software es propiedad de Yorjandi Pérez G. No esta permitido utilizar los ficheros de código fuente para generar lucro en alguna forma. Solo para uso personal.
+
+CONTACT(CONTACTO)
+-If you have any questions regarding this privacy policy, you can contact the author at this email address:
+-Si tiene alguna duda en relación a esta política de privacidad, puede contactar al autor en este email:
+email: info@ypgcode.es

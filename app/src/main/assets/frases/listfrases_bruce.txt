@@ -1,0 +1,615 @@
+id=bruce_001
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=Tu biología responde a lo que crees no a lo que es real
+relacionadas=
+
+id=bruce_002
+autor=bruceL
+nota=
+fuente=Lipton, Bruce H. (2007), La biología de la creencia: la liberación del poder de la conciencia, la materia y los milagros. Madrid: Ediciones Palmyra. ISBN 9788496665187
+contexto=
+texto=Se necesita algo más que «pensamientos positivos» para mantener el control de tu cuerpo y de tu vida. Es importante para tu salud y tu bienestar que cambies tu forma de pensar y te concentres en los pensamientos vitales y positivos
+relacionadas=
+
+id=bruce_003
+autor=bruceL
+nota=
+fuente=Lipton, Bruce H. (2007), La biología de la creencia: la liberación del poder de la conciencia, la materia y los milagros. Madrid: Ediciones Palmyra. ISBN 9788496665187
+contexto=
+texto=La mente consciente es la creativa, la que puede conjurar los «pensamientos positivos». Por el contrario, la mente subconsciente es estrictamente  maquinal; repite las mismas respuestas a las señales vitales una y otra vez
+relacionadas=
+
+id=bruce_004
+autor=bruceL
+nota=
+fuente=Lipton, Bruce H. (2007), La biología de la creencia: la liberación del poder de la conciencia, la materia y los milagros. Madrid: Ediciones Palmyra. ISBN 9788496665187
+contexto=
+texto=La mente (energía) y el cuerpo (materia) están relacionados de una forma similar, aunque la medicina occidental ha tratado denodadamente de separarlas durante cientos de años
+relacionadas=
+
+id=bruce_005
+autor=bruceL
+nota=
+fuente=Lipton, Bruce H. (2007), La biología de la creencia: la liberación del poder de la conciencia, la materia y los milagros. Madrid: Ediciones Palmyra. ISBN 9788496665187
+contexto=
+texto=Las compañías farmacéuticas les ofrecen esta «educación» [refiriéndose a los médicos] para persuadir a los doctores de que «aconsejen» el uso de sus productos
+relacionadas=
+
+id=bruce_006
+autor=bruceL
+nota=
+fuente=Lipton, Bruce H. (2007), La biología de la creencia: la liberación del poder de la conciencia, la materia y los milagros. Madrid: Ediciones Palmyra. ISBN 9788496665187
+contexto=
+texto=Existen centenares y centenares de estudios científicos publicados en los últimos cincuenta años que dan pruebas consistentes de que las «fuerzas invisibles» del espectro electromagnético afectan profundamente a todas y cada una de las facetas de la regulación biológica
+relacionadas=
+
+id=bruce_007
+autor=bruceL
+nota=
+fuente=Lipton, Bruce H. (2007), La biología de la creencia: la liberación del poder de la conciencia, la materia y los milagros. Madrid: Ediciones Palmyra. ISBN 9788496665187
+contexto=
+texto=No obstante, debido a los prejuicios materialistas newtonianos, los investigadores convencionales han ignorado por completo el papel que juega la energía en la salud y en la enfermedad
+relacionadas=
+
+id=bruce_008
+autor=bruceL
+nota=
+fuente=Lipton, Bruce H. (2007), La biología de la creencia: la liberación del poder de la conciencia, la materia y los milagros. Madrid: Ediciones Palmyra. ISBN 9788496665187
+contexto=
+texto=Los físicos desecharon su fe en el universo material newtoniano, porque llegaron a darse cuenta de que el universo no está formado por materia suspendida en el espacio, sino por energía
+relacionadas=
+
+id=bruce_009
+autor=bruceL
+nota=
+fuente=Lipton, Bruce H. (2007), La biología de la creencia: la liberación del poder de la conciencia, la materia y los milagros. Madrid: Ediciones Palmyra. ISBN 9788496665187
+contexto=
+texto=El ADN no controla la biología, y el núcleo no es el cerebro de la célula. Al igual que tú y que yo, las células se adaptan al lugar en el que viven. En otras palabras: es el ambiente
+relacionadas=
+
+id=bruce_010
+autor=bruceL
+nota=
+fuente=Lipton, Bruce H. (2007), La biología de la creencia: la liberación del poder de la conciencia, la materia y los milagros. Madrid: Ediciones Palmyra. ISBN 9788496665187
+contexto=
+texto=Ahí estás tú, sosteniendo este libro físico en tus manos. y sin embargo, si aumentaras el tamaño del material del libro con un microscopio atómico, verías que no estás sujetando nada
+relacionadas=
+
+id=bruce_011
+autor=bruceL
+nota=
+fuente=Lipton, Bruce H. (2007), La biología de la creencia: la liberación del poder de la conciencia, la materia y los milagros. Madrid: Ediciones Palmyra. ISBN 9788496665187
+contexto=
+texto=Al igual que en las células aisladas, el carácter de nuestra existencia se ve determinado no por nuestros genes, sino por nuestra respuesta a las señales ambientales que impulsan la vida
+relacionadas=
+
+id=bruce_012
+autor=bruceL
+nota=
+fuente=Lipton, Bruce H. (2007), La biología de la creencia: la liberación del poder de la conciencia, la materia y los milagros. Madrid: Ediciones Palmyra. ISBN 9788496665187
+contexto=
+texto=Las experiencias vitales de los progenitores modelan el carácter genético de sus hijos
+relacionadas=
+
+id=bruce_013
+autor=bruceL
+nota=
+fuente=Lipton, Bruce H. (2007), La biología de la creencia: la liberación del poder de la conciencia, la materia y los milagros. Madrid: Ediciones Palmyra. ISBN 9788496665187
+contexto=
+texto=El continuo cambio de forma de las proteínas, que puede ocurrir miles de veces en un segundo, es el movimiento que impulsa la vida de los organismos
+relacionadas=
+
+id=bruce_014
+autor=bruceL
+nota=
+fuente=Conferencia: tres amigos Gregg, Joe Dispenza y Bruce Lipton, TCCHE.org, 2017
+contexto=
+texto=Has nacido en el Cielo. Aquí has venido a crear, a experimentar. Estas viviendo la vida de programas. Si no te gusta el programa, la nueva biología dice que puedes reescribirlo
+relacionadas=
+
+id=bruce_015
+autor=bruceL
+nota=
+fuente=Conferencia: tres amigos Gregg, Joe Dispenza y Bruce Lipton, TCCHE.org, 2017
+contexto=
+texto=Tenemos nuestra exstencia y fuente más alla del cuerpo físico. El cuerpo es solo una antena biológica que sintoniza con la presencia que somos y emite desde el Campo Cuantico o mente de Dios
+relacionadas=
+
+id=bruce_016
+autor=bruceL
+nota=Resume su crítica al determinismo genético y su énfasis en la epigenética
+fuente=Libro La Biología de la Creencia
+contexto=
+texto=No somos víctimas de nuestros genes
+relacionadas=
+
+id=bruce_017
+autor=bruceL
+nota=Idea central de La biología de la creencia
+fuente=Libro La Biología de la Creencia
+contexto=
+texto=El entorno controla el comportamiento de los genes, no al revés
+relacionadas=
+
+id=bruce_018
+autor=bruceL
+nota=
+fuente=Libro La Biología de la Creencia
+contexto=
+texto=Conexión y calma, las vitaminas del alma y la célula
+relacionadas=
+
+id=bruce_019
+autor=bruceL
+nota=Subraya cómo la percepción modifica la respuesta celular.
+fuente=Libro La Biología de la Creencia
+contexto=
+texto=Las creencias actúan como un filtro entre el mundo exterior y nuestra biología
+relacionadas=
+
+id=bruce_020
+autor=bruceL
+nota=Conecta mente, emociones y fisiología.
+fuente=Libro La Biología de la Creencia
+contexto=
+texto=Cambiar la percepción puede cambiar la respuesta del cuerpo
+relacionadas=
+
+id=bruce_021
+autor=bruceL
+nota=Uno de sus aportes más disruptivos desde la biología celular.
+fuente=Libro La Biología de la Creencia
+contexto=
+texto=Las células no están controladas por el núcleo, sino por la membrana
+relacionadas=
+
+id=bruce_022
+autor=bruceL
+nota=Clave para entender por qué los hábitos y programas aprendidos dominan nuestra conducta.
+fuente=Libro La Biología de la Creencia
+contexto=
+texto=La mente subconsciente es millones de veces más poderosa que la mente consciente
+relacionadas=
+
+id=bruce_023
+autor=bruceL
+nota=Relación directa entre entorno emocional y enfermedad.
+fuente=Libro La Biología de la Creencia
+contexto=
+texto=El estrés es uno de los mayores inhibidores del crecimiento y la salud
+relacionadas=
+
+id=bruce_024
+autor=bruceL
+nota=Explicación biológica del impacto del miedo crónico.
+fuente=Libro La Biología de la Creencia
+contexto=
+texto=Cuando vives en modo supervivencia, sacrificas crecimiento y reparación
+relacionadas=
+
+id=bruce_025
+autor=bruceL
+nota=Una de sus dicotomías más citadas, tanto a nivel celular como humano.
+fuente=
+contexto=
+texto=El amor promueve el crecimiento; el miedo activa la protección
+relacionadas=
+
+id=bruce_026
+autor=bruceL
+nota=Su intento de tender puentes entre ciencia y conciencia.
+fuente=
+contexto=
+texto=La biología moderna confirma lo que las tradiciones espirituales han dicho durante siglos
+relacionadas=
+
+id=bruce_027
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=Una célula en un entorno tóxico se comporta de manera defensiva, incluso si su ADN es perfecto.Del mismo modo, una persona en un entorno emocional tóxico puede enfermar aunque tenga una genética “ideal”
+relacionadas=
+
+id=bruce_028
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=Los genes son posibilidades, no sentencias. La expresión genética depende del contexto, no solo del ADN
+relacionadas=
+
+id=bruce_029
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=La célula responde a la información del entorno antes que a su herencia
+relacionadas=
+
+id=bruce_030
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=La epigenética demuestra que la vida es un diálogo constante entre el organismo y su medio
+relacionadas=
+
+id=bruce_031
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=El ADN no se activa solo; espera instrucciones del entorno
+relacionadas=
+
+id=bruce_032
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=Cambiar el entorno celular cambia el destino biológico
+relacionadas=
+
+id=bruce_033
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=La percepción es un regulador biológico tan real como una molécula
+relacionadas=
+
+id=bruce_034
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=El estrés crónico mantiene al cuerpo en modo supervivencia, no en modo sanación
+relacionadas=
+
+id=bruce_035
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=Una mente en modo supervivencia constante le roba recursos al sistema inmunológico
+relacionadas=
+
+id=bruce_036
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=El miedo prolongado altera la química interna del cuerpo
+relacionadas=
+
+id=bruce_037
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=La respuesta al entorno es más determinante que el entorno mismo
+relacionadas=
+
+id=bruce_038
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=El cuerpo no distingue entre una amenaza real y una imaginada
+relacionadas=
+
+id=bruce_039
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=La biología del estrés es incompatible con la biología del crecimiento
+relacionadas=
+
+id=bruce_040
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=La longevidad es un subproducto de un entorno interno coherente
+relacionadas=
+
+id=bruce_041
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=Las células viven más cuando el entorno favorece la reparación y no la defensa
+relacionadas=
+
+id=bruce_042
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=El envejecimiento acelerado es una señal de adaptación a un entorno hostil
+relacionadas=
+
+id=bruce_043
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=Un organismo que se siente seguro invierte energía en regenerarse
+relacionadas=
+
+id=bruce_044
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=La calidad del entorno interno determina la velocidad del desgaste celular
+relacionadas=
+
+id=bruce_045
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=El subconsciente dirige la biología cuando la mente consciente se distrae
+relacionadas=
+
+id=bruce_046
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=La mayoría de nuestras respuestas biológicas son hábitos aprendidos
+relacionadas=
+
+id=bruce_047
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=Reprogramar la mente es intervenir directamente en la fisiología
+relacionadas=
+
+id=bruce_048
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=Las creencias no solo influyen en lo que pensamos, influyen en cómo funcionamos
+relacionadas=
+
+id=bruce_049
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=La biología sigue programas (hábitos, conductas y patrones aprendidos), y los programas pueden cambiarse
+relacionadas=
+
+id=bruce_050
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=El amor crea coherencia; la coherencia crea salud
+relacionadas=
+
+id=bruce_051
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=Un entorno emocional estable permite a las células prosperar
+relacionadas=
+
+id=bruce_052
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=La conexión reduce la señal de peligro en el cuerpo
+relacionadas=
+
+id=bruce_053
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=Sentirse seguro es una condición biológica, no solo psicológica
+relacionadas=
+
+id=bruce_054
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=Cuando cambias la forma en que percibes tu vida, cambias la biología con la que la vives
+relacionadas=
+
+id=bruce_055
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=Cada elección es un interruptor para tu biología
+relacionadas=
+
+id=bruce_056
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=No heredamos destino, heredamos potencial
+relacionadas=
+
+id=bruce_057
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=El miedo envejece; la calma regenera
+relacionadas=
+
+id=bruce_058
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=Tu biología refleja tu percepción del mundo
+relacionadas=
+
+id=bruce_060
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=La tensión prolongada roba la energía de la vida
+relacionadas=
+
+id=bruce_061
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=Una mente inquieta mantiene al cuerpo en guardia
+relacionadas=
+
+id=bruce_062
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=Vivir más no es prolongar el tiempo, sino cuidar el entorno interno
+relacionadas=
+
+id=bruce_063
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=La regeneración surge donde hay seguridad y coherencia
+relacionadas=
+
+id=bruce_064
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=Cada momento de tranquilidad es un voto por tu salud
+relacionadas=
+
+id=bruce_065
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=El envejecimiento es evitable; el envegecimiento es una adaptación al entorno
+relacionadas=
+
+id=bruce_066
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=Lo que crees determina lo que tu cuerpo puede ser
+relacionadas=
+
+id=bruce_067
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=Reprogramar la mente es reescribir la biología
+relacionadas=
+
+id=bruce_068
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=Tus hábitos internos son más poderosos que tu genética
+relacionadas=
+
+id=bruce_069
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=El amor no es solo un sentimiento; es medicina celular
+relacionadas=
+
+id=bruce_070
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=La coherencia interior es el mejor entorno para la salud
+relacionadas=
+
+id=bruce_071
+autor=bruceL
+nota=
+fuente=
+contexto=
+texto=Sentirse seguro es el primer paso hacia la longevidad
+relacionadas=
+
+id=bruce_072
+autor=bruceL
+nota=
+fuente=Serie: Evolución Interior. Por Bruce Lipton. Gaia.com
+contexto=
+texto=Puedes cambiar completamente tu vida cambiando tu conciencia. Esa es la base de la epigenética.
+relacionadas=
+
+id=bruce_073
+autor=bruceL
+nota=
+fuente=Serie: Evolución Interior. Por Bruce Lipton. Gaia.com
+contexto=
+texto=Las remisiones expontáneas de producen por efecto de un cambio radical de nuestra conciencia y nuestro modo de pensar y sentir.
+relacionadas=
+
+id=bruce_074
+autor=bruceL
+nota=
+fuente=Serie: Evolución Interior. Por Bruce Lipton. Gaia.com
+contexto=
+texto=Los genes solo son planos para producir proteinas. Su expresión depende de las interacciones con el ambiente. No existe ningún gen que produzca cáncer, sino que algunos genes estan correlacionados con ciertas patologías y solo responden a las interacciones con el ambiente, tanto externo como interno, del individuo
+relacionadas=
+
+id=bruce_075
+autor=bruceL
+nota=
+fuente=Serie: Evolución Interior. Por Bruce Lipton. Gaia.com
+contexto=
+texto=Según la física cuántica: La mente, la conciencia y los campos de energía son las que dan forma a nuestras experiencias
+relacionadas=
+
+id=bruce_076
+autor=bruceL
+nota=
+fuente=Serie: Evolución Interior. Por Bruce Lipton. Gaia.com
+contexto=
+texto=No son los genes los que controlan las funciones celulares; son las SEÑALES DEL ENTORNO, captadas por la membrana celular,  las que modulan la expresión de los genes, que a su vez producen las proteinas responsables de la estructura y función de la célula. Los genes son simplemente plantillas para producir proteinas. Por tanto si cambiamos estas señales, nuestra biología cambiará. Nuestro entorno determina nuestra biología
+relacionadas=
+
+id=bruce_077
+autor=bruceL
+nota=
+fuente=Serie: Evolución Interior. Por Bruce Lipton. Gaia.com
+contexto=
+texto=La función de la mente es crear coherencia entre tus creencias (programas subconcientes) y tu realidad. Si tus creencias son mayormente negativas entonces tu estado mental lo reflejará en tu experiencia cotidiana. Por el contrario, si tus creencias son positivas y empoderadoras, tu mente creará experiencias de vida positivas y grandiosas, en coherencia con dichas creencias. En cosecuencia, los pensamientos pueden mejorar tu salud o favorecer la enfermedad según tu sistema de creencias
+relacionadas=
+
+id=bruce_078
+autor=bruceL
+nota=
+fuente=Serie: Evolución Interior. Por Bruce Lipton. Gaia.com
+contexto=
+texto=La epigenética no modifica al gen, solo cambia la lectura que hace de ese gen. Por tanto, la epigenética dicta la forma en que se expresa el gen y puede originar muchas variaciones (proteinas) a partir de un mismo gen. La epigenética representa las señales ambientales, tanto internas como externas al orgnanismo, que actual sobre las células y regulan la expresión de genes
+relacionadas=

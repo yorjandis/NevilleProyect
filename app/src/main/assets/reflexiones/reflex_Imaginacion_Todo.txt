@@ -1,0 +1,7 @@
+{
+"titulo": "La Imaginación lo es todo",
+"autor": "Yorj",
+"contenido": [
+"Queridos amigos tengan la amabilidad de escuchar algo muy atentamente: La imaginación ha dicho \"déjalo todo y sígueme\". Esto es una orden radical, un llamado a las profundidad de tu ser, un intento de dejarte totalmente ciego al mundo que aceptas como realidad. Si llegaras a bajar tan profundo en tu interior, algo maravilloso y espeluznante te ocurría, todo a lo que le das importancia y atención a nivel físico emocional dejaría de tener sentido y envuelto en una sensación de amor tan maravillosa renunciarias a todo y querrías quedarte allí. Solo vuelves porque sientes que el amor que acabas de experimentar tiene que ser expandido y completar todas y cada una de las partes del padre. No hay un yo, no tu, ni neville, ni ley alguna, ni propósito alguno, cuando se experimenta la presencia del amor."
+]
+}

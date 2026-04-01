@@ -1,0 +1,66 @@
+{
+  "title": "Reprogramación Neural 14 días para Adultos (Redes Sociales) II",
+  "detalles":"Programa de 14 unidades intensivas",
+  "description": "Programa diseñado para romper el circuito dopaminérgico de recompensa instantánea y reinstalar hábitos con recompensa diferida.\n\nFases:\n1) Corte abrupto\n2) Regulación fisiológica\n3) Reasignación de recompensa\n4) Reinserción estratégica\n\nBase neurocientífica: Disminuir actividad en núcleo accumbens hiperestimulado y fortalecer conectividad prefrontal-estriatal.",
+  "noUnidades": 14,
+  "tipoUnidad": "dias",
+  "frecuencia": 1,
+  "unidadesinfo": [
+    {
+      "name": "Día 1",
+      "info": "Eliminar todas las apps de redes sociales del móvil."
+    },
+    {
+      "name": "Día 2",
+      "info": "Desactivar cuentas temporalmente."
+    },
+    {
+      "name": "Día 3",
+      "info": "Ejercicio intenso 40 minutos."
+    },
+    {
+      "name": "Día 4",
+      "info": "Día completo sin estímulos digitales recreativos."
+    },
+    {
+      "name": "Día 5",
+      "info": "Exposición al sol 20 minutos + caminata consciente."
+    },
+    {
+      "name": "Día 6",
+      "info": "Escribir metas a 3 años. Activar dopamina orientada a propósito."
+    },
+    {
+      "name": "Día 7",
+      "info": "Entrenamiento cognitivo profundo 60 min (lectura compleja o estudio)."
+    },
+    {
+      "name": "Día 8",
+      "info": "Socialización presencial."
+    },
+    {
+      "name": "Día 9",
+      "info": "Día de aburrimiento estructurado 30 min sin estímulos."
+    },
+    {
+      "name": "Día 10",
+      "info": "Ejercicio + ducha fría (modulación dopaminérgica sostenida)."
+    },
+    {
+      "name": "Día 11",
+      "info": "Revisión emocional: identificar qué evitabas con redes."
+    },
+    {
+      "name": "Día 12",
+      "info": "Reinstalar solo una red social si es profesional."
+    },
+    {
+      "name": "Día 13",
+      "info": "Uso limitado a 20 minutos con temporizador físico."
+    },
+    {
+      "name": "Día 14",
+      "info": "Establecer sistema permanente: sin uso antes de las 12 pm y máximo 30 min/día."
+    }
+  ]
+}

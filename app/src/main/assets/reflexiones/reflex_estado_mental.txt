@@ -1,0 +1,7 @@
+{
+"titulo": "Tu estado mental",
+"autor": "Yorj",
+"contenido": [
+"Tu presente estado mental refleja las condiciones actuales de tu vida humana. Si tienes un deseo es porque no esta contenido en tu presente estado y por lo tanto es del todo lógico que este refleje la falta o negación de tu deseo. Para traer tu deseo a tu presente estado, y materializarlo, es necesario adoptar la sensación de su realización. En otras palabras, cuando asumes que un deseo es ya una realidad le das paternidad y lo traes a tu mundo. Es todo, el Padre no te pide nada más."
+]
+}

@@ -1,0 +1,41 @@
+
+Estudios científicos que respaldan la neuroplasticidad en el cerebro adulto
+
+🟢 Plasticidad estructural en adultos
+Este artículo de revisión reúne evidencia de que en adultos sanos, la estructura de la materia gris cambia en respuesta a demandas de aprendizaje y experiencias, medida mediante neuroimágenes como MRI. Esto indica que el cerebro adulto puede reorganizarse estructuralmente frente a cambios ambientales y aprendizaje.
+Fuente: Lövdén M. et al., Structural brain plasticity in adult learning and development (2013)
+enlace:https://pubmed.ncbi.nlm.nih.gov/23458777/
+
+🟢 Neuroplasticidad en la corteza visual adulta
+Esta revisión recoge evidencia de plasticidad en la corteza visual de adultos, destacando cómo el sistema visual conserva mecanismos adaptativos (plasticidad homeostática) incluso después de un largo periodo de experiencia visual atípica.
+Fuente: Castaldi E. et al., Neuroplasticity in adult human visual cortex (2020)
+enlace:https://pubmed.ncbi.nlm.nih.gov/32092315/
+
+
+🟢 Plasticidad adulta con mecanismos del desarrollo
+El artículo resume investigaciones que muestran cómo la plasticidad en cerebros adultos utiliza procesos similares a los que ocurren durante el desarrollo temprano, desafiando la idea de que sólo los cerebros jóvenes son adaptables.
+Fuente: Mowery T. M. & Garraghty P. E., Adult neuroplasticity employs developmental mechanisms (2023)
+enlace:https://pubmed.ncbi.nlm.nih.gov/36762289/
+
+🟢 Revisión de más de 40 años de investigación sobre plasticidad adulta
+Esta revisión histórica muestra que múltiples factores (aprendizaje, estrés, hormonas, experiencias) pueden cambiar la estructura y función del sistema nervioso adulto, incluyendo cambios en la conectividad neuronal y reorganización de redes.
+Fuente: Fuchs E. & Flügge G., Adult neuroplasticity: more than 40 years of research (2014)
+enlace:https://pubmed.ncbi.nlm.nih.gov/24883212/
+
+🟢 Ejercicio y plasticidad cerebral
+Esta revisión sistemática integra estudios humanos y animales donde el ejercicio físico aumenta factores neurotróficos (como BDNF) y mejora componentes de plasticidad neuronal, incluyendo aprendizaje y memoria.
+Fuente: Santos de Sousa Fernandes M. et al., Effects of Physical Exercise on Neuroplasticity and Brain Function (2020)
+enlace:https://pubmed.ncbi.nlm.nih.gov/33414823/
+
+🟢 Reorganización de conectividad por aprendizaje
+En estudios con resonancia funcional, aprender nuevas tareas induce reorganización dinámica tanto de la actividad cerebral como de la conectividad funcional en adultos. Esto es evidencia directa de plasticidad funcional relacionada con el comportamiento.
+Fuente: Bertolero M. A. et al., Learning differentially reorganizes brain activity and connectivity (2018)
+enlace:https://arxiv.org/abs/1810.08840
+
+🟢 Evidencias de neurogénesis adulta humana
+Esta revisión examina evidencia de nuevas neuronas formándose en el hipocampo adulto humano, lo que es una forma específica de plasticidad. Aunque algunos estudios discrepan, hay datos de neurogénesis persistente en adultos.
+Fuente: Moreno-Jiménez E. P. et al., Evidences for Adult Hippocampal Neurogenesis in Humans (2021)
+enlace:https://pubmed.ncbi.nlm.nih.gov/33762406/
+
+🟠 Conclusión:
+Todos estos estudios —tanto revisiones como investigaciones empíricas— apoyan que el cerebro adulto no está “fijo”, sino que puede modificar su estructura y función por aprendizaje, experiencia, ejercicio y otros estímulos. Los mecanismos incluyen cambios en conectividad, volumen de materia gris/blanca, reorganización funcional y posiblemente neurogénesis en áreas específicas como el hipocampo

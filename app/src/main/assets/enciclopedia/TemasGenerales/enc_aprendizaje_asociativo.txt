@@ -1,0 +1,108 @@
+
+El aprendizaje asociativo, desde la neurociencia, es el proceso mediante el cual el cerebro relaciona dos o más estímulos, o un estímulo con una acción y su consecuencia, y modifica su actividad neuronal para que esa relación quede almacenada y pueda influir en la conducta futura.
+
+En otras palabras: el cerebro aprende qué cosas van juntas y qué predice a qué.
+
+
+
+🟢 Definición neurocientífica
+
+A nivel cerebral, el aprendizaje asociativo implica cambios plásticos en las sinapsis (plasticidad sináptica), donde la activación repetida y coordinada de neuronas fortalece o debilita conexiones específicas.
+La idea clave es el principio de Hebb:
+
+“Las neuronas que se activan juntas, se conectan juntas.”
+
+
+
+🟢 Tipos principales de aprendizaje asociativo
+
+🔸1. Condicionamiento clásico (Pavloviano)
+
+Se aprende a asociar dos estímulos.
+
+Ejemplo clásico
+    •    Estímulo neutro: sonido de una campana
+    •    Estímulo incondicionado: comida
+    •    Respuesta: salivación
+
+Tras repetidas asociaciones:
+    •    Campana → salivación
+
+Qué ocurre en el cerebro
+    •    La amígdala y el cerebelo juegan un papel clave.
+    •    Se refuerzan conexiones entre áreas sensoriales (audición) y circuitos autónomos (salivación).
+    •    El estímulo neutro empieza a activar las mismas redes neuronales que el estímulo biológicamente relevante.
+
+Ejemplo cotidiano
+    •    Sentir ansiedad al oír el sonido de un correo del trabajo.
+    •    Oler un perfume y recordar inmediatamente a una persona.
+
+
+
+🔸2. Condicionamiento operante (instrumental)
+
+Se aprende a asociar una conducta con una consecuencia.
+
+Ejemplo
+    •    Acción: estudiar
+    •    Consecuencia: buena nota
+    •    Resultado: aumento de la conducta de estudiar
+
+Neurociencia detrás
+    •    Circuito clave: sistema dopaminérgico (área tegmental ventral → núcleo accumbens).
+    •    La dopamina actúa como señal de error de predicción:
+    •    Más recompensa de la esperada → aumenta dopamina.
+    •    Menos recompensa → disminuye.
+
+Esto ajusta la probabilidad de repetir la conducta.
+
+Ejemplo práctico
+    •    Revisar el móvil y recibir un mensaje gratificante → refuerzo del hábito.
+    •    Trading: una operación rentable refuerza una estrategia (incluso aunque haya sido azarosa).
+
+
+
+🟢 Mecanismos neuronales fundamentales
+
+Plasticidad sináptica
+    •    Potenciación a largo plazo (LTP): fortalecimiento de sinapsis.
+    •    Depresión a largo plazo (LTD): debilitamiento de sinapsis.
+
+Estas modificaciones ocurren principalmente en:
+    •    Hipocampo (memoria asociativa y espacial)
+    •    Amígdala (asociaciones emocionales)
+    •    Ganglios basales (hábitos y aprendizaje por recompensa)
+
+
+
+🟢 Rol de los neurotransmisores
+    •    Glutamato: aprendizaje y plasticidad (receptores NMDA y AMPA).
+    •    Dopamina: refuerzo, motivación y aprendizaje por recompensa.
+    •    Noradrenalina: relevancia y atención.
+    •    Acetilcolina: aprendizaje dependiente de la atención.
+
+
+
+🟢 Ejemplos aplicados a la vida diaria
+
+Alimentación
+    •    Asociar alimentos ultraprocesados con placer inmediato (dopamina).
+    •    Aprender a asociar comida natural con bienestar a largo plazo requiere reentrenar asociaciones.
+
+Emociones
+    •    Una experiencia negativa repetida puede asociar un lugar o persona con miedo.
+    •    Base neurobiológica de fobias y trastornos de ansiedad.
+
+Aprendizaje y estudio
+    •    Estudiar siempre en el mismo entorno puede crear asociaciones contextuales.
+    •    Asociar el aprendizaje con emociones positivas mejora la consolidación de la memoria.
+
+
+
+🟢 Resumen:
+
+Desde la neurociencia, el aprendizaje asociativo es:
+    •    Un proceso de cambio físico en el cerebro.
+    •    Basado en plasticidad sináptica.
+    •    Guiado por predicción, recompensa y emoción.
+    •    Fundamental para la supervivencia, los hábitos y la toma de decisiones

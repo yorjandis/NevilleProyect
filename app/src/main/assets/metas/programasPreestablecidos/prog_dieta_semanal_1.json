@@ -1,0 +1,38 @@
+{
+  "title": "Dieta semanal orientado a mejorar la sensibilidad a la insulina y optimizar energía",
+  "detalles":"Programa de 7 unidades, cada unidad corresponde a un día de la semana",
+  "description": "Programa orientado a mejorar la sensibilidad a la insulina y optimizar energía.\n\nEstructura del programa: \n1. Ventana de ayuno diaria -> aumenta la activación basal de AMPK\n2. Cardio en ayunas -> aumenta la oxidación de grasas -> disminuye el palmitol-CoA\n3. Baja grasa saturada -> disminuye la síntesis de ceramidas C16\n4. Omega 3 frecuente -> disminuye la inflamación\n5. Masa muscular preservada -> mejor participación de nutrientes\n6. Carbohidrato estratégico post-estreno -> mejor sensibilidad a la insulina\n\nResultado esperado (8-12 semanas):\n* Disminución de insulina basal\n* Disminución de triglicéridos\n* Disminución de OMA-IR\n* Aumento de HDL\n* Mejor rendimiento aeróbico en zona 2\n* Mayor flexibilidad metabólica",
+  "noUnidades": 7,
+  "tipoUnidad": "dias",
+  "frecuencia": 1,
+  "unidadesinfo": [
+    {
+      "name": "Lunes",
+      "info": "Entrenamiento matutino de Fuerza\nDesayuno tardío (post-entreno):\n* 3 huevos\n* 150 gramos de claras adicionales (opcional si buscas más proteínas)\n* 100 gramos pan integral\n* 1 tomate Grande\n* 10 ml de AOVE\n* 250 gramos de yogurt griego natutal\n* 100 gramos de frutos rojos\n* 20 gramos de nueces\n\nObjetivo Metabólico:\nRecarga de glucógeno + Estimulación de nMTOR controlado tras haber activado AMPK durante el entrenamiento\n\nCena:\n* 200 gramos de Salmón\n* 150 gramos de patata cocida\n* 200 gramos de espárragods\n* ensalada verde grande (150 gramos)\n* 10 ml de AOVE\n\nObjetivo Metabólico:\nOmega 3 -> Disminuye inflamación -> Disminución de activación de JNK/NF-kB -> disminución de bloqueo de IRS"
+    },
+    {
+      "name": "Martes",
+      "info":"Correr en zona 2 en ayunas.\nDesayuno tardío:\n* 100 gramos de avena\n* 30 gramos de proteína en polvo (opcional)\n* 20 gramos de almendras\n* 100 gramos de arándanos\n* 250 gramos de yogurt griego\n Mayor Carga de carbohidratos tras la oxidación de grasas prolongada\n\nCena:\n* 200 gramos de sardinas o caballa\n* 100 gramos de arroz integral (peso en crudo antes de cocer)\n* 200 gramos de verdura salteada\n* 10 ml de AOVE"
+    },
+    {
+      "name": "Miércoles",
+      "info":"Descanso activo\nDesayuno Tardío:\n* 100 gramos de garbanzos cocidos\n* 200 gramos de verduras variadas\n* 1 aguacate\n* 200 gramos de pechuga de pollo\n\nComida rica en fibra -> mejora sensibilidad hepática\n\nCena:\n* 200 gramos de merlusa\n* 80 gramos de quinoa (peso en crudo antes de cocer)\n* 200 gramos de brócoli\n* 10ml de AOVE"
+    },
+    {
+      "name": "Jueves",
+      "info":"Fuerza\nDesayuno Tardío(post-entreno):\n* 200 gramos de ternera magra\n* 150 gramos de boniato\n* 150 gramos de ensalada\n* 10,l de AOVE\n* 250 gramos de yogurt griego\n* 100 gramos de frutos rojos\n\nCena:\n* 3 huevos\n* 200 gramos de espinaca\n* 20 gramos de almendras\n* 1 rebanada de pan integral\n\nDía ligeramente más alto en proteínas para recuperación muscular"
+    },
+    {
+      "name": "Viernes",
+      "info":"HIIT\nDesayuno Tardío(post-entreno):\n* 100 gramos pasta integral (peso en crudo antes de cocer)\n* 200 gramos de atún\n* 200 gramos de verduras\n* 10 ml de AOVE\n\nCena:\n* 200 gramos de pescado blanco o pollo\n* Ensalada grande(200 gramos)\n* 1 aguacate\n\nCarbohidratos concentrado tras HIIT para restaurar el glucógeno"
+    },
+    {
+      "name": "Sábado",
+      "info":"Correr en zona 2 larga\nDesayuno Tardío(post-entreno):\n* 100 gramos arroz integral (peso en crudo antes de cocer)\n* 200 gramos de salmón o merlusa\n* 200 gramos de verduras\n* 10 ml de AOVE, 1 fruta\n\nCena:\n* 250 gramos de yogurt griego\n* 20 gramos de nueces\n* 100 gramos de frutos rojos\n* 2 huevos\n\nMás ligero por la noche para facilitar oxidación nocturna"
+    },
+    {
+      "name": "Domingo",
+      "info":"Descanso total (ligeramente más bajo en carbohidratos)\nDesayuno Tardío:\n* 3 huevos\n* 1 aguacate\n* 200 gramos de verduras\n* 1 rebanada de pan integral\n* 10 ml AOVE\n\nCena:\n* 200 gramos de pescado o pollo\n* 200 gramos de brócoli o espinacas\n* 20 g de almendras"
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "title": "Programa Neurocientífico para Revertir la Ansiedad Crónica",
+  "detalles": "Programa estructurado en 28 días (4 semanas). Cada unidad corresponde a un día con tareas específicas basadas en neuroplasticidad, regulación del sistema nervioso autónomo y optimización neuroquímica.",
+  "description": "Objetivo: Reducir progresivamente la hiperactivación de la amígdala, fortalecer la corteza prefrontal, regular el eje HPA (hipotálamo-hipófisis-adrenal) y restaurar el equilibrio dopamina-serotonina-GABA.\n\nFundamento neurocientífico:\n1) Respiración lenta → activa nervio vago → aumenta tono parasimpático.\n2) Exposición gradual → reduce hiperactividad amigdalar.\n3) Ejercicio aeróbico → aumenta BDNF y regula cortisol.\n4) Reestructuración cognitiva → fortalece corteza prefrontal dorsolateral.\n5) Ritmo circadiano estable → regula cortisol y melatonina.\n6) Interocepción consciente → reduce reactividad del sistema límbico.\n\nEstructura del programa:\nSemana 1: Regulación fisiológica.\nSemana 2: Reentrenamiento cognitivo.\nSemana 3: Exposición y resiliencia.\nSemana 4: Consolidación y automatización.\n\nDuración diaria estimada: 45-70 minutos distribuidos en bloques.",
+  "noUnidades": 28,
+  "tipoUnidad": "dias",
+  "frecuencia": 1,
+  "unidadesinfo": [
+    {
+      "name": "Día 1",
+      "info": "Evaluación inicial.\nEscribe detonantes, síntomas físicos y pensamientos recurrentes.\nRespiración 4-6 (4 seg inhalar, 6 seg exhalar) durante 10 minutos.\nCaminar 20 min a ritmo suave.\nDormir a la misma hora."
+    },
+    {
+      "name": "Día 2",
+      "info": "Respiración coherente 5-5 durante 12 min.\nExposición leve: imagina 5 min una situación que genera ansiedad mientras mantienes respiración lenta.\nEjercicio zona 2 (25 min).\nEliminar cafeína después de las 12 pm."
+    },
+    {
+      "name": "Día 3",
+      "info": "Ducha fría 30-60 seg para entrenar respuesta al estrés.\nEscribir 3 pensamientos ansiosos y reformularlos con evidencia objetiva.\nMovilidad + 20 min caminata."
+    },
+    {
+      "name": "Día 4",
+      "info": "Meditación interoceptiva 15 min (observa latidos y respiración sin juicio).\nExposición leve real (situación pequeña que evitas).\nEntrenamiento de fuerza básico 30 min."
+    },
+    {
+      "name": "Día 5",
+      "info": "Respiración 4-7-8 (4 inhalar, 7 sostener, 8 exhalar) x 8 ciclos.\nEscribir plan anti-rumiación: cuando detectes pensamiento repetitivo → acción física inmediata (caminar 5 min).\nZona 2 (30 min)."
+    },
+    {
+      "name": "Día 6",
+      "info": "Revisión de progreso.\nExposición imaginada más intensa 10 min.\nEntrenamiento fuerza.\nCena 3 horas antes de dormir."
+    },
+    {
+      "name": "Día 7",
+      "info": "Descanso activo.\nNaturaleza 40 min.\nReflexión escrita: ¿Qué síntomas disminuyeron?\nRutina de sueño estricta."
+    },
+
+    {
+      "name": "Día 8",
+      "info": "Reestructuración cognitiva avanzada.\nIdentifica distorsiones (catastrofismo, lectura mental).\nRespiración coherente 15 min.\nZona 2 (35 min)."
+    },
+    {
+      "name": "Día 9",
+      "info": "Exposición real moderada.\nPermanecer en la situación hasta que ansiedad baje 50%.\nEntrenamiento fuerza."
+    },
+    {
+      "name": "Día 10",
+      "info": "Meditación mindfulness 20 min.\nEjercicio HIIT suave (10 intervalos cortos).\nEliminar consumo digital 2h antes de dormir."
+    },
+    {
+      "name": "Día 11",
+      "info": "Diálogo socrático escrito.\nPreguntas: ¿Qué evidencia tengo? ¿Qué probabilidad real existe?\nZona 2 (30 min)."
+    },
+    {
+      "name": "Día 12",
+      "info": "Exposición social ligera.\nPracticar contacto visual y conversación breve.\nRespiración 4-6 antes y después."
+    },
+    {
+      "name": "Día 13",
+      "info": "Entrenamiento fuerza.\nRevisión de mejoras físicas (sueño, digestión).\nMeditación 15 min."
+    },
+    {
+      "name": "Día 14",
+      "info": "Descanso activo.\nEvaluación intermedia escrita.\nPlanificar exposiciones de semana 3."
+    },
+
+    {
+      "name": "Día 15",
+      "info": "Exposición intensa controlada.\nMantener hasta habituación.\nRespiración lenta posterior 10 min.\nZona 2 (40 min)."
+    },
+    {
+      "name": "Día 16",
+      "info": "Reestructuración cognitiva inmediata tras exposición.\nEscribir predicción vs resultado real.\nFuerza."
+    },
+    {
+      "name": "Día 17",
+      "info": "Meditación centrada en sensaciones incómodas.\nEntrenar tolerancia sin reacción.\nCaminata larga 45 min."
+    },
+    {
+      "name": "Día 18",
+      "info": "HIIT breve.\nExposición social moderada.\nEvitar conductas de seguridad (no buscar tranquilización)."
+    },
+    {
+      "name": "Día 19",
+      "info": "Respiración coherente 20 min.\nEscritura de gratitud (3 eventos concretos).\nZona 2."
+    },
+    {
+      "name": "Día 20",
+      "info": "Fuerza.\nRevisión de progreso cuantitativo (escala 1-10 ansiedad diaria)."
+    },
+    {
+      "name": "Día 21",
+      "info": "Descanso activo.\nNaturaleza 60 min.\nDormir 8 horas estrictas."
+    },
+
+    {
+      "name": "Día 22",
+      "info": "Exposición a situación antes evitada completamente.\nRegistrar intensidad inicial, pico y final."
+    },
+    {
+      "name": "Día 23",
+      "info": "Meditación 25 min.\nZona 2.\nEliminar multitarea."
+    },
+    {
+      "name": "Día 24",
+      "info": "Fuerza.\nRevisión pensamiento automático vs respuesta racional."
+    },
+    {
+      "name": "Día 25",
+      "info": "Exposición espontánea (sin preparación excesiva).\nEntrenar flexibilidad cognitiva."
+    },
+    {
+      "name": "Día 26",
+      "info": "Respiración 4-6 15 min.\nEscritura de identidad: 'Soy una persona capaz de tolerar incomodidad'."
+    },
+    {
+      "name": "Día 27",
+      "info": "HIIT breve.\nRevisión completa del mes.\nIdentificar herramientas más efectivas."
+    },
+    {
+      "name": "Día 28",
+      "info": "Evaluación final.\nComparar con Día 1.\nDiseñar protocolo mínimo de mantenimiento (respiración diaria + 3 exposiciones semanales + ejercicio 4x semana)."
+    }
+  ]
+}

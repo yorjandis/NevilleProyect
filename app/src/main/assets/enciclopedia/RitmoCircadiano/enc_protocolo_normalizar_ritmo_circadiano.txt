@@ -1,0 +1,210 @@
+Protocolo práctico, estructurado y fisiológicamente coherente para normalizar el ritmo circadiano desde la base molecular (melatonina, cortisol, genes reloj periféricos, sensibilidad a insulina y temperatura corporal).
+
+Lo dividiremos en:
+    1.    Principios biológicos
+    2.    Protocolo diario detallado
+    3.    Ajustes según cronotipo
+    4.    Fase de reseteo de 14 días
+    5.    Errores comunes
+
+
+
+🟢 Principios biológicos que vamos a usar
+
+El ritmo circadiano se regula principalmente por:
+    •    Luz (melanopsina → núcleo supraquiasmático)
+    •    Oscuridad (melatonina)
+    •    Cortisol matutino
+    •    Ritmo de alimentación (hígado)
+    •    Temperatura corporal
+    •    Movimiento
+
+La clave no es “dormir más”, sino aumentar la amplitud circadiana (claridad entre señal diurna y nocturna).
+
+
+
+🟢 Programa Diario Óptimo
+
+Suponiendo horario objetivo:
+Dormir 23:00 – 7:00
+
+(Después te explico cómo adaptarlo.)
+
+
+
+🔶 1. Dentro de los primeros 10–20 minutos tras despertar
+
+Objetivo: Disparar cortisol natural y suprimir melatonina residual.
+
+✔ Sal al exterior 5–15 minutos (aunque esté nublado).
+✔ Sin gafas de sol.
+✔ Mirada hacia el horizonte (no al sol directo).
+
+Por qué funciona:
+    •    Activa melanopsina (~480 nm)
+    •    Reinicia el núcleo supraquiasmático
+    •    Activa PER1/PER2 en tejidos periféricos vía cortisol
+
+Si no puedes salir:
+    •    Luz artificial ≥10.000 lux (menos ideal pero útil)
+
+
+🔶 2. Movimiento temprano (antes de las 9:00)
+
+10–20 min de caminata ligera o movilidad.
+
+Efectos:
+    •    Aumenta temperatura corporal
+    •    Potencia pico de cortisol
+    •    Mejora sincronización muscular periférica
+
+Evita HIIT en ayunas si estás muy desregulado.
+
+
+
+🔶 3. Café estratégicamente
+
+Espera 60–90 minutos tras despertar.
+
+Razón:
+Evitas interferir con el pico natural de cortisol y adenosina.
+
+
+
+🔶 4. Primer comida dentro de 60–90 min tras despertar
+
+Importante para el hígado.
+
+Ideal:
+    •    Proteína ≥30 g
+    •    Grasas saludables
+    •    Carbohidratos moderados
+
+Ejemplo:
+Huevos + aguacate + fruta o yogur griego + frutos rojos + nueces.
+
+Esto:
+    •    Activa insulina fisiológica
+    •    Sincroniza reloj hepático
+    •    Activa mTOR temprano (donde debe estar)
+
+
+
+🔶 5. Segunda exposición solar (mediodía)
+
+10–20 minutos.
+
+Refuerza:
+    •    Amplitud circadiana
+    •    Producción de serotonina
+    •    Estabilidad del estado de ánimo
+
+
+
+🔶 6. Entrenamiento ideal: 15:00–18:00
+
+Aquí:
+    •    Temperatura corporal es mayor
+    •    Rendimiento neuromuscular óptimo
+    •    Mejor tolerancia glucémica
+
+Evita entrenamiento intenso después de las 20:00 si estás desincronizado.
+
+
+
+🔶 7. Atardecer: señal de transición
+
+Sal 5–10 minutos a luz natural baja.
+
+El espectro rojizo:
+    •    Reduce activación melanopsina
+    •    Facilita aumento progresivo de melatonina
+
+
+
+🔶 8. 2–3 horas antes de dormir
+
+Reglas clave:
+
+✔ Atenuar luces
+✔ Evitar luz azul intensa
+✔ Nada de pantallas brillantes sin filtro
+✔ Cena ligera
+
+Cena ideal:
+    •    Proteína moderada
+    •    Verduras
+    •    Bajo en carbohidratos refinados
+
+Evita:
+    •    Alcohol
+    •    Comidas muy grasas
+    •    Grandes cargas glucémicas
+
+
+
+🔶 9. 60 minutos antes de dormir
+
+Rutina fija:
+    •    Luz cálida
+    •    Lectura en papel
+    •    Respiración lenta (4-6 ciclos/min)
+    •    Temperatura habitación 18–20°C
+
+La caída térmica facilita melatonina.
+
+
+
+🟢 Protocolo de Reseteo 14 Días (si estás muy alterado)
+
+Durante 2 semanas:
+    1.    Hora de despertar fija (incluso fines de semana)
+    2.    Exposición solar obligatoria mañana
+    3.    Nada de siestas >20 min
+    4.    Cero pantallas 90 min antes de dormir
+    5.    Última comida 3 h antes de acostarte
+    6.    Sin alcohol
+
+El cuerpo necesita repetición consistente para reajustar fase molecular.
+
+
+
+🟢 Ajuste según cronotipo
+
+Si eres muy nocturno:
+    •    Adelanta despertar 15 min cada 3 días.
+    •    Exposición solar inmediata obligatoria.
+    •    Cena muy temprana.
+
+Si eres muy madrugador:
+    •    Mantén luz brillante tarde (hasta 19:00).
+    •    Cena ligeramente más tarde.
+    •    Evita acostarte excesivamente temprano.
+
+
+
+🟢 Señales de que el protocolo funciona
+
+✔ Te despiertas antes de la alarma
+✔ Tienes hambre real por la mañana
+✔ Pico de energía 9:00–12:00
+✔ Somnolencia natural 22:00–23:00
+✔ Sueño profundo en primeros 90 min
+
+
+
+🟢 Errores que destruyen el ritmo
+    •    Luz intensa nocturna
+    •    Comer a medianoche
+    •    Dormir fines de semana hasta tarde
+    •    Entrenar intenso a las 22:00
+    •    Mirar el móvil en la cama
+
+
+
+🟢 Versión ultra simplificada (regla 5-3-1)
+
+5 → minutos de luz solar al despertar
+3 → horas sin comer antes de dormir
+1 → hora fija diaria de despertar
+

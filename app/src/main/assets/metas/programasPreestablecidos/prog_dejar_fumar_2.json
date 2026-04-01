@@ -1,0 +1,66 @@
+{
+  "title": "Programa Neuroadaptativo 14 Días – Desactivación Profunda del Hábito de Fumar",
+  "detalles": "Programa de 14 unidades, cada unidad corresponde a un día del proceso de deshabituación progresiva para fumadores de larga data",
+  "description": "Programa orientado a fumadores con muchos años de consumo y alta resistencia al cambio. En lugar de choque abrupto, utiliza desensibilización progresiva, reconsolidación de memoria, regulación dopaminérgica gradual y reconstrucción identitaria profunda.\n\nEstructura del programa:\n1. Desacoplamiento progresivo dopamina-contexto -> reduce automatismo del cuerpo estriado\n2. Reducción estratégica de nicotina -> disminuye hiperregulación de receptores nicotínicos\n3. Exposición consciente repetida -> reconsolidación sin recompensa emocional\n4. Entrenamiento intensivo de regulación autonómica -> mayor tono vagal\n5. Sustitución dopaminérgica estructurada -> ejercicio, luz, novedad, logro\n6. Reestructuración de identidad narrativa -> consolidación en corteza prefrontal medial\n7. Protocolo anti-recaída avanzado -> prevención de reinstalación por estrés\n\nResultado esperado (2-4 semanas):\n* Reducción progresiva del consumo hasta cero\n* Disminución marcada de craving contextual\n* Reducción de ansiedad basal\n* Mayor control ejecutivo frente a impulsos\n* Reconfiguración de identidad no fumadora estable\n* Disminución de automatismo tras comidas, café o estrés",
+  "noUnidades": 14,
+  "tipoUnidad": "dias",
+  "frecuencia": 1,
+  "unidadesinfo": [
+    {
+      "name": "Día 1",
+      "info": "Auditoría Conductual Completa\n\nRegistrar:\n* Número exacto de cigarrillos\n* Hora y contexto de cada uno\n* Nivel de ansiedad (1-10)\n\nObjetivo Neurobiológico:\nActivar corteza prefrontal dorsolateral -> sacar el hábito del piloto automático"
+    },
+    {
+      "name": "Día 2",
+      "info": "Romper Automatismos\n\nRegla:\n* No fumar en movimiento\n* No fumar con café\n* No fumar en el coche\n\nObjetivo Neurobiológico:\nSeparar contexto y recompensa -> debilitar memoria asociativa hipocampal"
+    },
+    {
+      "name": "Día 3",
+      "info": "Retraso Sistemático\n\nCada cigarro se retrasa 15 minutos.\nAplicar respiración 4-6 antes de fumar.\n\nObjetivo Neurobiológico:\nReducir anticipación dopaminérgica -> entrenar tolerancia a la incomodidad"
+    },
+    {
+      "name": "Día 4",
+      "info": "Reducción del 20% del Consumo Diario\n\nEliminar los cigarrillos menos satisfactorios.\nRegistrar sensaciones reales al fumar.\n\nObjetivo Neurobiológico:\nDisminución progresiva de activación de receptores nicotínicos"
+    },
+    {
+      "name": "Día 5",
+      "info": "Ejercicio Dopaminérgico Diario\n\n20 minutos de ejercicio moderado.\nExposición solar 10 minutos.\nDucha fría opcional.\n\nObjetivo Neurobiológico:\nAumentar dopamina basal sin nicotina -> estabilización del sistema de recompensa"
+    },
+    {
+      "name": "Día 6",
+      "info": "Fumar Consciente Obligatorio\n\nSolo se puede fumar sentado, solo y sin móvil.\nObservar sabor, olor y efecto real.\n\nObjetivo Neurobiológico:\nReconsolidación de memoria sin idealización"
+    },
+    {
+      "name": "Día 7",
+      "info": "Reducción Total al 50% del Consumo Inicial\n\nAplicar regla 3x3 ante craving:\n* 3 min respiración\n* 3 min movimiento\n* 3 min espera\n\nObjetivo Neurobiológico:\nDebilitar circuito compulsivo del cuerpo estriado"
+    },
+    {
+      "name": "Día 8",
+      "info": "Día Sin Cigarrillos Hasta las 14:00\n\nRetrasar primera dosis lo máximo posible.\nSustituir con agua fría y caminata.\n\nObjetivo Neurobiológico:\nReducir dependencia matutina (pico dopaminérgico temprano)"
+    },
+    {
+      "name": "Día 9",
+      "info": "Reducción al 30% del Consumo Inicial\n\nEliminar cigarrillos asociados a estrés.\nAplicar respiración con exhalación larga.\n\nObjetivo Neurobiológico:\nAumentar control prefrontal sobre respuesta emocional"
+    },
+    {
+      "name": "Día 10",
+      "info": "Reestructuración Narrativa\n\nEscribir:\n* Cómo empezó el hábito\n* Qué papel cumplió en tu vida\n* Por qué ya no es necesario\n\nObjetivo Neurobiológico:\nReescritura de identidad -> integración en corteza prefrontal medial"
+    },
+    {
+      "name": "Día 11",
+      "info": "Simulación de Escenarios de Alto Riesgo\n\nVisualizar situaciones típicas (estrés, comida, reunión social) sin fumar.\nPracticar respuesta alternativa.\n\nObjetivo Neurobiológico:\nEnsayo neural anticipado -> reducción de activación amigdalar futura"
+    },
+    {
+      "name": "Día 12",
+      "info": "Día Cero Nicotina\n\nEliminar completamente el consumo.\nAplicar protocolo emergencia ante craving:\n* Agua fría en rostro\n* 20 sentadillas\n* Respiración lenta\n\nObjetivo Neurobiológico:\nInicio de regulación descendente de receptores nicotínicos"
+    },
+    {
+      "name": "Día 13",
+      "info": "Consolidación Fisiológica\n\nEjercicio moderado.\nHidratación alta.\nAlimentación rica en proteína y fibra.\nDormir 7-8 horas.\n\nObjetivo Neurobiológico:\nEstabilización dopaminérgica y reducción de cortisol"
+    },
+    {
+      "name": "Día 14",
+      "info": "Consolidación Identitaria Final\n\nDeclaración escrita:\n\"No soy fumador. No necesito nicotina para regularme.\"\n\nDiseñar plan anti-recaída a 30 días.\n\nObjetivo Neurobiológico:\nFortalecimiento del control ejecutivo -> prevención de reinstalación del hábito"
+    }
+  ]
+}

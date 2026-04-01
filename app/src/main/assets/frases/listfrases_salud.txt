@@ -1,0 +1,647 @@
+id=salud_001
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Respirar profundo durante dos minutos al día reduce el estrés y mejora la claridad mental
+relacionadas=
+
+id=salud_002
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Caminar después de comer ayuda a regular la glucosa y mejora la digestión60
+relacionadas=
+
+id=salud_003
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Dormir a la misma hora cada noche fortalece el ritmo circadiano y la energía diaria
+relacionadas=
+
+id=salud_004
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Beber agua al despertar activa el metabolismo y apoya la desintoxicación natural
+relacionadas=
+
+id=salud_005
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Reducir el consumo de ultraprocesados mejora el estado de ánimo y la salud intestinal
+relacionadas=
+
+id=salud_006
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Exponerte a la luz solar matutina mejora el sueño y la producción hormonal
+relacionadas=
+
+id=salud_007
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Practicar gratitud diaria fortalece la salud emocional y reduce la ansiedad
+relacionadas=
+
+id=salud_008
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Entrenar fuerza dos veces por semana protege músculos y huesos a largo plazo
+relacionadas=
+
+id=salud_009
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Comer despacio mejora la saciedad y la relación con la comida
+relacionadas=
+
+id=salud_010
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Desconectarte del móvil antes de dormir favorece un descanso más profundo
+relacionadas=
+
+id=salud_011
+autor=salud
+nota=
+fuente=
+contexto=
+texto=El contacto con la naturaleza reduce el cortisol y mejora el bienestar general
+relacionadas=
+
+id=salud_012
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Escuchar tu cuerpo evita el sobreentrenamiento y previene lesiones
+relacionadas=
+
+id=salud_013
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Las relaciones sociales sanas son clave para la longevidad
+relacionadas=
+
+id=salud_014
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Incluir proteínas en cada comida ayuda a mantener masa muscular con los años
+relacionadas=
+
+id=salud_015
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Meditar cinco minutos diarios mejora el enfoque y la regulación emocional
+relacionadas=
+
+id=salud_016
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Evitar pantallas durante las comidas mejora la digestión consciente
+relacionadas=
+
+id=salud_017
+autor=salud
+nota=
+fuente=
+contexto=
+texto=El ayuno nocturno de 12 horas apoya la salud metabólica
+relacionadas=
+
+id=salud_018
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Escribir pensamientos reduce la carga mental y aclara emociones
+relacionadas=
+
+id=salud_019
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Una postura correcta previene dolores y mejora la respiración
+relacionadas=
+
+id=salud_020
+autor=salud
+nota=
+fuente=
+contexto=
+texto=El descanso es tan importante como el ejercicio para progresar
+relacionadas=
+
+id=salud_021
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Reducir el azúcar añadido mejora la energía estable durante el día
+relacionadas=
+
+id=salud_022
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Estirarte al despertar activa el cuerpo y reduce rigidez
+relacionadas=
+
+id=salud_023
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Decir no a tiempo también es autocuidado emocional
+relacionadas=
+
+id=salud_024
+autor=salud
+nota=
+fuente=
+contexto=
+texto=La respiración nasal mejora la oxigenación y calma el sistema nervioso
+relacionadas=
+
+id=salud_025
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Consumir alimentos reales nutre más que contar calorías
+relacionadas=
+
+id=salud_026
+autor=salud
+nota=
+fuente=
+contexto=
+texto=La constancia supera a la perfección en hábitos saludables
+relacionadas=
+
+id=salud_027
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Escuchar música relajante reduce la tensión mental acumulada
+relacionadas=
+
+id=salud_028
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Mantener curiosidad y aprendizaje protege la salud cognitiva
+relacionadas=
+
+id=salud_029
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Una cena ligera favorece un sueño más reparador
+relacionadas=
+
+id=salud_030
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Reír con frecuencia fortalece el sistema inmune y el ánimo
+relacionadas=
+
+id=salud_031
+autor=salud
+nota=
+fuente=
+contexto=
+texto=El orden externo reduce el ruido mental interno
+relacionadas=
+
+id=salud_032
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Hidratarte bien mejora la piel y la función cognitiva
+relacionadas=
+
+id=salud_033
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Practicar silencio consciente ayuda a regular emociones intensas
+relacionadas=
+
+id=salud_034
+autor=salud
+nota=
+fuente=
+contexto=
+texto=La flexibilidad emocional facilita la adaptación al cambio
+relacionadas=
+
+id=salud_035
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Priorizarte no es egoísmo, es salud integral
+relacionadas=
+
+id=salud_036
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Un entorno limpio apoya la claridad mental y el bienestar
+relacionadas=
+
+id=salud_037
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Moverte cada hora reduce el impacto del sedentarismo
+relacionadas=
+
+id=salud_038
+autor=salud
+nota=
+fuente=
+contexto=
+texto=La respiración lenta antes de dormir mejora la calidad del sueño
+relacionadas=
+
+id=salud_039
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Escuchar emociones evita que se manifiesten como síntomas físicos
+relacionadas=
+
+id=salud_040
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Invertir en salud hoy es ganar años de calidad mañana
+relacionadas=
+
+id=salud_041
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Comer suficiente fibra mejora la microbiota intestinal
+relacionadas=
+
+id=salud_042
+autor=salud
+nota=
+fuente=
+contexto=
+texto=La calma es una habilidad que se entrena diariamente
+relacionadas=
+
+id=salud_043
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Menos estímulos externos favorecen mayor conexión interna
+relacionadas=
+
+id=salud_044
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Descansar bien mejora decisiones, humor y productividad
+relacionadas=
+
+id=salud_045
+autor=salud
+nota=
+fuente=
+contexto=
+texto=La salud mental se construye con pequeños hábitos diarios
+relacionadas=
+
+id=salud_046
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Elegir alimentos simples reduce inflamación silenciosa
+relacionadas=
+
+id=salud_047
+autor=salud
+nota=
+fuente=
+contexto=
+texto=La respiración consciente es un ancla en momentos de estrés
+relacionadas=
+
+id=salud_048
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Cuidar tu energía es tan importante como cuidar tu tiempo
+relacionadas=
+
+id=salud_049
+autor=salud
+nota=
+fuente=
+contexto=
+texto=La longevidad se basa en hábitos sostenibles, no extremos
+relacionadas=
+
+id=salud_050
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Escucharte a diario es la base de la salud holística
+relacionadas=
+
+id=salud_051
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Consumir alimentos fermentados apoya una microbiota intestinal diversa
+relacionadas=
+
+id=salud_052
+autor=salud
+nota=
+fuente=
+contexto=
+texto=La variedad de vegetales alimenta diferentes bacterias beneficiosas
+relacionadas=
+
+id=salud_053
+autor=salud
+nota=
+fuente=
+contexto=
+texto=La fibra soluble mejora la salud digestiva y metabólica
+relacionadas=
+
+id=salud_054
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Comer alimentos reales reduce la carga inflamatoria intestinal
+relacionadas=
+
+id=salud_055
+autor=salud
+nota=
+fuente=
+contexto=
+texto=La microbiota sana influye directamente en el estado de ánimo
+relacionadas=
+
+id=salud_056
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Masticar bien facilita la digestión y la absorción de nutrientes
+relacionadas=
+
+id=salud_057
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Evitar comer con prisas protege la salud intestinal
+relacionadas=
+
+id=salud_058
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Las legumbres bien preparadas nutren la microbiota
+relacionadas=
+
+id=salud_059
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Reducir edulcorantes artificiales favorece el equilibrio bacteriano
+relacionadas=
+
+id=salud_060
+autor=salud
+nota=
+fuente=
+contexto=
+texto=El intestino sano mejora la respuesta inmune
+relacionadas=
+
+id=salud_061
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Incluir grasas saludables apoya la barrera intestinal
+relacionadas=
+
+id=salud_062
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Los polifenoles vegetales alimentan bacterias protectoras
+relacionadas=
+
+id=salud_063
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Una microbiota equilibrada mejora la sensibilidad a la insulina
+relacionadas=
+
+id=salud_064
+autor=salud
+nota=
+fuente=
+contexto=
+texto=El exceso de alcohol altera la flora intestinal
+relacionadas=
+
+id=salud_065
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Comer con regularidad ayuda al ritmo digestivo
+relacionadas=
+
+id=salud_066
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Las frutas enteras benefician más que los jugos
+relacionadas=
+
+id=salud_067
+autor=salud
+nota=
+fuente=
+contexto=
+texto=La microbiota participa en la producción de neurotransmisores
+relacionadas=
+
+id=salud_068
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Reducir ultraprocesados favorece bacterias beneficiosas
+relacionadas=
+
+id=salud_069
+autor=salud
+nota=
+fuente=
+contexto=
+texto=La alimentación consciente mejora la relación con la comida
+relacionadas=
+
+id=salud_070
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Un intestino equilibrado reduce inflamación sistémica
+relacionadas=
+
+id=salud_071
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Los alimentos prebióticos nutren bacterias intestinales clave
+relacionadas=
+
+id=salud_072
+autor=salud
+nota=
+fuente=
+contexto=
+texto=El estrés crónico afecta negativamente la microbiota
+relacionadas=
+
+id=salud_073
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Una dieta simple facilita la digestión diaria
+relacionadas=
+
+id=salud_074
+autor=salud
+nota=
+fuente=
+contexto=
+texto=La microbiota se adapta a lo que comes con frecuencia
+relacionadas=
+
+id=salud_075
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Evitar comer tarde mejora el descanso digestivo
+relacionadas=
+
+id=salud_076
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Los alimentos frescos favorecen mayor diversidad bacteriana
+relacionadas=
+
+id=salud_077
+autor=salud
+nota=
+fuente=
+contexto=
+texto=La salud intestinal influye en la claridad mental
+relacionadas=
+
+id=salud_078
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Escuchar señales de hambre mejora hábitos alimenticios
+relacionadas=
+
+id=salud_079
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Una microbiota cuidada apoya la longevidad saludable
+relacionadas=
+
+id=salud_080
+autor=salud
+nota=
+fuente=
+contexto=
+texto=La constancia alimentaria es clave para un intestino sano
+relacionadas=
+
+id=salud_081
+autor=salud
+nota=
+fuente=
+contexto=
+texto=Quien controla su dopamina, controla su atención. Quien controla su atención, controla su vida
+relacionadas=

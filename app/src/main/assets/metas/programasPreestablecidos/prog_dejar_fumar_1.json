@@ -1,0 +1,38 @@
+{
+  "title": "Programa Intensivo 7 Días – Liberación de Nicotina",
+  "detalles": "Programa de 7 unidades, cada unidad corresponde a un día del proceso de deshabituación",
+  "description": "Programa orientado a desactivar el circuito dopaminérgico asociado a la nicotina, regular el sistema de estrés y reconfigurar la identidad conductual.\n\nEstructura del programa:\n1. Reestructuración cognitiva -> debilita la asociación dopamina-recompensa\n2. Modificación del entorno -> reduce activación automática del cuerpo estriado\n3. Último cigarro consciente -> reconsolidación de memoria sin romantización\n4. Regulación fisiológica del craving -> activación parasimpática\n5. Sustitución dopaminérgica saludable -> ejercicio, frío, luz solar\n6. Cambio de identidad -> consolidación en corteza prefrontal\n7. Plan anti-recaída -> prevención de reinstalación del hábito\n\nResultado esperado (7-14 días):\n* Disminución significativa del craving\n* Reducción de ansiedad basal\n* Mejora de oxigenación y energía\n* Mayor estabilidad dopaminérgica\n* Disminución de automatismos conductuales\n* Reforzamiento de identidad no fumadora",
+  "noUnidades": 7,
+  "tipoUnidad": "dias",
+  "frecuencia": 1,
+  "unidadesinfo": [
+    {
+      "name": "Día 1",
+      "info": "Reprogramación Cognitiva\n\nEjercicio:\n* Escribir qué crees que te aporta fumar\n* Escribir qué te quita realmente\n* Identificar las distorsiones cognitivas\n\nPráctica:\nCada vez que fumes hoy repetir mentalmente:\n\"Esto no me ayuda, solo alivia la abstinencia que él mismo genera\"\n\nObjetivo Neurobiológico:\nDebilitar la asociación entre nicotina y recompensa -> disminución progresiva de activación dopaminérgica anticipatoria"
+    },
+    {
+      "name": "Día 2",
+      "info": "Diseño del Entorno\n\nAcciones:\n* Eliminar ceniceros, encendedores y paquetes\n* Lavar ropa y coche\n* Cambiar rutas habituales\n* Evitar café y alcohol durante 7 días\n\nObjetivo Neurobiológico:\nReducir activación automática del hábito almacenado en cuerpo estriado -> menor activación contextual del hipocampo"
+    },
+    {
+      "name": "Día 3",
+      "info": "Último Cigarro Consciente\n\nRitual:\n* Fumar solo\n* Sin móvil\n* Sin distracciones\n* Observando sabor, olor y sensaciones reales\n\nDespués:\n* Romper el paquete\n* Desechar encendedores\n\nObjetivo Neurobiológico:\nReconsolidación de memoria sin idealización -> debilitamiento de memoria emocional positiva en amígdala"
+    },
+    {
+      "name": "Día 4",
+      "info": "24 Horas Sin Nicotina\n\nProtocolo Anti-Craving 3x3:\n* 3 minutos respiración lenta (6 respiraciones/min)\n* 3 minutos movimiento intenso\n* 3 minutos de espera antes de decidir\n\nExtra Dopamina Saludable:\n* Ducha fría 30-60 segundos\n* Exposición solar 10 minutos\n* Ejercicio breve de alta intensidad\n\nObjetivo Neurobiológico:\nRegular receptores nicotínicos -> estabilización progresiva del sistema dopaminérgico"
+    },
+    {
+      "name": "Día 5",
+      "info": "Regulación del Estrés\n\nTécnica de respiración:\n* Inhalar 4 segundos\n* Exhalar 6-8 segundos\n\nSustitución Oral:\n* Chicle sin azúcar\n* Agua con gas\n* Palillos de canela\n\nObjetivo Neurobiológico:\nActivación del nervio vago -> reducción de cortisol -> disminución de impulso compulsivo"
+    },
+    {
+      "name": "Día 6",
+      "info": "Reconfiguración de Identidad\n\nPráctica:\n* Repetir \"No soy fumador\"\n* Visualización 5 minutos: pulmones limpios, energía estable, orgullo interno\n\nEjercicio Escrito:\n* Beneficios observados hasta ahora\n* Cambios físicos y mentales\n\nObjetivo Neurobiológico:\nConsolidación en corteza prefrontal -> fortalecimiento de autoimagen estable"
+    },
+    {
+      "name": "Día 7",
+      "info": "Consolidación y Plan Anti-Recaída\n\nEscribir:\n* Qué aprendí sobre mis impulsos\n* Qué haré si aparece un craving fuerte\n* Qué haré si fumo un cigarro aislado\n\nProtocolo Emergencia:\n* Agua fría en cara\n* 20 sentadillas\n* Respiración lenta\n* Caminar 5 minutos\n\nObjetivo Neurobiológico:\nPrevenir reinstalación del circuito adictivo -> fortalecimiento de control ejecutivo"
+    }
+  ]
+}

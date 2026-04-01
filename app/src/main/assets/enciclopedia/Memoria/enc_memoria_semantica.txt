@@ -1,0 +1,106 @@
+
+La memoria semántica es uno de los grandes sistemas de la memoria humana y, desde la neurociencia, se define como el conjunto de conocimientos generales y descontextualizados que tenemos sobre el mundo: conceptos, significados, hechos, reglas y relaciones entre ideas. No depende de cuándo ni dónde aprendimos algo, sino de qué sabemos.
+
+
+
+🟢 ¿Qué tipo de información almacena?
+
+La memoria semántica incluye, por ejemplo:
+    •    El significado de las palabras (“árbol”, “justicia”, “gravedad”)
+    •    Hechos generales (“París es la capital de Francia”)
+    •    Categorías y conceptos (“un perro es un mamífero”)
+    •    Reglas y relaciones (“el fuego quema”, “2 + 2 = 4”)
+
+🔸 Ejemplo práctico
+Sabes que el agua hierve a 100 °C a nivel del mar, aunque no recuerdes cuándo o quién te lo enseñó. Eso es memoria semántica.
+
+
+
+🟢 Diferencia con otros tipos de memoria
+
+Desde la neurociencia cognitiva, suele compararse con la memoria episódica
+
+Memoria semántica:
+• Conocimiento general
+• No depende del contexto
+• mas estable en el tiempo
+• "Sé que..."
+
+Memoria episódica:
+• Experiencias Personales
+• Ligada al tiempo y lugar
+• Más vunerable al olvido
+• "Recuerdo que..."
+
+🔸 Ejemplo
+    •    Semántica: “Madrid es la capital de España”
+    •    Episódica: “Recuerdo mi primer viaje a Madrid”
+
+Ambas están relacionadas, pero pueden disociarse: hay pacientes que pierden recuerdos personales pero conservan el conocimiento general, y viceversa.
+
+
+
+🟢 Bases neuroanatómicas
+
+Desde la neurociencia, la memoria semántica se apoya en una red distribuida, no en una sola región:
+
+Regiones clave:
+    •    Lóbulo temporal anterior: integración de significados (clave para conceptos)
+    •    Corteza temporal lateral: procesamiento del lenguaje y objetos
+    •    Corteza prefrontal: acceso y uso del conocimiento
+    •    Hipocampo: importante en la formación inicial, pero menos necesario para el almacenamiento a largo plazo
+
+🧠 Dato importante
+En enfermedades como la demencia semántica, se observa una degeneración del lóbulo temporal anterior, lo que provoca pérdida progresiva del significado de las palabras y objetos.
+
+
+
+🟢 ¿Cómo se forma la memoria semántica?
+
+La neurociencia propone que:
+    1.    La información suele entrar primero como episódica
+    2.    Con la repetición y el tiempo, se abstrae
+    3.    Se consolida como conocimiento general (semántico)
+
+🔸 Ejemplo cotidiano
+Las primeras veces que usas un término técnico (por ejemplo, “API”), recuerdas dónde lo aprendiste. Años después, simplemente sabes lo que significa, sin contexto. Esa transición es clave en la consolidación semántica.
+
+
+
+🟢 Importancia de la memoria semántica
+
+La memoria semántica es esencial para:
+
+🔸 Lenguaje y comunicación
+
+Sin ella, no podríamos comprender ni producir lenguaje con sentido.
+
+🔸 Pensamiento abstracto
+
+Permite razonar, categorizar, inferir y hacer analogías.
+
+🔸 Aprendizaje continuo
+
+Todo nuevo aprendizaje se apoya en conocimientos previos almacenados semánticamente.
+
+🔸 Identidad cognitiva
+
+Aunque parezca impersonal, define gran parte de “quién eres intelectualmente”: lo que sabes, entiendes y dominas.
+
+
+
+🟢 Evidencia clínica y experimental
+    •    Pacientes con amnesia hipocampal pueden aprender nuevos hechos lentamente → sugiere que el hipocampo no es el almacén final.
+    •    En afasia semántica, las personas ven un objeto pero no pueden acceder a su significado.
+    •    Estudios de neuroimagen muestran activación distribuida según el tipo de conocimiento (visual, verbal, motor).
+
+
+
+🟢 En resumen
+
+Desde la neurociencia, la memoria semántica es:
+
+Un sistema de conocimiento general, estable y distribuido en la corteza cerebral, fundamental para el lenguaje, el pensamiento y el aprendizaje.
+
+Sin memoria semántica, no solo olvidaríamos datos: perderíamos el significado del mundo.
+

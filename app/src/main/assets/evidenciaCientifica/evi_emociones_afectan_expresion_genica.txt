@@ -1,0 +1,27 @@
+
+Existe evidencia científica sólida, en el marco de la epigenética, de que factores ambientales —incluidos estrés y emociones intensas o sostenidas— pueden modificar cómo se expresan los genes, sin alterar la secuencia del ADN, pero sí su regulación y actividad. Esta evidencia proviene de múltiples estudios en animales y humanos que han sido publicados en revistas revisadas por pares y fuentes científicas reconocidas
+
+La “letra” de nuestro ADN (las bases A‑T‑C‑G) no se modifica por las emociones; esto es mutación genética, algo que ocurre por errores de replicación o sustancias químicas/radiación, no por estados emocionales
+
+Lo que sí cambia son las señalizaciones químicas que regulan si un gen se “enciende” o “apaga”. Esa modificación se denomina epigenética
+
+🟢 Revisión clínica en humanos (2019):
+El artículo “Epigenetics as a key link between psychosocial stress and aging” resume múltiples estudios que muestran cómo el estrés psicocial crónico puede activar procesos epigenéticos —como la metilación del ADN— que cambian la expresión de genes relacionados con envejecimiento y salud mental.
+enlace:https://pubmed.ncbi.nlm.nih.gov/31949406/
+
+Mecanismo: estas modificaciones químicas no alteran el ADN en sí, pero sí influyen en cómo las células leen los genes bajo situaciones de estrés prolongado.
+
+🟢 Un estudio publicado en PMC (PubMed Central) encontró variaciones en genes reguladores epigenéticos (como DNMT1, DNMT3A/B) que se asocian con la reacción emocional al estrés en personas expuestas a estímulos estresantes o agradables. Esto indica que la respuesta emocional modulada por experiencias puede estar mediada por mecanismos epigenéticos que afectan la expresión génica.
+enlace:https://pmc.ncbi.nlm.nih.gov/articles/PMC4072714/
+
+🟢 Aunque tengamos dos ADN es idéntico (gemelos de un solo óvulo), estudios muestran que sus perfiles epigenéticos (por ejemplo, niveles de metilación en genes del eje del estrés) pueden ser muy diferentes, lo que puede traducirse en diferencias en la expresión de esos genes y en la respuesta fisiológica al estrés. Esa es la base de la evidencia científica actual.
+https://pubmed.ncbi.nlm.nih.gov/31949406/
+
+
+🟢 “Increased methylation of glucocorticoid receptor gene (NR3C1) in adults with a history of childhood maltreatment”
+👉 Este estudio clásico en humanos relaciona abuso infantil con mayor metilación del receptor de glucocorticoides; este tipo de cambios epigenéticos está vinculado a la respuesta al estrés en la vida adulta.
+enlace:https://www.nature.com/articles/tp201160
+
+🟢 Epigenetics of prenatal stress in humans: the current research landscape
+👉 Revisión reciente (2024) que resume hallazgos donde estrés prenatal (emocional/físico) se asocia con diferencias en metilación de genes clave del eje del estrés (NR3C1, FKBP5, CRH) tanto en madres como en recién nacidos.
+enlace:https://clinicalepigeneticsjournal.biomedcentral.com/articles/10.1186/s13148-024-01635-9

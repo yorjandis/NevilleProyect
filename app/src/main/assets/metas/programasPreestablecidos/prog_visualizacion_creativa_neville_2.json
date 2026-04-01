@@ -1,0 +1,66 @@
+{
+  "title": "Dominio del Estado Interno",
+  "detalles": "Programa de 14 días donde cada unidad corresponde a un día individual de práctica consciente.",
+  "description": "Entrenamiento progresivo para estabilizar la identidad del deseo cumplido.\n\nEstructura:\n- 2 sesiones diarias (mañana 5-10 min / noche 15-20 min)\n- Diario de autoobservación\n- Técnica de revisión nocturna",
+  "noUnidades": 14,
+  "tipoUnidad": "dias",
+  "frecuencia": 1,
+  "unidadesinfo": [
+    {
+      "name": "Día 1",
+      "info": " - Diagnóstico interno\nEscribe tus creencias actuales sobre el deseo.\nIdentifica pensamientos automáticos limitantes."
+    },
+    {
+      "name": "Día 2",
+      "info": " - Nueva identidad\nDescribe quién eres con el deseo cumplido.\nEscribe en presente y en primera persona."
+    },
+    {
+      "name": "Día 3",
+      "info": " - Afirmación encarnada\nCrea una frase breve que implique cumplimiento.\nRepite en estado relajado sintiendo naturalidad."
+    },
+    {
+      "name": "Día 4",
+      "info": " - Escena breve\nDiseña una escena posterior al cumplimiento (5-10 segundos).\nVisualiza en primera persona."
+    },
+    {
+      "name": "Día 5",
+      "info": " - Profundización sensorial\nAñade sonidos, tacto y entorno a la escena.\nPractica en SATS."
+    },
+    {
+      "name": "Día 6",
+      "info": " - Intensificación emocional\nPrioriza el sentimiento de logro y estabilidad."
+    },
+    {
+      "name": "Día 7",
+      "info": " - Naturalizaciónz\nHaz la escena ordinaria.\nReduce dramatismo."
+    },
+    {
+      "name": "Día 8",
+      "info": " - Revisión del día\nReescribe mentalmente cualquier evento negativo como te hubiera gustado vivirlo."
+    },
+    {
+      "name": "Día 9 - Diálogo interno",
+      "info": "Observa pensamientos reactivos.\nSustitúyelos por diálogo coherente con tu nueva identidad."
+    },
+    {
+      "name": "Día 10",
+      "info": " - Coherencia conductual\nActúa internamente como alguien que ya lo logró.\nPregunta: ¿Cómo pensaría hoy?"
+    },
+    {
+      "name": "Día 11",
+      "info": " - Vigilancia mental\nCuida lo que consumes (noticias, conversaciones).\nEvita reforzar la versión antigua."
+    },
+    {
+      "name": "Día 12",
+      "info": " - Persistencia suave\nSi surge duda, no luches.\nVuelve calmadamente a la escena."
+    },
+    {
+      "name": "Día 13",
+      "info": " - Encarnación\nMantén durante el día la sensación de inevitabilidad."
+    },
+    {
+      "name": "Día 14",
+      "info": " - Consolidación\nReflexiona sobre cambios internos.\nDecide mantener el estado como base permanente."
+    }
+  ]
+}

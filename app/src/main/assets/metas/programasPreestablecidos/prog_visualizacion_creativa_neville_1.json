@@ -1,0 +1,38 @@
+{
+  "title": "Fundamentos de la Visualización Creativa",
+  "detalles": "Programa de 7 días para aprender a imaginar desde el estado del deseo cumplido.",
+  "description": "Programa orientado a entrenar la imaginación consciente y el sentimiento del deseo realizado.\n\nEstructura del programa:\n- 1 sesión nocturna diaria (SATS)\n- 10 a 15 minutos por sesión\n- Objetivo: aprender a crear una escena corta e impregnarse emocionalmente en ella.",
+  "noUnidades": 7,
+  "tipoUnidad": "dias",
+  "frecuencia": 1,
+  "unidadesinfo": [
+    {
+      "name": "Día 1 - Claridad del deseo",
+      "info": "Define un único deseo concreto.\nEscribe una frase que implique que ya ocurrió.\nEjemplo: 'Estoy disfrutando mi nuevo trabajo'.\nAntes de dormir, repite la frase lentamente hasta sentir naturalidad."
+    },
+    {
+      "name": "Día 2 - Crear escena corta",
+      "info": "Diseña una escena de 5-10 segundos que ocurra DESPUÉS de cumplido el deseo.\nEjemplo: un amigo felicitándote.\nVisualiza en primera persona."
+    },
+    {
+      "name": "Día 3 - Inmersión sensorial",
+      "info": "Añade detalles sensoriales: temperatura, sonidos, texturas.\nEn SATS reproduce la escena en bucle durante 10 minutos."
+    },
+    {
+      "name": "Día 4 - Intensificar emoción",
+      "info": "Concéntrate en el sentimiento de satisfacción y alivio.\nNo fuerces imágenes; prioriza sentir que ya es real."
+    },
+    {
+      "name": "Día 5 - Naturalidad",
+      "info": "Haz que la escena sea ordinaria, como algo ya habitual.\nReduce dramatismo y aumenta normalidad."
+    },
+    {
+      "name": "Día 6 - Persistencia",
+      "info": "Mantén la misma escena.\nSi surgen dudas, vuelve suavemente a la escena sin lucha."
+    },
+    {
+      "name": "Día 7 - Vivir desde el estado",
+      "info": "Durante el día actúa mentalmente como alguien que ya lo logró.\nPregúntate: '¿Cómo pensaría si esto ya fuera un hecho?'"
+    }
+  ]
+}

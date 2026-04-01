@@ -1,0 +1,66 @@
+{
+  "title": "Programa Intensivo 14 Días – Reinicio Dopaminérgico del Alcohol",
+  "detalles": "Programa de 14 unidades, cada unidad corresponde a un día del proceso de deshabituación alcohólica",
+  "description": "Programa orientado a interrumpir el consumo habitual de alcohol mediante reinicio del sistema dopaminérgico, regulación del estrés y ruptura de asociaciones contextuales.\n\nEstructura del programa:\n1. Auditoría del consumo -> activación de control prefrontal\n2. Eliminación de disparadores ambientales -> debilitamiento hipocampal\n3. Sustitución dopaminérgica saludable -> ejercicio, frío, logro\n4. Regulación autonómica -> aumento del tono vagal\n5. Reestructuración cognitiva -> debilitamiento de creencias compensatorias\n6. Simulación de escenarios de riesgo -> reducción de activación amigdalar\n7. Consolidación identitaria -> fortalecimiento ejecutivo\n\nResultado esperado (2-4 semanas):\n* Disminución significativa del craving\n* Mejora del sueño profundo\n* Reducción de ansiedad basal\n* Estabilización del estado de ánimo\n* Recuperación de sensibilidad dopaminérgica\n* Aumento de claridad mental",
+  "noUnidades": 14,
+  "tipoUnidad": "dias",
+  "frecuencia": 1,
+  "unidadesinfo": [
+    {
+      "name": "Día 1",
+      "info": "Auditoría completa del consumo\nRegistrar cantidad, momento, emoción asociada y contexto.\n\nObjetivo Neurobiológico:\nActivar corteza prefrontal -> sacar el hábito del automatismo."
+    },
+    {
+      "name": "Día 2",
+      "info": "Eliminar alcohol del entorno.\nRetirar botellas visibles.\nEvitar bares esta semana.\n\nObjetivo Neurobiológico:\nReducir activación contextual del hipocampo."
+    },
+    {
+      "name": "Día 3",
+      "info": "Reestructuración cognitiva.\nEscribir:\n* ¿Qué creo que me aporta el alcohol?\n* ¿Qué coste real tiene?\n\nObjetivo Neurobiológico:\nDebilitar narrativa dopaminérgica compensatoria."
+    },
+    {
+      "name": "Día 4",
+      "info": "Día 100% sin alcohol.\nProtocolo anti-craving:\n* 5 minutos respiración lenta\n* 20 sentadillas\n* Duchas frías breves\n\nObjetivo Neurobiológico:\nReducción progresiva de picos dopaminérgicos artificiales."
+    },
+    {
+      "name": "Día 5",
+      "info": "Ejercicio aeróbico 30 minutos.\nExposición solar.\n\nObjetivo Neurobiológico:\nEstimulación dopamina basal natural."
+    },
+    {
+      "name": "Día 6",
+      "info": "Mejora del sueño.\nDormir 7-8 horas.\nSin pantallas 60 min antes.\n\nObjetivo Neurobiológico:\nRestauración de GABA y regulación emocional."
+    },
+    {
+      "name": "Día 7",
+      "info": "Simulación social.\nImaginar evento social sin beber.\nPracticar respuesta verbal firme.\n\nObjetivo Neurobiológico:\nReducir activación anticipatoria amigdalar."
+    },
+    {
+      "name": "Día 8",
+      "info": "Entrenamiento de tolerancia a incomodidad.\nRetrasar cualquier impulso 20 minutos.\n\nObjetivo Neurobiológico:\nFortalecer control ejecutivo."
+    },
+    {
+      "name": "Día 9",
+      "info": "Sustitución ritual nocturno.\nInfusión caliente o bebida sin alcohol estructurada.\n\nObjetivo Neurobiológico:\nReprogramar ritual dopaminérgico."
+    },
+    {
+      "name": "Día 10",
+      "info": "Actividad de logro personal.\nCompletar tarea exigente.\n\nObjetivo Neurobiológico:\nReforzar dopamina por esfuerzo."
+    },
+    {
+      "name": "Día 11",
+      "info": "Escritura emocional profunda.\nIdentificar emociones que solías anestesiar.\n\nObjetivo Neurobiológico:\nReducir evitación emocional."
+    },
+    {
+      "name": "Día 12",
+      "info": "Exposición a evento real sin beber.\nSalir con plan estructurado.\n\nObjetivo Neurobiológico:\nExtinción contextual."
+    },
+    {
+      "name": "Día 13",
+      "info": "Evaluación de mejoras físicas y mentales.\n\nObjetivo Neurobiológico:\nReforzar recompensa interna."
+    },
+    {
+      "name": "Día 14",
+      "info": "Declaración identitaria:\n\"No necesito alcohol para regularme.\"\nDiseñar plan 30 días.\n\nObjetivo Neurobiológico:\nConsolidación prefrontal estable."
+    }
+  ]
+}

@@ -1,0 +1,2401 @@
+id=jd_001
+autor=jd
+nota=
+fuente=
+contexto=Unidad mente-cuerpo
+texto=El producto final de una experiencia en la realidad tridimensional es una emoción
+relacionadas=
+
+id=jd_002
+autor=jd
+nota=
+fuente=
+contexto=Unidad mente-cuerpo
+texto=Es el entorno el que causa la enfermedad, activando los genes que producen los cambios en el cuerpo
+relacionadas=
+
+id=jd_003
+autor=jd
+nota=
+fuente=
+contexto=La conciencia / mente como causa primaria, Unidad mente-cuerpo
+texto=Los pensamientos son el lenguaje del cerebro y los sentimientos son el lenguaje del cuerpo. Y como piensas y sientes determina tu estado de ser. Tu estado de ser determina tus experiencias y realidad objetiva
+relacionadas=
+
+id=jd_004
+autor=jd
+nota=
+fuente=
+contexto=Ruptura de hábitos mentales y emocionales
+texto=Nada Cambia en tu vida hasta que tú cambias
+relacionadas=
+
+id=jd_005
+autor=jd
+nota=
+fuente=
+contexto=Identidad y auto-concepto
+texto=No podemos atraer nada a nuestra vida de lo que nos sentimos separados
+relacionadas=
+
+id=jd_006
+autor=jd
+nota=
+fuente=
+contexto=La emoción o el sentimiento como fuerza activadora, Persistencia y repetición consciente
+texto=Cuando superas tus emociones dominas tus creaciones
+relacionadas=
+
+id=jd_007
+autor=jd
+nota=
+fuente=
+contexto=Identidad y auto-concepto
+texto=No se trata de lo que quieres sino en quién te conviertes
+relacionadas=
+
+id=jd_008
+autor=jd
+nota=
+fuente=
+contexto=Identidad y auto-concepto
+texto=No vemos las cosas como son sino como somos
+relacionadas=
+
+id=jd_009
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada vez que interrumpes un patrón automático, creas un espacio para la elección.
+relacionadas=
+
+id=jd_010
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Visualizar tu futuro con detalle cambia la manera en que tu cerebro actúa hoy.
+relacionadas=
+
+id=jd_011
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El cambio no requiere fuerza de voluntad, sino repetición consciente.
+relacionadas=
+
+id=jd_012
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Tus hábitos no te definen; tu atención sí.
+relacionadas=
+
+id=jd_013
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada respiración consciente es un entrenamiento para tu mente.
+relacionadas=
+
+id=jd_014
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Siente el éxito antes de verlo materializado y tu cerebro comenzará a crearlo.
+relacionadas=
+
+id=jd_015
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La gratitud es un atajo químico hacia estados internos elevados.
+relacionadas=
+
+id=jd_016
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El piloto automático solo domina cuando dejas de observar.
+relacionadas=
+
+id=jd_017
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La identidad que tienes hoy es el reflejo de pensamientos repetidos ayer.
+relacionadas=
+
+id=jd_018
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Para cambiar tu realidad, primero cambia la emoción que la acompaña.
+relacionadas=
+
+id=jd_019
+autor=jd
+nota=
+fuente=
+contexto=
+texto=No esperes circunstancias externas; transforma tu mundo desde adentro.
+relacionadas=
+
+id=jd_020
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada hábito mental interrumpido abre un camino para nuevas conexiones neuronales.
+relacionadas=
+
+id=jd_021
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Repetir un pensamiento positivo fortalece los circuitos que sostienen tu paz interior.
+relacionadas=
+
+id=jd_022
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El cuerpo siempre responde a la mente, no al revés.
+relacionadas=
+
+id=jd_023
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Observar sin reaccionar es entrenar la mente para la libertad.
+relacionadas=
+
+id=jd_024
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada día que eliges consciencia es un día que reprogramas tu cerebro.
+relacionadas=
+
+id=jd_025
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Visualizar un objetivo sin emoción es solo imaginación; agregar sentimiento lo hace real.
+relacionadas=
+
+id=jd_026
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La verdadera transformación empieza cuando decides no ser esclavo del pasado.
+relacionadas=
+
+id=jd_027
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El cambio profundo es consistente, paciente y emocionalmente coherente.
+relacionadas=
+
+id=jd_028
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Tu cerebro no distingue entre lo que imaginas y lo que experimentas.
+relacionadas=
+
+id=jd_029
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Detener un pensamiento negativo es plantar la semilla de un patrón positivo.
+relacionadas=
+
+id=jd_030
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada pequeño acto consciente crea grandes cambios a largo plazo.
+relacionadas=
+
+id=jd_031
+autor=jd
+nota=
+fuente=
+contexto=
+texto=No eres tus emociones, eres quien las observa y las dirige.
+relacionadas=
+
+id=jd_032
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cuando actúas como la persona que deseas ser, tu cerebro aprende a seguirte.
+relacionadas=
+
+id=jd_033
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El estrés repetido fortalece viejas conexiones; la calma sostenida crea nuevas.
+relacionadas=
+
+id=jd_034
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El secreto no está en eliminar pensamientos, sino en redirigirlos.
+relacionadas=
+
+id=jd_035
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada hábito consciente que practicas es una inversión en tu futuro mental.
+relacionadas=
+
+id=jd_036
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La repetición de acciones conscientes convierte el aprendizaje en automatismo positivo.
+relacionadas=
+
+id=jd_037
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cuanto más presentes estés, menos controlará tu pasado tu futuro.
+relacionadas=
+
+id=jd_038
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La meditación no es evasión, es entrenamiento cerebral.
+relacionadas=
+
+id=jd_039
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Tu identidad actual es un reflejo de la historia que tu mente sigue contando.
+relacionadas=
+
+id=jd_040
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Crear una emoción positiva es tan poderoso como cambiar un hábito.
+relacionadas=
+
+id=jd_041
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada momento de atención plena es un ladrillo en la construcción de tu nueva mente.
+relacionadas=
+
+id=jd_042
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La intención clara + emoción elevada = cambio neuronal efectivo.
+relacionadas=
+
+id=jd_043
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La disciplina mental es cultivar la libertad interior.
+relacionadas=
+
+id=jd_044
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Tu cerebro aprende más de lo que sientes que de lo que piensas.
+relacionadas=
+
+id=jd_045
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Reprogramar tu mente es un acto consciente de amor propio.
+relacionadas=
+
+id=jd_046
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Las emociones sostenidas crean química; la química sostenida crea hábitos.
+relacionadas=
+
+id=jd_047
+autor=jd
+nota=
+fuente=
+contexto=
+texto=No cambias porque quieres cambiar, cambias porque entrenas tu cerebro todos los días.
+relacionadas=
+
+id=jd_048
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada visualización detallada actúa como un ensayo para tu realidad futura.
+relacionadas=
+
+id=jd_049
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El presente es la única herramienta que tienes para cambiar tu cerebro.
+relacionadas=
+
+id=jd_050
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Observar un patrón sin reaccionar es desactivar su poder sobre ti.
+relacionadas=
+
+id=jd_051
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El cambio mental profundo requiere repetición, coherencia y paciencia.
+relacionadas=
+
+id=jd_052
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Ser consciente de tus pensamientos es tomar el timón de tu vida.
+relacionadas=
+
+id=jd_053
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La emoción coherente con tu intención es el combustible de la transformación.
+relacionadas=
+
+id=jd_054
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada hábito que eliges conscientemente redefine quién eres.
+relacionadas=
+
+id=jd_055
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cuando tu mente y tu cuerpo trabajan juntos, creas estados internos poderosos.
+relacionadas=
+
+id=jd_056
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El cerebro aprende por experiencia; regálate experiencias de éxito y calma.
+relacionadas=
+
+id=jd_057
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Tu futuro no es predeterminado, es la suma de los pensamientos que eliges hoy.
+relacionadas=
+
+id=jd_058
+autor=jd
+nota=
+fuente=
+contexto=
+texto=No vemos las cosas como son sino como somos.
+relacionadas=
+
+id=jd_059
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada pensamiento que repites se convierte en un hábito que define quién eres.
+relacionadas=
+
+id=jd_060
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Observar tus emociones sin juzgarlas te permite liberarte de patrones automáticos.
+relacionadas=
+
+id=jd_061
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El cambio real comienza cuando decides conscientemente dejar de ser tu viejo yo.
+relacionadas=
+
+id=jd_062
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La neuroplasticidad demuestra que tu cerebro puede reconfigurarse si repites pensamientos nuevos.
+relacionadas=
+
+id=jd_063
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Visualizar tu mejor versión ayuda a alinearte con la persona que deseas ser.
+relacionadas=
+
+id=jd_064
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada emoción elevada que sientes fortalece los patrones de tu nuevo yo.
+relacionadas=
+
+id=jd_065
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La meditación no es relajación, es una herramienta para reprogramar tu mente y cuerpo.
+relacionadas=
+
+id=jd_066
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Estar presente en cada acción evita que el pasado determine tu futuro.
+relacionadas=
+
+id=jd_067
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Tus hábitos emocionales son la fuerza que mantiene tu identidad actual.
+relacionadas=
+
+id=jd_068
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El primer paso hacia un nuevo yo es simplemente notar cuándo actúas automáticamente.
+relacionadas=
+
+id=jd_069
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El campo cuántico representa todas las posibilidades de quién puedes llegar a ser.
+relacionadas=
+
+id=jd_070
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Sentir la emoción de tu yo deseado hace que tu cerebro y cuerpo comiencen a alinearse.
+relacionadas=
+
+id=jd_071
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Repetir pensamientos positivos con emoción crea nuevas conexiones neuronales.
+relacionadas=
+
+id=jd_072
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada vez que eliges una reacción consciente, fortaleces tu poder personal.
+relacionadas=
+
+id=jd_073
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Romper patrones requiere observar el pasado sin dejar que controle tu presente.
+relacionadas=
+
+id=jd_074
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La mente subconsciente guarda los hábitos que repites, positivos o negativos.
+relacionadas=
+
+id=jd_075
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Visualizar comportamientos deseados prepara al cuerpo para actuar de manera diferente.
+relacionadas=
+
+id=jd_076
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada pensamiento consciente es una semilla que puede cambiar tu identidad.
+relacionadas=
+
+id=jd_077
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La emoción es la energía que da vida a tus nuevos patrones mentales.
+relacionadas=
+
+id=jd_078
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Notar tus reacciones automáticas te permite elegir otra respuesta más coherente.
+relacionadas=
+
+id=jd_079
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada vez que actúas como tu nuevo yo, fortaleces esa identidad en tu cerebro y cuerpo.
+relacionadas=
+
+id=jd_080
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El cambio no ocurre solo pensando, sino sintiendo y actuando como tu mejor versión.
+relacionadas=
+
+id=jd_081
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Romper hábitos antiguos requiere consciencia y repetición constante.
+relacionadas=
+
+id=jd_082
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Tu cuerpo recuerda incluso antes de que tu mente lo note; cámbialo a través de emociones nuevas.
+relacionadas=
+
+id=jd_083
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cuando eliges emociones elevadas, comienzas a reprogramar viejos patrones de reacción.
+relacionadas=
+
+id=jd_084
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La repetición diaria de nuevos pensamientos y emociones consolida la nueva identidad.
+relacionadas=
+
+id=jd_085
+autor=jd
+nota=
+fuente=
+contexto=
+texto=No eres tus recuerdos ni tus emociones pasadas; puedes elegir tu estado presente.
+relacionadas=
+
+id=jd_086
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La meditación abre la puerta a cambiar patrones que parecían inalterables.
+relacionadas=
+
+id=jd_087
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Observar tu cuerpo y respiración te ancla en el presente y reduce reacciones automáticas.
+relacionadas=
+
+id=jd_088
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La intención consciente dirigida hacia un objetivo crea coherencia entre mente y cuerpo.
+relacionadas=
+
+id=jd_089
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Visualizar resultados sin emoción es menos eficaz que sentirlos como reales.
+relacionadas=
+
+id=jd_090
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La libertad emocional se logra observando sin reaccionar y eligiendo nuevas respuestas.
+relacionadas=
+
+id=jd_091
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada hábito antiguo que interrumpes abre espacio para nuevas posibilidades.
+relacionadas=
+
+id=jd_092
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El cambio profundo combina pensamiento consciente, emoción elevada y acción coherente.
+relacionadas=
+
+id=jd_093
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Al modificar tu estado interno, transformas tu experiencia externa.
+relacionadas=
+
+id=jd_094
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La práctica constante de presencia y meditación reprograma la mente y cuerpo.
+relacionadas=
+
+id=jd_095
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cuando sientes gratitud, tu cerebro se conecta con patrones de bienestar y abundancia.
+relacionadas=
+
+id=jd_096
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada pensamiento negativo observado sin reaccionar pierde poder sobre ti.
+relacionadas=
+
+id=jd_097
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Crear nuevos hábitos emocionales es la clave para cambiar tu identidad.
+relacionadas=
+
+id=jd_098
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El pasado solo tiene poder si lo llevas al presente; obsérvalo y suéltalo.
+relacionadas=
+
+id=jd_099
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El nuevo yo se fortalece cada vez que actúas como si ya existiera.
+relacionadas=
+
+id=jd_100
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Meditar sobre tu mejor versión todos los días acelera la transformación personal.
+relacionadas=
+
+id=jd_101
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada emoción repetida se convierte en un patrón que condiciona tu biología.
+relacionadas=
+
+id=jd_102
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La intención clara es el primer paso para alinear mente y cuerpo con tu nuevo yo.
+relacionadas=
+
+id=jd_103
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Actuar conscientemente rompe el piloto automático y refuerza la identidad elegida.
+relacionadas=
+
+id=jd_104
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Visualizar tu vida ideal desde el presente genera cambios reales en tu comportamiento.
+relacionadas=
+
+id=jd_105
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Observar sin reaccionar fortalece el poder de elección y reduce patrones negativos.
+relacionadas=
+
+id=jd_106
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada día que actúas como tu nuevo yo, se convierte en tu estado por defecto.
+relacionadas=
+
+id=jd_107
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Los pensamientos repetidos con emoción son semillas que crean tu realidad futura.
+relacionadas=
+
+id=jd_108
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El cambio permanente ocurre cuando lo vives internamente, no solo mentalmente.
+relacionadas=
+
+id=jd_109
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El cuerpo recuerda la emoción más que la intención; siente tu nuevo yo para consolidarlo.
+relacionadas=
+
+id=jd_110
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La práctica diaria de conciencia y emoción elevada reconfigura la mente y biología.
+relacionadas=
+
+id=jd_111
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cuando eliges conscientemente, el pasado deja de definir tu presente.
+relacionadas=
+
+id=jd_112
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El poder de cambiar reside en cada momento presente donde eliges diferentemente.
+relacionadas=
+
+id=jd_113
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada hábito emocional y mental puede transformarse si lo repites con intención y sentimiento.
+relacionadas=
+
+id=jd_114
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El nuevo yo se manifiesta cuando tu pensamiento, emoción y acción están alineados.
+relacionadas=
+
+id=jd_115
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El cambio profundo no es instantáneo, pero sí inevitable con práctica constante.
+relacionadas=
+
+id=jd_116
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Observar y sentir son las herramientas que permiten reprogramar hábitos inconscientes.
+relacionadas=
+
+id=jd_117
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Tu identidad futura comienza en el presente cuando actúas desde tu mejor versión.
+relacionadas=
+
+id=jd_118
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada vez que eliges conscientemente, refuerzas la libertad sobre tu vida y emociones.
+relacionadas=
+
+id=jd_119
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El hábito de observar y sentir tu nueva identidad fortalece su existencia física y mental.
+relacionadas=
+
+id=jd_120
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La transformación personal se logra día a día, pensamiento a pensamiento, emoción a emoción.
+relacionadas=
+
+id=jd_121
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada pensamiento que eliges repetir diariamente tiene el poder de moldear tu biología.
+relacionadas=
+
+id=jd_122
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Tu cuerpo responde a las emociones que experimentas con mayor frecuencia; si eliges emociones elevadas, tu química interna cambia.
+relacionadas=
+
+id=jd_123
+autor=jd
+nota=
+fuente=
+contexto=
+texto=No eres tu pasado: tus hábitos mentales pueden cambiar y crear una nueva versión de ti mismo.
+relacionadas=
+
+id=jd_124
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Visualiza tu intención como si ya fuera real y acompáñala con emoción elevada para que tu cuerpo la acepte.
+relacionadas=
+
+id=jd_125
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Observar tus pensamientos sin juzgarlos te permite interrumpir patrones automáticos limitantes.
+relacionadas=
+
+id=jd_126
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La gratitud sostenida diariamente transforma tu química corporal y fortalece tu sistema inmune.
+relacionadas=
+
+id=jd_127
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada reacción automática es una oportunidad para elegir conscientemente una nueva respuesta.
+relacionadas=
+
+id=jd_128
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Tus creencias internas tienen el poder de activar o desactivar la expresión de tus genes.
+relacionadas=
+
+id=jd_129
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El primer paso para cambiar es darte cuenta de los patrones que te mantienen igual.
+relacionadas=
+
+id=jd_130
+autor=jd
+nota=
+fuente=
+contexto=
+texto=No necesitas esperar cambios externos: tu mente puede ser el placebo que transforma tu vida.
+relacionadas=
+
+id=jd_131
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Si tus pensamientos pueden enfermarte, también pueden curarte.
+relacionadas=
+
+id=jd_132
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Repetir un pensamiento positivo acompañado de emoción crea nuevas conexiones neuronales.
+relacionadas=
+
+id=jd_133
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Tu cerebro no distingue entre lo que imaginas y lo que experimentas realmente.
+relacionadas=
+
+id=jd_134
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cambiar tu química interna comienza con cambiar tus pensamientos y emociones.
+relacionadas=
+
+id=jd_135
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada emoción sostenida genera una respuesta fisiológica que puede sanar o enfermar.
+relacionadas=
+
+id=jd_136
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cuando observas tus patrones mentales, descubres qué hábitos quieres transformar.
+relacionadas=
+
+id=jd_137
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La mente consciente y la inconsciente pueden trabajar juntas para crear tu nueva realidad.
+relacionadas=
+
+id=jd_138
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Visualizar con detalle y emoción prepara al cuerpo para aceptar el cambio como real.
+relacionadas=
+
+id=jd_139
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Ser consciente de tu respiración calma el sistema nervioso y abre espacio para la transformación.
+relacionadas=
+
+id=jd_140
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El estrés repetido mantiene tu cuerpo en un estado químico que limita la salud.
+relacionadas=
+
+id=jd_141
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Elegir emociones elevadas a diario reprograma tu sistema hormonal y mejora tu bienestar.
+relacionadas=
+
+id=jd_142
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada vez que eliges una respuesta consciente, interrumpes un patrón automático de tu pasado.
+relacionadas=
+
+id=jd_143
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La transformación real no es pensar diferente, sino sentir diferente de manera sostenida.
+relacionadas=
+
+id=jd_144
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La gratitud y la alegría sostenidas cambian la química cerebral y fortalecen el sistema inmune.
+relacionadas=
+
+id=jd_145
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Al practicar la meditación, creas un espacio donde la mente y el cuerpo pueden reprogramarse.
+relacionadas=
+
+id=jd_146
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada visualización emocionalmente intensa deja una “huella” en tu cerebro y células.
+relacionadas=
+
+id=jd_147
+autor=jd
+nota=
+fuente=
+contexto=
+texto=No eres tus emociones automáticas; puedes elegir cuál sostener y cuál soltar.
+relacionadas=
+
+id=jd_148
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Tu intención clara dirige la energía de tu mente y cuerpo hacia el cambio deseado.
+relacionadas=
+
+id=jd_149
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Observar cómo reaccionas al estrés te permite responder desde calma y coherencia.
+relacionadas=
+
+id=jd_150
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cambiar hábitos mentales requiere repetición consciente y emoción asociada.
+relacionadas=
+
+id=jd_151
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada pensamiento que repites genera conexiones neuronales que fortalecen ese patrón.
+relacionadas=
+
+id=jd_152
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El cuerpo actúa según las emociones que experimenta y no solo según las órdenes de la mente.
+relacionadas=
+
+id=jd_153
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Practicar la atención plena te permite notar hábitos automáticos y reemplazarlos por otros.
+relacionadas=
+
+id=jd_154
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Visualizar tu estado ideal de salud activa mecanismos de autocuración en tu cuerpo.
+relacionadas=
+
+id=jd_155
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El cambio profundo ocurre cuando sientes tu nueva identidad como si ya fuera real.
+relacionadas=
+
+id=jd_156
+autor=jd
+nota=
+fuente=
+contexto=
+texto=No subestimes la fuerza de un pensamiento acompañado de emoción positiva sostenida.
+relacionadas=
+
+id=jd_157
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Tu mente puede ser la herramienta más poderosa para tu bienestar físico y emocional.
+relacionadas=
+
+id=jd_158
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada patrón emocional repetido deja huella en tu biología; cambiarlo requiere consciencia activa.
+relacionadas=
+
+id=jd_159
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La práctica diaria de meditación y visualización refuerza la creación de nuevas redes neuronales.
+relacionadas=
+
+id=jd_160
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cuando eliges la emoción antes que el pensamiento, cambias tu química interna de forma inmediata.
+relacionadas=
+
+id=jd_161
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada respuesta consciente es un paso hacia la creación de tu nueva identidad.
+relacionadas=
+
+id=jd_162
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Observar tus hábitos mentales permite que tu cerebro se reconfigure hacia patrones positivos.
+relacionadas=
+
+id=jd_163
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El cuerpo aprende de lo que sientes más que de lo que piensas; emoción sostenida es clave.
+relacionadas=
+
+id=jd_164
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada vez que te permites sentir gratitud sin razón externa, tu mente y cuerpo se armonizan.
+relacionadas=
+
+id=jd_165
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El cambio verdadero requiere más sentir que pensar; sentirlo como si ya fuera real.
+relacionadas=
+
+id=jd_166
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La reprogramación mental no ocurre de la noche a la mañana, sino con práctica diaria sostenida.
+relacionadas=
+
+id=jd_167
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cuando eliges conscientemente emociones y pensamientos, tu cuerpo los interpreta como realidad.
+relacionadas=
+
+id=jd_168
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La repetición consciente de nuevos hábitos mentales fortalece la neuroplasticidad.
+relacionadas=
+
+id=jd_169
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada vez que interrumpes un patrón automático, creas espacio para la transformación.
+relacionadas=
+
+id=jd_170
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Visualizar tu salud y bienestar ideal activa procesos fisiológicos que apoyan esa realidad.
+relacionadas=
+
+id=jd_171
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada emoción elevada sostenida durante varios minutos cambia la química cerebral.
+relacionadas=
+
+id=jd_172
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Observar los pensamientos repetitivos te permite elegir cuáles fortalecer y cuáles soltar.
+relacionadas=
+
+id=jd_173
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cuando actúas como tu nueva identidad, entrenas al cuerpo a responder de manera diferente.
+relacionadas=
+
+id=jd_174
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada instante de consciencia es una oportunidad para reprogramar tu mente y tu biología.
+relacionadas=
+
+id=jd_175
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El cuerpo responde a la emoción sostenida más que a la intención pensada; siéntela como real.
+relacionadas=
+
+id=jd_176
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada día que observas, sientes y eliges conscientemente te acerca a tu transformación.
+relacionadas=
+
+id=jd_177
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cuando eliges gratitud y alegría como hábitos, tu cuerpo libera químicos que promueven salud.
+relacionadas=
+
+id=jd_178
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Visualizar tus metas con detalle y emoción prepara tu cerebro para lograrlas.
+relacionadas=
+
+id=jd_179
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cambiar un patrón mental requiere reemplazarlo por otro repetido con emoción sostenida.
+relacionadas=
+
+id=jd_180
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La mente es la herramienta más poderosa que tienes para influir en tu biología.
+relacionadas=
+
+id=jd_181
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El hábito de observar sin reaccionar fortalece tu capacidad de elección consciente.
+relacionadas=
+
+id=jd_182
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada visualización repetida deja huella en tu cerebro, acercándote a tu nuevo estado.
+relacionadas=
+
+id=jd_183
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cuando eliges emociones que apoyan tu intención, tu cuerpo se adapta a esa nueva realidad.
+relacionadas=
+
+id=jd_184
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada pensamiento sostenido con emoción crea un “programa” que tu cuerpo interpreta como real.
+relacionadas=
+
+id=jd_185
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El cambio real es un proceso de sentir diferente durante tiempo suficiente para reconfigurar tu biología.
+relacionadas=
+
+id=jd_186
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La práctica constante de meditación y visualización fortalece la coherencia mente-cuerpo.
+relacionadas=
+
+id=jd_187
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Tu cuerpo se alinea con la emoción que eliges sostener, no solo con lo que piensas.
+relacionadas=
+
+id=jd_188
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada pensamiento, emoción y visualización es una semilla que puede germinar en tu biología.
+relacionadas=
+
+id=jd_189
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Elegir conscientemente tus emociones diarias es la forma más rápida de reprogramar tu cuerpo y mente.
+relacionadas=
+
+id=jd_190
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada día que practicas atención, gratitud y visualización, te conviertes en tu propio placebo.
+relacionadas=
+
+id=jd_191
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada pensamiento que eliges sostener crea una química que moldea tu cuerpo y tu realidad.
+relacionadas=
+
+id=jd_192
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Al sentir emociones elevadas como gratitud y amor, tu cuerpo se alinea con nuevas posibilidades.
+relacionadas=
+
+id=jd_193
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Romper con patrones mentales automáticos permite acceder a tu potencial creativo y transformador.
+relacionadas=
+
+id=jd_194
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Visualizar tu futuro deseado con detalle y emoción activa la neuroplasticidad y abre nuevas oportunidades.
+relacionadas=
+
+id=jd_195
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La coherencia entre mente y corazón genera un campo de energía que facilita cambios extraordinarios.
+relacionadas=
+
+id=jd_196
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada meditación consciente es un acto de reprogramación neuronal que fortalece hábitos positivos.
+relacionadas=
+
+id=jd_197
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Sentir que tu meta ya se ha alcanzado es más poderoso que simplemente imaginarla.
+relacionadas=
+
+id=jd_198
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cuando cambias tu energía interna, comienzas a transformar tu experiencia externa.
+relacionadas=
+
+id=jd_199
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Ser observador de tus emociones te permite liberarte de respuestas automáticas limitantes.
+relacionadas=
+
+id=jd_200
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La práctica diaria de la meditación y la visualización consolida nuevas formas de ser y vivir.
+relacionadas=
+
+id=jd_201
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada emoción elevada que sientes actúa como un imán que atrae experiencias similares.
+relacionadas=
+
+id=jd_202
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El futuro comienza en el presente cuando enfocas tu mente y tu corazón en lo que deseas crear.
+relacionadas=
+
+id=jd_203
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Al cambiar tus creencias subconscientes, reconfiguras tu biología y tu destino.
+relacionadas=
+
+id=jd_204
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La gratitud constante eleva tu vibración y abre el camino a posibilidades antes inimaginables.
+relacionadas=
+
+id=jd_205
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Observar tus pensamientos sin juzgarlos es el primer paso para liberarte de patrones limitantes.
+relacionadas=
+
+id=jd_206
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La mente consciente es poderosa, pero la mente subconsciente gobierna la mayoría de tus decisiones.
+relacionadas=
+
+id=jd_207
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada célula de tu cuerpo responde a la energía que proyectas con tus pensamientos y emociones.
+relacionadas=
+
+id=jd_208
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Visualizar un estado de salud perfecta puede activar la capacidad natural del cuerpo para regenerarse.
+relacionadas=
+
+id=jd_209
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La transformación personal requiere combinar intención clara, emoción elevada y práctica constante.
+relacionadas=
+
+id=jd_210
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cuando te enfocas en lo que deseas ser, el universo comienza a reorganizarse para hacerlo posible.
+relacionadas=
+
+id=jd_211
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El estrés y la ansiedad son hábitos energéticos; pueden ser reemplazados por calma y claridad mediante la meditación.
+relacionadas=
+
+id=jd_212
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada pequeño cambio consciente que haces se acumula y transforma tu vida a largo plazo.
+relacionadas=
+
+id=jd_213
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Al imaginar y sentir tu futuro, no solo visualizas, sino que reprogramas tu biología para alcanzarlo.
+relacionadas=
+
+id=jd_214
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La coherencia cardíaca y cerebral genera un campo energético que potencia la manifestación de objetivos.
+relacionadas=
+
+id=jd_215
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Dejar de reaccionar automáticamente a los estímulos libera espacio para la creatividad y la libertad personal.
+relacionadas=
+
+id=jd_216
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Los hábitos mentales antiguos pueden reemplazarse con nuevos pensamientos y emociones más poderosos.
+relacionadas=
+
+id=jd_217
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El poder de cambiar tu vida está en la capacidad de mantener la visión y la emoción de lo que deseas.
+relacionadas=
+
+id=jd_218
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada meditación profunda fortalece la conexión entre mente y cuerpo, promoviendo bienestar y transformación.
+relacionadas=
+
+id=jd_219
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El universo responde a la energía que irradias, no solo a tus palabras o acciones conscientes.
+relacionadas=
+
+id=jd_220
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Al sentir tu meta como ya alcanzada, tu sistema nervioso comienza a actuar en coherencia con ella.
+relacionadas=
+
+id=jd_221
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada pensamiento repetido se convierte en un patrón neuronal que condiciona tu realidad diaria.
+relacionadas=
+
+id=jd_222
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Al enfocarte en lo que quieres ser, en lugar de lo que temes, liberas el poder de la transformación.
+relacionadas=
+
+id=jd_223
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La práctica diaria de sentir emociones elevadas prepara al cuerpo para recibir lo extraordinario.
+relacionadas=
+
+id=jd_224
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Ser consciente de tu energía y pensamientos permite romper con hábitos limitantes heredados.
+relacionadas=
+
+id=jd_225
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La visualización no es fantasía; es un entrenamiento de la mente y la biología hacia un futuro posible.
+relacionadas=
+
+id=jd_226
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El tiempo y la energía que dedicas a crear internamente determinan los resultados externos que experimentas.
+relacionadas=
+
+id=jd_227
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada emoción negativa mantenida prolongadamente altera la química de tu cuerpo y limita tu potencial.
+relacionadas=
+
+id=jd_228
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Al practicar la gratitud profunda, tu mente y tu cuerpo entran en un estado de coherencia óptima.
+relacionadas=
+
+id=jd_229
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El poder de crear lo extraordinario reside en la repetición consciente de pensamientos y emociones elevadas.
+relacionadas=
+
+id=jd_230
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Ser testigo de tu vida sin apego te permite elegir conscientemente la energía que deseas proyectar.
+relacionadas=
+
+id=jd_231
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Al imaginar tu mejor versión, comienzas a generar cambios en tu biología que la hacen posible.
+relacionadas=
+
+id=jd_232
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El cambio verdadero ocurre cuando combinas intención clara, emoción elevada y práctica constante.
+relacionadas=
+
+id=jd_233
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada célula de tu cuerpo responde a la energía que proyectas a través de tus pensamientos y emociones.
+relacionadas=
+
+id=jd_234
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La atención plena permite identificar patrones limitantes y reemplazarlos con hábitos conscientes.
+relacionadas=
+
+id=jd_235
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Al sentir gratitud por tu futuro antes de que ocurra, tu sistema nervioso comienza a alinearse con él.
+relacionadas=
+
+id=jd_236
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La mente abierta y el corazón conectado crean un campo de posibilidades más amplio que la lógica limitada.
+relacionadas=
+
+id=jd_237
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Al cambiar la percepción de tu realidad interna, cambian las condiciones externas que experimentas.
+relacionadas=
+
+id=jd_238
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada meditación enfocada en emociones elevadas fortalece la conexión entre cerebro, corazón y cuerpo.
+relacionadas=
+
+id=jd_239
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El estrés y la ansiedad pueden reducirse transformando pensamientos automáticos en intenciones conscientes.
+relacionadas=
+
+id=jd_240
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Al imaginar resultados positivos y sentirlos, preparas tu biología para hacerlos realidad.
+relacionadas=
+
+id=jd_241
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La repetición consciente de pensamientos y emociones elevadas crea nuevos circuitos neuronales duraderos.
+relacionadas=
+
+id=jd_242
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El corazón y la mente coherentes generan una energía que transforma la vida cotidiana en extraordinaria.
+relacionadas=
+
+id=jd_243
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Observar tus emociones sin juzgarlas permite liberarte de patrones antiguos que te limitan.
+relacionadas=
+
+id=jd_244
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Al sentir gratitud y amor en el presente, atraes circunstancias que reflejan esas emociones.
+relacionadas=
+
+id=jd_245
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada hábito mental positivo practicado con constancia fortalece la capacidad de manifestar lo deseado.
+relacionadas=
+
+id=jd_246
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Visualizar resultados concretos con detalle y emoción es más poderoso que solo pensar en ellos.
+relacionadas=
+
+id=jd_247
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La energía que irradias determina las oportunidades y relaciones que se presentan en tu vida.
+relacionadas=
+
+id=jd_248
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Al enfocar la mente y el corazón en lo que quieres crear, tu cuerpo comienza a actuar en coherencia.
+relacionadas=
+
+id=jd_249
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El cambio real no viene de la fuerza de voluntad, sino de la transformación de la energía interna.
+relacionadas=
+
+id=jd_250
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada meditación profunda y consciente fortalece la capacidad de tu mente para manifestar lo extraordinario.
+relacionadas=
+
+id=jd_251
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El poder de crear tu vida está en la repetición diaria de pensamientos y emociones que reflejen tu futuro deseado.
+relacionadas=
+
+id=jd_252
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Observar tus hábitos mentales permite elegir conscientemente aquellos que te elevan y te empoderan.
+relacionadas=
+
+id=jd_253
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Al sentir que ya eres la versión que deseas ser, tu biología se adapta a esa nueva realidad.
+relacionadas=
+
+id=jd_254
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La práctica consciente transforma la mente, el cuerpo y la vida cotidiana en un espacio de creación.
+relacionadas=
+
+id=jd_255
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada emoción elevada que eliges sentir actúa como un imán que atrae experiencias similares en tu vida.
+relacionadas=
+
+id=jd_256
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La mente y el corazón coherentes generan un campo energético que potencia la manifestación de lo extraordinario.
+relacionadas=
+
+id=jd_257
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Observar tus pensamientos y emociones sin apego permite liberarte de patrones que limitan tu potencial.
+relacionadas=
+
+id=jd_258
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Al imaginar y sentir tu futuro deseado, comienzas a reprogramar tu biología hacia esa realidad.
+relacionadas=
+
+id=jd_259
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La disciplina de la meditación diaria fortalece la capacidad de tu mente para crear cambios profundos y duraderos.
+relacionadas=
+
+id=jd_260
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada pensamiento y emoción que eliges conscientemente contribuye a manifestar un futuro más saludable y pleno.
+relacionadas=
+
+id=jd_261
+autor=jd
+nota=Si también puedo emocionarme por un evento futuro y esto es un acto creativo ¿Como puede decirse que una emoción es un registro del pasado?
+fuente=
+contexto=
+texto=La emoción es un registro del pasado
+relacionadas=
+
+id=jd_262
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La mayoría de las personas son adictas a las emociones que se derivan de las hormonas del stres. Esa adicción te mantiene atado a tu pasado y evitan que te enfoques en tu presente y futuro
+relacionadas=
+
+id=jd_263
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Las emociones de ira, la agresión, el odio, los celos y la envidia, y la inseguridad, el miedo, ansiedad, preocupación, estado de vigilancia, desesperanza, impotencia, culpa, vergüenza, falta de valor, falta de importancia y control, competencia, derivan y son impulsados por las hormonas del estrés
+relacionadas=
+
+id=jd_264
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cuando cambias tus pensamientos y sentimientos dejas de señalar los mismos genes que estan definiendo tu condición física actual;  y comienzas a activar otros genes en sontonía con ese nuevo estado de ser. Recuerda, los genes no son la causa primaria de tu estado de salud, es el entorno el que activa/desactiva genes que en última instancia producen los cambios en el cuerpo. Pero el entorno solo tiene efecto a través de tu particular reacción a dicho entorno. Así que son tus reacciones internas (pensamientos + sentimientos) los que activan/desactivan los genes.
+relacionadas=
+
+id=jd_265
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Perdonar es simplemente terminar la emoción que te ata a una experiencia pasada. Una vez se acaba la emoción lo que queda es sabiduría. La memoria sin la carga emocional se llama sabiduría. Y cuando superas la emoción ya no pones tu atención en tu pasado.
+relacionadas=
+
+id=jd_266
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Hay genes dependientes de las mismas experiencias. Cuando dejas de tener las mismas experiencias dejas de señalar a los mismos genes y eso debe operar un cambio en tu cuerpo. Los genes poducen proteinas que son las responsables de la estuctura y función de tu cuerpo
+relacionadas=
+
+id=jd_267
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Siente gratitud, siente alegría, siente inspiracón, siente amor. Esos son los sentimientos que debemos crear, puesto que liberan automáticamente de las cadenas del pasado y activan los genes del equilibrio, la felicidad y la longevidad
+relacionadas=
+
+id=jd_268
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Una creencia es solo un pensamiento que sigues pensando una y otra vez, hasta que se convierte en conexiones fijas y automáticas en tu cerebro
+relacionadas=
+
+id=jd_269
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Ensayar el comportamiento instala circuitos en tu cerebro
+relacionadas=
+
+id=jd_270
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Sigue sintiendo la emoción del futuro y dejan de sentir la del pasado, eso activará nuevos circuitos en tu cerebro a la vez que atraerás la nueva realidad a tu experiencia presente
+relacionadas=
+
+id=jd_271
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Si estás sintiendo los sentimientos de tu futuro como si ya hubiera sucedido, no estarás buscándolo. Solo lo buscas cuando sientes que no ha sucedido. Cuando ya ha sucedido, ya no lo buscas, lo que significa que no estás separado. Ahí es cuando la gente tuvo cambios muy poderosos
+relacionadas=
+
+id=jd_272
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La onda ganma del cerebro corresponde al estado de superconciencia. Esto se logra con la coherencia cardíaca y cerebral
+relacionadas=
+
+id=jd_273
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Un pensamiento es un patrón de activación neuronal y desencadena la liberación de respuestas fisiológicas en el cuerpo
+relacionadas=
+
+id=jd_274
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Donde pones tu atención pones tu energía. Si tu atención está enfocada en problemas, sentimientos y experiencias del pasado estás dando tu energía y no puedes crear desde el pasado
+relacionadas=
+
+id=jd_275
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Si no estás pensando y analizando, estás desacelerando tus ondas cerebrales. Esto crea un estado de relajación natural
+relacionadas=
+
+id=jd_276
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El primer paso es volverte conciente de tus pensamientos inconscientes. Así detienes tus reacciones automáticas a la vida y te permites observarte y cambiar tus patrones de pensamientos
+relacionadas=
+
+id=jd_277
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Hay un momento elegante donde pasas de ser alguien a ser nadie, de algo a nada, de algún lugar a ningún lugar, de algún tiempo a ningún tiempo, ese es el momento en que te conviertes en conciencia pura. Ese es el momento en que ya no eres consciente del mundo tridimensional porque no tienes ninguna atención en él
+relacionadas=
+
+id=jd_278
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La probabilidad de que nosotros estemos viendo la verdad de la realidad es cero. Solo observamos en un pequeño rango del inmenso espectro de la luz y nuestra observación siempre se basa en nuestra particular interpretación de esa realidad
+relacionadas=
+
+id=jd_279
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Descubrimos que si empujo a una persona más allá del punto donde normalmente se detiene, su límite de comodidad, el cerebro cambia más. Es cuando tienen sus mayores cambios
+relacionadas=
+
+id=jd_280
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Los pensamientos son la carga eléctrica en el campo cuántico y los sentimientos son la carga magnética en el campo cuántico y cómo piensas y cómo te sientes emiten una firma electromagnética que influye en cada átomo de tu vida
+relacionadas=
+
+id=jd_281
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El pensamiento intencionado envía una señal eléctrica al campo cuántico y el sentimiento es el campo magnético que atrae el acontecimiento de vuelta a ti
+relacionadas=
+
+
+id=jd_282
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cualquier cosa que controle la forma en que pensamos y nos sentimos nos convierte en víctima de ello
+relacionadas=
+
+id=jd_283
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La mayoría de la gente está respondiendo inconscientemente a las condiciones de su entorno, experimentando emociones que se derivan de las hormonas del estrés. Lo que nos convierte en víctimas de las condiciones que nos rodean. Toma la resolución conciente de observarte y cambia tus reacciones automáticas, captando el momento de vulnerabilidad y eligiendo una respuesta conciente
+relacionadas=
+
+id=jd_284
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cuando te enfocas en un suceso o experiencia asociada con una alta carga emocional el cerebro congela el cuadro y toma una instantánea, asociada a la emoción, y eso es la memoria a largo plazo. Se ha creado un circuito cerebral que no solo retiene el recuerdo de la experiencia sino que provoca la liberación química que rememora el sentimiento de la experiencia o recuerdo
+relacionadas=
+
+id=jd_285
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El acto creativo solo necesita un pensamiento y una emoción, un estímulo y una respuesta para traer una experiencia del pasado o del futuro al presente
+relacionadas=
+
+id=jd_286
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La investigación muestra que los efectos a largo plazo de las hormonas del estrés están presionando los botones genéticos que están creando la enfermedad
+relacionadas=
+
+id=jd_287
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Un patrón de pensamiento sostenido, emocionalmente cargado y mantenido en el tiempo puede modular el entorno neuroendocrino e inmunológico del organismo, favoreciendo o dificultando la aparición y evolución de estados patológicos
+relacionadas=
+
+id=jd_288
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Si puedes enseñarle a tu cuerpo como se siente tu futuro, antes de que se manifieste, le estás dando un adelanto emocional y tu cuerpo,  como es tan objetivo, no verá la diferencia entre la emoción que produce la experiencia real y la emoción que estas produciendo solo con el pensamiento
+relacionadas=
+
+id=jd_289
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El pasado familiar es lo conocido emocionalmente. El futuro predecible es la habitación del piloto automático, el ser inconsciente y los programas. Ambos son conocidos. Solo hay un lugar donde existe lo desconocido que es el momento presente
+relacionadas=
+
+id=jd_290
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Si puedes hacer que tu cuerpo se relaje en el momento presente y no esté preocupado por lo que va a pasar después o por lo que está pasando a tu alrededor, o porque necesita comer, necesitas orinar, necesitas moverte, has superado todos tus impulsos y estás listo para crear
+relacionadas=
+
+id=jd_291
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Los estados Alpha coherentes del cerebro corresponde al estado de creación. En ese estado el cerebro suprime la red de modo por defecto y lo siguiente que ocurre es que empiezas a ver en fotos e imágenes, empiezas a soñar y eso es la imaginación. Eso es el estado creativo
+relacionadas=
+
+id=jd_292
+autor=jd
+nota=
+fuente=
+contexto=
+texto=La emoción es energía y la energía es frecuencia y la frecuencia porta información. Un pensamiento y un sentimiento llevan energía e información de su intención al campo cuántico
+relacionadas=
+
+id=jd_293
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cuando la oxitocina es liberada se filtra a la amígdala, en el cerebro, y apaga o disminuye los circuitos que producen las emociones de miedo. ansiedad y la inseguridad, la ira,el dolor y el sufrimiento
+relacionadas=
+
+id=jd_294
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Vemos la realidad utilizando el reconocimiento de patrones. Memorizo tu cara, ahora conozco a esa persona. Y si el patrón coincide, se que estoy en presencia de esa persona
+relacionadas=
+
+id=jd_295
+autor=jd
+nota=
+fuente=
+contexto=
+texto=El universo solo nos da lo que creemos que somos dignos de recibir
+relacionadas=
+
+id=jd_296
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Toda creación en la realidad tridimensional toma tiempo y energía. Si estas creando desde un estado de carencia, por ejemplo ves el choche y lo deseas,  la manifestación puede ocurrir pero puede llevarte mucho tiempo conseguirlo. En cambio, si estas creando desde un estado de conciencia absoluta, donde quitas tu atención de la realidad física y el tiempo, entonces aceleras la manifestación porque ahora eres el vórtice creativo y las cosas caerán en tu experencia acorde a tu sentimiento e intención
+relacionadas=
+
+id=jd_297
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Tienes que hacerte el hábito de estar vinculado emocionalmente con el futuro que quieres. Tienes que enamorte de ese futuro
+relacionadas=
+
+id=jd_298
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Cada pensamiento tiene una frecuencia y esa frecuencia, en forma de sustancias químicas, se almacenan en el cuerpo (en tu segundo centro)
+relacionadas=
+
+id=jd_299
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Principio de neurociancia: Las neuronas que se activan juntas se conectan más fuerte
+relacionadas=
+
+id=jd_300
+autor=jd
+nota=
+fuente=
+contexto=
+texto=Si sigues pensando de la misma forma tu vida se mantrendrá igual y seguirás teniendo las mismas experiencias. Mismos pensamientos generan los mismos químicos que producen los mismos sentimienos y emociones. Si quieres que tu vida cambie tienes que cambiar la forma de pensar y reaccionar
+relacionadas=
+

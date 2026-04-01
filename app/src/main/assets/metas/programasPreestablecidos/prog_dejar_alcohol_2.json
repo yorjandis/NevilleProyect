@@ -1,0 +1,94 @@
+{
+  "title": "Programa Profundo 21 Días – Desensibilización y Reconstrucción Sin Alcohol",
+  "detalles": "Programa de 21 unidades, cada unidad corresponde a un día del proceso progresivo de abandono del alcohol con procedimientos detallados",
+  "description": "Programa diseñado para consumo cronificado. Integra reducción progresiva inicial, regulación neurobiológica (dopamina y GABA), desensibilización emocional, exposición contextual controlada y reconstrucción identitaria profunda.\n\nEstructura del programa:\n1. Auditoría y reducción estratégica\n2. Regulación autonómica diaria\n3. Sustitución dopaminérgica estructurada\n4. Exposición progresiva a disparadores\n5. Trabajo narrativo e identidad\n6. Consolidación neuroconductual\n\nResultado esperado (3-6 semanas):\n* Reducción progresiva hasta cero\n* Mejor sueño profundo\n* Menor ansiedad social\n* Mayor claridad mental\n* Disminución de impulsividad\n* Estabilidad emocional sostenida",
+  "noUnidades": 21,
+  "tipoUnidad": "dias",
+  "frecuencia": 1,
+  "unidadesinfo": [
+    {
+      "name": "Día 1",
+      "info": "Auditoría completa.\nRegistrar durante todo el día:\n* Cantidad exacta consumida\n* Hora\n* Emoción previa\n* Situación social\n* Nivel de impulso (1-10)\n\nObjetivo: Activar corteza prefrontal y romper automatismo."
+    },
+    {
+      "name": "Día 2",
+      "info": "Reducir 20% del consumo habitual.\nPlanificar previamente cuánto beberás.\nNo repetir.\nBeber lentamente (mínimo 20 minutos por unidad).\n\nObjetivo: Iniciar adaptación neuroquímica descendente."
+    },
+    {
+      "name": "Día 3",
+      "info": "Respiración 4-6 (10 minutos).\nInhalar 4 segundos, exhalar 6.\nRepetir mañana y noche.\n\nObjetivo: Aumentar tono vagal y reducir ansiedad basal."
+    },
+    {
+      "name": "Día 4",
+      "info": "Eliminar consumo en solitario.\nSi surge impulso estando solo:\n* 10 minutos caminata\n* 500 ml agua fría\n\nObjetivo: Romper asociación alcohol-aislamiento emocional."
+    },
+    {
+      "name": "Día 5",
+      "info": "Ejercicio moderado 30 minutos.\nPreferible por la mañana.\nAñadir exposición solar 10 minutos.\n\nObjetivo: Estimular dopamina basal natural."
+    },
+    {
+      "name": "Día 6",
+      "info": "Reducir al 50% del consumo inicial.\nBeber solo en comida, nunca antes.\nRegistrar sensación real tras cada unidad.\n\nObjetivo: Reducir refuerzo anticipatorio."
+    },
+    {
+      "name": "Día 7",
+      "info": "Retrasar primera bebida hasta las 18h o más.\nAplicar regla de retraso 20 minutos ante impulso.\n\nObjetivo: Romper patrón horario dopaminérgico."
+    },
+    {
+      "name": "Día 8",
+      "info": "Escritura profunda (20 minutos):\n* ¿Qué emociones evito con alcohol?\n* ¿Cuándo empezó esta estrategia?\n\nObjetivo: Reducir anestesia emocional."
+    },
+    {
+      "name": "Día 9",
+      "info": "Simulación social.\nImaginar evento típico sin beber.\nPracticar respuesta verbal firme.\n\nObjetivo: Desensibilización amigdalar anticipatoria."
+    },
+    {
+      "name": "Día 10",
+      "info": "Primer día completo sin alcohol.\nProtocolo anti-craving:\n* Agua fría en rostro\n* 20 sentadillas\n* Respiración 4-6 durante 5 minutos\n\nObjetivo: Inicio regulación dopaminérgica."
+    },
+    {
+      "name": "Día 11",
+      "info": "Sustituir ritual nocturno:\nPreparar bebida sin alcohol estructurada (infusión, agua con gas + limón).\nConsumir en copa habitual.\n\nObjetivo: Reprogramar circuito ritual-recompensa."
+    },
+    {
+      "name": "Día 12",
+      "info": "Trabajo de identidad.\nEscribir:\n* Cómo quiero describirme en 1 año.\n* Qué valores quiero representar.\n\nObjetivo: Integración en corteza prefrontal medial."
+    },
+    {
+      "name": "Día 13",
+      "info": "Ejercicio + contacto social saludable.\nConversación significativa sin alcohol.\n\nObjetivo: Reforzar recompensa social natural."
+    },
+    {
+      "name": "Día 14",
+      "info": "Exposición real.\nAsistir a entorno donde antes bebías.\nIr con plan y hora de salida definida.\nNo consumir.\n\nObjetivo: Extinción contextual."
+    },
+    {
+      "name": "Día 15",
+      "info": "Evaluación objetiva:\n* Calidad sueño\n* Energía\n* Claridad mental\n\nObjetivo: Reforzar recompensa interna."
+    },
+    {
+      "name": "Día 16",
+      "info": "Segundo día consecutivo sin alcohol.\nAumentar hidratación.\nDormir 8 horas.\n\nObjetivo: Estabilización GABA-dopamina."
+    },
+    {
+      "name": "Día 17",
+      "info": "Entrenamiento tolerancia incomodidad.\nSentarse 15 minutos con impulso sin actuar.\nObservar sensación corporal.\n\nObjetivo: Fortalecer control ejecutivo."
+    },
+    {
+      "name": "Día 18",
+      "info": "Diseñar plan anti-recaída:\n* Señales tempranas\n* Respuesta automática\n* Persona de apoyo\n\nObjetivo: Prevenir reinstalación."
+    },
+    {
+      "name": "Día 19",
+      "info": "Actividad de logro exigente.\nCompletar tarea postergada.\n\nObjetivo: Generar dopamina por esfuerzo."
+    },
+    {
+      "name": "Día 20",
+      "info": "Visualización guiada 10 minutos.\nImaginar vida estable sin alcohol.\n\nObjetivo: Activar redes motivacionales futuras."
+    },
+    {
+      "name": "Día 21",
+      "info": "Declaración final escrita y firmada:\n\"No necesito alcohol para regular mis emociones.\"\nCelebración consciente sin alcohol.\n\nObjetivo: Consolidación identitaria estable."
+    }
+  ]
+}

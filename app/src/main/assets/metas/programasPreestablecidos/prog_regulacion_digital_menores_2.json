@@ -1,0 +1,94 @@
+{
+  "title": "Reequilibrio Conductual Juvenil 21 días (Menores y Adolescentes)",
+  "detalles":"Programa de 21 unidades intensivas para menores",
+  "description": "Programa diseñado para romper patrones compulsivos y restaurar equilibrio conductual en adolescentes.\n\nPrincipios:\n- Reducir estímulos de recompensa inmediata.\n- Incrementar actividades de recompensa diferida.\n- Fortalecer autocontrol mediante práctica estructurada.\n\nParticipación obligatoria de padres/tutores en supervisión y modelado.\n\n Enfoque: Reducción más firme + reestructuración de hábitos + reemplazo sistemático.\n\nPautas esenciales para padres/tutores (aplican a ambos programas)\n1. Modelar la conducta: los adultos deben cumplir las mismas reglas básicas.\n2. Evitar castigos extremos: funcionan peor que el refuerzo estructurado.\n3. Priorizar conexión emocional sobre control rígido.\n4. Crear alternativas atractivas (deporte, música, proyectos).\n5. Supervisión gradual, no invasiva.\n6. Mantener coherencia: reglas claras y constantes.",
+  "noUnidades": 21,
+  "tipoUnidad": "dias",
+  "frecuencia": 1,
+  "unidadesinfo": [
+    {
+      "name": "Día 1",
+      "info": "Eliminar apps de redes del dispositivo del menor."
+    },
+    {
+      "name": "Día 2",
+      "info": "Configurar controles parentales y límites automáticos."
+    },
+    {
+      "name": "Día 3",
+      "info": "Establecer horario fijo máximo (ej: 30 minutos diarios)."
+    },
+    {
+      "name": "Día 4",
+      "info": "Implementar regla: sin dispositivos en dormitorio."
+    },
+    {
+      "name": "Día 5",
+      "info": "Actividad física diaria obligatoria."
+    },
+    {
+      "name": "Día 6",
+      "info": "Día completo sin redes."
+    },
+    {
+      "name": "Día 7",
+      "info": "Conversación guiada sobre presión social digital."
+    },
+    {
+      "name": "Día 8",
+      "info": "Introducir proyecto personal de 30 días (deporte, arte o aprendizaje)."
+    },
+    {
+      "name": "Día 9",
+      "info": "Entrenamiento en concentración (estudio sin interrupciones 25 min)."
+    },
+    {
+      "name": "Día 10",
+      "info": "Refuerzo positivo por cumplimiento semanal."
+    },
+    {
+      "name": "Día 11",
+      "info": "Segundo día sin redes."
+    },
+    {
+      "name": "Día 12",
+      "info": "Practicar tolerancia al aburrimiento."
+    },
+    {
+      "name": "Día 13",
+      "info": "Revisión de metas académicas."
+    },
+    {
+      "name": "Día 14",
+      "info": "Actividad social presencial sin dispositivos."
+    },
+    {
+      "name": "Día 15",
+      "info": "Reducir uso restante al mínimo acordado."
+    },
+    {
+      "name": "Día 16",
+      "info": "Entrenamiento en gestión emocional básica."
+    },
+    {
+      "name": "Día 17",
+      "info": "Día sin redes y sin videojuegos."
+    },
+    {
+      "name": "Día 18",
+      "info": "Evaluación de hábitos nuevos adquiridos."
+    },
+    {
+      "name": "Día 19",
+      "info": "Plan de mantenimiento familiar."
+    },
+    {
+      "name": "Día 20",
+      "info": "Uso consciente supervisado."
+    },
+    {
+      "name": "Día 21",
+      "info": "Compromiso escrito familiar para continuidad."
+    }
+  ]
+}

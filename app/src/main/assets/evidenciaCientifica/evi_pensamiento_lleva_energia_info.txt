@@ -1,0 +1,43 @@
+
+Estudios científicos que demuestran que los pensamientos portan energía e información
+
+
+🟢 Los campos eléctricos cerebrales como portadores de información
+Título: “Las ondas cerebrales transmiten información funcional a través de frecuencias y amplitudes”
+📄 Resumen científico: La Brain Wave Theory afirma que los campos eléctricos generados por grupos de neuronas no sólo suministran energía local, sino que convey (transmiten) información a través de patrones de frecuencia, que se integran en el funcionamiento cerebro-cerebro. Este enfoque neurofisiológico considera que los ritmos neuronales son “señales” que llevan contenido funcional.
+Capítulo de Brain Wave Theory (ScienceDirect, libro académico de neurofisiología)
+enlace:https://www.sciencedirect.com/science/article/pii/B978032399738600006X
+
+Ejemplo práctico:
+Durante la atención visual, las ondas gamma (30–100 Hz) dominan. Esa predominancia no es aleatoria: frecuencias específicas codifican información sensorial y cognitiva sobre el objeto que estás enfocando.
+
+
+ 🟢 Capacidad informacional de señales EEG
+ Título: “Límites teóricos de cuánta información sobre el estado mental puede recuperarse de señales eléctricas cerebrales”
+Resumen científico: En este estudio académico reciente se utiliza la teoría de la información para estimar la capacidad de un EEG para recuperar información sobre la actividad cerebral subyacente. Aunque no mide el pensamiento en sí, demuestra que las señales eléctricas del cerebro portan información cuantificable sobre estados neuronales y que dicha información puede ser modelada teóricamente
+Pre-publicación en arXiv sobre capacidad informacional del EEG
+enlace:https://arxiv.org/abs/2510.17841
+Ejemplo práctico:
+Los investigadores muestran que, con suficientes electrodos, se puede estimar cuánta información sobre patrones neuronales se puede recuperar de la superficie del cráneo, lo que confirma que las ondas cerebrales no son ruido sino portadoras de datos sobre el pensamiento.
+
+
+🟢 Neural Energy Coding: Relación entre energía y procesamiento de información cerebral
+Cita:
+A new patterns of self-organization activity of brain: Neural energy coding, ScienceDirect / Information Sciences (Volume 608, 2022).
+🔗 Disponible con DOI: 10.1016/j.ins.2022.07.004
+
+
+🟢 Actividad cerebral y cognición: un puente entre termodinámica e información
+Brain activity and cognition: a connection from thermodynamics and information theory, Frontiers in Psychology (2015).
+🔗 https://doi.org/10.3389/fpsyg.2015.00818
+
+
+🟢 Capacidad informacional de señales cerebrales: límites teóricos y recuperación de información
+Information Capacity of EEG: Theoretical and Computational Limits of Recoverable Neural Information (arXiv 2025).
+🔗 https://arxiv.org/abs/2510.17841
+
+🟢 Medición de información integrada como cuantificador de estados cognitivos
+Measuring integrated information from the decoding perspective, arXiv (2015).
+🔗 https://arxiv.org/abs/1505.04368
+
+

@@ -1,0 +1,94 @@
+{
+  "title": "Maestría en Manifestación Consciente",
+  "detalles": "Programa intensivo de 21 días donde cada unidad corresponde a un día específico de entrenamiento profundo en visualización creativa.",
+  "description": "Sistema avanzado para integrar identidad, emoción y coherencia mental.\n\nEstructura diaria fija:\n- Mañana: 5 minutos de activación del estado.\n- Mediodía: 3-5 minutos de reajuste mental.\n- Tarde: 3-5 minutos de refuerzo emocional.\n- Noche: 15-20 minutos de práctica SATS (estado cercano al sueño).\n\nReglas del programa:\n1) Trabajar un solo deseo.\n2) No cambiar la escena durante los 21 días.\n3) Priorizar sentimiento sobre intensidad visual.\n4) Dormirse dentro de la escena cuando sea posible.",
+  "noUnidades": 21,
+  "tipoUnidad": "dias",
+  "frecuencia": 1,
+  "unidadesinfo": [
+    {
+      "name": "Día 1 - Definición absoluta",
+      "info": "Escribe un deseo claro y específico en presente.\nPregunta: ¿Cómo sabría que ya ocurrió?\nDefine una única evidencia final.\nMañana: Lee el deseo en voz baja.\nNoche: Imagina brevemente la sensación de haberlo logrado."
+    },
+    {
+      "name": "Día 2 - Escena maestra",
+      "info": "Diseña una escena de 5-10 segundos que ocurra después del logro.\nDebe incluir interacción o confirmación externa.\nVisualiza en primera persona.\nNoche: Repite la escena en bucle hasta sentir relajación profunda."
+    },
+    {
+      "name": "Día 3 - Repetición estructurada",
+      "info": "Mañana: 3 minutos de visualización.\nMediodía: Repite la frase implicativa.\nTarde: Evoca brevemente la emoción.\nNoche: SATS repitiendo la escena hasta sentir somnolencia."
+    },
+    {
+      "name": "Día 4 - Incorporar sensaciones físicas",
+      "info": "Añade peso corporal, temperatura, sonidos y movimiento.\nSiente objetos físicos dentro de la escena.\nPrioriza realismo sensorial.\nNoche: Mantén detalles físicos hasta dormir."
+    },
+    {
+      "name": "Día 5 - Intensidad emocional",
+      "info": "Respira lento 2 minutos antes de visualizar.\nEvoca gratitud y satisfacción.\nPregunta interna: ¿Qué emoción sería natural si ya fuera un hecho?\nNoche: Enfócate más en sentir que en ver."
+    },
+    {
+      "name": "Día 6 - Naturalidad total",
+      "info": "Reduce dramatismo.\nHaz que la escena se sienta cotidiana.\nBusca sensación de normalidad, no euforia.\nObserva si se vuelve más natural durante el día."
+    },
+    {
+      "name": "Día 7 - Dormirse en la escena",
+      "info": "Practica SATS profundo.\nReproduce la escena sin forzarla.\nPermite quedarte dormido dentro de ella."
+    },
+    {
+      "name": "Día 8 - Observación mental",
+      "info": "Detecta pensamientos contradictorios.\nNo luches contra ellos.\nSustitúyelos suavemente por la frase cumplida en menos de 10 segundos."
+    },
+    {
+      "name": "Día 9 - Reemplazo inmediato",
+      "info": "Entrena velocidad mental.\nCada duda debe ser reemplazada de inmediato por la escena cumplida.\nMantén tono interno calmado."
+    },
+    {
+      "name": "Día 10 - Identidad escrita",
+      "info": "Redacta una biografía futura en presente.\nLee el texto mañana y noche.\nVisualiza brevemente mientras lo lees."
+    },
+    {
+      "name": "Día 11 - Coherencia emocional",
+      "info": "Mantén estabilidad emocional externa.\nEvita reacciones dramáticas.\nRefuerza sensación de inevitabilidad tranquila."
+    },
+    {
+      "name": "Día 12 - Silencio interior",
+      "info": "Observa pensamientos sin identificarte.\nReduce diálogo mental innecesario.\nVuelve repetidamente al estado cumplido."
+    },
+    {
+      "name": "Día 13 - Revisión avanzada",
+      "info": "Antes de dormir reescribe mentalmente eventos negativos del día.\nImagínalos como deseabas que ocurrieran.\nLuego entra en tu escena principal."
+    },
+    {
+      "name": "Día 14 - Decisiones desde la nueva identidad",
+      "info": "Pregunta durante el día: ¿Cómo pensaría alguien que ya lo logró?\nAlinea decisiones internas con esa identidad."
+    },
+    {
+      "name": "Día 15 - Desapego consciente",
+      "info": "Evita buscar evidencia externa.\nSi surge ansiedad, respira lento y vuelve al estado interno."
+    },
+    {
+      "name": "Día 16 - Persistencia tranquila",
+      "info": "Mantén práctica aunque no veas cambios externos.\nNo modifiques escena ni técnica."
+    },
+    {
+      "name": "Día 17 - Regulación fisiológica",
+      "info": "Antes de cada sesión: Inhala 4 segundos, exhala 6 segundos durante 2 minutos.\nLuego visualiza."
+    },
+    {
+      "name": "Día 18 - Sentimiento sin imagen",
+      "info": "Intenta evocar únicamente la emoción del logro.\nSi puedes sentir sin visualizar, el estado se está integrando."
+    },
+    {
+      "name": "Día 19 - Expansión de identidad",
+      "info": "Extiende la identidad lograda a otras áreas.\nObserva postura, lenguaje interno y decisiones."
+    },
+    {
+      "name": "Día 20 - Integración total",
+      "info": "Vive el día completo desde la sensación de logro.\nMantén coherencia interna continua."
+    },
+    {
+      "name": "Día 21 - Declaración permanente",
+      "info": "En SATS afirma: Esta es mi identidad permanente.\nSiente estabilidad y naturalidad.\nCierra el programa con convicción tranquila."
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+
+La memoria procedimental es un tipo de memoria a largo plazo que, desde la neurociencia, se define como el sistema encargado de aprender, almacenar y ejecutar habilidades y hábitos motores y cognitivos de forma automática, sin necesidad de atención consciente.
+
+Es la memoria del “saber cómo”, en contraste con la memoria declarativa, que es el “saber qué”.
+
+
+
+🟢 Características principales
+    1.    Implícita e inconsciente
+No necesitas pensar activamente en lo que haces. La ejecución ocurre de manera fluida y automática.
+    2.    Se adquiere por repetición y práctica
+Cuanto más repites una acción, más sólida se vuelve la huella neuronal.
+    3.    Muy resistente al olvido
+Una vez consolidada, puede mantenerse durante años, incluso décadas.
+    4.    Difícil de verbalizar
+Puedes hacer la acción perfectamente, pero te cuesta explicarla paso a paso.
+
+
+
+🟢 Ejemplos prácticos
+    •    Aprender a andar en bicicleta
+Aunque pases años sin hacerlo, tu cuerpo “recuerda” cómo mantener el equilibrio.
+    •    Conducir un coche
+Al principio requiere atención consciente; con el tiempo, muchos movimientos se automatizan.
+    •    Tocar un instrumento musical
+Los dedos se mueven solos sin pensar en cada nota.
+    •    Escribir en el teclado sin mirar
+No sabes conscientemente dónde está cada tecla, pero tus manos sí.
+    •    Hábitos cognitivos
+Como resolver ciertos tipos de problemas matemáticos o patrones de juego en ajedrez.
+
+
+
+🟢 Bases neuroanatómicas
+
+Desde la neurociencia, la memoria procedimental depende principalmente de circuitos subcorticales, no del hipocampo.
+
+Estructuras clave
+
+1. Ganglios basales
+    •    Especialmente el estriado (putamen y núcleo caudado).
+    •    Son fundamentales para la selección y automatización de secuencias motoras.
+    •    Muy relacionados con el aprendizaje por refuerzo (dopamina).
+
+👉 Por eso, en enfermedades como el Parkinson, se altera el aprendizaje procedimental.
+
+
+
+2. Cerebelo
+    •    Ajusta la precisión, el timing y la coordinación del movimiento.
+    •    Permite corregir errores y afinar habilidades con la práctica.
+
+Ejemplo: mejorar progresivamente al lanzar una pelota o tocar un pasaje musical complejo.
+
+
+
+3. Corteza motora y premotora
+    •    Almacenan patrones de movimiento ya consolidados.
+    •    Con la práctica, la activación cortical se vuelve más eficiente y focalizada.
+
+
+
+🟢 Neurotransmisores implicados
+    •    Dopamina
+Es clave en el aprendizaje procedimental, especialmente en la señal de recompensa y error.
+    •    Glutamato
+Facilita la plasticidad sináptica (LTP y LTD).
+
+
+
+🟢 Cómo se forma una memoria procedimental (paso a paso)
+    1.    Fase cognitiva
+Requiere atención consciente (muchos errores).
+    2.    Fase asociativa
+Se reducen errores, se afinan patrones.
+    3.    Fase autónoma
+La ejecución es rápida, estable y automática.
+
+Este modelo explica por qué al inicio “piensas demasiado” y luego simplemente haces.
+
+
+
+Diferencia con la memoria declarativa
+Memnoria procedimental:
+• Implícita
+• Automática
+• Ganglios basales y cerebelo
+• Habilidades y hábitos
+
+Memoria declarativa:
+• Explícita
+• Consciente
+• Hipocampo
+• Hechos y episodios
+
+Un dato interesante:
+Pacientes con amnesia severa (daño hipocampal) pueden aprender nuevas habilidades procedimentales aunque no recuerden haberlas practicado.
+
+
+
+🟢 Aplicaciones prácticas
+    •    Rehabilitación neurológica
+    
+Uso de repetición y automatización para recuperar funciones motoras.
+    •    Educación y entrenamiento
+    
+La práctica distribuida supera al estudio teórico para habilidades complejas.
+    •    Cambio de hábitos
+    
+Los hábitos se reprograman mejor con repetición y recompensa que con fuerza de voluntad

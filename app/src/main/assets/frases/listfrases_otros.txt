@@ -1,0 +1,128 @@
+id=otros_001
+autor=Rumi
+nota=
+fuente=
+contexto=Unidad mente-cuerpo
+texto=La bendición es lo que libera
+Más allá de las ideas sobre lo que está bien y lo que está mal, hay un campo. Allí te encontraré
+relacionadas=
+
+id=otros_002
+autor=Jalil Gibran
+nota=
+fuente=
+contexto=Unidad mente-cuerpo
+texto=Más allá de las ideas sobre lo que está bien y lo que está mal, hay un campo. Allí te encontraré
+relacionadas=
+
+id=otros_003
+autor=Santa Catalina de Siena
+nota=
+fuente=
+contexto=Unidad mente-cuerpo
+texto=La fuerza que creó los esplendores inimaginables y los horrores inconcebibles se ha refugiado en nosotros, y seguirá nuestras órdenes
+relacionadas=
+
+id=otros_004
+autor=Max Planck
+nota=Premio Nobel de Física de 1918. Para Neville, la conciencia es Dios, y todo surge de ella
+fuente=
+contexto=
+texto=Considero la conciencia como fundamental. Considero la materia como derivada de la conciencia
+relacionadas=
+
+id=otros_005
+autor=Max Planck
+nota=Premio Nobel de Física de 1918
+fuente=
+contexto=
+texto=Para las personas creyentes, Dios está al principio; para los científicos, está al final de todas sus reflexiones
+relacionadas=
+
+id=otros_006
+autor=William James
+nota=filósofo y psicólogo estadounidense.Neville hablaba de la ley de la asunción: aquello que asumes como verdadero, aunque no lo veas, termina objetivándose
+fuente=
+contexto=
+texto=La creencia crea el hecho
+relacionadas=
+
+id=otros_007
+autor=Max Planck
+nota=Premio Nobel de Física de 1918
+fuente=
+contexto=
+texto=La ciencia es la progresiva aproximación del hombre al mundo real
+relacionadas=
+
+id=otros_008
+autor=Carl Gustav Jung
+nota=Médico psiquiatra, psicólogo y ensayista suizo
+fuente=
+contexto=
+texto=Hasta que no hagas consciente lo inconsciente, este dirigirá tu vida y lo llamarás destino
+relacionadas=
+
+id=otros_009
+autor=David Bohm
+nota=Físico estadounidense que hizo importantes contribuciones en los campos de la física teórica, la epistemología y la neuropsicología
+fuente=
+contexto=
+texto=La mente y la materia no son realidades separadas
+relacionadas=
+
+id=otros_010
+autor=Nikola Tesla
+nota=Inventor e ingeniero serbio nacionalizado estadounidense. Neville decía: “La imaginación es el taller de Dios.” Tesla literalmente construía sus inventos primero en la imaginación
+fuente=
+contexto=
+texto=Todo lo que puedo imaginar, puedo crear
+relacionadas=
+
+id=otros_011
+autor=Richard Feynman
+nota=Físico teórico estadounidense​​​. La realidad no es neutral: responde a la expectativa del observador, exactamente como Neville enseñaba
+fuente=
+contexto=
+texto=Lo que creemos influye profundamente en lo que observamos
+relacionadas=
+
+id=otros_012
+autor=Albert Einstein
+nota=(Físico teórico. Formulador de la Teoría de la Relatividad)Si se mantienen los mismos pensamientos y actitudes, se seguirán obteniendo los mismos resultados
+fuente=
+contexto=
+texto=No podemos resolver un problema utilizando el mismo pensamiento que lo creó
+relacionadas=
+
+id=otros_013
+autor=James Jeans
+nota=Físico, 1930
+fuente=
+contexto=
+texto=La corriente del conocimiento se dirije hacia una realidad no-mecánica en la que el universo comienza a verse más como un gran pensamiento que como una gran máquina
+relacionadas=
+
+id=otros_014
+autor=James Jeans
+nota=Físico, 1930
+fuente=
+contexto=
+texto=La mente ya no parece ser un intruso accidental en el reino de la materia...debemos verla como la creadora y gobernadora del reino de la materia
+relacionadas=
+
+id=otros_015
+autor=Arthur Eddington
+nota=Físico, 1930
+fuente=
+contexto=
+texto=A los físicos de hoy en día les resulta muy difícil aceptar la idea de que la mente sea el sustrato de todo los que existe...
+relacionadas=
+
+id=otros_016
+autor=Albert Einstein
+nota=(Físico teórico. Formulador de la Teoría de la Relatividad)
+fuente=
+contexto=
+texto=El campo es quien gobierna y dirije el comportamiento de la materia
+relacionadas=

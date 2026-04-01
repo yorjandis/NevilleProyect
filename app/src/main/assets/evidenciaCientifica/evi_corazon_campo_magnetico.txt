@@ -1,0 +1,22 @@
+
+Evidencia científica que apoya la existencia de un campo magnético alrededor del corazón.
+
+hay evidencia científica sólida de que alrededor del corazón humano existe un campo magnético generado por la actividad eléctrica de sus tejidos. Ese campo magnético es extremadamente débil comparado con, por ejemplo, el campo magnético terrestre, pero puede medirse y cuantificarse con instrumentos sensibles. A continuación te presento las bases físicas y ejemplos de evidencia científica con referencias específicas
+
+Las células cardiacas generan corrientes eléctricas cuando se despolarizan y repolarizan durante cada latido. Según las leyes del electromagnetismo (Ley de Biot-Savart), cada corriente eléctrica produce un campo magnético a su alrededor. Esta es la misma base física que explica por qué un cable con corriente produce un campo magnético circular alrededor suyo
+
+Por tanto, no hay ninguna discusión científica en física o fisiología: el corazón, al tener corrientes eléctricas, necesariamente genera un campo magnético
+
+🟢 La Magnetocardiografía (MCG) es una técnica no invasiva que mide el campo magnético del corazón con gran sensibilidad usando magnetómetros superconductores (SQUID) u otros sensores de muy bajo ruido
+enlace:https://pubmed.ncbi.nlm.nih.gov/39338762/
+
+🟢 En revisiones recientes se reporta que el campo magnético cardiaco típico medido a unos pocos centímetros del pecho está en el rango de 10-100 picoteslas (pT) (1 pT = 10^-12 Tesla), lo cual es cerca de un millón de veces menor que el campo magnético de la Tierra, pero detectado repetidamente por instrumentos científicos
+
+🟢 La literatura científica ha utilizado MCG para estudiar enfermedades cardíacas (como isquemia y arritmias), demostrando que diferencias en el campo magnético pueden correlacionarse con cambios fisiopatológicos
+enlace:https://pubmed.ncbi.nlm.nih.gov/19484513/
+
+🟢 El corazón genera un campo magnético mensurable como resultado de sus corrientes eléctricas internas
+enlace:https://www.mdpi.com/1424-8220/23/9/4218
+
+🟢 Los campos magnéticos cardiacos son extremadamente débiles (~10-100 pT), mucho menores que los campos estáticos del entorno (como la Tierra), pero innegables desde el punto de vista físico y fisiológico
+enlace:https://pubmed.ncbi.nlm.nih.gov/39338762/

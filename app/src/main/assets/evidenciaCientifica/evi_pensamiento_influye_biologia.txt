@@ -1,0 +1,87 @@
+
+Referencias científicas completas en formato APA (artículos revisados por pares y altamente citados) que respaldan la influencia de pensamientos, expectativas y estados mentales sobre procesos biológicos.
+
+🟢 Retraso en cicatrización por estrés
+Kiecolt-Glaser, J. K., Marucha, P. T., Malarkey, W. B., Mercado, A. M., & Glaser, R. (1995).
+Slowing of wound healing by psychological stress. The Lancet, 346(8984), 1194–1196.
+https://doi.org/10.1016/S0140-6736(95)92899-5
+
+Hallazgo: estudiantes sometidos a estrés académico mostraron cicatrización significativamente más lenta y alteraciones inmunológicas medibles.
+
+
+🟢 Kiecolt-Glaser, J. K., McGuire, L., Robles, T. F., & Glaser, R. (2002).
+Psychoneuroimmunology: Psychological influences on immune function and health. Journal of Consulting and Clinical Psychology, 70(3), 537–547.
+https://doi.org/10.1037/0022-006X.70.3.537
+
+Revisión extensa que documenta cómo emociones y estrés crónico modifican inflamación, respuesta inmune y riesgo de enfermedad.
+
+🟢 Activación cerebral inducida por expectativa
+Wager, T. D., Rilling, J. K., Smith, E. E., et al. (2004).
+Placebo-induced changes in fMRI in the anticipation and experience of pain. Science, 303(5661), 1162–1167.
+https://doi.org/10.1126/science.1093065
+
+nota:Mostró que la expectativa de alivio activa circuitos prefrontales que modulan la señal del dolor a nivel cerebral
+
+
+🟢 Se demuestra que el placebo puede activar sistemas opioides endógenos y dopaminérgicos reales.
+Benedetti, F., Mayberg, H. S., Wager, T. D., Stohler, C. S., & Zubieta, J.-K. (2005).
+Neurobiological mechanisms of the placebo effect. Journal of Neuroscience, 25(45), 10390–10402.
+https://doi.org/10.1523/JNEUROSCI.3458-05.2005
+
+
+🟢 Revisión clave sobre cómo la expectativa modula vías neuroquímicas específicas.
+Colloca, L., & Benedetti, F. (2005).
+Placebos and painkillers: Is mind as real as matter? Nature Reviews Neuroscience, 6(7), 545–552.
+https://doi.org/10.1038/nrn1705
+
+
+🟢 Cambios rápidos en genes inflamatorios
+Kaliman, P., Álvarez-López, M. J., Cosín-Tomás, M., et al. (2014).
+Rapid changes in histone deacetylases and inflammatory gene expression in expert meditators. Psychoneuroendocrinology, 40, 96–107.
+https://doi.org/10.1016/j.psyneuen.2013.11.004
+
+Tras un día intensivo de mindfulness se observaron cambios en la expresión de genes proinflamatorios.
+
+🟢 Se halló que la respuesta de relajación (meditación/oración) modificó la expresión de cientos de genes relacionados con inflamación y metabolismo.
+Bhasin, M. K., Dusek, J. A., Chang, B.-H., et al. (2013).
+Relaxation response induces temporal transcriptome changes in energy metabolism, insulin secretion and inflammatory pathways. PLoS ONE, 8(5), e62817.
+https://doi.org/10.1371/journal.pone.0062817
+
+🟢 Intervención de 8 semanas redujo la expresión de genes inflamatorios regulados por NF-κB.
+Creswell, J. D., Irwin, M. R., Burklund, L. J., et al. (2012).
+Mindfulness-Based Stress Reduction training reduces loneliness and pro-inflammatory gene expression in older adults. Proceedings of the National Academy of Sciences (PNAS), 109(19), 7370–7375.
+https://doi.org/10.1073/pnas.1114880109
+
+
+🟢 Epigenética del estrés temprano
+Weaver, I. C. G., Cervoni, N., Champagne, F. A., et al. (2004).
+Epigenetic programming by maternal behavior. Nature Neuroscience, 7(8), 847–854.
+https://doi.org/10.1038/nn1276
+
+Demostró que el cuidado materno modifica la metilación del ADN en genes del receptor de glucocorticoides.
+
+🟢 Evidencia en humanos de que experiencias psicológicas tempranas alteran regulación epigenética cerebral.
+McGowan, P. O., Sasaki, A., D’Alessio, A. C., et al. (2009).
+Epigenetic regulation of the glucocorticoid receptor in human brain associates with childhood abuse. Nature Neuroscience, 12(3), 342–348.
+https://doi.org/10.1038/nn.2270
+
+
+🟢 Meta-análisis que confirma que el estrés psicológico eleva marcadores inflamatorios (IL-6, TNF-α).
+Steptoe, A., Hamer, M., & Chida, Y. (2007).
+The effects of acute psychological stress on circulating inflammatory factors in humans: A review and meta-analysis. Brain, Behavior, and Immunity, 21(7), 901–912.
+https://doi.org/10.1016/j.bbi.2007.03.011
+
+
+🟠 Conclusión científica
+Estas investigaciones muestran, con mediciones objetivas:
+    •    Cambios en neurotransmisores
+    •    Modulación hormonal (cortisol)
+    •    Alteraciones en marcadores inflamatorios
+    •    Cambios en expresión génica
+    •    Modificaciones epigenéticas
+    
+Es decir, los pensamientos y estados mentales influyen en:
+    •    Sistema nervioso
+    •    Sistema endocrino
+    •    Sistema inmunológico
+    •    Regulación genética

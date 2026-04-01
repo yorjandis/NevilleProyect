@@ -1,0 +1,182 @@
+La activación de los genes reloj periféricos es uno de los mecanismos más elegantes de coordinación metabólica del organismo. No dependen directamente de la luz (como el reloj central), sino de señales sistémicas que traducen la información luminosa en cambios bioquímicos en cada tejido.
+
+Vamos a verlo desde el nivel molecular hasta el tejido.
+
+
+
+🟢 Arquitectura molecular básica del reloj celular
+
+En prácticamente todas las células existen los mismos componentes:
+
+Complejo activador
+    •    CLOCK
+    •    BMAL1
+
+Estas dos proteínas forman un heterodímero (CLOCK:BMAL1) que actúa como factor de transcripción.
+
+Se unen a secuencias E-box del ADN y activan la expresión de:
+    •    PER1, PER2, PER3
+    •    CRY1, CRY2
+    •    REV-ERBα
+    •    RORα
+
+
+
+Complejo inhibidor
+
+Las proteínas PER y CRY:
+    1.    Se acumulan en el citoplasma.
+    2.    Son fosforiladas (por CK1ε/δ).
+    3.    Entran al núcleo.
+    4.    Inhiben CLOCK:BMAL1.
+
+Esto crea un bucle de retroalimentación negativa de ~24 horas.
+
+Este mecanismo ocurre en:
+    •    Hígado
+    •    Músculo
+    •    Tejido adiposo
+    •    Páncreas
+    •    Corazón
+    •    Sistema inmune
+
+
+
+🟢 ¿Cómo se activan en tejidos periféricos?
+
+Aquí está lo interesante: los tejidos periféricos no reciben luz directa. Se sincronizan mediante señales sistémicas que dependen del reloj central ubicado en el núcleo supraquiasmático.
+
+Las principales señales sincronizadoras son:
+
+
+
+🔸 A) Cortisol
+
+El cortisol es probablemente la señal endocrina más importante.
+
+Mecanismo molecular:
+    1.    El cortisol entra en la célula.
+    2.    Se une al receptor glucocorticoide (GR).
+    3.    El complejo cortisol-GR se transloca al núcleo.
+    4.    Se une a secuencias GRE (Glucocorticoid Response Elements).
+
+Algunos genes PER tienen GRE en su promotor.
+
+Resultado:
+→ El pico matutino de cortisol activa PER1 y PER2.
+→ Se reinicia la fase del reloj periférico.
+
+Esto es literalmente una señal hormonal que “pone en hora” los tejidos.
+
+⸻
+
+🔸 B) Ritmo de alimentación (Zeitgeber metabólico)
+
+En hígado y tejido adiposo, el momento de la comida es incluso más potente que el cortisol.
+
+La ingesta activa:
+    •    Insulina
+    •    mTOR
+    •    AMPK
+    •    SIRT1
+
+Estas rutas modifican directamente proteínas reloj.
+
+Ejemplo:
+    •    AMPK fosforila CRY → favorece su degradación.
+    •    SIRT1 desacetila BMAL1 y PER → modula estabilidad del ciclo.
+
+Esto vincula estado energético con ritmo circadiano.
+
+
+
+🔸 C) Temperatura corporal
+
+La oscilación diaria de 1–1.5°C regula la actividad de factores de transcripción sensibles al calor como HSF1.
+
+Estos pueden modular la expresión de PER y otros genes reloj.
+
+
+
+🔸 D) Sistema nervioso autónomo
+
+El NSQ modula directamente:
+    •    Tono simpático hepático
+    •    Liberación de noradrenalina
+
+La señal adrenérgica activa:
+    •    Vías cAMP
+    •    CREB
+    •    Transcripción de PER
+
+
+
+🟢 Ejemplo práctico: activación en el hígado
+
+Por la mañana:
+    1.    Luz solar → NSQ activado
+    2.    Pico de cortisol
+    3.    Desayuno → insulina
+    4.    Aumento de temperatura corporal
+
+Todo converge en:
+    •    Activación de CLOCK:BMAL1
+    •    Inducción de PER
+    •    Programación de genes metabólicos
+
+Genes regulados incluyen:
+    •    PEPCK (gluconeogénesis)
+    •    G6Pase
+    •    Genes lipogénicos
+    •    Enzimas mitocondriales
+
+El resultado es que el hígado “anticipa” la llegada de nutrientes.
+
+
+
+🟢 Epigenética circadiana
+
+Los genes reloj no solo activan genes metabólicos. Modulan la cromatina.
+
+CLOCK tiene actividad histona acetiltransferasa (HAT).
+
+Esto significa:
+
+→ Abre cromatina en horarios específicos
+→ Permite expresión temporal organizada
+
+SIRT1 (dependiente de NAD⁺) conecta el estado redox con el reloj.
+
+Por eso el ritmo circadiano está ligado a:
+    •    Función mitocondrial
+    •    Estrés oxidativo
+    •    Longevidad celular
+
+
+
+🟢 Desincronización periférica
+
+Si el reloj central y los periféricos se desacoplan (ejemplo: comer tarde, luz nocturna):
+    •    El NSQ puede estar en fase “diurna”
+    •    El hígado puede estar en fase “nocturna”
+
+Esto genera:
+    •    Resistencia a insulina
+    •    Mayor lipogénesis
+    •    Inflamación crónica
+    •    Disfunción mitocondrial
+
+La activación correcta de genes reloj periféricos mantiene coherencia metabólica sistémica.
+
+
+
+🟢 Resumen molecular integrado
+
+Señal luminosa
+→ NSQ
+→ cortisol + sistema nervioso + temperatura + ritmos alimentarios
+→ activación/inhibición de CLOCK-BMAL1
+→ oscilación PER/CRY
+→ regulación temporal del metabolismo
+
+

@@ -1,0 +1,7 @@
+{
+"titulo": "Rechaza todo aquello que perturbe tu paz",
+"autor": "Yorj",
+"contenido": [
+"Rechaza oir conversaciones desagradables, ya sean internas o externas. Rechaza oir todo lo que destruya. Cierra tu mente a toda sensación que atente contra tu paz interior. Construye un mundo maravilloso en la profundidad de tu mente donde solo haya espacio para el amor. Los monjes tibetanos budistas tiene una expresión de neutralidad a prueba de todo disturbio: \"Amitabha\" que significa \"Luz infinita\". De esa forma solo entra el amor."
+]
+}

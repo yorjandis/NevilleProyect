@@ -1,0 +1,7 @@
+{
+"titulo": "Sois un solo espíritu",
+"autor": "Yorj",
+"contenido": [
+"El espíritu De Dios mora en vosotros. A qué temeré? Todo está sujeto a mi conciencia de ser. Si no me agrada lo que veo en mi mundo es una señal de cambio necesario.Sin embargo, si puedo ver el amor en aquello que me desagrada he dominado el arte de la alquimia mental. El poder en vosotros es de tal magnitud  que con solo contemplar una cosa nos convertimos en ella. Pensad en esto y no caigáis en el engaño de creer que soys pequeños. Habéis creado la realidad que llamamos mundo para crecer en el amor que nos une a todos."
+]
+}

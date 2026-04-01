@@ -1,0 +1,11 @@
+//Citas Bibliográficas de ejemplo
+
+NeuroQuantology: Journal on quantum-neuro interfaces
+Cita: Revista revisada por pares que publica investigaciones en la interfaz entre física cuántica y neurociencia/cognición.
+Fuente: NeuroQuantology
+enlace:https://www.neuroquantology.com
+
+Estudio con monjes budistas muestra alteraciones dinámicas en actividad cerebral durante meditación
+Cita: Study of Buddhist Monks Finds Meditation Alters Brain Activity — MEG revela complejidad y modulación de oscilaciones neuronales.
+Fuente: WIRED en Español — estudio publicado en Neuroscience of Consciousness.
+enlace:https://www.wired.com/story/study-of-buddhist-monks-finds-meditation-alters-brain-activity
