@@ -1,149 +1,279 @@
 package com.ypg.neville.ui.frag
 
-import android.animation.ObjectAnimator
-import android.animation.PropertyValuesHolder
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.widget.AppCompatImageView
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.content.edit
-import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.preference.PreferenceManager
-import com.skydoves.balloon.Balloon
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
 import com.ypg.neville.model.db.DatabaseHelper
 import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.utils.QRManager
 import com.ypg.neville.model.utils.UiModalWindows
-import com.ypg.neville.model.utils.balloon.HelpBalloon
 import com.ypg.neville.model.utils.utilsFields
 
 class FragHome : Fragment() {
 
-    private lateinit var textFrase: TextView
-    private lateinit var textAutor: TextView
-    private lateinit var icFav: AppCompatImageView
-    private lateinit var icShared: AppCompatImageView
-    private var idFrase: Long = 0
-    private lateinit var navController: NavController
-    private lateinit var inlineIconsLayout: LinearLayout
-    private lateinit var ayudaContextual: ImageButton
-    private lateinit var masInfo: ImageView
-    private var isFirstLoad = true
+    private var initialDisplay: HomeDisplay? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.frag_home, container, false)
+    override fun onCreateView(
+        inflater: android.view.LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initialDisplay = loadInitialState()
 
-        textFrase = view.findViewById(R.id.frag_home_text)
-        textAutor = view.findViewById(R.id.frag_home_textautor)
-        icFav = view.findViewById(R.id.ic_frase_fav)
-        icShared = view.findViewById(R.id.ic_frase_shared)
-        inlineIconsLayout = view.findViewById(R.id.layout_fraghome_icons_inlines_frase)
-        ayudaContextual = view.findViewById(R.id.frag_home_ayuda)
-        masInfo = view.findViewById(R.id.frag_home_frases_img_abajo)
-
-        navController = view.findNavController()
-
-        val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
-
-        ayudaContextual.visibility = if (prefs.getBoolean("help_inline", true)) View.VISIBLE else View.GONE
-        ayudaContextual.setOnClickListener { showAyudaContextual() }
-
-        textFrase.textSize = prefs.getString("fuente_frase", "28")?.toFloat() ?: 28f
-
-        val tempColor = prefs.getInt("color_letra_frases", 0)
-        if (tempColor != 0) {
-            textFrase.setTextColor(tempColor)
-        }
-
-        val hideInlineControls = prefs.getBoolean("hide_frase_controles", false)
-        inlineIconsLayout.isInvisible = hideInlineControls
-        masInfo.setImageResource(if (hideInlineControls) R.drawable.ic_abajo else R.drawable.ic_arriba)
-
-        if (isFirstLoad) {
-            initHome()
-            isFirstLoad = false
-        } else {
-            loadFrases(false)
-        }
-
-        masInfo.setOnClickListener {
-            val shouldHide = !inlineIconsLayout.isInvisible
-            inlineIconsLayout.isInvisible = shouldHide
-            masInfo.setImageResource(if (shouldHide) R.drawable.ic_abajo else R.drawable.ic_arriba)
-            prefs.edit { putBoolean("hide_frase_controles", shouldHide) }
-        }
-
-        textFrase.setOnClickListener {
-            val startMode = prefs.getString("list_start_load", "Nada") ?: "Nada"
-            loadFrases(startMode.contains("Frase_fav_azar"))
-        }
-
-        textFrase.setOnLongClickListener {
-            val nota = utilsDB.getFraseNota(requireContext(), textFrase.text.toString())
-            UiModalWindows.NotaManager(
-                requireContext(),
-                nota,
-                DatabaseHelper.T_Frases,
-                DatabaseHelper.C_frases_frase,
-                textFrase.text.toString()
-            )
-            true
-        }
-
-        icFav.setOnClickListener {
-            val result = utilsDB.UpdateFavorito(
-                requireContext(),
-                DatabaseHelper.T_Frases,
-                DatabaseHelper.CC_id,
-                "",
-                idFrase.toInt()
-            )
-            if (result.isNotEmpty()) {
-                setFavColor(result)
+        (view as ComposeView).setContent {
+            MaterialTheme {
+                HomeScreen(initial = initialDisplay)
             }
-        }
-
-        icShared.setOnClickListener {
-            val autor = textAutor.text.toString().replace("<", "").replace(">", "")
-            QRManager.ShowQRDialog(
-                requireContext(),
-                getString(R.string.qr_share_frase_payload, textFrase.text, autor),
-                "Compartir Frase",
-                "Puede utilizar el lector QR para importar frases"
-            )
         }
     }
 
     override fun onStart() {
         super.onStart()
-        runCatching { MainActivity.currentInstance()?.ic_toolsBar_frase_add?.visibility = View.VISIBLE }
-        runCatching { MainActivity.currentInstance()?.ic_toolsBar_fav?.visibility = View.GONE }
+        runCatching { MainActivity.currentInstance()?.icToolsBarFraseAdd?.visibility = View.VISIBLE }
+        runCatching { MainActivity.currentInstance()?.icToolsBarFav?.visibility = View.GONE }
     }
 
     override fun onStop() {
         super.onStop()
-        runCatching { MainActivity.currentInstance()?.ic_toolsBar_frase_add?.visibility = View.GONE }
-        runCatching { MainActivity.currentInstance()?.ic_toolsBar_fav?.visibility = View.GONE }
+        runCatching { MainActivity.currentInstance()?.icToolsBarFraseAdd?.visibility = View.GONE }
+        runCatching { MainActivity.currentInstance()?.icToolsBarFav?.visibility = View.GONE }
         utilsFields.ID_row_ofElementLoad = -1
     }
 
-    private fun initHome() {
+    @OptIn(ExperimentalFoundationApi::class)
+    @Composable
+    private fun HomeScreen(initial: HomeDisplay?) {
+        val context = LocalContext.current
+        val prefs = remember { PreferenceManager.getDefaultSharedPreferences(context) }
+
+        var frase by remember(initial) { mutableStateOf(initial?.frase.orEmpty()) }
+        var autor by remember(initial) { mutableStateOf(initial?.autor.orEmpty()) }
+        var favState by remember(initial) { mutableStateOf(initial?.fav ?: "0") }
+        var idFrase by remember(initial) { mutableLongStateOf(initial?.id ?: 0L) }
+        var hideInlineControls by remember { mutableStateOf(prefs.getBoolean("hide_frase_controles", false)) }
+
+        val textSize = (prefs.getString("fuente_frase", "28")?.toFloatOrNull() ?: 28f).coerceIn(16f, 40f)
+        val textColor = prefs.getInt("color_letra_frases", 0)
+
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Box(modifier = Modifier.fillMaxSize()) {
+                if (prefs.getBoolean("help_inline", true)) {
+                    IconButton(
+                        onClick = {
+                            UiModalWindows.showAyudaContectual(
+                                context,
+                                "Ayuda",
+                                "Inicio",
+                                "Toque la frase para cargar otra. Mantenga presionada para asociar nota. Use estrella para favorito y compartir para QR.",
+                                false,
+                                null
+                            )
+                        },
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(15.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_help),
+                            contentDescription = "Ayuda"
+                        )
+                    }
+                }
+
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    val noRipple = remember { MutableInteractionSource() }
+                    Text(
+                        text = frase,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 10.dp)
+                            .combinedClickable(
+                                interactionSource = noRipple,
+                                indication = null,
+                                onClick = {
+                                    val startMode = prefs.getString("list_start_load", "Nada") ?: "Nada"
+                                    val loaded = loadFrase(startMode.contains("Frase_fav_azar"))
+                                    if (loaded != null) {
+                                        frase = loaded.frase
+                                        autor = loaded.autor
+                                        favState = loaded.fav
+                                        idFrase = loaded.id
+                                    }
+                                },
+                                onLongClick = {
+                                    if (frase.isNotBlank()) {
+                                        val nota = utilsDB.getFraseNota(context, frase)
+                                        UiModalWindows.NotaManager(
+                                            context,
+                                            nota,
+                                            DatabaseHelper.T_Frases,
+                                            DatabaseHelper.C_frases_frase,
+                                            frase
+                                        )
+                                    }
+                                }
+                            ),
+                        textAlign = TextAlign.Center,
+                        fontSize = textSize.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = if (textColor != 0) Color(textColor) else MaterialTheme.colorScheme.onBackground
+                    )
+
+                    Text(
+                        text = "<$autor>",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 10.dp),
+                        textAlign = TextAlign.End,
+                        fontSize = 18.sp,
+                        fontStyle = FontStyle.Italic
+                    )
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 10.dp, top = 2.dp),
+                        horizontalArrangement = Arrangement.End,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            painter = painterResource(id = if (hideInlineControls) R.drawable.ic_abajo else R.drawable.ic_arriba),
+                            contentDescription = getString(R.string.mostrar_ocultar_controles_frase),
+                            modifier = Modifier
+                                .size(25.dp)
+                                .clickable {
+                                    hideInlineControls = !hideInlineControls
+                                    prefs.edit { putBoolean("hide_frase_controles", hideInlineControls) }
+                                }
+                        )
+                    }
+
+                    if (!hideInlineControls) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 15.dp, end = 20.dp),
+                            horizontalArrangement = Arrangement.End,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            IconButton(
+                                onClick = {
+                                    val result = utilsDB.UpdateFavorito(
+                                        context,
+                                        DatabaseHelper.T_Frases,
+                                        DatabaseHelper.CC_id,
+                                        "",
+                                        idFrase.toInt()
+                                    )
+                                    if (result.isNotEmpty()) {
+                                        favState = result
+                                    }
+                                },
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(30.dp))
+                                    .background(Color.Transparent)
+                            ) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_toolbar_favorite),
+                                    contentDescription = "Favorito",
+                                    tint = if (favState == "1") colorResource(id = R.color.fav_active) else colorResource(id = R.color.fav_inactive)
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.width(12.dp))
+
+                            IconButton(onClick = {
+                                val payload = getString(
+                                    R.string.qr_share_frase_payload,
+                                    frase,
+                                    autor
+                                )
+                                QRManager.ShowQRDialog(
+                                    context,
+                                    payload,
+                                    "Compartir Frase",
+                                    "Puede utilizar el lector QR para importar frases"
+                                )
+                            }) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_share),
+                                    contentDescription = "Compartir",
+                                    tint = colorResource(id = R.color.shared_social)
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private data class HomeDisplay(
+        val id: Long,
+        val frase: String,
+        val autor: String,
+        val fav: String
+    )
+
+    private fun loadInitialState(): HomeDisplay? {
         val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
         var startMode = prefs.getString("list_start_load", "")
         if (startMode.isNullOrEmpty()) {
@@ -151,24 +281,29 @@ class FragHome : Fragment() {
             startMode = "Frase_azar"
         }
 
-        when (startMode) {
+        return when (startMode) {
             "Ultima_frase_vista" -> {
                 val idUltimaFrase = prefs.getString(utilsFields.SETTING_KEY_ID_ULTIMA_FRASE, "0")
                 val frase = utilsDB.getFraseById(requireContext(), idUltimaFrase?.toLongOrNull() ?: 0)
-                if (frase != null) {
-                    textFrase.text = frase.frase
-                    textAutor.text = getString(R.string.autor_tag_format, frase.autor)
-                    idFrase = frase.id
-                    utilsFields.ID_row_ofElementLoad = frase.id.toInt()
-                    utilsFields.ID_Str_row_ofElementLoad = frase.frase
-                    setFavColor(frase.fav)
+                frase?.let {
+                    utilsFields.ID_row_ofElementLoad = it.id.toInt()
+                    utilsFields.ID_Str_row_ofElementLoad = it.frase
+                    HomeDisplay(it.id, it.frase, it.autor, it.fav)
                 }
             }
 
-            "Frase_azar" -> loadFrases(false)
-            "Frase_fav_azar" -> loadFrases(true)
-            "Conf_azar" -> loadConfAzar(false)
-            "Conf_fav_azar" -> loadConfAzar(true)
+            "Frase_azar" -> loadFrase(false)
+            "Frase_fav_azar" -> loadFrase(true)
+            "Conf_azar" -> {
+                loadConfAzar(false)
+                null
+            }
+
+            "Conf_fav_azar" -> {
+                loadConfAzar(true)
+                null
+            }
+
             "Ultima_conf_vista" -> {
                 utilsFields.ID_Str_row_ofElementLoad =
                     prefs.getString(utilsFields.SETTING_KEY_ULTIMA_CONFERENCIA, "") ?: ""
@@ -180,33 +315,40 @@ class FragHome : Fragment() {
                         FragContentWebView.confAssetFileNameFromTitle(utilsFields.ID_Str_row_ofElementLoad)
                     FragContentWebView.urlPath =
                         "file:///android_asset/${FragContentWebView.urlDirAssets}/$confFileName${FragContentWebView.extension}"
-                    navController.navigate(R.id.frag_content_webview)
+                    MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_content_webview)
                 } else {
-                    Toast.makeText(requireContext(), "Debe cargar al menos una conferencia en Texto", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Debe cargar al menos una conferencia en Texto",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     frag_listado.elementLoaded = "autores/neville/conf"
-                    navController.navigate(R.id.frag_listado)
+                    MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_listado)
                 }
+                null
             }
+
+            else -> loadFrase(false)
         }
     }
 
-    private fun loadFrases(isFavList: Boolean) {
+    private fun loadFrase(isFavList: Boolean): HomeDisplay? {
         val frase = utilsDB.getRandomFrase(requireContext(), isFavList)
         val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
-        if (frase != null) {
-            textFrase.text = frase.frase
-            textAutor.text = getString(R.string.autor_tag_format, frase.autor)
-
-            idFrase = frase.id
+        return if (frase != null) {
             utilsFields.ID_row_ofElementLoad = frase.id.toInt()
             utilsFields.ID_Str_row_ofElementLoad = frase.frase
-
             prefs.edit { putString(utilsFields.SETTING_KEY_ID_ULTIMA_FRASE, frase.id.toString()) }
-            setFavColor(frase.fav)
+            HomeDisplay(frase.id, frase.frase, frase.autor, frase.fav)
         } else {
-            Toast.makeText(requireContext(), "No hay frase para mostrar. Cargando frases inbuilt", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                "No hay frase para mostrar. Cargando frases inbuilt",
+                Toast.LENGTH_SHORT
+            ).show()
             prefs.edit { putString("list_start_load", "Frase_azar") }
+            null
         }
     }
 
@@ -221,7 +363,7 @@ class FragHome : Fragment() {
             val confFileName = FragContentWebView.confAssetFileNameFromTitle(conf.title)
             FragContentWebView.urlPath =
                 "file:///android_asset/${FragContentWebView.urlDirAssets}/$confFileName${FragContentWebView.extension}"
-            navController.navigate(R.id.frag_content_webview)
+            MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_content_webview)
         } else {
             Toast.makeText(
                 requireContext(),
@@ -230,51 +372,5 @@ class FragHome : Fragment() {
             ).show()
             prefs.edit { putString("list_start_load", "Conf_azar") }
         }
-    }
-
-    private fun setFavColor(favState: String) {
-        if (favState == "1") {
-            icFav.setColorFilter(requireContext().resources.getColor(R.color.fav_active, null))
-            animate(icFav)
-        } else {
-            icFav.setColorFilter(requireContext().resources.getColor(R.color.fav_inactive, null))
-        }
-    }
-
-    private fun animate(view: View) {
-        val scaleDown = ObjectAnimator.ofPropertyValuesHolder(
-            view,
-            PropertyValuesHolder.ofFloat("scaleX", 1.3f),
-            PropertyValuesHolder.ofFloat("scaleY", 1.3f)
-        )
-        scaleDown.duration = 300
-        scaleDown.setAutoCancel(false)
-        scaleDown.repeatCount = 3
-        scaleDown.repeatMode = ObjectAnimator.REVERSE
-        scaleDown.start()
-    }
-
-    @SuppressLint("SuspiciousIndentation")
-    private fun showAyudaContextual() {
-        val helpBalloon = HelpBalloon(requireContext())
-        inlineIconsLayout.isInvisible = false
-
-        val balloon1: Balloon = helpBalloon.buildFactory("Añadir un apunte", viewLifecycleOwner)
-        val balloon2: Balloon = helpBalloon.buildFactory("Añadir una frase", viewLifecycleOwner)
-        val balloon3: Balloon = helpBalloon.buildFactory("toque largo sobre frase para añadir una nota asociada", viewLifecycleOwner)
-        val balloon4: Balloon = helpBalloon.buildFactory("Marca la frase como favorita", viewLifecycleOwner)
-        val balloon5: Balloon = helpBalloon.buildFactory("Compartir la frase", viewLifecycleOwner)
-        val balloon6: Balloon = helpBalloon.buildFactory("Mostrar/ocultar los iconos", viewLifecycleOwner)
-
-        val main = MainActivity.currentInstance() ?: return
-
-        balloon1
-            .relayShowAlignBottom(balloon2, main.ic_toolsBar_frase_add)
-            .relayShowAlignTop(balloon3, textFrase)
-            .relayShowAlignBottom(balloon4, icFav)
-            .relayShowAlignBottom(balloon5, icShared)
-            .relayShowAlignTop(balloon6, masInfo)
-
-        balloon1.showAlignBottom(main.ic_toolsBar_nota_add)
     }
 }

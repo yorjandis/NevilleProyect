@@ -1,19 +1,21 @@
 package com.ypg.neville.ui.frag
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.ypg.neville.MainActivity
-import com.ypg.neville.R
 import com.ypg.neville.model.db.DatabaseHelper
 import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.utils.utilsFields
@@ -21,42 +23,42 @@ import com.ypg.neville.ui.render.BlockType
 import com.ypg.neville.ui.render.ContentBlock
 import com.ypg.neville.ui.render.DynamicTextRenderer
 import com.ypg.neville.ui.render.RenderStyle
-import java.util.Timer
-import java.util.TimerTask
+import java.text.Normalizer
+import java.util.Locale
 
 class FragContentWebView : Fragment() {
 
-    private var webView: WebView? = null
-    private var composeView: ComposeView? = null
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.frag_content, container, false)
+    override fun onCreateView(
+        inflater: android.view.LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        visibilidadIconos() // maneja la visibilidad de los iconos en la toolbar
+        visibilidadIconos()
 
-        webView = view.findViewById(R.id.frag_content_webview)
-        composeView = view.findViewById(R.id.frag_content_compose)
-
-        if (shouldUseNativeRenderer(urlPath)) {
-            renderTxtWithCompose(urlPath)
-        } else {
-            renderUrlInWebView(urlPath)
-        }
-
-        // Almacenando el path de la ultima conferencia cargada
         if (elementLoaded.contains("autores/neville/conf")) {
             PreferenceManager.getDefaultSharedPreferences(requireContext())
-                .edit()
-                .putString(utilsFields.SETTING_KEY_ULTIMA_CONFERENCIA, utilsFields.ID_Str_row_ofElementLoad)
-                .apply()
+                .edit {
+                    putString(utilsFields.SETTING_KEY_ULTIMA_CONFERENCIA, utilsFields.ID_Str_row_ofElementLoad)
+                }
         }
 
-        // Comprobando y cargando el estado de favorito para el elemento cargado
         handlefavState()
+
+        (view as ComposeView).setContent {
+            MaterialTheme {
+                if (shouldUseNativeRenderer(urlPath)) {
+                    TxtContent(urlPath)
+                } else {
+                    WebContent(urlPath)
+                }
+            }
+        }
     }
 
     override fun onStart() {
@@ -64,73 +66,76 @@ class FragContentWebView : Fragment() {
         visibilidadIconos()
     }
 
-    override fun onStop() {
-        super.onStop()
-        // Almacenando la posición del scroll solo cuando el contenido se muestra en WebView
-        if (webView?.visibility == View.VISIBLE) {
-            try {
+    @Composable
+    private fun WebContent(path: String) {
+        val textZoom = if (elementLoaded.contains("biografia") || elementLoaded.contains("galeriafotos")) {
+            80
+        } else {
+            PreferenceManager
+                .getDefaultSharedPreferences(requireContext())
+                .getString("fuente_conf", "170")
+                ?.toIntOrNull() ?: 170
+        }
+
+        val webViewRef = remember { arrayOfNulls<WebView>(1) }
+
+        AndroidView(
+            factory = { context ->
+                WebView(context).apply {
+                    webViewClient = WebViewClient()
+                    settings.setSupportZoom(true)
+                    settings.textZoom = textZoom
+                    loadUrl(path)
+                    webViewRef[0] = this
+
+                    if (flag_isPrimeraVez && elementLoaded.contains("autores/neville/conf") &&
+                        PreferenceManager.getDefaultSharedPreferences(context)
+                            .getString("list_start_load", "")
+                            ?.contains("Ultima_conf_vista") == true
+                    ) {
+                        postDelayed({
+                            val pos = PreferenceManager.getDefaultSharedPreferences(context)
+                                .getString(utilsFields.SETTING_KEY_CONF_SCROLL_POSITION, "0")
+                                ?.toIntOrNull() ?: 0
+                            scrollTo(0, pos)
+                            flag_isPrimeraVez = false
+                        }, 300)
+                    }
+                }
+            },
+            update = {
+                it.settings.textZoom = textZoom
+                if (it.url != path) {
+                    it.loadUrl(path)
+                }
+                webViewRef[0] = it
+            }
+        )
+
+        DisposableEffect(Unit) {
+            onDispose {
+                val webView = webViewRef[0] ?: return@onDispose
                 PreferenceManager.getDefaultSharedPreferences(requireContext())
-                    .edit()
-                    .putString(utilsFields.SETTING_KEY_CONF_SCROLL_POSITION, webView?.scrollY.toString())
-                    .apply()
-            } catch (ignored: Exception) {
+                    .edit {
+                        putString(utilsFields.SETTING_KEY_CONF_SCROLL_POSITION, webView.scrollY.toString())
+                    }
             }
         }
     }
 
-    private fun renderUrlInWebView(path: String) {
-        composeView?.visibility = View.GONE
-        webView?.visibility = View.VISIBLE
-
-        webView?.webViewClient = WebViewClient()
-        webView?.settings?.setSupportZoom(true)
-
-        // Ajustando el tamaño de fuente adecuadamente, segun sea texto o html
-        if (elementLoaded.contains("biografia") || elementLoaded.contains("galeriafotos")) {
-            webView?.settings?.textZoom = 80
-        } else {
-            webView?.settings?.textZoom = PreferenceManager
-                .getDefaultSharedPreferences(requireContext())
-                .getString("fuente_conf", "170")
-                ?.toInt() ?: 170
-        }
-
-        webView?.loadUrl(path)
-
-        // Restablece la posición de la barra de desplazamiento
-        if (flag_isPrimeraVez && elementLoaded.contains("autores/neville/conf") &&
-            PreferenceManager.getDefaultSharedPreferences(requireContext())
-                .getString("list_start_load", "")
-                ?.contains("Ultima_conf_vista") == true
-        ) {
-            val t = Timer(false)
-            t.schedule(object : TimerTask() {
-                override fun run() {
-                    activity?.runOnUiThread {
-                        val i = PreferenceManager.getDefaultSharedPreferences(requireContext())
-                            .getString(utilsFields.SETTING_KEY_CONF_SCROLL_POSITION, "0")
-                            ?.toInt() ?: 0
-                        webView?.scrollY = i
-                        flag_isPrimeraVez = false
-                    }
-                }
-            }, 300)
-        }
-    }
-
-    private fun renderTxtWithCompose(path: String) {
-        webView?.visibility = View.GONE
-        composeView?.visibility = View.VISIBLE
-
+    @Composable
+    private fun TxtContent(path: String) {
         val requestedAssetPath = path
             .removePrefix("file:///android_asset/")
             .trimStart('/')
         val assetPath = resolveAssetPath(requestedAssetPath)
 
-        val rawText = runCatching {
-            requireContext().assets.open(assetPath).bufferedReader().use { it.readText() }
-        }.getOrElse {
-            "No se pudo cargar el contenido: $assetPath"
+        val rawText = remember(assetPath) {
+            runCatching {
+                requireContext().assets.open(assetPath).bufferedReader().use { it.readText() }
+            }.getOrElse {
+                "No se pudo cargar el contenido: $assetPath"
+            }
         }
 
         val blocks = listOf(ContentBlock(content = BlockType.Text(rawText)))
@@ -145,15 +150,7 @@ class FragContentWebView : Fragment() {
             textColor = Color.Black
         )
 
-        composeView?.setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-        composeView?.setContent {
-            MaterialTheme {
-                DynamicTextRenderer(
-                    blocks = blocks,
-                    style = style
-                )
-            }
-        }
+        DynamicTextRenderer(blocks = blocks, style = style)
     }
 
     private fun shouldUseNativeRenderer(path: String): Boolean {
@@ -162,6 +159,10 @@ class FragContentWebView : Fragment() {
 
     private fun resolveAssetPath(path: String): String {
         if (assetExists(path)) return path
+
+        // Resolver títulos de conferencias con variaciones de tildes/espacios/símbolos.
+        val confResolved = resolveConfPathByNormalizedTitle(path)
+        if (confResolved != null) return confResolved
 
         val legacyCandidates = listOf(
             path.replaceFirst("conf/", "autores/neville/conf/"),
@@ -180,23 +181,51 @@ class FragContentWebView : Fragment() {
         }.getOrDefault(false)
     }
 
-    // Controla la visibilidad de los iconos
+    private fun resolveConfPathByNormalizedTitle(path: String): String? {
+        val confPrefix = "autores/neville/conf/"
+        if (!path.startsWith(confPrefix)) return null
+
+        val requestedFile = path.removePrefix(confPrefix)
+        val requestedBase = requestedFile.removeSuffix(".txt")
+        val requestedNoPrefix = requestedBase.removePrefix("conf_")
+        val requestedKey = normalizeForAssetMatch(requestedNoPrefix)
+
+        val confFiles = requireContext().assets.list("autores/neville/conf").orEmpty()
+            .filter { it.startsWith("conf_") && it.endsWith(".txt", ignoreCase = true) }
+
+        val exact = confFiles.firstOrNull {
+            it.removeSuffix(".txt").removePrefix("conf_").equals(requestedNoPrefix, ignoreCase = true)
+        }
+        if (exact != null) return "$confPrefix$exact"
+
+        val normalized = confFiles.firstOrNull {
+            val base = it.removeSuffix(".txt").removePrefix("conf_")
+            normalizeForAssetMatch(base) == requestedKey
+        }
+        return normalized?.let { "$confPrefix$it" }
+    }
+
+    private fun normalizeForAssetMatch(raw: String): String {
+        val noAccents = Normalizer.normalize(raw, Normalizer.Form.NFD)
+            .replace("\\p{Mn}+".toRegex(), "")
+        return noAccents
+            .lowercase(Locale.ROOT)
+            .replace("[^a-z0-9]+".toRegex(), "")
+    }
+
     private fun visibilidadIconos() {
         if (elementLoaded.contains("autores/neville/conf")) {
-            try {
-                MainActivity.currentInstance()?.ic_toolsBar_fav?.visibility = View.VISIBLE
-                MainActivity.currentInstance()?.ic_toolsBar_frase_add?.visibility = View.VISIBLE
-            } catch (ignored: Exception) {
+            runCatching {
+                MainActivity.currentInstance()?.icToolsBarFav?.visibility = View.VISIBLE
+                MainActivity.currentInstance()?.icToolsBarFraseAdd?.visibility = View.VISIBLE
             }
         } else {
-            try {
-                MainActivity.currentInstance()?.ic_toolsBar_fav?.visibility = View.INVISIBLE
-            } catch (ignored: Exception) {
+            runCatching {
+                MainActivity.currentInstance()?.icToolsBarFav?.visibility = View.INVISIBLE
             }
         }
     }
 
-    // lee y actualiza el estado de favorito de un elemento cargado
     private fun handlefavState() {
         var favState = ""
         if (elementLoaded == "autores/neville/conf") {
@@ -207,10 +236,7 @@ class FragContentWebView : Fragment() {
                 utilsFields.ID_Str_row_ofElementLoad
             )
         }
-        try {
-            MainActivity.currentInstance()?.setFavColor(favState)
-        } catch (ignored: Exception) {
-        }
+        runCatching { MainActivity.currentInstance()?.setFavColor(favState) }
     }
 
     companion object {

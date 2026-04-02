@@ -1,191 +1,69 @@
 package com.ypg.neville.ui.frag
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.ListView
-import android.widget.SearchView
-import android.widget.Spinner
-import android.widget.TextView
 import android.widget.Toast
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.preference.PreferenceManager
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
 import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.utils.Utils
-import com.ypg.neville.model.utils.adapter.MyListAdapterItemsList
-import com.ypg.neville.model.utils.balloon.HelpBalloon
 import com.ypg.neville.model.utils.utilsFields
 import java.io.IOException
-import java.util.LinkedList
 
 class frag_listado : Fragment() {
 
-    private lateinit var listView: ListView
-    private var myListAdapterItemsList: MyListAdapterItemsList? = null
-    private lateinit var mostrar_opciones: TextView
-    private lateinit var linearLayout: LinearLayout
-    private lateinit var spinnerFilter: Spinner
-    private lateinit var searchView: SearchView
-    private lateinit var searchViewConf: SearchView
-    private lateinit var ayudaContextual: ImageButton
-
-    private var listado: MutableList<String> = LinkedList()
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.frag_listado, container, false)
+    override fun onCreateView(
+        inflater: android.view.LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        listView = view.findViewById(R.id.frag_listado_list1)
-        mostrar_opciones = view.findViewById(R.id.text_fraglist_showoptions)
-        linearLayout = view.findViewById(R.id.layout_fraglistado_option)
-        spinnerFilter = view.findViewById(R.id.spinner_fraglistado)
-        searchView = view.findViewById(R.id.searchView_fraglistado)
-        searchViewConf = view.findViewById(R.id.searchView_conf_fraglistado)
-        ayudaContextual = view.findViewById(R.id.frag_listado_ayuda)
-
-        if (PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean("help_inline", true)) {
-            ayudaContextual.visibility = View.VISIBLE
-        } else {
-            ayudaContextual.visibility = View.GONE
-        }
-        ayudaContextual.setOnClickListener { showAyudaContextual() }
-
-        if (elementLoaded.equals("autores/neville/conf", ignoreCase = true)) {
-            mostrar_opciones.visibility = View.VISIBLE
-            searchViewConf.visibility = View.VISIBLE
-            spinnerFilter.visibility = View.VISIBLE
-        } else {
-            mostrar_opciones.visibility = View.GONE
-            linearLayout.visibility = View.GONE
-            searchViewConf.visibility = View.GONE
-            spinnerFilter.visibility = View.GONE
-        }
-
-        GenerarListado()
-
         val navController = view.findNavController()
-
-        myListAdapterItemsList = MyListAdapterItemsList(requireContext(), R.layout.row_list_item, listado)
-        listView.adapter = myListAdapterItemsList
-
-        mostrar_opciones.setOnClickListener {
-            if (mostrar_opciones.text.toString().contains("Mostrar Opciones")) {
-                linearLayout.visibility = View.VISIBLE
-                mostrar_opciones.setText(R.string.ocultar_opciones)
-            } else {
-                linearLayout.visibility = View.GONE
-                mostrar_opciones.setText(R.string.mostrar_opciones)
-            }
-        }
-
-        spinnerFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(adapterView: AdapterView<*>, view: View?, position: Int, l: Long) {
-                if (!elementLoaded.equals("autores/neville/conf", ignoreCase = true)) return
-
-                val itemSelected = adapterView.selectedItem.toString()
-                myListAdapterItemsList?.clear()
-
-                when (itemSelected) {
-                    "Todas" -> {
-                        listado.clear()
-                        listado.addAll(utilsDB.getAllConfTitles(requireContext()))
-                    }
-                    "Favoritos" -> {
-                        listado.clear()
-                        listado.addAll(utilsDB.getListadoTitles(requireContext(), "Conferencias favoritas"))
-                    }
-                    "Con notas" -> {
-                        listado.clear()
-                        listado.addAll(utilsDB.getListadoTitles(requireContext(), "Conferencias con notas"))
-                    }
-                }
-                myListAdapterItemsList?.notifyDataSetChanged()
-                searchView.queryHint = "Buscar en títulos(${listado.size} elementos)"
-            }
-
-            override fun onNothingSelected(adapterView: AdapterView<*>) {}
-        }
-
-        searchView.setOnSearchClickListener { searchView.queryHint = "Buscar en títulos(${listado.size} elementos)" }
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(texto: String): Boolean = true
-            override fun onQueryTextChange(texto: String): Boolean {
-                myListAdapterItemsList?.filter?.filter(texto)
-                return true
-            }
-        })
-
-        searchView.setOnCloseListener {
-            if (elementLoaded.equals("autores/neville/conf", ignoreCase = true)) {
-                spinnerFilter.performClick()
-            }
-            true
-        }
-
-        searchViewConf.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                if (query.isNotEmpty()) {
-                    try {
-                        myListAdapterItemsList?.clear()
-                        listado = Utils.searchInConf(requireContext(), query).toMutableList()
-                        myListAdapterItemsList?.addAll(listado)
-                        myListAdapterItemsList?.notifyDataSetChanged()
-                    } catch (_: IOException) {
-                        Toast.makeText(requireContext(), "No se pudo realizar la búsqueda", Toast.LENGTH_SHORT).show()
-                    }
-                }
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                if (newText.isEmpty()) {
-                    myListAdapterItemsList?.clear()
-                    listado = utilsDB.loadConferenciaList(requireContext()).toMutableList()
-                    myListAdapterItemsList?.addAll(listado)
-                    myListAdapterItemsList?.notifyDataSetChanged()
-                }
-                return true
-            }
-        })
-
-        listView.onItemClickListener = AdapterView.OnItemClickListener { parent, _, position, _ ->
-            val selectedItemText = parent.getItemAtPosition(position) as String
-
-            when (elementLoaded) {
-                "autores/neville/conf" -> {
-                    FragContentWebView.elementLoaded = "autores/neville/conf"
-                    utilsFields.ID_Str_row_ofElementLoad = selectedItemText
-                    val confFileName = FragContentWebView.confAssetFileNameFromTitle(selectedItemText)
-                    FragContentWebView.urlPath = "file:///android_asset/autores/neville/conf/$confFileName.txt"
-                    navController.navigate(R.id.frag_content_webview)
-                }
-                "preguntas" -> {
-                    utilsFields.ID_Str_row_ofElementLoad = selectedItemText
-                    FragContentWebView.urlPath = "file:///android_asset/autores/neville/preg/$selectedItemText.txt"
-                    navController.navigate(R.id.frag_content_webview)
-                }
-                "citasConferencias" -> {
-                    utilsFields.ID_Str_row_ofElementLoad = selectedItemText
-                    FragContentWebView.urlPath = "file:///android_asset/autores/neville/cita/$selectedItemText.txt"
-                    navController.navigate(R.id.frag_content_webview)
-                }
-                "ayudas" -> {
-                    utilsFields.ID_Str_row_ofElementLoad = selectedItemText
-                    FragContentWebView.urlPath = "file:///android_asset/autores/neville/ayuda/$selectedItemText.txt"
-                    navController.navigate(R.id.frag_content_webview)
-                }
+        (view as ComposeView).setContent {
+            MaterialTheme {
+                ListadoScreen(navController)
             }
         }
     }
@@ -193,36 +71,274 @@ class frag_listado : Fragment() {
     override fun onStart() {
         super.onStart()
         MainActivity.currentInstance()?.let {
-            it.ic_toolsBar_fav.setColorFilter(requireContext().resources.getColor(R.color.black, null))
-            it.ic_toolsBar_fav.visibility = if (elementLoaded.equals("autores/neville/conf", ignoreCase = true)) View.VISIBLE else View.GONE
-            it.ic_toolsBar_frase_add.visibility = View.VISIBLE
+            it.icToolsBarFav.setColorFilter(requireContext().resources.getColor(R.color.black, null))
+            it.icToolsBarFav.visibility = if (elementLoaded.equals("autores/neville/conf", ignoreCase = true)) View.VISIBLE else View.GONE
+            it.icToolsBarFraseAdd.visibility = View.VISIBLE
         }
     }
 
-    private fun GenerarListado() {
-        val utils = Utils(requireContext())
+    @Composable
+    private fun ListadoScreen(navController: NavController) {
+        val context = LocalContext.current
+        val listado = remember { mutableStateListOf<String>() }
+        var queryTitulo by remember { mutableStateOf("") }
+        var queryContenido by remember { mutableStateOf("") }
+        var showOptions by remember { mutableStateOf(false) }
+        var showFilterMenu by remember { mutableStateOf(false) }
+        var filter by remember { mutableStateOf("Todas") }
+
+        val showConfOptions = elementLoaded.equals("autores/neville/conf", ignoreCase = true)
+        val showHelp = remember {
+            PreferenceManager.getDefaultSharedPreferences(context).getBoolean("help_inline", true)
+        }
+
+        LaunchedEffect(elementLoaded) {
+            listado.clear()
+            listado.addAll(generarListado())
+            queryTitulo = ""
+            queryContenido = ""
+            filter = "Todas"
+            showOptions = false
+        }
+
+        val visibleItems = listado.filter { it.contains(queryTitulo, ignoreCase = true) }
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 12.dp, vertical = 8.dp)
+        ) {
+            if (showHelp) {
+                IconButton(
+                    onClick = {
+                        Toast.makeText(
+                            context,
+                            "Filtra y busca elementos. Toca un item para abrirlo.",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    },
+                    modifier = Modifier.align(Alignment.End)
+                ) {
+                    Icon(painter = painterResource(id = R.drawable.ic_help), contentDescription = "Ayuda")
+                }
+            }
+
+            if (showConfOptions) {
+                Text(
+                    text = if (showOptions) getString(R.string.ocultar_opciones) else getString(R.string.mostrar_opciones),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier
+                        .align(Alignment.End)
+                        .clickable { showOptions = !showOptions }
+                        .padding(bottom = 8.dp)
+                )
+            }
+
+            if (showConfOptions && showOptions) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    AssistChip(onClick = { showFilterMenu = true }, label = { Text("Filtro: $filter") })
+                    DropdownMenu(expanded = showFilterMenu, onDismissRequest = { showFilterMenu = false }) {
+                        listOf("Todas", "Favoritos", "Con notas").forEach { option ->
+                            DropdownMenuItem(
+                                text = { Text(option) },
+                                onClick = {
+                                    showFilterMenu = false
+                                    filter = option
+                                    listado.clear()
+                                    listado.addAll(loadConfByFilter(option))
+                                }
+                            )
+                        }
+                    }
+                }
+
+                OutlinedTextField(
+                    value = queryTitulo,
+                    onValueChange = { queryTitulo = it },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                    label = { Text("Buscar en títulos (${listado.size})") },
+                    singleLine = true
+                )
+
+                OutlinedTextField(
+                    value = queryContenido,
+                    onValueChange = { queryContenido = it },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                    label = { Text("Buscar dentro de conferencias") },
+                    singleLine = true
+                )
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Button(onClick = {
+                        if (queryContenido.isNotBlank()) {
+                            try {
+                                listado.clear()
+                                listado.addAll(Utils.searchInConf(context, queryContenido))
+                            } catch (_: IOException) {
+                                Toast.makeText(context, "No se pudo realizar la búsqueda", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }) {
+                        Text("Buscar")
+                    }
+
+                    Button(onClick = {
+                        listado.clear()
+                        listado.addAll(loadConfByFilter(filter))
+                        queryContenido = ""
+                    }) {
+                        Text("Restablecer")
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.padding(top = 8.dp))
+
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(visibleItems) { item ->
+                    Text(
+                        text = item,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { onItemSelected(item, navController) }
+                            .padding(vertical = 10.dp, horizontal = 6.dp)
+                    )
+                }
+
+                if (visibleItems.isEmpty()) {
+                    item {
+                        Text(
+                            text = "No hay elementos para mostrar",
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontStyle = FontStyle.Italic,
+                            modifier = Modifier.padding(12.dp)
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    private fun onItemSelected(selectedItemText: String, navController: NavController) {
         when (elementLoaded) {
-            "autores/neville/conf" -> listado = utilsDB.loadConferenciaList(requireContext()).toMutableList()
-            "preguntas" -> try { utils.listFilesInAssets("autores/neville/preg", listado) } catch (e: IOException) { e.printStackTrace() }
-            "citasConferencias" -> try { utils.listFilesInAssets("autores/neville/cita", listado) } catch (e: IOException) { e.printStackTrace() }
-            "ayudas" -> try { utils.listFilesInAssets("ayuda", listado) } catch (e: IOException) { e.printStackTrace() }
+            "autores/neville/conf" -> {
+                FragContentWebView.elementLoaded = "autores/neville/conf"
+                utilsFields.ID_Str_row_ofElementLoad = selectedItemText
+                val confFileName = FragContentWebView.confAssetFileNameFromTitle(selectedItemText)
+                FragContentWebView.urlPath = "file:///android_asset/autores/neville/conf/$confFileName.txt"
+                navController.navigate(R.id.frag_content_webview)
+            }
+
+            "preguntas" -> {
+                utilsFields.ID_Str_row_ofElementLoad = selectedItemText
+                FragContentWebView.urlPath = "file:///android_asset/autores/neville/preg/$selectedItemText.txt"
+                navController.navigate(R.id.frag_content_webview)
+            }
+
+            "citasConferencias" -> {
+                utilsFields.ID_Str_row_ofElementLoad = selectedItemText
+                FragContentWebView.urlPath = "file:///android_asset/autores/neville/cita/$selectedItemText.txt"
+                navController.navigate(R.id.frag_content_webview)
+            }
+
+            "ayudas" -> {
+                utilsFields.ID_Str_row_ofElementLoad = selectedItemText
+                FragContentWebView.urlPath = "file:///android_asset/ayuda/$selectedItemText.txt"
+                navController.navigate(R.id.frag_content_webview)
+            }
+
+            "evidenciaCientifica" -> {
+                utilsFields.ID_Str_row_ofElementLoad = selectedItemText
+                FragContentWebView.urlPath = "file:///android_asset/evidenciaCientifica/$selectedItemText.txt"
+                navController.navigate(R.id.frag_content_webview)
+            }
+
+            "reflexiones" -> {
+                utilsFields.ID_Str_row_ofElementLoad = selectedItemText
+                FragContentWebView.urlPath = "file:///android_asset/reflexiones/$selectedItemText.txt"
+                navController.navigate(R.id.frag_content_webview)
+            }
+
+            "enciclopedia" -> {
+                elementLoaded = "enciclopedia/$selectedItemText"
+                navController.navigate(R.id.frag_listado)
+            }
+
+            else -> {
+                if (elementLoaded.startsWith("enciclopedia/")) {
+                    utilsFields.ID_Str_row_ofElementLoad = selectedItemText
+                    val section = elementLoaded.removePrefix("enciclopedia/")
+                    FragContentWebView.urlPath = "file:///android_asset/enciclopedia/$section/$selectedItemText.txt"
+                    navController.navigate(R.id.frag_content_webview)
+                }
+            }
         }
     }
 
-    @SuppressLint("SuspiciousIndentation")
-    private fun showAyudaContextual() {
-        val helpBalloon = HelpBalloon(requireContext())
-        val balloon1 = helpBalloon.buildFactory("Añadir un apunte", viewLifecycleOwner)
-        val balloon2 = helpBalloon.buildFactory("filtro de listado", viewLifecycleOwner)
-        val balloon3 = helpBalloon.buildFactory("listado de elementos. Toque un elemento para abrirlo", viewLifecycleOwner)
-
-        balloon1
-            .relayShowAlignBottom(balloon2, mostrar_opciones)
-            .relayShowAlignTop(balloon3, listView)
-
-        MainActivity.currentInstance()?.let {
-            balloon1.showAlignBottom(it.ic_toolsBar_nota_add)
+    private fun loadConfByFilter(option: String): List<String> {
+        val fromDb = when (option) {
+            "Favoritos" -> utilsDB.getListadoTitles(requireContext(), "Conferencias favoritas")
+            "Con notas" -> utilsDB.getListadoTitles(requireContext(), "Conferencias con notas")
+            else -> utilsDB.getAllConfTitles(requireContext())
         }
+        return if (fromDb.isNotEmpty()) fromDb else loadConfTitlesFromAssets()
+    }
+
+    private fun generarListado(): List<String> {
+        val utils = Utils(requireContext())
+        val listado = mutableListOf<String>()
+        when {
+            elementLoaded == "autores/neville/conf" -> {
+                val dbItems = utilsDB.loadConferenciaList(requireContext())
+                if (dbItems.isNotEmpty()) {
+                    listado.addAll(dbItems)
+                } else {
+                    listado.addAll(loadConfTitlesFromAssets())
+                }
+            }
+            elementLoaded == "preguntas" -> runCatching { utils.listFilesInAssets("autores/neville/preg", listado) }
+            elementLoaded == "citasConferencias" -> runCatching { utils.listFilesInAssets("autores/neville/cita", listado) }
+            elementLoaded == "ayudas" -> runCatching { utils.listFilesInAssets("ayuda", listado) }
+            elementLoaded == "evidenciaCientifica" -> runCatching { utils.listFilesInAssets("evidenciaCientifica", listado) }
+            elementLoaded == "reflexiones" -> runCatching { utils.listFilesInAssets("reflexiones", listado) }
+            elementLoaded == "enciclopedia" -> {
+                val folders = requireContext().assets.list("enciclopedia") ?: emptyArray()
+                listado.addAll(folders)
+            }
+
+            elementLoaded.startsWith("enciclopedia/") -> {
+                val section = elementLoaded.removePrefix("enciclopedia/")
+                runCatching { utils.listFilesInAssets("enciclopedia/$section", listado) }
+            }
+        }
+        return listado
+    }
+
+    private fun loadConfTitlesFromAssets(): List<String> {
+        return runCatching {
+            val files = requireContext().assets.list("autores/neville/conf").orEmpty()
+            files
+                .filter { it.startsWith("conf_") && it.endsWith(".txt", ignoreCase = true) }
+                .map { it.removePrefix("conf_").removeSuffix(".txt") }
+                .sorted()
+        }.getOrDefault(emptyList())
     }
 
     companion object {

@@ -2,79 +2,83 @@ package com.ypg.neville
 
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
-import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Intent
-import android.os.Bundle
 import android.os.Build
+import android.os.Bundle
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.appcompat.widget.Toolbar
-import androidx.cardview.widget.CardView
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import androidx.core.net.toUri
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentContainerView
+import androidx.fragment.app.commitNow
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.preference.PreferenceManager
-import com.google.android.material.navigation.NavigationView
 import com.google.zxing.integration.android.IntentIntegrator
-import com.ypg.neville.ui.frag.FragContentWebView
-import com.ypg.neville.ui.frag.frag_listado
-import com.ypg.neville.model.db.DatabaseHelper
 import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.utils.QRManager
 import com.ypg.neville.model.utils.UiModalWindows
 import com.ypg.neville.model.utils.Utils
 import com.ypg.neville.model.utils.myListener_In_App_Update
-import com.ypg.neville.model.utils.utilsFields
+import com.ypg.neville.ui.frag.HomeFloatingMenuBottomSheet
+import com.ypg.neville.ui.frag.SheetNavHostBottomSheet
+import com.ypg.neville.ui.frag.frag_listado
 import java.lang.ref.WeakReference
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var drawerLayout: DrawerLayout
-    lateinit var navigationView: NavigationView
-    lateinit var bottomNavigationView: CardView
-    lateinit var toolbar: Toolbar
-    lateinit var toggle: ActionBarDrawerToggle
+    private val toolbarColor = mutableStateOf<Int?>(null)
+    private val bottomActive = mutableStateOf<String?>("conf")
 
-    lateinit var fraseBienvenida: TextView
-    lateinit var headerImage: ImageView
+    private val toolbarAddNoteVisible = mutableStateOf(View.VISIBLE)
+    private val toolbarAddFraseVisible = mutableStateOf(View.VISIBLE)
+    private val toolbarFavVisible = mutableStateOf(View.GONE)
+    private val toolbarFavColor = mutableStateOf(android.graphics.Color.BLACK)
 
     lateinit var navController: NavController
+    private lateinit var fragContainer: FragmentContainerView
 
-    lateinit var ic_toolsBar_nota_add: ImageView
-    lateinit var ic_toolsBar_frase_add: ImageView
-    lateinit var ic_toolsBar_fav: ImageView
-    lateinit var navBtnConf: ImageButton
-    lateinit var navBtnNotas: ImageButton
-    lateinit var navBtnHome: ImageButton
-    lateinit var navBtnDiario: ImageButton
-    lateinit var navBtnChat: ImageButton
-    lateinit var bottomNavInner: LinearLayout
+    val icToolsBarNotaAdd = ToolbarIconProxy(toolbarAddNoteVisible, mutableStateOf(android.graphics.Color.BLACK))
+    val icToolsBarFraseAdd = ToolbarIconProxy(toolbarAddFraseVisible, mutableStateOf(android.graphics.Color.BLACK))
+    val icToolsBarFav = ToolbarIconProxy(toolbarFavVisible, toolbarFavColor)
 
-    val utils = Utils(this)
-
-    lateinit var frag_container: FragmentContainerView
+    private val utils by lazy { Utils(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setCurrentInstance(this)
-
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         if (prefs.getBoolean("tema", true)) {
             setTheme(R.style.Theme_NevilleProyect_noche)
@@ -82,38 +86,23 @@ class MainActivity : AppCompatActivity() {
             setTheme(R.style.Theme_NevilleProyect)
         }
 
-        setContentView(R.layout.activity_main)
+        super.onCreate(savedInstanceState)
+        setCurrentInstance(this)
 
-        ic_toolsBar_nota_add = findViewById(R.id.ic_toolbar_add_note)
-        ic_toolsBar_frase_add = findViewById(R.id.ic_toolbar_add_frase)
-        ic_toolsBar_fav = findViewById(R.id.ic_toolbar_fav)
+        toolbarColor.value = prefs.getInt("color_marcos", 0).takeIf { it != 0 }
 
-        drawerLayout = findViewById(R.id.drawer_layout)
-        navigationView = findViewById(R.id.nav_view)
-        toolbar = findViewById(R.id.toolsbar)
-        bottomNavigationView = findViewById(R.id.bottom_navigation_view)
-        navBtnConf = findViewById(R.id.nav_btn_conf)
-        navBtnNotas = findViewById(R.id.nav_btn_notas)
-        navBtnHome = findViewById(R.id.nav_btn_home)
-        navBtnDiario = findViewById(R.id.nav_btn_diario)
-        navBtnChat = findViewById(R.id.nav_btn_chat)
-        bottomNavInner = findViewById(R.id.bottom_nav_inner)
-        frag_container = findViewById(R.id.frag_container)
+        setContentView(
+            ComposeView(this).apply {
+                setContent {
+                    MaterialTheme {
+                        MainScreen()
+                    }
+                }
+            }
+        )
 
-        val navigationHeader = navigationView.getHeaderView(0)
-        fraseBienvenida = navigationHeader.findViewById(R.id.drawer_header_frase)
-        headerImage = navigationHeader.findViewById(R.id.drawer_header_imgbutton)
-
-        val temp_Color = prefs.getInt("color_marcos", 0)
-        AuxSetColorBar(temp_Color)
-
-        fraseBienvenida.text = prefs.getString("frase", "Imaginar crea la realidad")
-        headerImage.clipToOutline = true
-
-        navController = frag_container.findNavController()
-
-        val in_app_update = myListener_In_App_Update(this)
-        in_app_update.setMylistener(object : myListener_In_App_Update.In_mylistener {
+        val inAppUpdate = myListener_In_App_Update(this)
+        inAppUpdate.setMylistener(object : myListener_In_App_Update.In_mylistener {
             override fun onUpdateAvailable(pUpdateAvailable: Boolean) {
                 if (pUpdateAvailable) {
                     val intentNotification = Intent(Intent.ACTION_VIEW, "market://details?id=$packageName".toUri())
@@ -157,164 +146,179 @@ class MainActivity : AppCompatActivity() {
             utilsDB.CorrectOrtogFrases(this)
             prefs.edit { putBoolean("updateFrases", false) }
         }
+    }
 
-        ic_toolsBar_frase_add.setOnClickListener {
-            UiModalWindows.Add_New_frase(this, null)
-        }
-
-        ic_toolsBar_nota_add.setOnClickListener {
-            UiModalWindows.ApunteManager(this, "", null, false)
-        }
-
-        setupBottomNav()
-
-        ic_toolsBar_fav.setOnClickListener {
-            var result = ""
-            val fragment = frag_container.getFragment<androidx.fragment.app.Fragment>()
-            val fragName = fragment.javaClass.simpleName
-
-            if (fragName.contains("FragContentWebView")) {
-                result = utilsDB.UpdateFavorito(this, DatabaseHelper.T_Conf, DatabaseHelper.C_conf_title, utilsFields.ID_Str_row_ofElementLoad, -1)
+    @Composable
+    private fun MainScreen() {
+        Column(modifier = Modifier.fillMaxSize()) {
+            Box(modifier = Modifier.weight(1f)) {
+                AndroidNavHostContainer()
             }
 
-            if (result != "") {
-                setFavColor(result)
+            BottomNav()
+        }
+    }
+
+    @Composable
+    private fun AndroidNavHostContainer() {
+        androidx.compose.ui.viewinterop.AndroidView(
+            modifier = Modifier.fillMaxSize(),
+            factory = { context ->
+                FragmentContainerView(context).apply {
+                    id = R.id.frag_container
+                    fragContainer = this
+                    post { ensureNavHostAttached(this) }
+                }
+            },
+            update = {
+                ensureNavHostAttached(it)
             }
+        )
+    }
+
+    private fun ensureNavHostAttached(container: FragmentContainerView) {
+        val existing = supportFragmentManager.findFragmentById(container.id) as? NavHostFragment
+        if (existing != null) {
+            navController = existing.navController
+            return
         }
 
-        setSupportActionBar(toolbar)
-        toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.nav_cerrado, R.string.nav_abierto)
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
+        if (!container.isAttachedToWindow) return
 
-        navigationView.setNavigationItemSelectedListener { item ->
-            deselecItemBottom()
-            when (item.itemId) {
-                R.id.drawer_menu_biografia -> {
-                    FragContentWebView.elementLoaded = "biografia"
-                    FragContentWebView.extension = ".html"
-                    FragContentWebView.urlPath = "file:///android_asset/autores/neville/biografia/biografia.txt"
-                    navController.navigate(R.id.frag_content_webview)
-                }
-                R.id.drawer_menu_galeriafotos -> {
-                    FragContentWebView.elementLoaded = "galeriafotos"
-                    FragContentWebView.extension = ".html"
-                    FragContentWebView.urlPath = "file:///android_asset/autores/neville/biografia/gale_Galeria de fotos.html"
-                    navController.navigate(R.id.frag_content_webview)
-                }
-                R.id.drawer_menu_abdullah -> {
-                    if (Utils.isConnection(this)) {
-                        val intent = Intent(Intent.ACTION_VIEW, "https://www.youtube.com/watch?v=mgbdcv606Rg".toUri())
-                        startActivity(intent)
-                    }
-                }
-                R.id.drawer_menu_conferen_texto -> {
+        val navHost = NavHostFragment.create(R.navigation.nav_graf)
+        supportFragmentManager.commitNow {
+            replace(container.id, navHost)
+        }
+        navController = navHost.navController
+    }
+
+    @Composable
+    private fun BottomNav() {
+        val barShape = RoundedCornerShape(30.dp)
+        val tintColor = toolbarColor.value?.let { Color(it) }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 18.dp, end = 18.dp, top = 0.dp, bottom = 14.dp)
+                .height(68.dp)
+                .shadow(elevation = 16.dp, shape = barShape, clip = false)
+                .border(width = 1.dp, color = Color(0x88FFFFFF), shape = barShape)
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Color(0xFFB9BFC0),
+                            Color(0xFFD4DBE0),
+                            Color(0xFFB8C0C7)
+                        )
+                    ),
+                    shape = barShape
+                )
+                .clip(barShape)
+        ) {
+            if (tintColor != null) {
+                Box(
+                    modifier = Modifier
+                        .matchParentSize()
+                        .background(tintColor.copy(alpha = 0.30f))
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(1.dp)
+                    .background(
+                        Brush.horizontalGradient(
+                            colors = listOf(
+                                Color.Transparent,
+                                Color(0xCCFFFFFF),
+                                Color.Transparent
+                            )
+                        )
+                    )
+                    .align(Alignment.TopCenter)
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 8.dp, end = 8.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                BottomNavButton("conf", R.drawable.ic_conf) {
+                    bottomActive.value = "conf"
                     frag_listado.elementLoaded = "autores/neville/conf"
-                    setBottomActive(R.id.nav_btn_conf)
-                    navController.navigate(R.id.frag_listado)
+                    openDestinationAsSheet(R.id.frag_listado)
                 }
-                R.id.drawer_menu_preguntas -> {
-                    frag_listado.elementLoaded = "preguntas"
-                    navController.navigate(R.id.frag_listado)
+                BottomNavButton("notas", R.drawable.ic_note) {
+                    bottomActive.value = "notas"
+                    openDestinationAsSheet(R.id.frag_notas)
                 }
-                R.id.drawer_menu_citas_conf -> {
-                    frag_listado.elementLoaded = "citasConferencias"
-                    navController.navigate(R.id.frag_listado)
-                }
-                R.id.drawer_menu_conferen_audio -> {
-                    if (Utils.isConnection(this)) {
-                        val intent = Intent(Intent.ACTION_VIEW, "https://www.ivoox.com/escuchar-neville-goddard_nq_102778_1.html".toUri())
-                        startActivity(intent)
+                BottomNavButton("home", R.drawable.ic_nav_home) {
+                    bottomActive.value = "home"
+                    if (supportFragmentManager.findFragmentByTag(HomeFloatingMenuBottomSheet.TAG) == null) {
+                        HomeFloatingMenuBottomSheet().show(supportFragmentManager, HomeFloatingMenuBottomSheet.TAG)
                     }
                 }
-                R.id.drawer_menu_frases -> {
-                    setBottomActive(null)
-                    navController.navigate(R.id.frag_home)
+                BottomNavButton("diario", R.drawable.ic_nav_journal) {
+                    bottomActive.value = "diario"
+                    Toast.makeText(this@MainActivity, "Diario próximamente", Toast.LENGTH_SHORT).show()
                 }
-                R.id.drawer_menu_books -> {
-                    if (Utils.isConnection(this)) {
-                        val intent = Intent(Intent.ACTION_VIEW, "https://drive.google.com/file/d/1NjUDZfjSOjdPRd6vsyhfDKmjdDus25YM/view?usp=sharing".toUri())
-                        startActivity(intent)
-                    }
-                }
-                R.id.drawer_menu_audiobook -> {
-                    if (Utils.isConnection(this)) {
-                        val intent = Intent(Intent.ACTION_VIEW, "https://www.ivoox.com/escuchar-neville-goddard_nq_102778_1.html".toUri())
-                        startActivity(intent)
-                    }
-                }
-                R.id.drawer_menu_ayudas -> {
-                    frag_listado.elementLoaded = "ayudas"
-                    navController.navigate(R.id.frag_listado)
-                }
-                R.id.drawer_menu_neville_autor -> {
-                    navController.navigate(R.id.frag_neville_goddard)
-                }
-                R.id.drawer_menu_gregg -> {
-                    navController.navigate(R.id.frag_gregg)
-                }
-                R.id.drawer_menu_joe -> {
-                    navController.navigate(R.id.frag_joe_dispenza)
-                }
-                R.id.drawer_menu_bruce -> {
-                    navController.navigate(R.id.frag_bruce_lipton)
-                }
-                R.id.drawer_menu_audio_telegram -> {
-                    if (Utils.isConnection(this)) {
-                        if (Utils.isPackageInstalled("org.telegram.messenger", this)) {
-                            val intent = Intent(Intent.ACTION_VIEW, "https://t.me/nevilleGoddardaudios".toUri())
-                            intent.setPackage("org.telegram.messenger")
-                            startActivity(intent)
-                        } else {
-                            Toast.makeText(this, "Debe estar instalado Telegram", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-                R.id.drawer_menu_audio_telegram_ii -> {
-                    if (Utils.isConnection(this)) {
-                        if (Utils.isPackageInstalled("org.telegram.messenger", this)) {
-                            val intent = Intent(Intent.ACTION_VIEW, "https://t.me/NevilleAudiosII".toUri())
-                            intent.setPackage("org.telegram.messenger")
-                            startActivity(intent)
-                        } else {
-                            Toast.makeText(this, "Debe estar instalado Telegram", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-                R.id.drawer_menu_audio_telegram_ypg -> {
-                    if (Utils.isConnection(this)) {
-                        if (Utils.isPackageInstalled("org.telegram.messenger", this)) {
-                            val intent = Intent(Intent.ACTION_VIEW, "https://t.me/+rODRAz2S6nVmMmY0".toUri())
-                            intent.setPackage("org.telegram.messenger")
-                            startActivity(intent)
-                        } else {
-                            Toast.makeText(this, "Debe estar instalado Telegram", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-                R.id.drawer_menu_web_neville_blog -> {
-                    if (Utils.isConnection(this)) {
-                        val intent = Intent(Intent.ACTION_VIEW, "https://nevilleenespanol.blogspot.com/".toUri())
-                        startActivity(intent)
-                    }
-                }
-                R.id.drawer_menu_web_neville_espanol -> {
-                    if (Utils.isConnection(this)) {
-                        val intent = Intent(Intent.ACTION_VIEW, "https://neville-espanol.com/".toUri())
-                        startActivity(intent)
-                    }
-                }
-                R.id.drawer_menu_web_real_neville -> {
-                    if (Utils.isConnection(this)) {
-                        val intent = Intent(Intent.ACTION_VIEW, "https://realneville.com/".toUri())
-                        startActivity(intent)
-                    }
+                BottomNavButton("chat", R.drawable.ic_nav_chat) {
+                    bottomActive.value = "chat"
+                    Toast.makeText(this@MainActivity, "Chat próximamente", Toast.LENGTH_SHORT).show()
                 }
             }
-            drawerLayout.close()
-            false
         }
+    }
 
+    fun openDestinationAsSheet(destinationId: Int) {
+        if (destinationId == R.id.frag_home) return
+        val tag = "sheet_dest_$destinationId"
+        if (supportFragmentManager.findFragmentByTag(tag) != null) return
+        SheetNavHostBottomSheet.newInstance(destinationId)
+            .show(supportFragmentManager, tag)
+    }
+
+    @Composable
+    private fun RowScope.BottomNavButton(id: String, icon: Int, onClick: () -> Unit) {
+        val active = bottomActive.value == id
+        val itemShape = RoundedCornerShape(18.dp)
+        Box(
+            modifier = Modifier
+                .height(44.dp)
+                .weight(1f)
+                .padding(horizontal = 2.dp)
+                .clip(itemShape)
+                .background(
+                    if (active) {
+                        Brush.verticalGradient(
+                            colors = listOf(
+                                Color(0xFFE6EEF3),
+                                Color(0xFFC7D2DA)
+                            )
+                        )
+                    } else {
+                        Brush.verticalGradient(
+                            colors = listOf(Color.Transparent, Color.Transparent)
+                        )
+                    },
+                    itemShape
+                )
+                .border(
+                    width = if (active) 1.dp else 0.dp,
+                    color = if (active) Color(0x66FFFFFF) else Color.Transparent,
+                    shape = itemShape
+                )
+                .clickable(onClick = onClick),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                painter = painterResource(id = icon),
+                contentDescription = id,
+                tint = if (active) Color(0xFF1E2A32) else Color(0xFF2E3B44),
+                modifier = Modifier.size(22.dp)
+            )
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -322,7 +326,7 @@ class MainActivity : AppCompatActivity() {
         if (QRManager.Request_Code) {
             val intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
             if (intentResult != null) {
-                ProcesarQRCode(intentResult.contents)
+                procesarQrCode(intentResult.contents)
             } else {
                 Toast.makeText(this, "Error al leer el código QR", Toast.LENGTH_SHORT).show()
             }
@@ -330,48 +334,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menuprincipal, menu)
-        return true
-    }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean = true
 
-    @SuppressLint("Range")
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.main_menu_shared_app -> {
-                if (Utils.isConnection(this)) {
-                    QRManager.ShowQRDialog(this, "https://play.google.com/store/apps/details?id=com.ypg.neville", "Compartir App Neville", null)
-                }
-            }
-            R.id.main_menu_leerQR -> {
-                QRManager.launch_QRRead()
-            }
-            R.id.main_menu_myinfo -> {
-                deselecItemBottom()
-                navController.navigate(R.id.frag_list_info)
-            }
-            R.id.main_menu_setup -> {
-                deselecItemBottom()
-                navController.navigate(R.id.fragSetting)
-            }
-            else -> return super.onOptionsItemSelected(item)
-        }
-        return true
-    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = super.onOptionsItemSelected(item)
 
-    fun setFavColor(fav_state: String) {
-        if (fav_state == "1") {
-            ic_toolsBar_fav.setColorFilter(resources.getColor(R.color.fav_active, null))
-            animate(ic_toolsBar_fav)
+    fun setFavColor(favState: String) {
+        if (favState == "1") {
+            toolbarFavColor.value = resources.getColor(R.color.fav_active, null)
+            animateFavIcon()
         } else {
-            ic_toolsBar_fav.setColorFilter(resources.getColor(R.color.fav_inactive, null))
+            toolbarFavColor.value = resources.getColor(R.color.fav_inactive, null)
         }
     }
 
-    private fun animate(view: View) {
-        val scaleDown = ObjectAnimator.ofPropertyValuesHolder(view,
+    private fun animateFavIcon() {
+        val temp = View(this)
+        val scaleDown = ObjectAnimator.ofPropertyValuesHolder(
+            temp,
             PropertyValuesHolder.ofFloat("scaleX", 1.3f),
-            PropertyValuesHolder.ofFloat("scaleY", 1.3f))
+            PropertyValuesHolder.ofFloat("scaleY", 1.3f)
+        )
         scaleDown.duration = 300
         scaleDown.setAutoCancel(false)
         scaleDown.repeatCount = 3
@@ -379,50 +361,7 @@ class MainActivity : AppCompatActivity() {
         scaleDown.start()
     }
 
-    private fun deselecItemBottom() {
-        setBottomActive(null)
-    }
-
-    private fun setupBottomNav() {
-        navBtnConf.setOnClickListener {
-            setBottomActive(R.id.nav_btn_conf)
-            frag_listado.elementLoaded = "autores/neville/conf"
-            navController.navigate(R.id.frag_listado)
-        }
-
-        navBtnNotas.setOnClickListener {
-            setBottomActive(R.id.nav_btn_notas)
-            navController.navigate(R.id.frag_notas)
-        }
-
-        navBtnHome.setOnClickListener {
-            setBottomActive(R.id.nav_btn_home)
-            Toast.makeText(this, "Inicio próximamente", Toast.LENGTH_SHORT).show()
-        }
-
-        navBtnDiario.setOnClickListener {
-            setBottomActive(R.id.nav_btn_diario)
-            Toast.makeText(this, "Diario próximamente", Toast.LENGTH_SHORT).show()
-        }
-
-        navBtnChat.setOnClickListener {
-            setBottomActive(R.id.nav_btn_chat)
-            Toast.makeText(this, "Chat próximamente", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun setBottomActive(activeId: Int?) {
-        val buttons = listOf(navBtnConf, navBtnNotas, navBtnHome, navBtnDiario, navBtnChat)
-        buttons.forEach { button ->
-            val isActive = button.id == activeId
-            button.background = if (isActive) AppCompatResources.getDrawable(this, R.drawable.bg_nav_item_active) else null
-            button.imageAlpha = if (isActive) 255 else 185
-            button.scaleX = if (isActive) 1.06f else 1f
-            button.scaleY = if (isActive) 1.06f else 1f
-        }
-    }
-
-    private fun ProcesarQRCode(result: String?) {
+    private fun procesarQrCode(result: String?) {
         if (TextUtils.isEmpty(result)) {
             Toast.makeText(this, "No se puede importar un texto vacío", Toast.LENGTH_SHORT).show()
             QRManager.Request_Code = false
@@ -452,14 +391,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun AuxSetColorBar(color: Int) {
+    fun auxSetColorBar(color: Int) {
         if (color != 0) {
-            toolbar.background?.setColorFilter(
-                BlendModeColorFilterCompat.createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP)
-            )
-            bottomNavInner.background?.setColorFilter(
-                BlendModeColorFilterCompat.createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP)
-            )
+            toolbarColor.value = color
         }
     }
 
@@ -487,5 +421,20 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         clearCurrentInstance(this)
         super.onDestroy()
+    }
+}
+
+class ToolbarIconProxy(
+    private val visibilityState: MutableState<Int>,
+    private val tintState: MutableState<Int>
+) {
+    var visibility: Int
+        get() = visibilityState.value
+        set(value) {
+            visibilityState.value = value
+        }
+
+    fun setColorFilter(color: Int) {
+        tintState.value = color
     }
 }

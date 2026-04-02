@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graf"
     app:startDestination="@id/frag_home">
 
     <fragment
         android:id="@+id/frag_listado"
         android:name="com.ypg.neville.ui.frag.frag_listado"
-        android:label="frag_listado"
-        tools:layout="@layout/frag_listado" >
+        android:label="frag_listado" >
         <action
             android:id="@+id/action_frag_listado_to_frag_content"
             app:destination="@id/frag_content_webview"
@@ -18,8 +16,7 @@
     <fragment
         android:id="@+id/frag_home"
         android:name="com.ypg.neville.ui.frag.FragHome"
-        android:label="frag_home"
-        tools:layout="@layout/frag_home" >
+        android:label="frag_home" >
         <action
             android:id="@+id/action_frag_home_to_frag_listado"
             app:destination="@id/frag_listado" />
@@ -36,8 +33,7 @@
     <fragment
         android:id="@+id/frag_content_webview"
         android:name="com.ypg.neville.ui.frag.FragContentWebView"
-        android:label="frag_content"
-        tools:layout="@layout/frag_content" >
+        android:label="frag_content" >
         <action
             android:id="@+id/action_frag_content_to_frag_listado"
             app:destination="@id/frag_listado"
@@ -46,8 +42,7 @@
     <fragment
         android:id="@+id/frag_gregg"
         android:name="com.ypg.neville.ui.frag.FragGregg"
-        android:label="frag_gregg"
-        tools:layout="@layout/frag_gregg" >
+        android:label="frag_gregg" >
         <action
             android:id="@+id/action_frag_gregg_to_frag_home"
             app:destination="@id/frag_home" />
@@ -55,23 +50,19 @@
     <fragment
         android:id="@+id/frag_neville_goddard"
         android:name="com.ypg.neville.ui.frag.FragNevilleGoddard"
-        android:label="frag_neville_goddard"
-        tools:layout="@layout/frag_author_placeholder" />
+        android:label="frag_neville_goddard" />
     <fragment
         android:id="@+id/frag_joe_dispenza"
         android:name="com.ypg.neville.ui.frag.FragJoeDispenza"
-        android:label="frag_joe_dispenza"
-        tools:layout="@layout/frag_author_placeholder" />
+        android:label="frag_joe_dispenza" />
     <fragment
         android:id="@+id/frag_bruce_lipton"
         android:name="com.ypg.neville.ui.frag.FragBruceLipton"
-        android:label="frag_bruce_lipton"
-        tools:layout="@layout/frag_author_placeholder" />
+        android:label="frag_bruce_lipton" />
     <fragment
         android:id="@+id/frag_list_info"
-        android:name="com.ypg.neville.ui.frag.frag_list_info"
-        android:label="frag_list_info"
-        tools:layout="@layout/frag_list_info" >
+        android:name="com.ypg.neville.ui.frag.FragListInfo"
+        android:label="frag_list_info" >
         <action
             android:id="@+id/action_frag_list_info_to_frag_content"
             app:destination="@id/frag_content_webview" />
@@ -87,6 +78,5 @@
     <fragment
         android:id="@+id/frag_notas"
         android:name="com.ypg.neville.ui.frag.FragNotas"
-        android:label="frag_notas"
-        tools:layout="@layout/frag_notas" />
+        android:label="frag_notas" />
 </navigation>
