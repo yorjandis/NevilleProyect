@@ -33,6 +33,6 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:textSize="20sp"
-        android:text="Imaginar crea la realidad"/>
+        android:text="@string/widget_text_default"/>
 
 </LinearLayout>

@@ -79,4 +79,19 @@
         android:id="@+id/frag_notas"
         android:name="com.ypg.neville.ui.frag.FragNotas"
         android:label="frag_notas" />
+
+    <fragment
+        android:id="@+id/frag_diario"
+        android:name="com.ypg.neville.ui.frag.FragDiario"
+        android:label="frag_diario" />
+
+    <fragment
+        android:id="@+id/frag_lienzo"
+        android:name="com.ypg.neville.ui.frag.FragLienzo"
+        android:label="frag_lienzo" />
+
+    <fragment
+        android:id="@+id/frag_metas"
+        android:name="com.ypg.neville.ui.frag.FragMetas"
+        android:label="frag_metas" />
 </navigation>

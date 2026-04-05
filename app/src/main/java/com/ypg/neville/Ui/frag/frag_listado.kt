@@ -37,6 +37,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -47,6 +48,7 @@ import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.utils.Utils
 import com.ypg.neville.model.utils.utilsFields
 import java.io.IOException
+import java.util.Locale
 
 class frag_listado : Fragment() {
 
@@ -62,7 +64,7 @@ class frag_listado : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val navController = view.findNavController()
         (view as ComposeView).setContent {
-            MaterialTheme {
+            com.ypg.neville.ui.theme.NevilleTheme {
                 ListadoScreen(navController)
             }
         }
@@ -80,6 +82,7 @@ class frag_listado : Fragment() {
     @Composable
     private fun ListadoScreen(navController: NavController) {
         val context = LocalContext.current
+        val prefs = remember { PreferenceManager.getDefaultSharedPreferences(context) }
         val listado = remember { mutableStateListOf<String>() }
         var queryTitulo by remember { mutableStateOf("") }
         var queryContenido by remember { mutableStateOf("") }
@@ -89,8 +92,9 @@ class frag_listado : Fragment() {
 
         val showConfOptions = elementLoaded.equals("autores/neville/conf", ignoreCase = true)
         val showHelp = remember {
-            PreferenceManager.getDefaultSharedPreferences(context).getBoolean("help_inline", true)
+            prefs.getBoolean("help_inline", true)
         }
+        val listTextSize = (prefs.getString("fuente_listados", "22")?.toFloatOrNull() ?: 22f).coerceIn(12f, 40f)
 
         LaunchedEffect(elementLoaded) {
             listado.clear()
@@ -101,7 +105,10 @@ class frag_listado : Fragment() {
             showOptions = false
         }
 
-        val visibleItems = listado.filter { it.contains(queryTitulo, ignoreCase = true) }
+        val visibleItems = listado.filter { item ->
+            val displayName = formatListadoDisplayName(item)
+            item.contains(queryTitulo, ignoreCase = true) || displayName.contains(queryTitulo, ignoreCase = true)
+        }
 
         Column(
             modifier = Modifier
@@ -127,6 +134,7 @@ class frag_listado : Fragment() {
                 Text(
                     text = if (showOptions) getString(R.string.ocultar_opciones) else getString(R.string.mostrar_opciones),
                     style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier
                         .align(Alignment.End)
                         .clickable { showOptions = !showOptions }
@@ -213,8 +221,10 @@ class frag_listado : Fragment() {
             ) {
                 items(visibleItems) { item ->
                     Text(
-                        text = item,
-                        style = MaterialTheme.typography.bodyLarge,
+                        text = formatListadoDisplayName(item),
+                        fontSize = listTextSize.sp,
+                        lineHeight = (listTextSize * 1.24f).sp,
+                        color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable { onItemSelected(item, navController) }
@@ -226,7 +236,8 @@ class frag_listado : Fragment() {
                     item {
                         Text(
                             text = "No hay elementos para mostrar",
-                            style = MaterialTheme.typography.bodyMedium,
+                            fontSize = (listTextSize - 2f).coerceAtLeast(12f).sp,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                             fontStyle = FontStyle.Italic,
                             modifier = Modifier.padding(12.dp)
                         )
@@ -339,6 +350,31 @@ class frag_listado : Fragment() {
                 .map { it.removePrefix("conf_").removeSuffix(".txt") }
                 .sorted()
         }.getOrDefault(emptyList())
+    }
+
+    private fun formatListadoDisplayName(rawName: String): String {
+        val prefixToRemove = when {
+            elementLoaded.startsWith("enciclopedia") -> "enc_"
+            elementLoaded == "evidenciaCientifica" -> "evi_"
+            elementLoaded == "reflexiones" -> "reflex_"
+            else -> return rawName
+        }
+
+        val cleaned = rawName
+            .removePrefix(prefixToRemove)
+            .replace('_', ' ')
+            .trim()
+
+        if (cleaned.isEmpty()) return rawName
+
+        val locale = Locale.getDefault()
+        return cleaned
+            .split(Regex("\\s+"))
+            .joinToString(" ") { word ->
+                word.lowercase(locale).replaceFirstChar { first ->
+                    if (first.isLowerCase()) first.titlecase(locale) else first.toString()
+                }
+            }
     }
 
     companion object {

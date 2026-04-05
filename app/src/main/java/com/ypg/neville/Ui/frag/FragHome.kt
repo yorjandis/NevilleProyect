@@ -9,9 +9,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,12 +36,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -72,7 +77,7 @@ class FragHome : Fragment() {
         initialDisplay = loadInitialState()
 
         (view as ComposeView).setContent {
-            MaterialTheme {
+            com.ypg.neville.ui.theme.NevilleTheme {
                 HomeScreen(initial = initialDisplay)
             }
         }
@@ -104,10 +109,18 @@ class FragHome : Fragment() {
         var hideInlineControls by remember { mutableStateOf(prefs.getBoolean("hide_frase_controles", false)) }
 
         val textSize = (prefs.getString("fuente_frase", "28")?.toFloatOrNull() ?: 28f).coerceIn(16f, 40f)
-        val textColor = prefs.getInt("color_letra_frases", 0)
+        val textColor = prefs.getInt("color_letra_frases_home", prefs.getInt("color_letra_frases", 0))
+        val bgColorA = prefs.getInt("color_fondo_a", 0xFFF3F5F9.toInt())
+        val bgColorB = prefs.getInt("color_fondo_b", 0xFFE2E7F0.toInt())
 
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(Color(bgColorA), Color(bgColorB))
+                    )
+                )
         ) {
             Box(modifier = Modifier.fillMaxSize()) {
                 if (prefs.getBoolean("help_inline", true)) {
@@ -145,6 +158,8 @@ class FragHome : Fragment() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 10.dp)
+                            .heightIn(max = 420.dp)
+                            .verticalScroll(rememberScrollState())
                             .combinedClickable(
                                 interactionSource = noRipple,
                                 indication = null,
@@ -173,7 +188,9 @@ class FragHome : Fragment() {
                             ),
                         textAlign = TextAlign.Center,
                         fontSize = textSize.sp,
-                        fontWeight = FontWeight.Bold,
+                        lineHeight = (textSize * 1.38f).sp,
+                        fontFamily = FontFamily.Serif,
+                        fontWeight = FontWeight.SemiBold,
                         color = if (textColor != 0) Color(textColor) else MaterialTheme.colorScheme.onBackground
                     )
 
@@ -288,7 +305,7 @@ class FragHome : Fragment() {
                 frase?.let {
                     utilsFields.ID_row_ofElementLoad = it.id.toInt()
                     utilsFields.ID_Str_row_ofElementLoad = it.frase
-                    HomeDisplay(it.id, it.frase, it.autor, it.fav)
+                    HomeDisplay(it.id, it.frase, it.autor, it.favState())
                 }
             }
 
@@ -340,14 +357,20 @@ class FragHome : Fragment() {
             utilsFields.ID_row_ofElementLoad = frase.id.toInt()
             utilsFields.ID_Str_row_ofElementLoad = frase.frase
             prefs.edit { putString(utilsFields.SETTING_KEY_ID_ULTIMA_FRASE, frase.id.toString()) }
-            HomeDisplay(frase.id, frase.frase, frase.autor, frase.fav)
+            HomeDisplay(frase.id, frase.frase, frase.autor, frase.favState())
         } else {
+            val hasAnyFilter = prefs.getBoolean("home_filter_autores", true) ||
+                prefs.getBoolean("home_filter_otros", true) ||
+                prefs.getBoolean("home_filter_salud", true)
             Toast.makeText(
                 requireContext(),
-                "No hay frase para mostrar. Cargando frases inbuilt",
+                if (hasAnyFilter) {
+                    "No hay frase para mostrar con el filtro actual"
+                } else {
+                    "No hay categorías activas. Activa al menos una en Ajustes"
+                },
                 Toast.LENGTH_SHORT
             ).show()
-            prefs.edit { putString("list_start_load", "Frase_azar") }
             null
         }
     }

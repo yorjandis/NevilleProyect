@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
@@ -33,7 +32,7 @@ object UiModalWindows {
     @JvmStatic
     fun Add_New_frase(pcontext: Context, contentValues: ContentValues?) {
         val compose = ComposeView(pcontext)
-        val alertDialog = AlertDialog.Builder(pcontext, androidx.appcompat.R.style.Base_Theme_AppCompat_Dialog_Alert)
+        val alertDialog = AlertDialog.Builder(pcontext, androidx.appcompat.R.style.Theme_AppCompat_Dialog_Alert)
             .setTitle("Adicionar una nueva frase")
             .setMessage("Adicione sus propias frases a la biblioteca")
             .setIcon(R.drawable.neville)
@@ -42,7 +41,7 @@ object UiModalWindows {
             .create()
 
         compose.setContent {
-            MaterialTheme {
+            com.ypg.neville.ui.theme.NevilleTheme {
                 var frase by remember { mutableStateOf(contentValues?.getAsString("frase") ?: "") }
                 var autor by remember { mutableStateOf(contentValues?.getAsString("autor") ?: "") }
                 var fuente by remember { mutableStateOf(contentValues?.getAsString("fuente") ?: "") }
@@ -92,7 +91,7 @@ object UiModalWindows {
     @JvmStatic
     fun ApunteManager(context: Context, titleInDB: String, contentValues: ContentValues?, isUpdate: Boolean) {
         val compose = ComposeView(context)
-        val alertDialog = AlertDialog.Builder(context, androidx.appcompat.R.style.Base_Theme_AppCompat_Dialog_Alert)
+        val alertDialog = AlertDialog.Builder(context, androidx.appcompat.R.style.Theme_AppCompat_Dialog_Alert)
             .setTitle("Apuntes Personales")
             .setView(compose)
             .create()
@@ -100,7 +99,7 @@ object UiModalWindows {
         val initial = if (titleInDB.isNotEmpty()) utilsDB.getApunteByTitle(context, titleInDB) else null
 
         compose.setContent {
-            MaterialTheme {
+            com.ypg.neville.ui.theme.NevilleTheme {
                 var titulo by remember { mutableStateOf(contentValues?.getAsString("title") ?: initial?.titulo.orEmpty()) }
                 var nota by remember { mutableStateOf(contentValues?.getAsString("apunte") ?: initial?.nota.orEmpty()) }
 
@@ -160,13 +159,13 @@ object UiModalWindows {
     @JvmStatic
     fun NotaManager(context: Context, nota: String, tableName: String, clumn_id: String, valor_id: String) {
         val compose = ComposeView(context)
-        val alertDialog = AlertDialog.Builder(context, androidx.appcompat.R.style.Base_Theme_AppCompat_Dialog_Alert)
+        val alertDialog = AlertDialog.Builder(context, androidx.appcompat.R.style.Theme_AppCompat_Dialog_Alert)
             .setTitle("Nota asociada")
             .setView(compose)
             .create()
 
         compose.setContent {
-            MaterialTheme {
+            com.ypg.neville.ui.theme.NevilleTheme {
                 var notaTexto by remember { mutableStateOf(nota) }
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(12.dp)) {
                     OutlinedTextField(value = notaTexto, onValueChange = { notaTexto = it }, label = { Text("Nota") })
@@ -213,7 +212,7 @@ object UiModalWindows {
             .create()
 
         compose.setContent {
-            MaterialTheme {
+            com.ypg.neville.ui.theme.NevilleTheme {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(12.dp)) {
                     Text(pContenido)
                     if (showbotonocultarestaayuda) {

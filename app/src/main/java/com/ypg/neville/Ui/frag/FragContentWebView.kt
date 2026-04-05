@@ -9,7 +9,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.edit
@@ -23,6 +22,7 @@ import com.ypg.neville.ui.render.BlockType
 import com.ypg.neville.ui.render.ContentBlock
 import com.ypg.neville.ui.render.DynamicTextRenderer
 import com.ypg.neville.ui.render.RenderStyle
+import org.json.JSONObject
 import java.text.Normalizer
 import java.util.Locale
 
@@ -51,7 +51,7 @@ class FragContentWebView : Fragment() {
         handlefavState()
 
         (view as ComposeView).setContent {
-            MaterialTheme {
+            com.ypg.neville.ui.theme.NevilleTheme {
                 if (shouldUseNativeRenderer(urlPath)) {
                     TxtContent(urlPath)
                 } else {
@@ -138,7 +138,9 @@ class FragContentWebView : Fragment() {
             }
         }
 
-        val blocks = listOf(ContentBlock(content = BlockType.Text(rawText)))
+        val blocks = remember(assetPath, rawText) {
+            buildBlocksForNativeText(assetPath, rawText)
+        }
 
         val fontZoom = PreferenceManager
             .getDefaultSharedPreferences(requireContext())
@@ -147,7 +149,7 @@ class FragContentWebView : Fragment() {
 
         val style = RenderStyle(
             fontSizeSp = ((fontZoom / 100f) * 14f).coerceIn(13f, 30f),
-            textColor = Color.Black
+            textColor = MaterialTheme.colorScheme.onBackground
         )
 
         DynamicTextRenderer(blocks = blocks, style = style)
@@ -155,6 +157,53 @@ class FragContentWebView : Fragment() {
 
     private fun shouldUseNativeRenderer(path: String): Boolean {
         return path.endsWith(".txt", ignoreCase = true)
+    }
+
+    private fun buildBlocksForNativeText(assetPath: String, rawText: String): List<ContentBlock> {
+        val reflection = parseReflectionContent(assetPath, rawText)
+        if (reflection != null) {
+            val blocks = mutableListOf<ContentBlock>()
+            blocks.add(ContentBlock(content = BlockType.Text(reflection.titulo)))
+            blocks.add(ContentBlock(content = BlockType.Text("Autor: ${reflection.autor}")))
+            reflection.contenido
+                .filter { it.isNotBlank() }
+                .forEach { paragraph ->
+                    blocks.add(ContentBlock(content = BlockType.Text(paragraph.trim())))
+                }
+            return blocks
+        }
+        return listOf(ContentBlock(content = BlockType.Text(rawText)))
+    }
+
+    private fun parseReflectionContent(assetPath: String, rawText: String): ReflectionContent? {
+        val isReflectionFile = assetPath.startsWith("reflexiones/") &&
+            assetPath.substringAfterLast('/').startsWith("reflex_")
+        if (!isReflectionFile) return null
+
+        return runCatching {
+            val json = JSONObject(rawText)
+            val titulo = json.optString("titulo").trim()
+            val autor = json.optString("autor").trim()
+            val contenidoArray = json.optJSONArray("contenido")
+
+            val contenido = buildList {
+                if (contenidoArray != null) {
+                    for (i in 0 until contenidoArray.length()) {
+                        add(contenidoArray.optString(i).trim())
+                    }
+                }
+            }
+
+            if (titulo.isBlank() && autor.isBlank() && contenido.isEmpty()) {
+                null
+            } else {
+                ReflectionContent(
+                    titulo = if (titulo.isBlank()) "Reflexión" else titulo,
+                    autor = if (autor.isBlank()) "Desconocido" else autor,
+                    contenido = contenido
+                )
+            }
+        }.getOrNull()
     }
 
     private fun resolveAssetPath(path: String): String {
@@ -212,6 +261,12 @@ class FragContentWebView : Fragment() {
             .lowercase(Locale.ROOT)
             .replace("[^a-z0-9]+".toRegex(), "")
     }
+
+    private data class ReflectionContent(
+        val titulo: String,
+        val autor: String,
+        val contenido: List<String>
+    )
 
     private fun visibilidadIconos() {
         if (elementLoaded.contains("autores/neville/conf")) {

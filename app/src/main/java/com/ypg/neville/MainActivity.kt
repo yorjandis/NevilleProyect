@@ -12,6 +12,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -28,7 +29,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -43,12 +43,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
 import androidx.core.net.toUri
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.commitNow
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.preference.PreferenceManager
-import com.google.zxing.integration.android.IntentIntegrator
 import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.utils.QRManager
 import com.ypg.neville.model.utils.UiModalWindows
@@ -77,14 +79,13 @@ class MainActivity : AppCompatActivity() {
     val icToolsBarFav = ToolbarIconProxy(toolbarFavVisible, toolbarFavColor)
 
     private val utils by lazy { Utils(this) }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        if (prefs.getBoolean("tema", true)) {
-            setTheme(R.style.Theme_NevilleProyect_noche)
-        } else {
-            setTheme(R.style.Theme_NevilleProyect)
-        }
+        val isDarkTheme = prefs.getBoolean("tema", true)
+        AppCompatDelegate.setDefaultNightMode(
+            if (isDarkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+        )
+        setTheme(R.style.Theme_NevilleProyect)
 
         super.onCreate(savedInstanceState)
         setCurrentInstance(this)
@@ -94,12 +95,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(
             ComposeView(this).apply {
                 setContent {
-                    MaterialTheme {
+                    com.ypg.neville.ui.theme.NevilleTheme {
                         MainScreen()
                     }
                 }
             }
         )
+        enableImmersiveMode()
 
         val inAppUpdate = myListener_In_App_Update(this)
         inAppUpdate.setMylistener(object : myListener_In_App_Update.In_mylistener {
@@ -146,6 +148,21 @@ class MainActivity : AppCompatActivity() {
             utilsDB.CorrectOrtogFrases(this)
             prefs.edit { putBoolean("updateFrases", false) }
         }
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            enableImmersiveMode()
+        }
+    }
+
+    private fun enableImmersiveMode() {
+        // Evita re-layouts verticales al ocultar/mostrar barras del sistema.
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        val controller = WindowInsetsControllerCompat(window, window.decorView)
+        controller.hide(WindowInsetsCompat.Type.navigationBars())
+        controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
     }
 
     @Composable
@@ -261,7 +278,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 BottomNavButton("diario", R.drawable.ic_nav_journal) {
                     bottomActive.value = "diario"
-                    Toast.makeText(this@MainActivity, "Diario próximamente", Toast.LENGTH_SHORT).show()
+                    openDestinationAsSheet(R.id.frag_diario)
                 }
                 BottomNavButton("chat", R.drawable.ic_nav_chat) {
                     bottomActive.value = "chat"
@@ -324,9 +341,9 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (QRManager.Request_Code) {
-            val intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-            if (intentResult != null) {
-                procesarQrCode(intentResult.contents)
+            val qrContent = data?.getStringExtra("SCAN_RESULT")
+            if (!qrContent.isNullOrEmpty()) {
+                procesarQrCode(qrContent)
             } else {
                 Toast.makeText(this, "Error al leer el código QR", Toast.LENGTH_SHORT).show()
             }

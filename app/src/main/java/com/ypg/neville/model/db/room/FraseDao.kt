@@ -27,25 +27,25 @@ interface FraseDao {
     @Query("SELECT * FROM frases")
     fun getAll(): List<FraseEntity>
 
-    @Query("SELECT * FROM frases WHERE fav = '1'")
+    @Query("SELECT * FROM frases WHERE (isfav = '1' OR fav = '1')")
     fun getFavoritas(): List<FraseEntity>
 
-    @Query("SELECT * FROM frases WHERE inbuild = '1'")
+    @Query("SELECT * FROM frases WHERE personal != '1' AND inbuild != '0'")
     fun getInbuilt(): List<FraseEntity>
 
-    @Query("SELECT * FROM frases WHERE fav = '1' AND inbuild = '1'")
+    @Query("SELECT * FROM frases WHERE (isfav = '1' OR fav = '1') AND personal != '1' AND inbuild != '0'")
     fun getInbuiltFavoritas(): List<FraseEntity>
 
-    @Query("SELECT * FROM frases WHERE TRIM(nota) != '' AND inbuild = '1'")
+    @Query("SELECT * FROM frases WHERE TRIM(nota) != '' AND personal != '1' AND inbuild != '0'")
     fun getInbuiltConNotas(): List<FraseEntity>
 
-    @Query("SELECT * FROM frases WHERE inbuild = '0'")
+    @Query("SELECT * FROM frases WHERE personal = '1' OR inbuild = '0'")
     fun getPersonales(): List<FraseEntity>
 
-    @Query("SELECT * FROM frases WHERE fav = '1' AND inbuild = '0'")
+    @Query("SELECT * FROM frases WHERE (isfav = '1' OR fav = '1') AND (personal = '1' OR inbuild = '0')")
     fun getPersonalesFavoritas(): List<FraseEntity>
 
-    @Query("SELECT * FROM frases WHERE inbuild = '0' AND TRIM(nota) != ''")
+    @Query("SELECT * FROM frases WHERE (personal = '1' OR inbuild = '0') AND TRIM(nota) != ''")
     fun getPersonalesConNotas(): List<FraseEntity>
 
     @Query("SELECT * FROM frases WHERE id = :id LIMIT 1")
@@ -54,10 +54,10 @@ interface FraseDao {
     @Query("SELECT * FROM frases WHERE frase = :frase LIMIT 1")
     fun getByFrase(frase: String): FraseEntity?
 
-    @Query("UPDATE frases SET fav = :fav WHERE id = :id")
+    @Query("UPDATE frases SET fav = :fav, isfav = :fav WHERE id = :id")
     fun updateFavById(id: Long, fav: String)
 
-    @Query("UPDATE frases SET fav = :fav WHERE frase = :frase")
+    @Query("UPDATE frases SET fav = :fav, isfav = :fav WHERE frase = :frase")
     fun updateFavByFrase(frase: String, fav: String)
 
     @Query("UPDATE frases SET nota = :nota WHERE frase = :frase")
@@ -68,4 +68,34 @@ interface FraseDao {
 
     @Query("DELETE FROM frases WHERE frase = :frase")
     fun deleteByFrase(frase: String)
+
+    @Query("SELECT COUNT(*) FROM frases WHERE personal != '1' AND inbuild != '0'")
+    fun countManagedAssetFrases(): Int
+
+    @Query("SELECT * FROM frases WHERE personal != '1' AND inbuild != '0'")
+    fun getManagedAssetFrases(): List<FraseEntity>
+
+    @Query("DELETE FROM frases WHERE personal != '1' AND inbuild != '0'")
+    fun deleteManagedAssetFrases()
+
+    @Query(
+        """
+        SELECT * FROM frases
+        WHERE (:onlyFav = 0 OR isfav = '1' OR fav = '1')
+        AND (
+            (:includeAutores = 1 AND categoria = 'AUTOR')
+            OR (:includeOtros = 1 AND categoria = 'OTROS')
+            OR (:includeSalud = 1 AND categoria = 'SALUD')
+        )
+        """
+    )
+    fun getForHome(
+        onlyFav: Int,
+        includeAutores: Int,
+        includeOtros: Int,
+        includeSalud: Int
+    ): List<FraseEntity>
+
+    @Query("SELECT * FROM frases WHERE LOWER(autor) = LOWER(:autor)")
+    fun getByAutor(autor: String): List<FraseEntity>
 }

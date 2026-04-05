@@ -2,10 +2,13 @@ package com.ypg.neville.model.db
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import androidx.preference.PreferenceManager
 import com.ypg.neville.model.db.room.ConfEntity
 import com.ypg.neville.model.db.room.FraseEntity
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
 import com.ypg.neville.model.db.room.NotaEntity
+import com.ypg.neville.model.frases.FrasesAssetParser
+import com.ypg.neville.model.frases.FrasesAssetSyncManager
 import com.ypg.neville.model.utils.GetFromRepo
 import java.io.IOException
 import java.util.LinkedList
@@ -98,9 +101,14 @@ object utilsDB {
                         frase = c.getString(1) ?: "",
                         autor = c.getString(2) ?: "",
                         fuente = c.getString(3) ?: "",
+                        isfav = c.getString(4) ?: "0",
+                        personal = if ((c.getString(6) ?: "0") == "0") "1" else "0",
                         fav = c.getString(4) ?: "0",
                         nota = c.getString(5) ?: "",
                         inbuild = c.getString(6) ?: "0",
+                        categoria = FrasesAssetParser.CATEGORIA_AUTOR,
+                        assetKey = "",
+                        assetHash = "",
                         shared = c.getString(7) ?: "0"
                     )
                 )
@@ -141,28 +149,10 @@ object utilsDB {
     /**
      * Pasa las frases (inbuilt) de xml a la tabla frases (Room)
      */
+    @Suppress("unused")
     @JvmStatic
     fun yor_populateFraseTable(context: Context) {
-        val dao = db(context).fraseDao()
-        dao.clearAll()
-
-        val frases = GetFromRepo.getFrasesFromXML(context).mapNotNull { raw ->
-            val temp = raw.split("::")
-            if (temp.size >= 2) {
-                FraseEntity(
-                    frase = temp[1].trim(),
-                    autor = temp[0].trim(),
-                    fuente = "",
-                    inbuild = "1",
-                    fav = "0",
-                    nota = "",
-                    shared = "0"
-                )
-            } else {
-                null
-            }
-        }
-        dao.insertAll(frases)
+        FrasesAssetSyncManager.forceSync(context, db(context))
     }
 
     /**
@@ -291,8 +281,7 @@ object utilsDB {
         var result = false
         val room = db(context)
 
-        if (room.fraseDao().count() == 0) {
-            yor_populateFraseTable(context)
+        if (FrasesAssetSyncManager.syncIfNeeded(context, room)) {
             result = true
         }
 
@@ -318,7 +307,7 @@ object utilsDB {
         return when (tableName) {
             DatabaseHelper.T_Frases -> {
                 when (columnID) {
-                    DatabaseHelper.C_frases_frase -> room.fraseDao().getByFrase(id)?.fav ?: ""
+                    DatabaseHelper.C_frases_frase -> room.fraseDao().getByFrase(id)?.favState() ?: ""
                     else -> ""
                 }
             }
@@ -334,12 +323,12 @@ object utilsDB {
             DatabaseHelper.T_Frases -> {
                 if (id_str.isEmpty() && columnID == DatabaseHelper.CC_id) {
                     val item = room.fraseDao().getById(id_int.toLong()) ?: return ""
-                    val target = if (item.fav == "1") "0" else "1"
+                    val target = if (item.favState() == "1") "0" else "1"
                     room.fraseDao().updateFavById(item.id, target)
                     target
                 } else {
                     val item = room.fraseDao().getByFrase(id_str) ?: return ""
-                    val target = if (item.fav == "1") "0" else "1"
+                    val target = if (item.favState() == "1") "0" else "1"
                     room.fraseDao().updateFavByFrase(item.frase, target)
                     target
                 }
@@ -373,14 +362,25 @@ object utilsDB {
 
     @JvmStatic
     fun insertNewFrase(pcontext: Context, textFrase: String, autor: String, fuente: String, inbuilt: String): Long {
+        val personal = if (inbuilt == "0") "1" else "0"
+        val categoria = if (autor.trim().equals("salud", ignoreCase = true)) {
+            FrasesAssetParser.CATEGORIA_SALUD
+        } else {
+            FrasesAssetParser.CATEGORIA_AUTOR
+        }
         return db(pcontext).fraseDao().insert(
             FraseEntity(
                 frase = textFrase.trim(),
                 autor = autor.trim(),
                 fuente = fuente.trim(),
+                isfav = "0",
+                personal = personal,
                 fav = "0",
                 nota = "",
                 inbuild = inbuilt,
+                categoria = categoria,
+                assetKey = "",
+                assetHash = "",
                 shared = "0"
             )
         )
@@ -449,11 +449,13 @@ object utilsDB {
         return db(context).notaDao().getByTitulo(title)
     }
 
+    @Suppress("unused")
     @JvmStatic
     fun deleteFraseByText(context: Context, frase: String) {
         db(context).fraseDao().deleteByFrase(frase)
     }
 
+    @Suppress("unused")
     @JvmStatic
     fun deleteApunteByTitle(context: Context, title: String) {
         db(context).notaDao().deleteByTitulo(title)
@@ -483,9 +485,50 @@ object utilsDB {
 
     @JvmStatic
     fun getRandomFrase(context: Context, onlyFav: Boolean): FraseEntity? {
-        val items = if (onlyFav) db(context).fraseDao().getFavoritas() else db(context).fraseDao().getAll()
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val allowNeville = prefs.getBoolean("home_filter_author_neville", true)
+        val allowJoe = prefs.getBoolean("home_filter_author_joe", true)
+        val allowGregg = prefs.getBoolean("home_filter_author_gregg", true)
+        val allowBruce = prefs.getBoolean("home_filter_author_bruce", true)
+        val includeAutores = allowNeville || allowJoe || allowGregg || allowBruce
+        val filter = FraseHomeFilter(
+            includeAutores = includeAutores,
+            includeOtros = prefs.getBoolean("home_filter_otros", true),
+            includeSalud = prefs.getBoolean("home_filter_salud", true),
+            includeNeville = allowNeville,
+            includeJoe = allowJoe,
+            includeGregg = allowGregg,
+            includeBruce = allowBruce
+        )
+        val items = db(context).fraseDao().getForHome(
+            onlyFav = if (onlyFav) 1 else 0,
+            includeAutores = if (filter.includeAutores) 1 else 0,
+            includeOtros = if (filter.includeOtros) 1 else 0,
+            includeSalud = if (filter.includeSalud) 1 else 0
+        ).filter { frase ->
+            if (frase.categoria != FrasesAssetParser.CATEGORIA_AUTOR) return@filter true
+            when (frase.autor.trim().lowercase()) {
+                "neville goddard" -> filter.includeNeville
+                "joe dispenza" -> filter.includeJoe
+                "gregg braden" -> filter.includeGregg
+                "bruce lipton" -> filter.includeBruce
+                else -> false
+            }
+        }
         if (items.isEmpty()) return null
         return items.random()
+    }
+
+    @JvmStatic
+    fun getRandomFraseByAutor(context: Context, autor: String): FraseEntity? {
+        val items = db(context).fraseDao().getByAutor(autor).filter { it.personalState() != "1" }
+        if (items.isEmpty()) return null
+        return items.random()
+    }
+
+    @JvmStatic
+    fun forceRefreshFrasesFromAssets(context: Context): Boolean {
+        return FrasesAssetSyncManager.forceSync(context, db(context))
     }
 
     @JvmStatic
@@ -497,4 +540,14 @@ object utilsDB {
 
     @JvmStatic
     fun getAllConfTitles(context: Context): List<String> = db(context).confDao().getAll().map { it.title }
+
+    data class FraseHomeFilter(
+        val includeAutores: Boolean,
+        val includeOtros: Boolean,
+        val includeSalud: Boolean,
+        val includeNeville: Boolean,
+        val includeJoe: Boolean,
+        val includeGregg: Boolean,
+        val includeBruce: Boolean
+    )
 }

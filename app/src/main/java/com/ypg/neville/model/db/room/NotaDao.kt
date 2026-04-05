@@ -19,7 +19,7 @@ interface NotaDao {
     @Delete
     fun delete(nota: NotaEntity)
 
-    @Query("SELECT * FROM notas ORDER BY fechaModificacion DESC")
+    @Query("SELECT * FROM notas ORDER BY isFav DESC, fechaModificacion DESC")
     fun getAll(): List<NotaEntity>
 
     @Query("SELECT * FROM notas WHERE id = :id LIMIT 1")
@@ -30,4 +30,11 @@ interface NotaDao {
 
     @Query("DELETE FROM notas WHERE titulo = :titulo")
     fun deleteByTitulo(titulo: String)
+
+    @Query("UPDATE notas SET isFav = :isFav, fechaModificacion = :fechaModificacion WHERE id = :id")
+    fun updateFavoritoById(
+        id: Long,
+        isFav: Boolean,
+        fechaModificacion: Long = System.currentTimeMillis()
+    )
 }
