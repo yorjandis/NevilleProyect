@@ -541,6 +541,9 @@ object utilsDB {
     @JvmStatic
     fun getAllConfTitles(context: Context): List<String> = db(context).confDao().getAll().map { it.title }
 
+    @JvmStatic
+    fun getAllFrases(context: Context): List<FraseEntity> = db(context).fraseDao().getAll()
+
     data class FraseHomeFilter(
         val includeAutores: Boolean,
         val includeOtros: Boolean,

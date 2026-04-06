@@ -123,29 +123,6 @@ class FragHome : Fragment() {
                 )
         ) {
             Box(modifier = Modifier.fillMaxSize()) {
-                if (prefs.getBoolean("help_inline", true)) {
-                    IconButton(
-                        onClick = {
-                            UiModalWindows.showAyudaContectual(
-                                context,
-                                "Ayuda",
-                                "Inicio",
-                                "Toque la frase para cargar otra. Mantenga presionada para asociar nota. Use estrella para favorito y compartir para QR.",
-                                false,
-                                null
-                            )
-                        },
-                        modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .padding(15.dp)
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_help),
-                            contentDescription = "Ayuda"
-                        )
-                    }
-                }
-
                 Column(
                     modifier = Modifier
                         .align(Alignment.Center)

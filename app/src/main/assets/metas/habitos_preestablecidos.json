@@ -1,0 +1,470 @@
+[
+  {
+    "title": "Actuar Como Si",
+    "description": "Actuar como si ya se hubiera logrado el objetivo",
+    "noUnidades": 60,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Afirmaciones Diarias",
+    "description": "Repetir afirmaciones positivas diariamente",
+    "noUnidades": 60,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Aprender Algo Nuevo",
+    "description": "Aprender algo nuevo semanalmente para desafiar la mente  \n Nota: La evidencia en neurociencia indica que la consolidación sináptica estable, para este hábito, requiere repetición prolongada: 60-90 días",
+    "noUnidades": 90,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Cambio De Creencias",
+    "description": "Transformar creencias limitantes para mejorar vida personal \n Nota: La evidencia en neurociencia indica que la consolidación sináptica estable, para este hábito, requiere repetición prolongada: 60-90 días",
+    "noUnidades": 90,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Caminar Descalzo Sobre Tierra_Hierba",
+    "description": "Caminar descalzo en naturaleza",
+    "noUnidades": 30,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Caminata Despues Comida",
+    "description": "Caminar después de cada comida para mejorar digestión",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Cena Temprana",
+    "description": "Cenar 2–3h antes de dormir. \n Beneficio: mejora glucosa nocturna y sueño profundo",
+    "noUnidades": 30,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Coherencia Corazon Cerebro",
+    "description": "Práctica de coherencia entre corazón y cerebro \n Nota: La evidencia en neurociencia indica que la consolidación sináptica estable, para este hábito, requiere repetición prolongada: 30-60 días",
+    "noUnidades": 45,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Comer Frutas Diarias",
+    "description": "Incluir frutas diariamente en la dieta",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Comer Verduras Diarias",
+    "description": "Incluir verduras en todas las comidas principales para una alimentación balanceada",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Concentracion Pomodoro",
+    "description": "Usar técnica Pomodoro para mejorar concentración",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Conectar Con Naturaleza",
+    "description": "Pasar tiempo en la naturaleza para equilibrio mental y físico",
+    "noUnidades": 30,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Conectar Con Subconsciente",
+    "description": "Conectarse con el subconsciente para transformación personal",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Consumo Informativo Limitado",
+    "description": "Limitar noticias/redes a franja fija. Regulación dopaminérgica",
+    "noUnidades": 30,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Contacto Social",
+    "description": "Mantener contacto social regular para bienestar emocional",
+    "noUnidades": 30,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Control Glucosa Post Comida",
+    "description": "Caminar 10–15 min tras comidas principales",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Crear Nueva Realidad",
+    "description": "Crear una nueva realidad personal a través de prácticas diarias\n Nota: La evidencia en neurociencia indica que la consolidación sináptica estable, para este hábito, requiere repetición prolongada: 60-90 días",
+    "noUnidades": 90,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Desafio Mental Diario",
+    "description": "Realizar un desafío mental diario",
+    "noUnidades": 60,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Detox Digital Nocturno",
+    "description": "Sin pantallas 90 min antes dormir. Similar a DormirSinPantallas pero más estructurado.",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Dia Sin Ultraprocesados",
+    "description": "1 día limpio total, por semana o diario",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Diario De Exito",
+    "description": "Registrar logros y éxitos diarios",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Diario De Pensamientos",
+    "description": "Escribir pensamientos y reflexiones para claridad mental",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Diario Gratitud",
+    "description": "Escribir diariamente en un diario de gratitud",
+    "noUnidades": 90,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Dormir Sin Pantallas",
+    "description": "Evitar pantallas antes de dormir para mejorar sueño",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Dormir8Horas",
+    "description": "Dormir 8 horas cada noche para favorecer la recuperación física y mental",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Ejercicio De Fuerza",
+    "description": "Realizar ejercicios de fuerza 2-3 veces por semana \n Nota: La evidencia en neurociencia indica que la consolidación sináptica estable, para este hábito, requiere repetición prolongada: 30-60 días",
+    "noUnidades": 45,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Emociones Positivas Diarias",
+    "description": "Cultivar emociones positivas diariamente \n Nota: La evidencia en neurociencia indica que la consolidación sináptica estable, para este hábito, requiere repetición prolongada: 30-60 días\nCambiar patrones emocionales no es solo repetir una acción, sino cambiar interpretación automática",
+    "noUnidades": 45,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Entrenamiento En Zona2",
+    "description": "Cardio suave 3–4 veces por semana. Adaptación mitocondrial progresiva",
+    "noUnidades": 60,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Equilibrio YPropiocepcion",
+    "description": "Ejercicios en una pierna, estabilidad. Prevención de caídas futura",
+    "noUnidades": 30,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Espacios Ordenados Diarios",
+    "description": "Orden mínimo antes dormir. Ejemplos: No dejar cosas desordenadas en la cama, no dejar teléfonos o dispositivos electrónicos a la vista. Esto fortalece la conciencia corporal y mental",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Estado De Gracias",
+    "description": "Mantener un estado de gratitud constante",
+    "noUnidades": 60,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Estiramientos Matutinos",
+    "description": "Realizar estiramientos al despertar para mejorar movilidad y circulación",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Evaluacion Emociones",
+    "description": "Evaluar emociones diariamente para autoconciencia \n Nota: La evidencia en neurociencia indica que la consolidación sináptica estable, para este hábito, requiere repetición prolongada: 30-60 días\nCambiar patrones emocionales no es solo repetir una acción, sino cambiar interpretación automática",
+    "noUnidades": 45,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Evitar Azucar Procesada",
+    "description": "Reducir el consumo de azúcares refinados y procesados",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Evitar Cafe Noche",
+    "description": "Evitar consumir cafeína en la noche",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Exposicion Luz Matutina",
+    "description": "10–20 min luz solar en primera hora. Sincronización circadiana",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Exposicion Sol Segura",
+    "description": "Exponerse al sol de forma segura para obtener vitamina D",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Exposición Al Frio Controlada",
+    "description": "Ducha fría progresiva o inmersión breve. \n Beneficio: activación simpática controlada, resiliencia metabólica.",
+    "noUnidades": 45,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Hidratacion Diaria",
+    "description": "Beber al menos 2 litros de agua al día",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Imaginacion Creativa Diaria",
+    "description": "Ejercitar imaginación creativa diariamente",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Lectura Diaria",
+    "description": "Leer diariamente para estimular mente y conocimiento",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Liberacion Emocional",
+    "description": "Liberación emocional diaria para bienestar mental \n Nota: La evidencia en neurociencia indica que la consolidación sináptica estable, para este hábito, requiere repetición prolongada: 60-90 días",
+    "noUnidades": 60,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Limitar Redes Sociales",
+    "description": "Limitar tiempo en redes sociales para mejorar foco",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Masajes Relajantes",
+    "description": "Recibir masajes relajantes regularmente",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Meditacion Caminando",
+    "description": "Practicar meditación caminando",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Meditacion Corta",
+    "description": "Realizar meditaciones cortas de 5-10 minutos diariamente",
+    "noUnidades": 45,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Meditacion Imaginativa",
+    "description": "Meditación enfocada en la imaginación creativa",
+    "noUnidades": 60,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Musica Para Cerebro",
+    "description": "Escuchar música que estimule el cerebro",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Paseos Al Aire Libre",
+    "description": "Dar paseos al aire libre diariamente para oxigenación y bienestar mental",
+    "noUnidades": 30,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Pausas Activas Trabajo",
+    "description": "Tomar pausas activas durante el trabajo para movilidad",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Planificacion Diaria",
+    "description": "Planificar tareas y objetivos diarios",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Practica De Vision",
+    "description": "Práctica diaria de visión personal y metas",
+    "noUnidades": 60,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Practicar Bondad",
+    "description": "Realizar actos de bondad diariamente",
+    "noUnidades": 30,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Practicar Incomodidad Voluntaria",
+    "description": "Hacer algo incómodo cada día. Ejemplos: Conversación difícil, Ducharse con agua más fría, Trabajo profundo sin distracción. Esto fortalece resiliencia psicológica",
+    "noUnidades": 45,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Practicar Mindfulness",
+    "description": "Practicar mindfulness diariamente para concentración y calma",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Priorizar Proteinas",
+    "description": "Priorizar proteínas en las comidas principales",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Práctica De Perdón",
+    "description": "Practicar perdón a uno mismo y a otros \n Nota: La evidencia en neurociencia indica que la consolidación sináptica estable, para este hábito, requiere repetición prolongada: 30-60 días\nCambiar patrones emocionales no es solo repetir una acción, sino cambiar interpretación automática",
+    "noUnidades": 45,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Reduccion Estrés",
+    "description": "Realizar prácticas para reducir el estrés diariamente \n Nota: La evidencia en neurociencia indica que la consolidación sináptica estable, para este hábito, requiere repetición prolongada: 30-60 días\nCambiar patrones emocionales no es solo repetir una acción, sino cambiar interpretación automática",
+    "noUnidades": 45,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Reescribir El Pasado",
+    "description": "Reescribir memorias limitantes para transformación personal\n Nota: La evidencia en neurociencia indica que la consolidación sináptica estable, para este hábito, requiere repetición prolongada: 60-90 días",
+    "noUnidades": 60,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Reflexion Antes Dormir",
+    "description": "Reflexionar sobre el día antes de dormir",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Respiracion Coherencia Cardiaca",
+    "description": "Practicar respiración para coherencia cardíaca",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Respiracion Potente",
+    "description": "Respiración profunda para generar energía y enfoque \n Nota: La evidencia en neurociencia indica que la consolidación sináptica estable, para este hábito, requiere repetición prolongada: 30-60 días",
+    "noUnidades": 45,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Respiracion Profunda",
+    "description": "Practicar respiraciones profundas varias veces al día para reducir estrés y aumentar oxigenación",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Respiracion Profunda Trabajo",
+    "description": "Practicar respiración profunda en momentos de estrés laboral",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Revisar Metas Semanal",
+    "description": "Revisar progreso de metas semanalmente",
+    "noUnidades": 60,
+    "noFrecuencias": 7
+  },
+  {
+    "title": "Revisar Sueños",
+    "description": "Revisar y reflexionar sobre sueños cada día",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Romper Habitos Limitantes",
+    "description": "Romper hábitos que impiden el crecimiento personal \n Nota: La evidencia en neurociencia indica que la consolidación sináptica estable, para este hábito, requiere repetición prolongada: 60-90 días",
+    "noUnidades": 90,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Sauna Semanal",
+    "description": "Asistir a la sauna al menos una vez por semana para desintoxicación y relajación \n Nota: La evidencia en neurociencia indica que la consolidación sináptica estable, para este hábito, requiere repetición prolongada: 30-60 días",
+    "noUnidades": 60,
+    "noFrecuencias": 7
+  },
+  {
+    "title": "Sentir El Deseo Como Realidad",
+    "description": "Imaginar y sentir un deseo como si ya fuera real. Vivir mentalmente la satisfacción del deseo ya realizado",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Silencio Consciente",
+    "description": "5–10 min diarios de silencio total. Regulación del sistema nervioso",
+    "noUnidades": 30,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Suplementos Vitaminicos",
+    "description": "Tomar suplementos vitamínicos según necesidad y recomendaciones médicas",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Tiempo Sin Estimulos",
+    "description": "30–60 min sin móvil, música ni inputs. Entrena tolerancia al aburrimiento. Mejora dopamina basal.",
+    "noUnidades": 30,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Trabajo De Movilidad Profunda",
+    "description": "Movilidad de cadera, hombros, columna",
+    "noUnidades": 45,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Transformacion Mental",
+    "description": "Transformación mental diaria mediante meditación y ejercicios \n Nota: La evidencia en neurociencia indica que la consolidación sináptica estable, para este hábito, requiere repetición prolongada: 60-90 días",
+    "noUnidades": 90,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Visualizacion Creativa",
+    "description": "Ejercitar visualización creativa regularmente",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Visualizar Exito Laboral",
+    "description": "Visualizar el éxito laboral y profesional",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Yoga Antes Dormir",
+    "description": "Practicar yoga antes de dormir para relajación",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Yoga Diario",
+    "description": "Practicar yoga diariamente para flexibilidad y relajación",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  }
+]
