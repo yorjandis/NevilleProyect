@@ -71,6 +71,10 @@
             app:destination="@id/frag_home" />
     </fragment>
     <fragment
+        android:id="@+id/frag_listado_frases"
+        android:name="com.ypg.neville.ui.frag.FragListadoFrases"
+        android:label="frag_listado_frases" />
+    <fragment
         android:id="@+id/fragSetting"
         android:name="com.ypg.neville.ui.frag.frag_Setting"
         android:label="fragSetting" />

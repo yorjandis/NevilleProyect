@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
@@ -47,9 +48,24 @@ object UiModalWindows {
                 var fuente by remember { mutableStateOf(contentValues?.getAsString("fuente") ?: "") }
 
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(12.dp)) {
-                    OutlinedTextField(value = frase, onValueChange = { frase = it }, label = { Text("Frase") })
-                    OutlinedTextField(value = autor, onValueChange = { autor = it }, label = { Text("Autor") })
-                    OutlinedTextField(value = fuente, onValueChange = { fuente = it }, label = { Text("Fuente") })
+                    OutlinedTextField(
+                        value = frase,
+                        onValueChange = { frase = it },
+                        label = { Text("Frase") },
+                        shape = RoundedCornerShape(14.dp)
+                    )
+                    OutlinedTextField(
+                        value = autor,
+                        onValueChange = { autor = it },
+                        label = { Text("Autor") },
+                        shape = RoundedCornerShape(14.dp)
+                    )
+                    OutlinedTextField(
+                        value = fuente,
+                        onValueChange = { fuente = it },
+                        label = { Text("Fuente") },
+                        shape = RoundedCornerShape(14.dp)
+                    )
 
                     Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
                         Text("Guardar", modifier = Modifier.clickable {
@@ -108,9 +124,15 @@ object UiModalWindows {
                         value = titulo,
                         onValueChange = { if (!isUpdate) titulo = it },
                         enabled = !isUpdate,
-                        label = { Text("Título") }
+                        label = { Text("Título") },
+                        shape = RoundedCornerShape(14.dp)
                     )
-                    OutlinedTextField(value = nota, onValueChange = { nota = it }, label = { Text("Nota") })
+                    OutlinedTextField(
+                        value = nota,
+                        onValueChange = { nota = it },
+                        label = { Text("Nota") },
+                        shape = RoundedCornerShape(14.dp)
+                    )
 
                     Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
                         Text("Guardar", modifier = Modifier.clickable {
@@ -168,7 +190,12 @@ object UiModalWindows {
             com.ypg.neville.ui.theme.NevilleTheme {
                 var notaTexto by remember { mutableStateOf(nota) }
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(12.dp)) {
-                    OutlinedTextField(value = notaTexto, onValueChange = { notaTexto = it }, label = { Text("Nota") })
+                    OutlinedTextField(
+                        value = notaTexto,
+                        onValueChange = { notaTexto = it },
+                        label = { Text("Nota") },
+                        shape = RoundedCornerShape(14.dp)
+                    )
                     Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
                         Text("Guardar", modifier = Modifier.clickable {
                             if (utilsDB.updateNota(context, tableName, clumn_id, valor_id, notaTexto.trim())) {

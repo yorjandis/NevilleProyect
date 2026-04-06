@@ -65,7 +65,7 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                                     "joe" -> host?.openDestinationAsSheet(R.id.frag_joe_dispenza)
                                     "gregg" -> host?.openDestinationAsSheet(R.id.frag_gregg)
                                     "bruce" -> host?.openDestinationAsSheet(R.id.frag_bruce_lipton)
-                                    "frases" -> Unit
+                                    "frases" -> host?.openDestinationAsSheet(R.id.frag_listado_frases)
                                     "notas" -> host?.openDestinationAsSheet(R.id.frag_notas)
                                     "enciclopedia" -> {
                                         frag_listado.elementLoaded = "enciclopedia"
