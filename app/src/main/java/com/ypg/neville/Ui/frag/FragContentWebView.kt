@@ -1,10 +1,12 @@
 package com.ypg.neville.ui.frag
 
+import android.R
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,10 +15,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -74,11 +79,12 @@ class FragContentWebView : Fragment() {
 
                     AssistChip(
                         onClick = { navigateToPreviousScreen() },
-                        label = { androidx.compose.material3.Text("Atrás") },
+                        label = { Text("Atrás", color = Color.Black) },
                         modifier = Modifier
                             .align(Alignment.BottomEnd)
                             .padding(end = 12.dp, bottom = 12.dp)
                             .height(34.dp)
+
                     )
                 }
             }
@@ -154,6 +160,7 @@ class FragContentWebView : Fragment() {
 
     @Composable
     private fun TxtContent(path: String) {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
         val requestedAssetPath = path
             .removePrefix("file:///android_asset/")
             .trimStart('/')
@@ -175,13 +182,32 @@ class FragContentWebView : Fragment() {
             .getDefaultSharedPreferences(requireContext())
             .getString("fuente_conf", "170")
             ?.toIntOrNull() ?: 170
+        val textColor = Color(
+            prefs.getInt("color_lectura_texto", 0xFF2B2115.toInt())
+        )
+        val backgroundA = Color(
+            prefs.getInt("color_lectura_fondo_a", 0xFFF8F4EA.toInt())
+        )
+        val backgroundB = Color(
+            prefs.getInt("color_lectura_fondo_b", 0xFFECE3D3.toInt())
+        )
 
         val style = RenderStyle(
             fontSizeSp = ((fontZoom / 100f) * 14f).coerceIn(13f, 30f),
-            textColor = MaterialTheme.colorScheme.onBackground
+            textColor = textColor
         )
 
-        DynamicTextRenderer(blocks = blocks, style = style)
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Brush.verticalGradient(listOf(backgroundA, backgroundB)))
+        ) {
+            DynamicTextRenderer(
+                blocks = blocks,
+                style = style,
+                modifier = Modifier.fillMaxSize()
+            )
+        }
     }
 
     private fun shouldUseNativeRenderer(path: String): Boolean {

@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,21 +16,13 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,7 +36,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.preference.PreferenceManager
-import com.ypg.neville.ui.theme.ContextMenuShape
 
 @Composable
 fun AuthorPlaceholderScreen(
@@ -56,17 +46,15 @@ fun AuthorPlaceholderScreen(
     onBiographyClick: () -> Unit,
     onTeachingSummaryClick: () -> Unit,
     teachingSummaryEnabled: Boolean,
-    cards: List<AccessCardPlaceholder>,
-    hasResourceAccess: Boolean,
-    onResourceClick: (String) -> Unit
+    resourcesSection: @Composable () -> Unit = {}
 ) {
     val context = LocalContext.current
     val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-    val bg = Color(0xFFA29DCE)
+    val bg = Color(0xFF91AED7) //Color de fondo
     val titleColor = Color(0xFF2A211A)
     val bodyColor = Color(0xFF3A3026)
-    val primaryBtn = Color(0xFF8B5E3C)
-    val secondaryBtn = Color(0xFFB88B67)
+    val primaryBtn = Color(0xFF6E84CF)
+    val secondaryBtn = Color(0xFF6E84CF)
     val textSize = (prefs.getString("fuente_frase", "28")?.toFloatOrNull() ?: 28f).coerceIn(16f, 40f)
     val textColor = prefs.getInt("color_letra_frases", 0)
     LazyColumn(
@@ -165,121 +153,6 @@ fun AuthorPlaceholderScreen(
             }
         }
 
-        item {
-            Text(
-                text = "Recursos",
-                color = titleColor,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 22.dp)
-            )
-        }
-
-        item {
-            if (!hasResourceAccess) {
-                Text(
-                    text = "Disponible en la Versión Extendida",
-                    color = bodyColor,
-                    fontSize = 14.sp,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 6.dp)
-                )
-            }
-        }
-
-        item {
-            if (cards.isEmpty()) {
-                Text(
-                    text = "No hay recursos disponibles",
-                    color = bodyColor,
-                    fontSize = 14.sp,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 10.dp)
-                )
-                return@item
-            }
-
-            LazyRow(
-                modifier = Modifier.padding(top = 10.dp),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                items(cards) { card ->
-                    var showChapterMenu by remember(card.title) { mutableStateOf(false) }
-                    Card(
-                        modifier = Modifier
-                            .width(220.dp)
-                            .height(150.dp),
-                        shape = RoundedCornerShape(16.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color.White),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-                    ) {
-                        Column(modifier = Modifier.padding(14.dp)) {
-                            Text(
-                                text = card.title,
-                                color = bodyColor,
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-
-                            Button(
-                                onClick = {
-                                    if (card.menuItems.isNotEmpty()) {
-                                        showChapterMenu = true
-                                    } else {
-                                        onResourceClick(card.primaryAssetPath)
-                                    }
-                                },
-                                enabled = hasResourceAccess,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(top = 6.dp),
-                                colors = ButtonDefaults.buttonColors(containerColor = primaryBtn)
-                            ) {
-                                Text(card.primaryButton, color = Color.White)
-                            }
-
-                            if (card.menuItems.isNotEmpty()) {
-                                DropdownMenu(
-                                    expanded = showChapterMenu,
-                                    onDismissRequest = { showChapterMenu = false },
-                                    shape = ContextMenuShape
-                                ) {
-                                    card.menuItems.forEach { menuItem ->
-                                        DropdownMenuItem(
-                                            text = { Text(menuItem.title) },
-                                            onClick = {
-                                                showChapterMenu = false
-                                                onResourceClick(menuItem.assetPath)
-                                            }
-                                        )
-                                    }
-                                }
-                            }
-
-                            if (!card.secondaryButton.isNullOrBlank()) {
-                                Button(
-                                    onClick = {
-                                        card.secondaryAssetPath?.let(onResourceClick)
-                                    },
-                                    enabled = hasResourceAccess && !card.secondaryAssetPath.isNullOrBlank(),
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(top = 8.dp)
-                                        .height(40.dp),
-                                    colors = ButtonDefaults.buttonColors(containerColor = secondaryBtn)
-                                ) {
-                                    Text(card.secondaryButton, color = Color.White)
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        item { resourcesSection() }
     }
 }

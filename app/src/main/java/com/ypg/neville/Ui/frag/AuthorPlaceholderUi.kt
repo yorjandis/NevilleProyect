@@ -16,6 +16,24 @@ data class AccessCardMenuItem(
     val assetPath: String
 )
 
+private fun formatBookTitleFromFolderName(rawName: String): String {
+    val normalized = rawName
+        .replace('_', ' ')
+        .replace('-', ' ')
+        .replace(Regex("([a-z0-9])([A-Z])"), "$1 $2")
+        .replace(Regex("([A-Z])([A-Z][a-z])"), "$1 $2")
+        .trim()
+
+    return normalized
+        .split(Regex("\\s+"))
+        .filter { it.isNotBlank() }
+        .joinToString(" ") { token ->
+            token.lowercase().replaceFirstChar { ch ->
+                if (ch.isLowerCase()) ch.titlecase() else ch.toString()
+            }
+        }
+}
+
 fun loadAuthorBiographyAssetPath(context: Context, authorAssetsFolder: String): String? {
     val biographyFolder = "$authorAssetsFolder/biografia"
     val files = runCatching { context.assets.list(biographyFolder).orEmpty() }.getOrDefault(emptyArray())
@@ -79,9 +97,9 @@ fun loadAuthorResourceCards(context: Context, authorAssetsFolder: String): List<
                 else -> null
             } ?: return@forEach
 
-            val bookName = cleanName
-                .removePrefix("resumen_libro_")
-                .removePrefix("plan_libro_")
+            val bookName = childPath
+                .substringBeforeLast('/')
+                .substringAfterLast('/')
                 .trim()
             if (bookName.isBlank()) return@forEach
 
@@ -95,12 +113,13 @@ fun loadAuthorResourceCards(context: Context, authorAssetsFolder: String): List<
     return resourcesByBook
         .toSortedMap()
         .mapNotNull { (bookName, resources) ->
+            val readableTitle = formatBookTitleFromFolderName(bookName)
             val resumen = resources["resumen"]
             val plan = resources["plan"]
             when {
                 !resumen.isNullOrBlank() && !plan.isNullOrBlank() -> {
                     AccessCardPlaceholder(
-                        title = bookName,
+                        title = readableTitle,
                         primaryButton = "Resumen",
                         primaryAssetPath = resumen,
                         secondaryButton = "Plan",
@@ -110,7 +129,7 @@ fun loadAuthorResourceCards(context: Context, authorAssetsFolder: String): List<
 
                 !resumen.isNullOrBlank() -> {
                     AccessCardPlaceholder(
-                        title = bookName,
+                        title = readableTitle,
                         primaryButton = "Resumen",
                         primaryAssetPath = resumen
                     )
@@ -118,7 +137,7 @@ fun loadAuthorResourceCards(context: Context, authorAssetsFolder: String): List<
 
                 !plan.isNullOrBlank() -> {
                     AccessCardPlaceholder(
-                        title = bookName,
+                        title = readableTitle,
                         primaryButton = "Plan",
                         primaryAssetPath = plan
                     )

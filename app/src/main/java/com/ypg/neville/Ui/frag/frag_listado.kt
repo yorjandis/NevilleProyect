@@ -5,12 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -33,6 +36,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
@@ -97,6 +102,9 @@ class frag_listado : Fragment() {
         var filter by remember { mutableStateOf("Todas") }
 
         val showConfOptions = elementLoaded.equals("autores/neville/conf", ignoreCase = true)
+        val isEnciclopediaTopicsView = elementLoaded.startsWith("enciclopedia/") && elementLoaded != "enciclopedia"
+        val listPrimaryColor = if (showConfOptions) Color.Black else MaterialTheme.colorScheme.onBackground
+        val listSecondaryColor = if (showConfOptions) Color.Black.copy(alpha = 0.75f) else MaterialTheme.colorScheme.onSurfaceVariant
         val showHelp = remember {
             prefs.getBoolean("help_inline", true)
         }
@@ -116,145 +124,181 @@ class frag_listado : Fragment() {
             item.contains(queryTitulo, ignoreCase = true) || displayName.contains(queryTitulo, ignoreCase = true)
         }
 
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 12.dp, vertical = 8.dp)
-        ) {
-            if (showHelp) {
-                IconButton(
-                    onClick = {
-                        Toast.makeText(
-                            context,
-                            "Filtra y busca elementos. Toca un item para abrirlo.",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    },
-                    modifier = Modifier.align(Alignment.End)
-                ) {
-                    Icon(painter = painterResource(id = R.drawable.ic_help), contentDescription = "Ayuda")
-                }
-            }
-
-            if (showConfOptions) {
-                Text(
-                    text = if (showOptions) getString(R.string.ocultar_opciones) else getString(R.string.mostrar_opciones),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier
-                        .align(Alignment.End)
-                        .clickable { showOptions = !showOptions }
-                        .padding(bottom = 8.dp)
+                .background(
+                    if (showConfOptions) {
+                        Brush.verticalGradient(
+                            colors = listOf(
+                                Color(0xFFE7EAED),
+                                Color(0xFFD6DBDF),
+                                Color(0xFFC5CCD1)
+                            )
+                        )
+                    } else {
+                        Brush.verticalGradient(
+                            colors = listOf(Color.Transparent, Color.Transparent)
+                        )
+                    }
                 )
-            }
-
-            if (showConfOptions && showOptions) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    AssistChip(onClick = { showFilterMenu = true }, label = { Text("Filtro: $filter") })
-                    DropdownMenu(
-                        expanded = showFilterMenu,
-                        onDismissRequest = { showFilterMenu = false },
-                        shape = ContextMenuShape
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 12.dp, vertical = 8.dp)
+            ) {
+                if (showHelp) {
+                    IconButton(
+                        onClick = {
+                            Toast.makeText(
+                                context,
+                                "Filtra y busca elementos. Toca un item para abrirlo.",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        },
+                        modifier = Modifier.align(Alignment.End)
                     ) {
-                        listOf("Todas", "Favoritos", "Con notas").forEach { option ->
-                            DropdownMenuItem(
-                                text = { Text(option) },
-                                onClick = {
-                                    showFilterMenu = false
-                                    filter = option
+                        Icon(painter = painterResource(id = R.drawable.ic_help), contentDescription = "Ayuda")
+                    }
+                }
+
+                if (showConfOptions) {
+                    Text(
+                        text = if (showOptions) getString(R.string.ocultar_opciones) else getString(R.string.mostrar_opciones),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = listPrimaryColor,
+                        modifier = Modifier
+                            .align(Alignment.End)
+                            .clickable { showOptions = !showOptions }
+                            .padding(bottom = 8.dp)
+                    )
+                }
+
+                if (showConfOptions && showOptions) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        AssistChip(onClick = { showFilterMenu = true }, label = { Text("Filtro: $filter") })
+                        DropdownMenu(
+                            expanded = showFilterMenu,
+                            onDismissRequest = { showFilterMenu = false },
+                            shape = ContextMenuShape
+                        ) {
+                            listOf("Todas", "Favoritos", "Con notas").forEach { option ->
+                                DropdownMenuItem(
+                                    text = { Text(option) },
+                                    onClick = {
+                                        showFilterMenu = false
+                                        filter = option
+                                        listado.clear()
+                                        listado.addAll(loadConfByFilter(option))
+                                    }
+                                )
+                            }
+                        }
+                    }
+
+                    OutlinedTextField(
+                        value = queryTitulo,
+                        onValueChange = { queryTitulo = it },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp),
+                        label = { Text("Buscar en títulos (${listado.size})") },
+                        shape = RoundedCornerShape(14.dp),
+                        singleLine = true
+                    )
+
+                    OutlinedTextField(
+                        value = queryContenido,
+                        onValueChange = { queryContenido = it },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp),
+                        label = { Text("Buscar dentro de conferencias") },
+                        shape = RoundedCornerShape(14.dp),
+                        singleLine = true
+                    )
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Button(onClick = {
+                            if (queryContenido.isNotBlank()) {
+                                try {
                                     listado.clear()
-                                    listado.addAll(loadConfByFilter(option))
+                                    listado.addAll(Utils.searchInConf(context, queryContenido))
+                                } catch (_: IOException) {
+                                    Toast.makeText(context, "No se pudo realizar la búsqueda", Toast.LENGTH_SHORT).show()
                                 }
+                            }
+                        }) {
+                            Text("Buscar")
+                        }
+
+                        Button(onClick = {
+                            listado.clear()
+                            listado.addAll(loadConfByFilter(filter))
+                            queryContenido = ""
+                        }) {
+                            Text("Restablecer")
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.padding(top = 8.dp))
+
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(visibleItems) { item ->
+                        Text(
+                            text = formatListadoDisplayName(item),
+                            fontSize = listTextSize.sp,
+                            lineHeight = (listTextSize * 1.24f).sp,
+                            color = listPrimaryColor,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { onItemSelected(item, navController) }
+                                .padding(vertical = 10.dp, horizontal = 6.dp)
+                        )
+                    }
+
+                    if (visibleItems.isEmpty()) {
+                        item {
+                            Text(
+                                text = "No hay elementos para mostrar",
+                                fontSize = (listTextSize - 2f).coerceAtLeast(12f).sp,
+                                color = listSecondaryColor,
+                                fontStyle = FontStyle.Italic,
+                                modifier = Modifier.padding(12.dp)
                             )
                         }
                     }
                 }
-
-                OutlinedTextField(
-                    value = queryTitulo,
-                    onValueChange = { queryTitulo = it },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
-                    label = { Text("Buscar en títulos (${listado.size})") },
-                    shape = RoundedCornerShape(14.dp),
-                    singleLine = true
-                )
-
-                OutlinedTextField(
-                    value = queryContenido,
-                    onValueChange = { queryContenido = it },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
-                    label = { Text("Buscar dentro de conferencias") },
-                    shape = RoundedCornerShape(14.dp),
-                    singleLine = true
-                )
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Button(onClick = {
-                        if (queryContenido.isNotBlank()) {
-                            try {
-                                listado.clear()
-                                listado.addAll(Utils.searchInConf(context, queryContenido))
-                            } catch (_: IOException) {
-                                Toast.makeText(context, "No se pudo realizar la búsqueda", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                    }) {
-                        Text("Buscar")
-                    }
-
-                    Button(onClick = {
-                        listado.clear()
-                        listado.addAll(loadConfByFilter(filter))
-                        queryContenido = ""
-                    }) {
-                        Text("Restablecer")
-                    }
-                }
             }
 
-            Spacer(modifier = Modifier.padding(top = 8.dp))
-
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(visibleItems) { item ->
-                    Text(
-                        text = formatListadoDisplayName(item),
-                        fontSize = listTextSize.sp,
-                        lineHeight = (listTextSize * 1.24f).sp,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable { onItemSelected(item, navController) }
-                            .padding(vertical = 10.dp, horizontal = 6.dp)
-                    )
-                }
-
-                if (visibleItems.isEmpty()) {
-                    item {
-                        Text(
-                            text = "No hay elementos para mostrar",
-                            fontSize = (listTextSize - 2f).coerceAtLeast(12f).sp,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            fontStyle = FontStyle.Italic,
-                            modifier = Modifier.padding(12.dp)
-                        )
-                    }
-                }
+            if (isEnciclopediaTopicsView) {
+                AssistChip(
+                    onClick = {
+                        if (!navController.popBackStack()) {
+                            elementLoaded = "enciclopedia"
+                            navController.navigate(R.id.frag_listado)
+                        }
+                    },
+                    label = { Text("Atrás") },
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(end = 12.dp, bottom = 12.dp)
+                        .height(34.dp)
+                )
             }
         }
     }

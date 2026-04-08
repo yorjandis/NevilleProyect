@@ -36,6 +36,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
@@ -155,6 +156,15 @@ class FragNotas : Fragment() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .background(
+                    brush = Brush.verticalGradient(
+                       colors = listOf(
+                            Color(0xFFF0AB87),
+                            Color(0xFFC8A499),
+                            Color(0xFFB6AF89)
+                        )
+                    )
+                )
                 .padding(8.dp)
         ) {
             Column(modifier = Modifier.fillMaxSize()) {

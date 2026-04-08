@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.content.ContentValues
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
@@ -56,6 +57,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.preference.PreferenceManager
 import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.utils.QRManager
+import com.ypg.neville.model.utils.NewsContent
 import com.ypg.neville.model.utils.UiModalWindows
 import com.ypg.neville.model.utils.Utils
 import com.ypg.neville.model.utils.myListener_In_App_Update
@@ -84,6 +86,8 @@ class MainActivity : AppCompatActivity() {
     val icToolsBarFav = ToolbarIconProxy(toolbarFavVisible, toolbarFavColor)
 
     private val utils by lazy { Utils(this) }
+    private val installMarkerPrefKey = "install_marker_first_install_time"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         val isDarkTheme = prefs.getBoolean("tema", true)
@@ -137,16 +141,26 @@ class MainActivity : AppCompatActivity() {
             if (hadLegacyDatabase) {
                 Toast.makeText(this, "Migración de datos completada.", Toast.LENGTH_SHORT).show()
             }
-            if (prefs.getBoolean("Is_primeraVez", true)) {
+            val currentInstallMarker = currentInstallFirstTime()
+            val storedInstallMarker = prefs.getLong(installMarkerPrefKey, -1L)
+            val isFirstLaunchForCurrentInstall = currentInstallMarker > 0L && storedInstallMarker != currentInstallMarker
+            val shouldShowNews = prefs.getBoolean("Is_primeraVez", true) || isFirstLaunchForCurrentInstall
+
+            if (shouldShowNews) {
                 UiModalWindows.showAyudaContectual(
                     this,
                     "Novedades",
                     "Que hay de nuevo?",
-                    getString(R.string.news),
+                    NewsContent.buildNewsText(),
                     false,
                     AppCompatResources.getDrawable(this, R.drawable.neville)
                 )
-                prefs.edit { putBoolean("Is_primeraVez", false) }
+                prefs.edit {
+                    putBoolean("Is_primeraVez", false)
+                    if (currentInstallMarker > 0L) {
+                        putLong(installMarkerPrefKey, currentInstallMarker)
+                    }
+                }
             }
         }
 
@@ -154,6 +168,18 @@ class MainActivity : AppCompatActivity() {
             utilsDB.CorrectOrtogFrases(this)
             prefs.edit { putBoolean("updateFrases", false) }
         }
+    }
+
+    private fun currentInstallFirstTime(): Long {
+        return runCatching {
+            val info = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                packageManager.getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(0))
+            } else {
+                @Suppress("DEPRECATION")
+                packageManager.getPackageInfo(packageName, 0)
+            }
+            info.firstInstallTime
+        }.getOrDefault(-1L)
     }
 
     override fun onResume() {

@@ -2,13 +2,19 @@ package com.ypg.neville.model.db.room
 
 class DiarioRepository(private val diarioDao: DiarioDao) {
 
-    fun insertar(title: String, content: String, emocion: String, isFav: Boolean): Long {
+    fun insertar(
+        title: String,
+        content: String,
+        emocion: String,
+        isFav: Boolean,
+        fechaCreacionMillis: Long = System.currentTimeMillis()
+    ): Long {
         val now = System.currentTimeMillis()
         val item = DiarioEntity(
             title = title,
             content = content,
             emocion = emocion,
-            fecha = now,
+            fecha = fechaCreacionMillis,
             fechaM = now,
             isFav = isFav
         )

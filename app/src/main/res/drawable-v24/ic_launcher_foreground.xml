@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<inset xmlns:android="http://schemas.android.com/apk/res/android"
-    android:inset="24dp">
-    <bitmap
-        android:gravity="fill"
-        android:src="@drawable/nev_min" />
-</inset>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:width="58dp"
+        android:height="58dp"
+        android:gravity="center">
+        <bitmap
+            android:gravity="fill"
+            android:src="@drawable/nev_logo2" />
+    </item>
+</layer-list>

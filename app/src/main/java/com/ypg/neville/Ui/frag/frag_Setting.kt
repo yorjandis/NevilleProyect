@@ -41,6 +41,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
@@ -58,6 +60,7 @@ import com.ypg.neville.R
 import com.ypg.neville.model.backup.CloudBackupManager
 import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.utils.ColorPickerManager
+import com.ypg.neville.model.utils.NewsContent
 import com.ypg.neville.model.utils.UiModalWindows
 import kotlinx.coroutines.launch
 
@@ -316,6 +319,49 @@ class frag_Setting : Fragment() {
 
             item {
                 SettingSection(
+                    title = "Colores de lectura",
+                    subtitle = "Fondo degradado y color de texto para contenido en texto"
+                ) {
+                    ActionField(
+                        title = "Color de Fondo Lectura A",
+                        description = "Primer color del degradado en FragContentWebView"
+                    ) {
+                        ColorPickerManager.showColorPicker(
+                            context,
+                            prefs.getInt("color_lectura_fondo_a", 0xFFF8F4EA.toInt()),
+                            "color_lectura_fondo_a",
+                            "Color de Fondo Lectura A"
+                        )
+                    }
+                    FieldDivider()
+                    ActionField(
+                        title = "Color de Fondo Lectura B",
+                        description = "Segundo color del degradado en FragContentWebView"
+                    ) {
+                        ColorPickerManager.showColorPicker(
+                            context,
+                            prefs.getInt("color_lectura_fondo_b", 0xFFECE3D3.toInt()),
+                            "color_lectura_fondo_b",
+                            "Color de Fondo Lectura B"
+                        )
+                    }
+                    FieldDivider()
+                    ActionField(
+                        title = "Color de texto Lectura",
+                        description = "Color principal del texto en el visor de contenido"
+                    ) {
+                        ColorPickerManager.showColorPicker(
+                            context,
+                            prefs.getInt("color_lectura_texto", 0xFF2B2115.toInt()),
+                            "color_lectura_texto",
+                            "Color de texto Lectura"
+                        )
+                    }
+                }
+            }
+
+            item {
+                SettingSection(
                     title = "Frases en Inicio",
                     subtitle = "Selecciona exactamente qué categorías y autores mostrar"
                 ) {
@@ -439,9 +485,7 @@ class frag_Setting : Fragment() {
                         }
 
                         if (!com.ypg.neville.model.subscription.SubscriptionManager.hasActiveSubscriptionNow()) {
-                            (activity as? MainActivity)?.showSubscriptionPaywall(
-                                "La protección biométrica de Notas forma parte de la suscripción anual."
-                            )
+                            (activity as? MainActivity)?.showSubscriptionPaywall()
                             return@SwitchField
                         }
 
@@ -647,12 +691,31 @@ class frag_Setting : Fragment() {
                     title = "Proyecto y Soporte",
                     subtitle = "Acciones de contacto, reseña y novedades"
                 ) {
+                    ActionField("Ver novedades", "Consultar cambios de versión") {
+                        UiModalWindows.showAyudaContectual(
+                            context,
+                            "Novedades",
+                            "Que hay de nuevo?",
+                            NewsContent.buildNewsText(),
+                            false,
+                            AppCompatResources.getDrawable(context, R.drawable.neville)
+                        )
+                    }
+                    FieldDivider()
                     ActionField("Enviar comentario", "Contactar con el desarrollador") {
-                        startActivity(Intent(Intent.ACTION_VIEW, "https://projectsypg.mozello.com/contacto/".toUri()))
+                        val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
+                            data = "mailto:info@ypgcode.es".toUri()
+                            putExtra(Intent.EXTRA_SUBJECT, "Comentario sobre Neville Para Todos")
+                        }
+                        try {
+                            startActivity(emailIntent)
+                        } catch (_: ActivityNotFoundException) {
+                            Toast.makeText(context, "No se encontró una app de correo", Toast.LENGTH_LONG).show()
+                        }
                     }
                     FieldDivider()
                     ActionField("Sitio web del proyecto", "Abrir web oficial") {
-                        startActivity(Intent(Intent.ACTION_VIEW, "https://projectsypg.mozello.com/".toUri()))
+                        startActivity(Intent(Intent.ACTION_VIEW, "https://ypgcode.es/neville_goddard/".toUri()))
                     }
                     FieldDivider()
                     ActionField("Escribir reseña", "Valorar la app en Google Play") {
@@ -664,21 +727,8 @@ class frag_Setting : Fragment() {
                             Toast.makeText(context, "No se encontró la app de tienda", Toast.LENGTH_LONG).show()
                         }
                     }
-                    FieldDivider()
-                    ActionField("Ver novedades", "Consultar cambios de versión") {
-                        UiModalWindows.showAyudaContectual(
-                            context,
-                            "Novedades",
-                            "Que hay de nuevo?",
-                            getString(R.string.news),
-                            false,
-                            AppCompatResources.getDrawable(context, R.drawable.neville)
-                        )
-                    }
-                    FieldDivider()
-                    ActionField("Donar", "Apoyar el crecimiento del proyecto") {
-                        startActivity(Intent(Intent.ACTION_VIEW, "https://projectsypg.mozello.com/donar/".toUri()))
-                    }
+
+
                 }
             }
         }
@@ -1014,6 +1064,9 @@ class frag_Setting : Fragment() {
         subtitle: String,
         content: @Composable ColumnScope.() -> Unit
     ) {
+        val isDarkTheme = MaterialTheme.colorScheme.surface.luminance() < 0.5f
+        val sectionTitleColor = if (isDarkTheme) Color(0xFFFF9800) else MaterialTheme.colorScheme.onSurface
+
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(0.dp)
@@ -1032,7 +1085,7 @@ class frag_Setting : Fragment() {
                     text = title,
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = sectionTitleColor
                 )
                 Text(
                     text = subtitle,

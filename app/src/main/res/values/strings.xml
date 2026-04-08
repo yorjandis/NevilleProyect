@@ -146,17 +146,6 @@
     <!-- Preferences otros textos -->
     <string name="mensaje_vienbenida_pordefecto">La imaginación crea la realidad</string>
 
-    <string name="news">
-        "Bienvenidos a Neville Para Todos!!! \n\n"
-        "La version actual cuenta con las siguientes características: \n\n"
-        "*301 conferencias de neville, en texto\n\n"
-        "*231 frases de neville\n\n"
-        "*33 citas de conferencias\n\n"
-        "*37 preguntas y respuestas de neville\n\n"
-        "*Posibilidad de adicionar nuestras propias frases y de compartirlas\n\n"
-        "*Acceso a contenido online\n\n"
-        "*Personalización del tema y del contenido\n\n"
-    "En vosotros mora el espíritu del Dios viviente!" </string>
     <string name="img">img</string>
     <string name="audios_neville_en_telegram_ii">Audios neville en Telegram II</string>
     <string name="canal_telegram_neville_para_todos">Canal Telegram Neville Para Todos</string>

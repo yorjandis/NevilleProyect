@@ -35,11 +35,17 @@ data class BibliographyEntry(
 )
 
 fun String.splitIntoParagraphs(): List<String> {
-    return this
-        .lineSequence()
-        .map { it.trim() }
-        .filter { it.isNotEmpty() }
-        .toList()
+    val normalized = this
+        .replace("\r\n", "\n")
+        .replace('\r', '\n')
+        .trim()
+
+    if (normalized.isBlank()) return emptyList()
+
+    return normalized
+        .split(Regex("\n\\s*\n+"))
+        .map { paragraph -> paragraph.trim() }
+        .filter { paragraph -> paragraph.isNotEmpty() }
 }
 
 fun List<ContentBlock>.expandedTextBlocks(): List<ContentBlock> {
