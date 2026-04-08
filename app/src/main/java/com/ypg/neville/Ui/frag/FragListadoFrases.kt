@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -36,8 +39,11 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -50,6 +56,9 @@ import com.ypg.neville.MainActivity
 import com.ypg.neville.R
 import com.ypg.neville.model.db.room.FraseEntity
 import com.ypg.neville.model.db.utilsDB
+import com.ypg.neville.model.utils.FraseContextActions
+import com.ypg.neville.model.subscription.SubscriptionManager
+import com.ypg.neville.ui.theme.ContextMenuShape
 
 class FragListadoFrases : Fragment() {
 
@@ -74,10 +83,13 @@ class FragListadoFrases : Fragment() {
         runCatching { MainActivity.currentInstance()?.icToolsBarFav?.visibility = View.GONE }
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
+    @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
     @Composable
     private fun ListadoFrasesScreen() {
         val context = LocalContext.current
+        val hostActivity = MainActivity.currentInstance()
+        val subscriptionState by SubscriptionManager.uiState.collectAsState()
+        val hasPremium = subscriptionState.isActive
         val allItems = remember { mutableStateListOf<FraseEntity>() }
         var query by remember { mutableStateOf("") }
         var selectedSource by remember { mutableStateOf("Todos") }
@@ -113,6 +125,25 @@ class FragListadoFrases : Fragment() {
                 listOf("Personales", "Favoritas", "Con nota")
         }
 
+        fun isSourcePremium(source: String): Boolean {
+            if (hasPremium) return false
+            return source in setOf("Bruce", "Gregg", "Joe", "Otros", "Salud")
+        }
+
+        fun sourceLabel(source: String): String {
+            return if (isSourcePremium(source)) "$source (Premium)" else source
+        }
+
+        fun isFrasePremium(item: FraseEntity): Boolean {
+            if (hasPremium) return false
+            if (item.personalState() == "1") return false
+            return when (item.categoria.uppercase()) {
+                "SALUD", "OTROS" -> true
+                "AUTOR" -> !item.autor.contains("neville", ignoreCase = true)
+                else -> false
+            }
+        }
+
         val queryLower = query.trim().lowercase()
         val filtered = allItems.filter { item ->
             val bySource = when (selectedSource) {
@@ -133,7 +164,7 @@ class FragListadoFrases : Fragment() {
                 item.frase.lowercase().contains(queryLower) ||
                 item.nota.lowercase().contains(queryLower)
 
-            bySource && bySearch
+            bySource && bySearch && !isFrasePremium(item)
         }
 
         Scaffold(
@@ -170,15 +201,25 @@ class FragListadoFrases : Fragment() {
                 ) {
                     AssistChip(
                         onClick = { showSourceMenu = true },
-                        label = { Text("Fuente/Filtro: $selectedSource") },
+                        label = { Text("Fuente/Filtro: ${sourceLabel(selectedSource)}") },
                         colors = AssistChipDefaults.assistChipColors()
                     )
-                    DropdownMenu(expanded = showSourceMenu, onDismissRequest = { showSourceMenu = false }) {
+                    DropdownMenu(
+                        expanded = showSourceMenu,
+                        onDismissRequest = { showSourceMenu = false },
+                        shape = ContextMenuShape
+                    ) {
                         sourceOptions.forEach { option ->
                             DropdownMenuItem(
-                                text = { Text(option) },
+                                text = { Text(sourceLabel(option)) },
                                 onClick = {
-                                    selectedSource = option
+                                    if (isSourcePremium(option)) {
+                                        hostActivity?.showSubscriptionPaywall(
+                                            "La categoría \"$option\" forma parte de la suscripción anual."
+                                        )
+                                    } else {
+                                        selectedSource = option
+                                    }
                                     showSourceMenu = false
                                 }
                             )
@@ -192,8 +233,17 @@ class FragListadoFrases : Fragment() {
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(filtered, key = { "${it.id}-${it.assetKey}-${it.frase.hashCode()}" }) { item ->
+                        var showMenu by remember(item.id) { mutableStateOf(false) }
+                        val interactionSource = remember { MutableInteractionSource() }
                         Card(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .combinedClickable(
+                                    interactionSource = interactionSource,
+                                    indication = null,
+                                    onClick = {},
+                                    onLongClick = { showMenu = true }
+                                ),
                             elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
                             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.20f))
                         ) {
@@ -203,6 +253,46 @@ class FragListadoFrases : Fragment() {
                                     .padding(12.dp),
                                 verticalArrangement = Arrangement.spacedBy(6.dp)
                             ) {
+                                Box(modifier = Modifier.fillMaxWidth()) {
+                                    FraseOptionsMenu(
+                                        expanded = showMenu,
+                                        onDismiss = { showMenu = false },
+                                        onConvertirNota = {
+                                            val result = FraseContextActions.convertirFraseEnNota(context, item.frase)
+                                            if (result.ok) {
+                                                Toast.makeText(
+                                                    context,
+                                                    "Nota creada: ${result.titulo}",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            } else {
+                                                Toast.makeText(
+                                                    context,
+                                                    "No se pudo crear la nota",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
+                                        },
+                                        onCargarLienzo = {
+                                            FraseContextActions.cargarFraseEnLienzo(context, item.frase)
+                                        },
+                                        onCompartirSistema = {
+                                            FraseContextActions.compartirFraseSistema(
+                                                context = context,
+                                                frase = item.frase,
+                                                autor = item.autor,
+                                                fuente = item.fuente
+                                            )
+                                        },
+                                        onAbrirNotaFrase = {
+                                            FraseContextActions.abrirNotaDeFrase(context, item.frase)
+                                        },
+                                        onCrearNuevaFrase = {
+                                            showCreateDialog = true
+                                        }
+                                    )
+                                }
+
                                 Text(text = item.frase, fontWeight = FontWeight.Medium)
                                 Text(
                                     text = "<${item.autor}>",

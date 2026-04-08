@@ -56,7 +56,7 @@ import com.ypg.neville.MainActivity
 import com.ypg.neville.R
 import com.ypg.neville.model.db.DatabaseHelper
 import com.ypg.neville.model.db.utilsDB
-import com.ypg.neville.model.utils.QRManager
+import com.ypg.neville.model.utils.FraseContextActions
 import com.ypg.neville.model.utils.UiModalWindows
 import com.ypg.neville.model.utils.utilsFields
 
@@ -100,13 +100,16 @@ class FragHome : Fragment() {
     @Composable
     private fun HomeScreen(initial: HomeDisplay?) {
         val context = LocalContext.current
+        val activityContext = remember { this@FragHome.requireActivity() }
         val prefs = remember { PreferenceManager.getDefaultSharedPreferences(context) }
 
         var frase by remember(initial) { mutableStateOf(initial?.frase.orEmpty()) }
         var autor by remember(initial) { mutableStateOf(initial?.autor.orEmpty()) }
+        var fuente by remember(initial) { mutableStateOf(initial?.fuente.orEmpty()) }
         var favState by remember(initial) { mutableStateOf(initial?.fav ?: "0") }
         var idFrase by remember(initial) { mutableLongStateOf(initial?.id ?: 0L) }
         var hideInlineControls by remember { mutableStateOf(prefs.getBoolean("hide_frase_controles", false)) }
+        var showFraseMenu by remember { mutableStateOf(false) }
 
         val textSize = (prefs.getString("fuente_frase", "28")?.toFloatOrNull() ?: 28f).coerceIn(16f, 40f)
         val textColor = prefs.getInt("color_letra_frases_home", prefs.getInt("color_letra_frases", 0))
@@ -130,46 +133,72 @@ class FragHome : Fragment() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     val noRipple = remember { MutableInteractionSource() }
-                    Text(
-                        text = frase,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 10.dp)
-                            .heightIn(max = 420.dp)
-                            .verticalScroll(rememberScrollState())
-                            .combinedClickable(
-                                interactionSource = noRipple,
-                                indication = null,
-                                onClick = {
-                                    val startMode = prefs.getString("list_start_load", "Nada") ?: "Nada"
-                                    val loaded = loadFrase(startMode.contains("Frase_fav_azar"))
-                                    if (loaded != null) {
-                                        frase = loaded.frase
-                                        autor = loaded.autor
-                                        favState = loaded.fav
-                                        idFrase = loaded.id
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        Text(
+                            text = frase,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 10.dp)
+                                .heightIn(max = 420.dp)
+                                .verticalScroll(rememberScrollState())
+                                .combinedClickable(
+                                    interactionSource = noRipple,
+                                    indication = null,
+                                    onClick = {
+                                        val startMode = prefs.getString("list_start_load", "Nada") ?: "Nada"
+                                        val loaded = loadFrase(startMode.contains("Frase_fav_azar"))
+                                        if (loaded != null) {
+                                            frase = loaded.frase
+                                            autor = loaded.autor
+                                            fuente = loaded.fuente
+                                            favState = loaded.fav
+                                            idFrase = loaded.id
+                                        }
+                                    },
+                                    onLongClick = {
+                                        if (frase.isNotBlank()) {
+                                            showFraseMenu = true
+                                        }
                                     }
-                                },
-                                onLongClick = {
-                                    if (frase.isNotBlank()) {
-                                        val nota = utilsDB.getFraseNota(context, frase)
-                                        UiModalWindows.NotaManager(
-                                            context,
-                                            nota,
-                                            DatabaseHelper.T_Frases,
-                                            DatabaseHelper.C_frases_frase,
-                                            frase
-                                        )
-                                    }
+                                ),
+                            textAlign = TextAlign.Center,
+                            fontSize = textSize.sp,
+                            lineHeight = (textSize * 1.38f).sp,
+                            fontFamily = FontFamily.Serif,
+                            fontWeight = FontWeight.SemiBold,
+                            color = if (textColor != 0) Color(textColor) else Color.Black
+                        )
+
+                        FraseOptionsMenu(
+                            expanded = showFraseMenu,
+                            onDismiss = { showFraseMenu = false },
+                            onConvertirNota = {
+                                val result = FraseContextActions.convertirFraseEnNota(activityContext, frase)
+                                if (result.ok) {
+                                    Toast.makeText(activityContext, "Nota creada: ${result.titulo}", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    Toast.makeText(activityContext, "No se pudo crear la nota", Toast.LENGTH_SHORT).show()
                                 }
-                            ),
-                        textAlign = TextAlign.Center,
-                        fontSize = textSize.sp,
-                        lineHeight = (textSize * 1.38f).sp,
-                        fontFamily = FontFamily.Serif,
-                        fontWeight = FontWeight.SemiBold,
-                        color = if (textColor != 0) Color(textColor) else MaterialTheme.colorScheme.onBackground
-                    )
+                            },
+                            onCargarLienzo = {
+                                FraseContextActions.cargarFraseEnLienzo(activityContext, frase)
+                            },
+                            onCompartirSistema = {
+                                FraseContextActions.compartirFraseSistema(
+                                    context = activityContext,
+                                    frase = frase,
+                                    autor = autor,
+                                    fuente = fuente
+                                )
+                            },
+                            onAbrirNotaFrase = {
+                                FraseContextActions.abrirNotaDeFrase(activityContext, frase)
+                            },
+                            onCrearNuevaFrase = {
+                                UiModalWindows.Add_New_frase(activityContext, null)
+                            }
+                        )
+                    }
 
                     Text(
                         text = "<$autor>",
@@ -234,22 +263,10 @@ class FragHome : Fragment() {
 
                             Spacer(modifier = Modifier.width(12.dp))
 
-                            IconButton(onClick = {
-                                val payload = getString(
-                                    R.string.qr_share_frase_payload,
-                                    frase,
-                                    autor
-                                )
-                                QRManager.ShowQRDialog(
-                                    context,
-                                    payload,
-                                    "Compartir Frase",
-                                    "Puede utilizar el lector QR para importar frases"
-                                )
-                            }) {
+                            IconButton(onClick = { showFraseMenu = true }) {
                                 Icon(
-                                    painter = painterResource(id = R.drawable.ic_share),
-                                    contentDescription = "Compartir",
+                                    painter = painterResource(id = R.drawable.ic_menu_open),
+                                    contentDescription = "Opciones",
                                     tint = colorResource(id = R.color.shared_social)
                                 )
                             }
@@ -264,6 +281,7 @@ class FragHome : Fragment() {
         val id: Long,
         val frase: String,
         val autor: String,
+        val fuente: String,
         val fav: String
     )
 
@@ -282,7 +300,7 @@ class FragHome : Fragment() {
                 frase?.let {
                     utilsFields.ID_row_ofElementLoad = it.id.toInt()
                     utilsFields.ID_Str_row_ofElementLoad = it.frase
-                    HomeDisplay(it.id, it.frase, it.autor, it.favState())
+                    HomeDisplay(it.id, it.frase, it.autor, it.fuente, it.favState())
                 }
             }
 
@@ -334,7 +352,7 @@ class FragHome : Fragment() {
             utilsFields.ID_row_ofElementLoad = frase.id.toInt()
             utilsFields.ID_Str_row_ofElementLoad = frase.frase
             prefs.edit { putString(utilsFields.SETTING_KEY_ID_ULTIMA_FRASE, frase.id.toString()) }
-            HomeDisplay(frase.id, frase.frase, frase.autor, frase.favState())
+            HomeDisplay(frase.id, frase.frase, frase.autor, frase.fuente, frase.favState())
         } else {
             val hasAnyFilter = prefs.getBoolean("home_filter_autores", true) ||
                 prefs.getBoolean("home_filter_otros", true) ||

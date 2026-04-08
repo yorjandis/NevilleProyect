@@ -33,6 +33,7 @@
     <string name="author_resources_section_title">Recursos</string>
     <string name="author_biography_button_placeholder">Biografía (próximamente)</string>
     <string name="author_quote_placeholder">Frase placeholder de %1$s. El contenido del compendio se añadirá próximamente.</string>
+    <string name="author_quote_premium_placeholder">Las Frases de %1$s están disponibles en la versión extendida</string>
     <string name="autores">Autores</string>
     <string name="image_de_neville">image de neville</string>
     <string name="la_imaginaci_n_crea_la_realidad">La imaginación crea la realidad</string>

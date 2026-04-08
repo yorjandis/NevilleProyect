@@ -3,6 +3,7 @@ package com.ypg.neville.model.utils
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
@@ -11,16 +12,21 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
@@ -29,6 +35,16 @@ import com.ypg.neville.model.db.utilsDB
 
 @Suppress("FunctionName")
 object UiModalWindows {
+
+    private fun applyDialogKeyboardBehavior(dialog: AlertDialog, composeView: ComposeView) {
+        dialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
+        dialog.window?.setSoftInputMode(
+            WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE or
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
+        )
+        composeView.isFocusableInTouchMode = true
+        composeView.requestFocus()
+    }
 
     @JvmStatic
     fun Add_New_frase(pcontext: Context, contentValues: ContentValues?) {
@@ -46,12 +62,23 @@ object UiModalWindows {
                 var frase by remember { mutableStateOf(contentValues?.getAsString("frase") ?: "") }
                 var autor by remember { mutableStateOf(contentValues?.getAsString("autor") ?: "") }
                 var fuente by remember { mutableStateOf(contentValues?.getAsString("fuente") ?: "") }
+                val focusRequester = remember { FocusRequester() }
+                val keyboardController = LocalSoftwareKeyboardController.current
+
+                LaunchedEffect(Unit) {
+                    focusRequester.requestFocus()
+                    keyboardController?.show()
+                }
 
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(12.dp)) {
                     OutlinedTextField(
                         value = frase,
                         onValueChange = { frase = it },
                         label = { Text("Frase") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(168.dp)
+                            .focusRequester(focusRequester),
                         shape = RoundedCornerShape(14.dp)
                     )
                     OutlinedTextField(
@@ -102,6 +129,7 @@ object UiModalWindows {
         }
 
         alertDialog.show()
+        applyDialogKeyboardBehavior(alertDialog, compose)
     }
 
     @JvmStatic
@@ -189,11 +217,20 @@ object UiModalWindows {
         compose.setContent {
             com.ypg.neville.ui.theme.NevilleTheme {
                 var notaTexto by remember { mutableStateOf(nota) }
+                val focusRequester = remember { FocusRequester() }
+                val keyboardController = LocalSoftwareKeyboardController.current
+
+                LaunchedEffect(Unit) {
+                    focusRequester.requestFocus()
+                    keyboardController?.show()
+                }
+
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(12.dp)) {
                     OutlinedTextField(
                         value = notaTexto,
                         onValueChange = { notaTexto = it },
                         label = { Text("Nota") },
+                        modifier = Modifier.focusRequester(focusRequester),
                         shape = RoundedCornerShape(14.dp)
                     )
                     Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
@@ -218,6 +255,7 @@ object UiModalWindows {
         }
 
         alertDialog.show()
+        applyDialogKeyboardBehavior(alertDialog, compose)
     }
 
     @JvmStatic

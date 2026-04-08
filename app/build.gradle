@@ -13,8 +13,8 @@ android {
         applicationId "com.ypg.neville"
         minSdk 24
         targetSdk 36
-        versionCode 43
-        versionName "2.1.8"
+        versionCode 46
+        versionName "3.0.1"
         signingConfig = signingConfigs.debug
     }
 
@@ -71,8 +71,12 @@ dependencies {
     implementation 'com.google.android.play:feature-delivery:2.1.0'
     implementation 'com.google.android.play:review:2.0.2'
     implementation 'com.google.android.play:app-update:2.1.0'
+    implementation 'com.android.billingclient:billing-ktx:7.1.1'
 
     implementation 'androidx.preference:preference:1.2.1'
+    implementation 'androidx.biometric:biometric:1.1.0'
+    implementation 'androidx.documentfile:documentfile:1.1.0'
+    implementation 'androidx.work:work-runtime-ktx:2.11.2'
     implementation 'com.github.androidmads:QRGenerator:1.0.1'
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
     implementation 'com.google.zxing:core:3.5.4'

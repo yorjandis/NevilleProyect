@@ -14,6 +14,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -42,6 +44,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -56,8 +59,10 @@ import com.ypg.neville.model.utils.QRManager
 import com.ypg.neville.model.utils.UiModalWindows
 import com.ypg.neville.model.utils.Utils
 import com.ypg.neville.model.utils.myListener_In_App_Update
+import com.ypg.neville.model.subscription.SubscriptionManager
 import com.ypg.neville.ui.frag.HomeFloatingMenuBottomSheet
 import com.ypg.neville.ui.frag.SheetNavHostBottomSheet
+import com.ypg.neville.ui.frag.SubscriptionPaywallDialog
 import com.ypg.neville.ui.frag.frag_listado
 import java.lang.ref.WeakReference
 
@@ -89,6 +94,7 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setCurrentInstance(this)
+        SubscriptionManager.initialize(this)
 
         toolbarColor.value = prefs.getInt("color_marcos", 0).takeIf { it != 0 }
 
@@ -148,6 +154,11 @@ class MainActivity : AppCompatActivity() {
             utilsDB.CorrectOrtogFrases(this)
             prefs.edit { putBoolean("updateFrases", false) }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        SubscriptionManager.refreshStatus()
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -290,10 +301,97 @@ class MainActivity : AppCompatActivity() {
 
     fun openDestinationAsSheet(destinationId: Int) {
         if (destinationId == R.id.frag_home) return
+        if (destinationId == R.id.frag_notas && shouldRequireNotesBiometricLock()) {
+            if (!SubscriptionManager.hasActiveSubscriptionNow()) {
+                showSubscriptionPaywall("La protección biométrica de Notas forma parte de la suscripción anual.")
+                return
+            }
+            showNotesBiometricPrompt {
+                openDestinationAsSheetInternal(destinationId)
+            }
+            return
+        }
+        if ((destinationId == R.id.frag_metas || destinationId == R.id.frag_lienzo) &&
+            !SubscriptionManager.hasActiveSubscriptionNow()
+        ) {
+            showSubscriptionPaywall(
+                if (destinationId == R.id.frag_metas) {
+                    "Metas forma parte de la suscripción anual."
+                } else {
+                    "Lienzo forma parte de la suscripción anual."
+                }
+            )
+            return
+        }
+        openDestinationAsSheetInternal(destinationId)
+    }
+
+    private fun openDestinationAsSheetInternal(destinationId: Int) {
         val tag = "sheet_dest_$destinationId"
         if (supportFragmentManager.findFragmentByTag(tag) != null) return
         SheetNavHostBottomSheet.newInstance(destinationId)
             .show(supportFragmentManager, tag)
+    }
+
+    private fun shouldRequireNotesBiometricLock(): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        return prefs.getBoolean("notes_biometric_lock_enabled", false)
+    }
+
+    private fun showNotesBiometricPrompt(onSuccess: () -> Unit) {
+        val canAuth = BiometricManager.from(this).canAuthenticate(
+            BiometricManager.Authenticators.BIOMETRIC_STRONG or
+                BiometricManager.Authenticators.BIOMETRIC_WEAK
+        )
+        if (canAuth != BiometricManager.BIOMETRIC_SUCCESS) {
+            Toast.makeText(
+                this,
+                "No hay biometría disponible/configurada en este dispositivo",
+                Toast.LENGTH_LONG
+            ).show()
+            return
+        }
+
+        runCatching {
+            val executor = ContextCompat.getMainExecutor(this)
+            val prompt = BiometricPrompt(
+                this,
+                executor,
+                object : BiometricPrompt.AuthenticationCallback() {
+                    override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                        onSuccess()
+                    }
+
+                    override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                        Toast.makeText(this@MainActivity, errString, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            )
+
+            val promptInfo = BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Acceso a Notas")
+                .setSubtitle("Autentícate para abrir tu lista de notas")
+                .setNegativeButtonText("Cancelar")
+                .setAllowedAuthenticators(
+                    BiometricManager.Authenticators.BIOMETRIC_STRONG or
+                        BiometricManager.Authenticators.BIOMETRIC_WEAK
+                )
+                .build()
+
+            prompt.authenticate(promptInfo)
+        }.onFailure { error ->
+            Toast.makeText(
+                this,
+                error.message ?: "No se pudo iniciar autenticación biométrica",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    fun showSubscriptionPaywall(reason: String? = null) {
+        if (supportFragmentManager.findFragmentByTag(SubscriptionPaywallDialog.TAG) != null) return
+        SubscriptionPaywallDialog.newInstance(reason)
+            .show(supportFragmentManager, SubscriptionPaywallDialog.TAG)
     }
 
     @Composable

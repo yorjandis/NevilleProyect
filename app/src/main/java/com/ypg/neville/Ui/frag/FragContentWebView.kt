@@ -5,14 +5,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.ypg.neville.MainActivity
 import com.ypg.neville.model.db.DatabaseHelper
@@ -52,10 +63,23 @@ class FragContentWebView : Fragment() {
 
         (view as ComposeView).setContent {
             com.ypg.neville.ui.theme.NevilleTheme {
-                if (shouldUseNativeRenderer(urlPath)) {
-                    TxtContent(urlPath)
-                } else {
-                    WebContent(urlPath)
+                Box(modifier = Modifier.fillMaxSize()) {
+                    Column(modifier = Modifier.fillMaxSize()) {
+                        if (shouldUseNativeRenderer(urlPath)) {
+                            TxtContent(urlPath)
+                        } else {
+                            WebContent(urlPath)
+                        }
+                    }
+
+                    AssistChip(
+                        onClick = { navigateToPreviousScreen() },
+                        label = { androidx.compose.material3.Text("Atrás") },
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .padding(end = 12.dp, bottom = 12.dp)
+                            .height(34.dp)
+                    )
                 }
             }
         }
@@ -64,6 +88,11 @@ class FragContentWebView : Fragment() {
     override fun onStart() {
         super.onStart()
         visibilidadIconos()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        isPremiumPreviewMode = false
     }
 
     @Composable
@@ -160,6 +189,23 @@ class FragContentWebView : Fragment() {
     }
 
     private fun buildBlocksForNativeText(assetPath: String, rawText: String): List<ContentBlock> {
+        if (isPremiumPreviewMode) {
+            val fullContent = extractTextForPremiumPreview(assetPath, rawText)
+                .replace("\\s+".toRegex(), " ")
+                .trim()
+            val preview = fullContent.take(350).trimEnd()
+            val previewText = if (preview.isBlank()) {
+                "..."
+            } else {
+                "$preview..."
+            }
+            return listOf(
+                ContentBlock(content = BlockType.Text(previewText)),
+                ContentBlock(content = BlockType.Text("")),
+                ContentBlock(content = BlockType.Text("[Contenido disponible en la Versión extendida]"))
+            )
+        }
+
         val reflection = parseReflectionContent(assetPath, rawText)
         if (reflection != null) {
             val blocks = mutableListOf<ContentBlock>()
@@ -173,6 +219,14 @@ class FragContentWebView : Fragment() {
             return blocks
         }
         return listOf(ContentBlock(content = BlockType.Text(rawText)))
+    }
+
+    private fun extractTextForPremiumPreview(assetPath: String, rawText: String): String {
+        val reflection = parseReflectionContent(assetPath, rawText)
+        if (reflection != null) {
+            return reflection.contenido.joinToString(separator = " ")
+        }
+        return rawText
     }
 
     private fun parseReflectionContent(assetPath: String, rawText: String): ReflectionContent? {
@@ -294,6 +348,12 @@ class FragContentWebView : Fragment() {
         runCatching { MainActivity.currentInstance()?.setFavColor(favState) }
     }
 
+    private fun navigateToPreviousScreen() {
+        val navController = runCatching { findNavController() }.getOrNull()
+        if (navController?.popBackStack() == true) return
+        runCatching { requireActivity().onBackPressedDispatcher.onBackPressed() }
+    }
+
     companion object {
         @JvmField
         var urlPath = ""
@@ -309,6 +369,9 @@ class FragContentWebView : Fragment() {
 
         @JvmField
         var elementLoaded = ""
+
+        @JvmField
+        var isPremiumPreviewMode = false
 
         @JvmStatic
         fun confAssetFileNameFromTitle(title: String): String {

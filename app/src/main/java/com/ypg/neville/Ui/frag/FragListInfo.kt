@@ -44,6 +44,7 @@ import com.ypg.neville.model.db.DatabaseHelper
 import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.utils.UiModalWindows
 import com.ypg.neville.model.utils.utilsFields
+import com.ypg.neville.ui.theme.ContextMenuShape
 
 class FragListInfo : Fragment() {
 
@@ -129,7 +130,11 @@ class FragListInfo : Fragment() {
                 Text("Filtro: $filtroActual")
             }
 
-            DropdownMenu(expanded = showFiltroMenu, onDismissRequest = { showFiltroMenu = false }) {
+            DropdownMenu(
+                expanded = showFiltroMenu,
+                onDismissRequest = { showFiltroMenu = false },
+                shape = ContextMenuShape
+            ) {
                 filtros.forEach { filtro ->
                     DropdownMenuItem(
                         text = { Text(filtro) },

@@ -9,6 +9,7 @@ import com.ypg.neville.model.db.room.NevilleRoomDatabase
 import com.ypg.neville.model.db.room.NotaEntity
 import com.ypg.neville.model.frases.FrasesAssetParser
 import com.ypg.neville.model.frases.FrasesAssetSyncManager
+import com.ypg.neville.model.subscription.SubscriptionManager
 import com.ypg.neville.model.utils.GetFromRepo
 import java.io.IOException
 import java.util.LinkedList
@@ -506,6 +507,15 @@ object utilsDB {
             includeOtros = if (filter.includeOtros) 1 else 0,
             includeSalud = if (filter.includeSalud) 1 else 0
         ).filter { frase ->
+            val isPremiumActive = SubscriptionManager.hasActiveSubscription(context)
+            if (!isPremiumActive && frase.personalState() != "1") {
+                val mustBlockBySubscription = when (frase.categoria.uppercase()) {
+                    FrasesAssetParser.CATEGORIA_SALUD, FrasesAssetParser.CATEGORIA_OTROS -> true
+                    FrasesAssetParser.CATEGORIA_AUTOR -> !frase.autor.contains("neville", ignoreCase = true)
+                    else -> false
+                }
+                if (mustBlockBySubscription) return@filter false
+            }
             if (frase.categoria != FrasesAssetParser.CATEGORIA_AUTOR) return@filter true
             when (frase.autor.trim().lowercase()) {
                 "neville goddard" -> filter.includeNeville

@@ -242,5 +242,12 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
                 instance
             }
         }
+
+        fun closeInstance() {
+            synchronized(this) {
+                INSTANCE?.close()
+                INSTANCE = null
+            }
+        }
     }
 }

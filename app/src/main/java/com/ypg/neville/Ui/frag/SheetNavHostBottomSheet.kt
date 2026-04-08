@@ -1,5 +1,6 @@
 package com.ypg.neville.ui.frag
 
+import androidx.activity.OnBackPressedCallback
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.Gravity
@@ -8,12 +9,14 @@ import android.view.ViewGroup
 import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.commitNow
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.ypg.neville.R
 
 class SheetNavHostBottomSheet : DialogFragment() {
 
     private var containerId: Int = View.generateViewId()
+    private var childNavController: NavController? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,9 +70,24 @@ class SheetNavHostBottomSheet : DialogFragment() {
 
         val startDestination = requireArguments().getInt(ARG_START_DESTINATION)
         val navController = navHost.navController
+        childNavController = navController
         val graph = navController.navInflater.inflate(R.navigation.nav_graf)
         graph.setStartDestination(startDestination)
         navController.setGraph(graph, Bundle())
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    val controller = childNavController
+                    if (controller != null && controller.currentDestination?.id != controller.graph.startDestinationId) {
+                        controller.popBackStack()
+                    } else {
+                        dismiss()
+                    }
+                }
+            }
+        )
     }
 
     companion object {

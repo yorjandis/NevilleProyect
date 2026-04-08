@@ -71,6 +71,7 @@ import com.ypg.neville.model.metas.ProgramaPreestablecido
 import com.ypg.neville.model.metas.TimeUnitType
 import com.ypg.neville.model.metas.UnitStatus
 import com.ypg.neville.model.metas.UnitInfo
+import com.ypg.neville.ui.theme.ContextMenuShape
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -511,29 +512,54 @@ class FragMetas : Fragment() {
                 .padding(horizontal = 6.dp),
             shape = RoundedCornerShape(16.dp)
         ) {
-            Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Column(modifier = Modifier.padding(12.dp)) {
                 Text(state.goal.title, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                Spacer(Modifier.height(6.dp))
                 Text("Cumplimiento: ${(state.completionRate * 100).toInt()}%")
+                Spacer(Modifier.height(6.dp))
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text("${(state.progressRatio * 100).toInt()}%", modifier = Modifier.width(48.dp))
                     GradientProgressBar(progress = state.progressRatio, lostIndexes = state.lostIndexes, total = state.goal.totalUnits)
                 }
+                Spacer(Modifier.height(4.dp))
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text("Completado: ${state.completedCount}/${state.goal.totalUnits}", fontWeight = FontWeight.SemiBold)
                     Spacer(Modifier.weight(1f))
-                    TextButton(onClick = { showRestore = true }) { Text("Reactivar") }
-                    TextButton(onClick = { expandNotes = !expandNotes; if (expandNotes) expandUnits = false }) { Text("Notas") }
-                    TextButton(onClick = { expandUnits = !expandUnits; if (expandUnits) expandNotes = false }) { Text("Progreso") }
-                    TextButton(onClick = { showDelete = true }) { Text("Eliminar") }
+                    IconButton(onClick = { showRestore = true }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_play_store),
+                            contentDescription = "Reactivar"
+                        )
+                    }
+                    IconButton(onClick = { expandNotes = !expandNotes; if (expandNotes) expandUnits = false }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_note),
+                            contentDescription = "Notas"
+                        )
+                    }
+                    IconButton(onClick = { expandUnits = !expandUnits; if (expandUnits) expandNotes = false }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_show),
+                            contentDescription = "Progreso"
+                        )
+                    }
+                    IconButton(onClick = { showDelete = true }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_delete),
+                            contentDescription = "Eliminar"
+                        )
+                    }
                 }
 
                 if (expandUnits) {
+                    Spacer(Modifier.height(8.dp))
                     ArchivedUnitsPanel(state = state, onUnitInfo = { unitDetail = it })
                 }
 
                 if (expandNotes) {
+                    Spacer(Modifier.height(8.dp))
                     Text("Notas Generales", fontWeight = FontWeight.Bold)
                     OutlinedTextField(
                         value = noteText,
@@ -916,7 +942,11 @@ class FragMetas : Fragment() {
                                 Button(onClick = { showUnitMenu = true }) {
                                     Text("Tipo: ${selectedUnit.raw}")
                                 }
-                                DropdownMenu(expanded = showUnitMenu, onDismissRequest = { showUnitMenu = false }) {
+                                DropdownMenu(
+                                    expanded = showUnitMenu,
+                                    onDismissRequest = { showUnitMenu = false },
+                                    shape = ContextMenuShape
+                                ) {
                                     TimeUnitType.entries.forEach { unit ->
                                         DropdownMenuItem(
                                             text = { Text(unit.raw) },

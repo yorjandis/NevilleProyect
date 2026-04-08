@@ -26,6 +26,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -46,8 +47,10 @@ import androidx.preference.PreferenceManager
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
 import com.ypg.neville.model.db.utilsDB
+import com.ypg.neville.model.subscription.SubscriptionManager
 import com.ypg.neville.model.utils.Utils
 import com.ypg.neville.model.utils.utilsFields
+import com.ypg.neville.ui.theme.ContextMenuShape
 import java.io.IOException
 import java.util.Locale
 
@@ -83,6 +86,8 @@ class frag_listado : Fragment() {
     @Composable
     private fun ListadoScreen(navController: NavController) {
         val context = LocalContext.current
+        val subscriptionState by SubscriptionManager.uiState.collectAsState()
+        val hasPremium = subscriptionState.isActive
         val prefs = remember { PreferenceManager.getDefaultSharedPreferences(context) }
         val listado = remember { mutableStateListOf<String>() }
         var queryTitulo by remember { mutableStateOf("") }
@@ -150,7 +155,11 @@ class frag_listado : Fragment() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     AssistChip(onClick = { showFilterMenu = true }, label = { Text("Filtro: $filter") })
-                    DropdownMenu(expanded = showFilterMenu, onDismissRequest = { showFilterMenu = false }) {
+                    DropdownMenu(
+                        expanded = showFilterMenu,
+                        onDismissRequest = { showFilterMenu = false },
+                        shape = ContextMenuShape
+                    ) {
                         listOf("Todas", "Favoritos", "Con notas").forEach { option ->
                             DropdownMenuItem(
                                 text = { Text(option) },
@@ -251,8 +260,10 @@ class frag_listado : Fragment() {
     }
 
     private fun onItemSelected(selectedItemText: String, navController: NavController) {
+        val hasPremium = SubscriptionManager.hasActiveSubscription(requireContext())
         when (elementLoaded) {
             "autores/neville/conf" -> {
+                FragContentWebView.isPremiumPreviewMode = false
                 FragContentWebView.elementLoaded = "autores/neville/conf"
                 utilsFields.ID_Str_row_ofElementLoad = selectedItemText
                 val confFileName = FragContentWebView.confAssetFileNameFromTitle(selectedItemText)
@@ -261,42 +272,49 @@ class frag_listado : Fragment() {
             }
 
             "preguntas" -> {
+                FragContentWebView.isPremiumPreviewMode = false
                 utilsFields.ID_Str_row_ofElementLoad = selectedItemText
                 FragContentWebView.urlPath = "file:///android_asset/autores/neville/preg/$selectedItemText.txt"
                 navController.navigate(R.id.frag_content_webview)
             }
 
             "citasConferencias" -> {
+                FragContentWebView.isPremiumPreviewMode = false
                 utilsFields.ID_Str_row_ofElementLoad = selectedItemText
                 FragContentWebView.urlPath = "file:///android_asset/autores/neville/cita/$selectedItemText.txt"
                 navController.navigate(R.id.frag_content_webview)
             }
 
             "ayudas" -> {
+                FragContentWebView.isPremiumPreviewMode = false
                 utilsFields.ID_Str_row_ofElementLoad = selectedItemText
                 FragContentWebView.urlPath = "file:///android_asset/ayuda/$selectedItemText.txt"
                 navController.navigate(R.id.frag_content_webview)
             }
 
             "evidenciaCientifica" -> {
+                FragContentWebView.isPremiumPreviewMode = !hasPremium
                 utilsFields.ID_Str_row_ofElementLoad = selectedItemText
                 FragContentWebView.urlPath = "file:///android_asset/evidenciaCientifica/$selectedItemText.txt"
                 navController.navigate(R.id.frag_content_webview)
             }
 
             "reflexiones" -> {
+                FragContentWebView.isPremiumPreviewMode = false
                 utilsFields.ID_Str_row_ofElementLoad = selectedItemText
                 FragContentWebView.urlPath = "file:///android_asset/reflexiones/$selectedItemText.txt"
                 navController.navigate(R.id.frag_content_webview)
             }
 
             "enciclopedia" -> {
+                FragContentWebView.isPremiumPreviewMode = false
                 elementLoaded = "enciclopedia/$selectedItemText"
                 navController.navigate(R.id.frag_listado)
             }
 
             else -> {
                 if (elementLoaded.startsWith("enciclopedia/")) {
+                    FragContentWebView.isPremiumPreviewMode = !hasPremium
                     utilsFields.ID_Str_row_ofElementLoad = selectedItemText
                     val section = elementLoaded.removePrefix("enciclopedia/")
                     FragContentWebView.urlPath = "file:///android_asset/enciclopedia/$section/$selectedItemText.txt"

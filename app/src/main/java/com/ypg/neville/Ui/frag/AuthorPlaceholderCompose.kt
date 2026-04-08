@@ -23,10 +23,15 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,6 +45,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.preference.PreferenceManager
+import com.ypg.neville.ui.theme.ContextMenuShape
 
 @Composable
 fun AuthorPlaceholderScreen(
@@ -47,7 +53,12 @@ fun AuthorPlaceholderScreen(
     imageRes: Int,
     quote: String,
     onQuoteClick: () -> Unit,
-    cards: List<AccessCardPlaceholder>
+    onBiographyClick: () -> Unit,
+    onTeachingSummaryClick: () -> Unit,
+    teachingSummaryEnabled: Boolean,
+    cards: List<AccessCardPlaceholder>,
+    hasResourceAccess: Boolean,
+    onResourceClick: (String) -> Unit
 ) {
     val context = LocalContext.current
     val prefs = PreferenceManager.getDefaultSharedPreferences(context)
@@ -92,11 +103,20 @@ fun AuthorPlaceholderScreen(
                     )
 
                     Button(
-                        onClick = {},
+                        onClick = onBiographyClick,
                         modifier = Modifier.padding(top = 10.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = primaryBtn)
                     ) {
                         Text("Biografía", color = Color.White)
+                    }
+
+                    Button(
+                        onClick = onTeachingSummaryClick,
+                        enabled = teachingSummaryEnabled,
+                        modifier = Modifier.padding(top = 8.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = secondaryBtn)
+                    ) {
+                        Text("Resumen Enseñanza", color = Color.White)
                     }
                 }
             }
@@ -130,7 +150,7 @@ fun AuthorPlaceholderScreen(
             ) {
                 Text(
                     text = quote,
-                    color = if (textColor != 0) Color(textColor) else MaterialTheme.colorScheme.onBackground,
+                    color = if (textColor != 0) Color(textColor) else Color.Black,
                     fontSize = textSize.sp,
                     lineHeight = (textSize * 1.38f).sp,
                     fontFamily = FontFamily.Serif,
@@ -158,13 +178,41 @@ fun AuthorPlaceholderScreen(
         }
 
         item {
+            if (!hasResourceAccess) {
+                Text(
+                    text = "Disponible en la Versión Extendida",
+                    color = bodyColor,
+                    fontSize = 14.sp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 6.dp)
+                )
+            }
+        }
+
+        item {
+            if (cards.isEmpty()) {
+                Text(
+                    text = "No hay recursos disponibles",
+                    color = bodyColor,
+                    fontSize = 14.sp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp)
+                )
+                return@item
+            }
+
             LazyRow(
                 modifier = Modifier.padding(top = 10.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(cards) { card ->
+                    var showChapterMenu by remember(card.title) { mutableStateOf(false) }
                     Card(
-                        modifier = Modifier.width(220.dp),
+                        modifier = Modifier
+                            .width(220.dp)
+                            .height(150.dp),
                         shape = RoundedCornerShape(16.dp),
                         colors = CardDefaults.cardColors(containerColor = Color.White),
                         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
@@ -179,7 +227,14 @@ fun AuthorPlaceholderScreen(
                             )
 
                             Button(
-                                onClick = {},
+                                onClick = {
+                                    if (card.menuItems.isNotEmpty()) {
+                                        showChapterMenu = true
+                                    } else {
+                                        onResourceClick(card.primaryAssetPath)
+                                    }
+                                },
+                                enabled = hasResourceAccess,
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(top = 6.dp),
@@ -188,9 +243,30 @@ fun AuthorPlaceholderScreen(
                                 Text(card.primaryButton, color = Color.White)
                             }
 
+                            if (card.menuItems.isNotEmpty()) {
+                                DropdownMenu(
+                                    expanded = showChapterMenu,
+                                    onDismissRequest = { showChapterMenu = false },
+                                    shape = ContextMenuShape
+                                ) {
+                                    card.menuItems.forEach { menuItem ->
+                                        DropdownMenuItem(
+                                            text = { Text(menuItem.title) },
+                                            onClick = {
+                                                showChapterMenu = false
+                                                onResourceClick(menuItem.assetPath)
+                                            }
+                                        )
+                                    }
+                                }
+                            }
+
                             if (!card.secondaryButton.isNullOrBlank()) {
                                 Button(
-                                    onClick = {},
+                                    onClick = {
+                                        card.secondaryAssetPath?.let(onResourceClick)
+                                    },
+                                    enabled = hasResourceAccess && !card.secondaryAssetPath.isNullOrBlank(),
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .padding(top = 8.dp)

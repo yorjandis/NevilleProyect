@@ -33,6 +33,8 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.DialogFragment
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
+import com.ypg.neville.model.subscription.SubscriptionManager
+import com.ypg.neville.ui.theme.ContextMenuShape
 
 class HomeFloatingMenuBottomSheet : DialogFragment() {
 
@@ -86,6 +88,7 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                                     "lienzo" -> host?.openDestinationAsSheet(R.id.frag_lienzo)
                                     "metas" -> host?.openDestinationAsSheet(R.id.frag_metas)
                                     "ajustes" -> host?.openDestinationAsSheet(R.id.fragSetting)
+                                    "premium" -> host?.showSubscriptionPaywall()
                                 }
                                 dismiss()
                             })
@@ -109,6 +112,7 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
     private fun FloatingMenuContent(onNavigate: (String) -> Unit) {
         var showRecursos by remember { mutableStateOf(false) }
         var showProductividad by remember { mutableStateOf(false) }
+        val hasPremium = SubscriptionManager.hasActiveSubscriptionNow()
 
         Column(
             modifier = Modifier
@@ -147,11 +151,27 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                             Text("Recursos Didácticos")
                         }
 
-                        DropdownMenu(expanded = showRecursos, onDismissRequest = { showRecursos = false }) {
+                        DropdownMenu(
+                            expanded = showRecursos,
+                            onDismissRequest = { showRecursos = false },
+                            shape = ContextMenuShape
+                        ) {
                             DropdownMenuItem(text = { Text("Frases") }, onClick = { showRecursos = false; onNavigate("frases") })
                             DropdownMenuItem(text = { Text("Notas") }, onClick = { showRecursos = false; onNavigate("notas") })
-                            DropdownMenuItem(text = { Text("Enciclopedia") }, onClick = { showRecursos = false; onNavigate("enciclopedia") })
-                            DropdownMenuItem(text = { Text("Evidencia Científica") }, onClick = { showRecursos = false; onNavigate("evidencia") })
+                            DropdownMenuItem(
+                                text = { Text(if (hasPremium) "Enciclopedia" else "Enciclopedia (Preview)") },
+                                onClick = {
+                                    showRecursos = false
+                                    onNavigate("enciclopedia")
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(if (hasPremium) "Evidencia Científica" else "Evidencia Científica (Preview)") },
+                                onClick = {
+                                    showRecursos = false
+                                    onNavigate("evidencia")
+                                }
+                            )
                             DropdownMenuItem(text = { Text("Reflexiones") }, onClick = { showRecursos = false; onNavigate("reflexiones") })
                             DropdownMenuItem(text = { Text("Ayudas") }, onClick = { showRecursos = false; onNavigate("ayudas") })
                         }
@@ -160,13 +180,17 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                         Button(onClick = { showProductividad = true }, modifier = Modifier.fillMaxWidth()) {
                             Text("Productividad")
                         }
-                        DropdownMenu(expanded = showProductividad, onDismissRequest = { showProductividad = false }) {
+                        DropdownMenu(
+                            expanded = showProductividad,
+                            onDismissRequest = { showProductividad = false },
+                            shape = ContextMenuShape
+                        ) {
                             DropdownMenuItem(
-                                text = { Text("Lienzo") },
+                                text = { Text(if (hasPremium) "Lienzo" else "Lienzo (Premium)") },
                                 onClick = { showProductividad = false; onNavigate("lienzo") }
                             )
                             DropdownMenuItem(
-                                text = { Text("Metas") },
+                                text = { Text(if (hasPremium) "Metas" else "Metas (Premium)") },
                                 onClick = { showProductividad = false; onNavigate("metas") }
                             )
                         }
@@ -174,8 +198,8 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                     Button(onClick = { onNavigate("ajustes") }, modifier = Modifier.fillMaxWidth()) {
                         Text("Ajuste")
                     }
-                    Button(onClick = {}, enabled = false, modifier = Modifier.fillMaxWidth()) {
-                        Text("Versión Extendida")
+                    Button(onClick = { onNavigate("premium") }, modifier = Modifier.fillMaxWidth()) {
+                        Text(if (hasPremium) "Suscripción Activa" else "Versión Extendida")
                     }
                 }
             }
