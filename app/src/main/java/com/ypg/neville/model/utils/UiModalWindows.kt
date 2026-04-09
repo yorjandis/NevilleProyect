@@ -2,6 +2,7 @@ package com.ypg.neville.model.utils
 
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.view.WindowManager
 import android.widget.Toast
@@ -242,7 +243,10 @@ object UiModalWindows {
                         value = notaTexto,
                         onValueChange = { notaTexto = it },
                         label = { Text("Nota") },
-                        modifier = Modifier.focusRequester(focusRequester),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(min = 220.dp)
+                            .focusRequester(focusRequester),
                         shape = RoundedCornerShape(14.dp)
                     )
                     Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
@@ -254,6 +258,17 @@ object UiModalWindows {
                             }
                         })
                         Text("Compartir", modifier = Modifier.clickable {
+                            if (notaTexto.trim().isEmpty()) {
+                                Toast.makeText(context, "Debe haber una nota para compartir", Toast.LENGTH_SHORT).show()
+                            } else {
+                                val intent = Intent(Intent.ACTION_SEND).apply {
+                                    type = "text/plain"
+                                    putExtra(Intent.EXTRA_TEXT, notaTexto.trim())
+                                }
+                                context.startActivity(Intent.createChooser(intent, "Compartir nota"))
+                            }
+                        })
+                        Text("Generar QR", modifier = Modifier.clickable {
                             if (notaTexto.trim().isEmpty()) {
                                 Toast.makeText(context, "Debe haber una nota para generar el QR", Toast.LENGTH_SHORT).show()
                             } else {
