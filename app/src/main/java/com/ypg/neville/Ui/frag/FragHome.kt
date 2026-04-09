@@ -19,6 +19,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -36,9 +38,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -113,8 +117,8 @@ class FragHome : Fragment() {
 
         val textSize = (prefs.getString("fuente_frase", "28")?.toFloatOrNull() ?: 28f).coerceIn(16f, 40f)
         val textColor = prefs.getInt("color_letra_frases_home", prefs.getInt("color_letra_frases", 0))
-        val bgColorA = prefs.getInt("color_fondo_a", 0xFFF3F5F9.toInt())
-        val bgColorB = prefs.getInt("color_fondo_b", 0xFFE2E7F0.toInt())
+        val bgColorA = prefs.getInt("color_fondo_a", 0XD385F2FF.toInt())
+        val bgColorB = prefs.getInt("color_fondo_b", 0xAA99DAFF.toInt())
 
         Column(
             modifier = Modifier
@@ -126,10 +130,26 @@ class FragHome : Fragment() {
                 )
         ) {
             Box(modifier = Modifier.fillMaxSize()) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .padding(top = 56.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.logo_home2),
+                        contentDescription = "Logo Home",
+                        modifier = Modifier
+                            .width(100.dp)
+                            .clip(RoundedCornerShape(20.dp)),
+                        contentScale = ContentScale.Fit
+                    )
+                }
+
                 Column(
                     modifier = Modifier
                         .align(Alignment.Center)
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .padding(start = 10.dp, end = 10.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     val noRipple = remember { MutableInteractionSource() }
@@ -138,7 +158,7 @@ class FragHome : Fragment() {
                             text = frase,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = 10.dp)
+                                .padding(start = 10.dp, end = 10.dp)
                                 .heightIn(max = 420.dp)
                                 .verticalScroll(rememberScrollState())
                                 .combinedClickable(
@@ -261,15 +281,6 @@ class FragHome : Fragment() {
                                 )
                             }
 
-                            Spacer(modifier = Modifier.width(12.dp))
-
-                            IconButton(onClick = { showFraseMenu = true }) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_menu_open),
-                                    contentDescription = "Opciones",
-                                    tint = colorResource(id = R.color.shared_social)
-                                )
-                            }
                         }
                     }
                 }

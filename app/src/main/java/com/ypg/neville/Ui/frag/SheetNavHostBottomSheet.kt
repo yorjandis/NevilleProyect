@@ -73,7 +73,8 @@ class SheetNavHostBottomSheet : DialogFragment() {
         childNavController = navController
         val graph = navController.navInflater.inflate(R.navigation.nav_graf)
         graph.setStartDestination(startDestination)
-        navController.setGraph(graph, Bundle())
+        val startArgs = requireArguments().getBundle(ARG_START_ARGS) ?: Bundle()
+        navController.setGraph(graph, startArgs)
 
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
@@ -92,11 +93,13 @@ class SheetNavHostBottomSheet : DialogFragment() {
 
     companion object {
         private const val ARG_START_DESTINATION = "arg_start_destination"
+        private const val ARG_START_ARGS = "arg_start_args"
 
-        fun newInstance(startDestination: Int): SheetNavHostBottomSheet {
+        fun newInstance(startDestination: Int, startArgs: Bundle? = null): SheetNavHostBottomSheet {
             return SheetNavHostBottomSheet().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_START_DESTINATION, startDestination)
+                    startArgs?.let { putBundle(ARG_START_ARGS, it) }
                 }
             }
         }

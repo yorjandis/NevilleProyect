@@ -1,5 +1,8 @@
 package com.ypg.neville.ui.frag
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -22,8 +25,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -57,6 +63,9 @@ import com.ypg.neville.R
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
 import com.ypg.neville.model.db.room.NotaEntity
 import com.ypg.neville.model.db.room.NotaRepository
+import com.ypg.neville.model.db.utilsDB
+import com.ypg.neville.model.utils.FraseContextActions
+import com.ypg.neville.model.utils.QRManager
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -159,9 +168,9 @@ class FragNotas : Fragment() {
                 .background(
                     brush = Brush.verticalGradient(
                        colors = listOf(
-                            Color(0xFFF0AB87),
-                            Color(0xFFC8A499),
-                            Color(0xFFB6AF89)
+                            Color(0xFFC1955C),
+                            Color(0xFFB8AA5F),
+                            Color(0xFFB8B1A8)
                         )
                     )
                 )
@@ -212,6 +221,71 @@ class FragNotas : Fragment() {
                                             repository.cambiarFavorito(nota.id, !nota.isFav)
                                             activity?.runOnUiThread { recargarNotas() }
                                         }
+                                    },
+                                    onExportToFrases = {
+                                        val frase = nota.nota.trim().ifBlank { nota.titulo.trim() }
+                                        if (frase.isBlank()) {
+                                            Toast.makeText(context, "La nota está vacía", Toast.LENGTH_SHORT).show()
+                                            return@NotaRow
+                                        }
+                                        dbExecutor.execute {
+                                            val result = utilsDB.insertNewFrase(
+                                                context,
+                                                frase,
+                                                "Notas",
+                                                nota.titulo.trim(),
+                                                "0"
+                                            )
+                                            activity?.runOnUiThread {
+                                                if (result >= 0) {
+                                                    Toast.makeText(context, "Nota exportada a Frases", Toast.LENGTH_SHORT).show()
+                                                } else {
+                                                    Toast.makeText(
+                                                        context,
+                                                        "No se pudo exportar a Frases (puede que ya exista)",
+                                                        Toast.LENGTH_LONG
+                                                    ).show()
+                                                }
+                                            }
+                                        }
+                                    },
+                                    onExportToLienzo = {
+                                        FraseContextActions.cargarFraseEnLienzo(context, buildNotaPayload(nota))
+                                    },
+                                    onGenerateQr = {
+                                        val payload = buildNotaPayload(nota)
+                                        if (payload.isBlank()) {
+                                            Toast.makeText(context, "La nota está vacía", Toast.LENGTH_SHORT).show()
+                                        } else {
+                                            QRManager.ShowQRDialog(
+                                                context,
+                                                payload,
+                                                "Compartir Nota",
+                                                "Puede utilizar el lector QR para importar notas"
+                                            )
+                                        }
+                                    },
+                                    onShare = {
+                                        val payload = buildNotaPayload(nota)
+                                        if (payload.isBlank()) {
+                                            Toast.makeText(context, "La nota está vacía", Toast.LENGTH_SHORT).show()
+                                        } else {
+                                            val intent = Intent(Intent.ACTION_SEND).apply {
+                                                type = "text/plain"
+                                                putExtra(Intent.EXTRA_TEXT, payload)
+                                            }
+                                            context.startActivity(Intent.createChooser(intent, "Compartir nota"))
+                                        }
+                                    },
+                                    onCopyToClipboard = {
+                                        val payload = buildNotaPayload(nota)
+                                        if (payload.isBlank()) {
+                                            Toast.makeText(context, "La nota está vacía", Toast.LENGTH_SHORT).show()
+                                        } else {
+                                            val clipboard = context.getSystemService(ClipboardManager::class.java)
+                                            clipboard?.setPrimaryClip(ClipData.newPlainText("nota", payload))
+                                            Toast.makeText(context, "Nota copiada al portapapeles", Toast.LENGTH_SHORT).show()
+                                        }
                                     }
                                 )
                             }
@@ -249,11 +323,12 @@ class FragNotas : Fragment() {
 
                 FloatingActionButton(
                     onClick = { showFabMenu = !showFabMenu },
-                    containerColor = colorResource(id = R.color.light_blue_200),
-                    contentColor = Color.Black
+                    containerColor = Color(0xFF062D48),
+                    contentColor = Color.White
                 ) {
                     Icon(
                         painter = painterResource(id = if (showFabMenu) R.drawable.ic_abajo else R.drawable.ic_menu_open),
+                        tint = Color.White,
                         contentDescription = "Menú Notas"
                     )
                 }
@@ -342,6 +417,16 @@ class FragNotas : Fragment() {
         }
     }
 
+    private fun buildNotaPayload(nota: NotaEntity): String {
+        val titulo = nota.titulo.trim()
+        val contenido = nota.nota.trim()
+        return when {
+            titulo.isNotBlank() && contenido.isNotBlank() -> "$titulo\n\n$contenido"
+            contenido.isNotBlank() -> contenido
+            else -> titulo
+        }
+    }
+
     @Composable
     private fun NotaFilterPanel(
         filtroTitulo: String,
@@ -386,7 +471,7 @@ class FragNotas : Fragment() {
                     onValueChange = onFiltroTituloChange,
                     modifier = Modifier.weight(1f),
                     singleLine = true,
-                    label = { Text("Título", color = Color.White) },
+                    label = { Text("Buscar en título", color = Color.White) },
                     shape = RoundedCornerShape(14.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedTextColor = Color.White,
@@ -401,7 +486,7 @@ class FragNotas : Fragment() {
                     onValueChange = onFiltroContenidoChange,
                     modifier = Modifier.weight(1f),
                     singleLine = true,
-                    label = { Text("Contenido", color = Color.White) },
+                    label = { Text("Buscar en nota", color = Color.White) },
                     shape = RoundedCornerShape(14.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedTextColor = Color.White,
@@ -544,9 +629,9 @@ class FragNotas : Fragment() {
                             painter = painterResource(id = R.drawable.ic_toolbar_favorite),
                             contentDescription = "Favorito",
                             tint = if (isFav)
-                                colorResource(id = R.color.fav_active)
+                                Color(0xFFFF9800)
                             else
-                                colorResource(id = R.color.fav_inactive),
+                                Color(0xFF726D5F),
                             modifier = Modifier.size(22.dp)
                         )
                         TextButton(onClick = { isFav = !isFav }) {
@@ -581,8 +666,14 @@ class FragNotas : Fragment() {
         onEdit: () -> Unit,
         onDelete: () -> Unit,
         onToggleExpand: () -> Unit,
-        onToggleFav: () -> Unit
+        onToggleFav: () -> Unit,
+        onExportToFrases: () -> Unit,
+        onExportToLienzo: () -> Unit,
+        onGenerateQr: () -> Unit,
+        onShare: () -> Unit,
+        onCopyToClipboard: () -> Unit
     ) {
+        var showContextMenu by remember(nota.id) { mutableStateOf(false) }
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -605,7 +696,7 @@ class FragNotas : Fragment() {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_toolbar_favorite),
                     contentDescription = "Favorita",
-                    tint = if (nota.isFav) colorResource(id = R.color.fav_active) else colorResource(id = R.color.fav_inactive),
+                    tint = if (nota.isFav) Color(0xFFFF9800) else Color(0xFF726D5F),
                     modifier = Modifier
                         .size(22.dp)
                         .clickable(onClick = onToggleFav)
@@ -657,12 +748,64 @@ class FragNotas : Fragment() {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_delete),
                     contentDescription = "Eliminar nota",
-                    tint = colorResource(id = R.color.fav_active),
+                    tint = Color(0xFFFF7E09),
                     modifier = Modifier
                         .padding(start = 20.dp)
                         .size(22.dp)
                         .clickable(onClick = onDelete)
                 )
+                Box {
+                    IconButton(
+                        onClick = { showContextMenu = true },
+                        modifier = Modifier.padding(start = 8.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_menu_open),
+                            contentDescription = "Menú contextual de nota",
+                            tint = Color.White
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = showContextMenu,
+                        onDismissRequest = { showContextMenu = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("Exportar a Frases") },
+                            onClick = {
+                                showContextMenu = false
+                                onExportToFrases()
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Exportar a Lienzo") },
+                            onClick = {
+                                showContextMenu = false
+                                onExportToLienzo()
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Generar QR") },
+                            onClick = {
+                                showContextMenu = false
+                                onGenerateQr()
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Compartir...") },
+                            onClick = {
+                                showContextMenu = false
+                                onShare()
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Copiar al portapapeles") },
+                            onClick = {
+                                showContextMenu = false
+                                onCopyToClipboard()
+                            }
+                        )
+                    }
+                }
             }
         }
     }

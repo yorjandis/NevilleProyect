@@ -6,6 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.ypg.neville.model.reminders.ReminderDao
+import com.ypg.neville.model.reminders.ReminderEntity
 
 @Database(
     entities = [
@@ -16,9 +18,10 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         GoalEntity::class,
         GoalUnitEntity::class,
         ArchivedGoalEntity::class,
-        ArchivedUnitEntity::class
+        ArchivedUnitEntity::class,
+        ReminderEntity::class
     ],
-    version = 7,
+    version = 8,
     exportSchema = false
 )
 abstract class NevilleRoomDatabase : RoomDatabase() {
@@ -31,6 +34,7 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
     abstract fun goalUnitDao(): GoalUnitDao
     abstract fun archivedGoalDao(): ArchivedGoalDao
     abstract fun archivedUnitDao(): ArchivedUnitDao
+    abstract fun reminderDao(): ReminderDao
 
     companion object {
         @Volatile
@@ -221,6 +225,36 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_7_8 = object : Migration(7, 8) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `reminders` (" +
+                        "`id` TEXT NOT NULL, " +
+                        "`title` TEXT NOT NULL, " +
+                        "`message` TEXT NOT NULL, " +
+                        "`frequencyType` TEXT NOT NULL, " +
+                        "`intervalHours` INTEGER, " +
+                        "`intervalMinutes` INTEGER, " +
+                        "`dailyHour` INTEGER, " +
+                        "`dailyMinute` INTEGER, " +
+                        "`dateTimeMillis` INTEGER, " +
+                        "`monthlyDay` INTEGER, " +
+                        "`monthlyHour` INTEGER, " +
+                        "`monthlyMinute` INTEGER, " +
+                        "`yearlyMonth` INTEGER, " +
+                        "`yearlyDay` INTEGER, " +
+                        "`yearlyHour` INTEGER, " +
+                        "`yearlyMinute` INTEGER, " +
+                        "`isStarted` INTEGER NOT NULL, " +
+                        "`startedAt` INTEGER, " +
+                        "`isPinned` INTEGER NOT NULL, " +
+                        "`sortOrder` INTEGER NOT NULL, " +
+                        "PRIMARY KEY(`id`))"
+                )
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_reminders_sortOrder` ON `reminders` (`sortOrder`)")
+            }
+        }
+
         fun getInstance(context: Context): NevilleRoomDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
@@ -234,7 +268,8 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
                         MIGRATION_3_4,
                         MIGRATION_4_5,
                         MIGRATION_5_6,
-                        MIGRATION_6_7
+                        MIGRATION_6_7,
+                        MIGRATION_7_8
                     )
                     .allowMainThreadQueries()
                     .build()

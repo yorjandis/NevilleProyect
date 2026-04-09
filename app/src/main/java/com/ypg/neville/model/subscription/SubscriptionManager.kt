@@ -154,8 +154,9 @@ object SubscriptionManager : PurchasesUpdatedListener {
             .setProductList(listOf(product))
             .build()
 
-        client.queryProductDetailsAsync(params) { billingResult, detailsList ->
+        client.queryProductDetailsAsync(params) { billingResult, queryResult ->
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                val detailsList = queryResult.productDetailsList
                 annualDetails = detailsList.firstOrNull()
                 val detail = annualDetails
                 val offer = detail?.let { selectAnnualOffer(it) }

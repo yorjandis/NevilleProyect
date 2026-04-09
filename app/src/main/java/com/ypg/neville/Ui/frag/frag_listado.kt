@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,11 +15,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AssistChip
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -26,6 +29,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -45,12 +49,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.preference.PreferenceManager
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
+import com.ypg.neville.model.db.DatabaseHelper
 import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.subscription.SubscriptionManager
 import com.ypg.neville.model.utils.Utils
@@ -97,17 +103,17 @@ class frag_listado : Fragment() {
         val listado = remember { mutableStateListOf<String>() }
         var queryTitulo by remember { mutableStateOf("") }
         var queryContenido by remember { mutableStateOf("") }
-        var showOptions by remember { mutableStateOf(false) }
-        var showFilterMenu by remember { mutableStateOf(false) }
+        var showOptionsMenu by remember { mutableStateOf(false) }
+        var showSearchPanel by remember { mutableStateOf(false) }
         var filter by remember { mutableStateOf("Todas") }
+        var conferenceEditingTitle by remember { mutableStateOf<String?>(null) }
+        var conferenceEditingFav by remember { mutableStateOf(false) }
+        var conferenceEditingNota by remember { mutableStateOf("") }
 
         val showConfOptions = elementLoaded.equals("autores/neville/conf", ignoreCase = true)
         val isEnciclopediaTopicsView = elementLoaded.startsWith("enciclopedia/") && elementLoaded != "enciclopedia"
         val listPrimaryColor = if (showConfOptions) Color.Black else MaterialTheme.colorScheme.onBackground
         val listSecondaryColor = if (showConfOptions) Color.Black.copy(alpha = 0.75f) else MaterialTheme.colorScheme.onSurfaceVariant
-        val showHelp = remember {
-            prefs.getBoolean("help_inline", true)
-        }
         val listTextSize = (prefs.getString("fuente_listados", "22")?.toFloatOrNull() ?: 22f).coerceIn(12f, 40f)
 
         LaunchedEffect(elementLoaded) {
@@ -116,12 +122,26 @@ class frag_listado : Fragment() {
             queryTitulo = ""
             queryContenido = ""
             filter = "Todas"
-            showOptions = false
+            showSearchPanel = false
+            showOptionsMenu = false
         }
 
         val visibleItems = listado.filter { item ->
             val displayName = formatListadoDisplayName(item)
             item.contains(queryTitulo, ignoreCase = true) || displayName.contains(queryTitulo, ignoreCase = true)
+        }
+
+        fun openConferenceEditor(title: String) {
+            conferenceEditingTitle = title
+            conferenceEditingFav =
+                utilsDB.readFavState(context, DatabaseHelper.T_Conf, DatabaseHelper.C_conf_title, title) == "1"
+            conferenceEditingNota = utilsDB.getConfNota(context, title)
+        }
+
+        fun reloadCurrentConferenceFilter() {
+            if (!showConfOptions) return
+            listado.clear()
+            listado.addAll(loadConfByFilter(filter))
         }
 
         Box(
@@ -148,59 +168,76 @@ class frag_listado : Fragment() {
                     .fillMaxSize()
                     .padding(horizontal = 12.dp, vertical = 8.dp)
             ) {
-                if (showHelp) {
-                    IconButton(
-                        onClick = {
-                            Toast.makeText(
-                                context,
-                                "Filtra y busca elementos. Toca un item para abrirlo.",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        },
-                        modifier = Modifier.align(Alignment.End)
-                    ) {
-                        Icon(painter = painterResource(id = R.drawable.ic_help), contentDescription = "Ayuda")
-                    }
-                }
-
                 if (showConfOptions) {
-                    Text(
-                        text = if (showOptions) getString(R.string.ocultar_opciones) else getString(R.string.mostrar_opciones),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = listPrimaryColor,
+                    Box(
                         modifier = Modifier
-                            .align(Alignment.End)
-                            .clickable { showOptions = !showOptions }
+                            .fillMaxWidth()
                             .padding(bottom = 8.dp)
-                    )
-                }
-
-                if (showConfOptions && showOptions) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        AssistChip(onClick = { showFilterMenu = true }, label = { Text("Filtro: $filter") })
+                        IconButton(
+                            onClick = { showOptionsMenu = true },
+                            modifier = Modifier.align(Alignment.TopEnd)
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_menu_open),
+                                contentDescription = "Opciones"
+                            )
+                        }
                         DropdownMenu(
-                            expanded = showFilterMenu,
-                            onDismissRequest = { showFilterMenu = false },
+                            expanded = showOptionsMenu,
+                            onDismissRequest = { showOptionsMenu = false },
                             shape = ContextMenuShape
                         ) {
-                            listOf("Todas", "Favoritos", "Con notas").forEach { option ->
-                                DropdownMenuItem(
-                                    text = { Text(option) },
-                                    onClick = {
-                                        showFilterMenu = false
-                                        filter = option
-                                        listado.clear()
-                                        listado.addAll(loadConfByFilter(option))
-                                    }
-                                )
-                            }
+                            DropdownMenuItem(
+                                text = { Text(if (showSearchPanel) "Ocultar búsqueda" else "Mostrar búsqueda") },
+                                onClick = {
+                                    showOptionsMenu = false
+                                    showSearchPanel = !showSearchPanel
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Filtro: Todas") },
+                                onClick = {
+                                    showOptionsMenu = false
+                                    filter = "Todas"
+                                    listado.clear()
+                                    listado.addAll(loadConfByFilter(filter))
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Filtro: Favoritos") },
+                                onClick = {
+                                    showOptionsMenu = false
+                                    filter = "Favoritos"
+                                    listado.clear()
+                                    listado.addAll(loadConfByFilter(filter))
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Filtro: Con notas") },
+                                onClick = {
+                                    showOptionsMenu = false
+                                    filter = "Con notas"
+                                    listado.clear()
+                                    listado.addAll(loadConfByFilter(filter))
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Restablecer") },
+                                onClick = {
+                                    showOptionsMenu = false
+                                    filter = "Todas"
+                                    queryTitulo = ""
+                                    queryContenido = ""
+                                    listado.clear()
+                                    listado.addAll(loadConfByFilter(filter))
+                                }
+                            )
                         }
                     }
+                }
 
+                if (showConfOptions && showSearchPanel) {
                     OutlinedTextField(
                         value = queryTitulo,
                         onValueChange = { queryTitulo = it },
@@ -266,7 +303,14 @@ class frag_listado : Fragment() {
                             color = listPrimaryColor,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clickable { onItemSelected(item, navController) }
+                                .combinedClickable(
+                                    onClick = { onItemSelected(item, navController) },
+                                    onLongClick = {
+                                        if (showConfOptions) {
+                                            openConferenceEditor(item)
+                                        }
+                                    }
+                                )
                                 .padding(vertical = 10.dp, horizontal = 6.dp)
                         )
                     }
@@ -299,6 +343,119 @@ class frag_listado : Fragment() {
                         .padding(end = 12.dp, bottom = 12.dp)
                         .height(34.dp)
                 )
+            }
+        }
+
+        conferenceEditingTitle?.let { title ->
+            ConferenceEditDialog(
+                conferenceTitle = formatListadoDisplayName(title),
+                isFavorite = conferenceEditingFav,
+                note = conferenceEditingNota,
+                onFavoriteChange = { conferenceEditingFav = it },
+                onNoteChange = { conferenceEditingNota = it },
+                onDismiss = { conferenceEditingTitle = null },
+                onSave = {
+                    val currentFav = utilsDB.readFavState(
+                        context,
+                        DatabaseHelper.T_Conf,
+                        DatabaseHelper.C_conf_title,
+                        title
+                    ) == "1"
+                    if (currentFav != conferenceEditingFav) {
+                        utilsDB.UpdateFavorito(
+                            context,
+                            DatabaseHelper.T_Conf,
+                            DatabaseHelper.C_conf_title,
+                            title,
+                            0
+                        )
+                    }
+                    utilsDB.updateNota(
+                        context,
+                        DatabaseHelper.T_Conf,
+                        DatabaseHelper.C_conf_title,
+                        title,
+                        conferenceEditingNota.trim()
+                    )
+                    conferenceEditingTitle = null
+                    reloadCurrentConferenceFilter()
+                    Toast.makeText(context, "Conferencia actualizada", Toast.LENGTH_SHORT).show()
+                }
+            )
+        }
+    }
+
+    @Composable
+    private fun ConferenceEditDialog(
+        conferenceTitle: String,
+        isFavorite: Boolean,
+        note: String,
+        onFavoriteChange: (Boolean) -> Unit,
+        onNoteChange: (String) -> Unit,
+        onDismiss: () -> Unit,
+        onSave: () -> Unit
+    ) {
+        Dialog(onDismissRequest = onDismiss) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFF1E334F), RoundedCornerShape(22.dp))
+                    .padding(7.dp)
+            ) {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    Text(
+                        text = conferenceTitle,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = Color.White
+                    )
+
+                    Button(
+                        onClick = { onFavoriteChange(!isFavorite) },
+                        shape = RoundedCornerShape(14.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = if (isFavorite) Color(0xFF9AC4F8) else Color(0xFFCAD5DF),
+                            contentColor = Color(0xFF13212C)
+                        )
+                    ) {
+                        Text(if (isFavorite) "Favorita: Sí" else "Favorita: No")
+                    }
+
+                    OutlinedTextField(
+                        value = note,
+                        onValueChange = onNoteChange,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(min = 180.dp),
+                        label = { Text("Nota de la conferencia", color = Color.White) },
+                        shape = RoundedCornerShape(16.dp),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = Color(0xFF6E84CF),
+                            unfocusedBorderColor = Color(0xFFA5B4C3)
+                        )
+                    )
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        Button(
+                            onClick = onDismiss,
+                            shape = RoundedCornerShape(14.dp),
+                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFBAC4CF))
+                        ) {
+                            Text("Cancelar")
+                        }
+                        Button(
+                            onClick = onSave,
+                            shape = RoundedCornerShape(14.dp),
+                            modifier = Modifier.padding(start = 10.dp)
+                        ) {
+                            Text("Guardar")
+                        }
+                    }
+                }
             }
         }
     }
@@ -418,6 +575,18 @@ class frag_listado : Fragment() {
     }
 
     private fun formatListadoDisplayName(rawName: String): String {
+        if (elementLoaded.equals("autores/neville/conf", ignoreCase = true)) {
+            val locale = Locale.getDefault()
+            return rawName
+                .trim()
+                .split(Regex("\\s+"))
+                .joinToString(" ") { word ->
+                    word.lowercase(locale).replaceFirstChar { first ->
+                        if (first.isLowerCase()) first.titlecase(locale) else first.toString()
+                    }
+                }
+        }
+
         val prefixToRemove = when {
             elementLoaded.startsWith("enciclopedia") -> "enc_"
             elementLoaded == "evidenciaCientifica" -> "evi_"

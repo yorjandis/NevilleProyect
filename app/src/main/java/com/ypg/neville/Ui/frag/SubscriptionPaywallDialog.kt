@@ -14,9 +14,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.DialogFragment
 import com.ypg.neville.MainActivity
+import com.ypg.neville.R
 import com.ypg.neville.model.subscription.SubscriptionManager
 
 class SubscriptionPaywallDialog : DialogFragment() {
@@ -45,7 +46,7 @@ class SubscriptionPaywallDialog : DialogFragment() {
         val reason = arguments?.getString(ARG_REASON).orEmpty()
         val host = requireActivity() as? MainActivity
 
-        return Dialog(requireContext(), com.ypg.neville.R.style.Theme_NevilleProyect_CenterDialog).apply {
+        return Dialog(requireContext(), R.style.Theme_NevilleProyect_CenterDialog).apply {
             setCanceledOnTouchOutside(true)
             setContentView(
                 ComposeView(requireContext()).apply {
@@ -94,6 +95,7 @@ class SubscriptionPaywallDialog : DialogFragment() {
         val state by SubscriptionManager.uiState.collectAsState()
         val hasPremium = state.isActive
         val price = state.productPrice ?: "Anual en Google Play"
+
         val title = if (hasPremium) "Suscripción activa" else "Versión Extendida"
         val subtitle = if (hasPremium) {
             "Ya tienes acceso a todo el contenido premium."
@@ -138,7 +140,6 @@ class SubscriptionPaywallDialog : DialogFragment() {
                             color = Color.Black
                         )
                     }
-
                 }
 
                 if (reason.isNotBlank()) {
@@ -156,13 +157,14 @@ class SubscriptionPaywallDialog : DialogFragment() {
                         .verticalScroll(rememberScrollState()),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    FeatureItem("Conocimientos y frases de autores destacados relacionados con las enseñanzas de neville")
-                    FeatureItem("Frases de Salud y Otros Autores")
+                    FeatureItem("Conocimientos y frases de autores destacados relacionados con las enseñanzas de Neville")
+                    FeatureItem("Frases de Salud y otros autores")
                     FeatureItem("Notas protegidas por biometría")
-                    FeatureItem("Metas: desbloquea tu potencial con un seguimiento de hábitos saludables y empoderadores")
-                    FeatureItem("Lienzo: crea vistosas imágines con citas para compartir en redes sociales")
-                    FeatureItem("Enciclopedia: Base de conocimientos para entender estas enseñanzas")
-                    FeatureItem("Evidencia Científica: Investigaciones científicas que apoyan estas enseñanzas")
+                    FeatureItem("Metas: seguimiento de hábitos saludables y empoderadores")
+                    FeatureItem("Lienzo: crea imágenes con citas para compartir")
+                    FeatureItem("Enciclopedia: base de conocimientos")
+                    FeatureItem("Evidencia Científica: investigaciones de apoyo")
+                    FeatureItem("Menú 'Pegar en': portar texto a Notas, Lienzo y Frases")
                 }
 
                 Box(
@@ -187,7 +189,7 @@ class SubscriptionPaywallDialog : DialogFragment() {
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1A4D8F))
                 ) {
-                    Text(if (hasPremium) "Suscripción activa" else "Suscribirme ahora", color = Color.Yellow)
+                    Text(if (hasPremium) "Suscripción activa" else "Suscribirme ahora", color = Color.Black)
                 }
 
                 Row(
@@ -201,6 +203,12 @@ class SubscriptionPaywallDialog : DialogFragment() {
                         Text("Cerrar", color = Color.Black)
                     }
                 }
+
+                Text(
+                    text = "Las enseñanzas de Neville seguirán siendo gratis, nada cambiará eso.",
+                    color = Color.Black,
+                    style = MaterialTheme.typography.bodySmall
+                )
             }
         }
     }

@@ -112,6 +112,9 @@ class MainActivity : AppCompatActivity() {
             }
         )
         enableImmersiveMode()
+        if (savedInstanceState == null) {
+            window.decorView.post { handleIncomingShareIntent(intent) }
+        }
 
         val inAppUpdate = myListener_In_App_Update(this)
         inAppUpdate.setMylistener(object : myListener_In_App_Update.In_mylistener {
@@ -187,6 +190,12 @@ class MainActivity : AppCompatActivity() {
         SubscriptionManager.refreshStatus()
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleIncomingShareIntent(intent)
+    }
+
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus) {
@@ -204,12 +213,11 @@ class MainActivity : AppCompatActivity() {
 
     @Composable
     private fun MainScreen() {
-        Column(modifier = Modifier.fillMaxSize()) {
-            Box(modifier = Modifier.weight(1f)) {
-                AndroidNavHostContainer()
+        Box(modifier = Modifier.fillMaxSize()) {
+            AndroidNavHostContainer()
+            Box(modifier = Modifier.align(Alignment.BottomCenter)) {
+                BottomNav()
             }
-
-            BottomNav()
         }
     }
 
@@ -337,12 +345,14 @@ class MainActivity : AppCompatActivity() {
             }
             return
         }
-        if ((destinationId == R.id.frag_metas || destinationId == R.id.frag_lienzo) &&
+        if ((destinationId == R.id.frag_metas || destinationId == R.id.frag_lienzo || destinationId == R.id.frag_reminders) &&
             !SubscriptionManager.hasActiveSubscriptionNow()
         ) {
             showSubscriptionPaywall(
                 if (destinationId == R.id.frag_metas) {
                     "Metas forma parte de la suscripción anual."
+                } else if (destinationId == R.id.frag_reminders) {
+                    "Recordatorios forma parte de la suscripción anual."
                 } else {
                     "Lienzo forma parte de la suscripción anual."
                 }
@@ -352,11 +362,34 @@ class MainActivity : AppCompatActivity() {
         openDestinationAsSheetInternal(destinationId)
     }
 
-    private fun openDestinationAsSheetInternal(destinationId: Int) {
+    private fun openDestinationAsSheetInternal(destinationId: Int, startArgs: Bundle? = null) {
         val tag = "sheet_dest_$destinationId"
         if (supportFragmentManager.findFragmentByTag(tag) != null) return
-        SheetNavHostBottomSheet.newInstance(destinationId)
+        SheetNavHostBottomSheet.newInstance(destinationId, startArgs)
             .show(supportFragmentManager, tag)
+    }
+
+    private fun handleIncomingShareIntent(incomingIntent: Intent?) {
+        val sharedText = extractSharedText(incomingIntent) ?: return
+        openSharedTextImportSheet(sharedText)
+    }
+
+    private fun extractSharedText(incomingIntent: Intent?): String? {
+        if (incomingIntent?.action != Intent.ACTION_SEND) return null
+        val type = incomingIntent.type ?: return null
+        if (!type.startsWith("text/")) return null
+        return incomingIntent.getCharSequenceExtra(Intent.EXTRA_TEXT)?.toString()?.trim()
+            ?.takeIf { it.isNotBlank() }
+    }
+
+    private fun openSharedTextImportSheet(sharedText: String) {
+        val destinationId = R.id.frag_import_shared_text
+        val tag = "sheet_dest_$destinationId"
+        if (supportFragmentManager.findFragmentByTag(tag) != null) return
+        val args = Bundle().apply {
+            putString(EXTRA_SHARED_TEXT, sharedText)
+        }
+        openDestinationAsSheetInternal(destinationId, args)
     }
 
     private fun shouldRequireNotesBiometricLock(): Boolean {
@@ -539,6 +572,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
+        const val EXTRA_SHARED_TEXT = "extra_shared_text"
         private var currentActivityRef: WeakReference<MainActivity>? = null
 
         @JvmStatic

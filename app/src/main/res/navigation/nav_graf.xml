@@ -98,4 +98,14 @@
         android:id="@+id/frag_metas"
         android:name="com.ypg.neville.ui.frag.FragMetas"
         android:label="frag_metas" />
+
+    <fragment
+        android:id="@+id/frag_reminders"
+        android:name="com.ypg.neville.ui.frag.FragReminders"
+        android:label="frag_reminders" />
+
+    <fragment
+        android:id="@+id/frag_import_shared_text"
+        android:name="com.ypg.neville.ui.frag.FragImportSharedText"
+        android:label="frag_import_shared_text" />
 </navigation>

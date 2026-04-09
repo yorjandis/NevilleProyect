@@ -1,11 +1,15 @@
 package com.ypg.neville.ui.frag
 
 import android.R
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.ContentValues
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,12 +17,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AssistChip
+import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -33,7 +44,10 @@ import androidx.preference.PreferenceManager
 import com.ypg.neville.MainActivity
 import com.ypg.neville.model.db.DatabaseHelper
 import com.ypg.neville.model.db.utilsDB
+import com.ypg.neville.model.utils.FraseContextActions
+import com.ypg.neville.model.utils.UiModalWindows
 import com.ypg.neville.model.utils.utilsFields
+import com.ypg.neville.model.subscription.SubscriptionManager
 import com.ypg.neville.ui.render.BlockType
 import com.ypg.neville.ui.render.ContentBlock
 import com.ypg.neville.ui.render.DynamicTextRenderer
@@ -43,6 +57,11 @@ import java.text.Normalizer
 import java.util.Locale
 
 class FragContentWebView : Fragment() {
+    private var clipboardManager: ClipboardManager? = null
+    private var clipboardListener: ClipboardManager.OnPrimaryClipChangedListener? = null
+    private var currentContentForCopyDetection: String = ""
+    private var copiedTextFromContent by mutableStateOf<String?>(null)
+    private var showPasteMenu by mutableStateOf(false)
 
     override fun onCreateView(
         inflater: android.view.LayoutInflater,
@@ -80,12 +99,82 @@ class FragContentWebView : Fragment() {
                     AssistChip(
                         onClick = { navigateToPreviousScreen() },
                         label = { Text("Atrás", color = Color.Black) },
+                        colors = AssistChipDefaults.assistChipColors(
+                            containerColor = Color(0xFFE3E8EF).copy(alpha = 0.96f)
+                        ),
                         modifier = Modifier
                             .align(Alignment.BottomEnd)
                             .padding(end = 12.dp, bottom = 12.dp)
                             .height(34.dp)
 
                     )
+
+                    val copiedText = copiedTextFromContent
+                    if (!copiedText.isNullOrBlank()) {
+                        val hasPremium = SubscriptionManager.hasActiveSubscription(requireContext())
+                        Box(
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .padding(end = 12.dp, top = 12.dp)
+                        ) {
+                            AssistChip(
+                                onClick = {
+                                    if (hasPremium) {
+                                        showPasteMenu = true
+                                    } else {
+                                        MainActivity.currentInstance()?.showSubscriptionPaywall()
+                                    }
+                                },
+                                label = {
+                                    Text(
+                                        if (hasPremium) "Pegar en" else "Pegar en (Premium)",
+                                        color = Color.Black
+                                    )
+                                },
+                                colors = AssistChipDefaults.assistChipColors(
+                                    containerColor = Color(0xFFE3E8EF).copy(alpha = 0.96f)
+                                ),
+                                modifier = Modifier.height(34.dp)
+                            )
+
+                            DropdownMenu(
+                                expanded = hasPremium && showPasteMenu,
+                                onDismissRequest = { showPasteMenu = false }
+                            ) {
+                                DropdownMenuItem(
+                                    text = { Text("Pegar en Notas") },
+                                    onClick = {
+                                        showPasteMenu = false
+                                        val result = FraseContextActions.convertirFraseEnNota(requireContext(), copiedText)
+                                        if (result.ok) {
+                                            Toast.makeText(requireContext(), "Nota creada: ${result.titulo}", Toast.LENGTH_SHORT).show()
+                                        } else {
+                                            Toast.makeText(requireContext(), "No se pudo crear la nota", Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text("Pegar en Lienzo") },
+                                    onClick = {
+                                        showPasteMenu = false
+                                        FraseContextActions.cargarFraseEnLienzo(requireContext(), copiedText)
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text("Convertir en frase personal") },
+                                    onClick = {
+                                        showPasteMenu = false
+                                        val values = ContentValues().apply {
+                                            put("frase", copiedText)
+                                            put("autor", "")
+                                            put("fuente", "")
+                                        }
+                                        UiModalWindows.Add_New_frase(requireContext(), values)
+                                    }
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -94,11 +183,30 @@ class FragContentWebView : Fragment() {
     override fun onStart() {
         super.onStart()
         visibilidadIconos()
+        clipboardManager = requireContext().getSystemService(ClipboardManager::class.java)
+        val listener = ClipboardManager.OnPrimaryClipChangedListener {
+            updateCopiedTextState()
+        }
+        clipboardListener = listener
+        clipboardManager?.addPrimaryClipChangedListener(listener)
+        updateCopiedTextState()
+    }
+
+    override fun onStop() {
+        clipboardListener?.let { listener ->
+            clipboardManager?.removePrimaryClipChangedListener(listener)
+        }
+        clipboardListener = null
+        clipboardManager = null
+        super.onStop()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         isPremiumPreviewMode = false
+        currentContentForCopyDetection = ""
+        copiedTextFromContent = null
+        showPasteMenu = false
     }
 
     @Composable
@@ -172,6 +280,14 @@ class FragContentWebView : Fragment() {
             }.getOrElse {
                 "No se pudo cargar el contenido: $assetPath"
             }
+        }
+
+        val contentForCopyDetection = remember(assetPath, rawText) {
+            extractTextForPremiumPreview(assetPath, rawText)
+        }
+        LaunchedEffect(assetPath, contentForCopyDetection) {
+            currentContentForCopyDetection = contentForCopyDetection
+            updateCopiedTextState()
         }
 
         val blocks = remember(assetPath, rawText) {
@@ -378,6 +494,39 @@ class FragContentWebView : Fragment() {
         val navController = runCatching { findNavController() }.getOrNull()
         if (navController?.popBackStack() == true) return
         runCatching { requireActivity().onBackPressedDispatcher.onBackPressed() }
+    }
+
+    private fun updateCopiedTextState() {
+        val clipText = clipboardManager
+            ?.primaryClip
+            ?.takeIf { it.itemCount > 0 }
+            ?.getItemAt(0)
+            ?.coerceToText(requireContext())
+            ?.toString()
+            ?.trim()
+            .orEmpty()
+
+        if (clipText.isBlank() || currentContentForCopyDetection.isBlank()) {
+            copiedTextFromContent = null
+            showPasteMenu = false
+            return
+        }
+
+        val normalizedContent = normalizeCopyText(currentContentForCopyDetection)
+        val normalizedClip = normalizeCopyText(clipText)
+        val isFromCurrentContent = normalizedClip.length >= 4 && normalizedContent.contains(normalizedClip)
+
+        copiedTextFromContent = if (isFromCurrentContent) clipText else null
+        if (!isFromCurrentContent) {
+            showPasteMenu = false
+        }
+    }
+
+    private fun normalizeCopyText(text: String): String {
+        return text
+            .replace("\\s+".toRegex(), " ")
+            .trim()
+            .lowercase(Locale.ROOT)
     }
 
     companion object {

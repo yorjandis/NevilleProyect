@@ -87,6 +87,7 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                                     }
                                     "lienzo" -> host?.openDestinationAsSheet(R.id.frag_lienzo)
                                     "metas" -> host?.openDestinationAsSheet(R.id.frag_metas)
+                                    "recordatorios" -> host?.openDestinationAsSheet(R.id.frag_reminders)
                                     "ajustes" -> host?.openDestinationAsSheet(R.id.fragSetting)
                                     "premium" -> host?.showSubscriptionPaywall()
                                 }
@@ -192,6 +193,10 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                             DropdownMenuItem(
                                 text = { Text(if (hasPremium) "Metas" else "Metas (Premium)") },
                                 onClick = { showProductividad = false; onNavigate("metas") }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(if (hasPremium) "Recordatorios" else "Recordatorios (Premium)") },
+                                onClick = { showProductividad = false; onNavigate("recordatorios") }
                             )
                         }
                     }

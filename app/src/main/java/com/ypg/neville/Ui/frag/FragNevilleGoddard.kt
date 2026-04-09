@@ -17,7 +17,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,7 +32,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.ypg.neville.R
 import com.ypg.neville.model.db.utilsDB
-import com.ypg.neville.model.subscription.SubscriptionManager
 
 class FragNevilleGoddard : Fragment() {
 
@@ -49,8 +47,6 @@ class FragNevilleGoddard : Fragment() {
                     val authorAssetsFolder = "autores/neville"
                     val context = requireContext()
                     val navController = this@FragNevilleGoddard.findNavController()
-                    val subscriptionState by SubscriptionManager.uiState.collectAsState()
-                    val hasPremium = subscriptionState.isActive
                     val biographyAssetPath = remember { loadAuthorBiographyAssetPath(context, authorAssetsFolder) }
                     val teachingSummaryAssetPath = remember { loadAuthorTeachingSummaryAssetPath(context, authorAssetsFolder) }
                     val cards = remember { nevilleResourceCards() }
@@ -69,15 +65,15 @@ class FragNevilleGoddard : Fragment() {
                             biographyAssetPath?.let { openAsset(navController, it, isPremiumPreview = false) }
                         },
                         onTeachingSummaryClick = {
-                            teachingSummaryAssetPath?.let { openAsset(navController, it, isPremiumPreview = !hasPremium) }
+                            teachingSummaryAssetPath?.let { openAsset(navController, it, isPremiumPreview = false) }
                         },
                         teachingSummaryEnabled = !teachingSummaryAssetPath.isNullOrBlank(),
                         resourcesSection = {
                             AuthorResourcesSection(
                                 cards = cards,
-                                hasPremium = hasPremium,
+                                hasPremium = true,
                                 onResourceClick = { assetPath ->
-                                    openAsset(navController, assetPath, isPremiumPreview = !hasPremium)
+                                    openAsset(navController, assetPath, isPremiumPreview = false)
                                 }
                             )
                         }
