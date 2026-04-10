@@ -6,6 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.ypg.neville.feature.emotionalanchors.data.EmotionalAnchorDao
+import com.ypg.neville.feature.emotionalanchors.data.EmotionalAnchorEntity
+import com.ypg.neville.feature.voice.data.VoiceRecordingDao
+import com.ypg.neville.feature.voice.data.VoiceRecordingEntity
 import com.ypg.neville.model.reminders.ReminderDao
 import com.ypg.neville.model.reminders.ReminderEntity
 
@@ -19,9 +23,11 @@ import com.ypg.neville.model.reminders.ReminderEntity
         GoalUnitEntity::class,
         ArchivedGoalEntity::class,
         ArchivedUnitEntity::class,
-        ReminderEntity::class
+        ReminderEntity::class,
+        VoiceRecordingEntity::class,
+        EmotionalAnchorEntity::class
     ],
-    version = 8,
+    version = 11,
     exportSchema = false
 )
 abstract class NevilleRoomDatabase : RoomDatabase() {
@@ -35,6 +41,8 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
     abstract fun archivedGoalDao(): ArchivedGoalDao
     abstract fun archivedUnitDao(): ArchivedUnitDao
     abstract fun reminderDao(): ReminderDao
+    abstract fun voiceRecordingDao(): VoiceRecordingDao
+    abstract fun emotionalAnchorDao(): EmotionalAnchorDao
 
     companion object {
         @Volatile
@@ -255,6 +263,54 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_8_9 = object : Migration(8, 9) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `voice_recordings` (" +
+                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`title` TEXT NOT NULL, " +
+                        "`filePath` TEXT NOT NULL, " +
+                        "`durationMs` INTEGER NOT NULL, " +
+                        "`createdAt` INTEGER NOT NULL, " +
+                        "`updatedAt` INTEGER NOT NULL)"
+                )
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_voice_recordings_createdAt` ON `voice_recordings` (`createdAt`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_voice_recordings_updatedAt` ON `voice_recordings` (`updatedAt`)")
+            }
+        }
+
+        private val MIGRATION_9_10 = object : Migration(9, 10) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "ALTER TABLE `goals` ADD COLUMN `notifyOnUnitAvailable` INTEGER NOT NULL DEFAULT 0"
+                )
+                db.execSQL(
+                    "ALTER TABLE `goals` ADD COLUMN `lastNotifiedUnitIndex` INTEGER NOT NULL DEFAULT 0"
+                )
+            }
+        }
+
+        private val MIGRATION_10_11 = object : Migration(10, 11) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `emotional_anchors` (" +
+                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`phrase` TEXT NOT NULL, " +
+                        "`breathingTechniqueId` TEXT NOT NULL, " +
+                        "`breathingTechniqueName` TEXT NOT NULL, " +
+                        "`breathingTechniquePattern` TEXT NOT NULL, " +
+                        "`breathingTechniqueGuide` TEXT NOT NULL, " +
+                        "`imagePath` TEXT NOT NULL, " +
+                        "`audioPath` TEXT NOT NULL, " +
+                        "`audioDurationMs` INTEGER NOT NULL, " +
+                        "`createdAt` INTEGER NOT NULL, " +
+                        "`updatedAt` INTEGER NOT NULL)"
+                )
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_emotional_anchors_createdAt` ON `emotional_anchors` (`createdAt`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_emotional_anchors_updatedAt` ON `emotional_anchors` (`updatedAt`)")
+            }
+        }
+
         fun getInstance(context: Context): NevilleRoomDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
@@ -269,7 +325,10 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
                         MIGRATION_4_5,
                         MIGRATION_5_6,
                         MIGRATION_6_7,
-                        MIGRATION_7_8
+                        MIGRATION_7_8,
+                        MIGRATION_8_9,
+                        MIGRATION_9_10,
+                        MIGRATION_10_11
                     )
                     .allowMainThreadQueries()
                     .build()

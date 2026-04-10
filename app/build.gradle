@@ -13,7 +13,7 @@ android {
         applicationId "com.ypg.neville"
         minSdk 24
         targetSdk 36
-        versionCode 51
+        versionCode 52
         versionName "3.0.3"
         signingConfig = signingConfigs.debug
     }

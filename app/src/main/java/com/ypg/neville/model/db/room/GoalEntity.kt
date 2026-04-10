@@ -33,5 +33,11 @@ data class GoalEntity(
     val isStarted: Boolean,
 
     @ColumnInfo(name = "startDate")
-    val startDate: Long?
+    val startDate: Long?,
+
+    @ColumnInfo(name = "notifyOnUnitAvailable")
+    val notifyOnUnitAvailable: Boolean = false,
+
+    @ColumnInfo(name = "lastNotifiedUnitIndex")
+    val lastNotifiedUnitIndex: Int = 0
 )

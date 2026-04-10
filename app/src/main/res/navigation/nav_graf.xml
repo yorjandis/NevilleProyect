@@ -105,6 +105,43 @@
         android:label="frag_reminders" />
 
     <fragment
+        android:id="@+id/frag_voice_recordings"
+        android:name="com.ypg.neville.feature.voice.ui.FragVoiceRecordings"
+        android:label="frag_voice_recordings" />
+
+    <fragment
+        android:id="@+id/frag_emotional_anchors"
+        android:name="com.ypg.neville.feature.emotionalanchors.ui.FragEmotionalAnchorsList"
+        android:label="frag_emotional_anchors" >
+        <action
+            android:id="@+id/action_frag_emotional_anchors_to_frag_emotional_anchor_create"
+            app:destination="@id/frag_emotional_anchor_create" />
+        <action
+            android:id="@+id/action_frag_emotional_anchors_to_frag_emotional_anchor_run"
+            app:destination="@id/frag_emotional_anchor_run" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/frag_emotional_anchor_create"
+        android:name="com.ypg.neville.feature.emotionalanchors.ui.FragEmotionalAnchors"
+        android:label="frag_emotional_anchor_create" >
+        <argument
+            android:name="arg_edit_anchor_id"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/frag_emotional_anchor_run"
+        android:name="com.ypg.neville.feature.emotionalanchors.ui.FragEmotionalAnchorRun"
+        android:label="frag_emotional_anchor_run" >
+        <argument
+            android:name="arg_anchor_id"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </fragment>
+
+    <fragment
         android:id="@+id/frag_import_shared_text"
         android:name="com.ypg.neville.ui.frag.FragImportSharedText"
         android:label="frag_import_shared_text" />

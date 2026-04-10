@@ -99,6 +99,7 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             window.decorView.post { handleIncomingShareIntent(intent) }
         }
+        window.decorView.post { handleNotificationNavigationIntent(intent) }
 
         val inAppUpdate = myListener_In_App_Update(this)
         inAppUpdate.setMylistener(object : myListener_In_App_Update.In_mylistener {
@@ -178,6 +179,7 @@ class MainActivity : AppCompatActivity() {
         super.onNewIntent(intent)
         setIntent(intent)
         handleIncomingShareIntent(intent)
+        handleNotificationNavigationIntent(intent)
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -274,6 +276,14 @@ class MainActivity : AppCompatActivity() {
             onRecordatorios = {
                 bottomActive.value = "recordatorios"
                 openDestinationAsSheet(R.id.frag_reminders)
+            },
+            onVoces = {
+                bottomActive.value = "voces"
+                openDestinationAsSheet(R.id.frag_voice_recordings)
+            },
+            onAnclas = {
+                bottomActive.value = "anclas"
+                openDestinationAsSheet(R.id.frag_emotional_anchors)
             }
         )
     }
@@ -290,18 +300,19 @@ class MainActivity : AppCompatActivity() {
             }
             return
         }
-        if ((destinationId == R.id.frag_metas || destinationId == R.id.frag_lienzo || destinationId == R.id.frag_reminders) &&
+        if (
+            (
+                destinationId == R.id.frag_metas ||
+                    destinationId == R.id.frag_lienzo ||
+                    destinationId == R.id.frag_reminders ||
+                    destinationId == R.id.frag_voice_recordings ||
+                    destinationId == R.id.frag_emotional_anchors ||
+                    destinationId == R.id.frag_emotional_anchor_create ||
+                    destinationId == R.id.frag_emotional_anchor_run
+                ) &&
             !SubscriptionManager.hasActiveSubscriptionNow()
         ) {
-            showSubscriptionPaywall(
-                if (destinationId == R.id.frag_metas) {
-                    "Metas forma parte de la suscripción anual."
-                } else if (destinationId == R.id.frag_reminders) {
-                    "Recordatorios forma parte de la suscripción anual."
-                } else {
-                    "Lienzo forma parte de la suscripción anual."
-                }
-            )
+            showSubscriptionPaywall()
             return
         }
         openDestinationAsSheetInternal(destinationId)
@@ -317,6 +328,12 @@ class MainActivity : AppCompatActivity() {
     private fun handleIncomingShareIntent(incomingIntent: Intent?) {
         val sharedText = extractSharedText(incomingIntent) ?: return
         openSharedTextImportSheet(sharedText)
+    }
+
+    private fun handleNotificationNavigationIntent(incomingIntent: Intent?) {
+        if (incomingIntent?.getBooleanExtra(EXTRA_OPEN_METAS, false) != true) return
+        bottomActive.value = "metas"
+        openDestinationAsSheet(R.id.frag_metas)
     }
 
     private fun extractSharedText(incomingIntent: Intent?): String? {
@@ -476,6 +493,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_SHARED_TEXT = "extra_shared_text"
+        const val EXTRA_OPEN_METAS = "extra_open_metas"
         private var currentActivityRef: WeakReference<MainActivity>? = null
 
         @JvmStatic

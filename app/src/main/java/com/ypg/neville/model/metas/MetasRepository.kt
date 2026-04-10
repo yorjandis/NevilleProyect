@@ -40,7 +40,8 @@ class MetasRepository(
         totalUnits: Int,
         unitType: TimeUnitType,
         frequency: Int,
-        unitsInfo: List<UnitInfo> = emptyList()
+        unitsInfo: List<UnitInfo> = emptyList(),
+        notifyOnUnitAvailable: Boolean = false
     ) {
         val cleanTitle = title.trim()
         if (cleanTitle.isEmpty() || totalUnits <= 0) return
@@ -58,7 +59,9 @@ class MetasRepository(
                     unitType = unitType.raw,
                     frequency = safeFrequency,
                     isStarted = false,
-                    startDate = null
+                    startDate = null,
+                    notifyOnUnitAvailable = notifyOnUnitAvailable,
+                    lastNotifiedUnitIndex = 0
                 )
             )
 
@@ -89,12 +92,14 @@ class MetasRepository(
             totalUnits = programa.noUnidades,
             unitType = TimeUnitType.fromRaw(programa.tipoUnidad),
             frequency = programa.frecuencia,
-            unitsInfo = programa.unidadesinfo
+            unitsInfo = programa.unidadesinfo,
+            notifyOnUnitAvailable = false
         )
     }
 
     fun startGoal(goalId: String) {
         val now = System.currentTimeMillis()
+        var shouldSchedule = false
         db.runInTransaction {
             val goal = goalDao.getById(goalId) ?: return@runInTransaction
             if (goal.isStarted) return@runInTransaction
@@ -124,14 +129,20 @@ class MetasRepository(
                 )
             }
 
-            goalDao.update(goal.copy(isStarted = true, startDate = now))
+            goalDao.update(goal.copy(isStarted = true, startDate = now, lastNotifiedUnitIndex = 0))
             unitDao.updateAll(rescheduled)
+            shouldSchedule = true
+        }
+
+        if (shouldSchedule) {
+            GoalUnitNotificationScheduler.schedule(context, db, goalId)
         }
     }
 
     fun markUnitCompleted(unitId: String): Boolean {
         val now = System.currentTimeMillis()
         var changed = false
+        var goalIdToRefresh: String? = null
         db.runInTransaction {
             val unit = unitDao.getById(unitId) ?: return@runInTransaction
             val goal = goalDao.getById(unit.goalId) ?: return@runInTransaction
@@ -145,7 +156,9 @@ class MetasRepository(
                 )
             )
             changed = true
+            goalIdToRefresh = unit.goalId
         }
+        goalIdToRefresh?.let { GoalUnitNotificationScheduler.schedule(context, db, it) }
         return changed
     }
 
@@ -171,6 +184,9 @@ class MetasRepository(
             if (updates.isNotEmpty()) {
                 unitDao.updateAll(updates)
             }
+        }
+        if (changed) {
+            GoalUnitNotificationScheduler.schedule(context, db, goalId)
         }
         return changed
     }
@@ -201,6 +217,7 @@ class MetasRepository(
     }
 
     fun deleteGoal(goalId: String) {
+        GoalUnitNotificationScheduler.cancelPending(context, goalId)
         goalDao.deleteById(goalId)
     }
 
@@ -251,6 +268,7 @@ class MetasRepository(
                 )
             }
             archivedUnitDao.insertAll(archivedUnits)
+            GoalUnitNotificationScheduler.cancelPending(context, goal.id)
             goalDao.deleteById(goal.id)
             archived = true
         }
@@ -274,7 +292,9 @@ class MetasRepository(
                     unitType = archived.unitType,
                     frequency = archived.frequency,
                     isStarted = false,
-                    startDate = System.currentTimeMillis()
+                    startDate = System.currentTimeMillis(),
+                    notifyOnUnitAvailable = false,
+                    lastNotifiedUnitIndex = 0
                 )
             )
 
@@ -380,6 +400,25 @@ class MetasRepository(
         val start = unit.startDate ?: return null
         val step = state.goal.frequency.coerceAtLeast(1)
         return addTime(start, state.unitType, step)
+    }
+
+    fun updateGoalUnitNotifications(goalId: String, enabled: Boolean) {
+        val goal = goalDao.getById(goalId) ?: return
+        if (goal.notifyOnUnitAvailable == enabled) {
+            if (enabled) {
+                GoalUnitNotificationScheduler.schedule(context, db, goalId)
+            } else {
+                GoalUnitNotificationScheduler.cancelPending(context, goalId)
+            }
+            return
+        }
+
+        goalDao.update(goal.copy(notifyOnUnitAvailable = enabled))
+        if (enabled) {
+            GoalUnitNotificationScheduler.schedule(context, db, goalId)
+        } else {
+            GoalUnitNotificationScheduler.cancelPending(context, goalId)
+        }
     }
 
     private fun firstPendingUnit(units: List<GoalUnitEntity>, now: Long?): GoalUnitEntity? {
