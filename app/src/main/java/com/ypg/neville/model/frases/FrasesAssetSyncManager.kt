@@ -2,7 +2,7 @@ package com.ypg.neville.model.frases
 
 import android.content.Context
 import androidx.core.content.edit
-import androidx.preference.PreferenceManager
+import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.model.db.room.FraseEntity
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
 import java.security.MessageDigest
@@ -20,7 +20,7 @@ object FrasesAssetSyncManager {
     }
 
     private fun syncInternal(context: Context, room: NevilleRoomDatabase, force: Boolean): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val prefs = DbPreferences.default(context)
         val dao = room.fraseDao()
 
         val sourceHashes = FrasesAssetParser.sourceSpecs.associate { spec ->

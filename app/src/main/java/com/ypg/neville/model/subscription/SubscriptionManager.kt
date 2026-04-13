@@ -13,12 +13,14 @@ import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchasesParams
 import com.android.billingclient.api.PendingPurchasesParams
+import com.ypg.neville.model.preferences.DbPreferences
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 data class SubscriptionUiState(
     val isActive: Boolean = false,
+    val isEntitlementVerified: Boolean = false,
     val isBillingReady: Boolean = false,
     val isLoading: Boolean = true,
     val productTitle: String = "Suscripción anual",
@@ -27,9 +29,6 @@ data class SubscriptionUiState(
 )
 
 object SubscriptionManager : PurchasesUpdatedListener {
-
-    private const val PREFS_NAME = "subscription_status"
-    private const val KEY_IS_ACTIVE = "subscription_is_active"
 
     const val PRODUCT_ID_ANNUAL = "premium_anual"
     private const val BASE_PLAN_ID_ANNUAL = "anual"
@@ -43,8 +42,16 @@ object SubscriptionManager : PurchasesUpdatedListener {
 
     fun initialize(context: Context) {
         appContext = context.applicationContext
-        val cachedActive = hasActiveSubscription(appContext)
-        _uiState.value = _uiState.value.copy(isActive = cachedActive, isLoading = true, lastMessage = null)
+
+        val now = System.currentTimeMillis()
+        val local = readBillingFallbackLease(now)
+
+        _uiState.value = _uiState.value.copy(
+            isActive = local != null,
+            isEntitlementVerified = local != null,
+            isLoading = true,
+            lastMessage = null
+        )
 
         if (billingClient == null) {
             billingClient = BillingClient.newBuilder(appContext)
@@ -87,7 +94,12 @@ object SubscriptionManager : PurchasesUpdatedListener {
         queryActivePurchases()
     }
 
-    fun hasActiveSubscriptionNow(): Boolean = _uiState.value.isActive
+    fun hasActiveSubscriptionNow(): Boolean {
+        val state = _uiState.value
+        return state.isEntitlementVerified && state.isActive
+    }
+
+    fun hasVerifiedActiveSubscriptionNow(): Boolean = hasActiveSubscriptionNow()
 
     override fun onPurchasesUpdated(
         billingResult: BillingResult,
@@ -123,7 +135,11 @@ object SubscriptionManager : PurchasesUpdatedListener {
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                     onBillingReady()
                 } else {
+                    val now = System.currentTimeMillis()
+                    val canFallback = readBillingFallbackLease(now) != null
                     _uiState.value = _uiState.value.copy(
+                        isActive = canFallback,
+                        isEntitlementVerified = canFallback,
                         isBillingReady = false,
                         isLoading = false,
                         lastMessage = "No se pudo conectar con Google Play"
@@ -132,13 +148,25 @@ object SubscriptionManager : PurchasesUpdatedListener {
             }
 
             override fun onBillingServiceDisconnected() {
-                _uiState.value = _uiState.value.copy(isBillingReady = false)
+                val now = System.currentTimeMillis()
+                val canFallback = readBillingFallbackLease(now) != null
+                _uiState.value = _uiState.value.copy(
+                    isActive = canFallback,
+                    isEntitlementVerified = canFallback,
+                    isBillingReady = false
+                )
             }
         })
     }
 
     private fun onBillingReady() {
-        _uiState.value = _uiState.value.copy(isBillingReady = true, isLoading = true, lastMessage = null)
+        _uiState.value = _uiState.value.copy(
+            isActive = false,
+            isEntitlementVerified = false,
+            isBillingReady = true,
+            isLoading = true,
+            lastMessage = null
+        )
         queryProductDetails()
         queryActivePurchases()
     }
@@ -185,18 +213,39 @@ object SubscriptionManager : PurchasesUpdatedListener {
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                 processPurchases(purchases)
             } else {
-                _uiState.value = _uiState.value.copy(isLoading = false)
+                _uiState.value = _uiState.value.copy(
+                    isActive = false,
+                    isEntitlementVerified = false,
+                    isLoading = false
+                )
             }
         }
     }
 
     private fun processPurchases(purchases: List<Purchase>) {
-        val owned = purchases.any { purchase ->
+        val ownedPurchases = purchases.filter { purchase ->
             purchase.products.contains(PRODUCT_ID_ANNUAL) &&
                 purchase.purchaseState == Purchase.PurchaseState.PURCHASED
         }
-        saveActiveFlag(owned)
-        _uiState.value = _uiState.value.copy(isActive = owned, isLoading = false)
+
+        if (ownedPurchases.isEmpty()) {
+            clearBillingFallbackLease()
+            _uiState.value = _uiState.value.copy(
+                isActive = false,
+                isEntitlementVerified = true,
+                isLoading = false
+            )
+            return
+        }
+
+        val now = System.currentTimeMillis()
+        val leaseUntil = now + BILLING_OFFLINE_LEASE_MS
+        saveBillingFallbackLease(leaseUntil)
+        _uiState.value = _uiState.value.copy(
+            isActive = true,
+            isEntitlementVerified = true,
+            isLoading = false
+        )
 
         purchases
             .filter {
@@ -225,17 +274,41 @@ object SubscriptionManager : PurchasesUpdatedListener {
             ?: details.subscriptionOfferDetails?.firstOrNull()
     }
 
-    private fun saveActiveFlag(value: Boolean) {
+    fun hasActiveSubscription(context: Context): Boolean {
+        if (!::appContext.isInitialized) {
+            initialize(context.applicationContext)
+            return false
+        }
+        return hasActiveSubscriptionNow()
+    }
+
+    private fun saveBillingFallbackLease(leaseUntilMs: Long) {
         if (!::appContext.isInitialized) return
-        appContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .edit()
-            .putBoolean(KEY_IS_ACTIVE, value)
+        DbPreferences.named(appContext, BILLING_FALLBACK_PREFS).edit()
+            .putLong(KEY_BILLING_LEASE_UNTIL_MS, leaseUntilMs)
+            .putBoolean(KEY_BILLING_CACHED_ACTIVE, true)
             .apply()
     }
 
-    fun hasActiveSubscription(context: Context): Boolean {
-        return context.applicationContext
-            .getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .getBoolean(KEY_IS_ACTIVE, false)
+    private fun readBillingFallbackLease(nowMs: Long): Any? {
+        if (!::appContext.isInitialized) return null
+        val prefs = DbPreferences.named(appContext, BILLING_FALLBACK_PREFS)
+        val isActive = prefs.getBoolean(KEY_BILLING_CACHED_ACTIVE, false)
+        val leaseUntil = prefs.getLong(KEY_BILLING_LEASE_UNTIL_MS, 0L)
+        if (isActive && nowMs <= leaseUntil) return Any()
+        return null
     }
+
+    private fun clearBillingFallbackLease() {
+        if (!::appContext.isInitialized) return
+        DbPreferences.named(appContext, BILLING_FALLBACK_PREFS).edit()
+            .remove(KEY_BILLING_LEASE_UNTIL_MS)
+            .remove(KEY_BILLING_CACHED_ACTIVE)
+            .apply()
+    }
+
+    private const val BILLING_FALLBACK_PREFS = "billing_fallback_entitlement"
+    private const val KEY_BILLING_LEASE_UNTIL_MS = "billing_lease_until_ms"
+    private const val KEY_BILLING_CACHED_ACTIVE = "billing_cached_active"
+    private const val BILLING_OFFLINE_LEASE_MS = 7L * 24L * 60L * 60L * 1000L
 }

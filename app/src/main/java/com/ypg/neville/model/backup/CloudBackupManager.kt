@@ -4,18 +4,19 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.core.content.edit
+import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
-import androidx.preference.PreferenceManager
+import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.time.Instant
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
@@ -50,7 +51,7 @@ class CloudBackupManager(private val context: Context) {
         data class Error(val reason: String) : RestoreResult()
     }
 
-    private val prefs by lazy { PreferenceManager.getDefaultSharedPreferences(context) }
+    private val prefs by lazy { DbPreferences.default(context) }
     private val backupCrypto by lazy { BackupCrypto() }
     private val passphraseStore by lazy { BackupPassphraseStore(context.applicationContext) }
 
@@ -92,7 +93,7 @@ class CloudBackupManager(private val context: Context) {
         if (!oldUri.isNullOrBlank()) {
             try {
                 context.contentResolver.releasePersistableUriPermission(
-                    Uri.parse(oldUri),
+                    oldUri.toUri(),
                     android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION or
                         android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                 )
@@ -173,6 +174,7 @@ class CloudBackupManager(private val context: Context) {
         }
     }
 
+    @Suppress("unused")
     fun clearSavedPassphrase() {
         passphraseStore.clear()
     }
@@ -194,7 +196,7 @@ class CloudBackupManager(private val context: Context) {
             val provider = getProviderInfo()
                 ?: return@withContext BackupResult.Error("No hay proveedor conectado")
 
-            val treeUri = Uri.parse(provider.uri)
+            val treeUri = provider.uri.toUri()
             val root = DocumentFile.fromTreeUri(context, treeUri)
                 ?: return@withContext BackupResult.Error("No se pudo acceder al proveedor")
             if (!root.canWrite()) {
@@ -335,9 +337,9 @@ class CloudBackupManager(private val context: Context) {
         if (timestampMs <= 0L) {
             return "Nunca"
         }
-        return HUMAN_DATE_FORMAT
-            .withZone(ZoneId.systemDefault())
-            .format(Instant.ofEpochMilli(timestampMs))
+        val formatter = SimpleDateFormat(HUMAN_DATE_PATTERN, Locale.getDefault())
+        formatter.timeZone = TimeZone.getDefault()
+        return formatter.format(Date(timestampMs))
     }
 
     private fun checkpointRoom() {
@@ -407,6 +409,6 @@ class CloudBackupManager(private val context: Context) {
         const val KEY_LAST_RESTORE_AT = "cloud_backup_last_restore_at"
         const val KEY_LAST_BACKUP_ERROR = "cloud_backup_last_error"
 
-        private val HUMAN_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.getDefault())
+        private const val HUMAN_DATE_PATTERN = "yyyy-MM-dd HH:mm"
     }
 }

@@ -2,7 +2,7 @@ package com.ypg.neville.model.db
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
-import androidx.preference.PreferenceManager
+import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.model.db.room.ConfEntity
 import com.ypg.neville.model.db.room.FraseEntity
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
@@ -486,7 +486,7 @@ object utilsDB {
 
     @JvmStatic
     fun getRandomFrase(context: Context, onlyFav: Boolean): FraseEntity? {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val prefs = DbPreferences.default(context)
         val allowNeville = prefs.getBoolean("home_filter_author_neville", true)
         val allowJoe = prefs.getBoolean("home_filter_author_joe", true)
         val allowGregg = prefs.getBoolean("home_filter_author_gregg", true)

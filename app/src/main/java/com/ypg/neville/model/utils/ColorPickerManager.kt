@@ -22,7 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
-import androidx.preference.PreferenceManager
+import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.MainActivity
 
 object ColorPickerManager {
@@ -80,7 +80,7 @@ object ColorPickerManager {
                     }
 
                     Button(onClick = {
-                        PreferenceManager.getDefaultSharedPreferences(context).edit {
+                        DbPreferences.default(context).edit {
                             putInt(keyPreferences, selected.intValue)
                         }
                         if (keyPreferences == "color_marcos") {

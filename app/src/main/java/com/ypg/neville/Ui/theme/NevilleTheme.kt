@@ -6,7 +6,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.graphics.Color
-import androidx.preference.PreferenceManager
+import com.ypg.neville.model.preferences.DbPreferences
 
 private val NevilleLightColors = lightColorScheme(
     primary = Color(0xFF365A7C),
@@ -48,8 +48,8 @@ fun NevilleTheme(
     content: @Composable () -> Unit
 ) {
     val context = LocalContext.current
-    val isDarkTheme = PreferenceManager
-        .getDefaultSharedPreferences(context)
+    val isDarkTheme = DbPreferences
+        .default(context)
         .getBoolean("tema", true)
     NevilleTheme(isDarkTheme = isDarkTheme, content = content)
 }

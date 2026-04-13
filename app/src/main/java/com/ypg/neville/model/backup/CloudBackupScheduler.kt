@@ -1,7 +1,7 @@
 package com.ypg.neville.model.backup
 
 import android.content.Context
-import androidx.preference.PreferenceManager
+import com.ypg.neville.model.preferences.DbPreferences
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -16,7 +16,7 @@ object CloudBackupScheduler {
 
     fun sync(context: Context) {
         val appContext = context.applicationContext
-        val prefs = PreferenceManager.getDefaultSharedPreferences(appContext)
+        val prefs = DbPreferences.default(appContext)
         val manager = CloudBackupManager(appContext)
         val hasProvider = !prefs.getString(CloudBackupManager.KEY_PROVIDER_URI, null).isNullOrBlank()
         val hasPassphrase = manager.hasSavedPassphrase()

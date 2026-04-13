@@ -37,13 +37,14 @@ import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.commitNow
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.preference.PreferenceManager
+import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.utils.QRManager
 import com.ypg.neville.model.utils.NewsContent
 import com.ypg.neville.model.utils.UiModalWindows
 import com.ypg.neville.model.utils.Utils
 import com.ypg.neville.model.utils.myListener_In_App_Update
+import com.ypg.neville.model.reminders.JournalDailyReminderManager
 import com.ypg.neville.model.subscription.SubscriptionManager
 import com.ypg.neville.ui.frag.HomeFloatingMenuBottomSheet
 import com.ypg.neville.ui.frag.NevilleBottomNavBar
@@ -73,7 +74,7 @@ class MainActivity : AppCompatActivity() {
     private val installMarkerPrefKey = "install_marker_first_install_time"
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val prefs = DbPreferences.default(this)
         val isDarkTheme = prefs.getBoolean("tema", true)
         AppCompatDelegate.setDefaultNightMode(
             if (isDarkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
@@ -83,6 +84,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setCurrentInstance(this)
         SubscriptionManager.initialize(this)
+        JournalDailyReminderManager.initialize(this)
 
         toolbarColor.value = prefs.getInt("color_marcos", 0).takeIf { it != 0 }
 
@@ -225,17 +227,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun ensureNavHostAttached(container: FragmentContainerView) {
-        val existing = supportFragmentManager.findFragmentById(container.id) as? NavHostFragment
+        val byId = supportFragmentManager.findFragmentById(container.id) as? NavHostFragment
+        val byTag = supportFragmentManager.findFragmentByTag(MAIN_NAV_HOST_TAG) as? NavHostFragment
+        val existing = byId ?: byTag
+
         if (existing != null) {
-            navController = existing.navController
-            return
+            val isAttachedToThisContainer = existing.view?.parent === container
+            if (isAttachedToThisContainer) {
+                navController = existing.navController
+                return
+            }
         }
 
         if (!container.isAttachedToWindow) return
 
         val navHost = NavHostFragment.create(R.navigation.nav_graf)
         supportFragmentManager.commitNow {
-            replace(container.id, navHost)
+            setReorderingAllowed(true)
+            existing?.let { remove(it) }
+            replace(container.id, navHost, MAIN_NAV_HOST_TAG)
         }
         navController = navHost.navController
     }
@@ -331,9 +341,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleNotificationNavigationIntent(incomingIntent: Intent?) {
-        if (incomingIntent?.getBooleanExtra(EXTRA_OPEN_METAS, false) != true) return
-        bottomActive.value = "metas"
-        openDestinationAsSheet(R.id.frag_metas)
+        if (incomingIntent?.getBooleanExtra(EXTRA_OPEN_DIARIO, false) == true) {
+            bottomActive.value = "diario"
+            openDestinationAsSheet(R.id.frag_diario)
+            return
+        }
+        if (incomingIntent?.getBooleanExtra(EXTRA_OPEN_METAS, false) == true) {
+            bottomActive.value = "metas"
+            openDestinationAsSheet(R.id.frag_metas)
+        }
     }
 
     private fun extractSharedText(incomingIntent: Intent?): String? {
@@ -355,7 +371,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun shouldRequireNotesBiometricLock(): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val prefs = DbPreferences.default(this)
         return prefs.getBoolean("notes_biometric_lock_enabled", false)
     }
 
@@ -492,8 +508,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
+        private const val MAIN_NAV_HOST_TAG = "main_nav_host"
         const val EXTRA_SHARED_TEXT = "extra_shared_text"
         const val EXTRA_OPEN_METAS = "extra_open_metas"
+        const val EXTRA_OPEN_DIARIO = "extra_open_diario"
         private var currentActivityRef: WeakReference<MainActivity>? = null
 
         @JvmStatic

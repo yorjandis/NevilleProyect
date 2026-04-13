@@ -42,7 +42,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
-import androidx.preference.PreferenceManager
+import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.R
 import com.ypg.neville.model.db.utilsDB
 
@@ -344,7 +344,7 @@ object UiModalWindows {
                             if (showbotonocultarestaayuda) {
                                 Button(
                                     onClick = {
-                                        PreferenceManager.getDefaultSharedPreferences(pcontext).edit {
+                                        DbPreferences.default(pcontext).edit {
                                             putBoolean("help_inline", false)
                                         }
                                         alertDialog.dismiss()

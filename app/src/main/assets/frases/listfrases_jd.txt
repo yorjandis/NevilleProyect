@@ -2364,7 +2364,7 @@ autor=jd
 nota=
 fuente=
 contexto=
-texto=Toda creación en la realidad tridimensional toma tiempo y energía. Si estas creando desde un estado de carencia, por ejemplo ves el choche y lo deseas,  la manifestación puede ocurrir pero puede llevarte mucho tiempo conseguirlo. En cambio, si estas creando desde un estado de conciencia absoluta, donde quitas tu atención de la realidad física y el tiempo, entonces aceleras la manifestación porque ahora eres el vórtice creativo y las cosas caerán en tu experencia acorde a tu sentimiento e intención
+texto=Toda creación en la realidad tridimensional toma tiempo y energía. Si estas creando desde un estado de carencia, por ejemplo ves el choche y lo deseas,  la manifestación puede ocurrir pero puede llevarte mucho tiempo conseguirlo. En cambio, si estas creando desde un estado de conciencia absoluta, donde quitas tu atención de la realidad física y el tiempo, entonces aceleras la manifestación porque ahora eres el vórtice creativo y las cosas caerán en tu experiencia acorde a tu sentimiento e intención
 relacionadas=
 
 id=jd_297

@@ -5,7 +5,7 @@ import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.util.Base64
 import androidx.core.content.edit
-import androidx.preference.PreferenceManager
+import com.ypg.neville.model.preferences.DbPreferences
 import java.security.KeyStore
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
@@ -13,7 +13,7 @@ import javax.crypto.spec.GCMParameterSpec
 
 class BackupPassphraseStore(private val context: Context) {
 
-    private val prefs by lazy { PreferenceManager.getDefaultSharedPreferences(context) }
+    private val prefs by lazy { DbPreferences.default(context) }
 
     fun hasPassphrase(): Boolean {
         return !prefs.getString(KEY_CIPHERTEXT_B64, null).isNullOrBlank() &&

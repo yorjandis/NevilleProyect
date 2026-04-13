@@ -7,6 +7,7 @@ import com.ypg.neville.MainActivity
 import com.ypg.neville.R
 import com.ypg.neville.model.db.DatabaseHelper
 import com.ypg.neville.model.db.utilsDB
+import com.ypg.neville.model.preferences.DbPreferences
 
 object FraseContextActions {
 
@@ -54,7 +55,7 @@ object FraseContextActions {
             return
         }
 
-        context.getSharedPreferences("lienzo_prefs", Context.MODE_PRIVATE)
+        DbPreferences.named(context, "lienzo_prefs")
             .edit()
             .putString("textoPrincipal", texto)
             .apply()
@@ -93,4 +94,3 @@ object FraseContextActions {
         return normalized.take(20).trim().ifBlank { "Frase" }
     }
 }
-
