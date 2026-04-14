@@ -2372,7 +2372,7 @@ autor=jd
 nota=
 fuente=
 contexto=
-texto=Tienes que hacerte el hábito de estar vinculado emocionalmente con el futuro que quieres. Tienes que enamorte de ese futuro
+texto=Tienes que hacerte el hábito de estar vinculado emocionalmente con el futuro que quieres. Tienes que enamorarte de ese futuro
 relacionadas=
 
 id=jd_298

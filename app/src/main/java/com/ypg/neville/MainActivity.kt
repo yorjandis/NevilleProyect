@@ -33,6 +33,7 @@ import androidx.core.net.toUri
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.commitNow
 import androidx.navigation.NavController
@@ -44,6 +45,8 @@ import com.ypg.neville.model.utils.NewsContent
 import com.ypg.neville.model.utils.UiModalWindows
 import com.ypg.neville.model.utils.Utils
 import com.ypg.neville.model.utils.myListener_In_App_Update
+import com.ypg.neville.feature.morningdialog.notifications.MorningDialogStartup
+import com.ypg.neville.feature.morningdialog.ui.FragMorningDialog
 import com.ypg.neville.model.reminders.JournalDailyReminderManager
 import com.ypg.neville.model.subscription.SubscriptionManager
 import com.ypg.neville.ui.frag.HomeFloatingMenuBottomSheet
@@ -85,6 +88,7 @@ class MainActivity : AppCompatActivity() {
         setCurrentInstance(this)
         SubscriptionManager.initialize(this)
         JournalDailyReminderManager.initialize(this)
+        MorningDialogStartup.sync(this)
 
         toolbarColor.value = prefs.getInt("color_marcos", 0).takeIf { it != 0 }
 
@@ -287,6 +291,10 @@ class MainActivity : AppCompatActivity() {
                 bottomActive.value = "recordatorios"
                 openDestinationAsSheet(R.id.frag_reminders)
             },
+            onRitual = {
+                bottomActive.value = "morning_dialog"
+                openDestinationAsSheet(R.id.frag_morning_dialog)
+            },
             onVoces = {
                 bottomActive.value = "voces"
                 openDestinationAsSheet(R.id.frag_voice_recordings)
@@ -315,6 +323,7 @@ class MainActivity : AppCompatActivity() {
                 destinationId == R.id.frag_metas ||
                     destinationId == R.id.frag_lienzo ||
                     destinationId == R.id.frag_reminders ||
+                    destinationId == R.id.frag_morning_dialog ||
                     destinationId == R.id.frag_voice_recordings ||
                     destinationId == R.id.frag_emotional_anchors ||
                     destinationId == R.id.frag_emotional_anchor_create ||
@@ -330,7 +339,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun openDestinationAsSheetInternal(destinationId: Int, startArgs: Bundle? = null) {
         val tag = "sheet_dest_$destinationId"
-        if (supportFragmentManager.findFragmentByTag(tag) != null) return
+        val existing = supportFragmentManager.findFragmentByTag(tag)
+        if (existing != null) {
+            if (destinationId == R.id.frag_morning_dialog) {
+                (existing as? DialogFragment)?.dismissAllowingStateLoss()
+            } else {
+                return
+            }
+        }
         SheetNavHostBottomSheet.newInstance(destinationId, startArgs)
             .show(supportFragmentManager, tag)
     }
@@ -349,6 +365,27 @@ class MainActivity : AppCompatActivity() {
         if (incomingIntent?.getBooleanExtra(EXTRA_OPEN_METAS, false) == true) {
             bottomActive.value = "metas"
             openDestinationAsSheet(R.id.frag_metas)
+            return
+        }
+        if (incomingIntent?.getBooleanExtra(EXTRA_OPEN_MORNING_DIALOG, false) == true) {
+            if (!SubscriptionManager.hasActiveSubscriptionNow()) {
+                showSubscriptionPaywall()
+                return
+            }
+            bottomActive.value = "morning_dialog"
+            val args = Bundle().apply { putBoolean(FragMorningDialog.ARG_START_FLOW, true) }
+            openDestinationAsSheetInternal(R.id.frag_morning_dialog, args)
+            return
+        }
+        val sessionId = incomingIntent?.getLongExtra(EXTRA_OPEN_MORNING_DIALOG_DETAIL_ID, -1L) ?: -1L
+        if (sessionId > 0L) {
+            if (!SubscriptionManager.hasActiveSubscriptionNow()) {
+                showSubscriptionPaywall()
+                return
+            }
+            bottomActive.value = "morning_dialog"
+            val args = Bundle().apply { putLong(FragMorningDialog.ARG_OPEN_SESSION_ID, sessionId) }
+            openDestinationAsSheetInternal(R.id.frag_morning_dialog, args)
         }
     }
 
@@ -512,6 +549,8 @@ class MainActivity : AppCompatActivity() {
         const val EXTRA_SHARED_TEXT = "extra_shared_text"
         const val EXTRA_OPEN_METAS = "extra_open_metas"
         const val EXTRA_OPEN_DIARIO = "extra_open_diario"
+        const val EXTRA_OPEN_MORNING_DIALOG = "extra_open_morning_dialog"
+        const val EXTRA_OPEN_MORNING_DIALOG_DETAIL_ID = "extra_open_morning_dialog_detail_id"
         private var currentActivityRef: WeakReference<MainActivity>? = null
 
         @JvmStatic

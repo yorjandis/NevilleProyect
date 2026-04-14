@@ -8,6 +8,8 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.ypg.neville.feature.emotionalanchors.data.EmotionalAnchorDao
 import com.ypg.neville.feature.emotionalanchors.data.EmotionalAnchorEntity
+import com.ypg.neville.feature.morningdialog.data.MorningDialogDao
+import com.ypg.neville.feature.morningdialog.data.MorningDialogSessionEntity
 import com.ypg.neville.feature.voice.data.VoiceRecordingDao
 import com.ypg.neville.feature.voice.data.VoiceRecordingEntity
 import com.ypg.neville.model.reminders.ReminderDao
@@ -27,9 +29,10 @@ import com.ypg.neville.model.reminders.ReminderEntity
         ReminderEntity::class,
         VoiceRecordingEntity::class,
         EmotionalAnchorEntity::class,
-        PreferenceEntity::class
+        PreferenceEntity::class,
+        MorningDialogSessionEntity::class
     ],
-    version = 13,
+    version = 14,
     exportSchema = false
 )
 abstract class NevilleRoomDatabase : RoomDatabase() {
@@ -47,6 +50,7 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
     abstract fun voiceRecordingDao(): VoiceRecordingDao
     abstract fun emotionalAnchorDao(): EmotionalAnchorDao
     abstract fun preferenceDao(): PreferenceDao
+    abstract fun morningDialogDao(): MorningDialogDao
 
     companion object {
         @Volatile
@@ -343,6 +347,27 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_13_14 = object : Migration(13, 14) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `morning_dialog_sessions` (" +
+                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`sessionDateEpochDay` INTEGER NOT NULL, " +
+                        "`completedAtEpochMillis` INTEGER NOT NULL, " +
+                        "`goalsJson` TEXT NOT NULL, " +
+                        "`identity` TEXT NOT NULL, " +
+                        "`emotionsJson` TEXT NOT NULL, " +
+                        "`anticipatedSituationsJson` TEXT NOT NULL, " +
+                        "`consciousResponsesJson` TEXT NOT NULL, " +
+                        "`completed` INTEGER NOT NULL)"
+                )
+                db.execSQL(
+                    "CREATE UNIQUE INDEX IF NOT EXISTS `index_morning_dialog_sessions_sessionDateEpochDay` " +
+                        "ON `morning_dialog_sessions` (`sessionDateEpochDay`)"
+                )
+            }
+        }
+
         fun getInstance(context: Context): NevilleRoomDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
@@ -362,7 +387,8 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
                         MIGRATION_9_10,
                         MIGRATION_10_11,
                         MIGRATION_11_12,
-                        MIGRATION_12_13
+                        MIGRATION_12_13,
+                        MIGRATION_13_14
                     )
                     .allowMainThreadQueries()
                     .build()

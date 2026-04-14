@@ -1,6 +1,7 @@
 package com.ypg.neville.model.backup
 
 import android.content.Context
+import android.provider.DocumentsContract
 import android.net.Uri
 import android.util.Log
 import androidx.core.content.edit
@@ -13,13 +14,16 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
+import java.util.zip.ZipException
 import java.util.zip.ZipOutputStream
+import javax.crypto.AEADBadTagException
 
 class CloudBackupManager(private val context: Context) {
 
@@ -35,10 +39,24 @@ class CloudBackupManager(private val context: Context) {
         }
     }
 
+    enum class ProviderDestinationKind(val storageValue: String) {
+        TREE("tree"),
+        DOCUMENT("document");
+
+        companion object {
+            fun from(storedValue: String?, uri: Uri): ProviderDestinationKind {
+                if (storedValue == TREE.storageValue) return TREE
+                if (storedValue == DOCUMENT.storageValue) return DOCUMENT
+                return if (DocumentsContract.isTreeUri(uri)) TREE else DOCUMENT
+            }
+        }
+    }
+
     data class ProviderInfo(
         val uri: String,
         val authority: String,
-        val displayName: String
+        val displayName: String,
+        val destinationKind: ProviderDestinationKind
     )
 
     sealed class BackupResult {
@@ -57,34 +75,69 @@ class CloudBackupManager(private val context: Context) {
 
     fun getProviderInfo(): ProviderInfo? {
         val uri = prefs.getString(KEY_PROVIDER_URI, null) ?: return null
+        val providerUri = uri.toUri()
         val authority = prefs.getString(KEY_PROVIDER_AUTHORITY, null) ?: "Proveedor"
         val displayName = prefs.getString(KEY_PROVIDER_NAME, null) ?: authority
-        return ProviderInfo(uri = uri, authority = authority, displayName = displayName)
+        val destinationKind = ProviderDestinationKind.from(
+            prefs.getString(KEY_PROVIDER_KIND, null),
+            providerUri
+        )
+        return ProviderInfo(
+            uri = uri,
+            authority = authority,
+            displayName = displayName,
+            destinationKind = destinationKind
+        )
     }
 
-    fun connectProvider(treeUri: Uri): Result<ProviderInfo> {
+    fun connectProvider(providerUri: Uri): Result<ProviderInfo> {
         return runCatching {
             val flags = android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION or
                 android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-            context.contentResolver.takePersistableUriPermission(treeUri, flags)
-
-            val root = DocumentFile.fromTreeUri(context, treeUri)
-                ?: throw IllegalStateException("No se pudo abrir la carpeta elegida")
-            if (!root.canWrite()) {
-                throw IllegalStateException("La carpeta elegida no permite escritura")
+            try {
+                context.contentResolver.takePersistableUriPermission(providerUri, flags)
+            } catch (securityException: SecurityException) {
+                Log.w(TAG, "No se pudo persistir permiso URI: $providerUri", securityException)
             }
 
-            val authority = treeUri.authority.orEmpty().ifBlank { "Proveedor" }
-            val displayName = root.name?.takeIf { it.isNotBlank() } ?: authority
+            val destinationKind = ProviderDestinationKind.from(null, providerUri)
+            val authority = providerUri.authority.orEmpty().ifBlank { "Proveedor" }
+            val displayName = when (destinationKind) {
+                ProviderDestinationKind.TREE -> {
+                    val root = DocumentFile.fromTreeUri(context, providerUri)
+                        ?: throw IllegalStateException("No se pudo abrir la carpeta elegida")
+                    if (!root.canWrite()) {
+                        throw IllegalStateException("La carpeta elegida no permite escritura")
+                    }
+                    root.name?.takeIf { it.isNotBlank() } ?: authority
+                }
+                ProviderDestinationKind.DOCUMENT -> {
+                    val document = DocumentFile.fromSingleUri(context, providerUri)
+                        ?: throw IllegalStateException("No se pudo abrir el archivo de backup elegido")
+                    if (!document.isFile) {
+                        throw IllegalStateException("Debes seleccionar un archivo de backup válido")
+                    }
+                    if (!document.canWrite()) {
+                        throw IllegalStateException("El archivo elegido no permite escritura")
+                    }
+                    document.name?.takeIf { it.isNotBlank() } ?: BACKUP_FILE_NAME
+                }
+            }
 
             prefs.edit {
-                putString(KEY_PROVIDER_URI, treeUri.toString())
+                putString(KEY_PROVIDER_URI, providerUri.toString())
                 putString(KEY_PROVIDER_AUTHORITY, authority)
                 putString(KEY_PROVIDER_NAME, displayName)
+                putString(KEY_PROVIDER_KIND, destinationKind.storageValue)
             }
 
             CloudBackupScheduler.sync(context.applicationContext)
-            ProviderInfo(treeUri.toString(), authority, displayName)
+            ProviderInfo(
+                uri = providerUri.toString(),
+                authority = authority,
+                displayName = displayName,
+                destinationKind = destinationKind
+            )
         }
     }
 
@@ -106,6 +159,7 @@ class CloudBackupManager(private val context: Context) {
             remove(KEY_PROVIDER_URI)
             remove(KEY_PROVIDER_AUTHORITY)
             remove(KEY_PROVIDER_NAME)
+            remove(KEY_PROVIDER_KIND)
         }
         CloudBackupScheduler.sync(context.applicationContext)
     }
@@ -196,13 +250,6 @@ class CloudBackupManager(private val context: Context) {
             val provider = getProviderInfo()
                 ?: return@withContext BackupResult.Error("No hay proveedor conectado")
 
-            val treeUri = provider.uri.toUri()
-            val root = DocumentFile.fromTreeUri(context, treeUri)
-                ?: return@withContext BackupResult.Error("No se pudo acceder al proveedor")
-            if (!root.canWrite()) {
-                return@withContext BackupResult.Error("No hay permiso de escritura en el proveedor")
-            }
-
             checkpointRoom()
 
             val dbFile = getMainDatabaseFile()
@@ -210,29 +257,34 @@ class CloudBackupManager(private val context: Context) {
                 return@withContext BackupResult.Error("No se encontró la base de datos local")
             }
 
-            removePreviousBackups(root)
-            val backupName = BACKUP_FILE_NAME
-            val outFile = root.createFile("application/octet-stream", backupName)
-                ?: return@withContext BackupResult.Error("No se pudo crear el archivo de backup")
-
-            context.contentResolver.openOutputStream(outFile.uri)?.use { output ->
-                backupCrypto
-                    .openEncryptedPayloadOutputStream(output, passphrase.toCharArray())
-                    .use { encryptedPayload ->
-                        ZipOutputStream(encryptedPayload).use { zip ->
-                            addFileToZip(zip, dbFile, DB_FILE_NAME)
-                            addOptionalCompanion(zip, dbFile.resolveSibling("$DB_FILE_NAME-wal"), "$DB_FILE_NAME-wal")
-                            addOptionalCompanion(zip, dbFile.resolveSibling("$DB_FILE_NAME-shm"), "$DB_FILE_NAME-shm")
-                        }
-                    }
-            } ?: return@withContext BackupResult.Error("No se pudo abrir el destino del backup")
-
             val now = System.currentTimeMillis()
+            val result = when (provider.destinationKind) {
+                ProviderDestinationKind.TREE -> {
+                    backupToTree(
+                        treeUri = provider.uri.toUri(),
+                        dbFile = dbFile,
+                        passphrase = passphrase,
+                        timestampMs = now
+                    )
+                }
+                ProviderDestinationKind.DOCUMENT -> {
+                    backupToDocument(
+                        documentUri = provider.uri.toUri(),
+                        dbFile = dbFile,
+                        passphrase = passphrase,
+                        timestampMs = now
+                    )
+                }
+            }
+            if (result is BackupResult.Error) {
+                return@withContext result
+            }
+
             prefs.edit {
                 putLong(KEY_LAST_BACKUP_AT, now)
                 remove(KEY_LAST_BACKUP_ERROR)
             }
-            BackupResult.Success(fileName = backupName, timestampMs = now)
+            result
         } catch (t: Throwable) {
             val message = t.message ?: "Error inesperado durante el backup"
             Log.e(TAG, "backupNow failed", t)
@@ -318,6 +370,10 @@ class CloudBackupManager(private val context: Context) {
             tempWal.delete()
             tempShm.delete()
 
+            // Durante la restauración la UI puede reabrir Room (prefs/listas) y quedarse
+            // apuntando al archivo previo. Cerramos otra vez para forzar nueva conexión.
+            NevilleRoomDatabase.closeInstance()
+
             // Valida que Room pueda reabrirse tras restaurar.
             NevilleRoomDatabase.getInstance(context.applicationContext).openHelper.writableDatabase
 
@@ -326,10 +382,22 @@ class CloudBackupManager(private val context: Context) {
                 putLong(KEY_LAST_RESTORE_AT, now)
                 remove(KEY_LAST_BACKUP_ERROR)
             }
+            BackupRestoreSignal.notifyDataRestored()
             RestoreResult.Success(restoredAtMs = now)
         } catch (t: Throwable) {
             Log.e(TAG, "restoreFromBackup failed", t)
-            RestoreResult.Error(t.message ?: "Error inesperado durante la restauración")
+            val message = when {
+                t.hasCause<AEADBadTagException>() ->
+                    if (!passphraseInput.isNullOrBlank()) {
+                        "La contraseña de cifrado es incorrecta."
+                    } else {
+                        "No se pudo descifrar el backup. Verifica la clave de cifrado y que el archivo no esté corrupto."
+                    }
+                t.hasCause<ZipException>() ->
+                    "El archivo de backup no tiene un formato válido o está dañado."
+                else -> t.message ?: "Error inesperado durante la restauración"
+            }
+            RestoreResult.Error(message)
         }
     }
 
@@ -370,6 +438,120 @@ class CloudBackupManager(private val context: Context) {
         addFileToZip(zip, file, entryName)
     }
 
+    private fun backupToTree(
+        treeUri: Uri,
+        dbFile: File,
+        passphrase: String,
+        timestampMs: Long
+    ): BackupResult {
+        val root = DocumentFile.fromTreeUri(context, treeUri)
+            ?: return BackupResult.Error("No se pudo acceder al proveedor")
+        if (!root.canWrite()) {
+            return BackupResult.Error("No hay permiso de escritura en el proveedor")
+        }
+
+        removePreviousBackups(root)
+        val backupName = BACKUP_FILE_NAME
+        val outFile = root.createFile("application/octet-stream", backupName)
+            ?: return BackupResult.Error("No se pudo crear el archivo de backup")
+
+        context.contentResolver.openOutputStream(outFile.uri)?.use { output ->
+            writeEncryptedBackup(output, dbFile, passphrase)
+        } ?: return BackupResult.Error("No se pudo abrir el destino del backup")
+
+        return BackupResult.Success(fileName = backupName, timestampMs = timestampMs)
+    }
+
+    private fun backupToDocument(
+        documentUri: Uri,
+        dbFile: File,
+        passphrase: String,
+        timestampMs: Long
+    ): BackupResult {
+        val document = DocumentFile.fromSingleUri(context, documentUri)
+            ?: return BackupResult.Error("No se pudo acceder al archivo de backup")
+        if (!document.isFile) {
+            return BackupResult.Error("El destino configurado no es un archivo")
+        }
+        if (!document.canWrite()) {
+            return BackupResult.Error("No hay permiso de escritura en el archivo destino")
+        }
+
+        val output = openTruncatedDocumentOutputStream(documentUri)
+            ?: return BackupResult.Error("No se pudo abrir el archivo de backup")
+
+        output.use {
+            writeEncryptedBackup(it, dbFile, passphrase)
+        }
+
+        val backupName = document.name?.takeIf { it.isNotBlank() } ?: BACKUP_FILE_NAME
+        return BackupResult.Success(fileName = backupName, timestampMs = timestampMs)
+    }
+
+    private fun writeEncryptedBackup(output: java.io.OutputStream, dbFile: File, passphrase: String) {
+        backupCrypto
+            .openEncryptedPayloadOutputStream(output, passphrase.toCharArray())
+            .use { encryptedPayload ->
+                ZipOutputStream(encryptedPayload).use { zip ->
+                    addFileToZip(zip, dbFile, DB_FILE_NAME)
+                    addOptionalCompanion(zip, dbFile.resolveSibling("$DB_FILE_NAME-wal"), "$DB_FILE_NAME-wal")
+                    addOptionalCompanion(zip, dbFile.resolveSibling("$DB_FILE_NAME-shm"), "$DB_FILE_NAME-shm")
+                }
+            }
+    }
+
+    private fun openTruncatedDocumentOutputStream(documentUri: Uri): OutputStream? {
+        // Prioriza FileDescriptor para asegurar truncado real en providers cloud.
+        context.contentResolver.openFileDescriptor(documentUri, "rwt")?.let { pfd ->
+            return object : OutputStream() {
+                private val stream = FileOutputStream(pfd.fileDescriptor)
+                override fun write(b: Int) = stream.write(b)
+                override fun write(b: ByteArray) = stream.write(b)
+                override fun write(b: ByteArray, off: Int, len: Int) = stream.write(b, off, len)
+                override fun flush() = stream.flush()
+                override fun close() {
+                    stream.flush()
+                    stream.close()
+                    pfd.close()
+                }
+            }
+        }
+
+        context.contentResolver.openFileDescriptor(documentUri, "rw")?.let { pfd ->
+            return object : OutputStream() {
+                private val stream = FileOutputStream(pfd.fileDescriptor).also { output ->
+                    try {
+                        output.channel.truncate(0L)
+                        output.channel.position(0L)
+                    } catch (_: Throwable) {
+                        // Si el provider no permite truncate explícito, continuamos con fallback.
+                    }
+                }
+                override fun write(b: Int) = stream.write(b)
+                override fun write(b: ByteArray) = stream.write(b)
+                override fun write(b: ByteArray, off: Int, len: Int) = stream.write(b, off, len)
+                override fun flush() = stream.flush()
+                override fun close() {
+                    stream.flush()
+                    stream.close()
+                    pfd.close()
+                }
+            }
+        }
+
+        return context.contentResolver.openOutputStream(documentUri, "wt")
+            ?: context.contentResolver.openOutputStream(documentUri, "w")
+    }
+
+    private inline fun <reified T : Throwable> Throwable.hasCause(): Boolean {
+        var current: Throwable? = this
+        while (current != null) {
+            if (current is T) return true
+            current = current.cause
+        }
+        return false
+    }
+
     private fun writeEntry(zip: ZipInputStream, target: File) {
         FileOutputStream(target).use { output ->
             zip.copyTo(output, DEFAULT_BUFFER_SIZE)
@@ -404,6 +586,7 @@ class CloudBackupManager(private val context: Context) {
         const val KEY_PROVIDER_URI = "cloud_backup_provider_uri"
         const val KEY_PROVIDER_AUTHORITY = "cloud_backup_provider_authority"
         const val KEY_PROVIDER_NAME = "cloud_backup_provider_name"
+        const val KEY_PROVIDER_KIND = "cloud_backup_provider_kind"
         const val KEY_BACKUP_FREQUENCY = "cloud_backup_frequency"
         const val KEY_LAST_BACKUP_AT = "cloud_backup_last_backup_at"
         const val KEY_LAST_RESTORE_AT = "cloud_backup_last_restore_at"

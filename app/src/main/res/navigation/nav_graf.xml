@@ -105,6 +105,11 @@
         android:label="frag_reminders" />
 
     <fragment
+        android:id="@+id/frag_morning_dialog"
+        android:name="com.ypg.neville.feature.morningdialog.ui.FragMorningDialog"
+        android:label="frag_morning_dialog" />
+
+    <fragment
         android:id="@+id/frag_voice_recordings"
         android:name="com.ypg.neville.feature.voice.ui.FragVoiceRecordings"
         android:label="frag_voice_recordings" />

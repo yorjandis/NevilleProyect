@@ -491,7 +491,12 @@ object utilsDB {
         val allowJoe = prefs.getBoolean("home_filter_author_joe", true)
         val allowGregg = prefs.getBoolean("home_filter_author_gregg", true)
         val allowBruce = prefs.getBoolean("home_filter_author_bruce", true)
+        val requireFavoritas = prefs.getBoolean("home_filter_favoritas", false)
+        val requirePersonales = prefs.getBoolean("home_filter_personales", false)
+        val requireConNota = prefs.getBoolean("home_filter_con_nota", false)
         val includeAutores = allowNeville || allowJoe || allowGregg || allowBruce
+        val anyAuthorSelected = includeAutores
+        val applyAuthorWideForFavOrNota = !anyAuthorSelected && (requireFavoritas || requireConNota)
         val filter = FraseHomeFilter(
             includeAutores = includeAutores,
             includeOtros = prefs.getBoolean("home_filter_otros", true),
@@ -503,7 +508,7 @@ object utilsDB {
         )
         val items = db(context).fraseDao().getForHome(
             onlyFav = if (onlyFav) 1 else 0,
-            includeAutores = if (filter.includeAutores) 1 else 0,
+            includeAutores = if (filter.includeAutores || applyAuthorWideForFavOrNota) 1 else 0,
             includeOtros = if (filter.includeOtros) 1 else 0,
             includeSalud = if (filter.includeSalud) 1 else 0
         ).filter { frase ->
@@ -516,7 +521,11 @@ object utilsDB {
                 }
                 if (mustBlockBySubscription) return@filter false
             }
+            if (requireFavoritas && frase.favState() != "1") return@filter false
+            if (requirePersonales && frase.personalState() != "1") return@filter false
+            if (requireConNota && frase.nota.trim().isEmpty()) return@filter false
             if (frase.categoria != FrasesAssetParser.CATEGORIA_AUTOR) return@filter true
+            if (applyAuthorWideForFavOrNota) return@filter true
             when (frase.autor.trim().lowercase()) {
                 "neville goddard" -> filter.includeNeville
                 "joe dispenza" -> filter.includeJoe
