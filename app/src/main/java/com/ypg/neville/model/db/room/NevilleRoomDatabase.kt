@@ -10,6 +10,12 @@ import com.ypg.neville.feature.emotionalanchors.data.EmotionalAnchorDao
 import com.ypg.neville.feature.emotionalanchors.data.EmotionalAnchorEntity
 import com.ypg.neville.feature.morningdialog.data.MorningDialogDao
 import com.ypg.neville.feature.morningdialog.data.MorningDialogSessionEntity
+import com.ypg.neville.feature.morningdialog.data.RitualDiaryExportDao
+import com.ypg.neville.feature.morningdialog.data.RitualDiaryExportEntity
+import com.ypg.neville.feature.weeklysummary.data.WeeklySummaryDao
+import com.ypg.neville.feature.weeklysummary.data.WeeklySummaryEntity
+import com.ypg.neville.feature.weeklysummary.data.WeeklySummaryEventEntity
+import com.ypg.neville.feature.weeklysummary.data.WeeklySummarySectionOrderEntity
 import com.ypg.neville.feature.voice.data.VoiceRecordingDao
 import com.ypg.neville.feature.voice.data.VoiceRecordingEntity
 import com.ypg.neville.model.reminders.ReminderDao
@@ -30,9 +36,13 @@ import com.ypg.neville.model.reminders.ReminderEntity
         VoiceRecordingEntity::class,
         EmotionalAnchorEntity::class,
         PreferenceEntity::class,
-        MorningDialogSessionEntity::class
+        MorningDialogSessionEntity::class,
+        RitualDiaryExportEntity::class,
+        WeeklySummaryEntity::class,
+        WeeklySummaryEventEntity::class,
+        WeeklySummarySectionOrderEntity::class
     ],
-    version = 14,
+    version = 17,
     exportSchema = false
 )
 abstract class NevilleRoomDatabase : RoomDatabase() {
@@ -51,6 +61,8 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
     abstract fun emotionalAnchorDao(): EmotionalAnchorDao
     abstract fun preferenceDao(): PreferenceDao
     abstract fun morningDialogDao(): MorningDialogDao
+    abstract fun ritualDiaryExportDao(): RitualDiaryExportDao
+    abstract fun weeklySummaryDao(): WeeklySummaryDao
 
     companion object {
         @Volatile
@@ -368,6 +380,87 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_14_15 = object : Migration(14, 15) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "ALTER TABLE `morning_dialog_sessions` " +
+                        "ADD COLUMN `noteText` TEXT NOT NULL DEFAULT ''"
+                )
+            }
+        }
+
+        private val MIGRATION_15_16 = object : Migration(15, 16) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `ritual_diary_exports` (" +
+                        "`sessionId` INTEGER NOT NULL, " +
+                        "`diarioId` INTEGER NOT NULL, " +
+                        "`createdAt` INTEGER NOT NULL, " +
+                        "PRIMARY KEY(`sessionId`))"
+                )
+                db.execSQL(
+                    "CREATE INDEX IF NOT EXISTS `index_ritual_diary_exports_diarioId` " +
+                        "ON `ritual_diary_exports` (`diarioId`)"
+                )
+            }
+        }
+
+        private val MIGRATION_16_17 = object : Migration(16, 17) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `weekly_summaries` (" +
+                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`weekStartMillis` INTEGER NOT NULL, " +
+                        "`weekEndMillis` INTEGER NOT NULL, " +
+                        "`generatedAtMillis` INTEGER NOT NULL, " +
+                        "`notesCreated` INTEGER NOT NULL, " +
+                        "`notesModified` INTEGER NOT NULL, " +
+                        "`notesDeleted` INTEGER NOT NULL, " +
+                        "`journalCreated` INTEGER NOT NULL, " +
+                        "`journalModified` INTEGER NOT NULL, " +
+                        "`journalDeleted` INTEGER NOT NULL, " +
+                        "`conferencesRead` INTEGER NOT NULL, " +
+                        "`goalsCreated` INTEGER NOT NULL, " +
+                        "`goalsCompleted` INTEGER NOT NULL, " +
+                        "`goalsInProgress` INTEGER NOT NULL, " +
+                        "`remindersCreated` INTEGER NOT NULL, " +
+                        "`remindersModified` INTEGER NOT NULL, " +
+                        "`remindersDeleted` INTEGER NOT NULL, " +
+                        "`voiceCreated` INTEGER NOT NULL, " +
+                        "`voiceDeleted` INTEGER NOT NULL, " +
+                        "`emotionalAnchorsCreated` INTEGER NOT NULL, " +
+                        "`emotionalAnchorsUsed` INTEGER NOT NULL, " +
+                        "`morningRitualsCompleted` INTEGER NOT NULL, " +
+                        "`personalPhrasesCreated` INTEGER NOT NULL, " +
+                        "`personalPhrasesModified` INTEGER NOT NULL, " +
+                        "`personalPhrasesDeleted` INTEGER NOT NULL, " +
+                        "`encyclopediaAccessed` INTEGER NOT NULL)"
+                )
+                db.execSQL(
+                    "CREATE UNIQUE INDEX IF NOT EXISTS `index_weekly_summaries_weekStartMillis` " +
+                        "ON `weekly_summaries` (`weekStartMillis`)"
+                )
+
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `weekly_summary_events` (" +
+                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`eventType` TEXT NOT NULL, " +
+                        "`targetKey` TEXT NOT NULL, " +
+                        "`timestamp` INTEGER NOT NULL)"
+                )
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_weekly_summary_events_timestamp` ON `weekly_summary_events` (`timestamp`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_weekly_summary_events_eventType` ON `weekly_summary_events` (`eventType`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_weekly_summary_events_targetKey` ON `weekly_summary_events` (`targetKey`)")
+
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `weekly_summary_section_order` (" +
+                        "`sectionKey` TEXT NOT NULL, " +
+                        "`position` INTEGER NOT NULL, " +
+                        "PRIMARY KEY(`sectionKey`))"
+                )
+            }
+        }
+
         fun getInstance(context: Context): NevilleRoomDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
@@ -388,7 +481,10 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
                         MIGRATION_10_11,
                         MIGRATION_11_12,
                         MIGRATION_12_13,
-                        MIGRATION_13_14
+                        MIGRATION_13_14,
+                        MIGRATION_14_15,
+                        MIGRATION_15_16,
+                        MIGRATION_16_17
                     )
                     .allowMainThreadQueries()
                     .build()

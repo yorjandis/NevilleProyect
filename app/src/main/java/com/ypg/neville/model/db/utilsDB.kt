@@ -2,6 +2,8 @@ package com.ypg.neville.model.db
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryEventLogger
+import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryEventType
 import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.model.db.room.ConfEntity
 import com.ypg.neville.model.db.room.FraseEntity
@@ -369,7 +371,7 @@ object utilsDB {
         } else {
             FrasesAssetParser.CATEGORIA_AUTOR
         }
-        return db(pcontext).fraseDao().insert(
+        val id = db(pcontext).fraseDao().insert(
             FraseEntity(
                 frase = textFrase.trim(),
                 autor = autor.trim(),
@@ -385,12 +387,16 @@ object utilsDB {
                 shared = "0"
             )
         )
+        if (id > 0) {
+            WeeklySummaryEventLogger.log(WeeklySummaryEventType.PHRASES_CREATED, targetKey = id.toString())
+        }
+        return id
     }
 
     @JvmStatic
     fun insertNewApunte(context: Context, title: String, apunte: String): Long {
         val now = System.currentTimeMillis()
-        return db(context).notaDao().insert(
+        val id = db(context).notaDao().insert(
             NotaEntity(
                 titulo = title.trim(),
                 nota = apunte.trim(),
@@ -398,6 +404,10 @@ object utilsDB {
                 fechaModificacion = now
             )
         )
+        if (id > 0) {
+            WeeklySummaryEventLogger.log(WeeklySummaryEventType.NOTES_CREATED, targetKey = id.toString())
+        }
+        return id
     }
 
     @JvmStatic
@@ -410,6 +420,7 @@ object utilsDB {
                 fechaModificacion = System.currentTimeMillis()
             )
         )
+        WeeklySummaryEventLogger.log(WeeklySummaryEventType.NOTES_MODIFIED, targetKey = current.id.toString())
         return true
     }
 
@@ -417,7 +428,10 @@ object utilsDB {
     fun updateNota(context: Context, tableName: String, columnID: String, valorID: String, nota: String): Boolean {
         val room = db(context)
         when (tableName) {
-            DatabaseHelper.T_Frases -> if (columnID == DatabaseHelper.C_frases_frase) room.fraseDao().updateNotaByFrase(valorID, nota)
+            DatabaseHelper.T_Frases -> if (columnID == DatabaseHelper.C_frases_frase) {
+                room.fraseDao().updateNotaByFrase(valorID, nota)
+                WeeklySummaryEventLogger.log(WeeklySummaryEventType.PHRASES_MODIFIED, targetKey = valorID)
+            }
             DatabaseHelper.T_Conf -> room.confDao().updateNotaByTitle(valorID, nota)
             else -> return false
         }
@@ -454,12 +468,14 @@ object utilsDB {
     @JvmStatic
     fun deleteFraseByText(context: Context, frase: String) {
         db(context).fraseDao().deleteByFrase(frase)
+        WeeklySummaryEventLogger.log(WeeklySummaryEventType.PHRASES_DELETED, targetKey = frase)
     }
 
     @Suppress("unused")
     @JvmStatic
     fun deleteApunteByTitle(context: Context, title: String) {
         db(context).notaDao().deleteByTitulo(title)
+        WeeklySummaryEventLogger.log(WeeklySummaryEventType.NOTES_DELETED, targetKey = title)
     }
 
     @JvmStatic

@@ -150,4 +150,14 @@
         android:id="@+id/frag_import_shared_text"
         android:name="com.ypg.neville.ui.frag.FragImportSharedText"
         android:label="frag_import_shared_text" />
+
+    <fragment
+        android:id="@+id/frag_weekly_summary"
+        android:name="com.ypg.neville.feature.weeklysummary.ui.FragWeeklySummary"
+        android:label="frag_weekly_summary" />
+
+    <fragment
+        android:id="@+id/frag_calm_space"
+        android:name="com.ypg.neville.feature.calmspace.ui.FragCalmSpace"
+        android:label="frag_calm_space" />
 </navigation>

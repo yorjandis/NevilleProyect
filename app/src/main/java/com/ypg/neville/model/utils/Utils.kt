@@ -13,6 +13,7 @@ import android.os.Build
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import android.graphics.drawable.Icon
+import com.ypg.neville.R
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
@@ -126,7 +127,7 @@ class Utils(private val context: Context) {
             .setStyle(Notification.BigTextStyle().bigText(bigtext))
             .addAction(updateAction)
             .setChannelId(utilsFields.NOTIFICACION_CHANNEL_ID)
-            .setSmallIcon(android.R.drawable.sym_action_chat)
+            .setSmallIcon(R.drawable.ic_notification_neville)
             .build()
 
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

@@ -1,5 +1,8 @@
 package com.ypg.neville.model.db.room
 
+import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryEventLogger
+import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryEventType
+
 class NotaRepository(private val notaDao: NotaDao) {
 
     fun insertar(titulo: String, nota: String, isFav: Boolean = false): Long {
@@ -11,7 +14,9 @@ class NotaRepository(private val notaDao: NotaDao) {
             fechaModificacion = now,
             isFav = isFav
         )
-        return notaDao.insert(item)
+        val id = notaDao.insert(item)
+        WeeklySummaryEventLogger.log(WeeklySummaryEventType.NOTES_CREATED, targetKey = id.toString())
+        return id
     }
 
     fun actualizar(
@@ -30,6 +35,7 @@ class NotaRepository(private val notaDao: NotaDao) {
             isFav = isFav
         )
         notaDao.update(item)
+        WeeklySummaryEventLogger.log(WeeklySummaryEventType.NOTES_MODIFIED, targetKey = id.toString())
     }
 
     fun cambiarFavorito(id: Long, isFav: Boolean) {
@@ -38,6 +44,7 @@ class NotaRepository(private val notaDao: NotaDao) {
 
     fun eliminar(nota: NotaEntity) {
         notaDao.delete(nota)
+        WeeklySummaryEventLogger.log(WeeklySummaryEventType.NOTES_DELETED, targetKey = nota.id.toString())
     }
 
     fun obtenerTodas(): List<NotaEntity> = notaDao.getAll()

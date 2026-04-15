@@ -1,5 +1,8 @@
 package com.ypg.neville.model.db.room
 
+import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryEventLogger
+import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryEventType
+
 class DiarioRepository(private val diarioDao: DiarioDao) {
 
     fun insertar(
@@ -18,7 +21,9 @@ class DiarioRepository(private val diarioDao: DiarioDao) {
             fechaM = now,
             isFav = isFav
         )
-        return diarioDao.insert(item)
+        val id = diarioDao.insert(item)
+        WeeklySummaryEventLogger.log(WeeklySummaryEventType.JOURNAL_CREATED, targetKey = id.toString())
+        return id
     }
 
     fun actualizar(id: Long, title: String, content: String, emocion: String, isFav: Boolean, fechaOriginal: Long) {
@@ -32,6 +37,7 @@ class DiarioRepository(private val diarioDao: DiarioDao) {
             isFav = isFav
         )
         diarioDao.update(item)
+        WeeklySummaryEventLogger.log(WeeklySummaryEventType.JOURNAL_MODIFIED, targetKey = id.toString())
     }
 
     fun cambiarFavorito(id: Long, isFav: Boolean) {
@@ -40,9 +46,18 @@ class DiarioRepository(private val diarioDao: DiarioDao) {
 
     fun eliminar(diario: DiarioEntity) {
         diarioDao.delete(diario)
+        WeeklySummaryEventLogger.log(WeeklySummaryEventType.JOURNAL_DELETED, targetKey = diario.id.toString())
     }
 
     fun obtenerTodas(): List<DiarioEntity> = diarioDao.getAll()
 
     fun obtenerPorId(id: Long): DiarioEntity? = diarioDao.getById(id)
+
+    fun actualizarTituloYContenido(id: Long, title: String, content: String) {
+        diarioDao.updateTitleAndContentById(
+            id = id,
+            title = title,
+            content = content
+        )
+    }
 }

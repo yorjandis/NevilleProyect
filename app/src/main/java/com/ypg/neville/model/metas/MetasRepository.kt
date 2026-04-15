@@ -1,6 +1,8 @@
 package com.ypg.neville.model.metas
 
 import android.content.Context
+import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryEventLogger
+import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryEventType
 import com.ypg.neville.model.db.room.ArchivedGoalEntity
 import com.ypg.neville.model.db.room.ArchivedUnitEntity
 import com.ypg.neville.model.db.room.GoalEntity
@@ -83,6 +85,7 @@ class MetasRepository(
             }
             unitDao.insertAll(units)
         }
+        WeeklySummaryEventLogger.log(WeeklySummaryEventType.GOALS_CREATED, targetKey = goalId)
     }
 
     fun createProgramGoal(programa: ProgramaPreestablecido) {
@@ -136,6 +139,7 @@ class MetasRepository(
 
         if (shouldSchedule) {
             GoalUnitNotificationScheduler.schedule(context, db, goalId)
+            WeeklySummaryEventLogger.log(WeeklySummaryEventType.GOALS_IN_PROGRESS, targetKey = goalId)
         }
     }
 
@@ -143,6 +147,7 @@ class MetasRepository(
         val now = System.currentTimeMillis()
         var changed = false
         var goalIdToRefresh: String? = null
+        var goalCompleted = false
         db.runInTransaction {
             val unit = unitDao.getById(unitId) ?: return@runInTransaction
             val goal = goalDao.getById(unit.goalId) ?: return@runInTransaction
@@ -157,8 +162,13 @@ class MetasRepository(
             )
             changed = true
             goalIdToRefresh = unit.goalId
+            val allUnits = unitDao.getByGoalId(unit.goalId)
+            goalCompleted = allUnits.isNotEmpty() && allUnits.all { UnitStatus.fromRaw(it.status) != UnitStatus.PENDING }
         }
         goalIdToRefresh?.let { GoalUnitNotificationScheduler.schedule(context, db, it) }
+        if (goalCompleted && goalIdToRefresh != null) {
+            WeeklySummaryEventLogger.log(WeeklySummaryEventType.GOALS_COMPLETED, targetKey = goalIdToRefresh.orEmpty())
+        }
         return changed
     }
 

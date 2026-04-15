@@ -25,6 +25,14 @@ interface DiarioDao {
     @Query("SELECT * FROM Diario WHERE id = :id LIMIT 1")
     fun getById(id: Long): DiarioEntity?
 
+    @Query("UPDATE Diario SET title = :title, content = :content, fechaM = :fechaModificacion WHERE id = :id")
+    fun updateTitleAndContentById(
+        id: Long,
+        title: String,
+        content: String,
+        fechaModificacion: Long = System.currentTimeMillis()
+    )
+
     @Query("UPDATE Diario SET isFav = :isFav, fechaM = :fechaModificacion WHERE id = :id")
     fun updateFavoritoById(id: Long, isFav: Boolean, fechaModificacion: Long = System.currentTimeMillis())
 }

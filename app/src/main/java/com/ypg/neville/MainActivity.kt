@@ -47,6 +47,7 @@ import com.ypg.neville.model.utils.Utils
 import com.ypg.neville.model.utils.myListener_In_App_Update
 import com.ypg.neville.feature.morningdialog.notifications.MorningDialogStartup
 import com.ypg.neville.feature.morningdialog.ui.FragMorningDialog
+import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryBootstrap
 import com.ypg.neville.model.reminders.JournalDailyReminderManager
 import com.ypg.neville.model.subscription.SubscriptionManager
 import com.ypg.neville.ui.frag.HomeFloatingMenuBottomSheet
@@ -65,6 +66,7 @@ class MainActivity : AppCompatActivity() {
     private val toolbarAddFraseVisible = mutableStateOf(View.VISIBLE)
     private val toolbarFavVisible = mutableStateOf(View.GONE)
     private val toolbarFavColor = mutableStateOf(android.graphics.Color.BLACK)
+    private val bottomNavVisible = mutableStateOf(true)
 
     lateinit var navController: NavController
     private lateinit var fragContainer: FragmentContainerView
@@ -89,6 +91,7 @@ class MainActivity : AppCompatActivity() {
         SubscriptionManager.initialize(this)
         JournalDailyReminderManager.initialize(this)
         MorningDialogStartup.sync(this)
+        WeeklySummaryBootstrap.initialize(this)
 
         toolbarColor.value = prefs.getInt("color_marcos", 0).takeIf { it != 0 }
 
@@ -199,7 +202,7 @@ class MainActivity : AppCompatActivity() {
         // Evita re-layouts verticales al ocultar/mostrar barras del sistema.
         WindowCompat.setDecorFitsSystemWindows(window, false)
         val controller = WindowInsetsControllerCompat(window, window.decorView)
-        controller.hide(WindowInsetsCompat.Type.navigationBars())
+        controller.hide(WindowInsetsCompat.Type.systemBars())
         controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
     }
 
@@ -207,10 +210,16 @@ class MainActivity : AppCompatActivity() {
     private fun MainScreen() {
         Box(modifier = Modifier.fillMaxSize()) {
             AndroidNavHostContainer()
-            Box(modifier = Modifier.align(Alignment.BottomCenter)) {
-                BottomNav()
+            if (bottomNavVisible.value) {
+                Box(modifier = Modifier.align(Alignment.BottomCenter)) {
+                    BottomNav()
+                }
             }
         }
+    }
+
+    fun setBottomNavVisible(visible: Boolean) {
+        bottomNavVisible.value = visible
     }
 
     @Composable
@@ -295,6 +304,10 @@ class MainActivity : AppCompatActivity() {
                 bottomActive.value = "morning_dialog"
                 openDestinationAsSheet(R.id.frag_morning_dialog)
             },
+            onResumenSemanal = {
+                bottomActive.value = "weekly_summary"
+                openDestinationAsSheet(R.id.frag_weekly_summary)
+            },
             onVoces = {
                 bottomActive.value = "voces"
                 openDestinationAsSheet(R.id.frag_voice_recordings)
@@ -302,6 +315,10 @@ class MainActivity : AppCompatActivity() {
             onAnclas = {
                 bottomActive.value = "anclas"
                 openDestinationAsSheet(R.id.frag_emotional_anchors)
+            },
+            onCalma = {
+                bottomActive.value = "calma"
+                openDestinationAsSheet(R.id.frag_calm_space)
             }
         )
     }
@@ -324,7 +341,9 @@ class MainActivity : AppCompatActivity() {
                     destinationId == R.id.frag_lienzo ||
                     destinationId == R.id.frag_reminders ||
                     destinationId == R.id.frag_morning_dialog ||
+                    destinationId == R.id.frag_weekly_summary ||
                     destinationId == R.id.frag_voice_recordings ||
+                    destinationId == R.id.frag_calm_space ||
                     destinationId == R.id.frag_emotional_anchors ||
                     destinationId == R.id.frag_emotional_anchor_create ||
                     destinationId == R.id.frag_emotional_anchor_run
