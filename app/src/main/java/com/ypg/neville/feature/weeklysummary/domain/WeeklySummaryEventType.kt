@@ -1,0 +1,33 @@
+package com.ypg.neville.feature.weeklysummary.domain
+
+object WeeklySummaryEventType {
+    const val NOTES_CREATED = "NOTES_CREATED"
+    const val NOTES_MODIFIED = "NOTES_MODIFIED"
+    const val NOTES_DELETED = "NOTES_DELETED"
+
+    const val JOURNAL_CREATED = "JOURNAL_CREATED"
+    const val JOURNAL_MODIFIED = "JOURNAL_MODIFIED"
+    const val JOURNAL_DELETED = "JOURNAL_DELETED"
+
+    const val CONFERENCE_READ = "CONFERENCE_READ"
+
+    const val GOALS_CREATED = "GOALS_CREATED"
+    const val GOALS_COMPLETED = "GOALS_COMPLETED"
+    const val GOALS_IN_PROGRESS = "GOALS_IN_PROGRESS"
+
+    const val REMINDERS_CREATED = "REMINDERS_CREATED"
+    const val REMINDERS_MODIFIED = "REMINDERS_MODIFIED"
+    const val REMINDERS_DELETED = "REMINDERS_DELETED"
+
+    const val VOICE_CREATED = "VOICE_CREATED"
+    const val VOICE_DELETED = "VOICE_DELETED"
+
+    const val ANCHORS_CREATED = "ANCHORS_CREATED"
+    const val ANCHORS_USED = "ANCHORS_USED"
+
+    const val PHRASES_CREATED = "PHRASES_CREATED"
+    const val PHRASES_MODIFIED = "PHRASES_MODIFIED"
+    const val PHRASES_DELETED = "PHRASES_DELETED"
+
+    const val ENCYCLOPEDIA_ACCESSED = "ENCYCLOPEDIA_ACCESSED"
+}
