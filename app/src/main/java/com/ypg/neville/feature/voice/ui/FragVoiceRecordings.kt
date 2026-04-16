@@ -216,7 +216,9 @@ class FragVoiceRecordings : Fragment() {
                 .fillMaxSize()
                 .background(
                     brush = Brush.verticalGradient(
-                        colors = listOf(Color(0xFFE7F7FF), Color(0xFFDDEBFF))
+                        colors = listOf(
+                            Color(0xFFD0E8F7),
+                            Color(0xFFDDEBFF))
                     )
                 )
                 .padding(12.dp)
@@ -250,7 +252,7 @@ class FragVoiceRecordings : Fragment() {
                     Text(
                         text = "Tiempo: ${formatClock(elapsedMs)} / 03:00",
                         style = MaterialTheme.typography.titleMedium,
-                        color = if (isRecording) Color(0xFFBF360C) else Color(0xFF1B5E20)
+                        color = if (isRecording) Color(0xFFFF9800) else Color(0xFFB5F24A)
                     )
 
                     Spacer(modifier = Modifier.height(10.dp))

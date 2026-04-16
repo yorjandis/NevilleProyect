@@ -205,16 +205,15 @@ fun MorningDialogFlowScreen(
 @Composable
 private fun PresenceStep(onStepChange: (Int) -> Unit) {
     val sequence = remember { listOf(
-        "Respira profundo",
+        "Respira profundo, exhala suavemente",
         "Hoy me mantendré enfocado y presente",
-        "Mantendré mi equilibrio emocional",
+        "Hoy Mantendré mi equilibrio emocional",
         "Voy a detenerme antes de reaccionar",
         "No seré la víctima de las circunstancias",
-        "Mi personalidad actual está creando mi realidad personal",
         "Ahora es mi momento creativo",
         "Voy a dejar las emociones de mi pasado",
         "Y enfocarme en sentir mi futuro",
-        "Nuevo día es una nueva oportunidad",
+        "Hoy es un nuevo día, lleno de posibilidades",
         "Hoy soy una mejor versión de mí") }
     var sequenceIndex by remember { mutableIntStateOf(0) }
     val sequenceAlpha = remember { Animatable(0f) }
@@ -263,8 +262,8 @@ private fun PresenceStep(onStepChange: (Int) -> Unit) {
     }
 }
 
-private const val STEP1_FADE_IN_MS = 4000
-private const val STEP1_FADE_OUT_MS = 6000
+private const val STEP1_FADE_IN_MS = 3500
+private const val STEP1_FADE_OUT_MS = 4000
 private const val STEP1_BETWEEN_MESSAGES_MS = 220L
 
 @Composable

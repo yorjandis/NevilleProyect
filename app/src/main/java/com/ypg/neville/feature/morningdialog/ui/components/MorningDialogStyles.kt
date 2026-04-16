@@ -6,13 +6,13 @@ import androidx.compose.ui.graphics.Color
 object MorningDialogStyles {
     val backgroundBrush: Brush = Brush.verticalGradient(
         colors = listOf(
-            Color(0xFF0F2437),
-            Color(0xFF1A3147),
-            Color(0xFF243E56)
+            Color(0xFF302973),
+            Color(0xFF2B5372),
+            Color(0xFF6BA1CE)
         )
     )
 
-    val ritualCardColor: Color = Color(0xFFD5B46B)
+    val ritualCardColor: Color = Color(0xFFEFE3C7)
     val ritualCardText: Color = Color(0xFF111111)
 
     val buttonColor: Color = Color(0xFF8CCBFF)

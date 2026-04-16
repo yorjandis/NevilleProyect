@@ -752,7 +752,14 @@ class FragCalmSpace : Fragment() {
                         showBackgroundMenu = false
                     },
                     onRandomBackgroundNow = {
-                        selectedBackground = if (backgroundAssets.isEmpty()) null else backgroundAssets.random(random)
+                        val picked = if (backgroundAssets.isEmpty()) null else backgroundAssets.random(random)
+                        if (!picked.isNullOrBlank()) {
+                            selectedBackground = picked
+                            fixedBackgroundName = picked
+                            prefs.saveFixedBackgroundName(picked)
+                            useFixedBackground = true
+                            prefs.saveUseFixedBackground(true)
+                        }
                     },
                     useFixedMusic = useFixedMusic,
                     onUseFixedMusicChange = { enabled ->
@@ -773,7 +780,14 @@ class FragCalmSpace : Fragment() {
                         showMusicMenu = false
                     },
                     onRandomMusicNow = {
-                        selectedMusic = if (musicAssets.isEmpty()) null else musicAssets.random(random)
+                        val picked = if (musicAssets.isEmpty()) null else musicAssets.random(random)
+                        if (!picked.isNullOrBlank()) {
+                            selectedMusic = picked
+                            fixedMusicName = picked
+                            prefs.saveFixedMusicName(picked)
+                            useFixedMusic = true
+                            prefs.saveUseFixedMusic(true)
+                        }
                     }
                 )
             }

@@ -184,9 +184,9 @@ class FragNotas : Fragment() {
                 .background(
                     brush = Brush.verticalGradient(
                        colors = listOf(
-                            Color(0xFFF3B04F),
-                            Color(0xFFD6AF78),
-                            Color(0xFFA19470)
+                           Color(0xFFB3D7F0),
+                           Color(0xFFC3DBEB),
+                           Color(0xFFDDEBFF)
                         )
                     )
                 )
@@ -339,13 +339,14 @@ class FragNotas : Fragment() {
 
                 FloatingActionButton(
                     onClick = { showFabMenu = !showFabMenu },
-                    containerColor = Color(0xFF062D48),
+                    containerColor = Color(0xFF6879A5),
                     contentColor = Color.White
                 ) {
                     Icon(
                         painter = painterResource(id = if (showFabMenu) R.drawable.ic_abajo else R.drawable.ic_menu_open),
                         tint = Color.White,
                         contentDescription = "Menú Notas"
+
                     )
                 }
             }
@@ -703,9 +704,9 @@ class FragNotas : Fragment() {
                 .background(
                     brush = Brush.verticalGradient(
                         colors = listOf(
-                            Color(0xFF082648),
-                            Color(0xFF13415E),
-                            Color(0xFF314866)
+                            Color(0xFF163E6D),
+                            Color(0xFF205879),
+                            Color(0xFF466082)
                         )
                     ),
                     shape = RoundedCornerShape(20.dp)
@@ -774,16 +775,16 @@ class FragNotas : Fragment() {
                         contentDescription = "Editar nota",
                         tint = colorResource(id = R.color.shared_social),
                         modifier = Modifier
-                            .size(22.dp)
+                            .size(24.dp)
                             .clickable(onClick = onEdit)
                     )
                     Icon(
                         painter = painterResource(id = R.drawable.ic_delete),
                         contentDescription = "Eliminar nota",
-                        tint = Color(0xFFFF7E09),
+                        tint = Color(0xFFFFA336),
                         modifier = Modifier
                             .padding(start = 20.dp)
-                            .size(22.dp)
+                            .size(24.dp)
                             .clickable(onClick = onDelete)
                     )
                     Box {
@@ -794,12 +795,15 @@ class FragNotas : Fragment() {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_menu_open),
                                 contentDescription = "Menú contextual de nota",
-                                tint = Color.White
+                                tint = Color.White,
+                                modifier = Modifier
+                                    .size(24.dp)
                             )
                         }
                         DropdownMenu(
                             expanded = showContextMenu,
-                            onDismissRequest = { showContextMenu = false }
+                            onDismissRequest = { showContextMenu = false },
+                            shape = RoundedCornerShape(18.dp)
                         ) {
                             DropdownMenuItem(
                                 text = { Text("Exportar a Frases") },
