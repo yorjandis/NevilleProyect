@@ -373,13 +373,13 @@ class FragEmotionalAnchors : Fragment() {
                             onClick = { showMandalaMenu = true },
                             modifier = Modifier
                                 .align(androidx.compose.ui.Alignment.TopEnd)
-                                .padding(top = 4.dp, end = 4.dp)
+                                .padding(top = 8.dp, end = 4.dp)
                                 .size(26.dp)
                         ) {
                             Icon(
-                                painter = painterResource(id = R.drawable.ic_show),
+                                painter = painterResource(id = R.drawable.ic_tips),
                                 contentDescription = "Mandalas predefinidos",
-                                tint = Color(0xFF455A64)
+                                tint = Color(0xFF0C0E5E)
                             )
                         }
 

@@ -64,9 +64,9 @@ fun AuthorPlaceholderScreen(
     var showFraseMenu by remember { mutableStateOf(false) }
     val bg = Brush.verticalGradient(
         colors = listOf(
-            Color(0xFFFD9C1C),
-            Color(0xFFE7AE60),
-            Color(0xFFB29C7B)
+            Color(0xFFBEADF8),
+            Color(0xFF9C9CCF),
+            Color(0xFFD7D1CD)
         )
     )
     val titleColor = Color(0xFF2A211A)

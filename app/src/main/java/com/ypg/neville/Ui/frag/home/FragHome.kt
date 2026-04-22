@@ -84,8 +84,7 @@ import com.ypg.neville.model.utils.utilsFields
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import java.time.LocalDate
-import java.time.ZoneId
+import java.util.TimeZone
 
 class FragHome : Fragment() {
 
@@ -168,9 +167,11 @@ class FragHome : Fragment() {
 
         val textSize = (prefs.getString("fuente_frase", "28")?.toFloatOrNull() ?: 28f).coerceIn(16f, 40f)
         val textColor = prefs.getInt("color_letra_frases_home", prefs.getInt("color_letra_frases", 0))
-        val bgColorA = prefs.getInt("color_fondo_a", 0XD385F2FF.toInt())
-        val bgColorB = prefs.getInt("color_fondo_b", 0xAA99DAFF.toInt())
-        val todayEpochDay = LocalDate.now(ZoneId.systemDefault()).toEpochDay()
+        val bgColorA = prefs.getInt("color_fondo_a", 0xFFF3F5F9.toInt())
+        val bgColorB = prefs.getInt("color_fondo_b", 0xFFE2E7F0.toInt())
+        val nowMillis = System.currentTimeMillis()
+        val offsetMillis = TimeZone.getDefault().getOffset(nowMillis).toLong()
+        val todayEpochDay = Math.floorDiv(nowMillis + offsetMillis, 86_400_000L)
         val hiddenDay = prefs.getLong(PREF_KEY_RITUAL_BUTTON_HIDDEN_DAY, -1L)
         val isHiddenToday = hiddenDay == todayEpochDay
         val triggerMsToday = remember(morningSettings.hour, morningSettings.minute, todayEpochDay) {
