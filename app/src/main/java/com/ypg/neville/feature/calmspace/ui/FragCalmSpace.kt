@@ -32,6 +32,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
@@ -58,6 +60,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -75,6 +78,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.ypg.neville.MainActivity
+import com.ypg.neville.R
+import com.ypg.neville.feature.calmspace.data.CalmMediaStorage
+import com.ypg.neville.feature.calmspace.data.CalmPersonalPhraseRepository
+import com.ypg.neville.model.db.room.NevilleRoomDatabase
+import androidx.navigation.fragment.findNavController
 import org.json.JSONArray
 import kotlinx.coroutines.isActive
 import kotlin.math.PI
@@ -102,6 +110,12 @@ data class CalmSphere(
 enum class CalmParticleMode {
     SPHERE,
     FIREFLY,
+    BOTH
+}
+
+enum class CalmPhraseSourceMode {
+    INBUILT,
+    PERSONAL,
     BOTH
 }
 
@@ -177,6 +191,15 @@ private class CalmPreferences(private val fragment: Fragment) {
         prefs.edit().putString(KEY_PARTICLE_MODE, value.name).apply()
     }
 
+    fun phraseSourceMode(): CalmPhraseSourceMode {
+        val raw = prefs.getString(KEY_PHRASE_SOURCE_MODE, CalmPhraseSourceMode.BOTH.name).orEmpty()
+        return runCatching { CalmPhraseSourceMode.valueOf(raw) }.getOrDefault(CalmPhraseSourceMode.BOTH)
+    }
+
+    fun savePhraseSourceMode(value: CalmPhraseSourceMode) {
+        prefs.edit().putString(KEY_PHRASE_SOURCE_MODE, value.name).apply()
+    }
+
     fun useFixedBackground(): Boolean = prefs.getBoolean(KEY_USE_FIXED_BG, false)
 
     fun saveUseFixedBackground(value: Boolean) {
@@ -223,6 +246,7 @@ private class CalmPreferences(private val fragment: Fragment) {
         private const val KEY_SPHERES = "calm_spheres"
         private const val KEY_FIREFLIES = "calm_fireflies"
         private const val KEY_PARTICLE_MODE = "calm_particle_mode"
+        private const val KEY_PHRASE_SOURCE_MODE = "calm_phrase_source_mode"
         private const val KEY_USE_FIXED_BG = "calm_use_fixed_background"
         private const val KEY_FIXED_BG_NAME = "calm_fixed_background_name"
         private const val KEY_USE_FIXED_MUSIC = "calm_use_fixed_music"
@@ -271,15 +295,24 @@ class FragCalmSpace : Fragment() {
     private fun CalmSpaceScreen() {
         val context = LocalContext.current
         val prefs = remember { CalmPreferences(this) }
+        val personalPhraseRepository = remember {
+            CalmPersonalPhraseRepository(
+                NevilleRoomDatabase.getInstance(requireContext().applicationContext).calmPersonalPhraseDao()
+            )
+        }
         val random = remember { Random(System.currentTimeMillis()) }
-        val calmPhrases = remember { loadCalmPhrasesFromAsset() }
+        val inbuiltCalmPhrases = remember { loadCalmPhrasesFromAsset() }
+        var personalCalmPhrases by remember { mutableStateOf<List<String>>(emptyList()) }
 
-        val backgroundAssets = remember { listAssetsByPattern("Calma_ImagenesFondo", Regex("""calma_fondo_(\d+)\.(jpg|jpeg|png|webp)""")) }
-        val musicAssets = remember { listAssetsByPattern("Calma_MusicaFondo", Regex("""calma_musica_(\d+)\.(mp3|ogg|wav|m4a)""")) }
+        val inbuiltBackgroundAssets = remember { listAssetsByPattern("Calma_ImagenesFondo", Regex("""calma_fondo_(\d+)\.(jpg|jpeg|png|webp)""")) }
+        val inbuiltMusicAssets = remember { listAssetsByPattern("Calma_MusicaFondo", Regex("""calma_musica_(\d+)\.(mp3|ogg|wav|m4a)""")) }
+        var customBackgroundAssets by remember { mutableStateOf<List<String>>(emptyList()) }
+        var customMusicAssets by remember { mutableStateOf<List<String>>(emptyList()) }
 
         var targetSphereCount by remember { mutableIntStateOf(prefs.sphereCount()) }
         var targetFireflyCount by remember { mutableIntStateOf(prefs.fireflyCount()) }
         var particleMode by remember { mutableStateOf(prefs.particleMode()) }
+        var phraseSourceMode by remember { mutableStateOf(prefs.phraseSourceMode()) }
         var useFixedBackground by remember { mutableStateOf(prefs.useFixedBackground()) }
         var fixedBackgroundName by remember { mutableStateOf(prefs.fixedBackgroundName()) }
         var useFixedMusic by remember { mutableStateOf(prefs.useFixedMusic()) }
@@ -289,32 +322,15 @@ class FragCalmSpace : Fragment() {
         var keepScreenOn by remember { mutableStateOf(prefs.keepScreenOn()) }
         val phraseBag = remember { mutableStateListOf<String>() }
 
-        var selectedBackground by remember {
-            mutableStateOf(
-                resolveSelectedAsset(
-                    allAssets = backgroundAssets,
-                    useFixed = useFixedBackground,
-                    fixedAssetName = fixedBackgroundName,
-                    random = random
-                )
-            )
-        }
-        var selectedMusic by remember {
-            mutableStateOf(
-                resolveSelectedAsset(
-                    allAssets = musicAssets,
-                    useFixed = useFixedMusic,
-                    fixedAssetName = fixedMusicName,
-                    random = random
-                )
-            )
-        }
+        var selectedBackground by remember { mutableStateOf<String?>(null) }
+        var selectedMusic by remember { mutableStateOf<String?>(null) }
 
         val spheres = remember { mutableStateListOf<CalmSphere>() }
         val fireflies = remember { mutableStateListOf<CalmFirefly>() }
         val particles = remember { mutableStateListOf<BurstParticle>() }
         val phraseReveals = remember { mutableStateListOf<PhraseReveal>() }
         val deformations = remember { mutableStateMapOf<Int, SphereDeformation>() }
+        val sphereReleaseFreeflowUntilMs = remember { mutableStateMapOf<Int, Long>() }
 
         var nextSphereId by remember { mutableIntStateOf(1) }
         var nextFxId by remember { mutableIntStateOf(1) }
@@ -325,6 +341,7 @@ class FragCalmSpace : Fragment() {
         var showBackgroundMenu by remember { mutableStateOf(false) }
         var showMusicMenu by remember { mutableStateOf(false) }
         var showParticleModeMenu by remember { mutableStateOf(false) }
+        var showPhraseSourceMenu by remember { mutableStateOf(false) }
         var showSettings by remember { mutableStateOf(false) }
         var draggingSphereId by remember { mutableIntStateOf(-1) }
         var draggingFireflyId by remember { mutableIntStateOf(-1) }
@@ -333,13 +350,29 @@ class FragCalmSpace : Fragment() {
         var dragVelocityX by remember { mutableStateOf(0f) }
         var dragVelocityY by remember { mutableStateOf(0f) }
 
+        fun reloadPersonalPhrases() {
+            personalCalmPhrases = personalPhraseRepository
+                .listAll()
+                .map { it.phrase.trim() }
+                .filter { it.isNotBlank() }
+        }
+
+        fun currentCalmPhrasePool(): List<String> {
+            val selected = when (phraseSourceMode) {
+                CalmPhraseSourceMode.INBUILT -> inbuiltCalmPhrases
+                CalmPhraseSourceMode.PERSONAL -> personalCalmPhrases
+                CalmPhraseSourceMode.BOTH -> inbuiltCalmPhrases + personalCalmPhrases
+            }.distinct()
+            return selected.ifEmpty { inbuiltCalmPhrases.ifEmpty { DEFAULT_CALM_PHRASES } }
+        }
+
         fun spawnSphere(): CalmSphere {
             val radius = random.nextInt(34, 78).toFloat()
             val x = random.nextFloat().coerceIn(0.05f, 0.95f) * max(viewportWidth, radius * 2f)
             val y = random.nextFloat().coerceIn(0.10f, 0.90f) * max(viewportHeight, radius * 2f)
             val speed = (nominalReleaseSpeed * 0.85f) + random.nextFloat() * (nominalReleaseSpeed * 0.30f)
             val angle = random.nextFloat() * (2f * PI.toFloat())
-            val phrase = nextNonRepeatingPhrase(calmPhrases, phraseBag, random)
+            val phrase = nextNonRepeatingPhrase(currentCalmPhrasePool(), phraseBag, random)
             val color = Color.hsv(
                 hue = random.nextFloat() * 180f + 170f,
                 saturation = random.nextFloat() * 0.24f + 0.20f,
@@ -364,7 +397,7 @@ class FragCalmSpace : Fragment() {
             val y = random.nextFloat().coerceIn(0.10f, 0.90f) * max(viewportHeight, 40f)
             val speed = (nominalReleaseSpeed * 0.42f) + random.nextFloat() * 16f
             val angle = random.nextFloat() * (2f * PI.toFloat())
-            val phrase = nextNonRepeatingPhrase(calmPhrases, phraseBag, random)
+            val phrase = nextNonRepeatingPhrase(currentCalmPhrasePool(), phraseBag, random)
             return CalmFirefly(
                 id = nextSphereId++,
                 x = x,
@@ -403,6 +436,7 @@ class FragCalmSpace : Fragment() {
         }
 
         fun restartMusicForSelection() {
+            val musicAssets = customMusicAssets + inbuiltMusicAssets.map { toInbuiltMusicToken(it) }
             selectedMusic = resolveSelectedAsset(
                 allAssets = musicAssets,
                 useFixed = useFixedMusic,
@@ -412,6 +446,7 @@ class FragCalmSpace : Fragment() {
         }
 
         fun pickNextBackgroundNonRepeating() {
+            val backgroundAssets = customBackgroundAssets + inbuiltBackgroundAssets.map { toInbuiltBackgroundToken(it) }
             if (backgroundAssets.isEmpty()) return
             val candidates = backgroundAssets.filter { it != selectedBackground }
             val picked = if (candidates.isNotEmpty()) candidates.random(random) else backgroundAssets.first()
@@ -430,6 +465,33 @@ class FragCalmSpace : Fragment() {
                     val dy = sphere.y - offset.y
                     (dx * dx + dy * dy) <= sphere.radius * sphere.radius
                 }
+        }
+
+        fun reloadCustomMedia() {
+            customBackgroundAssets = CalmMediaStorage.listCustomBackgroundFiles(context)
+                .map { CalmMediaStorage.toBackgroundToken(it) }
+            customMusicAssets = CalmMediaStorage.listCustomMusicFiles(context)
+                .map { CalmMediaStorage.toMusicToken(it) }
+
+            val backgroundOptions = customBackgroundAssets + inbuiltBackgroundAssets.map { toInbuiltBackgroundToken(it) }
+            val musicOptions = customMusicAssets + inbuiltMusicAssets.map { toInbuiltMusicToken(it) }
+
+            if (selectedBackground == null || selectedBackground !in backgroundOptions) {
+                selectedBackground = resolveSelectedAsset(
+                    allAssets = backgroundOptions,
+                    useFixed = useFixedBackground,
+                    fixedAssetName = fixedBackgroundName,
+                    random = random
+                )
+            }
+            if (selectedMusic == null || selectedMusic !in musicOptions) {
+                selectedMusic = resolveSelectedAsset(
+                    allAssets = musicOptions,
+                    useFixed = useFixedMusic,
+                    fixedAssetName = fixedMusicName,
+                    random = random
+                )
+            }
         }
 
         fun findFireflyAt(offset: Offset): CalmFirefly? {
@@ -472,13 +534,15 @@ class FragCalmSpace : Fragment() {
             val sphere = spheres[index]
             val mag = sqrt(vx * vx + vy * vy)
             if (mag <= 0.001f) return
-            val reducedMag = (mag * DRAG_RELEASE_DAMPING).coerceIn(10f, MAX_DRAG_RELEASE_SPEED)
+            val reducedMag = (mag * SPHERE_RELEASE_INERTIA_FACTOR)
+                .coerceIn(SPHERE_RELEASE_SPEED_MIN, SPHERE_RELEASE_SPEED_MAX)
             val dirX = vx / mag
             val dirY = vy / mag
             spheres[index] = sphere.copy(
                 vx = dirX * reducedMag,
                 vy = dirY * reducedMag
             )
+            sphereReleaseFreeflowUntilMs[id] = nowMs + SPHERE_RELEASE_FREEFLOW_MS
         }
 
         fun applyFireflyRelease(id: Int, vx: Float, vy: Float) {
@@ -531,15 +595,40 @@ class FragCalmSpace : Fragment() {
         val backgroundBitmap = remember(selectedBackground) {
             val assetName = selectedBackground ?: return@remember null
             runCatching {
-                context.assets.open("Calma_ImagenesFondo/$assetName").use { input ->
-                    BitmapFactory.decodeStream(input)?.asImageBitmap()
+                val customPath = CalmMediaStorage.customBackgroundPathFromToken(assetName)
+                if (!customPath.isNullOrBlank()) {
+                    BitmapFactory.decodeFile(customPath)?.asImageBitmap()
+                } else {
+                    val inbuiltName = fromInbuiltBackgroundToken(assetName) ?: assetName
+                    context.assets.open("Calma_ImagenesFondo/$inbuiltName").use { input ->
+                        BitmapFactory.decodeStream(input)?.asImageBitmap()
+                    }
                 }
             }.getOrNull()
         }
 
         val lifecycleOwner = LocalLifecycleOwner.current
+        LaunchedEffect(Unit) {
+            reloadCustomMedia()
+            reloadPersonalPhrases()
+        }
+        LaunchedEffect(phraseSourceMode, personalCalmPhrases.size, inbuiltCalmPhrases.size) {
+            phraseBag.clear()
+        }
         LaunchedEffect(keepScreenOn) {
             applyKeepScreenOn(keepScreenOn)
+        }
+        DisposableEffect(lifecycleOwner) {
+            val observer = LifecycleEventObserver { _, event ->
+                if (event == Lifecycle.Event.ON_RESUME) {
+                    reloadCustomMedia()
+                    reloadPersonalPhrases()
+                }
+            }
+            lifecycleOwner.lifecycle.addObserver(observer)
+            onDispose {
+                lifecycleOwner.lifecycle.removeObserver(observer)
+            }
         }
         DisposableEffect(selectedMusic, keepMusicInBackground, lifecycleOwner) {
             val music = selectedMusic
@@ -547,9 +636,15 @@ class FragCalmSpace : Fragment() {
             var resumedAfterStop = false
 
             val player = runCatching {
-                val afd = context.assets.openFd("Calma_MusicaFondo/$music")
+                val customPath = CalmMediaStorage.customMusicPathFromToken(music)
                 MediaPlayer().apply {
-                    setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
+                    if (!customPath.isNullOrBlank()) {
+                        setDataSource(customPath)
+                    } else {
+                        val inbuiltName = fromInbuiltMusicToken(music) ?: music
+                        val afd = context.assets.openFd("Calma_MusicaFondo/$inbuiltName")
+                        setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
+                    }
                     isLooping = true
                     setVolume(0.38f, 0.38f)
                     prepare()
@@ -610,6 +705,10 @@ class FragCalmSpace : Fragment() {
                     lastFrameNs = frameNs
 
                     if (viewportWidth <= 0f || viewportHeight <= 0f) continue
+                    if (sphereReleaseFreeflowUntilMs.isNotEmpty()) {
+                        val expired = sphereReleaseFreeflowUntilMs.filterValues { it <= nowMs }.keys.toList()
+                        expired.forEach { sphereReleaseFreeflowUntilMs.remove(it) }
+                    }
 
                     for (i in spheres.indices) {
                         val item = spheres[i]
@@ -645,16 +744,24 @@ class FragCalmSpace : Fragment() {
                             nvy = -abs(nvy) * WALL_RESTITUTION
                         }
 
-                        val adjusted = enforceMinimumSpeed(nvx, nvy, minInertialSpeedFromNominal(nominalReleaseSpeed))
-                        val regulated = regulateSpeedToNominal(
-                            adjusted.first,
-                            adjusted.second,
-                            nominalReleaseSpeed,
-                            response = 0.24f,
-                            minFactor = 0.76f,
-                            maxFactor = 1.22f
-                        )
-                        spheres[i] = item.copy(x = nx, y = ny, vx = regulated.first, vy = regulated.second)
+                        val inReleaseFreeflow = (sphereReleaseFreeflowUntilMs[item.id] ?: 0L) > nowMs
+                        if (inReleaseFreeflow) {
+                            val frameDrag = 1f - ((1f - SPHERE_RELEASE_AIR_DRAG) * (dt / 0.016f).coerceIn(0.4f, 2.0f))
+                            val draggedVx = nvx * frameDrag
+                            val draggedVy = nvy * frameDrag
+                            spheres[i] = item.copy(x = nx, y = ny, vx = draggedVx, vy = draggedVy)
+                        } else {
+                            val adjusted = enforceMinimumSpeed(nvx, nvy, minInertialSpeedFromNominal(nominalReleaseSpeed))
+                            val regulated = regulateSpeedToNominal(
+                                adjusted.first,
+                                adjusted.second,
+                                nominalReleaseSpeed,
+                                response = 0.24f,
+                                minFactor = 0.76f,
+                                maxFactor = 1.22f
+                            )
+                            spheres[i] = item.copy(x = nx, y = ny, vx = regulated.first, vy = regulated.second)
+                        }
                         if (wallImpactAngleRad != null && wallImpactSpeed > 18f) {
                             val strength = (wallImpactSpeed / 300f).coerceIn(0.02f, 0.08f)
                             deformations[item.id] = SphereDeformation(
@@ -706,35 +813,75 @@ class FragCalmSpace : Fragment() {
                             val shiftA = overlap * (m2 / totalMass)
                             val shiftB = overlap * (m1 / totalMass)
 
-                            val adjustedA = enforceMinimumSpeed(avx, avy, minInertialSpeedFromNominal(nominalReleaseSpeed))
+                            val aInReleaseFreeflow = (sphereReleaseFreeflowUntilMs[a.id] ?: 0L) > nowMs
+                            val bInReleaseFreeflow = (sphereReleaseFreeflowUntilMs[b.id] ?: 0L) > nowMs
+
+                            val adjustedA = enforceMinimumSpeed(
+                                avx,
+                                avy,
+                                if (aInReleaseFreeflow) minInertialSpeedFromNominal(nominalReleaseSpeed) * 0.55f
+                                else minInertialSpeedFromNominal(nominalReleaseSpeed)
+                            )
                             val regulatedA = regulateSpeedToNominal(
                                 adjustedA.first,
                                 adjustedA.second,
                                 nominalReleaseSpeed,
-                                response = 0.24f,
-                                minFactor = 0.76f,
-                                maxFactor = 1.22f
+                                response = if (aInReleaseFreeflow) 0.08f else 0.24f,
+                                minFactor = if (aInReleaseFreeflow) 0.42f else 0.76f,
+                                maxFactor = if (aInReleaseFreeflow) 2.40f else 1.22f
                             )
-                            spheres[i] = a.copy(
-                                x = (a.x - nx * shiftA).coerceIn(a.radius, viewportWidth - a.radius),
-                                y = (a.y - ny * shiftA).coerceIn(a.radius, viewportHeight - a.radius),
-                                vx = regulatedA.first,
-                                vy = regulatedA.second
+                            val adjustedB = enforceMinimumSpeed(
+                                bvx,
+                                bvy,
+                                if (bInReleaseFreeflow) minInertialSpeedFromNominal(nominalReleaseSpeed) * 0.55f
+                                else minInertialSpeedFromNominal(nominalReleaseSpeed)
                             )
-                            val adjustedB = enforceMinimumSpeed(bvx, bvy, minInertialSpeedFromNominal(nominalReleaseSpeed))
                             val regulatedB = regulateSpeedToNominal(
                                 adjustedB.first,
                                 adjustedB.second,
                                 nominalReleaseSpeed,
-                                response = 0.24f,
-                                minFactor = 0.76f,
-                                maxFactor = 1.22f
+                                response = if (bInReleaseFreeflow) 0.08f else 0.24f,
+                                minFactor = if (bInReleaseFreeflow) 0.42f else 0.76f,
+                                maxFactor = if (bInReleaseFreeflow) 2.40f else 1.22f
+                            )
+                            var finalAVx = regulatedA.first
+                            var finalAVy = regulatedA.second
+                            var finalBVx = regulatedB.first
+                            var finalBVy = regulatedB.second
+
+                            // If a recently released sphere hits another, transfer extra impulse so the impacted sphere accelerates naturally.
+                            if (impactSpeed > SPHERE_IMPACT_ACCEL_THRESHOLD) {
+                                if (aInReleaseFreeflow && !bInReleaseFreeflow) {
+                                    val transferBoost = (impactSpeed * SPHERE_IMPACT_TRANSFER_FACTOR)
+                                        .coerceIn(0f, SPHERE_IMPACT_TRANSFER_MAX_BOOST)
+                                    finalBVx += nx * transferBoost
+                                    finalBVy += ny * transferBoost
+                                    sphereReleaseFreeflowUntilMs[b.id] =
+                                        max(sphereReleaseFreeflowUntilMs[b.id] ?: 0L, nowMs + SPHERE_IMPACT_FREEFLOW_MS)
+                                } else if (bInReleaseFreeflow && !aInReleaseFreeflow) {
+                                    val transferBoost = (impactSpeed * SPHERE_IMPACT_TRANSFER_FACTOR)
+                                        .coerceIn(0f, SPHERE_IMPACT_TRANSFER_MAX_BOOST)
+                                    finalAVx -= nx * transferBoost
+                                    finalAVy -= ny * transferBoost
+                                    sphereReleaseFreeflowUntilMs[a.id] =
+                                        max(sphereReleaseFreeflowUntilMs[a.id] ?: 0L, nowMs + SPHERE_IMPACT_FREEFLOW_MS)
+                                }
+                            }
+
+                            val cappedA = capVelocity(finalAVx, finalAVy, SPHERE_COLLISION_SPEED_CAP)
+                            val cappedB = capVelocity(finalBVx, finalBVy, SPHERE_COLLISION_SPEED_CAP)
+
+                            spheres[i] = a.copy(
+                                x = (a.x - nx * shiftA).coerceIn(a.radius, viewportWidth - a.radius),
+                                y = (a.y - ny * shiftA).coerceIn(a.radius, viewportHeight - a.radius),
+                                vx = cappedA.first,
+                                vy = cappedA.second
                             )
                             spheres[j] = b.copy(
                                 x = (b.x + nx * shiftB).coerceIn(b.radius, viewportWidth - b.radius),
                                 y = (b.y + ny * shiftB).coerceIn(b.radius, viewportHeight - b.radius),
-                                vx = regulatedB.first,
-                                vy = regulatedB.second
+                                vx = cappedB.first,
+                                vy = cappedB.second
                             )
                             if (impactSpeed > 26f) {
                                 val stretchAngle = (atan2(ny, nx) + (PI.toFloat() * 0.5f))
@@ -918,7 +1065,7 @@ class FragCalmSpace : Fragment() {
                                     glowFactor = ((a.glowFactor + b.glowFactor) * 0.5f).coerceIn(0.72f, 1.35f),
                                     blinkRate = ((a.blinkRate + b.blinkRate) * 0.5f).coerceIn(0.65f, 1.25f),
                                     blinkPhase = (a.blinkPhase + b.blinkPhase) * 0.5f,
-                                    phrase = nextNonRepeatingPhrase(calmPhrases, phraseBag, random),
+                                    phrase = nextNonRepeatingPhrase(currentCalmPhrasePool(), phraseBag, random),
                                     bornAtMs = nowMs
                                 )
                                 fireflies.removeAll { it.id == a.id || it.id == b.id }
@@ -1317,6 +1464,17 @@ class FragCalmSpace : Fragment() {
                     },
                     showParticleModeMenu = showParticleModeMenu,
                     onParticleModeMenuChange = { showParticleModeMenu = it },
+                    phraseSourceMode = phraseSourceMode,
+                    onPhraseSourceModeChange = {
+                        phraseSourceMode = it
+                        prefs.savePhraseSourceMode(it)
+                        phraseBag.clear()
+                    },
+                    showPhraseSourceMenu = showPhraseSourceMenu,
+                    onPhraseSourceMenuChange = { showPhraseSourceMenu = it },
+                    onManagePersonalPhrases = {
+                        findNavController().navigate(R.id.frag_calm_phrase_manager)
+                    },
                     sphereCount = targetSphereCount,
                     onSphereCountChange = {
                         targetSphereCount = it
@@ -1348,6 +1506,7 @@ class FragCalmSpace : Fragment() {
                     },
                     useFixedBackground = useFixedBackground,
                     onUseFixedBackgroundChange = { enabled ->
+                        val backgroundAssets = customBackgroundAssets + inbuiltBackgroundAssets.map { toInbuiltBackgroundToken(it) }
                         useFixedBackground = enabled
                         prefs.saveUseFixedBackground(enabled)
                         selectedBackground = resolveSelectedAsset(
@@ -1360,7 +1519,9 @@ class FragCalmSpace : Fragment() {
                     currentBackground = selectedBackground,
                     showBackgroundMenu = showBackgroundMenu,
                     onBackgroundMenuChange = { showBackgroundMenu = it },
-                    backgroundAssets = backgroundAssets,
+                    backgroundAssets = customBackgroundAssets + inbuiltBackgroundAssets.map { toInbuiltBackgroundToken(it) },
+                    backgroundLabelFor = { labelForBackgroundSelection(it) },
+                    backgroundThumbnailFor = { loadBackgroundThumbnail(it) },
                     onBackgroundSelect = { bgName ->
                         fixedBackgroundName = bgName
                         prefs.saveFixedBackgroundName(bgName)
@@ -1370,6 +1531,7 @@ class FragCalmSpace : Fragment() {
                         showBackgroundMenu = false
                     },
                     onRandomBackgroundNow = {
+                        val backgroundAssets = customBackgroundAssets + inbuiltBackgroundAssets.map { toInbuiltBackgroundToken(it) }
                         val picked = if (backgroundAssets.isEmpty()) null else backgroundAssets.random(random)
                         if (!picked.isNullOrBlank()) {
                             selectedBackground = picked
@@ -1381,14 +1543,21 @@ class FragCalmSpace : Fragment() {
                     },
                     useFixedMusic = useFixedMusic,
                     onUseFixedMusicChange = { enabled ->
+                        val musicAssets = customMusicAssets + inbuiltMusicAssets.map { toInbuiltMusicToken(it) }
                         useFixedMusic = enabled
                         prefs.saveUseFixedMusic(enabled)
-                        restartMusicForSelection()
+                        selectedMusic = resolveSelectedAsset(
+                            allAssets = musicAssets,
+                            useFixed = enabled,
+                            fixedAssetName = fixedMusicName,
+                            random = random
+                        )
                     },
                     currentMusic = selectedMusic,
                     showMusicMenu = showMusicMenu,
                     onMusicMenuChange = { showMusicMenu = it },
-                    musicAssets = musicAssets,
+                    musicAssets = customMusicAssets + inbuiltMusicAssets.map { toInbuiltMusicToken(it) },
+                    musicLabelFor = { labelForMusicSelection(it) },
                     onMusicSelect = { musicName ->
                         fixedMusicName = musicName
                         prefs.saveFixedMusicName(musicName)
@@ -1398,6 +1567,7 @@ class FragCalmSpace : Fragment() {
                         showMusicMenu = false
                     },
                     onRandomMusicNow = {
+                        val musicAssets = customMusicAssets + inbuiltMusicAssets.map { toInbuiltMusicToken(it) }
                         val picked = if (musicAssets.isEmpty()) null else musicAssets.random(random)
                         if (!picked.isNullOrBlank()) {
                             selectedMusic = picked
@@ -1420,6 +1590,11 @@ class FragCalmSpace : Fragment() {
         onParticleModeChange: (CalmParticleMode) -> Unit,
         showParticleModeMenu: Boolean,
         onParticleModeMenuChange: (Boolean) -> Unit,
+        phraseSourceMode: CalmPhraseSourceMode,
+        onPhraseSourceModeChange: (CalmPhraseSourceMode) -> Unit,
+        showPhraseSourceMenu: Boolean,
+        onPhraseSourceMenuChange: (Boolean) -> Unit,
+        onManagePersonalPhrases: () -> Unit,
         sphereCount: Int,
         onSphereCountChange: (Int) -> Unit,
         fireflyCount: Int,
@@ -1436,6 +1611,8 @@ class FragCalmSpace : Fragment() {
         showBackgroundMenu: Boolean,
         onBackgroundMenuChange: (Boolean) -> Unit,
         backgroundAssets: List<String>,
+        backgroundLabelFor: (String) -> String,
+        backgroundThumbnailFor: (String) -> ImageBitmap?,
         onBackgroundSelect: (String) -> Unit,
         onRandomBackgroundNow: () -> Unit,
         useFixedMusic: Boolean,
@@ -1444,6 +1621,7 @@ class FragCalmSpace : Fragment() {
         showMusicMenu: Boolean,
         onMusicMenuChange: (Boolean) -> Unit,
         musicAssets: List<String>,
+        musicLabelFor: (String) -> String,
         onMusicSelect: (String) -> Unit,
         onRandomMusicNow: () -> Unit
     ) {
@@ -1467,14 +1645,18 @@ class FragCalmSpace : Fragment() {
                 exit = fadeOut(animationSpec = tween(180)) + scaleOut(targetScale = 0.97f, animationSpec = tween(180))
                 ) {
                 Card(
-                    modifier = Modifier.widthIn(max = 360.dp),
+                    modifier = Modifier
+                        .widthIn(max = 348.dp)
+                        .heightIn(max = 520.dp),
                     shape = RoundedCornerShape(18.dp),
                     colors = CardDefaults.cardColors(containerColor = Color.Transparent)
                 ) {
+                    val settingsScroll = rememberScrollState()
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(Color(0x77202A33))
+                            .verticalScroll(settingsScroll)
                             .padding(12.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
@@ -1536,6 +1718,71 @@ class FragCalmSpace : Fragment() {
                                 )
                             }
                         }
+                        Text(
+                            text = "Fuente de frases",
+                            style = MaterialTheme.typography.labelLarge,
+                            color = Color.White
+                        )
+                        Box(modifier = Modifier.fillMaxWidth()) {
+                            Text(
+                                text = when (phraseSourceMode) {
+                                    CalmPhraseSourceMode.INBUILT -> "Inbuilt"
+                                    CalmPhraseSourceMode.PERSONAL -> "Personales"
+                                    CalmPhraseSourceMode.BOTH -> "Inbuilt + Personales"
+                                },
+                                color = Color.White,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clip(RoundedCornerShape(10.dp))
+                                    .background(Color.White.copy(alpha = 0.12f))
+                                    .clickable { onPhraseSourceMenuChange(true) }
+                                    .padding(horizontal = 10.dp, vertical = 10.dp)
+                            )
+                            DropdownMenu(
+                                expanded = showPhraseSourceMenu,
+                                onDismissRequest = { onPhraseSourceMenuChange(false) }
+                            ) {
+                                DropdownMenuItem(
+                                    text = { Text("Inbuilt") },
+                                    onClick = {
+                                        onPhraseSourceModeChange(CalmPhraseSourceMode.INBUILT)
+                                        onPhraseSourceMenuChange(false)
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text("Personales") },
+                                    onClick = {
+                                        onPhraseSourceModeChange(CalmPhraseSourceMode.PERSONAL)
+                                        onPhraseSourceMenuChange(false)
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text("Inbuilt + Personales") },
+                                    onClick = {
+                                        onPhraseSourceModeChange(CalmPhraseSourceMode.BOTH)
+                                        onPhraseSourceMenuChange(false)
+                                    }
+                                )
+                            }
+                        }
+                        /*
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.End
+                        ) {
+                            Text(
+                                text = "Gestionar frases personales",
+                                color = Color.White.copy(alpha = 0.95f),
+                                style = MaterialTheme.typography.labelLarge,
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(9.dp))
+                                    .background(Color.White.copy(alpha = 0.10f))
+                                    .clickable { onManagePersonalPhrases() }
+                                    .padding(horizontal = 10.dp, vertical = 8.dp)
+                            )
+                        }
+                         */
+
                         if (particleMode == CalmParticleMode.SPHERE || particleMode == CalmParticleMode.BOTH) {
                             Text(
                                 text = "Esferas: $sphereCount",
@@ -1608,7 +1855,7 @@ class FragCalmSpace : Fragment() {
                         ) {
                             Box(modifier = Modifier.fillMaxWidth(0.64f)) {
                                 Text(
-                                    text = currentBackground ?: "Sin fondo",
+                                    text = currentBackground?.let(backgroundLabelFor) ?: "Sin fondo",
                                     color = Color.White,
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -1623,8 +1870,26 @@ class FragCalmSpace : Fragment() {
                                     modifier = Modifier.heightIn(max = 280.dp)
                                 ) {
                                     backgroundAssets.forEach { item ->
+                                        val thumb = remember(item) { backgroundThumbnailFor(item) }
                                         DropdownMenuItem(
-                                            text = { Text(item) },
+                                            text = {
+                                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                                    if (thumb != null) {
+                                                        Image(
+                                                            bitmap = thumb,
+                                                            contentDescription = backgroundLabelFor(item),
+                                                            contentScale = ContentScale.Crop,
+                                                            modifier = Modifier
+                                                                .size(36.dp)
+                                                                .clip(RoundedCornerShape(6.dp))
+                                                        )
+                                                    }
+                                                    Text(
+                                                        text = backgroundLabelFor(item),
+                                                        modifier = Modifier.padding(start = 8.dp)
+                                                    )
+                                                }
+                                            },
                                             onClick = { onBackgroundSelect(item) }
                                         )
                                     }
@@ -1656,7 +1921,7 @@ class FragCalmSpace : Fragment() {
                         ) {
                             Box(modifier = Modifier.fillMaxWidth(0.64f)) {
                                 Text(
-                                    text = currentMusic ?: "Sin música",
+                                    text = currentMusic?.let(musicLabelFor) ?: "Sin música",
                                     color = Color.White,
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -1674,7 +1939,7 @@ class FragCalmSpace : Fragment() {
                                 ) {
                                     musicAssets.forEach { item ->
                                         DropdownMenuItem(
-                                            text = { Text(item) },
+                                            text = { Text(musicLabelFor(item)) },
                                             onClick = { onMusicSelect(item) }
                                         )
                                     }
@@ -1716,10 +1981,64 @@ class FragCalmSpace : Fragment() {
     ): String? {
         if (allAssets.isEmpty()) return null
         if (useFixed) {
-            val fixed = fixedAssetName?.takeIf { it in allAssets }
+            val fixed = normalizeStoredSelection(
+                value = fixedAssetName,
+                allAssets = allAssets
+            )
             if (!fixed.isNullOrBlank()) return fixed
         }
         return allAssets.random(random)
+    }
+
+    private fun normalizeStoredSelection(value: String?, allAssets: List<String>): String? {
+        if (value.isNullOrBlank()) return null
+        if (value in allAssets) return value
+
+        // Legacy support: old values stored only the file name (without token prefix).
+        val fromInbuilt = allAssets.firstOrNull { it.endsWith(":$value") }
+        if (!fromInbuilt.isNullOrBlank()) return fromInbuilt
+
+        return null
+    }
+
+    private fun toInbuiltBackgroundToken(assetName: String): String = "$INBUILT_BACKGROUND_PREFIX$assetName"
+    private fun fromInbuiltBackgroundToken(token: String): String? {
+        return if (token.startsWith(INBUILT_BACKGROUND_PREFIX)) token.removePrefix(INBUILT_BACKGROUND_PREFIX) else null
+    }
+
+    private fun toInbuiltMusicToken(assetName: String): String = "$INBUILT_MUSIC_PREFIX$assetName"
+    private fun fromInbuiltMusicToken(token: String): String? {
+        return if (token.startsWith(INBUILT_MUSIC_PREFIX)) token.removePrefix(INBUILT_MUSIC_PREFIX) else null
+    }
+
+    private fun labelForBackgroundSelection(selection: String): String {
+        val inbuilt = fromInbuiltBackgroundToken(selection)
+        if (!inbuilt.isNullOrBlank()) return inbuilt
+        val customPath = CalmMediaStorage.customBackgroundPathFromToken(selection)
+        if (!customPath.isNullOrBlank()) return customPath.substringAfterLast('/')
+        return selection
+    }
+
+    private fun labelForMusicSelection(selection: String): String {
+        val inbuilt = fromInbuiltMusicToken(selection)
+        if (!inbuilt.isNullOrBlank()) return inbuilt
+        val customPath = CalmMediaStorage.customMusicPathFromToken(selection)
+        if (!customPath.isNullOrBlank()) return customPath.substringAfterLast('/')
+        return selection
+    }
+
+    private fun loadBackgroundThumbnail(selection: String): ImageBitmap? {
+        return runCatching {
+            val customPath = CalmMediaStorage.customBackgroundPathFromToken(selection)
+            if (!customPath.isNullOrBlank()) {
+                BitmapFactory.decodeFile(customPath)?.asImageBitmap()
+            } else {
+                val inbuiltName = fromInbuiltBackgroundToken(selection) ?: selection
+                requireContext().assets.open("Calma_ImagenesFondo/$inbuiltName").use { input ->
+                    BitmapFactory.decodeStream(input)?.asImageBitmap()
+                }
+            }
+        }.getOrNull()
     }
 
     private fun playAssetSoundOnce(assetPath: String) {
@@ -1793,8 +2112,28 @@ class FragCalmSpace : Fragment() {
         private const val DEFORMATION_MS = 360L
         private const val WALL_RESTITUTION = 0.985f
         private const val SPHERE_RESTITUTION = 0.978f
-        private const val DRAG_RELEASE_DAMPING = 0.42f
-        private const val MAX_DRAG_RELEASE_SPEED = 140f
+        // Proporción de velocidad capturada al soltar una esfera (más alto = más inercia fluida).
+        private const val SPHERE_RELEASE_INERTIA_FACTOR = 0.999f
+        // Ventana de tiempo (ms) donde la esfera mantiene un movimiento más libre tras soltarse.
+        private const val SPHERE_RELEASE_FREEFLOW_MS = 12000L
+        // Rozamiento suave durante free-flow (cercano a 1 = desaceleración más gradual).
+        private const val SPHERE_RELEASE_AIR_DRAG = 0.999f
+        // Velocidad mínima al soltar una esfera para evitar sensación de frenado inmediato.
+        private const val SPHERE_RELEASE_SPEED_MIN = 30f
+        // Velocidad máxima al soltar una esfera para mantener estabilidad del sistema.
+        private const val SPHERE_RELEASE_SPEED_MAX = 500f
+        // Umbral mínimo de impacto para aplicar transferencia extra de impulso al objeto golpeado.
+        private const val SPHERE_IMPACT_ACCEL_THRESHOLD = 24f
+        // Fracción del impacto transferida como aceleración adicional a la esfera golpeada.
+        private const val SPHERE_IMPACT_TRANSFER_FACTOR = 0.52f
+        // Límite de aceleración extra por transferencia en choques post-soltado.
+        private const val SPHERE_IMPACT_TRANSFER_MAX_BOOST = 115f
+        // Tiempo de movimiento libre que recibe la esfera golpeada tras absorber impulso.
+        private const val SPHERE_IMPACT_FREEFLOW_MS = 3200L
+        // Tope de velocidad para estabilidad después de una colisión con alta energía.
+        private const val SPHERE_COLLISION_SPEED_CAP = 360f
+        private const val INBUILT_BACKGROUND_PREFIX = "asset_bg:"
+        private const val INBUILT_MUSIC_PREFIX = "asset_music:"
         // Radio táctil efectivo para detectar toque/arrastre de luciérnagas.
         private const val FIREFLY_TOUCH_RADIUS = 42f
         // Margen mínimo respecto a bordes para posicionamiento de luciérnagas.
@@ -1806,7 +2145,7 @@ class FragCalmSpace : Fragment() {
         // Suavidad del acercamiento previo a la fusión (más alto = transición más suave/lenta).
         private const val FIREFLY_FUSION_SMOOTHING = 0.98f
         // Intensidad global del brillo de halo/núcleo de luciérnagas.
-        private const val FIREFLY_GLOW_INTENSITY = 0.8f
+        private const val FIREFLY_GLOW_INTENSITY = 0.5f
         // Escala relativa del tamaño visual de luciérnagas (núcleo + halo).
         private const val FIREFLY_SIZE_SCALE = 1.50f
         // Aceleración base del movimiento orgánico (wander) de luciérnagas.
@@ -1816,9 +2155,9 @@ class FragCalmSpace : Fragment() {
         // Fuerza de curvatura aplicada perpendicular a la velocidad de traslación.
         private const val FIREFLY_CURVE_STRENGTH = 14f
         // Vibración transversal suave durante el desplazamiento para efecto vital/orgánico.
-        private const val FIREFLY_TRANSLATION_VIBRATION = 4.6f
+        private const val FIREFLY_TRANSLATION_VIBRATION = 6.6f
         // Multiplicador de aceleración durante estado "molestada" tras soltar.
-        private const val FIREFLY_DISTURBANCE_ACCEL_FACTOR = 3.0f
+        private const val FIREFLY_DISTURBANCE_ACCEL_FACTOR = 4.0f
         // Proporción de la velocidad nominal aplicada al crucero normal de luciérnagas.
         private const val FIREFLY_NOMINAL_SPEED_FACTOR = 0.38f
         // Velocidad mínima de traslación para evitar que queden lentas/atrapadas.
@@ -1899,5 +2238,12 @@ class FragCalmSpace : Fragment() {
         if (speed >= minSpeed) return vx to vy
         val angle = if (speed > 0.001f) atan2(vy, vx) else Random.nextFloat() * (2f * PI.toFloat())
         return cos(angle) * minSpeed to sin(angle) * minSpeed
+    }
+
+    private fun capVelocity(vx: Float, vy: Float, maxSpeed: Float): Pair<Float, Float> {
+        val speed = sqrt(vx * vx + vy * vy)
+        if (speed <= maxSpeed || speed <= 0.001f) return vx to vy
+        val scale = maxSpeed / speed
+        return vx * scale to vy * scale
     }
 }

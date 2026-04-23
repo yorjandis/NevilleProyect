@@ -160,4 +160,19 @@
         android:id="@+id/frag_calm_space"
         android:name="com.ypg.neville.feature.calmspace.ui.FragCalmSpace"
         android:label="frag_calm_space" />
+
+    <fragment
+        android:id="@+id/frag_calm_phrase_manager"
+        android:name="com.ypg.neville.feature.calmspace.ui.FragCalmPhraseManager"
+        android:label="frag_calm_phrase_manager" />
+
+    <fragment
+        android:id="@+id/frag_calm_backgrounds_manager"
+        android:name="com.ypg.neville.feature.calmspace.ui.FragCalmBackgroundsManager"
+        android:label="frag_calm_backgrounds_manager" />
+
+    <fragment
+        android:id="@+id/frag_calm_music_manager"
+        android:name="com.ypg.neville.feature.calmspace.ui.FragCalmMusicManager"
+        android:label="frag_calm_music_manager" />
 </navigation>

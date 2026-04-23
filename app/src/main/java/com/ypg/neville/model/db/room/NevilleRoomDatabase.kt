@@ -6,6 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.ypg.neville.feature.calmspace.data.CalmPersonalPhraseDao
+import com.ypg.neville.feature.calmspace.data.CalmPersonalPhraseEntity
 import com.ypg.neville.feature.emotionalanchors.data.EmotionalAnchorDao
 import com.ypg.neville.feature.emotionalanchors.data.EmotionalAnchorEntity
 import com.ypg.neville.feature.morningdialog.data.MorningDialogDao
@@ -40,9 +42,10 @@ import com.ypg.neville.model.reminders.ReminderEntity
         RitualDiaryExportEntity::class,
         WeeklySummaryEntity::class,
         WeeklySummaryEventEntity::class,
-        WeeklySummarySectionOrderEntity::class
+        WeeklySummarySectionOrderEntity::class,
+        CalmPersonalPhraseEntity::class
     ],
-    version = 17,
+    version = 18,
     exportSchema = false
 )
 abstract class NevilleRoomDatabase : RoomDatabase() {
@@ -63,6 +66,7 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
     abstract fun morningDialogDao(): MorningDialogDao
     abstract fun ritualDiaryExportDao(): RitualDiaryExportDao
     abstract fun weeklySummaryDao(): WeeklySummaryDao
+    abstract fun calmPersonalPhraseDao(): CalmPersonalPhraseDao
 
     companion object {
         @Volatile
@@ -461,6 +465,26 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_17_18 = object : Migration(17, 18) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `calm_personal_phrases` (" +
+                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`phrase` TEXT NOT NULL, " +
+                        "`createdAt` INTEGER NOT NULL, " +
+                        "`updatedAt` INTEGER NOT NULL)"
+                )
+                db.execSQL(
+                    "CREATE UNIQUE INDEX IF NOT EXISTS `index_calm_personal_phrases_phrase` " +
+                        "ON `calm_personal_phrases` (`phrase`)"
+                )
+                db.execSQL(
+                    "CREATE INDEX IF NOT EXISTS `index_calm_personal_phrases_updatedAt` " +
+                        "ON `calm_personal_phrases` (`updatedAt`)"
+                )
+            }
+        }
+
         fun getInstance(context: Context): NevilleRoomDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
@@ -484,7 +508,8 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
                         MIGRATION_13_14,
                         MIGRATION_14_15,
                         MIGRATION_15_16,
-                        MIGRATION_16_17
+                        MIGRATION_16_17,
+                        MIGRATION_17_18
                     )
                     .allowMainThreadQueries()
                     .build()

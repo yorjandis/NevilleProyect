@@ -63,6 +63,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
@@ -600,6 +601,34 @@ class frag_Setting : Fragment() {
                                 ActiveFilterChip(label = label, onRemove = onRemove)
                             }
                         }
+                    }
+                }
+            }
+
+            item {
+                SettingSection(
+                    title = "Espacio Calma",
+                    subtitle = "Configura el contenido personalizado de frases para las partículas"
+                ) {
+                    ActionField(
+                        title = "Gestionar frases personales de Calma >",
+                        description = "Agrega, edita o elimina frases personales para Espacio Calma"
+                    ) {
+                        findNavController().navigate(R.id.frag_calm_phrase_manager)
+                    }
+                    FieldDivider()
+                    ActionField(
+                        title = "Gestionar fondos personalizados >",
+                        description = "Agrega o elimina imágenes de fondo para Espacio Calma"
+                    ) {
+                        findNavController().navigate(R.id.frag_calm_backgrounds_manager)
+                    }
+                    FieldDivider()
+                    ActionField(
+                        title = "Gestionar música personalizada >",
+                        description = "Agrega o elimina pistas de música para Espacio Calma"
+                    ) {
+                        findNavController().navigate(R.id.frag_calm_music_manager)
                     }
                 }
             }

@@ -22,6 +22,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AssistChip
+import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
@@ -551,7 +552,10 @@ class frag_listado : Fragment() {
                             navController.navigate(R.id.frag_listado)
                         }
                     },
-                    label = { Text("Atrás") },
+                    label = { Text("Atrás", color = Color.Black) },
+                    colors = AssistChipDefaults.assistChipColors(
+                        containerColor = Color(0xFFE3E8EF).copy(alpha = 0.96f)
+                    ),
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
                         .padding(end = 12.dp, bottom = 12.dp)

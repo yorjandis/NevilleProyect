@@ -14,7 +14,7 @@ android {
         minSdk 24
         //noinspection OldTargetApi
         targetSdk 36
-        versionCode 53
+        versionCode 55
         versionName "3.0.4"
         signingConfig = signingConfigs.debug
     }
@@ -71,7 +71,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
 
     implementation 'androidx.core:core-ktx:1.18.0'
-    implementation 'org.jsoup:jsoup:1.22.1'
+    implementation 'org.jsoup:jsoup:1.22.2'
     
     implementation 'com.google.android.play:asset-delivery:2.3.0'
     implementation 'com.google.android.play:feature-delivery:2.1.0'
@@ -87,7 +87,7 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
     implementation 'com.google.zxing:core:3.5.4'
     implementation "com.github.skydoves:colorpickerview:2.4.0"
-    implementation "com.github.skydoves:balloon:1.7.5"
+    implementation "com.github.skydoves:balloon:1.7.6"
 
     // Room (persistencia local)
     implementation 'androidx.room:room-runtime:2.8.4'
