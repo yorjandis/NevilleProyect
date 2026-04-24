@@ -29,11 +29,14 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.ypg.neville.R
+import com.ypg.neville.model.db.DatabaseHelper
 import com.ypg.neville.model.db.utilsDB
+import com.ypg.neville.model.preferences.DbPreferences
 
 class FragNevilleGoddard : Fragment() {
 
@@ -49,19 +52,69 @@ class FragNevilleGoddard : Fragment() {
                     val authorAssetsFolder = "autores/neville"
                     val context = requireContext()
                     val navController = this@FragNevilleGoddard.findNavController()
+                    val prefs = remember { DbPreferences.default(context) }
+                    val filterFavKey = remember { authorQuoteFilterPrefKey(authorAssetsFolder, "favoritas") }
+                    val filterNotesKey = remember { authorQuoteFilterPrefKey(authorAssetsFolder, "con_notas") }
                     val biographyAssetPath = remember { loadAuthorBiographyAssetPath(context, authorAssetsFolder) }
                     val teachingSummaryAssetPath = remember { loadAuthorTeachingSummaryAssetPath(context, authorAssetsFolder) }
                     val cards = remember { nevilleResourceCards() }
                     val placeholder = getString(R.string.author_quote_placeholder, author)
-                    var quote by remember {
-                        mutableStateOf(utilsDB.getRandomFraseByAutor(requireContext(), author)?.frase ?: placeholder)
+                    var quoteFilter by remember {
+                        mutableStateOf(
+                            AuthorQuoteFilter(
+                                onlyFavorites = prefs.getBoolean(filterFavKey, false),
+                                onlyWithNotes = prefs.getBoolean(filterNotesKey, false)
+                            )
+                        )
                     }
+                    val initialQuoteItem = remember {
+                        utilsDB.getRandomFraseByAutor(
+                            context = context,
+                            autor = author,
+                            onlyFav = quoteFilter.onlyFavorites,
+                            onlyWithNotes = quoteFilter.onlyWithNotes
+                        )
+                    }
+                    var quote by remember {
+                        mutableStateOf(initialQuoteItem?.frase ?: placeholder)
+                    }
+                    var quoteFavState by remember { mutableStateOf(initialQuoteItem?.fav ?: "") }
                     AuthorPlaceholderScreen(
                         authorName = author,
                         imageRes = R.drawable.neville,
                         quote = quote,
+                        quoteFilter = quoteFilter,
                         onQuoteClick = {
-                            quote = utilsDB.getRandomFraseByAutor(requireContext(), author)?.frase ?: placeholder
+                            val nextQuoteItem = utilsDB.getRandomFraseByAutor(
+                                context = context,
+                                autor = author,
+                                onlyFav = quoteFilter.onlyFavorites,
+                                onlyWithNotes = quoteFilter.onlyWithNotes
+                            )
+                            quote = nextQuoteItem?.frase ?: placeholder
+                            quoteFavState = nextQuoteItem?.fav ?: ""
+                        },
+                        onQuoteFilterChange = { newFilter ->
+                            quoteFilter = newFilter
+                            prefs.edit {
+                                putBoolean(filterFavKey, newFilter.onlyFavorites)
+                                putBoolean(filterNotesKey, newFilter.onlyWithNotes)
+                            }
+                        },
+                        favoriteOptionLabel = if (quoteFavState == "1") "Quitar de Favoritas" else "Agregar a Favoritas",
+                        onToggleFavorito = {
+                            if (quote.isNotBlank()) {
+                                val result = utilsDB.UpdateFavorito(
+                                    context = context,
+                                    tableName = DatabaseHelper.T_Frases,
+                                    columnID = DatabaseHelper.C_frases_frase,
+                                    id_str = quote,
+                                    id_int = -1
+                                )
+                                if (result.isNotEmpty()) {
+                                    quoteFavState = result
+                                }
+                            }
                         },
                         onBiographyClick = {
                             biographyAssetPath?.let { openAsset(navController, it, isPremiumPreview = false) }

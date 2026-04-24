@@ -16,6 +16,19 @@ data class AccessCardMenuItem(
     val assetPath: String
 )
 
+data class AuthorQuoteFilter(
+    val onlyFavorites: Boolean = false,
+    val onlyWithNotes: Boolean = false
+)
+
+fun authorQuoteFilterPrefKey(authorAssetsFolder: String, suffix: String): String {
+    val normalizedAuthor = authorAssetsFolder
+        .replace('/', '_')
+        .replace(' ', '_')
+        .lowercase()
+    return "author_quote_filter_${normalizedAuthor}_$suffix"
+}
+
 private fun formatBookTitleFromFolderName(rawName: String): String {
     val normalized = rawName
         .replace('_', ' ')

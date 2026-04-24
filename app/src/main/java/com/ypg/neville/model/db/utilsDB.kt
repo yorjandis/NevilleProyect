@@ -555,8 +555,18 @@ object utilsDB {
     }
 
     @JvmStatic
-    fun getRandomFraseByAutor(context: Context, autor: String): FraseEntity? {
-        val items = db(context).fraseDao().getByAutor(autor).filter { it.personalState() != "1" }
+    fun getRandomFraseByAutor(
+        context: Context,
+        autor: String,
+        onlyFav: Boolean = false,
+        onlyWithNotes: Boolean = false
+    ): FraseEntity? {
+        val items = db(context).fraseDao().getByAutor(autor).filter { frase ->
+            if (frase.personalState() == "1") return@filter false
+            if (onlyFav && frase.favState() != "1") return@filter false
+            if (onlyWithNotes && frase.nota.trim().isEmpty()) return@filter false
+            true
+        }
         if (items.isEmpty()) return null
         return items.random()
     }

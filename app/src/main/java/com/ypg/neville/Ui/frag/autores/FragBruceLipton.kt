@@ -32,12 +32,15 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.ypg.neville.model.subscription.SubscriptionManager
 import com.ypg.neville.R
+import com.ypg.neville.model.db.DatabaseHelper
 import com.ypg.neville.model.db.utilsDB
+import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.ui.theme.ContextMenuShape
 
 class FragBruceLipton : Fragment() {
@@ -56,6 +59,9 @@ class FragBruceLipton : Fragment() {
                     val navController = this@FragBruceLipton.findNavController()
                     val subscriptionState by SubscriptionManager.uiState.collectAsState()
                     val hasPremium = subscriptionState.isActive && subscriptionState.isEntitlementVerified
+                    val prefs = remember { DbPreferences.default(context) }
+                    val filterFavKey = remember { authorQuoteFilterPrefKey(authorAssetsFolder, "favoritas") }
+                    val filterNotesKey = remember { authorQuoteFilterPrefKey(authorAssetsFolder, "con_notas") }
                     val biographyAssetPath = remember { loadAuthorBiographyAssetPath(context, authorAssetsFolder) }
                     val teachingSummaryAssetPath = remember { loadAuthorTeachingSummaryAssetPath(context, authorAssetsFolder) }
                     val cards = remember { bruceResourceCards() }
@@ -64,23 +70,79 @@ class FragBruceLipton : Fragment() {
                     } else {
                         getString(R.string.author_quote_premium_placeholder, author)
                     }
+                    var quoteFilter by remember {
+                        mutableStateOf(
+                            AuthorQuoteFilter(
+                                onlyFavorites = prefs.getBoolean(filterFavKey, false),
+                                onlyWithNotes = prefs.getBoolean(filterNotesKey, false)
+                            )
+                        )
+                    }
+                    val initialQuoteItem = remember(hasPremium) {
+                        if (hasPremium) {
+                            utilsDB.getRandomFraseByAutor(
+                                context = context,
+                                autor = author,
+                                onlyFav = quoteFilter.onlyFavorites,
+                                onlyWithNotes = quoteFilter.onlyWithNotes
+                            )
+                        } else {
+                            null
+                        }
+                    }
                     var quote by remember {
                         mutableStateOf(
                             if (hasPremium) {
-                                utilsDB.getRandomFraseByAutor(requireContext(), author)?.frase ?: placeholder
+                                initialQuoteItem?.frase ?: placeholder
                             } else {
                                 placeholder
                             }
                         )
                     }
+                    var quoteFavState by remember { mutableStateOf(initialQuoteItem?.fav ?: "") }
                     if (!hasPremium && quote != placeholder) quote = placeholder
+                    if (!hasPremium && quoteFavState.isNotEmpty()) quoteFavState = ""
                     AuthorPlaceholderScreen(
                         authorName = author,
                         imageRes = R.drawable.bruce,
                         quote = quote,
+                        quoteFilter = quoteFilter,
                         onQuoteClick = {
                             if (hasPremium) {
-                                quote = utilsDB.getRandomFraseByAutor(requireContext(), author)?.frase ?: placeholder
+                                val nextQuoteItem = utilsDB.getRandomFraseByAutor(
+                                    context = context,
+                                    autor = author,
+                                    onlyFav = quoteFilter.onlyFavorites,
+                                    onlyWithNotes = quoteFilter.onlyWithNotes
+                                )
+                                quote = nextQuoteItem?.frase ?: placeholder
+                                quoteFavState = nextQuoteItem?.fav ?: ""
+                            }
+                        },
+                        onQuoteFilterChange = { newFilter ->
+                            quoteFilter = newFilter
+                            prefs.edit {
+                                putBoolean(filterFavKey, newFilter.onlyFavorites)
+                                putBoolean(filterNotesKey, newFilter.onlyWithNotes)
+                            }
+                        },
+                        favoriteOptionLabel = if (!hasPremium) null else if (quoteFavState == "1") "Quitar de Favoritas" else "Agregar a Favoritas",
+                        onToggleFavorito = if (!hasPremium) {
+                            null
+                        } else {
+                            {
+                                if (quote.isNotBlank()) {
+                                    val result = utilsDB.UpdateFavorito(
+                                        context = context,
+                                        tableName = DatabaseHelper.T_Frases,
+                                        columnID = DatabaseHelper.C_frases_frase,
+                                        id_str = quote,
+                                        id_int = -1
+                                    )
+                                    if (result.isNotEmpty()) {
+                                        quoteFavState = result
+                                    }
+                                }
                             }
                         },
                         onBiographyClick = {

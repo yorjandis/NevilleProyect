@@ -8,6 +8,7 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,6 +26,10 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -54,6 +59,10 @@ fun AuthorPlaceholderScreen(
     imageRes: Int,
     quote: String,
     onQuoteClick: () -> Unit,
+    quoteFilter: AuthorQuoteFilter,
+    onQuoteFilterChange: (AuthorQuoteFilter) -> Unit,
+    favoriteOptionLabel: String? = null,
+    onToggleFavorito: (() -> Unit)? = null,
     onBiographyClick: () -> Unit,
     onTeachingSummaryClick: () -> Unit,
     teachingSummaryEnabled: Boolean,
@@ -62,9 +71,10 @@ fun AuthorPlaceholderScreen(
     val context = LocalContext.current
     val prefs = DbPreferences.default(context)
     var showFraseMenu by remember { mutableStateOf(false) }
+    var showFilterMenu by remember { mutableStateOf(false) }
     val bg = Brush.verticalGradient(
         colors = listOf(
-            Color(0xFFBEADF8),
+            Color(0xFF8A99CC),
             Color(0xFF9C9CCF),
             Color(0xFFD7D1CD)
         )
@@ -150,20 +160,65 @@ fun AuthorPlaceholderScreen(
                 }
             }
         }
-/*
-//Texto que va sobre la Frase
         item {
-            Text(
-                text = "",
-                color = titleColor,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 22.dp)
-            )
+                    .padding(top = 18.dp),
+                horizontalArrangement = Arrangement.End
+            ) {
+                Box {
+                    IconButton(
+                        onClick = { showFilterMenu = true },
+                        modifier = Modifier.size(30.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(id = android.R.drawable.ic_menu_sort_by_size),
+                            contentDescription = "Filtrar frases",
+                            tint = bodyColor.copy(alpha = 0.68f),
+                            modifier = Modifier.size(18.dp)
+                        )
+                    }
+
+                    DropdownMenu(
+                        expanded = showFilterMenu,
+                        onDismissRequest = { showFilterMenu = false }
+                    ) {
+
+                        Text(" Filtrar frases:")
+                        val isAllSelected = !quoteFilter.onlyFavorites && !quoteFilter.onlyWithNotes
+                        DropdownMenuItem(
+                            text = { Text(if (isAllSelected) "✓ Todas" else "Todas") },
+                            onClick = {
+                                onQuoteFilterChange(AuthorQuoteFilter())
+                                onQuoteClick()
+                                showFilterMenu = false
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text(if (quoteFilter.onlyFavorites) "✓ Favoritas" else "Favoritas") },
+                            onClick = {
+                                onQuoteFilterChange(
+                                    quoteFilter.copy(onlyFavorites = !quoteFilter.onlyFavorites)
+                                )
+                                onQuoteClick()
+                                showFilterMenu = false
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text(if (quoteFilter.onlyWithNotes) "✓ Con notas" else "Con notas") },
+                            onClick = {
+                                onQuoteFilterChange(
+                                    quoteFilter.copy(onlyWithNotes = !quoteFilter.onlyWithNotes)
+                                )
+                                onQuoteClick()
+                                showFilterMenu = false
+                            }
+                        )
+                    }
+                }
+            }
         }
- */
 
 
         item {
@@ -206,6 +261,8 @@ fun AuthorPlaceholderScreen(
             FraseOptionsMenu(
                 expanded = showFraseMenu,
                 onDismiss = { showFraseMenu = false },
+                favoriteOptionLabel = favoriteOptionLabel,
+                onToggleFavorito = onToggleFavorito,
                 onConvertirNota = {
                     val result = FraseContextActions.convertirFraseEnNota(context, quote)
                     if (result.ok) {

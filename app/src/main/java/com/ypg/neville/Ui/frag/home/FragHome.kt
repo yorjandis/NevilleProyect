@@ -71,8 +71,6 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import com.ypg.neville.model.preferences.DbPreferences
-import com.ypg.neville.feature.morningdialog.data.MorningDialogSettings
-import com.ypg.neville.feature.morningdialog.data.MorningDialogSettingsDataStore
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
 import com.ypg.neville.model.db.DatabaseHelper
@@ -136,8 +134,6 @@ class FragHome : Fragment() {
         val context = LocalContext.current
         val activityContext = remember { this@FragHome.requireActivity() }
         val prefs = remember { DbPreferences.default(context) }
-        val morningSettingsStore = remember { MorningDialogSettingsDataStore(context.applicationContext) }
-        val morningSettings by morningSettingsStore.settingsFlow.collectAsState(initial = MorningDialogSettings())
         val configuration = LocalConfiguration.current
         val showTopImage = configuration.orientation != Configuration.ORIENTATION_LANDSCAPE
         val mandalaBitmap = remember(mandalaPath) {
@@ -158,7 +154,7 @@ class FragHome : Fragment() {
         var nowMs by remember { mutableLongStateOf(System.currentTimeMillis()) }
         var ritualCompletedToday by remember { mutableStateOf(false) }
 
-        LaunchedEffect(morningSettings.hour, morningSettings.minute, morningSettings.enabled) {
+        LaunchedEffect(Unit) {
             while (true) {
                 nowMs = System.currentTimeMillis()
                 delay(30_000)
@@ -174,10 +170,10 @@ class FragHome : Fragment() {
         val todayEpochDay = Math.floorDiv(nowMillis + offsetMillis, 86_400_000L)
         val hiddenDay = prefs.getLong(PREF_KEY_RITUAL_BUTTON_HIDDEN_DAY, -1L)
         val isHiddenToday = hiddenDay == todayEpochDay
-        val triggerMsToday = remember(morningSettings.hour, morningSettings.minute, todayEpochDay) {
+        val triggerMsToday = remember(todayEpochDay) {
             java.util.Calendar.getInstance().apply {
-                set(java.util.Calendar.HOUR_OF_DAY, morningSettings.hour)
-                set(java.util.Calendar.MINUTE, morningSettings.minute)
+                set(java.util.Calendar.HOUR_OF_DAY, 3)
+                set(java.util.Calendar.MINUTE, 0)
                 set(java.util.Calendar.SECOND, 0)
                 set(java.util.Calendar.MILLISECOND, 0)
             }.timeInMillis
@@ -190,8 +186,7 @@ class FragHome : Fragment() {
                     ?.completed == true
             }
         }
-        val showRitualShortcut = morningSettings.enabled &&
-            !isHiddenToday &&
+        val showRitualShortcut = !isHiddenToday &&
             !ritualCompletedToday &&
             nowMs >= triggerMsToday
 
@@ -280,6 +275,21 @@ class FragHome : Fragment() {
                         FraseOptionsMenu(
                             expanded = showFraseMenu,
                             onDismiss = { showFraseMenu = false },
+                            favoriteOptionLabel = if (favState == "1") "Quitar de Favoritas" else "Agregar a Favoritas",
+                            onToggleFavorito = {
+                                if (idFrase > 0) {
+                                    val result = utilsDB.UpdateFavorito(
+                                        context,
+                                        DatabaseHelper.T_Frases,
+                                        DatabaseHelper.CC_id,
+                                        "",
+                                        idFrase.toInt()
+                                    )
+                                    if (result.isNotEmpty()) {
+                                        favState = result
+                                    }
+                                }
+                            },
                             onConvertirNota = {
                                 val result = FraseContextActions.convertirFraseEnNota(activityContext, frase)
                                 if (result.ok) {

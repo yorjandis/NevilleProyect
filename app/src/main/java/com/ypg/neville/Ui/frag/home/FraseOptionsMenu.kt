@@ -10,6 +10,8 @@ import com.ypg.neville.ui.theme.ContextMenuShape
 fun FraseOptionsMenu(
     expanded: Boolean,
     onDismiss: () -> Unit,
+    favoriteOptionLabel: String? = null,
+    onToggleFavorito: (() -> Unit)? = null,
     onConvertirNota: () -> Unit,
     onCargarLienzo: () -> Unit,
     onCompartirSistema: () -> Unit,
@@ -21,6 +23,15 @@ fun FraseOptionsMenu(
         onDismissRequest = onDismiss,
         shape = ContextMenuShape
     ) {
+        if (!favoriteOptionLabel.isNullOrBlank() && onToggleFavorito != null) {
+            DropdownMenuItem(
+                text = { Text(favoriteOptionLabel) },
+                onClick = {
+                    onDismiss()
+                    onToggleFavorito()
+                }
+            )
+        }
         DropdownMenuItem(
             text = { Text("Convertir en Nota") },
             onClick = {
