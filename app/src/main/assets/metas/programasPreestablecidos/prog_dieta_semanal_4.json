@@ -1,0 +1,38 @@
+{
+  "title": "Dieta semanal orientado a mejorar la sensibilidad a la insulina y optimizar energía (Optimizada con butirato y microbiota)",
+  "detalles": "Programa de 7 unidades, cada unidad corresponde a un día de la semana",
+  "description": "Programa orientado a mejorar la sensibilidad a la insulina y optimizar energía con énfasis en producción de butirato.\n\nEstructura del programa:\n1. Ventana de ayuno diaria (12-16h) -> activa AMPK basal\n2. Cardio en ayunas -> aumenta oxidación de grasas -> reduce DAG/PKC\n3. Introducción estratégica de almidón resistente -> aumenta producción de butirato\n4. Mejora de microbiota -> favorece producción de SCFA (butirato)\n5. Omega 3 frecuente -> reduce inflamación (↓ NF-kB, JNK)\n6. Carbohidratos post-entreno -> mejor captación vía GLUT4\n7. Baja carga inflamatoria -> evita fosforilación en serina de IRS-1\n\nResultado esperado (8-12 semanas):\n* Disminución de insulina basal\n* Mejora de señalización IRS-1 (menos fosforilación en serina)\n* Activación eficiente de PI3K-Akt\n* Aumento de producción de butirato\n* Disminución de inflamación sistémica\n* Mayor flexibilidad metabólica\n* Mejora del rendimiento cognitivo y físico",
+  "noUnidades": 7,
+  "tipoUnidad": "dias",
+  "frecuencia": 1,
+  "unidadesinfo": [
+    {
+      "name": "Lunes",
+      "info": "Entrenamiento de fuerza en ayunas.\n\nDesayuno tardío (post-entreno):\n* 3 huevos\n* 150 gramos claras\n* 100 gramos arroz cocido y enfriado previamente (almidón resistente)\n* 1 tomate grande\n* 10 ml AOVE\n* 250 gramos yogurt griego\n* 100 gramos frutos rojos\n* 20 gramos nueces\n\nObjetivo metabólico:\nActivación AMPK + recarga glucógeno + inicio producción de butirato (almidón resistente)\n\nCena:\n* 200 gramos salmón\n* 150 gramos patata cocida y enfriada (clave para butirato)\n* 200 gramos espárragos\n* ensalada verde\n* 10 ml AOVE\n\nObjetivo metabólico:\nOmega 3 + fermentación nocturna -> producción de butirato -> inhibición NF-kB + mejora IRS-1"
+    },
+    {
+      "name": "Martes",
+      "info": "Cardio zona 2 en ayunas.\n\nDesayuno tardío:\n* 80 gramos avena\n* 20 gramos semillas de chía\n* 30 gramos proteína\n* 100 gramos arándanos\n* 250 gramos yogurt griego\n\nObjetivo metabólico:\nFibra fermentable + microbiota -> producción de SCFA\n\nCena:\n* 200 gramos sardinas\n* 100 gramos arroz integral cocido y enfriado\n* 200 gramos verduras\n* 10 ml AOVE\n\nObjetivo metabólico:\nButirato + omega 3 -> reducción inflamación y PKC"
+    },
+    {
+      "name": "Miércoles",
+      "info": "Descanso activo.\n\nDesayuno tardío:\n* 100 gramos lentejas cocidas (clave microbiota)\n* 200 gramos verduras\n* 1 aguacate\n* 200 gramos pollo\n\nObjetivo metabólico:\nAlta producción de butirato + mejora sensibilidad hepática\n\nCena:\n* 200 gramos merluza\n* 80 gramos quinoa\n* 200 gramos brócoli\n* 10 ml AOVE\n\nObjetivo metabólico:\nControl glucémico + baja inflamación"
+    },
+    {
+      "name": "Jueves",
+      "info": "Entrenamiento de fuerza.\n\nDesayuno tardío (post-entreno):\n* 200 gramos ternera magra\n* 150 gramos boniato cocido y enfriado\n* 150 gramos ensalada\n* 10 ml AOVE\n* 250 gramos yogurt griego\n* 100 gramos frutos rojos\n\nObjetivo metabólico:\nRecarga glucógeno + soporte microbiota\n\nCena:\n* 3 huevos\n* 200 gramos espinacas\n* 20 gramos almendras\n* 1 rebanada pan integral\n\nObjetivo metabólico:\nDía alto en proteína + control inflamatorio"
+    },
+    {
+      "name": "Viernes",
+      "info": "HIIT.\n\nDesayuno tardío (post-entreno):\n* 100 gramos pasta integral\n* 200 gramos atún\n* 200 gramos verduras\n* 10 ml AOVE\n\nObjetivo metabólico:\nCarga glucógeno + alta sensibilidad insulina\n\nCena:\n* 200 gramos pescado blanco\n* ensalada grande\n* 1 aguacate\n* 50 gramos garbanzos cocidos (fibra fermentable)\n\nObjetivo metabólico:\nProducción nocturna de butirato"
+    },
+    {
+      "name": "Sábado",
+      "info": "Cardio zona 2 prolongado.\n\nDesayuno tardío:\n* 100 gramos arroz integral cocido y enfriado\n* 200 gramos salmón\n* 200 gramos verduras\n* 10 ml AOVE\n* 1 fruta\n\nObjetivo metabólico:\nOxidación grasa + reposición glucógeno controlada\n\nCena:\n* 250 gramos yogurt griego\n* 20 gramos nueces\n* 100 gramos frutos rojos\n* 2 huevos\n\nObjetivo metabólico:\nLigero + soporte microbiota"
+    },
+    {
+      "name": "Domingo",
+      "info": "Descanso total.\n\nDesayuno tardío:\n* 3 huevos\n* 1 aguacate\n* 200 gramos verduras\n* 1 rebanada pan integral\n* 10 ml AOVE\n\nObjetivo metabólico:\nBaja carga glucémica + recuperación\n\nCena:\n* 200 gramos pescado o pollo\n* 200 gramos brócoli\n* 20 gramos almendras\n* 50 gramos lentejas cocidas\n\nObjetivo metabólico:\nProducción basal de butirato + mantenimiento sensibilidad insulina"
+    }
+  ]
+}

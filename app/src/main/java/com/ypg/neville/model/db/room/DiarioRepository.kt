@@ -13,21 +13,21 @@ class DiarioRepository(private val diarioDao: DiarioDao) {
         fechaCreacionMillis: Long = System.currentTimeMillis()
     ): Long {
         val now = System.currentTimeMillis()
-        val item = DiarioEntity(
+        val item = SecureRoomText.encryptDiario(DiarioEntity(
             title = title,
             content = content,
             emocion = emocion,
             fecha = fechaCreacionMillis,
             fechaM = now,
             isFav = isFav
-        )
+        ))
         val id = diarioDao.insert(item)
         WeeklySummaryEventLogger.log(WeeklySummaryEventType.JOURNAL_CREATED, targetKey = id.toString())
         return id
     }
 
     fun actualizar(id: Long, title: String, content: String, emocion: String, isFav: Boolean, fechaOriginal: Long) {
-        val item = DiarioEntity(
+        val item = SecureRoomText.encryptDiario(DiarioEntity(
             id = id,
             title = title,
             content = content,
@@ -35,7 +35,7 @@ class DiarioRepository(private val diarioDao: DiarioDao) {
             fecha = fechaOriginal,
             fechaM = System.currentTimeMillis(),
             isFav = isFav
-        )
+        ))
         diarioDao.update(item)
         WeeklySummaryEventLogger.log(WeeklySummaryEventType.JOURNAL_MODIFIED, targetKey = id.toString())
     }
@@ -49,15 +49,15 @@ class DiarioRepository(private val diarioDao: DiarioDao) {
         WeeklySummaryEventLogger.log(WeeklySummaryEventType.JOURNAL_DELETED, targetKey = diario.id.toString())
     }
 
-    fun obtenerTodas(): List<DiarioEntity> = diarioDao.getAll()
+    fun obtenerTodas(): List<DiarioEntity> = diarioDao.getAll().map(SecureRoomText::decryptDiario)
 
-    fun obtenerPorId(id: Long): DiarioEntity? = diarioDao.getById(id)
+    fun obtenerPorId(id: Long): DiarioEntity? = diarioDao.getById(id)?.let(SecureRoomText::decryptDiario)
 
     fun actualizarTituloYContenido(id: Long, title: String, content: String) {
         diarioDao.updateTitleAndContentById(
             id = id,
-            title = title,
-            content = content
+            title = SecureRoomText.encryptDiarioTitle(title),
+            content = SecureRoomText.encryptDiarioContent(content)
         )
     }
 }

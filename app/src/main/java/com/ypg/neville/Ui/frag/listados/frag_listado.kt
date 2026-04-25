@@ -138,6 +138,9 @@ class frag_listado : Fragment() {
         var showAyudasFilterPanel by remember { mutableStateOf(false) }
         var filtroAyudasTitulo by remember { mutableStateOf("") }
         var filtroAyudasContenido by remember { mutableStateOf("") }
+        val returnHomeOnBack = remember {
+            arguments?.getBoolean(ARG_RETURN_HOME_ON_BACK, false) == true
+        }
 
         val showConfOptions = elementLoaded.equals("autores/neville/conf", ignoreCase = true)
         val isReflexionesView = elementLoaded == "reflexiones"
@@ -493,7 +496,7 @@ class frag_listado : Fragment() {
                                                 reflexionEnEdicion = item
                                                 showReflexionEditor = true
                                             } else {
-                                                onItemSelected(item.rawAssetKey.orEmpty(), navController)
+                                                onItemSelected(item.rawAssetKey.orEmpty())
                                             }
                                         },
                                         onLongClick = {
@@ -517,7 +520,7 @@ class frag_listado : Fragment() {
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .combinedClickable(
-                                        onClick = { onItemSelected(item, navController) },
+                                        onClick = { onItemSelected(item) },
                                         onLongClick = {
                                             if (showConfOptions) {
                                                 openConferenceEditor(item)
@@ -549,7 +552,7 @@ class frag_listado : Fragment() {
                     onClick = {
                         if (!navController.popBackStack()) {
                             elementLoaded = "enciclopedia"
-                            navController.navigate(R.id.frag_listado)
+                            MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_listado)
                         }
                     },
                     label = { Text("Atrás", color = Color.Black) },
@@ -567,10 +570,14 @@ class frag_listado : Fragment() {
                 AssistChip(
                     onClick = {
                         if (!navController.popBackStack()) {
-                            navController.navigate(R.id.frag_neville_goddard)
+                            if (returnHomeOnBack) {
+                                runCatching { requireActivity().onBackPressedDispatcher.onBackPressed() }
+                            } else {
+                                MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_neville_goddard)
+                            }
                         }
                     },
-                    label = { Text("Atrás") },
+                    label = { Text("Atrás", color = Color.Black) },
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
                         .padding(end = 12.dp, bottom = 12.dp)
@@ -1039,7 +1046,7 @@ class frag_listado : Fragment() {
         }
     }
 
-    private fun onItemSelected(selectedItemText: String, navController: NavController) {
+    private fun onItemSelected(selectedItemText: String) {
         val hasPremium = SubscriptionManager.hasActiveSubscription(requireContext())
         when (elementLoaded) {
             "autores/neville/conf" -> {
@@ -1048,21 +1055,21 @@ class frag_listado : Fragment() {
                 utilsFields.ID_Str_row_ofElementLoad = selectedItemText
                 val confFileName = FragContentWebView.confAssetFileNameFromTitle(selectedItemText)
                 FragContentWebView.urlPath = "file:///android_asset/autores/neville/conf/$confFileName.txt"
-                navController.navigate(R.id.frag_content_webview)
+                MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_content_webview)
             }
 
             "preguntas" -> {
                 FragContentWebView.isPremiumPreviewMode = false
                 utilsFields.ID_Str_row_ofElementLoad = selectedItemText
                 FragContentWebView.urlPath = "file:///android_asset/autores/neville/preg/$selectedItemText.txt"
-                navController.navigate(R.id.frag_content_webview)
+                MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_content_webview)
             }
 
             "citasConferencias" -> {
                 FragContentWebView.isPremiumPreviewMode = false
                 utilsFields.ID_Str_row_ofElementLoad = selectedItemText
                 FragContentWebView.urlPath = "file:///android_asset/autores/neville/cita/$selectedItemText.txt"
-                navController.navigate(R.id.frag_content_webview)
+                MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_content_webview)
             }
 
             "ayudas" -> {
@@ -1073,27 +1080,27 @@ class frag_listado : Fragment() {
                 FragContentWebView.isPremiumPreviewMode = !hasPremium && selectedItemText in premiumAyudas
                 utilsFields.ID_Str_row_ofElementLoad = selectedItemText
                 FragContentWebView.urlPath = "file:///android_asset/ayudas/$selectedItemText.txt"
-                navController.navigate(R.id.frag_content_webview)
+                MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_content_webview)
             }
 
             "evidenciaCientifica" -> {
                 FragContentWebView.isPremiumPreviewMode = !hasPremium
                 utilsFields.ID_Str_row_ofElementLoad = selectedItemText
                 FragContentWebView.urlPath = "file:///android_asset/evidenciaCientifica/$selectedItemText.txt"
-                navController.navigate(R.id.frag_content_webview)
+                MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_content_webview)
             }
 
             "reflexiones" -> {
                 FragContentWebView.isPremiumPreviewMode = false
                 utilsFields.ID_Str_row_ofElementLoad = selectedItemText
                 FragContentWebView.urlPath = "file:///android_asset/reflexiones/$selectedItemText.txt"
-                navController.navigate(R.id.frag_content_webview)
+                MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_content_webview)
             }
 
             "enciclopedia" -> {
                 FragContentWebView.isPremiumPreviewMode = false
                 elementLoaded = "enciclopedia/$selectedItemText"
-                navController.navigate(R.id.frag_listado)
+                MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_listado)
             }
 
             else -> {
@@ -1106,7 +1113,7 @@ class frag_listado : Fragment() {
                         targetKey = "$section/$selectedItemText"
                     )
                     FragContentWebView.urlPath = "file:///android_asset/enciclopedia/$section/$selectedItemText.txt"
-                    navController.navigate(R.id.frag_content_webview)
+                    MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_content_webview)
                 }
             }
         }
@@ -1261,6 +1268,8 @@ class frag_listado : Fragment() {
     }
 
     companion object {
+        const val ARG_RETURN_HOME_ON_BACK = "arg_return_home_on_back"
+
         @JvmField
         var elementLoaded = ""
     }

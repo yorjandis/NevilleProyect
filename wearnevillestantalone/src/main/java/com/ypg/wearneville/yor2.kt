@@ -1,58 +1,76 @@
 package com.ypg.wearneville
 
-import android.app.Activity
-import android.content.Context
-import android.graphics.Point
 import android.os.Bundle
-import android.view.Gravity
-import android.view.View
-import android.view.WindowManager
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.TextView
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
-class yor2 : Activity(), View.OnClickListener {
-
-    private lateinit var button: Button
-    private lateinit var textView: TextView
+class yor2 : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_yor2)
-
-        button = findViewById(R.id.btnyor)
-        textView = findViewById(R.id.text1)
-
-        button.setOnClickListener(this)
-        textView.setOnClickListener(this)
-
-        // centrando el texto en el centro de la pantalla
-        textView.text = Utils.frases(applicationContext)
-
-        setParamText()
-    }
-
-    override fun onClick(view: View) {
-        when (view.id) {
-            R.id.btnyor -> {
-            }
-            R.id.text1 -> {
-                textView.text = Utils.frases(applicationContext)
+        setContent {
+            MaterialTheme {
+                DetailScreen()
             }
         }
     }
 
-    // centrando el texto en la pantalla:
-    private fun setParamText() {
-        val wm = applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        val display = wm.defaultDisplay
-        val size = Point()
-        display.getSize(size)
+    @Composable
+    private fun DetailScreen() {
+        var frase by remember { mutableStateOf(Utils.frases(applicationContext)) }
+        val horizontal = rememberScrollState()
 
-        val params = textView.layoutParams as LinearLayout.LayoutParams
-        params.width = size.x
-        textView.layoutParams = params
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .horizontalScroll(horizontal)
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = frase,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { frase = Utils.frases(applicationContext) },
+                    textAlign = TextAlign.Center,
+                    fontSize = 14.sp
+                )
+            }
 
-        textView.gravity = Gravity.CENTER
+            repeat(5) {
+                Button(onClick = { }) {
+                    Text("aceptar")
+                }
+            }
+        }
     }
 }

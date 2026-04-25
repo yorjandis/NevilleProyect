@@ -25,9 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import com.ypg.neville.model.subscription.SubscriptionManager
+import com.ypg.neville.MainActivity
 import com.ypg.neville.R
 import com.ypg.neville.model.db.DatabaseHelper
 import com.ypg.neville.model.db.utilsDB
@@ -53,7 +52,6 @@ class FragGregg : Fragment() {
                     val author = getString(R.string.gregg_braden)
                     val authorAssetsFolder = "autores/greggBraden"
                     val context = requireContext()
-                    val navController = this@FragGregg.findNavController()
                     val subscriptionState by SubscriptionManager.uiState.collectAsState()
                     val hasPremium = subscriptionState.isActive && subscriptionState.isEntitlementVerified
                     val prefs = remember { DbPreferences.default(context) }
@@ -143,10 +141,10 @@ class FragGregg : Fragment() {
                             }
                         },
                         onBiographyClick = {
-                            biographyAssetPath?.let { openAsset(navController, it, isPremiumPreview = false) }
+                            biographyAssetPath?.let { openAsset(it, isPremiumPreview = false) }
                         },
                         onTeachingSummaryClick = {
-                            teachingSummaryAssetPath?.let { openAsset(navController, it, isPremiumPreview = !hasPremium) }
+                            teachingSummaryAssetPath?.let { openAsset(it, isPremiumPreview = !hasPremium) }
                         },
                         teachingSummaryEnabled = !teachingSummaryAssetPath.isNullOrBlank(),
                         resourcesSection = {
@@ -154,7 +152,7 @@ class FragGregg : Fragment() {
                                 cards = cards,
                                 hasPremium = hasPremium,
                                 onResourceClick = { assetPath ->
-                                    openAsset(navController, assetPath, isPremiumPreview = !hasPremium)
+                                    openAsset(assetPath, isPremiumPreview = !hasPremium)
                                 }
                             )
                         }
@@ -164,11 +162,11 @@ class FragGregg : Fragment() {
         }
     }
 
-    private fun openAsset(navController: NavController, assetPath: String, isPremiumPreview: Boolean) {
+    private fun openAsset(assetPath: String, isPremiumPreview: Boolean) {
         FragContentWebView.elementLoaded = assetPath
         FragContentWebView.isPremiumPreviewMode = isPremiumPreview
         FragContentWebView.urlPath = "file:///android_asset/$assetPath"
-        navController.navigate(R.id.frag_content_webview)
+        MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_content_webview)
     }
 
     private fun greggResourceCards(): List<AccessCardPlaceholder> {

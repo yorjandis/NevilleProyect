@@ -1,11 +1,11 @@
 package com.ypg.neville.ui.frag
 
-import androidx.activity.OnBackPressedCallback
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.commitNow
@@ -71,8 +71,7 @@ class SheetNavHostBottomSheet : DialogFragment() {
         val startDestination = requireArguments().getInt(ARG_START_DESTINATION)
         val navController = navHost.navController
         childNavController = navController
-        val graph = navController.navInflater.inflate(R.navigation.nav_graf)
-        graph.setStartDestination(startDestination)
+        val graph = buildNevilleNavGraph(navController, startDestination)
         val startArgs = requireArguments().getBundle(ARG_START_ARGS) ?: Bundle()
         navController.setGraph(graph, startArgs)
 

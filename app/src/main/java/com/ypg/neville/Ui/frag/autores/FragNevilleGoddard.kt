@@ -31,8 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
+import com.ypg.neville.MainActivity
 import com.ypg.neville.R
 import com.ypg.neville.model.db.DatabaseHelper
 import com.ypg.neville.model.db.utilsDB
@@ -51,7 +50,6 @@ class FragNevilleGoddard : Fragment() {
                     val author = getString(R.string.neville_goddard)
                     val authorAssetsFolder = "autores/neville"
                     val context = requireContext()
-                    val navController = this@FragNevilleGoddard.findNavController()
                     val prefs = remember { DbPreferences.default(context) }
                     val filterFavKey = remember { authorQuoteFilterPrefKey(authorAssetsFolder, "favoritas") }
                     val filterNotesKey = remember { authorQuoteFilterPrefKey(authorAssetsFolder, "con_notas") }
@@ -117,10 +115,10 @@ class FragNevilleGoddard : Fragment() {
                             }
                         },
                         onBiographyClick = {
-                            biographyAssetPath?.let { openAsset(navController, it, isPremiumPreview = false) }
+                            biographyAssetPath?.let { openAsset(it, isPremiumPreview = false) }
                         },
                         onTeachingSummaryClick = {
-                            teachingSummaryAssetPath?.let { openAsset(navController, it, isPremiumPreview = false) }
+                            teachingSummaryAssetPath?.let { openAsset(it, isPremiumPreview = false) }
                         },
                         teachingSummaryEnabled = !teachingSummaryAssetPath.isNullOrBlank(),
                         resourcesSection = {
@@ -133,9 +131,9 @@ class FragNevilleGoddard : Fragment() {
                                         "citasConferencias",
                                         "preguntas" -> {
                                             frag_listado.elementLoaded = assetPath
-                                            navController.navigate(R.id.frag_listado)
+                                            MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_listado)
                                         }
-                                        else -> openAsset(navController, assetPath, isPremiumPreview = false)
+                                        else -> openAsset(assetPath, isPremiumPreview = false)
                                     }
                                 }
                             )
@@ -146,11 +144,11 @@ class FragNevilleGoddard : Fragment() {
         }
     }
 
-    private fun openAsset(navController: NavController, assetPath: String, isPremiumPreview: Boolean) {
+    private fun openAsset(assetPath: String, isPremiumPreview: Boolean) {
         FragContentWebView.elementLoaded = assetPath
         FragContentWebView.isPremiumPreviewMode = isPremiumPreview
         FragContentWebView.urlPath = "file:///android_asset/$assetPath"
-        navController.navigate(R.id.frag_content_webview)
+        MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_content_webview)
     }
 
     private fun nevilleResourceCards(): List<AccessCardPlaceholder> {

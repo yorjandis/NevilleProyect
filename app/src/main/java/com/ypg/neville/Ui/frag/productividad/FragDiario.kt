@@ -75,7 +75,6 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
 import com.ypg.neville.model.backup.BackupRestoreSignal
@@ -490,7 +489,7 @@ class FragDiario : Fragment() {
                             iconRes = R.drawable.ic_calendar_toggle,
                             onClick = {
                                 showFabMenu = false
-                                runCatching { findNavController().navigate(R.id.frag_weekly_summary) }
+                                MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_weekly_summary)
                             }
                         )
                         FabActionItem(

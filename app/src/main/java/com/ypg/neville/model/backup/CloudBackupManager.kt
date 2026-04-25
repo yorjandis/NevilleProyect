@@ -9,6 +9,7 @@ import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
+import com.ypg.neville.model.security.PostQuantumAesTextCrypto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -198,6 +199,8 @@ class CloudBackupManager(private val context: Context) {
                 "La clave debe tener al menos $MIN_PASSPHRASE_LENGTH caracteres"
             }
             passphraseStore.save(passphrase)
+            PostQuantumAesTextCrypto.configure(context.applicationContext)
+            PostQuantumAesTextCrypto.saveRecoveryPassphrase(passphrase)
         }
     }
 
@@ -213,6 +216,8 @@ class CloudBackupManager(private val context: Context) {
                 throw IllegalStateException("La clave actual no es correcta")
             }
             passphraseStore.save(newPassphrase)
+            PostQuantumAesTextCrypto.configure(context.applicationContext)
+            PostQuantumAesTextCrypto.saveRecoveryPassphrase(newPassphrase)
         }
     }
 
@@ -225,6 +230,8 @@ class CloudBackupManager(private val context: Context) {
                 throw IllegalStateException("La clave actual no es correcta")
             }
             passphraseStore.clear()
+            PostQuantumAesTextCrypto.configure(context.applicationContext)
+            PostQuantumAesTextCrypto.clearRecoveryPassphrase()
         }
     }
 
@@ -300,6 +307,10 @@ class CloudBackupManager(private val context: Context) {
         try {
             val passphraseForRestore = passphraseInput?.trim().orEmpty().ifBlank {
                 passphraseStore.get().orEmpty()
+            }
+            if (passphraseForRestore.isNotBlank()) {
+                PostQuantumAesTextCrypto.configure(context.applicationContext)
+                PostQuantumAesTextCrypto.cacheRecoveryPassphrase(passphraseForRestore)
             }
 
             NevilleRoomDatabase.closeInstance()
@@ -381,6 +392,9 @@ class CloudBackupManager(private val context: Context) {
             prefs.edit {
                 putLong(KEY_LAST_RESTORE_AT, now)
                 remove(KEY_LAST_BACKUP_ERROR)
+            }
+            if (!passphraseInput.isNullOrBlank()) {
+                passphraseStore.save(passphraseForRestore)
             }
             BackupRestoreSignal.notifyDataRestored()
             RestoreResult.Success(restoredAtMs = now)

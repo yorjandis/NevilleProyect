@@ -1,14 +1,17 @@
 package com.ypg.neville.model.metas
 
+import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
@@ -94,6 +97,14 @@ class GoalUnitNotificationReceiver : BroadcastReceiver() {
             .setContentIntent(pendingIntent)
             .addAction(R.drawable.ic_show, "Abrir Metas", openMetasPendingIntent)
             .build()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val granted = ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+            if (!granted) return
+        }
 
         NotificationManagerCompat.from(context)
             .notify((goalId + unitId).hashCode(), notification)

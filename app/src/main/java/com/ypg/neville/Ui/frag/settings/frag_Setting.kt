@@ -52,6 +52,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.font.FontWeight
@@ -63,19 +64,16 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
 import com.ypg.neville.model.backup.CloudBackupManager
-import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.reminders.JournalDailyReminderManager
 import com.ypg.neville.model.subscription.SubscriptionManager
 import com.ypg.neville.model.utils.ColorPickerManager
 import com.ypg.neville.model.utils.NewsContent
 import com.ypg.neville.model.utils.UiModalWindows
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 class frag_Setting : Fragment() {
 
@@ -217,6 +215,7 @@ class frag_Setting : Fragment() {
         var showFrequencyDialog by remember { mutableStateOf(false) }
         var showProviderDestinationDialog by remember { mutableStateOf(false) }
         var showRestoreDialog by remember { mutableStateOf(false) }
+        var showBackupWarningDialog by remember { mutableStateOf(false) }
         var showJournalTimeDialog by remember { mutableStateOf(false) }
         var showJournalMessageDialog by remember { mutableStateOf(false) }
         var showPassphraseDialog by remember { mutableStateOf(false) }
@@ -347,7 +346,7 @@ class frag_Setting : Fragment() {
                     ) {
                         ColorPickerManager.showColorPicker(
                             context,
-                            prefs.getInt("color_fondo_a", 0xFFF3F5F9.toInt()),
+                            prefs.getInt("color_fondo_a", 0xFFC69FF9.toInt()),
                             "color_fondo_a",
                             "Color superior del degradado"
                         )
@@ -359,7 +358,7 @@ class frag_Setting : Fragment() {
                     ) {
                         ColorPickerManager.showColorPicker(
                             context,
-                            prefs.getInt("color_fondo_b", 0xFFE2E7F0.toInt()),
+                            prefs.getInt("color_fondo_b", 0xFFC4AA8E.toInt()),
                             "color_fondo_b",
                             "Color inferior del degradado"
                         )
@@ -614,21 +613,21 @@ class frag_Setting : Fragment() {
                         title = "Gestionar frases personales de Calma >",
                         description = "Agrega, edita o elimina frases personales para Espacio Calma"
                     ) {
-                        findNavController().navigate(R.id.frag_calm_phrase_manager)
+                        MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_calm_phrase_manager)
                     }
                     FieldDivider()
                     ActionField(
                         title = "Gestionar fondos personalizados >",
                         description = "Agrega o elimina imágenes de fondo para Espacio Calma"
                     ) {
-                        findNavController().navigate(R.id.frag_calm_backgrounds_manager)
+                        MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_calm_backgrounds_manager)
                     }
                     FieldDivider()
                     ActionField(
                         title = "Gestionar música personalizada >",
                         description = "Agrega o elimina pistas de música para Espacio Calma"
                     ) {
-                        findNavController().navigate(R.id.frag_calm_music_manager)
+                        MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_calm_music_manager)
                     }
                 }
             }
@@ -692,10 +691,11 @@ class frag_Setting : Fragment() {
                     SwitchField(
                         title = if (journalReminderEnabled) "Recordatorio activo" else "Recordatorio pausado",
                         description = if (hasPremiumSubscription) {
+                            val locale = LocalLocale.current.platformLocale
                             if (journalReminderEnabled) {
                                 "Se enviará cada día a las ${
                                     String.format(
-                                        Locale.getDefault(),
+                                        locale,
                                         "%02d:%02d",
                                         journalReminderHour,
                                         journalReminderMinute
@@ -721,10 +721,11 @@ class frag_Setting : Fragment() {
                     }
 
                     FieldDivider()
+                    val locale = LocalLocale.current.platformLocale
                     ActionField(
                         title = "Hora de aviso >",
                         description = String.format(
-                            Locale.getDefault(),
+                            locale,
                             "Programado para las %02d:%02d cada día",
                             journalReminderHour,
                             journalReminderMinute
@@ -789,9 +790,9 @@ class frag_Setting : Fragment() {
                     ActionField(
                         title = if (hasSavedPassphrase) "Actualizar clave de cifrado >" else "Configurar clave de cifrado >",
                         description = if (hasSavedPassphrase) {
-                            "Clave guardada localmente para backups automáticos"
+                            "Protege backups y recuperación de Notas/Diario"
                         } else {
-                            "Requerida para cifrar y restaurar backups"
+                            "Requerida para recuperar Notas/Diario tras reinstalar"
                         }
                     ) {
                         currentPassphraseInput = ""
@@ -867,26 +868,7 @@ class frag_Setting : Fragment() {
                             ).show()
                             return@ActionField
                         }
-                        coroutineScope.launch {
-                            when (val result = backupManager.backupNow()) {
-                                is CloudBackupManager.BackupResult.Success -> {
-                                    settingsUiRefreshTick++
-                                    Toast.makeText(
-                                        context,
-                                        "Backup creado: ${result.fileName}",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
-                                is CloudBackupManager.BackupResult.Error -> {
-                                    settingsUiRefreshTick++
-                                    Toast.makeText(
-                                        context,
-                                        "Error de backup: ${result.reason}",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
-                            }
-                        }
+                        showBackupWarningDialog = true
                     }
 
                     FieldDivider()
@@ -909,25 +891,6 @@ class frag_Setting : Fragment() {
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.error
                         )
-                    }
-                }
-            }
-
-            item {
-                SettingSection(
-                    title = "Contenido",
-                    subtitle = "Sincronización y mantenimiento"
-                ) {
-                    ActionField(
-                        title = "Actualizar frases desde archivos",
-                        description = "Reimporta las frases desde assets/frases"
-                    ) {
-                        val updated = utilsDB.forceRefreshFrasesFromAssets(context)
-                        Toast.makeText(
-                            context,
-                            if (updated) "Frases actualizadas desde assets" else "No hubo cambios en frases",
-                            Toast.LENGTH_SHORT
-                        ).show()
                     }
                 }
             }
@@ -977,6 +940,52 @@ class frag_Setting : Fragment() {
 
                 }
             }
+        }
+
+        if (showBackupWarningDialog) {
+            AlertDialog(
+                onDismissRequest = { showBackupWarningDialog = false },
+                title = { Text("Clave de recuperación del backup") },
+                text = {
+                    Text(
+                        "Este backup quedará protegido con la clave de cifrado actual. " +
+                            "Para recuperarlo en el futuro deberás usar esta misma clave. " +
+                            "Si cambias la clave después, este backup antiguo no podrá restaurarse con la clave nueva."
+                    )
+                },
+                confirmButton = {
+                    TextButton(onClick = {
+                        showBackupWarningDialog = false
+                        coroutineScope.launch {
+                            when (val result = backupManager.backupNow()) {
+                                is CloudBackupManager.BackupResult.Success -> {
+                                    settingsUiRefreshTick++
+                                    Toast.makeText(
+                                        context,
+                                        "Backup creado: ${result.fileName}",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                                is CloudBackupManager.BackupResult.Error -> {
+                                    settingsUiRefreshTick++
+                                    Toast.makeText(
+                                        context,
+                                        "Error de backup: ${result.reason}",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                            }
+                        }
+                    }) {
+                        Text("Crear backup")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showBackupWarningDialog = false }) {
+                        Text("Cancelar")
+                    }
+                }
+            )
         }
 
         if (showFrequencyDialog) {
@@ -1190,7 +1199,7 @@ class frag_Setting : Fragment() {
                 },
                 text = {
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text("Usa una clave larga. La necesitarás para restaurar backups en una reinstalación.")
+                        Text("Usa una clave larga. La necesitarás para restaurar backups y recuperar Notas/Diario tras reinstalar.")
                         SwitchField(
                             title = "Mostrar contraseña",
                             description = "Visualiza u oculta los caracteres de la clave",

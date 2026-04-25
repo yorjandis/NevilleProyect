@@ -82,7 +82,6 @@ import com.ypg.neville.R
 import com.ypg.neville.feature.calmspace.data.CalmMediaStorage
 import com.ypg.neville.feature.calmspace.data.CalmPersonalPhraseRepository
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
-import androidx.navigation.fragment.findNavController
 import org.json.JSONArray
 import kotlinx.coroutines.isActive
 import kotlin.math.PI
@@ -800,8 +799,17 @@ class FragCalmSpace : Fragment() {
                             val v1nAfter = ((v1n * (m1 - m2)) + (2f * m2 * v2n)) / (m1 + m2)
                             val v2nAfter = ((v2n * (m2 - m1)) + (2f * m1 * v1n)) / (m1 + m2)
 
-                            val correctedV1n = v1nAfter * SPHERE_RESTITUTION
-                            val correctedV2n = v2nAfter * SPHERE_RESTITUTION
+                            val aInReleaseFreeflow = (sphereReleaseFreeflowUntilMs[a.id] ?: 0L) > nowMs
+                            val bInReleaseFreeflow = (sphereReleaseFreeflowUntilMs[b.id] ?: 0L) > nowMs
+                            val launchedCollision = aInReleaseFreeflow.xor(bInReleaseFreeflow)
+
+                            val restitution = lerp(
+                                SPHERE_COLLISION_RESTITUTION_LOW,
+                                SPHERE_COLLISION_RESTITUTION_HIGH,
+                                (impactSpeed / 140f).coerceIn(0f, 1f)
+                            ) + if (launchedCollision) SPHERE_LAUNCH_COLLISION_RESTITUTION_BOOST else 0f
+                            val correctedV1n = v1nAfter * restitution
+                            val correctedV2n = v2nAfter * restitution
 
                             val avx = correctedV1n * nx + v1t * tx
                             val avy = correctedV1n * ny + v1t * ty
@@ -812,9 +820,6 @@ class FragCalmSpace : Fragment() {
                             val totalMass = m1 + m2
                             val shiftA = overlap * (m2 / totalMass)
                             val shiftB = overlap * (m1 / totalMass)
-
-                            val aInReleaseFreeflow = (sphereReleaseFreeflowUntilMs[a.id] ?: 0L) > nowMs
-                            val bInReleaseFreeflow = (sphereReleaseFreeflowUntilMs[b.id] ?: 0L) > nowMs
 
                             val adjustedA = enforceMinimumSpeed(
                                 avx,
@@ -867,6 +872,30 @@ class FragCalmSpace : Fragment() {
                                         max(sphereReleaseFreeflowUntilMs[a.id] ?: 0L, nowMs + SPHERE_IMPACT_FREEFLOW_MS)
                                 }
                             }
+
+                            if (launchedCollision && impactSpeed > SPHERE_LAUNCH_COLLISION_MIN_SPEED) {
+                                val bounceKick = (impactSpeed * SPHERE_LAUNCH_COLLISION_BOUNCE_KICK_FACTOR)
+                                    .coerceIn(0f, SPHERE_LAUNCH_COLLISION_BOUNCE_KICK_MAX)
+                                finalAVx -= nx * bounceKick
+                                finalAVy -= ny * bounceKick
+                                finalBVx += nx * bounceKick
+                                finalBVy += ny * bounceKick
+                                sphereReleaseFreeflowUntilMs[a.id] =
+                                    max(sphereReleaseFreeflowUntilMs[a.id] ?: 0L, nowMs + SPHERE_LAUNCH_COLLISION_FREEFLOW_MS)
+                                sphereReleaseFreeflowUntilMs[b.id] =
+                                    max(sphereReleaseFreeflowUntilMs[b.id] ?: 0L, nowMs + SPHERE_LAUNCH_COLLISION_FREEFLOW_MS)
+                            }
+
+                            // Blend with previous velocity to keep a soft inertial rebound feel.
+                            val smoothBlend = if (launchedCollision) {
+                                SPHERE_LAUNCH_COLLISION_SMOOTH_BLEND
+                            } else {
+                                SPHERE_COLLISION_SMOOTH_BLEND
+                            }
+                            finalAVx = lerp(a.vx, finalAVx, smoothBlend)
+                            finalAVy = lerp(a.vy, finalAVy, smoothBlend)
+                            finalBVx = lerp(b.vx, finalBVx, smoothBlend)
+                            finalBVy = lerp(b.vy, finalBVy, smoothBlend)
 
                             val cappedA = capVelocity(finalAVx, finalAVy, SPHERE_COLLISION_SPEED_CAP)
                             val cappedB = capVelocity(finalBVx, finalBVy, SPHERE_COLLISION_SPEED_CAP)
@@ -1298,32 +1327,35 @@ class FragCalmSpace : Fragment() {
                             .coerceIn(0f, 1f)
                         val easedAppear = appearProgress * appearProgress * (3f - (2f * appearProgress))
                         val t = nowMs * 0.001f
-                        val slowPulse = ((sin((t * firefly.blinkRate * 1.34f) + firefly.blinkPhase) + 1f) * 0.5f)
-                        val supportPulse = ((sin((t * (firefly.blinkRate * 0.72f + 0.24f)) + (firefly.phase * 0.63f)) + 1f) * 0.5f)
-                        val blended = (slowPulse * 0.90f) + (supportPulse * 0.10f)
-                        // Gate creates a true smooth on/off breathing instead of nearly constant glow.
-                        val gated = ((blended - 0.18f) / 0.82f).coerceIn(0f, 1f)
+                        val basePulse = ((sin((t * firefly.blinkRate * 1.12f) + firefly.blinkPhase) + 1f) * 0.5f)
+                        val supportPulse = ((sin((t * (firefly.blinkRate * 0.58f + 0.20f)) + (firefly.phase * 0.52f)) + 1f) * 0.5f)
+                        val microWave = ((sin((t * (firefly.blinkRate * 2.35f + 0.55f)) + (firefly.phase * 1.23f)) + 1f) * 0.5f)
+                        val blended = (basePulse * 0.72f) + (supportPulse * 0.23f) + (microWave * 0.05f)
+                        val gated = ((blended - FIREFLY_BLINK_GATE) / (1f - FIREFLY_BLINK_GATE)).coerceIn(0f, 1f)
                         val glowPulse = gated * gated * (3f - (2f * gated))
                         val sizeScale = FIREFLY_SIZE_SCALE.coerceIn(0.6f, 2.6f)
-                        val coreRadius = ((1.2f + (glowPulse * 2.6f)) * sizeScale) * easedAppear.coerceAtLeast(0.08f)
-                        val haloRadius = ((8f + (glowPulse * 18f * FIREFLY_GLOW_INTENSITY * firefly.glowFactor)) * sizeScale) * easedAppear.coerceAtLeast(0.08f)
-                        val haloAlpha = (0.02f + (0.28f * glowPulse)) * FIREFLY_GLOW_INTENSITY * firefly.glowFactor
+                        val coreRadius = ((1.25f + (glowPulse * 2.35f)) * sizeScale) * easedAppear.coerceAtLeast(0.08f)
+                        val haloRadius = ((7f + (glowPulse * 12f * FIREFLY_HALO_SCALE * firefly.glowFactor)) * sizeScale) * easedAppear.coerceAtLeast(0.08f)
+                        val haloAlpha = (FIREFLY_HALO_BASE_ALPHA + (FIREFLY_HALO_PULSE_ALPHA * glowPulse)) *
+                            FIREFLY_GLOW_INTENSITY * firefly.glowFactor
 
-                        drawCircle(
-                            brush = Brush.radialGradient(
-                                colors = listOf(
-                                    Color(0xFFFFF9D4).copy(alpha = (0.10f + (0.74f * glowPulse * firefly.glowFactor)).coerceIn(0.08f, 0.90f)),
-                                    Color(0xFFFFEFA6).copy(alpha = haloAlpha.coerceIn(0.01f, 0.56f)),
-                                    Color.Transparent
+                        if (FIREFLY_HALO_ENABLED && haloAlpha > 0.003f) {
+                            drawCircle(
+                                brush = Brush.radialGradient(
+                                    colors = listOf(
+                                        Color(0xFFFFF9D4).copy(alpha = (0.02f + (0.24f * glowPulse * firefly.glowFactor)).coerceIn(0.01f, 0.28f)),
+                                        Color(0xFFFFEFA6).copy(alpha = haloAlpha.coerceIn(0.003f, 0.22f)),
+                                        Color.Transparent
+                                    ),
+                                    center = center,
+                                    radius = haloRadius
                                 ),
-                                center = center,
-                                radius = haloRadius
-                            ),
-                            radius = haloRadius,
-                            center = center
-                        )
+                                radius = haloRadius,
+                                center = center
+                            )
+                        }
                         drawCircle(
-                            color = Color(0xFFFFF7C8).copy(alpha = (0.06f + (0.88f * glowPulse * firefly.glowFactor)).coerceIn(0.05f, 0.94f)),
+                            color = Color(0xFFFFF7C8).copy(alpha = (0.02f + (0.96f * glowPulse * firefly.glowFactor)).coerceIn(0.02f, 0.96f)),
                             radius = coreRadius,
                             center = center
                         )
@@ -1473,7 +1505,7 @@ class FragCalmSpace : Fragment() {
                     showPhraseSourceMenu = showPhraseSourceMenu,
                     onPhraseSourceMenuChange = { showPhraseSourceMenu = it },
                     onManagePersonalPhrases = {
-                        findNavController().navigate(R.id.frag_calm_phrase_manager)
+                        MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_calm_phrase_manager)
                     },
                     sphereCount = targetSphereCount,
                     onSphereCountChange = {
@@ -2132,6 +2164,24 @@ class FragCalmSpace : Fragment() {
         private const val SPHERE_IMPACT_FREEFLOW_MS = 3200L
         // Tope de velocidad para estabilidad después de una colisión con alta energía.
         private const val SPHERE_COLLISION_SPEED_CAP = 360f
+        // Restitución baja para impactos suaves entre esferas.
+        private const val SPHERE_COLLISION_RESTITUTION_LOW = 0.84f
+        // Restitución alta para impactos más enérgicos entre esferas.
+        private const val SPHERE_COLLISION_RESTITUTION_HIGH = 0.94f
+        // Mezcla inercial post-colisión (más bajo = rebote más suave, menos brusco).
+        private const val SPHERE_COLLISION_SMOOTH_BLEND = 0.72f
+        // Boost de restitución cuando una esfera lanzada impacta a otra.
+        private const val SPHERE_LAUNCH_COLLISION_RESTITUTION_BOOST = 0.04f
+        // Velocidad mínima para activar rebote reforzado en choque de esfera lanzada.
+        private const val SPHERE_LAUNCH_COLLISION_MIN_SPEED = 18f
+        // Fracción de impulso extra para hacer visible el rebote entre ambas al lanzar.
+        private const val SPHERE_LAUNCH_COLLISION_BOUNCE_KICK_FACTOR = 0.22f
+        // Límite del impulso extra de rebote en choque de lanzamiento.
+        private const val SPHERE_LAUNCH_COLLISION_BOUNCE_KICK_MAX = 54f
+        // Free-flow breve para ambas esferas tras choque de lanzamiento.
+        private const val SPHERE_LAUNCH_COLLISION_FREEFLOW_MS = 1400L
+        // Mezcla para choque de lanzamiento (más alta = rebote más marcado y perceptible).
+        private const val SPHERE_LAUNCH_COLLISION_SMOOTH_BLEND = 0.90f
         private const val INBUILT_BACKGROUND_PREFIX = "asset_bg:"
         private const val INBUILT_MUSIC_PREFIX = "asset_music:"
         // Radio táctil efectivo para detectar toque/arrastre de luciérnagas.
@@ -2146,8 +2196,18 @@ class FragCalmSpace : Fragment() {
         private const val FIREFLY_FUSION_SMOOTHING = 0.98f
         // Intensidad global del brillo de halo/núcleo de luciérnagas.
         private const val FIREFLY_GLOW_INTENSITY = 0.5f
+        // Activa/desactiva completamente el halo externo de las luciérnagas.
+        private const val FIREFLY_HALO_ENABLED = true
+        // Escala del radio de halo para no opacar el pulso del núcleo.
+        private const val FIREFLY_HALO_SCALE = 0.62f
+        // Alpha base del halo (muy baja para aspecto sutil/difuso).
+        private const val FIREFLY_HALO_BASE_ALPHA = 0.008f
+        // Alpha adicional del halo durante el pulso de brillo.
+        private const val FIREFLY_HALO_PULSE_ALPHA = 0.09f
+        // Umbral de encendido del parpadeo (mayor = más tiempo "apagada").
+        private const val FIREFLY_BLINK_GATE = 0.34f
         // Escala relativa del tamaño visual de luciérnagas (núcleo + halo).
-        private const val FIREFLY_SIZE_SCALE = 1.50f
+        private const val FIREFLY_SIZE_SCALE = 1.80f
         // Aceleración base del movimiento orgánico (wander) de luciérnagas.
         private const val FIREFLY_ORGANIC_ACCEL = 24f
         // Aceleración de deriva elíptica para trayectorias más curvadas y amplias.
@@ -2245,5 +2305,10 @@ class FragCalmSpace : Fragment() {
         if (speed <= maxSpeed || speed <= 0.001f) return vx to vy
         val scale = maxSpeed / speed
         return vx * scale to vy * scale
+    }
+
+    private fun lerp(start: Float, end: Float, t: Float): Float {
+        val clamped = t.coerceIn(0f, 1f)
+        return start + ((end - start) * clamped)
     }
 }

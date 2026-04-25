@@ -1,0 +1,38 @@
+{
+  "title": "Protocolo semanal para eliminar antojos basado en neurociencia y regulación dopaminérgica",
+  "detalles": "Programa de 7 unidades, cada unidad corresponde a un día de la semana",
+  "description": "Programa orientado a eliminar antojos (alimentarios y conductuales) mediante regulación del sistema dopaminérgico, fortalecimiento de la corteza prefrontal y reconfiguración de hábitos.\n\nEstructura del programa:\n1. Control del entorno -> reduce estímulos dopaminérgicos excesivos\n2. Regulación de dopamina basal -> evita picos artificiales\n3. Entrenamiento de la corteza prefrontal -> mejora autocontrol\n4. Exposición controlada al impulso -> debilita el hábito\n5. Sustitución conductual -> reemplaza el circuito del craving\n6. Estabilidad metabólica -> evita impulsos fisiológicos\n7. Reducción de recompensa instantánea -> mejora sensibilidad dopaminérgica\n\nBase neurocientífica:\n* Los antojos son predicciones dopaminérgicas (no necesidad real)\n* La repetición fortalece el circuito hábito (núcleo accumbens)\n* La inhibición consciente fortalece la corteza prefrontal\n* Reducir picos dopaminérgicos restaura sensibilidad\n\nResultado esperado (4-8 semanas):\n* Reducción significativa de antojos\n* Mayor control conductual\n* Menor impulsividad\n* Mayor claridad mental\n* Mayor tolerancia al aburrimiento\n* Restauración del equilibrio dopaminérgico\n\nClaves para que esto funcione de verdad (muy importante)\n\n1. El antojo NO es necesidad\n\nEs:\nuna prediccion dopaminergica aprendida\n\nEjemplo:\n\n* Ves chocolate -> tu cerebro predice recompensa -> sientes deseo\n* No significa que lo necesites\n\n2. La regla mas poderosa: retrasar\n\nSi retrasas el impulso:\n\n* - dopamina anticipatoria\n* + control prefrontal\n\nIncluso 5-15 minutos cambian completamente la respuesta\n\n3. Lo que realmente estas entrenando\n\nNo estas \"evitando cosas\", estas:\n\n* fortaleciendo tu corteza prefrontal\n* debilitando circuitos automaticos\n* recalibrando dopamina\n\n4. Indicadores de progreso real\n\n* Menos urgencia en los impulsos\n* Mayor capacidad de esperar\n* Menos necesidad de estimulos constantes\n* Mas tolerancia al aburrimiento",
+  "noUnidades": 7,
+  "tipoUnidad": "dias",
+  "frecuencia": 1,
+  "unidadesinfo": [
+    {
+      "name": "Lunes",
+      "info": "Reset del entorno dopaminérgico.\n\nAcciones:\n* Eliminar snacks ultraprocesados de casa\n* Desactivar notificaciones del móvil\n* Evitar redes sociales hasta el mediodía\n\nEjercicio mental:\nCada vez que aparezca un antojo:\n* Esperar 10 minutos antes de actuar\n\nObjetivo neurocientífico:\nReducir estímulos externos que disparan dopamina anticipatoria.\nEntrenar separación entre impulso y acción (corteza prefrontal)."
+    },
+    {
+      "name": "Martes",
+      "info": "Estabilización dopaminérgica.\n\nAcciones:\n* Desayuno alto en proteínas (mínimo 30g)\n* Evitar azúcar refinado\n* Exposición a luz natural 10-20 min\n\nEjercicio mental:\nIdentificar el tipo de antojo:\n* Hambre real vs aburrimiento vs estrés\n\nObjetivo neurocientífico:\nReducir picos dopaminérgicos bruscos.\nAumentar conciencia interoceptiva (insula)."
+    },
+    {
+      "name": "Miércoles",
+      "info": "Entrenamiento de autocontrol.\n\nAcciones:\n* Meditación 10 minutos (observación de pensamientos)\n* Ejercicio físico moderado\n\nEjercicio práctico:\nCuando aparezca un antojo:\n* No actuar\n* Observar sensación sin reaccionar\n\nObjetivo neurocientífico:\nFortalecer corteza prefrontal dorsolateral.\nDebilitar respuesta automática del núcleo accumbens."
+    },
+    {
+      "name": "Jueves",
+      "info": "Reprogramación del circuito de recompensa.\n\nAcciones:\n* Sustituir hábito impulsivo por alternativa:\n  - caminar\n  - beber agua\n  - respiración profunda\n\nEjercicio práctico:\nCada antojo → ejecutar conducta alternativa\n\nObjetivo neurocientífico:\nCrear nuevas asociaciones sin dopamina extrema.\nReconfigurar circuito hábito-recompensa."
+    },
+    {
+      "name": "Viernes",
+      "info": "Reducción de dopamina rápida.\n\nAcciones:\n* Evitar contenido altamente estimulante (TikTok, junk food, porno)\n* Consumir actividades de baja estimulación (leer, naturaleza)\n\nEjercicio mental:\nEvaluar nivel de estimulación diaria\n\nObjetivo neurocientífico:\nReducir sobreestimulación dopaminérgica.\nRestaurar sensibilidad del sistema de recompensa."
+    },
+    {
+      "name": "Sábado",
+      "info": "Exposición controlada al antojo.\n\nAcciones:\n* Exponerse a estímulo (ej: comida deseada) sin consumirlo inmediatamente\n\nEjercicio práctico:\n* Observar impulso sin actuar durante 15-20 minutos\n\nObjetivo neurocientífico:\nExtinción del condicionamiento (aprendizaje inverso).\nReducir asociación estímulo → recompensa."
+    },
+    {
+      "name": "Domingo",
+      "info": "Reflexión y consolidación.\n\nAcciones:\n* Revisar momentos de antojo de la semana\n* Identificar patrones\n\nEjercicio mental:\n* Escribir:\n  - qué desencadenó el antojo\n  - cómo se respondió\n\nObjetivo neurocientífico:\nFortalecer aprendizaje consciente.\nIntegrar cambios en la corteza prefrontal.\nReducir automatismos futuros."
+    }
+  ]
+}

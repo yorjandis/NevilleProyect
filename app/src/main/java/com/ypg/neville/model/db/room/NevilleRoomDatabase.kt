@@ -22,6 +22,7 @@ import com.ypg.neville.feature.voice.data.VoiceRecordingDao
 import com.ypg.neville.feature.voice.data.VoiceRecordingEntity
 import com.ypg.neville.model.reminders.ReminderDao
 import com.ypg.neville.model.reminders.ReminderEntity
+import com.ypg.neville.model.security.PostQuantumAesTextCrypto
 
 @Database(
     entities = [
@@ -485,8 +486,86 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
             }
         }
 
+        private val ENCRYPT_PERSONAL_TEXT_ON_OPEN = object : Callback() {
+            override fun onOpen(db: SupportSQLiteDatabase) {
+                PostQuantumAesTextCrypto.syncRecoveryKeyFromDatabase(db)
+                encryptLegacyNotas(db)
+                encryptLegacyDiario(db)
+            }
+        }
+
+        private fun encryptLegacyNotas(db: SupportSQLiteDatabase) {
+            db.query("SELECT id, titulo, nota FROM notas").use { cursor ->
+                val pending = mutableListOf<Triple<Long, String, String>>()
+                while (cursor.moveToNext()) {
+                    val id = cursor.getLong(0)
+                    val titulo = cursor.getString(1) ?: ""
+                    val nota = cursor.getString(2) ?: ""
+                    if (!SecureRoomText.isRecoverableEncrypted(titulo) || !SecureRoomText.isRecoverableEncrypted(nota)) {
+                        pending.add(
+                            Triple(
+                                id,
+                                SecureRoomText.encryptNotaTitulo(titulo),
+                                SecureRoomText.encryptNotaContenido(nota)
+                            )
+                        )
+                    }
+                }
+                if (pending.isEmpty()) return
+
+                db.beginTransaction()
+                try {
+                    pending.forEach { (id, titulo, nota) ->
+                        db.execSQL(
+                            "UPDATE notas SET titulo = ?, nota = ? WHERE id = ?",
+                            arrayOf<Any>(titulo, nota, id)
+                        )
+                    }
+                    db.setTransactionSuccessful()
+                } finally {
+                    db.endTransaction()
+                }
+            }
+        }
+
+        private fun encryptLegacyDiario(db: SupportSQLiteDatabase) {
+            db.query("SELECT id, title, content FROM Diario").use { cursor ->
+                val pending = mutableListOf<Triple<Long, String, String>>()
+                while (cursor.moveToNext()) {
+                    val id = cursor.getLong(0)
+                    val title = cursor.getString(1) ?: ""
+                    val content = cursor.getString(2) ?: ""
+                    if (!SecureRoomText.isRecoverableEncrypted(title) || !SecureRoomText.isRecoverableEncrypted(content)) {
+                        pending.add(
+                            Triple(
+                                id,
+                                SecureRoomText.encryptDiarioTitle(title),
+                                SecureRoomText.encryptDiarioContent(content)
+                            )
+                        )
+                    }
+                }
+                if (pending.isEmpty()) return
+
+                db.beginTransaction()
+                try {
+                    pending.forEach { (id, title, content) ->
+                        db.execSQL(
+                            "UPDATE Diario SET title = ?, content = ? WHERE id = ?",
+                            arrayOf<Any>(title, content, id)
+                        )
+                    }
+                    db.setTransactionSuccessful()
+                } finally {
+                    db.endTransaction()
+                }
+            }
+        }
+
         fun getInstance(context: Context): NevilleRoomDatabase {
+            PostQuantumAesTextCrypto.configure(context.applicationContext)
             return INSTANCE ?: synchronized(this) {
+                PostQuantumAesTextCrypto.configure(context.applicationContext)
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     NevilleRoomDatabase::class.java,
@@ -511,6 +590,7 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
                         MIGRATION_16_17,
                         MIGRATION_17_18
                     )
+                    .addCallback(ENCRYPT_PERSONAL_TEXT_ON_OPEN)
                     .allowMainThreadQueries()
                     .build()
                 INSTANCE = instance

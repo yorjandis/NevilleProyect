@@ -27,3 +27,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "NevilleProyect"
 include ':app'
+include ':wearneville'
+include ':wearnevillestantalone'

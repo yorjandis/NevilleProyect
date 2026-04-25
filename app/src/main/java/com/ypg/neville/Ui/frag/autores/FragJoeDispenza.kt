@@ -34,9 +34,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import com.ypg.neville.model.subscription.SubscriptionManager
+import com.ypg.neville.MainActivity
 import com.ypg.neville.R
 import com.ypg.neville.model.db.DatabaseHelper
 import com.ypg.neville.model.db.utilsDB
@@ -56,7 +55,6 @@ class FragJoeDispenza : Fragment() {
                     val author = getString(R.string.joe_dispenza)
                     val authorAssetsFolder = "autores/joeDispenza"
                     val context = requireContext()
-                    val navController = this@FragJoeDispenza.findNavController()
                     val subscriptionState by SubscriptionManager.uiState.collectAsState()
                     val hasPremium = subscriptionState.isActive && subscriptionState.isEntitlementVerified
                     val prefs = remember { DbPreferences.default(context) }
@@ -146,10 +144,10 @@ class FragJoeDispenza : Fragment() {
                             }
                         },
                         onBiographyClick = {
-                            biographyAssetPath?.let { openAsset(navController, it, isPremiumPreview = false) }
+                            biographyAssetPath?.let { openAsset(it, isPremiumPreview = false) }
                         },
                         onTeachingSummaryClick = {
-                            teachingSummaryAssetPath?.let { openAsset(navController, it, isPremiumPreview = !hasPremium) }
+                            teachingSummaryAssetPath?.let { openAsset(it, isPremiumPreview = !hasPremium) }
                         },
                         teachingSummaryEnabled = !teachingSummaryAssetPath.isNullOrBlank(),
                         resourcesSection = {
@@ -157,7 +155,7 @@ class FragJoeDispenza : Fragment() {
                                 cards = cards,
                                 hasPremium = hasPremium,
                                 onResourceClick = { assetPath ->
-                                    openAsset(navController, assetPath, isPremiumPreview = !hasPremium)
+                                    openAsset(assetPath, isPremiumPreview = !hasPremium)
                                 }
                             )
                         }
@@ -167,11 +165,11 @@ class FragJoeDispenza : Fragment() {
         }
     }
 
-    private fun openAsset(navController: NavController, assetPath: String, isPremiumPreview: Boolean) {
+    private fun openAsset(assetPath: String, isPremiumPreview: Boolean) {
         FragContentWebView.elementLoaded = assetPath
         FragContentWebView.isPremiumPreviewMode = isPremiumPreview
         FragContentWebView.urlPath = "file:///android_asset/$assetPath"
-        navController.navigate(R.id.frag_content_webview)
+        MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_content_webview)
     }
 
     private fun joeResourceCards(): List<AccessCardPlaceholder> {

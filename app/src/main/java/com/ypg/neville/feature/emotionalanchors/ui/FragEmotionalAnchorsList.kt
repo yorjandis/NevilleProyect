@@ -55,7 +55,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
+import com.ypg.neville.MainActivity
 import com.ypg.neville.R
 import com.ypg.neville.feature.emotionalanchors.data.EmotionalAnchor
 import com.ypg.neville.feature.emotionalanchors.data.RoomEmotionalAnchorStore
@@ -195,10 +195,7 @@ class FragEmotionalAnchorsList : Fragment() {
                             anchor = anchor,
                             onLaunch = {
                                 val args = Bundle().apply { putLong(ARG_ANCHOR_ID, anchor.id) }
-                                findNavController().navigate(
-                                    R.id.action_frag_emotional_anchors_to_frag_emotional_anchor_run,
-                                    args
-                                )
+                                MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_emotional_anchor_run, args)
                             },
                             onDelete = {
                                 deleteTarget = anchor
@@ -207,10 +204,7 @@ class FragEmotionalAnchorsList : Fragment() {
                                 val args = Bundle().apply {
                                     putLong(FragEmotionalAnchors.ARG_EDIT_ANCHOR_ID, anchor.id)
                                 }
-                                findNavController().navigate(
-                                    R.id.action_frag_emotional_anchors_to_frag_emotional_anchor_create,
-                                    args
-                                )
+                                MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_emotional_anchor_create, args)
                             }
                         )
                     }
@@ -218,7 +212,7 @@ class FragEmotionalAnchorsList : Fragment() {
             }
 
             FloatingActionButton(
-                onClick = { findNavController().navigate(R.id.action_frag_emotional_anchors_to_frag_emotional_anchor_create) },
+                onClick = { MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_emotional_anchor_create) },
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(end = 16.dp, bottom = 16.dp),

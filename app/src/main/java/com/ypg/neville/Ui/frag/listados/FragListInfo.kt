@@ -35,8 +35,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
@@ -58,10 +56,9 @@ class FragListInfo : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val navController = view.findNavController()
         (view as ComposeView).setContent {
             com.ypg.neville.ui.theme.NevilleTheme {
-                ListInfoScreen(navController)
+                ListInfoScreen()
             }
         }
     }
@@ -75,7 +72,7 @@ class FragListInfo : Fragment() {
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
     @Suppress("ASSIGNED_VALUE_IS_NEVER_READ")
-    private fun ListInfoScreen(navController: NavController) {
+    private fun ListInfoScreen() {
         val context = LocalContext.current
         val listado = remember { mutableStateListOf<String>() }
         val filtros = remember {
@@ -182,7 +179,7 @@ class FragListInfo : Fragment() {
                                             val confFileName = FragContentWebView.confAssetFileNameFromTitle(itemText)
                                             FragContentWebView.urlPath =
                                                 "file:///android_asset/${FragContentWebView.urlDirAssets}/$confFileName${FragContentWebView.extension}"
-                                            navController.navigate(R.id.frag_content_webview)
+                                            MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_content_webview)
                                         }
 
                                         "Apuntes" -> {

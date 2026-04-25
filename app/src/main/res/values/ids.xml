@@ -1,4 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="frag_container" type="id" />
+    <item name="frag_listado" type="id" />
+    <item name="frag_home" type="id" />
+    <item name="frag_content_webview" type="id" />
+    <item name="frag_gregg" type="id" />
+    <item name="frag_neville_goddard" type="id" />
+    <item name="frag_joe_dispenza" type="id" />
+    <item name="frag_bruce_lipton" type="id" />
+    <item name="frag_list_info" type="id" />
+    <item name="frag_listado_frases" type="id" />
+    <item name="fragSetting" type="id" />
+    <item name="frag_notas" type="id" />
+    <item name="frag_diario" type="id" />
+    <item name="frag_lienzo" type="id" />
+    <item name="frag_metas" type="id" />
+    <item name="frag_reminders" type="id" />
+    <item name="frag_morning_dialog" type="id" />
+    <item name="frag_voice_recordings" type="id" />
+    <item name="frag_emotional_anchors" type="id" />
+    <item name="frag_emotional_anchor_create" type="id" />
+    <item name="frag_emotional_anchor_run" type="id" />
+    <item name="frag_import_shared_text" type="id" />
+    <item name="frag_weekly_summary" type="id" />
+    <item name="frag_calm_space" type="id" />
+    <item name="frag_calm_phrase_manager" type="id" />
+    <item name="frag_calm_backgrounds_manager" type="id" />
+    <item name="frag_calm_music_manager" type="id" />
 </resources>

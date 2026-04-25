@@ -7,13 +7,13 @@ class NotaRepository(private val notaDao: NotaDao) {
 
     fun insertar(titulo: String, nota: String, isFav: Boolean = false): Long {
         val now = System.currentTimeMillis()
-        val item = NotaEntity(
+        val item = SecureRoomText.encryptNota(NotaEntity(
             titulo = titulo,
             nota = nota,
             fechaCreacion = now,
             fechaModificacion = now,
             isFav = isFav
-        )
+        ))
         val id = notaDao.insert(item)
         WeeklySummaryEventLogger.log(WeeklySummaryEventType.NOTES_CREATED, targetKey = id.toString())
         return id
@@ -26,14 +26,14 @@ class NotaRepository(private val notaDao: NotaDao) {
         fechaCreacionOriginal: Long,
         isFav: Boolean = false
     ) {
-        val item = NotaEntity(
+        val item = SecureRoomText.encryptNota(NotaEntity(
             id = id,
             titulo = titulo,
             nota = nota,
             fechaCreacion = fechaCreacionOriginal,
             fechaModificacion = System.currentTimeMillis(),
             isFav = isFav
-        )
+        ))
         notaDao.update(item)
         WeeklySummaryEventLogger.log(WeeklySummaryEventType.NOTES_MODIFIED, targetKey = id.toString())
     }
@@ -47,8 +47,8 @@ class NotaRepository(private val notaDao: NotaDao) {
         WeeklySummaryEventLogger.log(WeeklySummaryEventType.NOTES_DELETED, targetKey = nota.id.toString())
     }
 
-    fun obtenerTodas(): List<NotaEntity> = notaDao.getAll()
+    fun obtenerTodas(): List<NotaEntity> = notaDao.getAll().map(SecureRoomText::decryptNota)
 
     @Suppress("unused")
-    fun obtenerPorId(id: Long): NotaEntity? = notaDao.getById(id)
+    fun obtenerPorId(id: Long): NotaEntity? = notaDao.getById(id)?.let(SecureRoomText::decryptNota)
 }

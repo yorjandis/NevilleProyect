@@ -54,13 +54,14 @@ import com.ypg.neville.ui.frag.HomeFloatingMenuBottomSheet
 import com.ypg.neville.ui.frag.NevilleBottomNavBar
 import com.ypg.neville.ui.frag.SheetNavHostBottomSheet
 import com.ypg.neville.ui.frag.SubscriptionPaywallDialog
+import com.ypg.neville.ui.frag.buildNevilleNavGraph
 import com.ypg.neville.ui.frag.frag_listado
 import java.lang.ref.WeakReference
 
 class MainActivity : AppCompatActivity() {
 
     private val toolbarColor = mutableStateOf<Int?>(null)
-    private val bottomActive = mutableStateOf<String?>("conf")
+    private val bottomActive = mutableStateOf<String?>("home")
 
     private val toolbarAddNoteVisible = mutableStateOf(View.VISIBLE)
     private val toolbarAddFraseVisible = mutableStateOf(View.VISIBLE)
@@ -161,10 +162,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        if (prefs.getBoolean("updateFrases", true)) {
-            utilsDB.CorrectOrtogFrases(this)
-            prefs.edit { putBoolean("updateFrases", false) }
-        }
     }
 
     private fun currentInstallFirstTime(): Long {
@@ -254,13 +251,15 @@ class MainActivity : AppCompatActivity() {
 
         if (!container.isAttachedToWindow) return
 
-        val navHost = NavHostFragment.create(R.navigation.nav_graf)
+        val navHost = NavHostFragment()
         supportFragmentManager.commitNow {
             setReorderingAllowed(true)
             existing?.let { remove(it) }
             replace(container.id, navHost, MAIN_NAV_HOST_TAG)
         }
         navController = navHost.navController
+        val graph = buildNevilleNavGraph(navController, R.id.frag_home)
+        navController.setGraph(graph, Bundle())
     }
 
     @Composable
@@ -272,7 +271,12 @@ class MainActivity : AppCompatActivity() {
             onConf = {
                 bottomActive.value = "conf"
                 frag_listado.elementLoaded = "autores/neville/conf"
-                openDestinationAsSheet(R.id.frag_listado)
+                openDestinationAsSheet(
+                    R.id.frag_listado,
+                    Bundle().apply {
+                        putBoolean(frag_listado.ARG_RETURN_HOME_ON_BACK, true)
+                    }
+                )
             },
             onNotas = {
                 bottomActive.value = "notas"
@@ -323,7 +327,7 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    fun openDestinationAsSheet(destinationId: Int) {
+    fun openDestinationAsSheet(destinationId: Int, startArgs: Bundle? = null) {
         if (destinationId == R.id.frag_home) return
         if (destinationId == R.id.frag_notas && shouldRequireNotesBiometricLock()) {
             if (!SubscriptionManager.hasActiveSubscriptionNow()) {
@@ -331,7 +335,7 @@ class MainActivity : AppCompatActivity() {
                 return
             }
             showNotesBiometricPrompt {
-                openDestinationAsSheetInternal(destinationId)
+                openDestinationAsSheetInternal(destinationId, startArgs)
             }
             return
         }
@@ -353,7 +357,7 @@ class MainActivity : AppCompatActivity() {
             showSubscriptionPaywall()
             return
         }
-        openDestinationAsSheetInternal(destinationId)
+        openDestinationAsSheetInternal(destinationId, startArgs)
     }
 
     private fun openDestinationAsSheetInternal(destinationId: Int, startArgs: Bundle? = null) {

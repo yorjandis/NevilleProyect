@@ -8,7 +8,9 @@ import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.model.db.room.ConfEntity
 import com.ypg.neville.model.db.room.FraseEntity
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
+import com.ypg.neville.model.db.room.NotaDao
 import com.ypg.neville.model.db.room.NotaEntity
+import com.ypg.neville.model.db.room.SecureRoomText
 import com.ypg.neville.model.frases.FrasesAssetParser
 import com.ypg.neville.model.frases.FrasesAssetSyncManager
 import com.ypg.neville.model.subscription.SubscriptionManager
@@ -64,14 +66,14 @@ object utilsDB {
                 val legacyNotas = readLegacyApuntes(legacyDb)
                 val now = System.currentTimeMillis()
                 for ((title, note) in legacyNotas) {
-                    if (room.notaDao().getByTitulo(title) == null) {
+                    if (findNotaByTitulo(room.notaDao(), title) == null) {
                         room.notaDao().insert(
-                            NotaEntity(
+                            SecureRoomText.encryptNota(NotaEntity(
                                 titulo = title,
                                 nota = note,
                                 fechaCreacion = now,
                                 fechaModificacion = now
-                            )
+                            ))
                         )
                         migratedAny = true
                     }
@@ -397,12 +399,12 @@ object utilsDB {
     fun insertNewApunte(context: Context, title: String, apunte: String): Long {
         val now = System.currentTimeMillis()
         val id = db(context).notaDao().insert(
-            NotaEntity(
+            SecureRoomText.encryptNota(NotaEntity(
                 titulo = title.trim(),
                 nota = apunte.trim(),
                 fechaCreacion = now,
                 fechaModificacion = now
-            )
+            ))
         )
         if (id > 0) {
             WeeklySummaryEventLogger.log(WeeklySummaryEventType.NOTES_CREATED, targetKey = id.toString())
@@ -413,12 +415,12 @@ object utilsDB {
     @JvmStatic
     fun updateApunte(context: Context, title: String, apunte: String): Boolean {
         val dao = db(context).notaDao()
-        val current = dao.getByTitulo(title) ?: return false
+        val current = findNotaByTitulo(dao, title) ?: return false
         dao.update(
-            current.copy(
+            SecureRoomText.encryptNota(current.copy(
                 nota = apunte,
                 fechaModificacion = System.currentTimeMillis()
-            )
+            ))
         )
         WeeklySummaryEventLogger.log(WeeklySummaryEventType.NOTES_MODIFIED, targetKey = current.id.toString())
         return true
@@ -461,7 +463,7 @@ object utilsDB {
 
     @JvmStatic
     fun getApunteByTitle(context: Context, title: String): NotaEntity? {
-        return db(context).notaDao().getByTitulo(title)
+        return findNotaByTitulo(db(context).notaDao(), title)
     }
 
     @Suppress("unused")
@@ -474,8 +476,10 @@ object utilsDB {
     @Suppress("unused")
     @JvmStatic
     fun deleteApunteByTitle(context: Context, title: String) {
-        db(context).notaDao().deleteByTitulo(title)
-        WeeklySummaryEventLogger.log(WeeklySummaryEventType.NOTES_DELETED, targetKey = title)
+        val dao = db(context).notaDao()
+        val current = findNotaByTitulo(dao, title) ?: return
+        dao.delete(current)
+        WeeklySummaryEventLogger.log(WeeklySummaryEventType.NOTES_DELETED, targetKey = current.id.toString())
     }
 
     @JvmStatic
@@ -493,11 +497,18 @@ object utilsDB {
             "Todas las conf" -> room.confDao().getAll().map { it.title }
             "Conferencias favoritas" -> room.confDao().getFavoritas().map { it.title }
             "Conferencias con notas" -> room.confDao().getConNotas().map { it.title }
-            "Apuntes" -> room.notaDao().getAll().map { it.titulo }
+            "Apuntes" -> room.notaDao().getAll().map { SecureRoomText.decryptNota(it).titulo }
             else -> emptyList()
         }
 
         return LinkedList(result)
+    }
+
+    private fun findNotaByTitulo(dao: NotaDao, title: String): NotaEntity? {
+        dao.getByTitulo(title)?.let { return SecureRoomText.decryptNota(it) }
+        return dao.getAll()
+            .map(SecureRoomText::decryptNota)
+            .firstOrNull { it.titulo == title }
     }
 
     @JvmStatic
