@@ -131,7 +131,8 @@ class FragListadoFrases : Fragment() {
         }
 
         fun sourceLabel(source: String): String {
-            return if (isSourcePremium(source)) "$source (Premium)" else source
+            //return if (isSourcePremium(source)) "$source (Premium)" else source
+            return source
         }
 
         fun isFrasePremium(item: FraseEntity): Boolean {

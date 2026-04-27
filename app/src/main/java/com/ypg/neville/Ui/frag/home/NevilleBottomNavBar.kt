@@ -49,7 +49,8 @@ fun NevilleBottomNavBar(
     onResumenSemanal: () -> Unit,
     onVoces: () -> Unit,
     onAnclas: () -> Unit,
-    onCalma: () -> Unit
+    onCalma: () -> Unit,
+    onCardio: () -> Unit
 ) {
     var showProductivityMenu by remember { mutableStateOf(false) }
     val barShape = RoundedCornerShape(30.dp)
@@ -132,9 +133,9 @@ fun NevilleBottomNavBar(
             )
             Box(modifier = Modifier.weight(1f)) {
                 BottomNavButton(
-                    activeId = if (activeId in setOf("lienzo", "metas", "recordatorios", "morning_dialog", "weekly_summary", "voces", "anclas", "calma")) "productividad" else activeId,
+                    activeId = if (activeId in setOf("lienzo", "metas", "recordatorios", "morning_dialog", "weekly_summary", "voces", "anclas", "calma", "cardio")) "productividad" else activeId,
                     id = "productividad",
-                    icon = R.drawable.ic_setting,
+                    icon = R.drawable.ic_icon_drawer,
                     onClick = { showProductivityMenu = true },
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -258,6 +259,19 @@ fun NevilleBottomNavBar(
                         onClick = {
                             showProductivityMenu = false
                             onCalma()
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Coherencia Cardio-Cerebral") },
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Rounded.BookmarkAdded,
+                                contentDescription = "Coherencia Cardio-Cerebral"
+                            )
+                        },
+                        onClick = {
+                            showProductivityMenu = false
+                            onCardio()
                         }
                     )
                 }

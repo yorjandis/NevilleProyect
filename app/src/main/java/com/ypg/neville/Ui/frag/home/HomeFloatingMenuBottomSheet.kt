@@ -96,6 +96,7 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                                     "voces" -> host?.openDestinationAsSheet(R.id.frag_voice_recordings)
                                     "anclas" -> host?.openDestinationAsSheet(R.id.frag_emotional_anchors)
                                     "calma" -> host?.openDestinationAsSheet(R.id.frag_calm_space)
+                                    "cardio" -> host?.openDestinationAsSheet(R.id.frag_cardio_coherence)
                                     "ajustes" -> host?.openDestinationAsSheet(R.id.fragSetting)
                                     "premium" -> host?.showSubscriptionPaywall()
                                 }
@@ -113,6 +114,8 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
             setGravity(Gravity.CENTER)
             setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             setWindowAnimations(R.style.NevilleBottomDialogAnimation)
+            val verticalOffsetPx = (MENU_CENTER_OFFSET_DP * resources.displayMetrics.density).toInt()
+            attributes = attributes.apply { y = verticalOffsetPx }
         }
         return dialog
     }
@@ -253,7 +256,7 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                                 onClick = { showProductividad = false; onNavigate("diario") }
                             )
                             DropdownMenuItem(
-                                text = { Text(if (hasPremium) "Lienzo" else "Lienzo (Premium)") },
+                                text = { Text("Lienzo") },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_edit_note),
@@ -263,7 +266,7 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                                 onClick = { showProductividad = false; onNavigate("lienzo") }
                             )
                             DropdownMenuItem(
-                                text = { Text(if (hasPremium) "Metas" else "Metas (Premium)") },
+                                text = { Text("Metas") },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_arriba),
@@ -273,7 +276,7 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                                 onClick = { showProductividad = false; onNavigate("metas") }
                             )
                             DropdownMenuItem(
-                                text = { Text(if (hasPremium) "Recordatorios" else "Recordatorios (Premium)") },
+                                text = { Text("Recordatorios") },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_calendar_toggle),
@@ -283,7 +286,7 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                                 onClick = { showProductividad = false; onNavigate("recordatorios") }
                             )
                             DropdownMenuItem(
-                                text = { Text(if (hasPremium) "Ritual Matutino" else "Diálogo Matutino (Premium)") },
+                                text = { Text("Ritual Matutino") },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_calendar_toggle),
@@ -293,7 +296,7 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                                 onClick = { showProductividad = false; onNavigate("dialogo_matutino") }
                             )
                             DropdownMenuItem(
-                                text = { Text(if (hasPremium) "Resumen Semanal" else "Resumen Semanal (Premium)") },
+                                text = { Text("Resumen Semanal") },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_item),
@@ -303,7 +306,7 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                                 onClick = { showProductividad = false; onNavigate("resumen_semanal") }
                             )
                             DropdownMenuItem(
-                                text = { Text(if (hasPremium) "Notas de Voz" else "Notas de Voz (Premium)") },
+                                text = { Text("Notas de Voz") },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_audio),
@@ -313,7 +316,7 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                                 onClick = { showProductividad = false; onNavigate("voces") }
                             )
                             DropdownMenuItem(
-                                text = { Text(if (hasPremium) "Anclas Emocionales" else "Anclas Emocionales (Premium)") },
+                                text = { Text("Anclas Emocionales") },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_tips),
@@ -323,7 +326,7 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                                 onClick = { showProductividad = false; onNavigate("anclas") }
                             )
                             DropdownMenuItem(
-                                text = { Text(if (hasPremium) "Espacio de Calma" else "Espacio de Calma (Premium)") },
+                                text = { Text("Espacio de Calma") },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_show),
@@ -331,6 +334,16 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                                     )
                                 },
                                 onClick = { showProductividad = false; onNavigate("calma") }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Coherencia Cardio-Cerebral") },
+                                leadingIcon = {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_tips),
+                                        contentDescription = "Coherencia Cardio-Cerebral"
+                                    )
+                                },
+                                onClick = { showProductividad = false; onNavigate("cardio") }
                             )
                         }
                     }
@@ -347,5 +360,6 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
 
     companion object {
         const val TAG = "HomeFloatingMenuBottomSheet"
+        private const val MENU_CENTER_OFFSET_DP = 170f
     }
 }

@@ -27,11 +27,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
@@ -163,11 +163,19 @@ class FragHome : Fragment() {
 
         val textSize = (prefs.getString("fuente_frase", "28")?.toFloatOrNull() ?: 28f).coerceIn(16f, 40f)
         val textColor = prefs.getInt("color_letra_frases_home", prefs.getInt("color_letra_frases", 0))
-        val bgColorA = prefs.getInt("color_fondo_a", 0xFFF3F5F9.toInt())
-        val bgColorB = prefs.getInt("color_fondo_b", 0xFFE2E7F0.toInt())
+        val bgColorA = prefs.getInt("color_fondo_a", 0xFFC69FF9.toInt())
+        val bgColorB = prefs.getInt("color_fondo_b", 0xFFC4AA8E.toInt())
         val nowMillis = System.currentTimeMillis()
         val offsetMillis = TimeZone.getDefault().getOffset(nowMillis).toLong()
         val todayEpochDay = Math.floorDiv(nowMillis + offsetMillis, 86_400_000L)
+        LaunchedEffect(Unit) {
+            if (!prefs.getBoolean(PREF_KEY_RITUAL_HIDDEN_DAY_RESET_DONE, false)) {
+                prefs.edit {
+                    remove(PREF_KEY_RITUAL_BUTTON_HIDDEN_DAY)
+                    putBoolean(PREF_KEY_RITUAL_HIDDEN_DAY_RESET_DONE, true)
+                }
+            }
+        }
         val hiddenDay = prefs.getLong(PREF_KEY_RITUAL_BUTTON_HIDDEN_DAY, -1L)
         val isHiddenToday = hiddenDay == todayEpochDay
         val triggerMsToday = remember(todayEpochDay) {
@@ -420,7 +428,6 @@ class FragHome : Fragment() {
 
         Box(modifier = modifier) {
             Surface(
-                onClick = onOpenRitual,
                 shape = RoundedCornerShape(26.dp),
                 modifier = Modifier
                     .shadow(20.dp, RoundedCornerShape(26.dp)),
@@ -428,6 +435,10 @@ class FragHome : Fragment() {
             ) {
                 Row(
                     modifier = Modifier
+                        .combinedClickable(
+                            onClick = onOpenRitual,
+                            onLongClick = { showMenu = true }
+                        )
                         .background(
                             brush = Brush.horizontalGradient(
                                 colors = listOf(
@@ -453,14 +464,6 @@ class FragHome : Fragment() {
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold
                     )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    IconButton(onClick = { showMenu = true }, modifier = Modifier.size(28.dp)) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_menu_open),
-                            contentDescription = "Opciones ritual",
-                            tint = Color.White
-                        )
-                    }
                 }
             }
 
@@ -606,5 +609,6 @@ class FragHome : Fragment() {
     companion object {
         private var sessionMandalaAssetPath: String? = null
         private const val PREF_KEY_RITUAL_BUTTON_HIDDEN_DAY = "morning_ritual_button_hidden_day"
+        private const val PREF_KEY_RITUAL_HIDDEN_DAY_RESET_DONE = "morning_ritual_hidden_day_reset_done"
     }
 }

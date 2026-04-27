@@ -967,6 +967,7 @@ class FragMetas : Fragment() {
         var habitContentFilter by remember { mutableStateOf("") }
 
         var showUnitMenu by remember { mutableStateOf(false) }
+        var previewPrograma by remember { mutableStateOf<ProgramaPreestablecido?>(null) }
 
         val habits = remember { mutableStateListOf<HabitPreset>() }
         val groupedProgramas = remember { mutableStateListOf<Pair<String, List<ProgramaPreestablecido>>>() }
@@ -1212,7 +1213,8 @@ class FragMetas : Fragment() {
                                 ) {
                                     Text(
                                         text = readableProgramaGroup(selectedPair.first),
-                                        fontWeight = FontWeight.Bold
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color(0xFFFFEB3B)
                                     )
                                     TextButton(onClick = { selectedProgramaGroup = null }) {
                                         Text("Volver")
@@ -1249,8 +1251,12 @@ class FragMetas : Fragment() {
                                                 Text(programa.description, maxLines = 4, overflow = TextOverflow.Ellipsis)
                                                 Row(
                                                     modifier = Modifier.fillMaxWidth(),
-                                                    horizontalArrangement = Arrangement.End
+                                                    verticalAlignment = Alignment.CenterVertically
                                                 ) {
+                                                    Button(onClick = { previewPrograma = programa }) {
+                                                        Text("Resumen")
+                                                    }
+                                                    Spacer(modifier = Modifier.weight(1f))
                                                     Button(onClick = {
                                                         dbExecutor.execute {
                                                             repository.createProgramGoal(programa)
@@ -1267,7 +1273,8 @@ class FragMetas : Fragment() {
                                         Text(
                                             text = "Categoría: ${readableProgramaGroup(group)}",
                                             style = MaterialTheme.typography.bodySmall,
-                                            modifier = Modifier.padding(top = 4.dp, start = 4.dp)
+                                            modifier = Modifier.padding(top = 4.dp, start = 4.dp, bottom = 2.dp),
+                                            color = Color.White
                                         )
                                         HorizontalDivider()
                                     }
@@ -1301,6 +1308,106 @@ class FragMetas : Fragment() {
                                 Text("Crear Meta", color = Color.Black)
                             }
                         }
+                    }
+                }
+            }
+        }
+
+        previewPrograma?.let { programa ->
+            ProgramSummaryDialog(
+                programa = programa,
+                onDismiss = { previewPrograma = null }
+            )
+        }
+    }
+
+    //Vista de resumen de un programa
+    @Composable
+    private fun ProgramSummaryDialog(
+        programa: ProgramaPreestablecido,
+        onDismiss: () -> Unit
+    ) {
+        val scroll = rememberScrollState()
+        val expandedUnits = remember(programa.fileBaseName) { mutableStateListOf<Int>() }
+
+        Dialog(
+            onDismissRequest = onDismiss,
+            properties = DialogProperties(usePlatformDefaultWidth = false)
+        ) {
+            Surface(
+                shape = RoundedCornerShape(18.dp),
+                color = Color.Transparent,
+                modifier = Modifier
+                    .fillMaxWidth(0.96f)
+                    .padding(horizontal = 6.dp, vertical = 8.dp)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .background(
+                            brush = Brush.verticalGradient(
+                                colors = listOf(
+                                    Color(0xFFE9F6EC),
+                                    Color(0xFFD6EEDC),
+                                    Color(0xFFBFE2CB)
+                                )
+                            ),
+                            shape = RoundedCornerShape(18.dp)
+                        )
+                        .padding(14.dp)
+                        .verticalScroll(scroll),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    Text("Resumen del Programa", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                    Text("Título: ${programa.title}", fontWeight = FontWeight.Bold, color = Color.Black)
+                    Text("Detalles: ${programa.detalles.ifBlank { "Sin detalles" }}", color = Color.Black)
+                    Text("Descripción: ${programa.description.ifBlank { "Sin descripción" }}", color = Color.Black)
+
+                    HorizontalDivider()
+                    Text("Unidades", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+
+                    programa.unidadesinfo.forEachIndexed { index, unit ->
+                        val unitNumber = index + 1
+                        val isExpanded = expandedUnits.contains(index)
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    if (isExpanded) expandedUnits.remove(index) else expandedUnits.add(index)
+                                },
+                            shape = RoundedCornerShape(12.dp)
+                        ) {
+                            Column(modifier = Modifier.padding(10.dp)) {
+                                val unitTitle = unit.name.ifBlank { "Unidad $unitNumber" }
+                                Text(
+                                    text = "$unitTitle ${if (isExpanded) "▲" else "▼"}",
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                                if (isExpanded) {
+                                    Spacer(Modifier.height(6.dp))
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .background(
+                                                color = Color(0xFFE6F2E9),
+                                                shape = RoundedCornerShape(10.dp)
+                                            )
+                                            .padding(horizontal = 10.dp, vertical = 8.dp)
+                                    ) {
+                                        Text(
+                                            text = unit.info.ifBlank { "Sin contenido para esta unidad." },
+                                            color = Color.Black
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        TextButton(onClick = onDismiss) { Text("Cerrar", color = Color.Black) }
                     }
                 }
             }

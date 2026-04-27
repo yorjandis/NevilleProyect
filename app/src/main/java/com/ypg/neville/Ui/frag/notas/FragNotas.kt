@@ -7,6 +7,12 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -54,6 +60,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -317,24 +324,41 @@ class FragNotas : Fragment() {
                 horizontalAlignment = Alignment.End,
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                if (showFabMenu) {
-                    FabActionItem(
-                        label = "Crear nota",
-                        iconRes = R.drawable.ic_note_add,
-                        onClick = {
-                            showFabMenu = false
-                            notaEnEdicion = null
-                            showEditor = true
-                        }
+                AnimatedVisibility(
+                    visible = showFabMenu,
+                    enter = fadeIn(animationSpec = tween(durationMillis = 150)) + scaleIn(
+                        initialScale = 0.92f,
+                        transformOrigin = TransformOrigin(1f, 1f),
+                        animationSpec = tween(durationMillis = 220)
+                    ),
+                    exit = fadeOut(animationSpec = tween(durationMillis = 120)) + scaleOut(
+                        targetScale = 0.92f,
+                        transformOrigin = TransformOrigin(1f, 1f),
+                        animationSpec = tween(durationMillis = 180)
                     )
-                    FabActionItem(
-                        label = if (showFilterPanel) "Ocultar filtros" else "Mostrar filtros",
-                        iconRes = R.drawable.ic_show,
-                        onClick = {
-                            showFabMenu = false
-                            showFilterPanel = !showFilterPanel
-                        }
-                    )
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.End,
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        FabActionItem(
+                            label = "Crear nota",
+                            iconRes = R.drawable.ic_note_add,
+                            onClick = {
+                                showFabMenu = false
+                                notaEnEdicion = null
+                                showEditor = true
+                            }
+                        )
+                        FabActionItem(
+                            label = if (showFilterPanel) "Ocultar filtros" else "Mostrar filtros",
+                            iconRes = R.drawable.ic_show,
+                            onClick = {
+                                showFabMenu = false
+                                showFilterPanel = !showFilterPanel
+                            }
+                        )
+                    }
                 }
 
                 FloatingActionButton(

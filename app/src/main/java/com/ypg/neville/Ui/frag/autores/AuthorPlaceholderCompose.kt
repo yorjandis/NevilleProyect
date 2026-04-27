@@ -74,8 +74,8 @@ fun AuthorPlaceholderScreen(
     var showFilterMenu by remember { mutableStateOf(false) }
     val bg = Brush.verticalGradient(
         colors = listOf(
-            Color(0xFF8A99CC),
-            Color(0xFF9C9CCF),
+            Color(0xFFCFAF9B),
+            Color(0xFFC8B99A),
             Color(0xFFD7D1CD)
         )
     )
@@ -100,7 +100,7 @@ fun AuthorPlaceholderScreen(
                     painter = painterResource(id = imageRes),
                     contentDescription = authorName,
                     modifier = Modifier
-                        .size(112.dp)
+                        .size(80.dp)
                         .clip(RoundedCornerShape(12.dp)),
                     contentScale = ContentScale.Crop
                 )
@@ -128,6 +128,7 @@ fun AuthorPlaceholderScreen(
                             onClick = onBiographyClick,
                             modifier = Modifier
                                 .weight(1f)
+                                .width(60.dp)
                                 .height(36.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = primaryBtn),
                             contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 6.dp, vertical = 0.dp)
@@ -136,7 +137,7 @@ fun AuthorPlaceholderScreen(
                                 text = "Biografía",
                                 color = Color.White,
                                 maxLines = 1,
-                                style = MaterialTheme.typography.labelSmall
+                                style = MaterialTheme.typography.bodyMedium
                             )
                         }
 
@@ -150,7 +151,7 @@ fun AuthorPlaceholderScreen(
                             contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 6.dp, vertical = 0.dp)
                         ) {
                             Text(
-                                text = "Resumen Enseñanza",
+                                text = "Resum. Enseñanza",
                                 color = Color.White,
                                 maxLines = 1,
                                 style = MaterialTheme.typography.labelSmall

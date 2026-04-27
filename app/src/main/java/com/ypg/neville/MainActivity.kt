@@ -323,6 +323,10 @@ class MainActivity : AppCompatActivity() {
             onCalma = {
                 bottomActive.value = "calma"
                 openDestinationAsSheet(R.id.frag_calm_space)
+            },
+            onCardio = {
+                bottomActive.value = "cardio"
+                openDestinationAsSheet(R.id.frag_cardio_coherence)
             }
         )
     }
@@ -348,6 +352,7 @@ class MainActivity : AppCompatActivity() {
                     destinationId == R.id.frag_weekly_summary ||
                     destinationId == R.id.frag_voice_recordings ||
                     destinationId == R.id.frag_calm_space ||
+                    destinationId == R.id.frag_cardio_coherence ||
                     destinationId == R.id.frag_emotional_anchors ||
                     destinationId == R.id.frag_emotional_anchor_create ||
                     destinationId == R.id.frag_emotional_anchor_run

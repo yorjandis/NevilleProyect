@@ -40,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.edit
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.ypg.neville.model.preferences.DbPreferences
@@ -132,7 +133,7 @@ class FragContentWebView : Fragment() {
                                 },
                                 label = {
                                     Text(
-                                        if (hasPremium) "Pegar en" else "Pegar en (Premium)",
+                                        "Pegar en",
                                         color = Color.Black
                                     )
                                 },
@@ -541,7 +542,14 @@ class FragContentWebView : Fragment() {
     private fun navigateToPreviousScreen() {
         val navController = runCatching { findNavController() }.getOrNull()
         if (navController?.popBackStack() == true) return
+        if (dismissParentSheet()) return
         runCatching { requireActivity().onBackPressedDispatcher.onBackPressed() }
+    }
+
+    private fun dismissParentSheet(): Boolean {
+        val dialog = parentFragment as? DialogFragment ?: return false
+        dialog.dismissAllowingStateLoss()
+        return true
     }
 
     private fun updateCopiedTextState() {
