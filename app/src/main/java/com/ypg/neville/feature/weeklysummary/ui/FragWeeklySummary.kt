@@ -346,7 +346,13 @@ private fun WeeklySummaryCharts(entity: WeeklySummaryEntity) {
         "Creado" to created,
         "Modificado" to modified,
         "Eliminado" to deleted,
-        "Uso" to (entity.conferencesRead + entity.emotionalAnchorsUsed + entity.encyclopediaAccessed + entity.morningRitualsCompleted)
+        "Uso" to (
+            entity.conferencesRead +
+                entity.emotionalAnchorsUsed +
+                entity.encyclopediaAccessed +
+                entity.morningRitualsCompleted +
+                entity.cardioCoherenceSessions
+            )
     )
 
     val maxValue = max(1, bars.maxOf { it.second })

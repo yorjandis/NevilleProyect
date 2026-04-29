@@ -51,8 +51,29 @@ interface WeeklySummaryDao {
     )
     fun countMorningRitualsCompleted(startMillis: Long, endMillis: Long): Int
 
+    @Query(
+        "SELECT COUNT(*) FROM cardio_coherence_records " +
+            "WHERE dateEpochMillis >= :startMillis AND dateEpochMillis < :endMillis"
+    )
+    fun countCardioCoherenceSessions(startMillis: Long, endMillis: Long): Int
+
+    @Query(
+        "SELECT COALESCE(SUM(durationMinutes), 0) FROM cardio_coherence_records " +
+            "WHERE dateEpochMillis >= :startMillis AND dateEpochMillis < :endMillis"
+    )
+    fun sumCardioCoherenceMinutes(startMillis: Long, endMillis: Long): Int
+
+    @Query(
+        "SELECT COALESCE(SUM(afterScore - beforeScore), 0) FROM cardio_coherence_records " +
+            "WHERE dateEpochMillis >= :startMillis AND dateEpochMillis < :endMillis"
+    )
+    fun sumCardioCoherenceScoreDelta(startMillis: Long, endMillis: Long): Int
+
     @Query("SELECT MIN(timestamp) FROM weekly_summary_events")
     fun minEventTimestamp(): Long?
+
+    @Query("SELECT MIN(dateEpochMillis) FROM cardio_coherence_records")
+    fun minCardioCoherenceRecordTimestamp(): Long?
 
     @Query("SELECT MAX(weekEndMillis) FROM weekly_summaries")
     fun maxSummaryWeekEnd(): Long?

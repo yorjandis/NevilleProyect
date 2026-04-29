@@ -49,7 +49,7 @@ import com.ypg.neville.model.security.PostQuantumAesTextCrypto
         CalmPersonalPhraseEntity::class,
         MeditationSessionRecordEntity::class
     ],
-    version = 19,
+    version = 21,
     exportSchema = false
 )
 abstract class NevilleRoomDatabase : RoomDatabase() {
@@ -440,6 +440,9 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
                         "`emotionalAnchorsCreated` INTEGER NOT NULL, " +
                         "`emotionalAnchorsUsed` INTEGER NOT NULL, " +
                         "`morningRitualsCompleted` INTEGER NOT NULL, " +
+                        "`cardioCoherenceSessions` INTEGER NOT NULL, " +
+                        "`cardioCoherenceMinutes` INTEGER NOT NULL, " +
+                        "`cardioCoherenceScoreDelta` INTEGER NOT NULL, " +
                         "`personalPhrasesCreated` INTEGER NOT NULL, " +
                         "`personalPhrasesModified` INTEGER NOT NULL, " +
                         "`personalPhrasesDeleted` INTEGER NOT NULL, " +
@@ -510,6 +513,44 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
                 db.execSQL(
                     "CREATE INDEX IF NOT EXISTS `index_cardio_coherence_records_initialState` " +
                         "ON `cardio_coherence_records` (`initialState`)"
+                )
+            }
+        }
+
+        private val MIGRATION_19_20 = object : Migration(19, 20) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "ALTER TABLE `weekly_summaries` " +
+                        "ADD COLUMN `cardioCoherenceSessions` INTEGER NOT NULL DEFAULT 0"
+                )
+                db.execSQL(
+                    "ALTER TABLE `weekly_summaries` " +
+                        "ADD COLUMN `cardioCoherenceMinutes` INTEGER NOT NULL DEFAULT 0"
+                )
+                db.execSQL(
+                    "ALTER TABLE `weekly_summaries` " +
+                        "ADD COLUMN `cardioCoherenceScoreDelta` INTEGER NOT NULL DEFAULT 0"
+                )
+            }
+        }
+
+        private val MIGRATION_20_21 = object : Migration(20, 21) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "ALTER TABLE `cardio_coherence_records` " +
+                        "ADD COLUMN `mentalClarityScore` INTEGER NOT NULL DEFAULT 5"
+                )
+                db.execSQL(
+                    "ALTER TABLE `cardio_coherence_records` " +
+                        "ADD COLUMN `heartConnectionScore` INTEGER NOT NULL DEFAULT 5"
+                )
+                db.execSQL(
+                    "ALTER TABLE `cardio_coherence_records` " +
+                        "ADD COLUMN `predominantEmotion` TEXT NOT NULL DEFAULT 'CALM'"
+                )
+                db.execSQL(
+                    "ALTER TABLE `cardio_coherence_records` " +
+                        "ADD COLUMN `closingWord` TEXT NOT NULL DEFAULT ''"
                 )
             }
         }
@@ -617,7 +658,9 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
                         MIGRATION_15_16,
                         MIGRATION_16_17,
                         MIGRATION_17_18,
-                        MIGRATION_18_19
+                        MIGRATION_18_19,
+                        MIGRATION_19_20,
+                        MIGRATION_20_21
                     )
                     .addCallback(ENCRYPT_PERSONAL_TEXT_ON_OPEN)
                     .allowMainThreadQueries()

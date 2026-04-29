@@ -123,6 +123,15 @@ class WeeklySummaryRepository(
                 title = "Ritual Matutino",
                 metrics = listOf("Completados" to summary.morningRitualsCompleted)
             ),
+            SECTION_CARDIO_COHERENCE to WeeklySummarySectionData(
+                key = SECTION_CARDIO_COHERENCE,
+                title = "Coherencia Cardio-Cerebral",
+                metrics = listOf(
+                    "Sesiones" to summary.cardioCoherenceSessions,
+                    "Minutos" to summary.cardioCoherenceMinutes,
+                    "Mejora neta" to summary.cardioCoherenceScoreDelta
+                )
+            ),
             SECTION_PHRASES to WeeklySummarySectionData(
                 key = SECTION_PHRASES,
                 title = "Frases Personales",
@@ -145,7 +154,17 @@ class WeeklySummaryRepository(
     }
 
     private fun ensureSectionOrderSeeded() {
-        if (dao.getSectionOrder().isNotEmpty()) return
+        val current = dao.getSectionOrder().sortedBy { it.position }.map { it.sectionKey }
+        if (current.isNotEmpty()) {
+            val missing = DEFAULT_SECTION_ORDER.filter { it !in current }
+            if (missing.isEmpty()) return
+            dao.replaceSectionOrder(
+                (current + missing).mapIndexed { index, key ->
+                    WeeklySummarySectionOrderEntity(sectionKey = key, position = index)
+                }
+            )
+            return
+        }
         dao.replaceSectionOrder(
             DEFAULT_SECTION_ORDER.mapIndexed { index, key ->
                 WeeklySummarySectionOrderEntity(sectionKey = key, position = index)
@@ -159,7 +178,10 @@ class WeeklySummaryRepository(
             return fromSummary
         }
 
-        val minEventTs = dao.minEventTimestamp()
+        val minEventTs = listOfNotNull(
+            dao.minEventTimestamp(),
+            dao.minCardioCoherenceRecordTimestamp()
+        ).minOrNull()
         if (minEventTs == null) {
             return lastClosedBoundary + WEEK_MS
         }
@@ -190,6 +212,9 @@ class WeeklySummaryRepository(
             emotionalAnchorsCreated = dao.countEvents(WeeklySummaryEventType.ANCHORS_CREATED, weekStartMillis, weekEndMillis),
             emotionalAnchorsUsed = dao.countEvents(WeeklySummaryEventType.ANCHORS_USED, weekStartMillis, weekEndMillis),
             morningRitualsCompleted = dao.countMorningRitualsCompleted(weekStartMillis, weekEndMillis),
+            cardioCoherenceSessions = dao.countCardioCoherenceSessions(weekStartMillis, weekEndMillis),
+            cardioCoherenceMinutes = dao.sumCardioCoherenceMinutes(weekStartMillis, weekEndMillis),
+            cardioCoherenceScoreDelta = dao.sumCardioCoherenceScoreDelta(weekStartMillis, weekEndMillis),
             personalPhrasesCreated = dao.countEvents(WeeklySummaryEventType.PHRASES_CREATED, weekStartMillis, weekEndMillis),
             personalPhrasesModified = dao.countEvents(WeeklySummaryEventType.PHRASES_MODIFIED, weekStartMillis, weekEndMillis),
             personalPhrasesDeleted = dao.countEvents(WeeklySummaryEventType.PHRASES_DELETED, weekStartMillis, weekEndMillis),
@@ -209,6 +234,7 @@ class WeeklySummaryRepository(
         const val SECTION_VOICE = "voice"
         const val SECTION_ANCHORS = "anchors"
         const val SECTION_MORNING = "morning"
+        const val SECTION_CARDIO_COHERENCE = "cardio_coherence"
         const val SECTION_PHRASES = "phrases"
         const val SECTION_ENCYCLOPEDIA = "encyclopedia"
 
@@ -221,6 +247,7 @@ class WeeklySummaryRepository(
             SECTION_VOICE,
             SECTION_ANCHORS,
             SECTION_MORNING,
+            SECTION_CARDIO_COHERENCE,
             SECTION_PHRASES,
             SECTION_ENCYCLOPEDIA
         )
