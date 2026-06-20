@@ -45,6 +45,7 @@ fun NevilleBottomNavBar(
     onLienzo: () -> Unit,
     onMetas: () -> Unit,
     onRecordatorios: () -> Unit,
+    onAgenda: () -> Unit,
     onRitual: () -> Unit,
     onResumenSemanal: () -> Unit,
     onVoces: () -> Unit,
@@ -133,7 +134,7 @@ fun NevilleBottomNavBar(
             )
             Box(modifier = Modifier.weight(1f)) {
                 BottomNavButton(
-                    activeId = if (activeId in setOf("lienzo", "metas", "recordatorios", "morning_dialog", "weekly_summary", "voces", "anclas", "calma", "cardio")) "productividad" else activeId,
+                    activeId = if (activeId in setOf("lienzo", "metas", "recordatorios", "agenda", "morning_dialog", "weekly_summary", "voces", "anclas", "calma", "cardio")) "productividad" else activeId,
                     id = "productividad",
                     icon = R.drawable.ic_icon_drawer,
                     onClick = { showProductivityMenu = true },
@@ -181,6 +182,19 @@ fun NevilleBottomNavBar(
                         onClick = {
                             showProductivityMenu = false
                             onMetas()
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Agenda") },
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_calendar_toggle),
+                                contentDescription = "Agenda"
+                            )
+                        },
+                        onClick = {
+                            showProductivityMenu = false
+                            onAgenda()
                         }
                     )
                     DropdownMenuItem(

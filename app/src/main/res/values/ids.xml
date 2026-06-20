@@ -16,6 +16,7 @@
     <item name="frag_lienzo" type="id" />
     <item name="frag_metas" type="id" />
     <item name="frag_reminders" type="id" />
+    <item name="frag_agenda" type="id" />
     <item name="frag_morning_dialog" type="id" />
     <item name="frag_voice_recordings" type="id" />
     <item name="frag_emotional_anchors" type="id" />

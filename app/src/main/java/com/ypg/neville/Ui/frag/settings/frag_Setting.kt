@@ -206,6 +206,9 @@ class frag_Setting : Fragment() {
         var filterPersonales by remember { mutableStateOf(prefs.getBoolean("home_filter_personales", false)) }
         var filterConNota by remember { mutableStateOf(prefs.getBoolean("home_filter_con_nota", false)) }
         var showFrasesInicioFilterMenu by remember { mutableStateOf(false) }
+        var agendaHomeButtonEnabled by remember {
+            mutableStateOf(prefs.getBoolean(FragHome.PREF_KEY_AGENDA_HOME_BUTTON_ENABLED, true))
+        }
         var notesBiometricLockEnabled by remember { mutableStateOf(prefs.getBoolean(notesBiometricLockPrefKey, false)) }
         var journalReminderEnabled by remember { mutableStateOf(initialJournalConfig.enabled) }
         var journalReminderHour by remember { mutableStateOf(initialJournalConfig.hour) }
@@ -628,6 +631,22 @@ class frag_Setting : Fragment() {
                         description = "Agrega o elimina pistas de música para Espacio Calma"
                     ) {
                         MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_calm_music_manager)
+                    }
+                }
+            }
+
+            item {
+                SettingSection(
+                    title = "Agenda",
+                    subtitle = "Controla el acceso directo de Agenda en Inicio"
+                ) {
+                    SwitchField(
+                        title = if (agendaHomeButtonEnabled) "Botón en FragHome activo" else "Botón en FragHome oculto",
+                        description = "Muestra u oculta el botón de Agenda junto a Ritual del día en la pantalla de inicio.",
+                        checked = agendaHomeButtonEnabled
+                    ) { enabled ->
+                        agendaHomeButtonEnabled = enabled
+                        prefs.edit { putBoolean(FragHome.PREF_KEY_AGENDA_HOME_BUTTON_ENABLED, enabled) }
                     }
                 }
             }

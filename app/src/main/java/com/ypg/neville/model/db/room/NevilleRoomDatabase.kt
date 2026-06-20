@@ -6,6 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.ypg.neville.feature.agenda.data.AgendaItemDao
+import com.ypg.neville.feature.agenda.data.AgendaItemEntity
 import com.ypg.neville.feature.cardiocoherence.data.MeditationSessionRecordDao
 import com.ypg.neville.feature.cardiocoherence.data.MeditationSessionRecordEntity
 import com.ypg.neville.feature.calmspace.data.CalmPersonalPhraseDao
@@ -47,9 +49,10 @@ import com.ypg.neville.model.security.PostQuantumAesTextCrypto
         WeeklySummaryEventEntity::class,
         WeeklySummarySectionOrderEntity::class,
         CalmPersonalPhraseEntity::class,
-        MeditationSessionRecordEntity::class
+        MeditationSessionRecordEntity::class,
+        AgendaItemEntity::class
     ],
-    version = 21,
+    version = 22,
     exportSchema = false
 )
 abstract class NevilleRoomDatabase : RoomDatabase() {
@@ -72,6 +75,7 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
     abstract fun weeklySummaryDao(): WeeklySummaryDao
     abstract fun calmPersonalPhraseDao(): CalmPersonalPhraseDao
     abstract fun meditationSessionRecordDao(): MeditationSessionRecordDao
+    abstract fun agendaItemDao(): AgendaItemDao
 
     companion object {
         @Volatile
@@ -555,6 +559,32 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_21_22 = object : Migration(21, 22) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `agenda_items` (" +
+                        "`id` TEXT NOT NULL, " +
+                        "`title` TEXT NOT NULL, " +
+                        "`createdAt` INTEGER NOT NULL, " +
+                        "`updatedAt` INTEGER NOT NULL, " +
+                        "`note` TEXT NOT NULL, " +
+                        "`activityDateMillis` INTEGER NOT NULL, " +
+                        "`activityTimeMillis` INTEGER NOT NULL, " +
+                        "`place` TEXT NOT NULL, " +
+                        "`content` TEXT NOT NULL, " +
+                        "`priority` TEXT NOT NULL, " +
+                        "`colorHex` TEXT NOT NULL, " +
+                        "`completed` INTEGER, " +
+                        "`reminderActive` INTEGER NOT NULL, " +
+                        "`reminderId` TEXT, " +
+                        "PRIMARY KEY(`id`))"
+                )
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_agenda_items_activityDateMillis` ON `agenda_items` (`activityDateMillis`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_agenda_items_activityTimeMillis` ON `agenda_items` (`activityTimeMillis`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_agenda_items_reminderId` ON `agenda_items` (`reminderId`)")
+            }
+        }
+
         private val ENCRYPT_PERSONAL_TEXT_ON_OPEN = object : Callback() {
             override fun onOpen(db: SupportSQLiteDatabase) {
                 PostQuantumAesTextCrypto.syncRecoveryKeyFromDatabase(db)
@@ -660,7 +690,8 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
                         MIGRATION_17_18,
                         MIGRATION_18_19,
                         MIGRATION_19_20,
-                        MIGRATION_20_21
+                        MIGRATION_20_21,
+                        MIGRATION_21_22
                     )
                     .addCallback(ENCRYPT_PERSONAL_TEXT_ON_OPEN)
                     .allowMainThreadQueries()

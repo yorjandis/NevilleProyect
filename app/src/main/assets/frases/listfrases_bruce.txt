@@ -571,7 +571,7 @@ autor=bruceL
 nota=
 fuente=Serie: Evolución Interior. Por Bruce Lipton. Gaia.com
 contexto=
-texto=Las remisiones expontáneas de producen por efecto de un cambio radical de nuestra conciencia y nuestro modo de pensar y sentir.
+texto=Las remisiones expontánea de producen por efecto de un cambio radical de nuestra conciencia y nuestro modo de pensar y sentir.
 relacionadas=
 
 id=bruce_074
@@ -579,7 +579,7 @@ autor=bruceL
 nota=
 fuente=Serie: Evolución Interior. Por Bruce Lipton. Gaia.com
 contexto=
-texto=Los genes solo son planos para producir proteinas. Su expresión depende de las interacciones con el ambiente. No existe ningún gen que produzca cáncer, sino que algunos genes estan correlacionados con ciertas patologías y solo responden a las interacciones con el ambiente, tanto externo como interno, del individuo
+texto=Los genes solo son planos para producir proteínas. Su expresión depende de las interacciones con el ambiente. No existe ningún gen que produzca cáncer, sino que algunos genes están correlacionados con ciertas patologías y solo responden a las interacciones con el ambiente, tanto externo como interno, del individuo
 relacionadas=
 
 id=bruce_075
@@ -595,7 +595,7 @@ autor=bruceL
 nota=
 fuente=Serie: Evolución Interior. Por Bruce Lipton. Gaia.com
 contexto=
-texto=No son los genes los que controlan las funciones celulares; son las SEÑALES DEL ENTORNO, captadas por la membrana celular,  las que modulan la expresión de los genes, que a su vez producen las proteinas responsables de la estructura y función de la célula. Los genes son simplemente plantillas para producir proteinas. Por tanto si cambiamos estas señales, nuestra biología cambiará. Nuestro entorno determina nuestra biología
+texto=No son los genes los que controlan las funciones celulares; son las SEÑALES DEL ENTORNO, captadas por la membrana celular,  las que modulan la expresión de los genes, que a su vez producen las proteínas responsables de la estructura y función de la célula. Los genes son simplemente plantillas para producir proteínas. Por tanto si cambiamos estas señales, nuestra biología cambiará. Nuestro entorno determina nuestra biología
 relacionadas=
 
 id=bruce_077
@@ -603,7 +603,7 @@ autor=bruceL
 nota=
 fuente=Serie: Evolución Interior. Por Bruce Lipton. Gaia.com
 contexto=
-texto=La función de la mente es crear coherencia entre tus creencias (programas subconcientes) y tu realidad. Si tus creencias son mayormente negativas entonces tu estado mental lo reflejará en tu experiencia cotidiana. Por el contrario, si tus creencias son positivas y empoderadoras, tu mente creará experiencias de vida positivas y grandiosas, en coherencia con dichas creencias. En cosecuencia, los pensamientos pueden mejorar tu salud o favorecer la enfermedad según tu sistema de creencias
+texto=La función de la mente es crear coherencia entre tus creencias (programas subconscientes) y tu realidad. Si tus creencias son mayormente negativas entonces tu estado mental lo reflejará en tu experiencia cotidiana. Por el contrario, si tus creencias son positivas y empoderadoras, tu mente creará experiencias de vida positivas y grandiosas, en coherencia con dichas creencias. En consecuencia, los pensamientos pueden mejorar tu salud o favorecer la enfermedad según tu sistema de creencias
 relacionadas=
 
 id=bruce_078
@@ -611,5 +611,5 @@ autor=bruceL
 nota=
 fuente=Serie: Evolución Interior. Por Bruce Lipton. Gaia.com
 contexto=
-texto=La epigenética no modifica al gen, solo cambia la lectura que hace de ese gen. Por tanto, la epigenética dicta la forma en que se expresa el gen y puede originar muchas variaciones (proteinas) a partir de un mismo gen. La epigenética representa las señales ambientales, tanto internas como externas al orgnanismo, que actual sobre las células y regulan la expresión de genes
+texto=La epigenética no modifica al gen, solo cambia la lectura que hace de ese gen. Por tanto, la epigenética dicta la forma en que se expresa el gen y puede originar muchas variaciones (proteínas) a partir de un mismo gen. La epigenética representa las señales ambientales, tanto internas como externas al organismo, que actual sobre las células y regulan la expresión de genes
 relacionadas=

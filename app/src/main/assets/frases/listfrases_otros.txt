@@ -100,7 +100,7 @@ autor=James Jeans
 nota=Físico, 1930
 fuente=
 contexto=
-texto=La corriente del conocimiento se dirije hacia una realidad no-mecánica en la que el universo comienza a verse más como un gran pensamiento que como una gran máquina
+texto=La corriente del conocimiento se dirige hacia una realidad no-mecánica en la que el universo comienza a verse más como un gran pensamiento que como una gran máquina
 relacionadas=
 
 id=otros_014
@@ -124,5 +124,5 @@ autor=Albert Einstein
 nota=(Físico teórico. Formulador de la Teoría de la Relatividad)
 fuente=
 contexto=
-texto=El campo es quien gobierna y dirije el comportamiento de la materia
+texto=El campo es quien gobierna y dirige el comportamiento de la materia
 relacionadas=

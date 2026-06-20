@@ -2091,7 +2091,7 @@ autor=jd
 nota=
 fuente=
 contexto=
-texto=La mayoría de las personas son adictas a las emociones que se derivan de las hormonas del stres. Esa adicción te mantiene atado a tu pasado y evitan que te enfoques en tu presente y futuro
+texto=La mayoría de las personas son adictas a las emociones que se derivan de las hormonas del estrés. Esa adicción te mantiene atado a tu pasado y evitan que te enfoques en tu presente y futuro
 relacionadas=
 
 id=jd_263
@@ -2107,7 +2107,7 @@ autor=jd
 nota=
 fuente=
 contexto=
-texto=Cuando cambias tus pensamientos y sentimientos dejas de señalar los mismos genes que estan definiendo tu condición física actual;  y comienzas a activar otros genes en sontonía con ese nuevo estado de ser. Recuerda, los genes no son la causa primaria de tu estado de salud, es el entorno el que activa/desactiva genes que en última instancia producen los cambios en el cuerpo. Pero el entorno solo tiene efecto a través de tu particular reacción a dicho entorno. Así que son tus reacciones internas (pensamientos + sentimientos) los que activan/desactivan los genes.
+texto=Cuando cambias tus pensamientos y sentimientos dejas de señalar los mismos genes que están definiendo tu condición física actual;  y comienzas a activar otros genes en sintonía con ese nuevo estado de ser. Recuerda, los genes no son la causa primaria de tu estado de salud, es el entorno el que activa/desactiva genes que en última instancia producen los cambios en el cuerpo. Pero el entorno solo tiene efecto a través de tu particular reacción a dicho entorno. Así que son tus reacciones internas (pensamientos + sentimientos) los que activan/desactivan los genes.
 relacionadas=
 
 id=jd_265
@@ -2123,7 +2123,7 @@ autor=jd
 nota=
 fuente=
 contexto=
-texto=Hay genes dependientes de las mismas experiencias. Cuando dejas de tener las mismas experiencias dejas de señalar a los mismos genes y eso debe operar un cambio en tu cuerpo. Los genes poducen proteinas que son las responsables de la estuctura y función de tu cuerpo
+texto=Hay genes dependientes de las mismas experiencias. Cuando dejas de tener las mismas experiencias dejas de señalar a los mismos genes y eso debe operar un cambio en tu cuerpo. Los genes producen proteínas que son las responsables de la estructura y función de tu cuerpo
 relacionadas=
 
 id=jd_267
@@ -2131,7 +2131,7 @@ autor=jd
 nota=
 fuente=
 contexto=
-texto=Siente gratitud, siente alegría, siente inspiracón, siente amor. Esos son los sentimientos que debemos crear, puesto que liberan automáticamente de las cadenas del pasado y activan los genes del equilibrio, la felicidad y la longevidad
+texto=Siente gratitud, siente alegría, siente inspiración, siente amor. Esos son los sentimientos que debemos crear, puesto que liberan automáticamente de las cadenas del pasado y activan los genes del equilibrio, la felicidad y la longevidad
 relacionadas=
 
 id=jd_268
@@ -2203,7 +2203,7 @@ autor=jd
 nota=
 fuente=
 contexto=
-texto=El primer paso es volverte conciente de tus pensamientos inconscientes. Así detienes tus reacciones automáticas a la vida y te permites observarte y cambiar tus patrones de pensamientos
+texto=El primer paso es volverte consciente de tus pensamientos inconscientes. Así detienes tus reacciones automáticas a la vida y te permites observarte y cambiar tus patrones de pensamientos
 relacionadas=
 
 id=jd_277
@@ -2340,7 +2340,7 @@ autor=jd
 nota=
 fuente=
 contexto=
-texto=Cuando la oxitocina es liberada se filtra a la amígdala, en el cerebro, y apaga o disminuye los circuitos que producen las emociones de miedo. ansiedad y la inseguridad, la ira,el dolor y el sufrimiento
+texto=Cuando la oxitocina es liberada se filtra a la amígdala, en el cerebro, y apaga o disminuye los circuitos que producen las emociones de miedo. ansiedad y la inseguridad, la ira, el dolor y el sufrimiento
 relacionadas=
 
 id=jd_294
@@ -2388,7 +2388,7 @@ autor=jd
 nota=
 fuente=
 contexto=
-texto=Principio de neurociancia: Las neuronas que se activan juntas se conectan más fuerte
+texto=Principio de neurociencia: Las neuronas que se activan juntas se conectan más fuerte
 relacionadas=
 
 id=jd_300
@@ -2396,6 +2396,13 @@ autor=jd
 nota=
 fuente=
 contexto=
-texto=Si sigues pensando de la misma forma tu vida se mantrendrá igual y seguirás teniendo las mismas experiencias. Mismos pensamientos generan los mismos químicos que producen los mismos sentimienos y emociones. Si quieres que tu vida cambie tienes que cambiar la forma de pensar y reaccionar
+texto=Si sigues pensando de la misma forma tu vida se mantendrá igual y seguirás teniendo las mismas experiencias. Mismos pensamientos generan los mismos químicos que producen los mismos sentimientos y emociones. Si quieres que tu vida cambie tienes que cambiar la forma de pensar y reaccionar
 relacionadas=
 
+id=jd_301
+autor=jd
+nota=
+fuente= Serie La Fórmula, cap.5
+contexto=Tu cerebro es un registro del pasado. Si cada vez que te levantas por las mañanas traes a la mente los mismos pensamientos, y sentimientos asociados, entonces vives en el pasado y tendrás un futuro predecible. Decir Yo Soy o yo estoy es condicionar el tu futuro a un destino predecible.
+texto=Cada vez que dices Yo Soy estás dando una orden a tu mente y a tu cuerpo hacia un destino
+relacionadas=

@@ -153,6 +153,9 @@ class FragHome : Fragment() {
         var showFraseMenu by remember { mutableStateOf(false) }
         var nowMs by remember { mutableLongStateOf(System.currentTimeMillis()) }
         var ritualCompletedToday by remember { mutableStateOf(false) }
+        var showAgendaShortcut by remember {
+            mutableStateOf(prefs.getBoolean(PREF_KEY_AGENDA_HOME_BUTTON_ENABLED, true))
+        }
 
         LaunchedEffect(Unit) {
             while (true) {
@@ -391,18 +394,36 @@ class FragHome : Fragment() {
                     }
                 }
 
-                if (showRitualShortcut) {
-                    RitualShortcutButton(
+                if (showAgendaShortcut || showRitualShortcut) {
+                    Row(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
                             .padding(bottom = 84.dp),
-                        onOpenRitual = {
-                            MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_morning_dialog)
-                        },
-                        onHideToday = {
-                            prefs.edit { putLong(PREF_KEY_RITUAL_BUTTON_HIDDEN_DAY, todayEpochDay) }
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        if (showAgendaShortcut) {
+                            AgendaShortcutButton(
+                                onOpenAgenda = {
+                                    MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_agenda)
+                                },
+                                onHidePermanently = {
+                                    showAgendaShortcut = false
+                                    prefs.edit { putBoolean(PREF_KEY_AGENDA_HOME_BUTTON_ENABLED, false) }
+                                }
+                            )
                         }
-                    )
+                        if (showRitualShortcut) {
+                            RitualShortcutButton(
+                                onOpenRitual = {
+                                    MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_morning_dialog)
+                                },
+                                onHideToday = {
+                                    prefs.edit { putLong(PREF_KEY_RITUAL_BUTTON_HIDDEN_DAY, todayEpochDay) }
+                                }
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -477,6 +498,69 @@ class FragHome : Fragment() {
                     onClick = {
                         showMenu = false
                         onHideToday()
+                    }
+                )
+            }
+        }
+    }
+
+    @Composable
+    private fun AgendaShortcutButton(
+        onOpenAgenda: () -> Unit,
+        onHidePermanently: () -> Unit
+    ) {
+        var showMenu by remember { mutableStateOf(false) }
+
+        Box {
+            Surface(
+                shape = RoundedCornerShape(26.dp),
+                modifier = Modifier.shadow(14.dp, RoundedCornerShape(26.dp)),
+                color = Color.Transparent
+            ) {
+                Row(
+                    modifier = Modifier
+                        .combinedClickable(
+                            onClick = onOpenAgenda,
+                            onLongClick = { showMenu = true }
+                        )
+                        .background(
+                            brush = Brush.horizontalGradient(
+                                colors = listOf(
+                                    Color(0xFFDDF2FF),
+                                    Color(0xFFAEDCF5)
+                                )
+                            ),
+                            shape = RoundedCornerShape(26.dp)
+                        )
+                        .padding(horizontal = 16.dp, vertical = 11.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_calendar_toggle),
+                        contentDescription = "Agenda",
+                        tint = Color.Black,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Agenda",
+                        color = Color.Black,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+            }
+
+            DropdownMenu(
+                expanded = showMenu,
+                onDismissRequest = { showMenu = false },
+                modifier = Modifier.align(Alignment.BottomEnd)
+            ) {
+                DropdownMenuItem(
+                    text = { Text("Ocultar permanentemente") },
+                    onClick = {
+                        showMenu = false
+                        onHidePermanently()
                     }
                 )
             }
@@ -608,6 +692,7 @@ class FragHome : Fragment() {
 
     companion object {
         private var sessionMandalaAssetPath: String? = null
+        const val PREF_KEY_AGENDA_HOME_BUTTON_ENABLED = "agenda_home_button_enabled"
         private const val PREF_KEY_RITUAL_BUTTON_HIDDEN_DAY = "morning_ritual_button_hidden_day"
         private const val PREF_KEY_RITUAL_HIDDEN_DAY_RESET_DONE = "morning_ritual_hidden_day_reset_done"
     }

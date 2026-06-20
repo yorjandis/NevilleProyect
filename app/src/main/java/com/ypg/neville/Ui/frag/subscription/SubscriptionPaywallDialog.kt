@@ -168,6 +168,8 @@ class SubscriptionPaywallDialog : DialogFragment() {
                     FeatureItem("Anclas Emocionales: Herramienta cognitiva para afrontar momentos de stress")
                     FeatureItem("Espacio de Calma: esferas relajantes con frases, musica y fondos inmersivos")
                     FeatureItem("Ritual Matutino: Diseña cómo quieres que sea tu día y lleva un progreso del cambio en tu vida")
+                    FeatureItem("Coherencia Cardio cerebral: Guía visual para sincronizar corazón y cerebro  ")
+                    FeatureItem("Agenda: Lleve un control y gestión de sus actividades diarias y futuras")
                     FeatureItem("Resumen Semanal: Consulta y lleva un histórico sobre estadísticas generales")
                     FeatureItem("Enciclopedia: conocimientos de base sobre distintos temas relacionados con estas enseñanzas")
                     FeatureItem("Evidencia Científica: investigaciones que apoyan estas enseñanzas")

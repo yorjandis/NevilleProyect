@@ -91,6 +91,7 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                                     "metas" -> host?.openDestinationAsSheet(R.id.frag_metas)
                                     "diario" -> host?.openDestinationAsSheet(R.id.frag_diario)
                                     "recordatorios" -> host?.openDestinationAsSheet(R.id.frag_reminders)
+                                    "agenda" -> host?.openDestinationAsSheet(R.id.frag_agenda)
                                     "dialogo_matutino" -> host?.openDestinationAsSheet(R.id.frag_morning_dialog)
                                     "resumen_semanal" -> host?.openDestinationAsSheet(R.id.frag_weekly_summary)
                                     "voces" -> host?.openDestinationAsSheet(R.id.frag_voice_recordings)
@@ -274,6 +275,16 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                                     )
                                 },
                                 onClick = { showProductividad = false; onNavigate("metas") }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Agenda") },
+                                leadingIcon = {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_calendar_toggle),
+                                        contentDescription = "Agenda"
+                                    )
+                                },
+                                onClick = { showProductividad = false; onNavigate("agenda") }
                             )
                             DropdownMenuItem(
                                 text = { Text("Recordatorios") },

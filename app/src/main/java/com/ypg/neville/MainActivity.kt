@@ -304,6 +304,10 @@ class MainActivity : AppCompatActivity() {
                 bottomActive.value = "recordatorios"
                 openDestinationAsSheet(R.id.frag_reminders)
             },
+            onAgenda = {
+                bottomActive.value = "agenda"
+                openDestinationAsSheet(R.id.frag_agenda)
+            },
             onRitual = {
                 bottomActive.value = "morning_dialog"
                 openDestinationAsSheet(R.id.frag_morning_dialog)
@@ -348,6 +352,7 @@ class MainActivity : AppCompatActivity() {
                 destinationId == R.id.frag_metas ||
                     destinationId == R.id.frag_lienzo ||
                     destinationId == R.id.frag_reminders ||
+                    destinationId == R.id.frag_agenda ||
                     destinationId == R.id.frag_morning_dialog ||
                     destinationId == R.id.frag_weekly_summary ||
                     destinationId == R.id.frag_voice_recordings ||
