@@ -26,9 +26,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.Folder
+import androidx.compose.material.icons.filled.FolderOpen
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
@@ -131,14 +139,19 @@ class FragNotas : Fragment() {
 
         var notaEnEdicion by remember { mutableStateOf<NotaEntity?>(null) }
         var notaAEliminar by remember { mutableStateOf<NotaEntity?>(null) }
+        var categoriaARenombrar by remember { mutableStateOf<String?>(null) }
+        var categoriaAEliminar by remember { mutableStateOf<String?>(null) }
         var showEditor by remember { mutableStateOf(false) }
         var notaExpandidaId by remember { mutableStateOf<Long?>(null) }
+        var modoLista by remember { mutableStateOf(NotasListMode.TODAS) }
+        val categoriasPlegadas = remember { mutableStateListOf<String>() }
 
         var showFabMenu by remember { mutableStateOf(false) }
         var showFilterPanel by remember { mutableStateOf(false) }
 
         var filtroTitulo by remember { mutableStateOf("") }
         var filtroContenido by remember { mutableStateOf("") }
+        var filtroCategoria by remember { mutableStateOf("") }
         var filtroFav by remember { mutableStateOf(FavoritoFiltro.TODAS) }
 
         fun recargarNotas() {
@@ -178,8 +191,24 @@ class FragNotas : Fragment() {
                 FavoritoFiltro.SOLO_NO_FAVORITAS -> !nota.isFav
             }
 
-            cumpleTitulo && cumpleContenido && cumpleFav
+            val cumpleCategoria = filtroCategoria.isBlank() ||
+                nombreCategoria(nota).contains(filtroCategoria.trim(), ignoreCase = true)
+
+            cumpleTitulo && cumpleContenido && cumpleCategoria && cumpleFav
         }
+        val categoriasExistentes = notas
+            .map { it.categoria.trim() }
+            .filter { it.isNotEmpty() }
+            .distinctBy { it.lowercase(Locale.ROOT) }
+            .sortedWith(String.CASE_INSENSITIVE_ORDER)
+        val notasAgrupadas = notasFiltradas
+            .groupBy(::nombreCategoria)
+            .toList()
+            .sortedWith(
+                compareBy<Pair<String, List<NotaEntity>>> {
+                    if (it.first == SIN_CATEGORIA) 1 else 0
+                }.thenBy(String.CASE_INSENSITIVE_ORDER) { it.first }
+            )
 
         if (notaExpandidaId != null && notasFiltradas.none { it.id == notaExpandidaId }) {
             notaExpandidaId = null
@@ -224,93 +253,60 @@ class FragNotas : Fragment() {
                                 .fillMaxSize()
                                 .padding(top = 8.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp),
-                            contentPadding = PaddingValues(bottom = if (showFilterPanel) 170.dp else 90.dp)
+                            contentPadding = PaddingValues(bottom = if (showFilterPanel) 230.dp else 90.dp)
                         ) {
-                            items(notasFiltradas, key = { it.id }) { nota ->
-                                NotaRow(
-                                    nota = nota,
-                                    isExpanded = notaExpandidaId == nota.id,
-                                    fechaTexto = "Creado: ${dateFormat.format(Date(nota.fechaCreacion))} | Modificado: ${dateFormat.format(Date(nota.fechaModificacion))}",
-                                    onEdit = {
-                                        notaEnEdicion = nota
-                                        showEditor = true
-                                    },
-                                    onDelete = { notaAEliminar = nota },
-                                    onToggleExpand = {
-                                        notaExpandidaId = if (notaExpandidaId == nota.id) null else nota.id
-                                    },
-                                    onToggleFav = {
-                                        dbExecutor.execute {
-                                            notaRepository().cambiarFavorito(nota.id, !nota.isFav)
-                                            activity?.runOnUiThread { recargarNotas() }
-                                        }
-                                    },
-                                    onExportToFrases = {
-                                        val frase = nota.nota.trim().ifBlank { nota.titulo.trim() }
-                                        if (frase.isBlank()) {
-                                            Toast.makeText(context, "La nota está vacía", Toast.LENGTH_SHORT).show()
-                                            return@NotaRow
-                                        }
-                                        dbExecutor.execute {
-                                            val result = utilsDB.insertNewFrase(
-                                                context,
-                                                frase,
-                                                "Notas",
-                                                nota.titulo.trim(),
-                                                "0"
-                                            )
-                                            activity?.runOnUiThread {
-                                                if (result >= 0) {
-                                                    Toast.makeText(context, "Nota exportada a Frases", Toast.LENGTH_SHORT).show()
+                            if (modoLista == NotasListMode.TODAS) {
+                                items(notasFiltradas, key = { it.id }) { nota ->
+                                    NotaListItem(
+                                        nota = nota,
+                                        isExpanded = notaExpandidaId == nota.id,
+                                        onExpandChange = {
+                                            notaExpandidaId = if (notaExpandidaId == nota.id) null else nota.id
+                                        },
+                                        onEdit = {
+                                            notaEnEdicion = nota
+                                            showEditor = true
+                                        },
+                                        onDelete = { notaAEliminar = nota },
+                                        onReload = ::recargarNotas
+                                    )
+                                }
+                            } else {
+                                notasAgrupadas.forEach { (categoria, notasCategoria) ->
+                                    item(key = "categoria-$categoria") {
+                                        CategoryHeader(
+                                            categoria = categoria,
+                                            cantidad = notasCategoria.size,
+                                            isCollapsed = categoria in categoriasPlegadas,
+                                            onToggle = {
+                                                if (categoria in categoriasPlegadas) {
+                                                    categoriasPlegadas.remove(categoria)
                                                 } else {
-                                                    Toast.makeText(
-                                                        context,
-                                                        "No se pudo exportar a Frases (puede que ya exista)",
-                                                        Toast.LENGTH_LONG
-                                                    ).show()
+                                                    categoriasPlegadas.add(categoria)
                                                 }
-                                            }
-                                        }
-                                    },
-                                    onExportToLienzo = {
-                                        FraseContextActions.cargarFraseEnLienzo(context, buildNotaPayload(nota))
-                                    },
-                                    onGenerateQr = {
-                                        val payload = buildNotaPayload(nota)
-                                        if (payload.isBlank()) {
-                                            Toast.makeText(context, "La nota está vacía", Toast.LENGTH_SHORT).show()
-                                        } else {
-                                            QRManager.ShowQRDialog(
-                                                context,
-                                                payload,
-                                                "Compartir Nota",
-                                                "Puede utilizar el lector QR para importar notas"
+                                            },
+                                            onRename = { categoriaARenombrar = categoria },
+                                            onDelete = { categoriaAEliminar = categoria }
+                                        )
+                                    }
+                                    if (categoria !in categoriasPlegadas) {
+                                        items(notasCategoria, key = { it.id }) { nota ->
+                                            NotaListItem(
+                                                nota = nota,
+                                                isExpanded = notaExpandidaId == nota.id,
+                                                onExpandChange = {
+                                                    notaExpandidaId = if (notaExpandidaId == nota.id) null else nota.id
+                                                },
+                                                onEdit = {
+                                                    notaEnEdicion = nota
+                                                    showEditor = true
+                                                },
+                                                onDelete = { notaAEliminar = nota },
+                                                onReload = ::recargarNotas
                                             )
-                                        }
-                                    },
-                                    onShare = {
-                                        val payload = buildNotaPayload(nota)
-                                        if (payload.isBlank()) {
-                                            Toast.makeText(context, "La nota está vacía", Toast.LENGTH_SHORT).show()
-                                        } else {
-                                            val intent = Intent(Intent.ACTION_SEND).apply {
-                                                type = "text/plain"
-                                                putExtra(Intent.EXTRA_TEXT, payload)
-                                            }
-                                            context.startActivity(Intent.createChooser(intent, "Compartir nota"))
-                                        }
-                                    },
-                                    onCopyToClipboard = {
-                                        val payload = buildNotaPayload(nota)
-                                        if (payload.isBlank()) {
-                                            Toast.makeText(context, "La nota está vacía", Toast.LENGTH_SHORT).show()
-                                        } else {
-                                            val clipboard = context.getSystemService(ClipboardManager::class.java)
-                                            clipboard?.setPrimaryClip(ClipData.newPlainText("nota", payload))
-                                            Toast.makeText(context, "Nota copiada al portapapeles", Toast.LENGTH_SHORT).show()
                                         }
                                     }
-                                )
+                                }
                             }
                         }
                     }
@@ -320,7 +316,7 @@ class FragNotas : Fragment() {
             Column(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
-                    .padding(end = 20.dp, bottom = if (showFilterPanel) 130.dp else 20.dp),
+                    .padding(end = 20.dp, bottom = if (showFilterPanel) 190.dp else 20.dp),
                 horizontalAlignment = Alignment.End,
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
@@ -348,6 +344,20 @@ class FragNotas : Fragment() {
                                 showFabMenu = false
                                 notaEnEdicion = null
                                 showEditor = true
+                            }
+                        )
+                        FabActionItem(
+                            label = if (modoLista == NotasListMode.TODAS) "Por categorías" else "Todas las notas",
+                            iconRes = if (modoLista == NotasListMode.TODAS) R.drawable.ic_folder else R.drawable.ic_list,
+                            onClick = {
+                                showFabMenu = false
+                                modoLista = if (modoLista == NotasListMode.TODAS) {
+                                    categoriasPlegadas.clear()
+                                    categoriasPlegadas.addAll(notasAgrupadas.map { it.first })
+                                    NotasListMode.POR_CATEGORIAS
+                                } else {
+                                    NotasListMode.TODAS
+                                }
                             }
                         )
                         FabActionItem(
@@ -381,11 +391,14 @@ class FragNotas : Fragment() {
                     onFiltroTituloChange = { filtroTitulo = it },
                     filtroContenido = filtroContenido,
                     onFiltroContenidoChange = { filtroContenido = it },
+                    filtroCategoria = filtroCategoria,
+                    onFiltroCategoriaChange = { filtroCategoria = it },
                     filtroFav = filtroFav,
                     onFiltroFavChange = { filtroFav = it },
                     onClear = {
                         filtroTitulo = ""
                         filtroContenido = ""
+                        filtroCategoria = ""
                         filtroFav = FavoritoFiltro.TODAS
                     },
                     onHide = { showFilterPanel = false },
@@ -399,8 +412,9 @@ class FragNotas : Fragment() {
         if (showEditor) {
             NotaEditorDialog(
                 notaEnEdicion = notaEnEdicion,
+                categoriasExistentes = categoriasExistentes,
                 onDismiss = { showEditor = false },
-                onSave = { titulo, contenido, isFav ->
+                onSave = { titulo, contenido, isFav, categoria ->
                     if (titulo.isBlank() || contenido.isBlank()) {
                         Toast.makeText(context, "Debes escribir título y nota", Toast.LENGTH_SHORT).show()
                         false
@@ -408,14 +422,20 @@ class FragNotas : Fragment() {
                         dbExecutor.execute {
                             val existing = notaEnEdicion
                             if (existing == null) {
-                                notaRepository().insertar(titulo.trim(), contenido.trim(), isFav)
+                                notaRepository().insertar(
+                                    titulo.trim(),
+                                    contenido.trim(),
+                                    isFav,
+                                    categoria.trim()
+                                )
                             } else {
                                 notaRepository().actualizar(
                                     id = existing.id,
                                     titulo = titulo.trim(),
                                     nota = contenido.trim(),
                                     fechaCreacionOriginal = existing.fechaCreacion,
-                                    isFav = isFav
+                                    isFav = isFav,
+                                    categoria = categoria.trim()
                                 )
                             }
 
@@ -425,6 +445,64 @@ class FragNotas : Fragment() {
                             }
                         }
                         true
+                    }
+                }
+            )
+        }
+
+        categoriaARenombrar?.let { categoria ->
+            RenameCategoryDialog(
+                categoria = categoria,
+                onDismiss = { categoriaARenombrar = null },
+                onRename = { nuevaCategoria ->
+                    val normalizada = nuevaCategoria.trim()
+                    dbExecutor.execute {
+                        val afectadas = notas.filter { nombreCategoria(it) == categoria }
+                        afectadas.forEach { notaRepository().cambiarCategoria(it, normalizada) }
+                        activity?.runOnUiThread {
+                            categoriasPlegadas.remove(categoria)
+                            categoriasPlegadas.add(normalizada.ifEmpty { SIN_CATEGORIA })
+                            categoriaARenombrar = null
+                            recargarNotas()
+                            Toast.makeText(
+                                context,
+                                "${afectadas.size} nota(s) actualizada(s)",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+            )
+        }
+
+        categoriaAEliminar?.let { categoria ->
+            AlertDialog(
+                onDismissRequest = { categoriaAEliminar = null },
+                title = { Text("Eliminar categoría") },
+                text = { Text("¿Eliminar todas las notas de “$categoria”? Esta acción no se puede deshacer.") },
+                dismissButton = {
+                    TextButton(onClick = { categoriaAEliminar = null }) {
+                        Text(getString(R.string.cancelar))
+                    }
+                },
+                confirmButton = {
+                    TextButton(onClick = {
+                        dbExecutor.execute {
+                            val afectadas = notas.filter { nombreCategoria(it) == categoria }
+                            afectadas.forEach(notaRepository()::eliminar)
+                            activity?.runOnUiThread {
+                                categoriasPlegadas.remove(categoria)
+                                categoriaAEliminar = null
+                                recargarNotas()
+                                Toast.makeText(
+                                    context,
+                                    "${afectadas.size} nota(s) eliminada(s)",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }) {
+                        Text(getString(R.string.eliminar))
                     }
                 }
             )
@@ -458,6 +536,97 @@ class FragNotas : Fragment() {
         }
     }
 
+    @Composable
+    private fun NotaListItem(
+        nota: NotaEntity,
+        isExpanded: Boolean,
+        onExpandChange: () -> Unit,
+        onEdit: () -> Unit,
+        onDelete: () -> Unit,
+        onReload: () -> Unit
+    ) {
+        val context = LocalContext.current
+        NotaRow(
+            nota = nota,
+            isExpanded = isExpanded,
+            fechaTexto = "Creado: ${dateFormat.format(Date(nota.fechaCreacion))} | Modificado: ${dateFormat.format(Date(nota.fechaModificacion))}",
+            onEdit = onEdit,
+            onDelete = onDelete,
+            onToggleExpand = onExpandChange,
+            onToggleFav = {
+                dbExecutor.execute {
+                    notaRepository().cambiarFavorito(nota.id, !nota.isFav)
+                    activity?.runOnUiThread(onReload)
+                }
+            },
+            onExportToFrases = {
+                                        val frase = nota.nota.trim().ifBlank { nota.titulo.trim() }
+                                        if (frase.isBlank()) {
+                                            Toast.makeText(context, "La nota está vacía", Toast.LENGTH_SHORT).show()
+                                            return@NotaRow
+                                        }
+                                        dbExecutor.execute {
+                                            val result = utilsDB.insertNewFrase(
+                                                context,
+                                                frase,
+                                                "Notas",
+                                                nota.titulo.trim(),
+                                                "0"
+                                            )
+                                            activity?.runOnUiThread {
+                                                if (result >= 0) {
+                                                    Toast.makeText(context, "Nota exportada a Frases", Toast.LENGTH_SHORT).show()
+                                                } else {
+                                                    Toast.makeText(
+                                                        context,
+                                                        "No se pudo exportar a Frases (puede que ya exista)",
+                                                        Toast.LENGTH_LONG
+                                                    ).show()
+                                                }
+                                            }
+                                        }
+            },
+            onExportToLienzo = {
+                FraseContextActions.cargarFraseEnLienzo(context, buildNotaPayload(nota))
+            },
+            onGenerateQr = {
+                                        val payload = buildNotaPayload(nota)
+                                        if (payload.isBlank()) {
+                                            Toast.makeText(context, "La nota está vacía", Toast.LENGTH_SHORT).show()
+                                        } else {
+                                            QRManager.ShowQRDialog(
+                                                context,
+                                                payload,
+                                                "Compartir Nota",
+                                                "Puede utilizar el lector QR para importar notas"
+                                            )
+                                        }
+            },
+            onShare = {
+                                        val payload = buildNotaPayload(nota)
+                                        if (payload.isBlank()) {
+                                            Toast.makeText(context, "La nota está vacía", Toast.LENGTH_SHORT).show()
+                                        } else {
+                                            val intent = Intent(Intent.ACTION_SEND).apply {
+                                                type = "text/plain"
+                                                putExtra(Intent.EXTRA_TEXT, payload)
+                                            }
+                                            context.startActivity(Intent.createChooser(intent, "Compartir nota"))
+                                        }
+            },
+            onCopyToClipboard = {
+                                        val payload = buildNotaPayload(nota)
+                                        if (payload.isBlank()) {
+                                            Toast.makeText(context, "La nota está vacía", Toast.LENGTH_SHORT).show()
+                                        } else {
+                                            val clipboard = context.getSystemService(ClipboardManager::class.java)
+                                            clipboard?.setPrimaryClip(ClipData.newPlainText("nota", payload))
+                                            Toast.makeText(context, "Nota copiada al portapapeles", Toast.LENGTH_SHORT).show()
+                                        }
+            }
+        )
+    }
+
     private fun buildNotaPayload(nota: NotaEntity): String {
         val titulo = nota.titulo.trim()
         val contenido = nota.nota.trim()
@@ -479,6 +648,8 @@ class FragNotas : Fragment() {
         onFiltroTituloChange: (String) -> Unit,
         filtroContenido: String,
         onFiltroContenidoChange: (String) -> Unit,
+        filtroCategoria: String,
+        onFiltroCategoriaChange: (String) -> Unit,
         filtroFav: FavoritoFiltro,
         onFiltroFavChange: (FavoritoFiltro) -> Unit,
         onClear: () -> Unit,
@@ -543,6 +714,22 @@ class FragNotas : Fragment() {
                     )
                 )
             }
+
+            OutlinedTextField(
+                value = filtroCategoria,
+                onValueChange = onFiltroCategoriaChange,
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                label = { Text("Buscar en categoría", color = Color.White) },
+                shape = RoundedCornerShape(14.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = Color.White,
+                    cursorColor = Color.White,
+                    focusedBorderColor = Color.White,
+                    unfocusedBorderColor = Color.Gray
+                )
+            )
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -615,12 +802,15 @@ class FragNotas : Fragment() {
     @Composable
     private fun NotaEditorDialog(
         notaEnEdicion: NotaEntity?,
+        categoriasExistentes: List<String>,
         onDismiss: () -> Unit,
-        onSave: (String, String, Boolean) -> Boolean
+        onSave: (String, String, Boolean, String) -> Boolean
     ) {
         var titulo by remember(notaEnEdicion?.id) { mutableStateOf(notaEnEdicion?.titulo.orEmpty()) }
         var nota by remember(notaEnEdicion?.id) { mutableStateOf(notaEnEdicion?.nota.orEmpty()) }
+        var categoria by remember(notaEnEdicion?.id) { mutableStateOf(notaEnEdicion?.categoria.orEmpty()) }
         var isFav by remember(notaEnEdicion?.id) { mutableStateOf(notaEnEdicion?.isFav ?: false) }
+        var showCategoryMenu by remember { mutableStateOf(false) }
 
         Dialog(
             onDismissRequest = onDismiss,
@@ -650,6 +840,51 @@ class FragNotas : Fragment() {
                         placeholder = { Text("Título de la nota", color = Color.White) },
                         singleLine = true
                     )
+
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        OutlinedTextField(
+                            value = categoria,
+                            onValueChange = { categoria = it },
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(14.dp),
+                            label = { Text("Categoría", color = Color.White) },
+                            placeholder = { Text(SIN_CATEGORIA, color = Color.White.copy(alpha = 0.7f)) },
+                            singleLine = true,
+                            trailingIcon = {
+                                IconButton(
+                                    onClick = { showCategoryMenu = true },
+                                    enabled = categoriasExistentes.isNotEmpty()
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Folder,
+                                        contentDescription = "Categorías existentes",
+                                        tint = Color.White
+                                    )
+                                }
+                            }
+                        )
+                        DropdownMenu(
+                            expanded = showCategoryMenu,
+                            onDismissRequest = { showCategoryMenu = false }
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text(SIN_CATEGORIA) },
+                                onClick = {
+                                    categoria = ""
+                                    showCategoryMenu = false
+                                }
+                            )
+                            categoriasExistentes.forEach { existente ->
+                                DropdownMenuItem(
+                                    text = { Text(existente) },
+                                    onClick = {
+                                        categoria = existente
+                                        showCategoryMenu = false
+                                    }
+                                )
+                            }
+                        }
+                    }
 
                     OutlinedTextField(
                         value = nota,
@@ -695,7 +930,7 @@ class FragNotas : Fragment() {
                         ) {
                             Text(stringResource(id = R.string.cerrar))
                         }
-                        Button(onClick = { onSave(titulo, nota, isFav) }) {
+                        Button(onClick = { onSave(titulo, nota, isFav, categoria) }) {
                             Text(stringResource(id = R.string.guardar))
                         }
                     }
@@ -752,7 +987,7 @@ class FragNotas : Fragment() {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_toolbar_favorite),
                     contentDescription = "Favorita",
-                    tint = if (nota.isFav) Color(0xFFFF9800) else Color(0xFF726D5F),
+                    tint = if (nota.isFav) Color(0xFFFF7A00) else Color(0xFF0B2F55),
                     modifier = Modifier
                         .size(22.dp)
                         .clickable(onClick = onToggleFav)
@@ -777,6 +1012,16 @@ class FragNotas : Fragment() {
                             Modifier.heightIn(min = 60.dp)
                         }
                     )
+            )
+
+            Text(
+                text = nombreCategoria(nota),
+                fontSize = 12.sp,
+                color = Color(0xFFD9E8F2),
+                modifier = Modifier
+                    .padding(top = 6.dp)
+                    .background(Color(0x55334C63), RoundedCornerShape(10.dp))
+                    .padding(horizontal = 8.dp, vertical = 3.dp)
             )
 
             if (showMetaActions) {
@@ -893,5 +1138,128 @@ class FragNotas : Fragment() {
         TODAS("Todas"),
         SOLO_FAVORITAS("Favoritas"),
         SOLO_NO_FAVORITAS("No favoritas")
+    }
+
+    private enum class NotasListMode {
+        TODAS,
+        POR_CATEGORIAS
+    }
+
+    private fun nombreCategoria(nota: NotaEntity): String =
+        nota.categoria.trim().ifEmpty { SIN_CATEGORIA }
+
+    @Composable
+    private fun CategoryHeader(
+        categoria: String,
+        cantidad: Int,
+        isCollapsed: Boolean,
+        onToggle: () -> Unit,
+        onRename: () -> Unit,
+        onDelete: () -> Unit
+    ) {
+        var showCategoryMenu by remember(categoria) { mutableStateOf(false) }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color(0xCC27465D), RoundedCornerShape(16.dp))
+                .clickable(onClick = onToggle)
+                .padding(horizontal = 12.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = if (isCollapsed) Icons.Default.Folder else Icons.Default.FolderOpen,
+                contentDescription = null,
+                tint = Color.White
+            )
+            Spacer(Modifier.width(8.dp))
+            Text(
+                text = categoria,
+                color = Color.White,
+                fontWeight = FontWeight.Bold
+            )
+            Box {
+                IconButton(
+                    onClick = { showCategoryMenu = true },
+                    modifier = Modifier.size(32.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.MoreVert,
+                        contentDescription = "Opciones de categoría",
+                        tint = Color.White.copy(alpha = 0.8f),
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
+                DropdownMenu(
+                    expanded = showCategoryMenu,
+                    onDismissRequest = { showCategoryMenu = false },
+                    shape = RoundedCornerShape(14.dp)
+                ) {
+                    DropdownMenuItem(
+                        text = { Text("Renombrar categoría") },
+                        onClick = {
+                            showCategoryMenu = false
+                            onRename()
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Eliminar categoría") },
+                        onClick = {
+                            showCategoryMenu = false
+                            onDelete()
+                        }
+                    )
+                }
+            }
+            Spacer(Modifier.weight(1f))
+            Text(
+                text = cantidad.toString(),
+                color = Color.White.copy(alpha = 0.75f),
+                fontSize = 12.sp
+            )
+            Icon(
+                imageVector = if (isCollapsed) Icons.Default.ExpandMore else Icons.Default.ExpandLess,
+                contentDescription = if (isCollapsed) "Mostrar notas" else "Ocultar notas",
+                tint = Color.White
+            )
+        }
+    }
+
+    @Composable
+    private fun RenameCategoryDialog(
+        categoria: String,
+        onDismiss: () -> Unit,
+        onRename: (String) -> Unit
+    ) {
+        var draft by remember(categoria) {
+            mutableStateOf(if (categoria == SIN_CATEGORIA) "" else categoria)
+        }
+        AlertDialog(
+            onDismissRequest = onDismiss,
+            title = { Text("Renombrar categoría") },
+            text = {
+                OutlinedTextField(
+                    value = draft,
+                    onValueChange = { draft = it },
+                    label = { Text("Categoría") },
+                    placeholder = { Text(SIN_CATEGORIA) },
+                    singleLine = true
+                )
+            },
+            dismissButton = {
+                TextButton(onClick = onDismiss) {
+                    Text(stringResource(id = R.string.cancelar))
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { onRename(draft) }) {
+                    Text("Actualizar")
+                }
+            }
+        )
+    }
+
+    private companion object {
+        const val SIN_CATEGORIA = "Sin categoría"
     }
 }
