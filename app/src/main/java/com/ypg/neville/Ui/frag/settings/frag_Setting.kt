@@ -63,6 +63,7 @@ import androidx.core.content.edit
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import com.ypg.neville.feature.presence.data.PresenceSettings
 import androidx.lifecycle.lifecycleScope
 import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.MainActivity
@@ -209,6 +210,18 @@ class frag_Setting : Fragment() {
         var agendaHomeButtonEnabled by remember {
             mutableStateOf(prefs.getBoolean(FragHome.PREF_KEY_AGENDA_HOME_BUTTON_ENABLED, true))
         }
+        var presenceCelebrationPhrase by remember {
+            mutableStateOf(
+                prefs.getString(
+                    PresenceSettings.CUSTOM_CELEBRATION_PHRASE_KEY,
+                    PresenceSettings.DEFAULT_CELEBRATION_PHRASE
+                )?.takeIf { it.isNotBlank() } ?: PresenceSettings.DEFAULT_CELEBRATION_PHRASE
+            )
+        }
+        var presencePhraseInput by remember { mutableStateOf(presenceCelebrationPhrase) }
+        var presenceHomeButtonEnabled by remember {
+            mutableStateOf(prefs.getBoolean(FragHome.PREF_KEY_PRESENCE_HOME_BUTTON_ENABLED, true))
+        }
         var notesBiometricLockEnabled by remember { mutableStateOf(prefs.getBoolean(notesBiometricLockPrefKey, false)) }
         var journalReminderEnabled by remember { mutableStateOf(initialJournalConfig.enabled) }
         var journalReminderHour by remember { mutableStateOf(initialJournalConfig.hour) }
@@ -221,6 +234,7 @@ class frag_Setting : Fragment() {
         var showBackupWarningDialog by remember { mutableStateOf(false) }
         var showJournalTimeDialog by remember { mutableStateOf(false) }
         var showJournalMessageDialog by remember { mutableStateOf(false) }
+        var showPresencePhraseDialog by remember { mutableStateOf(false) }
         var showPassphraseDialog by remember { mutableStateOf(false) }
         var showDeletePassphraseDialog by remember { mutableStateOf(false) }
         var showRecoveryGuideDialog by remember { mutableStateOf(false) }
@@ -637,6 +651,47 @@ class frag_Setting : Fragment() {
 
             item {
                 SettingSection(
+                    title = "Presencia Consciente",
+                    subtitle = "Personaliza la frase que aparece al registrar un retorno al presente"
+                ) {
+                    ActionField(
+                        title = "Frase de celebración >",
+                        description = presenceCelebrationPhrase.trim().ifBlank {
+                            PresenceSettings.DEFAULT_CELEBRATION_PHRASE
+                        }
+                    ) {
+                        presencePhraseInput = presenceCelebrationPhrase
+                        showPresencePhraseDialog = true
+                    }
+                    FieldDivider()
+                    ActionField(
+                        title = "Restaurar frase por defecto",
+                        description = PresenceSettings.DEFAULT_CELEBRATION_PHRASE
+                    ) {
+                        presenceCelebrationPhrase = PresenceSettings.DEFAULT_CELEBRATION_PHRASE
+                        presencePhraseInput = PresenceSettings.DEFAULT_CELEBRATION_PHRASE
+                        prefs.edit {
+                            putString(
+                                PresenceSettings.CUSTOM_CELEBRATION_PHRASE_KEY,
+                                PresenceSettings.DEFAULT_CELEBRATION_PHRASE
+                            )
+                        }
+                        Toast.makeText(context, "Frase de Presencia restaurada", Toast.LENGTH_SHORT).show()
+                    }
+                    FieldDivider()
+                    SwitchField(
+                        title = if (presenceHomeButtonEnabled) "Botón en Home activo" else "Botón en Home oculto",
+                        description = "Muestra u oculta el acceso directo a Presencia junto a Agenda y Ritual del día.",
+                        checked = presenceHomeButtonEnabled
+                    ) { enabled ->
+                        presenceHomeButtonEnabled = enabled
+                        prefs.edit { putBoolean(FragHome.PREF_KEY_PRESENCE_HOME_BUTTON_ENABLED, enabled) }
+                    }
+                }
+            }
+
+            item {
+                SettingSection(
                     title = "Agenda",
                     subtitle = "Controla el acceso directo de Agenda en Inicio"
                 ) {
@@ -1001,6 +1056,47 @@ class frag_Setting : Fragment() {
                 },
                 dismissButton = {
                     TextButton(onClick = { showBackupWarningDialog = false }) {
+                        Text("Cancelar")
+                    }
+                }
+            )
+        }
+
+        if (showPresencePhraseDialog) {
+            AlertDialog(
+                onDismissRequest = { showPresencePhraseDialog = false },
+                title = { Text("Frase de Presencia") },
+                text = {
+                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                        Text("Esta frase aparecerá cuando registres un evento de Presencia Consciente.")
+                        OutlinedTextField(
+                            value = presencePhraseInput,
+                            onValueChange = { presencePhraseInput = it },
+                            label = { Text("Frase personalizada") },
+                            singleLine = false,
+                            minLines = 2,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                },
+                confirmButton = {
+                    TextButton(onClick = {
+                        val next = presencePhraseInput.trim().ifBlank {
+                            PresenceSettings.DEFAULT_CELEBRATION_PHRASE
+                        }
+                        presenceCelebrationPhrase = next
+                        presencePhraseInput = next
+                        prefs.edit {
+                            putString(PresenceSettings.CUSTOM_CELEBRATION_PHRASE_KEY, next)
+                        }
+                        showPresencePhraseDialog = false
+                        Toast.makeText(context, "Frase de Presencia guardada", Toast.LENGTH_SHORT).show()
+                    }) {
+                        Text("Guardar")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showPresencePhraseDialog = false }) {
                         Text("Cancelar")
                     }
                 }

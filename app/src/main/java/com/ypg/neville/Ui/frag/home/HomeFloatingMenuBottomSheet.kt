@@ -98,6 +98,7 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                                     "anclas" -> host?.openDestinationAsSheet(R.id.frag_emotional_anchors)
                                     "calma" -> host?.openDestinationAsSheet(R.id.frag_calm_space)
                                     "cardio" -> host?.openDestinationAsSheet(R.id.frag_cardio_coherence)
+                                    "presencia" -> host?.openDestinationAsSheet(R.id.frag_presence)
                                     "ajustes" -> host?.openDestinationAsSheet(R.id.fragSetting)
                                     "premium" -> host?.showSubscriptionPaywall()
                                 }
@@ -355,6 +356,16 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                                     )
                                 },
                                 onClick = { showProductividad = false; onNavigate("cardio") }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Presencia Consciente") },
+                                leadingIcon = {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_show),
+                                        contentDescription = "Presencia Consciente"
+                                    )
+                                },
+                                onClick = { showProductividad = false; onNavigate("presencia") }
                             )
                         }
                     }

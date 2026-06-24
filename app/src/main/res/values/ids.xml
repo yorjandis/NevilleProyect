@@ -29,4 +29,5 @@
     <item name="frag_calm_backgrounds_manager" type="id" />
     <item name="frag_calm_music_manager" type="id" />
     <item name="frag_cardio_coherence" type="id" />
+    <item name="frag_presence" type="id" />
 </resources>

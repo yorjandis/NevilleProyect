@@ -51,7 +51,8 @@ fun NevilleBottomNavBar(
     onVoces: () -> Unit,
     onAnclas: () -> Unit,
     onCalma: () -> Unit,
-    onCardio: () -> Unit
+    onCardio: () -> Unit,
+    onPresence: () -> Unit
 ) {
     var showProductivityMenu by remember { mutableStateOf(false) }
     val barShape = RoundedCornerShape(30.dp)
@@ -134,7 +135,7 @@ fun NevilleBottomNavBar(
             )
             Box(modifier = Modifier.weight(1f)) {
                 BottomNavButton(
-                    activeId = if (activeId in setOf("lienzo", "metas", "recordatorios", "agenda", "morning_dialog", "weekly_summary", "voces", "anclas", "calma", "cardio")) "productividad" else activeId,
+                    activeId = if (activeId in setOf("lienzo", "metas", "recordatorios", "agenda", "morning_dialog", "weekly_summary", "voces", "anclas", "calma", "cardio", "presence")) "productividad" else activeId,
                     id = "productividad",
                     icon = R.drawable.ic_icon_drawer,
                     onClick = { showProductivityMenu = true },
@@ -286,6 +287,19 @@ fun NevilleBottomNavBar(
                         onClick = {
                             showProductivityMenu = false
                             onCardio()
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Presencia Consciente") },
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Rounded.BookmarkAdded,
+                                contentDescription = "Presencia Consciente"
+                            )
+                        },
+                        onClick = {
+                            showProductivityMenu = false
+                            onPresence()
                         }
                     )
                 }

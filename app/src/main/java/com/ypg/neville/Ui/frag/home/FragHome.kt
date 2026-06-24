@@ -11,6 +11,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -155,6 +156,9 @@ class FragHome : Fragment() {
         var ritualCompletedToday by remember { mutableStateOf(false) }
         var showAgendaShortcut by remember {
             mutableStateOf(prefs.getBoolean(PREF_KEY_AGENDA_HOME_BUTTON_ENABLED, true))
+        }
+        var showPresenceShortcut by remember {
+            mutableStateOf(prefs.getBoolean(PREF_KEY_PRESENCE_HOME_BUTTON_ENABLED, true))
         }
 
         LaunchedEffect(Unit) {
@@ -394,11 +398,13 @@ class FragHome : Fragment() {
                     }
                 }
 
-                if (showAgendaShortcut || showRitualShortcut) {
+                if (showAgendaShortcut || showRitualShortcut || showPresenceShortcut) {
                     Row(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
-                            .padding(bottom = 84.dp),
+                            .fillMaxWidth()
+                            .padding(start = 14.dp, end = 14.dp, bottom = 84.dp)
+                            .horizontalScroll(rememberScrollState()),
                         horizontalArrangement = Arrangement.spacedBy(10.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -410,6 +416,17 @@ class FragHome : Fragment() {
                                 onHidePermanently = {
                                     showAgendaShortcut = false
                                     prefs.edit { putBoolean(PREF_KEY_AGENDA_HOME_BUTTON_ENABLED, false) }
+                                }
+                            )
+                        }
+                        if (showPresenceShortcut) {
+                            PresenceShortcutButton(
+                                onOpenPresence = {
+                                    MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_presence)
+                                },
+                                onHidePermanently = {
+                                    showPresenceShortcut = false
+                                    prefs.edit { putBoolean(PREF_KEY_PRESENCE_HOME_BUTTON_ENABLED, false) }
                                 }
                             )
                         }
@@ -567,6 +584,69 @@ class FragHome : Fragment() {
         }
     }
 
+    @Composable
+    private fun PresenceShortcutButton(
+        onOpenPresence: () -> Unit,
+        onHidePermanently: () -> Unit
+    ) {
+        var showMenu by remember { mutableStateOf(false) }
+
+        Box {
+            Surface(
+                shape = RoundedCornerShape(26.dp),
+                modifier = Modifier.shadow(14.dp, RoundedCornerShape(26.dp)),
+                color = Color.Transparent
+            ) {
+                Row(
+                    modifier = Modifier
+                        .combinedClickable(
+                            onClick = onOpenPresence,
+                            onLongClick = { showMenu = true }
+                        )
+                        .background(
+                            brush = Brush.horizontalGradient(
+                                colors = listOf(
+                                    Color(0xFFEADFFF),
+                                    Color(0xFFBFEFE7)
+                                )
+                            ),
+                            shape = RoundedCornerShape(26.dp)
+                        )
+                        .padding(horizontal = 16.dp, vertical = 11.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_show),
+                        contentDescription = "Presencia",
+                        tint = Color.Black,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Presencia",
+                        color = Color.Black,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+            }
+
+            DropdownMenu(
+                expanded = showMenu,
+                onDismissRequest = { showMenu = false },
+                modifier = Modifier.align(Alignment.BottomEnd)
+            ) {
+                DropdownMenuItem(
+                    text = { Text("Ocultar permanentemente") },
+                    onClick = {
+                        showMenu = false
+                        onHidePermanently()
+                    }
+                )
+            }
+        }
+    }
+
     private data class HomeDisplay(
         val id: Long,
         val frase: String,
@@ -693,6 +773,7 @@ class FragHome : Fragment() {
     companion object {
         private var sessionMandalaAssetPath: String? = null
         const val PREF_KEY_AGENDA_HOME_BUTTON_ENABLED = "agenda_home_button_enabled"
+        const val PREF_KEY_PRESENCE_HOME_BUTTON_ENABLED = "presence_home_button_enabled"
         private const val PREF_KEY_RITUAL_BUTTON_HIDDEN_DAY = "morning_ritual_button_hidden_day"
         private const val PREF_KEY_RITUAL_HIDDEN_DAY_RESET_DONE = "morning_ritual_hidden_day_reset_done"
     }

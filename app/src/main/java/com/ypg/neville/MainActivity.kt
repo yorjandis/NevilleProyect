@@ -331,6 +331,10 @@ class MainActivity : AppCompatActivity() {
             onCardio = {
                 bottomActive.value = "cardio"
                 openDestinationAsSheet(R.id.frag_cardio_coherence)
+            },
+            onPresence = {
+                bottomActive.value = "presence"
+                openDestinationAsSheet(R.id.frag_presence)
             }
         )
     }
@@ -358,6 +362,7 @@ class MainActivity : AppCompatActivity() {
                     destinationId == R.id.frag_voice_recordings ||
                     destinationId == R.id.frag_calm_space ||
                     destinationId == R.id.frag_cardio_coherence ||
+                    destinationId == R.id.frag_presence ||
                     destinationId == R.id.frag_emotional_anchors ||
                     destinationId == R.id.frag_emotional_anchor_create ||
                     destinationId == R.id.frag_emotional_anchor_run
