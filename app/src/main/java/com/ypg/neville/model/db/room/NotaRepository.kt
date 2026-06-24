@@ -5,14 +5,20 @@ import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryEventType
 
 class NotaRepository(private val notaDao: NotaDao) {
 
-    fun insertar(titulo: String, nota: String, isFav: Boolean = false): Long {
+    fun insertar(
+        titulo: String,
+        nota: String,
+        isFav: Boolean = false,
+        categoria: String = ""
+    ): Long {
         val now = System.currentTimeMillis()
         val item = SecureRoomText.encryptNota(NotaEntity(
             titulo = titulo,
             nota = nota,
             fechaCreacion = now,
             fechaModificacion = now,
-            isFav = isFav
+            isFav = isFav,
+            categoria = categoria.trim()
         ))
         val id = notaDao.insert(item)
         WeeklySummaryEventLogger.log(WeeklySummaryEventType.NOTES_CREATED, targetKey = id.toString())
@@ -24,7 +30,8 @@ class NotaRepository(private val notaDao: NotaDao) {
         titulo: String,
         nota: String,
         fechaCreacionOriginal: Long,
-        isFav: Boolean = false
+        isFav: Boolean = false,
+        categoria: String = ""
     ) {
         val item = SecureRoomText.encryptNota(NotaEntity(
             id = id,
@@ -32,7 +39,8 @@ class NotaRepository(private val notaDao: NotaDao) {
             nota = nota,
             fechaCreacion = fechaCreacionOriginal,
             fechaModificacion = System.currentTimeMillis(),
-            isFav = isFav
+            isFav = isFav,
+            categoria = categoria.trim()
         ))
         notaDao.update(item)
         WeeklySummaryEventLogger.log(WeeklySummaryEventType.NOTES_MODIFIED, targetKey = id.toString())
@@ -40,6 +48,17 @@ class NotaRepository(private val notaDao: NotaDao) {
 
     fun cambiarFavorito(id: Long, isFav: Boolean) {
         notaDao.updateFavoritoById(id = id, isFav = isFav)
+    }
+
+    fun cambiarCategoria(nota: NotaEntity, categoria: String) {
+        actualizar(
+            id = nota.id,
+            titulo = nota.titulo,
+            nota = nota.nota,
+            fechaCreacionOriginal = nota.fechaCreacion,
+            isFav = nota.isFav,
+            categoria = categoria
+        )
     }
 
     fun eliminar(nota: NotaEntity) {

@@ -23,5 +23,8 @@ data class NotaEntity(
     val fechaModificacion: Long = System.currentTimeMillis(),
 
     @ColumnInfo(name = "isFav")
-    val isFav: Boolean = false
+    val isFav: Boolean = false,
+
+    @ColumnInfo(name = "categoria")
+    val categoria: String = ""
 )
