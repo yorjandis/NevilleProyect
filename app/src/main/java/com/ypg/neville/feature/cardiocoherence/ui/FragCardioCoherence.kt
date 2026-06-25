@@ -3,6 +3,7 @@ package com.ypg.neville.feature.cardiocoherence.ui
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
@@ -12,11 +13,11 @@ import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -40,6 +41,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.VolumeOff
+import androidx.compose.material.icons.automirrored.rounded.VolumeUp
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Favorite
@@ -78,15 +81,18 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
@@ -110,7 +116,11 @@ import androidx.core.content.edit
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.ypg.neville.R
+import com.ypg.neville.feature.cardiocoherence.data.CardioCoherencePreferences
 import com.ypg.neville.feature.cardiocoherence.data.CardioCoherenceRepository
 import com.ypg.neville.feature.cardiocoherence.domain.BreathingRhythmOption
 import com.ypg.neville.feature.cardiocoherence.domain.InitialEmotionalState
@@ -121,6 +131,7 @@ import com.ypg.neville.model.db.room.NevilleRoomDatabase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.min
@@ -157,15 +168,6 @@ class FragCardioCoherence : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-    }
-
-    override fun onPause() {
-        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        super.onPause()
-    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -174,12 +176,81 @@ private fun CardioCoherenceRoot(
     viewModel: CardioCoherenceViewModel,
     onClose: () -> Unit
 ) {
+    var showWelcome by remember { mutableStateOf(true) }
+
+    if (showWelcome) {
+        CardioCoherenceWelcomeScreen(
+            onFinished = { showWelcome = false },
+            onClose = onClose
+        )
+        return
+    }
+
+    CardioCoherenceMainContent(viewModel = viewModel, onClose = onClose)
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun CardioCoherenceMainContent(
+    viewModel: CardioCoherenceViewModel,
+    onClose: () -> Unit
+) {
     val state by viewModel.uiState.collectAsState()
     val context = LocalContext.current
     val view = LocalView.current
+    val lifecycleOwner = LocalLifecycleOwner.current
     val backgroundAssets = remember(context) { context.cardioCoherenceBackgroundAssets() }
     var selectedBackgroundAsset by remember { mutableStateOf<String?>(null) }
     var showStats by remember { mutableStateOf(false) }
+    val musicPreferences = remember(context) {
+        context.getSharedPreferences(CARDIO_AUDIO_PREFS, Context.MODE_PRIVATE)
+    }
+    var isBackgroundMusicEnabled by remember {
+        mutableStateOf(
+            musicPreferences.getBoolean(CARDIO_BACKGROUND_MUSIC_ENABLED_KEY, true)
+        )
+    }
+
+    DisposableEffect(view) {
+        val previousKeepScreenOn = view.keepScreenOn
+        view.keepScreenOn = true
+        onDispose {
+            view.keepScreenOn = previousKeepScreenOn
+        }
+    }
+
+    DisposableEffect(isBackgroundMusicEnabled, lifecycleOwner, context) {
+        if (!isBackgroundMusicEnabled) return@DisposableEffect onDispose { }
+
+        val mediaPlayer = context.createCardioCoherenceMainMusicPlayer()
+        var resumeOnStart = false
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_STOP -> {
+                    if (mediaPlayer?.isPlaying == true) {
+                        runCatching { mediaPlayer.pause() }
+                        resumeOnStart = true
+                    }
+                }
+                Lifecycle.Event.ON_START -> {
+                    if (resumeOnStart) {
+                        runCatching { mediaPlayer?.start() }
+                        resumeOnStart = false
+                    }
+                }
+                else -> Unit
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+            runCatching {
+                mediaPlayer?.stop()
+                mediaPlayer?.release()
+            }
+        }
+    }
 
     LaunchedEffect(backgroundAssets) {
         selectedBackgroundAsset = context.initialCardioCoherenceBackgroundAsset(backgroundAssets)
@@ -225,6 +296,30 @@ private fun CardioCoherenceRoot(
                         }
                     },
                     actions = {
+                        IconButton(
+                            onClick = {
+                                isBackgroundMusicEnabled = !isBackgroundMusicEnabled
+                                musicPreferences.edit {
+                                    putBoolean(
+                                        CARDIO_BACKGROUND_MUSIC_ENABLED_KEY,
+                                        isBackgroundMusicEnabled
+                                    )
+                                }
+                            }
+                        ) {
+                            Icon(
+                                imageVector = if (isBackgroundMusicEnabled) {
+                                    Icons.AutoMirrored.Rounded.VolumeUp
+                                } else {
+                                    Icons.AutoMirrored.Rounded.VolumeOff
+                                },
+                                contentDescription = if (isBackgroundMusicEnabled) {
+                                    "Desactivar música"
+                                } else {
+                                    "Activar música"
+                                }
+                            )
+                        }
                         IconButton(onClick = { showStats = true }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_item),
@@ -294,6 +389,208 @@ private fun CardioCoherenceRoot(
                 records = state.records,
                 onClose = { showStats = false },
                 onRefresh = viewModel::refreshRecords
+            )
+        }
+    }
+}
+
+@Composable
+private fun CardioCoherenceWelcomeScreen(
+    onFinished: () -> Unit,
+    onClose: () -> Unit
+) {
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val scope = rememberCoroutineScope()
+    val welcomeTexts = remember { cardioCoherenceWelcomeTexts() }
+    var currentTextIndex by remember { mutableStateOf(-1) }
+    var isFinishing by remember { mutableStateOf(false) }
+    var player by remember { mutableStateOf<MediaPlayer?>(null) }
+    val backgroundBitmap = remember(context) {
+        context.loadCardioCoherenceBackgroundBitmap(CARDIO_WELCOME_BACKGROUND_ASSET)
+    }
+    val welcomeFrameAlpha by animateFloatAsState(
+        targetValue = if (currentTextIndex >= 0 && !isFinishing) 1f else 0f,
+        animationSpec = tween(
+            durationMillis = if (isFinishing) {
+                CARDIO_WELCOME_FINAL_FADE_MILLIS.toInt()
+            } else {
+                CARDIO_WELCOME_FRAME_FADE_IN_MILLIS
+            }
+        ),
+        label = "cardio-welcome-frame-alpha"
+    )
+
+    suspend fun fadeOut(durationMillis: Long) {
+        val activePlayer = player ?: return
+        val steps = 24
+        repeat(steps) { step ->
+            val volume = CARDIO_WELCOME_MUSIC_VOLUME * (1f - ((step + 1f) / steps))
+            runCatching { activePlayer.setVolume(volume, volume) }
+            delay((durationMillis / steps).coerceAtLeast(1))
+        }
+    }
+
+    DisposableEffect(lifecycleOwner) {
+        val mediaPlayer = runCatching {
+            context.assets.openFd(CARDIO_WELCOME_MUSIC_ASSET).use { asset ->
+                MediaPlayer().apply {
+                    setDataSource(asset.fileDescriptor, asset.startOffset, asset.length)
+                    isLooping = false
+                    setVolume(CARDIO_WELCOME_MUSIC_VOLUME, CARDIO_WELCOME_MUSIC_VOLUME)
+                    prepare()
+                    start()
+                }
+            }
+        }.getOrNull()
+        player = mediaPlayer
+
+        var resumeOnStart = false
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_STOP -> {
+                    if (mediaPlayer?.isPlaying == true) {
+                        runCatching { mediaPlayer.pause() }
+                        resumeOnStart = true
+                    }
+                }
+                Lifecycle.Event.ON_START -> {
+                    if (resumeOnStart) {
+                        runCatching { mediaPlayer?.start() }
+                        resumeOnStart = false
+                    }
+                }
+                else -> Unit
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+            player = null
+            runCatching {
+                mediaPlayer?.stop()
+                mediaPlayer?.release()
+            }
+        }
+    }
+
+    LaunchedEffect(welcomeTexts) {
+        delay(CARDIO_WELCOME_INITIAL_DELAY_MILLIS)
+        welcomeTexts.indices.forEach { index ->
+            currentTextIndex = index
+            val duration = CARDIO_WELCOME_TEXT_DURATIONS_MILLIS[index]
+            if (index == welcomeTexts.lastIndex) {
+                delay((duration - CARDIO_WELCOME_FINAL_FADE_MILLIS).coerceAtLeast(0))
+                isFinishing = true
+                fadeOut(CARDIO_WELCOME_FINAL_FADE_MILLIS)
+            } else {
+                delay(duration)
+            }
+        }
+        onFinished()
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        if (backgroundBitmap != null) {
+            Image(
+                bitmap = backgroundBitmap,
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
+            )
+        } else {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(screenBrush())
+            )
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.42f))
+        )
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 24.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(154.dp)
+                    .graphicsLayer {
+                        alpha = welcomeFrameAlpha
+                    },
+                color = Color.Black.copy(alpha = 0.18f),
+                shape = RoundedCornerShape(14.dp),
+                border = androidx.compose.foundation.BorderStroke(
+                    0.8.dp,
+                    Color.White.copy(alpha = 0.72f)
+                )
+            ) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Crossfade(
+                        targetState = currentTextIndex,
+                        animationSpec = tween(durationMillis = 600),
+                        label = "cardio-welcome-text"
+                    ) { index ->
+                        if (index in welcomeTexts.indices) {
+                        Text(
+                            text = welcomeTexts[index],
+                            style = MaterialTheme.typography.headlineSmall,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color.White,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 24.dp, vertical = 18.dp),
+                            maxLines = 4
+                        )
+                    }
+                }
+            }
+            }
+        }
+
+        TextButton(
+            onClick = {
+                if (!isFinishing) {
+                    isFinishing = true
+                    scope.launch {
+                        fadeOut(CARDIO_WELCOME_SKIP_FADE_MILLIS)
+                        onFinished()
+                    }
+                }
+            },
+            enabled = !isFinishing,
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(18.dp)
+                .background(
+                    color = Color.White.copy(alpha = 0.14f),
+                    shape = CircleShape
+                )
+        ) {
+            Text("Saltar", color = Color.White.copy(alpha = 0.90f))
+        }
+
+        IconButton(
+            onClick = onClose,
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(12.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.Close,
+                contentDescription = "Cerrar",
+                tint = Color.White.copy(alpha = 0.90f)
             )
         }
     }
@@ -429,7 +726,11 @@ private fun SetupScreen(
                         unfocusedTextColor = TextPrimary,
                         focusedLabelColor = TextPrimary,
                         unfocusedLabelColor = TextPrimary,
-                        cursorColor = TextPrimary
+                        cursorColor = TextPrimary,
+                        focusedContainerColor = FieldContainerColor,
+                        unfocusedContainerColor = FieldContainerColor,
+                        focusedBorderColor = AccentIndigo.copy(alpha = 0.86f),
+                        unfocusedBorderColor = MutedBorderColor
                     )
                 )
             }
@@ -484,6 +785,10 @@ private fun SessionScreen(
     val totalProgress = if (state.totalSeconds == 0) 0f else state.elapsedSeconds / state.totalSeconds.toFloat()
     val phaseProgress = if (phase.durationSeconds == 0) 0f else state.currentPhaseElapsedSeconds / phase.durationSeconds.toFloat()
     val currentGuidance = phase.currentGuidanceText(phaseProgress)
+    val sessionPhrases = remember(context) {
+        CardioCoherencePreferences.loadSessionPhrases(context)
+    }
+    val phraseIndex = (state.currentPhaseIndex * 2) + if (phaseProgress < 0.5f) 0 else 1
 
     LaunchedEffect(phase.kind, state.isPaused, state.isPreparing, vibrator) {
         if (state.isPaused || state.isPreparing) {
@@ -523,6 +828,16 @@ private fun SessionScreen(
             paused = state.isPaused,
             preparing = state.isPreparing,
             modifier = Modifier.size(240.dp)
+        )
+
+        SessionBreathingPhrase(
+            phrase = sessionPhrases.getOrElse(phraseIndex) {
+                CardioCoherencePreferences.defaultSessionPhrases[phraseIndex.coerceIn(0, 7)]
+            },
+            phraseId = phraseIndex,
+            phase = phase,
+            paused = state.isPaused,
+            preparing = state.isPreparing
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -591,6 +906,62 @@ private fun SessionScreen(
 }
 
 @Composable
+private fun SessionBreathingPhrase(
+    phrase: String,
+    phraseId: Int,
+    phase: MeditationPhase,
+    paused: Boolean,
+    preparing: Boolean
+) {
+    val opacity = remember { Animatable(0f) }
+
+    LaunchedEffect(phraseId, phase.kind, paused, preparing) {
+        opacity.snapTo(0f)
+        if (paused || preparing) return@LaunchedEffect
+
+        opacity.animateTo(
+            targetValue = 1f,
+            animationSpec = tween(
+                durationMillis = (phase.breathingPattern.inhaleMillis * SESSION_PHRASE_FADE_IN_FRACTION)
+                    .roundToInt()
+                    .coerceAtLeast(1),
+                easing = LinearEasing
+            )
+        )
+        delay(
+            (phase.breathingPattern.inhaleMillis * (1f - SESSION_PHRASE_FADE_IN_FRACTION)).toLong() +
+                BREATHING_HAPTIC_TOP_PAUSE_MILLIS +
+                (phase.breathingPattern.exhaleMillis * SESSION_PHRASE_FADE_OUT_START_FRACTION).toLong()
+        )
+        opacity.animateTo(
+            targetValue = 0f,
+            animationSpec = tween(
+                durationMillis = (phase.breathingPattern.exhaleMillis *
+                    (1f - SESSION_PHRASE_FADE_OUT_START_FRACTION))
+                    .roundToInt()
+                    .coerceAtLeast(1),
+                easing = LinearEasing
+            )
+        )
+    }
+
+    Text(
+        text = phrase,
+        style = MaterialTheme.typography.titleMedium,
+        fontWeight = FontWeight.Medium,
+        textAlign = TextAlign.Center,
+        color = BackgroundTextColor.copy(alpha = 0.92f),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(56.dp)
+            .padding(horizontal = 18.dp)
+            .graphicsLayer { alpha = opacity.value },
+        maxLines = 2,
+        softWrap = true
+    )
+}
+
+@Composable
 private fun EvaluationScreen(
     state: CardioCoherenceUiState,
     onAfterScore: (Int) -> Unit,
@@ -656,7 +1027,11 @@ private fun EvaluationScreen(
                     unfocusedTextColor = TextPrimary,
                     focusedLabelColor = TextPrimary,
                     unfocusedLabelColor = TextPrimary,
-                    cursorColor = TextPrimary
+                    cursorColor = TextPrimary,
+                    focusedContainerColor = FieldContainerColor,
+                    unfocusedContainerColor = FieldContainerColor,
+                    focusedBorderColor = AccentIndigo.copy(alpha = 0.86f),
+                    unfocusedBorderColor = MutedBorderColor
                 )
             )
             Spacer(modifier = Modifier.height(12.dp))
@@ -1195,11 +1570,13 @@ private fun PostSessionEmotionDropdown(
 private fun compactDropdownTextFieldColors() = OutlinedTextFieldDefaults.colors(
     focusedTextColor = TextPrimary,
     unfocusedTextColor = TextPrimary,
-    focusedContainerColor = Color.White.copy(alpha = 0.90f),
-    unfocusedContainerColor = Color.White.copy(alpha = 0.90f),
-    focusedBorderColor = AccentIndigo,
-    unfocusedBorderColor = Color.Black.copy(alpha = 0.22f),
-    cursorColor = TextPrimary
+    focusedContainerColor = FieldContainerColor,
+    unfocusedContainerColor = FieldContainerColor,
+    focusedBorderColor = AccentIndigo.copy(alpha = 0.86f),
+    unfocusedBorderColor = MutedBorderColor,
+    cursorColor = TextPrimary,
+    focusedTrailingIconColor = TextSecondary,
+    unfocusedTrailingIconColor = TextSecondary
 )
 
 @Composable
@@ -1255,7 +1632,7 @@ private fun CalmPanel(content: @Composable ColumnScope.() -> Unit) {
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White.copy(alpha = 0.82f),
+            containerColor = CalmPanelColor,
             contentColor = TextPrimary
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
@@ -1263,7 +1640,7 @@ private fun CalmPanel(content: @Composable ColumnScope.() -> Unit) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .border(1.dp, Color.White.copy(alpha = 0.38f), RoundedCornerShape(8.dp))
+                .border(1.dp, MutedBorderColor, RoundedCornerShape(8.dp))
                 .padding(16.dp),
             content = content
         )
@@ -1286,20 +1663,20 @@ private fun TimerPill(
     text: String
 ) {
     Surface(
-        color = Color.White.copy(alpha = 0.38f),
+        color = CalmPanelColor.copy(alpha = 0.88f),
         shape = CircleShape,
-        contentColor = TextPrimary.copy(alpha = 0.68f)
+        contentColor = TextPrimary
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 7.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(icon, contentDescription = null, tint = TextPrimary.copy(alpha = 0.62f), modifier = Modifier.size(16.dp))
+            Icon(icon, contentDescription = null, tint = TextSecondary, modifier = Modifier.size(16.dp))
             Spacer(modifier = Modifier.width(5.dp))
             Text(
                 text = text,
                 fontWeight = FontWeight.Medium,
-                color = TextPrimary.copy(alpha = 0.68f),
+                color = TextPrimary.copy(alpha = 0.88f),
                 style = MaterialTheme.typography.bodyMedium
             )
         }
@@ -1452,16 +1829,51 @@ private fun Context.openExternalUrl(url: String) {
     }
 }
 
-private val TextPrimary = Color.Black
+private fun Context.createCardioCoherenceMainMusicPlayer(): MediaPlayer? {
+    return runCatching {
+        assets.openFd(CARDIO_WELCOME_MUSIC_ASSET).use { asset ->
+            MediaPlayer().apply {
+                setDataSource(asset.fileDescriptor, asset.startOffset, asset.length)
+                isLooping = false
+                setVolume(CARDIO_MAIN_MUSIC_VOLUME, CARDIO_MAIN_MUSIC_VOLUME)
+                setOnCompletionListener { completedPlayer ->
+                    runCatching {
+                        completedPlayer.seekTo(CARDIO_MAIN_MUSIC_LOOP_START_MILLIS)
+                        completedPlayer.start()
+                    }
+                }
+                prepare()
+                seekTo(CARDIO_MAIN_MUSIC_LOOP_START_MILLIS)
+                start()
+            }
+        }
+    }.getOrNull()
+}
+
+private fun cardioCoherenceWelcomeTexts(): List<String> {
+    val trio = CARDIO_WELCOME_PHRASE_TRIOS.random(Random.Default)
+    return listOf(
+        "Bienvenido a Coherencia\nCardio - Cerebral",
+        trio.first,
+        trio.second,
+        trio.third
+    )
+}
+
+private val TextPrimary = Color(0xFFF0EDF6)
+private val TextSecondary = Color(0xFFC8C1D2)
 private val BackgroundTextColor = Color.White
-private val DropdownContainerColor = Color(0xFFF7F4FF)
+private val DropdownContainerColor = Color(0xFF211D2B)
+private val CalmPanelColor = Color(0xFF211D2A).copy(alpha = 0.88f)
+private val FieldContainerColor = Color(0xFF17141F).copy(alpha = 0.78f)
+private val MutedBorderColor = Color(0xFFAAA0BA).copy(alpha = 0.32f)
 private val DropdownShape = RoundedCornerShape(14.dp)
 private val SessionGuideShape = RoundedCornerShape(18.dp)
-private val AccentIndigo = Color(0xFF5B63D6)
-private val AccentViolet = Color(0xFF8D63C7)
-private val SoftButtonContainer = Color.White.copy(alpha = 0.26f)
-private val SoftButtonContent = Color.Black.copy(alpha = 0.68f)
-private val SoftButtonBorder = Color.White.copy(alpha = 0.24f)
+private val AccentIndigo = Color(0xFF858BBE)
+private val AccentViolet = Color(0xFFA28BB8)
+private val SoftButtonContainer = Color(0xFF77708A).copy(alpha = 0.48f)
+private val SoftButtonContent = Color(0xFFF3EFF8)
+private val SoftButtonBorder = Color(0xFFC8C1D2).copy(alpha = 0.28f)
 private val OrbCenterInnerColor = Color(0xFF210921)
 private val OrbCenterOuterColor = Color(0xFF221E28)
 private val OrbCenterEdgeColor = Color(0xFF140B32)
@@ -1473,10 +1885,71 @@ private const val CARDIO_BACKGROUND_LAST_ASSET_KEY = "last_background_asset"
 private const val CARDIO_BACKGROUND_SEEN_ASSETS_KEY = "seen_background_assets"
 private const val CARDIO_BACKGROUND_CROSSFADE_MILLIS = 850
 private const val SESSION_PHASE_CROSSFADE_MILLIS = 650
+private const val SESSION_PHRASE_FADE_IN_FRACTION = 0.22f
+private const val SESSION_PHRASE_FADE_OUT_START_FRACTION = 0.76f
 private const val CARDIO_BREATHING_PREFS = "cardio_coherence_breathing_prefs"
 private const val CARDIO_BREATHING_RHYTHM_KEY = "breathing_rhythm"
 private val DEFAULT_CARDIO_BREATHING_RHYTHM = BreathingRhythmOption.FIVE_HALF_FIVE_HALF
 private const val BREATHING_RHYTHM_STUDY_URL = "https://pmc.ncbi.nlm.nih.gov/articles/PMC7578229/"
+private const val CARDIO_AUDIO_PREFS = "cardio_coherence_audio_prefs"
+private const val CARDIO_BACKGROUND_MUSIC_ENABLED_KEY = "coherencia_background_music_enabled"
+private const val CARDIO_MAIN_MUSIC_VOLUME = 0.8f
+private const val CARDIO_MAIN_MUSIC_LOOP_START_MILLIS = 30_000
+private const val CARDIO_WELCOME_BACKGROUND_ASSET = "CoherenciaCCImagenes/cc_20.JPG"
+private const val CARDIO_WELCOME_MUSIC_ASSET = "Coherencia_musica/music_coherencia.mp3"
+private const val CARDIO_WELCOME_MUSIC_VOLUME = 0.8f
+private const val CARDIO_WELCOME_INITIAL_DELAY_MILLIS = 1_600L
+private const val CARDIO_WELCOME_FRAME_FADE_IN_MILLIS = 900
+private const val CARDIO_WELCOME_FINAL_FADE_MILLIS = 1_200L
+private const val CARDIO_WELCOME_SKIP_FADE_MILLIS = 350L
+private val CARDIO_WELCOME_TEXT_DURATIONS_MILLIS = listOf(6_000L, 8_800L, 6_500L, 7_000L)
+private val CARDIO_WELCOME_PHRASE_TRIOS = listOf(
+    Triple(
+        "La coherencia es el lenguaje secreto\nentre tu corazón y tu mente",
+        "Todo lo que necesitas\nya habita en tu interior",
+        "Entra a tu espacio sagrado y que la magia ocurra"
+    ),
+    Triple(
+        "Cuando entras en coherencia,\ntu biología recuerda su perfección",
+        "Hoy eliges elevar tu estado\ny transformar tu realidad",
+        "Deja que el misterio te envuelva\ny revele su verdad"
+    ),
+    Triple(
+        "Tu corazón sabe el camino,\ntu mente aprende a seguirlo",
+        "Eres más poderoso de lo que recuerdas",
+        "Respira y cruza el umbral\ndonde tu esencia se revela"
+    ),
+    Triple(
+        "Aquí comienza la alineación\nentre lo que sientes y lo que eres",
+        "Tu corazón sabe el camino\na tu estado de perfección",
+        "Vamos a hacer que la magia ocurra"
+    ),
+    Triple(
+        "Cada latido es una puerta\nhacia tu equilibrio natural",
+        "Estás recordando quién eres\nmás allá del pensamiento",
+        "Entrégate al ritmo interno\ny deja que te guíe"
+    ),
+    Triple(
+        "Cuando mente y corazón se encuentran,\nnace un nuevo estado de ser",
+        "Hoy creas desde la coherencia,\nno desde la reacción",
+        "Confía en lo que emerge\nsin necesidad de entenderlo"
+    ),
+    Triple(
+        "Tu corazón marca el ritmo\nde tu verdad más profunda",
+        "Hoy eliges responder desde la calma\ny no desde el impulso",
+        "Deja que esa calma\nse convierta en claridad"
+    ),
+    Triple(
+        "Tu campo energético responde\na lo que sientes ahora",
+        "Hoy eliges sentir elevación,\napertura y posibilidad",
+        "Deja que esa frecuencia\ncree tu realidad"
+    ),
+    Triple(
+        "En este instante,\ntodo se reorganiza a tu favor",
+        "Eres el observador y el creador\nde tu experiencia",
+        "Permite que la transformación\nocurra sin resistencia"
+    )
+)
 private val CARDIO_BACKGROUND_SUPPORTED_EXTENSIONS = setOf(
     "jpg",
     "jpeg",

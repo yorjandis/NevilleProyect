@@ -151,11 +151,16 @@ class FragDiario : Fragment() {
         var entradaEnEdicion by remember { mutableStateOf<DiarioEntity?>(null) }
         var entradaAEliminar by remember { mutableStateOf<DiarioEntity?>(null) }
         var entradaExpandidaId by remember { mutableStateOf<Long?>(null) }
+        val entradasSeleccionadas = remember { mutableStateListOf<Long>() }
+        var showBatchEmotionPicker by remember { mutableStateOf(false) }
+        var pendingBatchEmotion by remember { mutableStateOf<DiarioEmotion?>(null) }
+        var showBatchDeleteConfirmation by remember { mutableStateOf(false) }
 
         var titleDialogTarget by remember { mutableStateOf<DiarioEntity?>(null) }
         var titleDialogText by remember { mutableStateOf("") }
 
         var showEditor by remember { mutableStateOf(false) }
+        var newEntryDateMillis by remember { mutableStateOf<Long?>(null) }
         var showFabMenu by remember { mutableStateOf(false) }
         var showFilterPanel by remember { mutableStateOf(false) }
         var showStats by remember { mutableStateOf(false) }
@@ -204,6 +209,14 @@ class FragDiario : Fragment() {
             dbExecutor.execute {
                 diarioRepository().cambiarFavorito(entryId, !currentFav)
                 activity?.runOnUiThread { recargarEntradas() }
+            }
+        }
+
+        fun toggleBatchSelection(entryId: Long) {
+            if (entryId in entradasSeleccionadas) {
+                entradasSeleccionadas.remove(entryId)
+            } else {
+                entradasSeleccionadas.add(entryId)
             }
         }
 
@@ -365,21 +378,21 @@ class FragDiario : Fragment() {
                             if (dayMillis > today) {
                                 Toast.makeText(context, "No se puede crear una entrada en una fecha futura", Toast.LENGTH_SHORT).show()
                             } else {
-                                dbExecutor.execute {
-                                    diarioRepository().insertar(
-                                        title = "Título",
-                                        content = "Nuevo Contenido!",
-                                        emocion = DiarioEmotion.NEUTRAL.key,
-                                        isFav = false,
-                                        fechaCreacionMillis = dayMillis
-                                    )
-                                    activity?.runOnUiThread {
-                                        selectedCalendarDayMillis = dayMillis
-                                        recargarEntradas()
-                                    }
-                                }
+                                selectedCalendarDayMillis = dayMillis
+                                entradaEnEdicion = null
+                                newEntryDateMillis = dayMillis
+                                showEditor = true
                             }
                         }
+                    )
+                }
+
+                if (entradasSeleccionadas.isNotEmpty()) {
+                    BatchSelectionBar(
+                        selectedCount = entradasSeleccionadas.size,
+                        onChangeEmotion = { showBatchEmotionPicker = true },
+                        onDelete = { showBatchDeleteConfirmation = true },
+                        onCancel = { entradasSeleccionadas.clear() }
                     )
                 }
 
@@ -405,7 +418,17 @@ class FragDiario : Fragment() {
                                 isExpanded = entradaExpandidaId == entrada.id,
                                 showEmotionMenu = emotionMenuId == entrada.id,
                                 showItemMenu = itemMenuId == entrada.id,
+                                selectionMode = entradasSeleccionadas.isNotEmpty(),
+                                isSelected = entrada.id in entradasSeleccionadas,
                                 fechaTexto = "Modificado: ${dateFormat.format(Date(entrada.fechaM))}\nCreado: ${dateFormat.format(Date(entrada.fecha))}",
+                                onToggleSelection = { toggleBatchSelection(entrada.id) },
+                                onStartSelection = {
+                                    itemMenuId = null
+                                    emotionMenuId = null
+                                    if (entrada.id !in entradasSeleccionadas) {
+                                        entradasSeleccionadas.add(entrada.id)
+                                    }
+                                },
                                 onToggleExpand = {
                                     entradaExpandidaId = if (entradaExpandidaId == entrada.id) null else entrada.id
                                 },
@@ -473,6 +496,7 @@ class FragDiario : Fragment() {
                             onClick = {
                                 showFabMenu = false
                                 entradaEnEdicion = null
+                                newEntryDateMillis = null
                                 showEditor = true
                             }
                         )
@@ -556,10 +580,13 @@ class FragDiario : Fragment() {
             DiarioEditorDialog(
                 entradaEnEdicion = entradaEnEdicion,
                 emociones = emotions,
-                onDismiss = { showEditor = false },
+                onDismiss = {
+                    showEditor = false
+                    newEntryDateMillis = null
+                },
                 onSave = { title, content, emotionKey, isFav ->
-                    if (title.isBlank() || content.isBlank()) {
-                        Toast.makeText(context, "Debes escribir título y contenido", Toast.LENGTH_SHORT).show()
+                    if (title.isBlank()) {
+                        Toast.makeText(context, "Debes escribir un título", Toast.LENGTH_SHORT).show()
                         false
                     } else {
                         dbExecutor.execute {
@@ -567,9 +594,10 @@ class FragDiario : Fragment() {
                             if (existing == null) {
                                 diarioRepository().insertar(
                                     title = title.trim(),
-                                    content = content.trim(),
+                                    content = content.trim().ifBlank { DEFAULT_NEW_CONTENT },
                                     emocion = emotionKey,
-                                    isFav = isFav
+                                    isFav = isFav,
+                                    fechaCreacionMillis = newEntryDateMillis ?: System.currentTimeMillis()
                                 )
                             } else {
                                 diarioRepository().actualizar(
@@ -583,10 +611,93 @@ class FragDiario : Fragment() {
                             }
                             activity?.runOnUiThread {
                                 showEditor = false
+                                newEntryDateMillis = null
                                 recargarEntradas()
                             }
                         }
                         true
+                    }
+                }
+            )
+        }
+
+        if (showBatchEmotionPicker) {
+            EmotionPickerDialog(
+                emotions = emotions,
+                onDismiss = { showBatchEmotionPicker = false },
+                onSelect = { emotion ->
+                    showBatchEmotionPicker = false
+                    pendingBatchEmotion = emotion
+                }
+            )
+        }
+
+        pendingBatchEmotion?.let { emotion ->
+            AlertDialog(
+                onDismissRequest = { pendingBatchEmotion = null },
+                title = { Text("Cambiar emoción") },
+                text = {
+                    Text("¿Cambiar a ${emotion.emoji} la emoción de ${entradasSeleccionadas.size} entradas seleccionadas?")
+                },
+                dismissButton = {
+                    TextButton(onClick = { pendingBatchEmotion = null }) {
+                        Text(getString(R.string.cancelar))
+                    }
+                },
+                confirmButton = {
+                    TextButton(onClick = {
+                        val selectedEntries = entradas.filter { it.id in entradasSeleccionadas }
+                        dbExecutor.execute {
+                            selectedEntries.forEach { entry ->
+                                diarioRepository().actualizar(
+                                    id = entry.id,
+                                    title = entry.title,
+                                    content = entry.content,
+                                    emocion = emotion.key,
+                                    isFav = entry.isFav,
+                                    fechaOriginal = entry.fecha
+                                )
+                            }
+                            activity?.runOnUiThread {
+                                pendingBatchEmotion = null
+                                entradasSeleccionadas.clear()
+                                recargarEntradas()
+                                Toast.makeText(context, "Emoción actualizada", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }) {
+                        Text("Confirmar")
+                    }
+                }
+            )
+        }
+
+        if (showBatchDeleteConfirmation) {
+            AlertDialog(
+                onDismissRequest = { showBatchDeleteConfirmation = false },
+                title = { Text("Eliminar entradas") },
+                text = {
+                    Text("¿Seguro que quieres eliminar ${entradasSeleccionadas.size} entradas seleccionadas?")
+                },
+                dismissButton = {
+                    TextButton(onClick = { showBatchDeleteConfirmation = false }) {
+                        Text(getString(R.string.cancelar))
+                    }
+                },
+                confirmButton = {
+                    TextButton(onClick = {
+                        val selectedEntries = entradas.filter { it.id in entradasSeleccionadas }
+                        dbExecutor.execute {
+                            selectedEntries.forEach(diarioRepository()::eliminar)
+                            activity?.runOnUiThread {
+                                showBatchDeleteConfirmation = false
+                                entradasSeleccionadas.clear()
+                                recargarEntradas()
+                                Toast.makeText(context, "Entradas eliminadas", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }) {
+                        Text(getString(R.string.eliminar))
                     }
                 }
             )
@@ -705,6 +816,19 @@ class FragDiario : Fragment() {
             }
 
             if (!hideCalendarGrid) {
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    WEEKDAY_LABELS.forEach { label ->
+                        Text(
+                            text = label,
+                            modifier = Modifier.weight(1f),
+                            color = Color(0xFF4B5960),
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(7),
                     modifier = Modifier
@@ -719,7 +843,9 @@ class FragDiario : Fragment() {
                             Box(modifier = Modifier.size(40.dp))
                         } else {
                             val isSelected = selectedDayMillis != null && selectedDayMillis == day.dayStartMillis
-                            val isFuture = day.dayStartMillis > startOfDay(System.currentTimeMillis())
+                            val todayStart = startOfDay(System.currentTimeMillis())
+                            val isToday = day.dayStartMillis == todayStart
+                            val isFuture = day.dayStartMillis > todayStart
                             //Circulo del dia
                             Box(
                                 modifier = Modifier
@@ -733,8 +859,16 @@ class FragDiario : Fragment() {
                                         CircleShape
                                     )
                                     .border(
-                                        width = if (isSelected) 2.dp else 0.dp,
-                                        color = if (isSelected) Color(0xFF020202) else Color.Transparent,
+                                        width = when {
+                                            isSelected -> 3.dp
+                                            isToday -> 2.dp
+                                            else -> 0.dp
+                                        },
+                                        color = when {
+                                            isSelected -> Color(0xFF020202)
+                                            isToday -> Color(0xFF1976A3)
+                                            else -> Color.Transparent
+                                        },
                                         shape = CircleShape
                                     ),
                                 contentAlignment = Alignment.Center
@@ -765,6 +899,75 @@ class FragDiario : Fragment() {
                 }
             }
         }
+    }
+
+    @Composable
+    private fun BatchSelectionBar(
+        selectedCount: Int,
+        onChangeEmotion: () -> Unit,
+        onDelete: () -> Unit,
+        onCancel: () -> Unit
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp, vertical = 6.dp)
+                .background(Color(0xE8323A42), RoundedCornerShape(14.dp))
+                .padding(horizontal = 10.dp, vertical = 4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "$selectedCount seleccionadas",
+                color = Color.White,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.weight(1f)
+            )
+            TextButton(onClick = onChangeEmotion) {
+                Text("Emoción", color = Color.White)
+            }
+            TextButton(onClick = onDelete) {
+                Text("Eliminar", color = Color(0xFFFFB4AB))
+            }
+            TextButton(onClick = onCancel) {
+                Text("Cerrar", color = Color.White)
+            }
+        }
+    }
+
+    @Composable
+    private fun EmotionPickerDialog(
+        emotions: List<DiarioEmotion>,
+        onDismiss: () -> Unit,
+        onSelect: (DiarioEmotion) -> Unit
+    ) {
+        AlertDialog(
+            onDismissRequest = onDismiss,
+            title = { Text("Elegir emoción") },
+            text = {
+                FlowRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    emotions.forEach { emotion ->
+                        Text(
+                            text = emotion.emoji,
+                            fontSize = 28.sp,
+                            modifier = Modifier
+                                .background(Color(0xFFE8E2D9), RoundedCornerShape(10.dp))
+                                .clickable { onSelect(emotion) }
+                                .padding(10.dp)
+                        )
+                    }
+                }
+            },
+            confirmButton = {},
+            dismissButton = {
+                TextButton(onClick = onDismiss) {
+                    Text(getString(R.string.cancelar))
+                }
+            }
+        )
     }
 
     @Composable
@@ -981,7 +1184,12 @@ class FragDiario : Fragment() {
                             fontSize = 20.sp,
                             color = colorResource(id = R.color.light_blue_50)
                         ),
-                        placeholder = { Text("¿Qué ocurrió hoy?", color = Color(0xFFE6ECEF)) }
+                        placeholder = {
+                            Text(
+                                if (entradaEnEdicion == null) DEFAULT_NEW_CONTENT else "¿Qué ocurrió hoy?",
+                                color = Color(0xFFE6ECEF)
+                            )
+                        }
                     )
 
                     Text(text = "Emoción", fontWeight = FontWeight.SemiBold, color = Color.White)
@@ -1038,7 +1246,11 @@ class FragDiario : Fragment() {
         isExpanded: Boolean,
         showEmotionMenu: Boolean,
         showItemMenu: Boolean,
+        selectionMode: Boolean,
+        isSelected: Boolean,
         fechaTexto: String,
+        onToggleSelection: () -> Unit,
+        onStartSelection: () -> Unit,
         onToggleExpand: () -> Unit,
         onContentDoubleTap: () -> Unit,
         onTitleDoubleTap: () -> Unit,
@@ -1055,8 +1267,21 @@ class FragDiario : Fragment() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp, vertical = 4.dp)
-                .background(Color(0xFFF6F3ED), RoundedCornerShape(12.dp))
-                .border(1.dp, Color(0x22000000), RoundedCornerShape(12.dp))
+                .background(
+                    if (isSelected) Color(0xFFD7E8F0) else Color(0xFFF6F3ED),
+                    RoundedCornerShape(12.dp)
+                )
+                .border(
+                    if (isSelected) 3.dp else 1.dp,
+                    if (isSelected) Color(0xFF1976A3) else Color(0x22000000),
+                    RoundedCornerShape(12.dp)
+                )
+                .combinedClickable(
+                    onClick = {
+                        if (selectionMode) onToggleSelection()
+                    },
+                    onLongClick = onStartSelection
+                )
                 .padding(12.dp)
         ) {
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
@@ -1064,9 +1289,11 @@ class FragDiario : Fragment() {
                     Text(
                         text = emotion.emoji,
                         fontSize = 34.sp,
-                        modifier = Modifier.clickable(onClick = onToggleEmotionMenu)
+                        modifier = Modifier.clickable {
+                            if (selectionMode) onToggleSelection() else onToggleEmotionMenu()
+                        }
                     )
-                    DropdownMenu(expanded = showEmotionMenu, onDismissRequest = onToggleEmotionMenu) {
+                    DropdownMenu(expanded = showEmotionMenu && !selectionMode, onDismissRequest = onToggleEmotionMenu) {
                         DiarioEmotion.entries.forEach { emo ->
                             DropdownMenuItem(
                                 text = { Text("${emo.label} ${emo.emoji}") },
@@ -1083,21 +1310,36 @@ class FragDiario : Fragment() {
                     modifier = Modifier
                         .padding(start = 8.dp)
                         .weight(1f)
-                        .combinedClickable(onClick = {}, onDoubleClick = onTitleDoubleTap)
+                        .combinedClickable(
+                            onClick = { if (selectionMode) onToggleSelection() },
+                            onDoubleClick = { if (!selectionMode) onTitleDoubleTap() },
+                            onLongClick = onStartSelection
+                        )
                 )
 
-                Box {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_menu_open),
-                        contentDescription = "Opciones",
-                        tint = Color.Black,
-                        modifier = Modifier
-                            .size(20.dp)
-                            .clickable(onClick = onToggleItemMenu)
+                if (selectionMode) {
+                    Text(
+                        text = if (isSelected) "✓" else "○",
+                        color = Color(0xFF0F5F85),
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.clickable(onClick = onToggleSelection)
                     )
-                    DropdownMenu(expanded = showItemMenu, onDismissRequest = onToggleItemMenu) {
-                        DropdownMenuItem(text = { Text("Editar") }, onClick = onEdit)
-                        DropdownMenuItem(text = { Text("Eliminar") }, onClick = onDelete)
+                } else {
+                    Box {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_menu_open),
+                            contentDescription = "Opciones",
+                            tint = Color.Black,
+                            modifier = Modifier
+                                .size(20.dp)
+                                .clickable(onClick = onToggleItemMenu)
+                        )
+                        DropdownMenu(expanded = showItemMenu, onDismissRequest = onToggleItemMenu) {
+                            DropdownMenuItem(text = { Text("Seleccionar") }, onClick = onStartSelection)
+                            DropdownMenuItem(text = { Text("Editar") }, onClick = onEdit)
+                            DropdownMenuItem(text = { Text("Eliminar") }, onClick = onDelete)
+                        }
                     }
                 }
             }
@@ -1114,7 +1356,11 @@ class FragDiario : Fragment() {
                 modifier = Modifier
                     .padding(top = 6.dp)
                     .fillMaxWidth()
-                    .combinedClickable(onClick = onToggleExpand, onDoubleClick = onContentDoubleTap)
+                    .combinedClickable(
+                        onClick = { if (selectionMode) onToggleSelection() else onToggleExpand() },
+                        onDoubleClick = { if (!selectionMode) onContentDoubleTap() },
+                        onLongClick = onStartSelection
+                    )
             )
 
             Row(
@@ -1133,7 +1379,9 @@ class FragDiario : Fragment() {
                     contentDescription = "Favorito",
                     tint = if (entrada.isFav) Color(0xFFD32F2F) else Color(0xFF888888),
                     modifier = Modifier.size(24.dp)
-                        .clickable(onClick = onToggleFav)
+                        .clickable {
+                            if (selectionMode) onToggleSelection() else onToggleFav()
+                        }
                 )
             }
         }
@@ -1171,9 +1419,8 @@ class FragDiario : Fragment() {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = monthStart
 
-        val firstDayWeek = calendar.firstDayOfWeek
         val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
-        val leadingEmpty = (dayOfWeek - firstDayWeek + 7) % 7
+        val leadingEmpty = (dayOfWeek - Calendar.MONDAY + 7) % 7
 
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
@@ -1348,6 +1595,8 @@ class FragDiario : Fragment() {
 
     companion object {
         private const val DAY_MS = 24L * 60 * 60 * 1000
+        private const val DEFAULT_NEW_CONTENT = "Nuevo Contenido!"
+        private val WEEKDAY_LABELS = listOf("Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom")
     }
 }
 

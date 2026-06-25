@@ -25,6 +25,7 @@ data class SubscriptionUiState(
     val isLoading: Boolean = true,
     val productTitle: String = "Suscripción anual",
     val productPrice: String? = null,
+    val hasIntroductoryTrial: Boolean = false,
     val lastMessage: String? = null
 )
 
@@ -32,6 +33,7 @@ object SubscriptionManager : PurchasesUpdatedListener {
 
     const val PRODUCT_ID_ANNUAL = "premium_anual"
     private const val BASE_PLAN_ID_ANNUAL = "anual"
+    private const val INTRODUCTORY_OFFER_ID = "intro-7d"
 
     private lateinit var appContext: Context
     private var billingClient: BillingClient? = null
@@ -188,10 +190,14 @@ object SubscriptionManager : PurchasesUpdatedListener {
                 annualDetails = detailsList.firstOrNull()
                 val detail = annualDetails
                 val offer = detail?.let { selectAnnualOffer(it) }
-                val phase = offer?.pricingPhases?.pricingPhaseList?.firstOrNull()
+                val phases = offer?.pricingPhases?.pricingPhaseList.orEmpty()
+                val paidPhase = phases.lastOrNull { it.priceAmountMicros > 0L }
+                    ?: phases.lastOrNull()
                 _uiState.value = _uiState.value.copy(
                     productTitle = detail?.name ?: "Suscripción anual",
-                    productPrice = phase?.formattedPrice,
+                    productPrice = paidPhase?.formattedPrice,
+                    hasIntroductoryTrial = offer?.offerId == INTRODUCTORY_OFFER_ID &&
+                        phases.any { it.priceAmountMicros == 0L },
                     isLoading = false
                 )
             } else {
@@ -264,6 +270,14 @@ object SubscriptionManager : PurchasesUpdatedListener {
     private fun selectAnnualOffer(details: ProductDetails): ProductDetails.SubscriptionOfferDetails? {
         return details.subscriptionOfferDetails
             ?.firstOrNull { offer ->
+                offer.basePlanId == BASE_PLAN_ID_ANNUAL &&
+                    offer.offerId == INTRODUCTORY_OFFER_ID
+            }
+            ?: details.subscriptionOfferDetails
+            ?.firstOrNull { offer ->
+                offer.basePlanId == BASE_PLAN_ID_ANNUAL && offer.offerId == null
+            }
+            ?: details.subscriptionOfferDetails?.firstOrNull { offer ->
                 offer.basePlanId == BASE_PLAN_ID_ANNUAL
             }
             ?: details.subscriptionOfferDetails?.firstOrNull { offer ->

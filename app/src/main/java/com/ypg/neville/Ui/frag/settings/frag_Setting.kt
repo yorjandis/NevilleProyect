@@ -24,10 +24,13 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -64,6 +67,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import com.ypg.neville.feature.presence.data.PresenceSettings
+import com.ypg.neville.feature.cardiocoherence.data.CardioCoherencePreferences
 import androidx.lifecycle.lifecycleScope
 import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.MainActivity
@@ -219,6 +223,9 @@ class frag_Setting : Fragment() {
             )
         }
         var presencePhraseInput by remember { mutableStateOf(presenceCelebrationPhrase) }
+        var cardioSessionPhrases by remember {
+            mutableStateOf(CardioCoherencePreferences.loadSessionPhrases(context))
+        }
         var presenceHomeButtonEnabled by remember {
             mutableStateOf(prefs.getBoolean(FragHome.PREF_KEY_PRESENCE_HOME_BUTTON_ENABLED, true))
         }
@@ -235,6 +242,7 @@ class frag_Setting : Fragment() {
         var showJournalTimeDialog by remember { mutableStateOf(false) }
         var showJournalMessageDialog by remember { mutableStateOf(false) }
         var showPresencePhraseDialog by remember { mutableStateOf(false) }
+        var showCardioPhrasesDialog by remember { mutableStateOf(false) }
         var showPassphraseDialog by remember { mutableStateOf(false) }
         var showDeletePassphraseDialog by remember { mutableStateOf(false) }
         var showRecoveryGuideDialog by remember { mutableStateOf(false) }
@@ -645,6 +653,34 @@ class frag_Setting : Fragment() {
                         description = "Agrega o elimina pistas de música para Espacio Calma"
                     ) {
                         MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_calm_music_manager)
+                    }
+                }
+            }
+
+            item {
+                SettingSection(
+                    title = "Coherencia Cardio Cerebral",
+                    subtitle = "Personaliza las frases que acompañan las cuatro fases de la sesión"
+                ) {
+                    ActionField(
+                        title = "Frases de la sesión >",
+                        description = "Dos frases por fase, mostradas en sincronía con la respiración"
+                    ) {
+                        cardioSessionPhrases = CardioCoherencePreferences.loadSessionPhrases(context)
+                        showCardioPhrasesDialog = true
+                    }
+                    FieldDivider()
+                    ActionField(
+                        title = "Restaurar frases por defecto",
+                        description = "Recupera las ocho frases originales"
+                    ) {
+                        CardioCoherencePreferences.resetSessionPhrases(context)
+                        cardioSessionPhrases = CardioCoherencePreferences.defaultSessionPhrases
+                        Toast.makeText(
+                            context,
+                            "Frases de Coherencia restauradas",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
@@ -1097,6 +1133,70 @@ class frag_Setting : Fragment() {
                 },
                 dismissButton = {
                     TextButton(onClick = { showPresencePhraseDialog = false }) {
+                        Text("Cancelar")
+                    }
+                }
+            )
+        }
+
+        if (showCardioPhrasesDialog) {
+            AlertDialog(
+                onDismissRequest = { showCardioPhrasesDialog = false },
+                title = { Text("Frases de Coherencia Cardio Cerebral") },
+                text = {
+                    Column(
+                        modifier = Modifier
+                            .heightIn(max = 520.dp)
+                            .verticalScroll(rememberScrollState()),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        CardioCoherencePreferences.phaseTitles.forEachIndexed { phaseIndex, title ->
+                            Text(
+                                text = title,
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                            repeat(2) { phraseOffset ->
+                                val phraseIndex = (phaseIndex * 2) + phraseOffset
+                                OutlinedTextField(
+                                    value = cardioSessionPhrases[phraseIndex],
+                                    onValueChange = { value ->
+                                        val updated = cardioSessionPhrases.toMutableList()
+                                        updated[phraseIndex] = value.take(
+                                            CardioCoherencePreferences.MAX_SESSION_PHRASE_LENGTH
+                                        )
+                                        cardioSessionPhrases = updated
+                                    },
+                                    label = { Text("Frase ${phraseOffset + 1}") },
+                                    supportingText = {
+                                        Text(
+                                            "${cardioSessionPhrases[phraseIndex].length}/" +
+                                                CardioCoherencePreferences.MAX_SESSION_PHRASE_LENGTH
+                                        )
+                                    },
+                                    minLines = 2,
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                            }
+                        }
+                    }
+                },
+                confirmButton = {
+                    TextButton(onClick = {
+                        CardioCoherencePreferences.saveSessionPhrases(context, cardioSessionPhrases)
+                        cardioSessionPhrases = CardioCoherencePreferences.loadSessionPhrases(context)
+                        showCardioPhrasesDialog = false
+                        Toast.makeText(
+                            context,
+                            "Frases de Coherencia guardadas",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }) {
+                        Text("Guardar")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showCardioPhrasesDialog = false }) {
                         Text("Cancelar")
                     }
                 }
