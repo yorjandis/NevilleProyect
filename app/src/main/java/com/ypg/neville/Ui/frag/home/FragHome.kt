@@ -480,8 +480,8 @@ class FragHome : Fragment() {
                         .background(
                             brush = Brush.horizontalGradient(
                                 colors = listOf(
-                                    Color(0xFF0A8AB6).copy(alpha = glow),
-                                    Color(0xFF2E5B9A).copy(alpha = glow)
+                                    Color(0xFFDDF2FF),
+                                    Color(0xFFAEDCF5)
                                 )
                             ),
                             shape = RoundedCornerShape(26.dp)
@@ -492,13 +492,13 @@ class FragHome : Fragment() {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_calendar_toggle),
                         contentDescription = "Ritual del día",
-                        tint = Color.White,
+                        tint = Color.Black,
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Ritual del día",
-                        color = Color.White,
+                        text = "Ritual",
+                        color = Color.Black,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold
                     )
@@ -606,8 +606,8 @@ class FragHome : Fragment() {
                         .background(
                             brush = Brush.horizontalGradient(
                                 colors = listOf(
-                                    Color(0xFFEADFFF),
-                                    Color(0xFFBFEFE7)
+                                    Color(0xFFDDF2FF),
+                                    Color(0xFFAEDCF5)
                                 )
                             ),
                             shape = RoundedCornerShape(26.dp)

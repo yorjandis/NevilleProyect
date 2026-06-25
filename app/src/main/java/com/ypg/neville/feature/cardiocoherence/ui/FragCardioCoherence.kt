@@ -178,15 +178,21 @@ private fun CardioCoherenceRoot(
 ) {
     var showWelcome by remember { mutableStateOf(true) }
 
-    if (showWelcome) {
-        CardioCoherenceWelcomeScreen(
-            onFinished = { showWelcome = false },
-            onClose = onClose
-        )
-        return
+    Crossfade(
+        targetState = showWelcome,
+        animationSpec = tween(durationMillis = CARDIO_WELCOME_TO_MAIN_CROSSFADE_MILLIS),
+        label = "cardio-welcome-to-main",
+        modifier = Modifier.fillMaxSize()
+    ) { welcomeVisible ->
+        if (welcomeVisible) {
+            CardioCoherenceWelcomeScreen(
+                onFinished = { showWelcome = false },
+                onClose = onClose
+            )
+        } else {
+            CardioCoherenceMainContent(viewModel = viewModel, onClose = onClose)
+        }
     }
-
-    CardioCoherenceMainContent(viewModel = viewModel, onClose = onClose)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -406,6 +412,7 @@ private fun CardioCoherenceWelcomeScreen(
     var currentTextIndex by remember { mutableStateOf(-1) }
     var isFinishing by remember { mutableStateOf(false) }
     var player by remember { mutableStateOf<MediaPlayer?>(null) }
+    val welcomeTextAlpha = remember { Animatable(0f) }
     val backgroundBitmap = remember(context) {
         context.loadCardioCoherenceBackgroundBitmap(CARDIO_WELCOME_BACKGROUND_ASSET)
     }
@@ -479,13 +486,29 @@ private fun CardioCoherenceWelcomeScreen(
         delay(CARDIO_WELCOME_INITIAL_DELAY_MILLIS)
         welcomeTexts.indices.forEach { index ->
             currentTextIndex = index
+            welcomeTextAlpha.animateTo(
+                targetValue = 1f,
+                animationSpec = tween(durationMillis = CARDIO_WELCOME_TEXT_FADE_IN_MILLIS)
+            )
             val duration = CARDIO_WELCOME_TEXT_DURATIONS_MILLIS[index]
             if (index == welcomeTexts.lastIndex) {
-                delay((duration - CARDIO_WELCOME_FINAL_FADE_MILLIS).coerceAtLeast(0))
+                delay(
+                    (duration - CARDIO_WELCOME_TEXT_FADE_IN_MILLIS -
+                        CARDIO_WELCOME_FINAL_FADE_MILLIS)
+                        .coerceAtLeast(0)
+                )
                 isFinishing = true
                 fadeOut(CARDIO_WELCOME_FINAL_FADE_MILLIS)
             } else {
-                delay(duration)
+                delay(
+                    (duration - CARDIO_WELCOME_TEXT_FADE_IN_MILLIS -
+                        CARDIO_WELCOME_TEXT_FADE_OUT_MILLIS)
+                        .coerceAtLeast(0)
+                )
+                welcomeTextAlpha.animateTo(
+                    targetValue = 0f,
+                    animationSpec = tween(durationMillis = CARDIO_WELCOME_TEXT_FADE_OUT_MILLIS)
+                )
             }
         }
         onFinished()
@@ -536,26 +559,21 @@ private fun CardioCoherenceWelcomeScreen(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Crossfade(
-                        targetState = currentTextIndex,
-                        animationSpec = tween(durationMillis = 600),
-                        label = "cardio-welcome-text"
-                    ) { index ->
-                        if (index in welcomeTexts.indices) {
+                    if (currentTextIndex in welcomeTexts.indices) {
                         Text(
-                            text = welcomeTexts[index],
+                            text = welcomeTexts[currentTextIndex],
                             style = MaterialTheme.typography.headlineSmall,
                             fontWeight = FontWeight.SemiBold,
                             color = Color.White,
                             textAlign = TextAlign.Center,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = 24.dp, vertical = 18.dp),
+                                .padding(horizontal = 24.dp, vertical = 18.dp)
+                                .graphicsLayer { alpha = welcomeTextAlpha.value },
                             maxLines = 4
                         )
                     }
                 }
-            }
             }
         }
 
@@ -1900,8 +1918,11 @@ private const val CARDIO_WELCOME_MUSIC_ASSET = "Coherencia_musica/music_coherenc
 private const val CARDIO_WELCOME_MUSIC_VOLUME = 0.8f
 private const val CARDIO_WELCOME_INITIAL_DELAY_MILLIS = 1_600L
 private const val CARDIO_WELCOME_FRAME_FADE_IN_MILLIS = 900
+private const val CARDIO_WELCOME_TEXT_FADE_IN_MILLIS = 3_200
+private const val CARDIO_WELCOME_TEXT_FADE_OUT_MILLIS = 1_800
 private const val CARDIO_WELCOME_FINAL_FADE_MILLIS = 1_200L
 private const val CARDIO_WELCOME_SKIP_FADE_MILLIS = 350L
+private const val CARDIO_WELCOME_TO_MAIN_CROSSFADE_MILLIS = 1_400
 private val CARDIO_WELCOME_TEXT_DURATIONS_MILLIS = listOf(6_000L, 8_800L, 6_500L, 7_000L)
 private val CARDIO_WELCOME_PHRASE_TRIOS = listOf(
     Triple(
