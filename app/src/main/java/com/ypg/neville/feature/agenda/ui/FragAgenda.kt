@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -315,6 +317,11 @@ class FragAgenda : Fragment() {
                             onSelectDate = {
                                 selectedDate = it
                                 quickFilter = QuickFilter.TODOS
+                            },
+                            onCreateAtDate = {
+                                selectedDate = it
+                                quickFilter = QuickFilter.TODOS
+                                editorItem = repository.create(it, System.currentTimeMillis())
                             }
                         )
                     }
@@ -471,8 +478,13 @@ class FragAgenda : Fragment() {
         items: List<AgendaItemEntity>,
         onPreviousMonth: () -> Unit,
         onNextMonth: () -> Unit,
-        onSelectDate: (Long) -> Unit
+        onSelectDate: (Long) -> Unit,
+        onCreateAtDate: (Long) -> Unit
     ) {
+        val calendarDays = remember(displayedMonth) { daysForDisplayedMonth(displayedMonth) }
+        val weekRows = (calendarDays.size + 6) / 7
+        val calendarGridHeight = (22 + weekRows * 30).dp
+
         Surface(color = Color.White.copy(alpha = 0.5f), shape = RoundedCornerShape(12.dp)) {
             Column(modifier = Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -489,12 +501,18 @@ class FragAgenda : Fragment() {
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(7),
                     userScrollEnabled = false,
-                    modifier = Modifier.height(232.dp)
+                    modifier = Modifier.height(calendarGridHeight)
                 ) {
                     items(weekdaySymbols()) { day ->
-                        Text(day, color = Color.Black.copy(alpha = 0.7f), textAlign = TextAlign.Center, style = MaterialTheme.typography.labelSmall)
+                        Text(
+                            day,
+                            color = Color.Black.copy(alpha = 0.7f),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.labelSmall,
+                            modifier = Modifier.height(22.dp)
+                        )
                     }
-                    items(daysForDisplayedMonth(displayedMonth)) { date ->
+                    items(calendarDays) { date ->
                         if (date == null) {
                             Spacer(modifier = Modifier.height(30.dp))
                         } else {
@@ -502,7 +520,8 @@ class FragAgenda : Fragment() {
                                 date = date,
                                 selected = isSameDay(date, selectedDate),
                                 hasActivity = items.any { isSameDay(it.activityDateMillis, date) },
-                                onClick = { onSelectDate(date) }
+                                onClick = { onSelectDate(date) },
+                                onDoubleClick = { onCreateAtDate(date) }
                             )
                         }
                     }
@@ -511,14 +530,24 @@ class FragAgenda : Fragment() {
         }
     }
 
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
-    private fun DayCell(date: Long, selected: Boolean, hasActivity: Boolean, onClick: () -> Unit) {
+    private fun DayCell(
+        date: Long,
+        selected: Boolean,
+        hasActivity: Boolean,
+        onClick: () -> Unit,
+        onDoubleClick: () -> Unit
+    ) {
         Box(
             modifier = Modifier
                 .height(30.dp)
                 .clip(CircleShape)
                 .background(if (selected) Color(0xFFF2AB5E) else Color.Transparent)
-                .clickable(onClick = onClick),
+                .combinedClickable(
+                    onClick = onClick,
+                    onDoubleClick = onDoubleClick
+                ),
             contentAlignment = Alignment.Center
         ) {
             Text(

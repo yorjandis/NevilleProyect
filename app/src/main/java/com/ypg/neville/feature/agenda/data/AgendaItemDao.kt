@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AgendaItemDao {
@@ -14,6 +15,12 @@ interface AgendaItemDao {
 
     @Query("SELECT * FROM agenda_items WHERE id = :id LIMIT 1")
     fun findById(id: String): AgendaItemEntity?
+
+    @Query(
+        "SELECT COUNT(*) FROM agenda_items " +
+            "WHERE activityDateMillis >= :startInclusive AND activityDateMillis < :endExclusive"
+    )
+    fun observeCountBetween(startInclusive: Long, endExclusive: Long): Flow<Int>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(item: AgendaItemEntity)

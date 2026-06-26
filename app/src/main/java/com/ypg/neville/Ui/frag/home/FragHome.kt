@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -160,6 +161,9 @@ class FragHome : Fragment() {
         var showPresenceShortcut by remember {
             mutableStateOf(prefs.getBoolean(PREF_KEY_PRESENCE_HOME_BUTTON_ENABLED, true))
         }
+        var agendaIndicatorHiddenDay by remember {
+            mutableLongStateOf(prefs.getLong(PREF_KEY_AGENDA_INDICATOR_HIDDEN_DAY, -1L))
+        }
 
         LaunchedEffect(Unit) {
             while (true) {
@@ -172,9 +176,27 @@ class FragHome : Fragment() {
         val textColor = prefs.getInt("color_letra_frases_home", prefs.getInt("color_letra_frases", 0))
         val bgColorA = prefs.getInt("color_fondo_a", 0xFFC69FF9.toInt())
         val bgColorB = prefs.getInt("color_fondo_b", 0xFFC4AA8E.toInt())
-        val nowMillis = System.currentTimeMillis()
+        val nowMillis = nowMs
         val offsetMillis = TimeZone.getDefault().getOffset(nowMillis).toLong()
         val todayEpochDay = Math.floorDiv(nowMillis + offsetMillis, 86_400_000L)
+        val (todayStartMillis, tomorrowStartMillis) = remember(todayEpochDay) {
+            java.util.Calendar.getInstance().run {
+                set(java.util.Calendar.HOUR_OF_DAY, 0)
+                set(java.util.Calendar.MINUTE, 0)
+                set(java.util.Calendar.SECOND, 0)
+                set(java.util.Calendar.MILLISECOND, 0)
+                val start = timeInMillis
+                add(java.util.Calendar.DAY_OF_MONTH, 1)
+                start to timeInMillis
+            }
+        }
+        val agendaCountToday by remember(todayStartMillis, tomorrowStartMillis) {
+            NevilleRoomDatabase.getInstance(context.applicationContext)
+                .agendaItemDao()
+                .observeCountBetween(todayStartMillis, tomorrowStartMillis)
+        }.collectAsState(initial = 0)
+        val showAgendaIndicator =
+            agendaCountToday > 0 && agendaIndicatorHiddenDay != todayEpochDay
         LaunchedEffect(Unit) {
             if (!prefs.getBoolean(PREF_KEY_RITUAL_HIDDEN_DAY_RESET_DONE, false)) {
                 prefs.edit {
@@ -410,8 +432,23 @@ class FragHome : Fragment() {
                     ) {
                         if (showAgendaShortcut) {
                             AgendaShortcutButton(
+                                agendaCountToday = agendaCountToday,
+                                showIndicator = showAgendaIndicator,
                                 onOpenAgenda = {
                                     MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_agenda)
+                                },
+                                onToggleIndicatorToday = {
+                                    if (showAgendaIndicator) {
+                                        agendaIndicatorHiddenDay = todayEpochDay
+                                        prefs.edit {
+                                            putLong(PREF_KEY_AGENDA_INDICATOR_HIDDEN_DAY, todayEpochDay)
+                                        }
+                                    } else {
+                                        agendaIndicatorHiddenDay = -1L
+                                        prefs.edit {
+                                            remove(PREF_KEY_AGENDA_INDICATOR_HIDDEN_DAY)
+                                        }
+                                    }
                                 },
                                 onHidePermanently = {
                                     showAgendaShortcut = false
@@ -523,7 +560,10 @@ class FragHome : Fragment() {
 
     @Composable
     private fun AgendaShortcutButton(
+        agendaCountToday: Int,
+        showIndicator: Boolean,
         onOpenAgenda: () -> Unit,
+        onToggleIndicatorToday: () -> Unit,
         onHidePermanently: () -> Unit
     ) {
         var showMenu by remember { mutableStateOf(false) }
@@ -568,11 +608,48 @@ class FragHome : Fragment() {
                 }
             }
 
+            if (showIndicator) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .offset(x = 7.dp, y = (-7).dp)
+                        .size(26.dp)
+                        .clip(CircleShape)
+                        .background(Color(0xFFD32F2F)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = agendaCountToday.toString(),
+                        color = Color.White,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1
+                    )
+                }
+            }
+
             DropdownMenu(
                 expanded = showMenu,
                 onDismissRequest = { showMenu = false },
                 modifier = Modifier.align(Alignment.BottomEnd)
             ) {
+                if (agendaCountToday > 0) {
+                    DropdownMenuItem(
+                        text = {
+                            Text(
+                                if (showIndicator) {
+                                    "Ocultar indicador hoy"
+                                } else {
+                                    "Mostrar indicador hoy"
+                                }
+                            )
+                        },
+                        onClick = {
+                            showMenu = false
+                            onToggleIndicatorToday()
+                        }
+                    )
+                }
                 DropdownMenuItem(
                     text = { Text("Ocultar permanentemente") },
                     onClick = {
@@ -774,6 +851,7 @@ class FragHome : Fragment() {
         private var sessionMandalaAssetPath: String? = null
         const val PREF_KEY_AGENDA_HOME_BUTTON_ENABLED = "agenda_home_button_enabled"
         const val PREF_KEY_PRESENCE_HOME_BUTTON_ENABLED = "presence_home_button_enabled"
+        private const val PREF_KEY_AGENDA_INDICATOR_HIDDEN_DAY = "agenda_indicator_hidden_day"
         private const val PREF_KEY_RITUAL_BUTTON_HIDDEN_DAY = "morning_ritual_button_hidden_day"
         private const val PREF_KEY_RITUAL_HIDDEN_DAY_RESET_DONE = "morning_ritual_hidden_day_reset_done"
     }

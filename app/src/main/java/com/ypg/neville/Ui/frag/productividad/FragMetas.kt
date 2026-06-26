@@ -971,6 +971,21 @@ class FragMetas : Fragment() {
 
         val habits = remember { mutableStateListOf<HabitPreset>() }
         val groupedProgramas = remember { mutableStateListOf<Pair<String, List<ProgramaPreestablecido>>>() }
+        val habitCardColor = Color(0xFFD2F0DF)
+        val habitCardContentColor = Color(0xFF173C2A)
+        val programCardColor = Color(0xFFFFE0B8)
+        val programCardContentColor = Color(0xFF4A2D12)
+        val fieldColors = OutlinedTextFieldDefaults.colors(
+            focusedTextColor = Color.Black,
+            unfocusedTextColor = Color.Black,
+            focusedLabelColor = Color.Black,
+            unfocusedLabelColor = Color.Black,
+            focusedPlaceholderColor = Color.Black,
+            unfocusedPlaceholderColor = Color.Black,
+            focusedBorderColor = Color.Black,
+            unfocusedBorderColor = Color.Black,
+            cursorColor = Color.Black
+        )
         var selectedProgramaGroup by remember { mutableStateOf<String?>(null) }
         val filteredHabits = habits.filter { habit ->
             val titleOk = habitTitleFilter.isBlank() ||
@@ -1007,9 +1022,9 @@ class FragMetas : Fragment() {
                         .background(
                             brush = Brush.verticalGradient(
                                 colors = listOf(
-                                    Color(0xFF1E3E62),
-                                    Color(0xFF404865),
-                                    Color(0xFF8E8F9E)
+                                    Color(0xFFD7EAF7),
+                                    Color(0xFF82B6D9),
+                                    Color(0xFF285F8F)
                                 )
                             ),
                             shape = RoundedCornerShape(18.dp)
@@ -1061,7 +1076,8 @@ class FragMetas : Fragment() {
                                 onValueChange = { title = it },
                                 modifier = Modifier.fillMaxWidth(),
                                 label = { Text("Título") },
-                                shape = RoundedCornerShape(14.dp)
+                                shape = RoundedCornerShape(14.dp),
+                                colors = fieldColors
                             )
                             Spacer(modifier = Modifier.height(8.dp))
 
@@ -1071,14 +1087,16 @@ class FragMetas : Fragment() {
                                     onValueChange = { amountText = it.filter { c -> c.isDigit() } },
                                     modifier = Modifier.weight(1f),
                                     label = { Text("Unidades") },
-                                    shape = RoundedCornerShape(14.dp)
+                                    shape = RoundedCornerShape(14.dp),
+                                    colors = fieldColors
                                 )
                                 OutlinedTextField(
                                     value = frequencyText,
                                     onValueChange = { frequencyText = it.filter { c -> c.isDigit() } },
                                     modifier = Modifier.weight(1f),
                                     label = { Text("Frecuencia") },
-                                    shape = RoundedCornerShape(14.dp)
+                                    shape = RoundedCornerShape(14.dp),
+                                    colors = fieldColors
                                 )
                             }
 
@@ -1114,7 +1132,8 @@ class FragMetas : Fragment() {
                                     .fillMaxWidth()
                                     .height(120.dp),
                                 label = { Text("Descripción") },
-                                shape = RoundedCornerShape(14.dp)
+                                shape = RoundedCornerShape(14.dp),
+                                colors = fieldColors
                             )
 
                             Spacer(modifier = Modifier.height(8.dp))
@@ -1153,6 +1172,7 @@ class FragMetas : Fragment() {
                                 modifier = Modifier.fillMaxWidth(),
                                 label = { Text("Filtrar por título") },
                                 shape = RoundedCornerShape(14.dp),
+                                colors = fieldColors,
                                 singleLine = true
                             )
                             Spacer(modifier = Modifier.height(6.dp))
@@ -1162,6 +1182,7 @@ class FragMetas : Fragment() {
                                 modifier = Modifier.fillMaxWidth(),
                                 label = { Text("Filtrar por contenido") },
                                 shape = RoundedCornerShape(14.dp),
+                                colors = fieldColors,
                                 singleLine = true
                             )
                             Spacer(modifier = Modifier.height(8.dp))
@@ -1170,7 +1191,13 @@ class FragMetas : Fragment() {
                                 verticalArrangement = Arrangement.spacedBy(8.dp)
                             ) {
                                 items(filteredHabits) { habit ->
-                                    Card(modifier = Modifier.fillMaxWidth()) {
+                                    Card(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        colors = CardDefaults.cardColors(
+                                            containerColor = habitCardColor,
+                                            contentColor = habitCardContentColor
+                                        )
+                                    ) {
                                         Column(modifier = Modifier.padding(10.dp)) {
                                             Text(habit.title, fontWeight = FontWeight.Bold)
                                             Text(habit.description, maxLines = 4, overflow = TextOverflow.Ellipsis)
@@ -1231,7 +1258,11 @@ class FragMetas : Fragment() {
                                         Card(
                                             modifier = Modifier
                                                 .fillMaxWidth()
-                                                .clickable { selectedProgramaGroup = group }
+                                                .clickable { selectedProgramaGroup = group },
+                                            colors = CardDefaults.cardColors(
+                                                containerColor = programCardColor,
+                                                contentColor = programCardContentColor
+                                            )
                                         ) {
                                             Column(modifier = Modifier.padding(12.dp)) {
                                                 Text(
@@ -1245,7 +1276,13 @@ class FragMetas : Fragment() {
                                     val group = selectedPair.first
                                     val programas = selectedPair.second
                                     items(programas, key = { it.fileBaseName }) { programa ->
-                                        Card(modifier = Modifier.fillMaxWidth()) {
+                                        Card(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            colors = CardDefaults.cardColors(
+                                                containerColor = programCardColor,
+                                                contentColor = programCardContentColor
+                                            )
+                                        ) {
                                             Column(modifier = Modifier.padding(10.dp)) {
                                                 Text(programa.title, fontWeight = FontWeight.Bold)
                                                 Text(programa.description, maxLines = 4, overflow = TextOverflow.Ellipsis)
