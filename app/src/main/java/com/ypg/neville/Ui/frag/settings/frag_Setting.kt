@@ -229,6 +229,30 @@ class frag_Setting : Fragment() {
         var presenceHomeButtonEnabled by remember {
             mutableStateOf(prefs.getBoolean(FragHome.PREF_KEY_PRESENCE_HOME_BUTTON_ENABLED, true))
         }
+        var homeAlternativePresenceTotal by remember {
+            mutableStateOf(
+                prefs.getInt(
+                    FragHome.PREF_KEY_HOME_ALTERNATIVE_PRESENCE_TOTAL,
+                    FragHome.HOME_ALTERNATIVE_PRESENCE_TOTAL_DEFAULT
+                ).coerceAtLeast(FragHome.HOME_ALTERNATIVE_PRESENCE_TOTAL_DEFAULT)
+            )
+        }
+        var homeAlternativeGoalsTotal by remember {
+            mutableStateOf(
+                prefs.getInt(
+                    FragHome.PREF_KEY_HOME_ALTERNATIVE_GOALS_TOTAL,
+                    FragHome.HOME_ALTERNATIVE_GOALS_TOTAL_DEFAULT
+                ).coerceAtLeast(FragHome.HOME_ALTERNATIVE_GOALS_TOTAL_DEFAULT)
+            )
+        }
+        var homeAlternativeDiaryTotal by remember {
+            mutableStateOf(
+                prefs.getInt(
+                    FragHome.PREF_KEY_HOME_ALTERNATIVE_DIARY_TOTAL,
+                    FragHome.HOME_ALTERNATIVE_DIARY_TOTAL_DEFAULT
+                ).coerceAtLeast(FragHome.HOME_ALTERNATIVE_DIARY_TOTAL_DEFAULT)
+            )
+        }
         var notesBiometricLockEnabled by remember { mutableStateOf(prefs.getBoolean(notesBiometricLockPrefKey, false)) }
         var journalReminderEnabled by remember { mutableStateOf(initialJournalConfig.enabled) }
         var journalReminderHour by remember { mutableStateOf(initialJournalConfig.hour) }
@@ -653,6 +677,61 @@ class frag_Setting : Fragment() {
                         description = "Agrega o elimina pistas de música para Espacio Calma"
                     ) {
                         MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_calm_music_manager)
+                    }
+                }
+            }
+
+            item {
+                SettingSection(
+                    title = "Vista Home Alternativa",
+                    subtitle = "Totales objetivo usados por los indicadores circulares de progreso"
+                ) {
+                    SliderField(
+                        title = "Total de Presencia",
+                        description = "Eventos necesarios para completar el indicador",
+                        value = homeAlternativePresenceTotal,
+                        range = FragHome.HOME_ALTERNATIVE_PRESENCE_TOTAL_DEFAULT..50
+                    ) { value ->
+                        homeAlternativePresenceTotal = value.coerceAtLeast(FragHome.HOME_ALTERNATIVE_PRESENCE_TOTAL_DEFAULT)
+                        FragHome.homeAlternativePresenceTotalState.value = homeAlternativePresenceTotal
+                        prefs.edit {
+                            putInt(
+                                FragHome.PREF_KEY_HOME_ALTERNATIVE_PRESENCE_TOTAL,
+                                homeAlternativePresenceTotal
+                            )
+                        }
+                    }
+                    FieldDivider()
+                    SliderField(
+                        title = "Total de Metas",
+                        description = "Metas activas necesarias para completar el indicador",
+                        value = homeAlternativeGoalsTotal,
+                        range = FragHome.HOME_ALTERNATIVE_GOALS_TOTAL_DEFAULT..20
+                    ) { value ->
+                        homeAlternativeGoalsTotal = value.coerceAtLeast(FragHome.HOME_ALTERNATIVE_GOALS_TOTAL_DEFAULT)
+                        FragHome.homeAlternativeGoalsTotalState.value = homeAlternativeGoalsTotal
+                        prefs.edit {
+                            putInt(
+                                FragHome.PREF_KEY_HOME_ALTERNATIVE_GOALS_TOTAL,
+                                homeAlternativeGoalsTotal
+                            )
+                        }
+                    }
+                    FieldDivider()
+                    SliderField(
+                        title = "Total de Diario",
+                        description = "Entradas de hoy necesarias para completar el indicador",
+                        value = homeAlternativeDiaryTotal,
+                        range = FragHome.HOME_ALTERNATIVE_DIARY_TOTAL_DEFAULT..20
+                    ) { value ->
+                        homeAlternativeDiaryTotal = value.coerceAtLeast(FragHome.HOME_ALTERNATIVE_DIARY_TOTAL_DEFAULT)
+                        FragHome.homeAlternativeDiaryTotalState.value = homeAlternativeDiaryTotal
+                        prefs.edit {
+                            putInt(
+                                FragHome.PREF_KEY_HOME_ALTERNATIVE_DIARY_TOTAL,
+                                homeAlternativeDiaryTotal
+                            )
+                        }
                     }
                 }
             }

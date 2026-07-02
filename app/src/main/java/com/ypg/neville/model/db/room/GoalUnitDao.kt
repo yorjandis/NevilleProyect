@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface GoalUnitDao {
@@ -13,6 +14,20 @@ interface GoalUnitDao {
 
     @Query("SELECT * FROM goal_units WHERE id = :id LIMIT 1")
     fun getById(id: String): GoalUnitEntity?
+
+    @Query(
+        """
+        SELECT COUNT(*)
+        FROM goal_units
+        INNER JOIN goals ON goals.id = goal_units.goalId
+        WHERE goals.isStarted = 1
+            AND goal_units.status = 'pending'
+            AND goal_units.startDate IS NOT NULL
+            AND goal_units.startDate <= :nowMillis
+            AND (goal_units.endDate IS NULL OR goal_units.endDate >= :nowMillis)
+        """
+    )
+    fun observeReadyToCheckCount(nowMillis: Long): Flow<Int>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(units: List<GoalUnitEntity>)

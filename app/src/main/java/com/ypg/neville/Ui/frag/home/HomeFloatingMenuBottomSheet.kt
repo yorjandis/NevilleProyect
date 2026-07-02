@@ -138,16 +138,16 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+                .padding(HOME_MENU_CONTENT_PADDING_DP.dp),
+            verticalArrangement = Arrangement.spacedBy(HOME_MENU_VERTICAL_SPACING_DP.dp)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(HOME_MENU_HORIZONTAL_SPACING_DP.dp)
             ) {
                 Column(
                     modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(HOME_MENU_VERTICAL_SPACING_DP.dp)
                 ) {
                     Button(onClick = { onNavigate("neville") }, modifier = Modifier.fillMaxWidth()) {
                         Text("Neville")
@@ -189,11 +189,11 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
 
                 Column(
                     modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(HOME_MENU_VERTICAL_SPACING_DP.dp)
                 ) {
                     Box(modifier = Modifier.fillMaxWidth()) {
                         Button(onClick = { showRecursos = true }, modifier = Modifier.fillMaxWidth()) {
-                            Text("Recursos estudio")
+                            Text("Recursos Didácticos")
                         }
 
                         DropdownMenu(
@@ -414,8 +414,11 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
     companion object {
         const val TAG = "HomeFloatingMenuBottomSheet"
         private const val MENU_CENTER_OFFSET_DP = 170f
+        private const val HOME_MENU_CONTENT_PADDING_DP = 8
+        private const val HOME_MENU_HORIZONTAL_SPACING_DP = 2
+        private const val HOME_MENU_VERTICAL_SPACING_DP = 8
         private const val HOME_TOGGLE_DOT_PADDING_DP = 0
-        private const val HOME_TOGGLE_DOT_TOUCH_SIZE_DP = 28
+        private const val HOME_TOGGLE_DOT_TOUCH_SIZE_DP = 16
         private const val HOME_TOGGLE_DOT_SIZE_DP = 12
         private const val HOME_TOGGLE_DOT_ALPHA = 0.42f
     }

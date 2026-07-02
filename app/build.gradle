@@ -14,8 +14,8 @@ android {
         minSdk 24
         //noinspection OldTargetApi
         targetSdk 36
-        versionCode 67
-        versionName "3.0.9"
+        versionCode 68
+        versionName "3.0.10"
         signingConfig = signingConfigs.debug
     }
 

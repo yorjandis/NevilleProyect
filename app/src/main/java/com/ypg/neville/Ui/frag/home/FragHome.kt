@@ -46,10 +46,14 @@ import androidx.compose.material.icons.rounded.Checklist
 import androidx.compose.material.icons.rounded.EditNote
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.GraphicEq
+import androidx.compose.material.icons.rounded.HelpOutline
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.MenuBook
 import androidx.compose.material.icons.rounded.Mic
 import androidx.compose.material.icons.rounded.Notifications
+import androidx.compose.material.icons.rounded.Person
+import androidx.compose.material.icons.rounded.Psychology
+import androidx.compose.material.icons.rounded.Science
 import androidx.compose.material.icons.rounded.SelfImprovement
 import androidx.compose.material.icons.rounded.Spa
 import androidx.compose.material.icons.rounded.WbSunny
@@ -110,6 +114,7 @@ import com.ypg.neville.R
 import com.ypg.neville.model.db.DatabaseHelper
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
 import com.ypg.neville.model.db.utilsDB
+import com.ypg.neville.model.subscription.SubscriptionManager
 import com.ypg.neville.model.utils.FraseContextActions
 import com.ypg.neville.model.utils.UiModalWindows
 import com.ypg.neville.model.utils.utilsFields
@@ -145,6 +150,7 @@ class FragHome : Fragment() {
         todayStartMillis: Long,
         tomorrowStartMillis: Long,
         todayEpochDay: Long,
+        nowMillis: Long,
         agendaCountToday: Int,
         agendaIndicatorHiddenDay: Long,
         onAgendaIndicatorHiddenDayChange: (Long) -> Unit
@@ -171,27 +177,42 @@ class FragHome : Fragment() {
         var showEditor by remember { mutableStateOf(false) }
         var presenceCount by remember { mutableStateOf(0) }
         var diaryCount by remember { mutableStateOf(0) }
-        var activeGoalsCount by remember { mutableStateOf(0) }
+        val database = remember(context) { NevilleRoomDatabase.getInstance(context.applicationContext) }
+        val activeGoalsCount by remember(database) {
+            database.goalDao().observeStartedCount()
+        }.collectAsState(initial = 0)
+        val readyGoalUnitsCount by remember(database, nowMillis) {
+            database.goalUnitDao().observeReadyToCheckCount(nowMillis)
+        }.collectAsState(initial = 0)
+        LaunchedEffect(Unit) {
+            homeAlternativePresenceTotalState.value = prefs
+                .getInt(PREF_KEY_HOME_ALTERNATIVE_PRESENCE_TOTAL, HOME_ALTERNATIVE_PRESENCE_TOTAL_DEFAULT)
+                .coerceAtLeast(HOME_ALTERNATIVE_PRESENCE_TOTAL_DEFAULT)
+            homeAlternativeGoalsTotalState.value = prefs
+                .getInt(PREF_KEY_HOME_ALTERNATIVE_GOALS_TOTAL, HOME_ALTERNATIVE_GOALS_TOTAL_DEFAULT)
+                .coerceAtLeast(HOME_ALTERNATIVE_GOALS_TOTAL_DEFAULT)
+            homeAlternativeDiaryTotalState.value = prefs
+                .getInt(PREF_KEY_HOME_ALTERNATIVE_DIARY_TOTAL, HOME_ALTERNATIVE_DIARY_TOTAL_DEFAULT)
+                .coerceAtLeast(HOME_ALTERNATIVE_DIARY_TOTAL_DEFAULT)
+        }
+        val presenceProgressTotal = homeAlternativePresenceTotalState.value
+        val goalsProgressTotal = homeAlternativeGoalsTotalState.value
+        val diaryProgressTotal = homeAlternativeDiaryTotalState.value
         val gridSpacing = HOME_ALTERNATIVE_GRID_SPACING_DP.dp
         val gridSide = (HOME_ALTERNATIVE_CARD_SIZE_DP * 3 + HOME_ALTERNATIVE_GRID_SPACING_DP * 2).dp
 
         LaunchedEffect(todayStartMillis, tomorrowStartMillis) {
-            val db = NevilleRoomDatabase.getInstance(context.applicationContext)
             while (true) {
                 val counts = withContext(Dispatchers.IO) {
-                    val presence = db.presenceEventDao()
+                    val presence = database.presenceEventDao()
                         .countByTypeBetween("presente", todayStartMillis, tomorrowStartMillis)
-                    val diary = db.diarioDao()
+                    val diary = database.diarioDao()
                         .getAll()
                         .count { it.fecha >= todayStartMillis && it.fecha < tomorrowStartMillis }
-                    val goals = db.goalDao()
-                        .getAll()
-                        .count { it.isStarted }
-                    Triple(presence, diary, goals)
+                    presence to diary
                 }
                 presenceCount = counts.first
                 diaryCount = counts.second
-                activeGoalsCount = counts.third
                 delay(30_000)
             }
         }
@@ -265,9 +286,9 @@ class FragHome : Fragment() {
                                 agendaCountToday > 0 &&
                                 agendaIndicatorHiddenDay != todayEpochDay,
                             badgeText = agendaCountToday.coerceAtMost(99).toString(),
-                            showWarning = access == HomeAlternativeAccess.Metas && activeGoalsCount > 0,
+                            showWarning = access == HomeAlternativeAccess.Metas && readyGoalUnitsCount > 0,
                             onClick = {
-                                MainActivity.currentInstance()?.openDestinationAsSheet(access.destinationId)
+                                openHomeAlternativeAccess(access)
                             },
                             onLongClick = { showEditor = true }
                         )
@@ -293,7 +314,7 @@ class FragHome : Fragment() {
                         title = "Presencia",
                         value = "$presenceCount eventos",
                         icon = Icons.Rounded.Favorite,
-                        progress = (presenceCount / 5f).coerceIn(0f, 1f),
+                        progress = (presenceCount.toFloat() / presenceProgressTotal.toFloat()).coerceIn(0f, 1f),
                         colors = listOf(Color(0xFFFFEEA8), Color(0xFFFFB738), Color(0xFFF46F10)),
                         theme = theme
                     )
@@ -302,7 +323,7 @@ class FragHome : Fragment() {
                         title = "Metas",
                         value = "$activeGoalsCount activas",
                         icon = Icons.Rounded.Checklist,
-                        progress = activeGoalsCount.coerceAtMost(1).toFloat(),
+                        progress = (activeGoalsCount.toFloat() / goalsProgressTotal.toFloat()).coerceIn(0f, 1f),
                         colors = listOf(Color(0xFFC2FFC7), Color(0xFF61D67A), Color(0xFF1A9443)),
                         theme = theme
                     )
@@ -311,7 +332,7 @@ class FragHome : Fragment() {
                         title = "Diario",
                         value = "$diaryCount hoy",
                         icon = Icons.Rounded.MenuBook,
-                        progress = diaryCount.coerceAtMost(1).toFloat(),
+                        progress = (diaryCount.toFloat() / diaryProgressTotal.toFloat()).coerceIn(0f, 1f),
                         colors = listOf(Color(0xFFBCFFF5), Color(0xFF4DD2C7), Color(0xFF007F94)),
                         theme = theme
                     )
@@ -551,6 +572,15 @@ class FragHome : Fragment() {
         )
     }
 
+    private fun openHomeAlternativeAccess(access: HomeAlternativeAccess) {
+        if (access.requiresPremium && !SubscriptionManager.hasActiveSubscriptionNow()) {
+            MainActivity.currentInstance()?.showSubscriptionPaywall()
+            return
+        }
+        access.listElementLoaded?.let { frag_listado.elementLoaded = it }
+        MainActivity.currentInstance()?.openDestinationAsSheet(access.destinationId)
+    }
+
     private data class AlternativeHomeTheme(val isDark: Boolean) {
         val background: List<Color> = if (isDark) {
             listOf(Color(0xFF050F2E), Color(0xFF071F4A), Color(0xFF030A24))
@@ -570,20 +600,32 @@ class FragHome : Fragment() {
         val title: String,
         val icon: ImageVector,
         val colors: List<Color>,
-        val destinationId: Int
+        val destinationId: Int,
+        val listElementLoaded: String? = null,
+        val requiresPremium: Boolean = false
     ) {
-        Calma("calma", "Calma", Icons.Rounded.Spa, listOf(Color(0xFF2196F3), Color(0xFF00BCD4)), R.id.frag_calm_space),
-        Agenda("agenda", "Agenda", Icons.Rounded.CalendarMonth, listOf(Color(0xFFFFD95A), Color(0xFFFF9800)), R.id.frag_agenda),
-        Presencia("presencia", "Presencia", Icons.Rounded.SelfImprovement, listOf(Color(0xFF009688), Color(0xFF6DE0B6)), R.id.frag_presence),
-        Metas("metas", "Metas", Icons.Rounded.Checklist, listOf(Color(0xFF4CAF50), Color(0xFF8BE28E)), R.id.frag_metas),
+        Calma("calma", "Calma", Icons.Rounded.Spa, listOf(Color(0xFF2196F3), Color(0xFF00BCD4)), R.id.frag_calm_space, requiresPremium = true),
+        Agenda("agenda", "Agenda", Icons.Rounded.CalendarMonth, listOf(Color(0xFFFFD95A), Color(0xFFFF9800)), R.id.frag_agenda, requiresPremium = true),
+        Presencia("presencia", "Presencia", Icons.Rounded.SelfImprovement, listOf(Color(0xFF009688), Color(0xFF6DE0B6)), R.id.frag_presence, requiresPremium = true),
+        Metas("metas", "Metas", Icons.Rounded.Checklist, listOf(Color(0xFF4CAF50), Color(0xFF8BE28E)), R.id.frag_metas, requiresPremium = true),
         Diario("diario", "Diario", Icons.Rounded.MenuBook, listOf(Color(0xFF9C27B0), Color(0xFFE85BA5)), R.id.frag_diario),
-        Lienzo("lienzo", "Lienzo", Icons.Rounded.EditNote, listOf(Color(0xFF3F51B5), Color(0xFF8E44AD)), R.id.frag_lienzo),
-        Recordatorios("recordatorios", "Recordatorios", Icons.Rounded.Notifications, listOf(Color(0xFFE53935), Color(0xFFFF9800)), R.id.frag_reminders),
-        Ritual("ritual", "Ritual", Icons.Rounded.WbSunny, listOf(Color(0xFFE91E63), Color(0xFFFF8A3D)), R.id.frag_morning_dialog),
-        Resumen("resumen", "Resumen", Icons.Rounded.GraphicEq, listOf(Color(0xFF607D8B), Color(0xFF00BCD4)), R.id.frag_weekly_summary),
-        Voces("voces", "Voces", Icons.Rounded.Mic, listOf(Color(0xFF00ACC1), Color(0xFF1976D2)), R.id.frag_voice_recordings),
-        Anclas("anclas", "Anclas", Icons.Rounded.Favorite, listOf(Color(0xFFFF7A92), Color(0xFFE53935)), R.id.frag_emotional_anchors),
-        Cardio("cardio", "Coherencia", Icons.Rounded.Favorite, listOf(Color(0xFF3F51B5), Color(0xFF26A69A)), R.id.frag_cardio_coherence)
+        Lienzo("lienzo", "Lienzo", Icons.Rounded.EditNote, listOf(Color(0xFF3F51B5), Color(0xFF8E44AD)), R.id.frag_lienzo, requiresPremium = true),
+        Recordatorios("recordatorios", "Recordatorios", Icons.Rounded.Notifications, listOf(Color(0xFFE53935), Color(0xFFFF9800)), R.id.frag_reminders, requiresPremium = true),
+        Ritual("ritual", "Ritual", Icons.Rounded.WbSunny, listOf(Color(0xFFE91E63), Color(0xFFFF8A3D)), R.id.frag_morning_dialog, requiresPremium = true),
+        Resumen("resumen", "Resumen", Icons.Rounded.GraphicEq, listOf(Color(0xFF607D8B), Color(0xFF00BCD4)), R.id.frag_weekly_summary, requiresPremium = true),
+        Voces("voces", "Voces", Icons.Rounded.Mic, listOf(Color(0xFF00ACC1), Color(0xFF1976D2)), R.id.frag_voice_recordings, requiresPremium = true),
+        Anclas("anclas", "Anclas", Icons.Rounded.Favorite, listOf(Color(0xFFFF7A92), Color(0xFFE53935)), R.id.frag_emotional_anchors, requiresPremium = true),
+        Cardio("cardio", "Coherencia", Icons.Rounded.Favorite, listOf(Color(0xFF3F51B5), Color(0xFF26A69A)), R.id.frag_cardio_coherence, requiresPremium = true),
+        Notas("notas", "Notas", Icons.Rounded.EditNote, listOf(Color(0xFF00BCD4), Color(0xFF1976D2)), R.id.frag_notas),
+        Frases("frases", "Frases", Icons.Rounded.Favorite, listOf(Color(0xFFE91E63), Color(0xFF8E44AD)), R.id.frag_listado_frases),
+        Enciclopedia("enciclopedia", "Enciclopedia", Icons.Rounded.MenuBook, listOf(Color(0xFF00ACC1), Color(0xFF66D9C7)), R.id.frag_listado, "enciclopedia"),
+        Reflexiones("reflexiones", "Reflexiones", Icons.Rounded.Checklist, listOf(Color(0xFFFFD54F), Color(0xFFE85BA5)), R.id.frag_listado, "reflexiones"),
+        Evidencia("evidencia", "Evidencia", Icons.Rounded.Science, listOf(Color(0xFF7E57C2), Color(0xFF26C6DA)), R.id.frag_listado, "evidenciaCientifica"),
+        Ayudas("ayudas", "Ayudas", Icons.Rounded.HelpOutline, listOf(Color(0xFF26A69A), Color(0xFF1976D2)), R.id.frag_listado, "ayudas"),
+        AutorNeville("autor_neville", "Neville", Icons.Rounded.Person, listOf(Color(0xFF8D6E63), Color(0xFFFF9800)), R.id.frag_neville_goddard),
+        AutorJoe("autor_jd", "JD", Icons.Rounded.Psychology, listOf(Color(0xFF4DB6AC), Color(0xFF1976D2)), R.id.frag_joe_dispenza),
+        AutorBruce("autor_bruce", "Bruce", Icons.Rounded.Spa, listOf(Color(0xFF4CAF50), Color(0xFFFFD54F)), R.id.frag_bruce_lipton),
+        AutorGregg("autor_gregg", "Gregg", Icons.Rounded.GraphicEq, listOf(Color(0xFF2196F3), Color(0xFF8E44AD)), R.id.frag_gregg)
     }
 
     private fun normalizeAlternativeAccessIds(stored: String): List<String> {
@@ -766,6 +808,7 @@ class FragHome : Fragment() {
                     todayStartMillis = todayStartMillis,
                     tomorrowStartMillis = tomorrowStartMillis,
                     todayEpochDay = todayEpochDay,
+                    nowMillis = nowMillis,
                     agendaCountToday = agendaCountToday,
                     agendaIndicatorHiddenDay = agendaIndicatorHiddenDay,
                     onAgendaIndicatorHiddenDayChange = { agendaIndicatorHiddenDay = it }
@@ -1425,9 +1468,18 @@ class FragHome : Fragment() {
     companion object {
         private var sessionMandalaAssetPath: String? = null
         val homeAlternativeEnabledState = mutableStateOf(false)
+        val homeAlternativePresenceTotalState = mutableStateOf(HOME_ALTERNATIVE_PRESENCE_TOTAL_DEFAULT)
+        val homeAlternativeGoalsTotalState = mutableStateOf(HOME_ALTERNATIVE_GOALS_TOTAL_DEFAULT)
+        val homeAlternativeDiaryTotalState = mutableStateOf(HOME_ALTERNATIVE_DIARY_TOTAL_DEFAULT)
         const val PREF_KEY_AGENDA_HOME_BUTTON_ENABLED = "agenda_home_button_enabled"
         const val PREF_KEY_PRESENCE_HOME_BUTTON_ENABLED = "presence_home_button_enabled"
         const val PREF_KEY_HOME_ALTERNATIVE_ENABLED = "home_alternative_enabled"
+        const val PREF_KEY_HOME_ALTERNATIVE_PRESENCE_TOTAL = "home_alternative_presence_total"
+        const val PREF_KEY_HOME_ALTERNATIVE_GOALS_TOTAL = "home_alternative_goals_total"
+        const val PREF_KEY_HOME_ALTERNATIVE_DIARY_TOTAL = "home_alternative_diary_total"
+        const val HOME_ALTERNATIVE_PRESENCE_TOTAL_DEFAULT = 5
+        const val HOME_ALTERNATIVE_GOALS_TOTAL_DEFAULT = 1
+        const val HOME_ALTERNATIVE_DIARY_TOTAL_DEFAULT = 1
         private const val PREF_KEY_HOME_ALTERNATIVE_ACCESS_IDS = "home_alternative_access_ids"
         private const val PREF_KEY_AGENDA_INDICATOR_HIDDEN_DAY = "agenda_indicator_hidden_day"
         private const val PREF_KEY_RITUAL_BUTTON_HIDDEN_DAY = "morning_ritual_button_hidden_day"
@@ -1446,9 +1498,9 @@ class FragHome : Fragment() {
         private const val HOME_ALTERNATIVE_CARD_ICON_SIZE_DP = 34
         private const val HOME_ALTERNATIVE_CARD_ICON_TEXT_SPACING_DP = 5
         private const val HOME_ALTERNATIVE_CARD_TEXT_SIZE_SP = 12
-        private const val HOME_ALTERNATIVE_BADGE_SIZE_DP = 18
-        private const val HOME_ALTERNATIVE_BADGE_OFFSET_DP = 4
-        private const val HOME_ALTERNATIVE_BADGE_TEXT_SIZE_SP = 8
+        private const val HOME_ALTERNATIVE_BADGE_SIZE_DP = 25
+        private const val HOME_ALTERNATIVE_BADGE_OFFSET_DP = 0
+        private const val HOME_ALTERNATIVE_BADGE_TEXT_SIZE_SP = 10
         private const val HOME_ALTERNATIVE_WARNING_TEXT_SIZE_SP = 10
         //Indicadores de Progreso
         private const val HOME_ALTERNATIVE_PROGRESS_CARD_PADDING_DP = 10
