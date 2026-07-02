@@ -9,12 +9,16 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -28,6 +32,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
@@ -156,13 +163,37 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                     }
                 }
 
+                Box(
+                    modifier = Modifier
+                        .padding(horizontal = HOME_TOGGLE_DOT_PADDING_DP.dp)
+                        .align(Alignment.CenterVertically),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(HOME_TOGGLE_DOT_TOUCH_SIZE_DP.dp)
+                            .clip(CircleShape)
+                            .clickable {
+                                (requireActivity() as? MainActivity)?.toggleHomeAlternativeMode()
+                            },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(HOME_TOGGLE_DOT_SIZE_DP.dp)
+                                .clip(CircleShape)
+                                .background(Color.White.copy(alpha = HOME_TOGGLE_DOT_ALPHA))
+                        )
+                    }
+                }
+
                 Column(
                     modifier = Modifier.weight(1f),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Box(modifier = Modifier.fillMaxWidth()) {
                         Button(onClick = { showRecursos = true }, modifier = Modifier.fillMaxWidth()) {
-                            Text("Recursos Didácticos")
+                            Text("Recursos estudio")
                         }
 
                         DropdownMenu(
@@ -383,5 +414,9 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
     companion object {
         const val TAG = "HomeFloatingMenuBottomSheet"
         private const val MENU_CENTER_OFFSET_DP = 170f
+        private const val HOME_TOGGLE_DOT_PADDING_DP = 0
+        private const val HOME_TOGGLE_DOT_TOUCH_SIZE_DP = 28
+        private const val HOME_TOGGLE_DOT_SIZE_DP = 12
+        private const val HOME_TOGGLE_DOT_ALPHA = 0.42f
     }
 }

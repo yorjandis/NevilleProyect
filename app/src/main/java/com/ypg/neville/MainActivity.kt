@@ -55,6 +55,7 @@ import com.ypg.neville.ui.frag.NevilleBottomNavBar
 import com.ypg.neville.ui.frag.SheetNavHostBottomSheet
 import com.ypg.neville.ui.frag.SubscriptionPaywallDialog
 import com.ypg.neville.ui.frag.buildNevilleNavGraph
+import com.ypg.neville.ui.frag.FragHome
 import com.ypg.neville.ui.frag.frag_listado
 import java.lang.ref.WeakReference
 
@@ -68,6 +69,7 @@ class MainActivity : AppCompatActivity() {
     private val toolbarFavVisible = mutableStateOf(View.GONE)
     private val toolbarFavColor = mutableStateOf(android.graphics.Color.BLACK)
     private val bottomNavVisible = mutableStateOf(true)
+    private val homeAlternativeEnabled = mutableStateOf(false)
 
     lateinit var navController: NavController
     private lateinit var fragContainer: FragmentContainerView
@@ -82,6 +84,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val prefs = DbPreferences.default(this)
         val isDarkTheme = prefs.getBoolean("tema", true)
+        homeAlternativeEnabled.value = prefs.getBoolean(FragHome.PREF_KEY_HOME_ALTERNATIVE_ENABLED, false)
+        FragHome.homeAlternativeEnabledState.value = homeAlternativeEnabled.value
         AppCompatDelegate.setDefaultNightMode(
             if (isDarkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
         )
@@ -337,6 +341,15 @@ class MainActivity : AppCompatActivity() {
                 openDestinationAsSheet(R.id.frag_presence)
             }
         )
+    }
+
+    fun toggleHomeAlternativeMode(): Boolean {
+        val enabled = !homeAlternativeEnabled.value
+        homeAlternativeEnabled.value = enabled
+        FragHome.homeAlternativeEnabledState.value = enabled
+        DbPreferences.default(this).edit { putBoolean(FragHome.PREF_KEY_HOME_ALTERNATIVE_ENABLED, enabled) }
+        bottomActive.value = "home"
+        return enabled
     }
 
     fun openDestinationAsSheet(destinationId: Int, startArgs: Bundle? = null) {

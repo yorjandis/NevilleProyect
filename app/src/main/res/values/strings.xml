@@ -43,6 +43,7 @@
     <string name="app_widget_description">Compendio de frases de neville</string>
     <string name="widget_text_default">Imaginar crea la realidad</string>
     <string name="play_store">Play Store</string>
+    <string name="play_store_update_available_home">Nueva versión disponible en Play Store</string>
     <string name="sitio_web">Sitio Web</string>
     <string name="configurar">Configurar</string>
     <string name="citas">Citas</string>

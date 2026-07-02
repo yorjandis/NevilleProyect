@@ -42,6 +42,7 @@ fun buildNevilleNavGraph(navController: NavController, startDestination: Int): N
     addFragmentDestination(R.id.frag_listado, frag_listado::class.java.name)
     addFragmentDestination(R.id.frag_home, FragHome::class.java.name)
     addFragmentDestination(R.id.frag_content_webview, FragContentWebView::class.java.name)
+    addFragmentDestination(R.id.frag_author_photo_gallery, FragAuthorPhotoGallery::class.java.name)
     addFragmentDestination(R.id.frag_gregg, FragGregg::class.java.name)
     addFragmentDestination(R.id.frag_neville_goddard, FragNevilleGoddard::class.java.name)
     addFragmentDestination(R.id.frag_joe_dispenza, FragJoeDispenza::class.java.name)

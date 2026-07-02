@@ -4,6 +4,7 @@
     <item name="frag_listado" type="id" />
     <item name="frag_home" type="id" />
     <item name="frag_content_webview" type="id" />
+    <item name="frag_author_photo_gallery" type="id" />
     <item name="frag_gregg" type="id" />
     <item name="frag_neville_goddard" type="id" />
     <item name="frag_joe_dispenza" type="id" />

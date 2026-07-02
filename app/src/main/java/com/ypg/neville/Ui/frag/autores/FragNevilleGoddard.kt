@@ -133,6 +133,11 @@ class FragNevilleGoddard : Fragment() {
                                             frag_listado.elementLoaded = assetPath
                                             MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_listado)
                                         }
+                                        "autores/neville/fotos" -> {
+                                            FragAuthorPhotoGallery.title = "Galería de Fotos"
+                                            FragAuthorPhotoGallery.assetFolder = assetPath
+                                            MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_author_photo_gallery)
+                                        }
                                         else -> openAsset(assetPath, isPremiumPreview = false)
                                     }
                                 }
@@ -167,6 +172,11 @@ class FragNevilleGoddard : Fragment() {
                 title = "Preguntas",
                 primaryButton = "Abrir listado",
                 primaryAssetPath = "preguntas"
+            ),
+            AccessCardPlaceholder(
+                title = "Galería de Fotos",
+                primaryButton = "Ver fotos",
+                primaryAssetPath = "autores/neville/fotos"
             )
         )
     }
