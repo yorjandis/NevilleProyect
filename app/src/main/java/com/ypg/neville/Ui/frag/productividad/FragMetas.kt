@@ -120,6 +120,7 @@ class FragMetas : Fragment() {
 
         var showCreate by remember { mutableStateOf(false) }
         var showArchived by remember { mutableStateOf(false) }
+        var showStats by remember { mutableStateOf(false) }
 
         fun reloadGoals() {
             dbExecutor.execute {
@@ -241,6 +242,17 @@ class FragMetas : Fragment() {
                         }
                     }
                 }
+                Button(
+                    onClick = {
+                        reloadArchived()
+                        showStats = true
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 6.dp)
+                ) {
+                    Text("Estadísticas")
+                }
 
                 if (!showArchived) {
                     if (filteredGoals.isEmpty()) {
@@ -291,6 +303,23 @@ class FragMetas : Fragment() {
                     reloadGoals()
                 }
             )
+        }
+
+        if (showStats) {
+            Dialog(
+                onDismissRequest = { showStats = false },
+                properties = DialogProperties(usePlatformDefaultWidth = false)
+            ) {
+                GoalStatsScreen(
+                    goals = goals.toList(),
+                    archivedGoals = archivedGoals.toList(),
+                    onClose = { showStats = false },
+                    onRefresh = {
+                        reloadGoals()
+                        reloadArchived()
+                    }
+                )
+            }
         }
     }
 

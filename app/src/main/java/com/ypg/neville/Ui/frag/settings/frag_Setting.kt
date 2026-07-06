@@ -73,6 +73,10 @@ import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
 import com.ypg.neville.model.backup.CloudBackupManager
+import com.ypg.neville.model.migration.ImportPolicy
+import com.ypg.neville.model.migration.ImportPreview
+import com.ypg.neville.model.migration.MigrationFormat
+import com.ypg.neville.model.migration.MyAppMigrationService
 import com.ypg.neville.model.reminders.JournalDailyReminderManager
 import com.ypg.neville.model.subscription.SubscriptionManager
 import com.ypg.neville.model.utils.ColorPickerManager
@@ -85,8 +89,14 @@ class frag_Setting : Fragment() {
     private lateinit var pickProviderFolderLauncher: ActivityResultLauncher<Uri?>
     private lateinit var createProviderBackupFileLauncher: ActivityResultLauncher<String>
     private lateinit var pickBackupFileLauncher: ActivityResultLauncher<Array<String>>
+    private lateinit var createMigrationExportFileLauncher: ActivityResultLauncher<String>
+    private lateinit var pickMigrationImportFileLauncher: ActivityResultLauncher<Array<String>>
     private var settingsUiRefreshTick by mutableStateOf(0)
     private var pendingRestorePassphrase: String? = null
+    private var pendingMigrationPassphrase: CharArray? = null
+    private var migrationImportPreview: ImportPreview? by mutableStateOf(null)
+    private var migrationStatusMessage: String? by mutableStateOf(null)
+    private var migrationResultDialogMessage: String? by mutableStateOf(null)
     private var recoveredPassphraseMessage: String? by mutableStateOf(null)
     private val notesBiometricLockPrefKey = "notes_biometric_lock_enabled"
     private val defaultBackupFileName = "neville_backup_latest.nvbak"
@@ -168,6 +178,58 @@ class frag_Setting : Fragment() {
                             Toast.LENGTH_LONG
                         ).show()
                     }
+                }
+            }
+        }
+
+        createMigrationExportFileLauncher = registerForActivityResult(
+            ActivityResultContracts.CreateDocument("application/octet-stream")
+        ) { uri ->
+            val passphrase = pendingMigrationPassphrase
+            pendingMigrationPassphrase = null
+            if (uri == null || passphrase == null) {
+                passphrase?.fill('\u0000')
+                return@registerForActivityResult
+            }
+
+            lifecycleScope.launch {
+                val result = MyAppMigrationService(requireContext().applicationContext).exportToUri(uri, passphrase)
+                passphrase.fill('\u0000')
+                result.onSuccess { export ->
+                    migrationStatusMessage = buildExportSummary(export.countsByType)
+                    migrationResultDialogMessage = migrationStatusMessage
+                    Toast.makeText(
+                        requireContext(),
+                        "Archivo ${MigrationFormat.FILE_EXTENSION} creado",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }.onFailure { error ->
+                    migrationStatusMessage = "Error al exportar: ${error.message ?: "desconocido"}"
+                    migrationResultDialogMessage = migrationStatusMessage
+                    Toast.makeText(requireContext(), migrationStatusMessage, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+
+        pickMigrationImportFileLauncher = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+            val passphrase = pendingMigrationPassphrase
+            pendingMigrationPassphrase = null
+            if (uri == null || passphrase == null) {
+                passphrase?.fill('\u0000')
+                return@registerForActivityResult
+            }
+
+            lifecycleScope.launch {
+                val result = MyAppMigrationService(requireContext().applicationContext).previewFromUri(uri, passphrase)
+                passphrase.fill('\u0000')
+                result.onSuccess { preview ->
+                    migrationImportPreview = preview
+                    migrationStatusMessage = buildPreviewSummary(preview)
+                }.onFailure { error ->
+                    migrationImportPreview = null
+                    migrationStatusMessage = "Error al leer importación: ${error.message ?: "contraseña o archivo inválidos"}"
+                    migrationResultDialogMessage = migrationStatusMessage
+                    Toast.makeText(requireContext(), migrationStatusMessage, Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -276,7 +338,11 @@ class frag_Setting : Fragment() {
         var passphraseInput by remember { mutableStateOf("") }
         var passphraseConfirmInput by remember { mutableStateOf("") }
         var restorePassphraseInput by remember { mutableStateOf("") }
+        var migrationExportPassphraseInput by remember { mutableStateOf("") }
+        var migrationImportPassphraseInput by remember { mutableStateOf("") }
         var showPassphrasePlainText by remember { mutableStateOf(false) }
+        var showMigrationExportDialog by remember { mutableStateOf(false) }
+        var showMigrationImportDialog by remember { mutableStateOf(false) }
 
         val providerInfo = remember(refreshTick) { backupManager.getProviderInfo() }
         val backupFrequency = remember(refreshTick) { backupManager.getFrequency() }
@@ -1086,6 +1152,43 @@ class frag_Setting : Fragment() {
 
             item {
                 SettingSection(
+                    title = "Migración iOS / Android",
+                    subtitle = "Intercambio portable cifrado con formato ${MigrationFormat.FILE_EXTENSION}"
+                ) {
+                    Text(
+                        text = "Formato canónico: manifest.json + data.ndjson cifrados con AES-256-GCM",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    FieldDivider()
+                    ActionField(
+                        title = "Exportar a iOS >",
+                        description = "Crea un archivo ${MigrationFormat.FILE_EXTENSION} con notas, diario, agenda, metas y frases personales"
+                    ) {
+                        migrationExportPassphraseInput = ""
+                        showMigrationExportDialog = true
+                    }
+                    FieldDivider()
+                    ActionField(
+                        title = "Importar desde iOS >",
+                        description = "Abre un ${MigrationFormat.FILE_EXTENSION}, valida y muestra vista previa antes de importar"
+                    ) {
+                        migrationImportPassphraseInput = ""
+                        showMigrationImportDialog = true
+                    }
+                    migrationStatusMessage?.takeIf { it.isNotBlank() }?.let { message ->
+                        FieldDivider(padding = 8.dp)
+                        Text(
+                            text = message,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+            }
+
+            item {
+                SettingSection(
                     title = "Proyecto y Soporte",
                     subtitle = "Acciones de contacto, reseña y novedades"
                 ) {
@@ -1129,6 +1232,165 @@ class frag_Setting : Fragment() {
 
                 }
             }
+        }
+
+        if (showMigrationExportDialog) {
+            AlertDialog(
+                onDismissRequest = { showMigrationExportDialog = false },
+                title = { Text("Exportar a iOS") },
+                text = {
+                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                        Text("Usa una contraseña larga. No se guarda en el dispositivo.")
+                        OutlinedTextField(
+                            value = migrationExportPassphraseInput,
+                            onValueChange = { migrationExportPassphraseInput = it },
+                            label = { Text("Contraseña de exportación") },
+                            visualTransformation = PasswordVisualTransformation(),
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                },
+                confirmButton = {
+                    TextButton(onClick = {
+                        val passphrase = migrationExportPassphraseInput.toCharArray()
+                        if (passphrase.isEmpty()) {
+                            Toast.makeText(context, "Introduce una contraseña", Toast.LENGTH_LONG).show()
+                            return@TextButton
+                        }
+                        pendingMigrationPassphrase = passphrase
+                        migrationExportPassphraseInput = ""
+                        showMigrationExportDialog = false
+                        val fileName = "neville-${System.currentTimeMillis()}${MigrationFormat.FILE_EXTENSION}"
+                        createMigrationExportFileLauncher.launch(fileName)
+                    }) {
+                        Text("Crear archivo")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showMigrationExportDialog = false }) {
+                        Text("Cancelar")
+                    }
+                }
+            )
+        }
+
+        if (showMigrationImportDialog) {
+            AlertDialog(
+                onDismissRequest = { showMigrationImportDialog = false },
+                title = { Text("Importar desde iOS") },
+                text = {
+                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                        Text("Se descifrará solo en memoria para mostrar una vista previa.")
+                        OutlinedTextField(
+                            value = migrationImportPassphraseInput,
+                            onValueChange = { migrationImportPassphraseInput = it },
+                            label = { Text("Contraseña del archivo") },
+                            visualTransformation = PasswordVisualTransformation(),
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                },
+                confirmButton = {
+                    TextButton(onClick = {
+                        val passphrase = migrationImportPassphraseInput.toCharArray()
+                        if (passphrase.isEmpty()) {
+                            Toast.makeText(context, "Introduce la contraseña", Toast.LENGTH_LONG).show()
+                            return@TextButton
+                        }
+                        pendingMigrationPassphrase = passphrase
+                        migrationImportPassphraseInput = ""
+                        showMigrationImportDialog = false
+                        pickMigrationImportFileLauncher.launch(arrayOf("application/octet-stream", "*/*"))
+                    }) {
+                        Text("Seleccionar archivo")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showMigrationImportDialog = false }) {
+                        Text("Cancelar")
+                    }
+                }
+            )
+        }
+
+        migrationImportPreview?.let { preview ->
+            AlertDialog(
+                onDismissRequest = { migrationImportPreview = null },
+                title = { Text("Vista previa de importación") },
+                text = {
+                    Column(
+                        modifier = Modifier.heightIn(max = 420.dp).verticalScroll(rememberScrollState()),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Text("Origen: ${preview.manifest.optString("sourcePlatform")} · ${preview.records.size} elementos")
+                        preview.countsByType.forEach { (type, count) ->
+                            Text("$type: $count")
+                        }
+                        if (preview.conflicts.isNotEmpty()) {
+                            Text(
+                                "Conflictos/duplicados: ${preview.conflicts.size}. Se omitirán salvo política explícita.",
+                                color = MaterialTheme.colorScheme.error
+                            )
+                            preview.conflicts.take(5).forEach { conflict ->
+                                Text("${conflict.type}: ${conflict.reason}", style = MaterialTheme.typography.bodySmall)
+                            }
+                        }
+                        if (preview.errors.isNotEmpty()) {
+                            Text("Errores: ${preview.errors.size}", color = MaterialTheme.colorScheme.error)
+                            preview.errors.take(5).forEach { error ->
+                                Text(error, style = MaterialTheme.typography.bodySmall)
+                            }
+                        }
+                    }
+                },
+                confirmButton = {
+                    TextButton(
+                        enabled = preview.errors.isEmpty(),
+                        onClick = {
+                            coroutineScope.launch {
+                                val result = MyAppMigrationService(context.applicationContext)
+                                    .importPreview(preview, ImportPolicy.SkipExisting)
+                                result.onSuccess { summary ->
+                                    migrationStatusMessage = buildImportSummary(summary)
+                                    migrationResultDialogMessage = migrationStatusMessage
+                                    migrationImportPreview = null
+                                    Toast.makeText(context, "Importación completada", Toast.LENGTH_LONG).show()
+                                }.onFailure { error ->
+                                    migrationStatusMessage = "Error al importar: ${error.message ?: "desconocido"}"
+                                    migrationResultDialogMessage = migrationStatusMessage
+                                    Toast.makeText(context, migrationStatusMessage, Toast.LENGTH_LONG).show()
+                                }
+                            }
+                        }
+                    ) {
+                        Text("Importar omitiendo conflictos")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { migrationImportPreview = null }) {
+                        Text("Cancelar")
+                    }
+                }
+            )
+        }
+
+        migrationResultDialogMessage?.let { message ->
+            AlertDialog(
+                onDismissRequest = { migrationResultDialogMessage = null },
+                title = {
+                    Text(if (message.startsWith("Error")) "Fallo de migración" else "Resumen de migración")
+                },
+                text = {
+                    Text(message)
+                },
+                confirmButton = {
+                    TextButton(onClick = { migrationResultDialogMessage = null }) {
+                        Text("Cerrar")
+                    }
+                }
+            )
         }
 
         if (showBackupWarningDialog) {
@@ -1703,6 +1965,47 @@ class frag_Setting : Fragment() {
         return when (this) {
             CloudBackupManager.ProviderDestinationKind.TREE -> "Carpeta"
             CloudBackupManager.ProviderDestinationKind.DOCUMENT -> "Archivo"
+        }
+    }
+
+    private fun buildExportSummary(countsByType: Map<String, Int>): String {
+        val total = countsByType.values.sum()
+        return buildString {
+            appendLine("Exportación completada")
+            appendLine("Total exportado: $total")
+            appendMigrationCounts(countsByType)
+        }.trim()
+    }
+
+    private fun buildPreviewSummary(preview: ImportPreview): String {
+        return buildString {
+            appendLine("Vista previa lista")
+            appendLine("Total detectado: ${preview.records.size}")
+            appendMigrationCounts(preview.countsByType)
+            if (preview.conflicts.isNotEmpty()) appendLine("Conflictos/duplicados: ${preview.conflicts.size}")
+            if (preview.errors.isNotEmpty()) appendLine("Errores: ${preview.errors.size}")
+        }.trim()
+    }
+
+    private fun buildImportSummary(summary: com.ypg.neville.model.migration.MigrationSummary): String {
+        return buildString {
+            appendLine("Importación completada")
+            appendLine("Insertados: ${summary.inserted}")
+            appendLine("Actualizados: ${summary.updated}")
+            appendLine("Omitidos: ${summary.skipped}")
+            appendLine("Conflictos: ${summary.conflicts}")
+            appendLine("Errores: ${summary.errors}")
+        }.trim()
+    }
+
+    private fun StringBuilder.appendMigrationCounts(countsByType: Map<String, Int>) {
+        if (countsByType.isEmpty()) {
+            appendLine("Sin elementos")
+            return
+        }
+        appendLine("Por tipo:")
+        countsByType.toSortedMap().forEach { (type, count) ->
+            appendLine("- $type: $count")
         }
     }
 

@@ -19,6 +19,9 @@ data class DiarioEntity(
     @ColumnInfo(name = "emocion")
     val emocion: String = "\uD83D\uDE0C",
 
+    @ColumnInfo(name = "capitulo")
+    val capitulo: String = "",
+
     @ColumnInfo(name = "fecha")
     val fecha: Long = System.currentTimeMillis(),
 

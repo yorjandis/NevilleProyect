@@ -151,6 +151,10 @@ class FragDiario : Fragment() {
         var entradaEnEdicion by remember { mutableStateOf<DiarioEntity?>(null) }
         var entradaAEliminar by remember { mutableStateOf<DiarioEntity?>(null) }
         var entradaExpandidaId by remember { mutableStateOf<Long?>(null) }
+        var capituloARenombrar by remember { mutableStateOf<String?>(null) }
+        var capituloAMover by remember { mutableStateOf<String?>(null) }
+        var capituloAEliminar by remember { mutableStateOf<String?>(null) }
+        val capitulosPlegados = remember { mutableStateListOf<String>() }
         val entradasSeleccionadas = remember { mutableStateListOf<Long>() }
         var showBatchEmotionPicker by remember { mutableStateOf(false) }
         var pendingBatchEmotion by remember { mutableStateOf<DiarioEmotion?>(null) }
@@ -174,6 +178,7 @@ class FragDiario : Fragment() {
 
         var filtroTitulo by remember { mutableStateOf("") }
         var filtroContenido by remember { mutableStateOf("") }
+        var filtroCapitulo by remember { mutableStateOf("") }
         var filtroEmocionKey by remember { mutableStateOf("all") }
         var filtroFav by remember { mutableStateOf(FavoritoFiltro.TODAS) }
         var filtroAntiguedad by remember { mutableStateOf(ageFilters.first()) }
@@ -191,13 +196,21 @@ class FragDiario : Fragment() {
             }
         }
 
-        fun updateEntrada(target: DiarioEntity, newTitle: String = target.title, newContent: String = target.content, newEmotionKey: String = target.emocion, newFav: Boolean = target.isFav) {
+        fun updateEntrada(
+            target: DiarioEntity,
+            newTitle: String = target.title,
+            newContent: String = target.content,
+            newEmotionKey: String = target.emocion,
+            newChapter: String = target.capitulo,
+            newFav: Boolean = target.isFav
+        ) {
             dbExecutor.execute {
                 diarioRepository().actualizar(
                     id = target.id,
                     title = newTitle,
                     content = newContent,
                     emocion = newEmotionKey,
+                    capitulo = newChapter,
                     isFav = newFav,
                     fechaOriginal = target.fecha
                 )
@@ -262,6 +275,9 @@ class FragDiario : Fragment() {
                 filtroContenido.isBlank() || entry.content.contains(filtroContenido.trim(), ignoreCase = true)
             }
             .filter { entry ->
+                filtroCapitulo.isBlank() || nombreCapitulo(entry).contains(filtroCapitulo.trim(), ignoreCase = true)
+            }
+            .filter { entry ->
                 filtroEmocionKey == "all" || DiarioEmotion.fromStored(entry.emocion)?.key == filtroEmocionKey
             }
             .filter { entry ->
@@ -277,6 +293,19 @@ class FragDiario : Fragment() {
             }
             .toList()
             .sortedByDescending { if (sortMode == SortMode.CREATION) it.fecha else it.fechaM }
+
+        val capitulosExistentes = entradas
+            .map { it.capitulo.trim() }
+            .filter { it.isNotEmpty() }
+            .distinct()
+            .sortedWith(String.CASE_INSENSITIVE_ORDER)
+
+        val entradasAgrupadas = filtered
+            .groupBy(::nombreCapitulo)
+            .toList()
+            .sortedByDescending { (_, entries) ->
+                entries.maxOfOrNull { if (sortMode == SortMode.CREATION) it.fecha else it.fechaM } ?: 0L
+            }
 
         if (entradaExpandidaId != null && filtered.none { it.id == entradaExpandidaId }) {
             entradaExpandidaId = null
@@ -412,57 +441,78 @@ class FragDiario : Fragment() {
                         verticalArrangement = Arrangement.spacedBy(10.dp),
                         contentPadding = PaddingValues(bottom = if (showFilterPanel) 230.dp else 96.dp)
                     ) {
-                        items(filtered, key = { it.id }) { entrada ->
-                            DiarioRow(
-                                entrada = entrada,
-                                isExpanded = entradaExpandidaId == entrada.id,
-                                showEmotionMenu = emotionMenuId == entrada.id,
-                                showItemMenu = itemMenuId == entrada.id,
-                                selectionMode = entradasSeleccionadas.isNotEmpty(),
-                                isSelected = entrada.id in entradasSeleccionadas,
-                                fechaTexto = "Modificado: ${dateFormat.format(Date(entrada.fechaM))}\nCreado: ${dateFormat.format(Date(entrada.fecha))}",
-                                onToggleSelection = { toggleBatchSelection(entrada.id) },
-                                onStartSelection = {
-                                    itemMenuId = null
-                                    emotionMenuId = null
-                                    if (entrada.id !in entradasSeleccionadas) {
-                                        entradasSeleccionadas.add(entrada.id)
-                                    }
-                                },
-                                onToggleExpand = {
-                                    entradaExpandidaId = if (entradaExpandidaId == entrada.id) null else entrada.id
-                                },
-                                onContentDoubleTap = {
-                                    entradaEnEdicion = entrada
-                                    showEditor = true
-                                },
-                                onTitleDoubleTap = {
-                                    titleDialogTarget = entrada
-                                    titleDialogText = entrada.title
-                                },
-                                onToggleFav = {
-                                    toggleFavorite(entrada.id, entrada.isFav)
-                                },
-                                onToggleEmotionMenu = {
-                                    emotionMenuId = if (emotionMenuId == entrada.id) null else entrada.id
-                                },
-                                onChangeEmotion = { emotion ->
-                                    emotionMenuId = null
-                                    updateEntrada(target = entrada, newEmotionKey = emotion.key)
-                                },
-                                onToggleItemMenu = {
-                                    itemMenuId = if (itemMenuId == entrada.id) null else entrada.id
-                                },
-                                onEdit = {
-                                    itemMenuId = null
-                                    entradaEnEdicion = entrada
-                                    showEditor = true
-                                },
-                                onDelete = {
-                                    itemMenuId = null
-                                    entradaAEliminar = entrada
+                        entradasAgrupadas.forEach { (capitulo, entradasCapitulo) ->
+                            item(key = "capitulo-$capitulo") {
+                                ChapterHeader(
+                                    capitulo = capitulo,
+                                    cantidad = entradasCapitulo.size,
+                                    isCollapsed = capitulo in capitulosPlegados,
+                                    onToggle = {
+                                        if (capitulo in capitulosPlegados) {
+                                            capitulosPlegados.remove(capitulo)
+                                        } else {
+                                            capitulosPlegados.add(capitulo)
+                                        }
+                                    },
+                                    onRename = { capituloARenombrar = capitulo },
+                                    onMove = { capituloAMover = capitulo },
+                                    onDelete = { capituloAEliminar = capitulo }
+                                )
+                            }
+                            if (capitulo !in capitulosPlegados) {
+                                items(entradasCapitulo, key = { it.id }) { entrada ->
+                                    DiarioRow(
+                                        entrada = entrada,
+                                        isExpanded = entradaExpandidaId == entrada.id,
+                                        showEmotionMenu = emotionMenuId == entrada.id,
+                                        showItemMenu = itemMenuId == entrada.id,
+                                        selectionMode = entradasSeleccionadas.isNotEmpty(),
+                                        isSelected = entrada.id in entradasSeleccionadas,
+                                        fechaTexto = "Modificado: ${dateFormat.format(Date(entrada.fechaM))}\nCreado: ${dateFormat.format(Date(entrada.fecha))}",
+                                        onToggleSelection = { toggleBatchSelection(entrada.id) },
+                                        onStartSelection = {
+                                            itemMenuId = null
+                                            emotionMenuId = null
+                                            if (entrada.id !in entradasSeleccionadas) {
+                                                entradasSeleccionadas.add(entrada.id)
+                                            }
+                                        },
+                                        onToggleExpand = {
+                                            entradaExpandidaId = if (entradaExpandidaId == entrada.id) null else entrada.id
+                                        },
+                                        onContentDoubleTap = {
+                                            entradaEnEdicion = entrada
+                                            showEditor = true
+                                        },
+                                        onTitleDoubleTap = {
+                                            titleDialogTarget = entrada
+                                            titleDialogText = entrada.title
+                                        },
+                                        onToggleFav = {
+                                            toggleFavorite(entrada.id, entrada.isFav)
+                                        },
+                                        onToggleEmotionMenu = {
+                                            emotionMenuId = if (emotionMenuId == entrada.id) null else entrada.id
+                                        },
+                                        onChangeEmotion = { emotion ->
+                                            emotionMenuId = null
+                                            updateEntrada(target = entrada, newEmotionKey = emotion.key)
+                                        },
+                                        onToggleItemMenu = {
+                                            itemMenuId = if (itemMenuId == entrada.id) null else entrada.id
+                                        },
+                                        onEdit = {
+                                            itemMenuId = null
+                                            entradaEnEdicion = entrada
+                                            showEditor = true
+                                        },
+                                        onDelete = {
+                                            itemMenuId = null
+                                            entradaAEliminar = entrada
+                                        }
+                                    )
                                 }
-                            )
+                            }
                         }
                     }
                 }
@@ -553,6 +603,8 @@ class FragDiario : Fragment() {
                     onFiltroTituloChange = { filtroTitulo = it },
                     filtroContenido = filtroContenido,
                     onFiltroContenidoChange = { filtroContenido = it },
+                    filtroCapitulo = filtroCapitulo,
+                    onFiltroCapituloChange = { filtroCapitulo = it },
                     filtroEmocionKey = filtroEmocionKey,
                     emociones = emotions,
                     onFiltroEmocionKeyChange = { filtroEmocionKey = it },
@@ -564,6 +616,7 @@ class FragDiario : Fragment() {
                     onClear = {
                         filtroTitulo = ""
                         filtroContenido = ""
+                        filtroCapitulo = ""
                         filtroEmocionKey = "all"
                         filtroFav = FavoritoFiltro.TODAS
                         filtroAntiguedad = ageFilters.first()
@@ -580,11 +633,12 @@ class FragDiario : Fragment() {
             DiarioEditorDialog(
                 entradaEnEdicion = entradaEnEdicion,
                 emociones = emotions,
+                capitulosExistentes = capitulosExistentes,
                 onDismiss = {
                     showEditor = false
                     newEntryDateMillis = null
                 },
-                onSave = { title, content, emotionKey, isFav ->
+                onSave = { title, content, emotionKey, capitulo, isFav ->
                     if (title.isBlank()) {
                         Toast.makeText(context, "Debes escribir un título", Toast.LENGTH_SHORT).show()
                         false
@@ -596,6 +650,7 @@ class FragDiario : Fragment() {
                                     title = title.trim(),
                                     content = content.trim().ifBlank { DEFAULT_NEW_CONTENT },
                                     emocion = emotionKey,
+                                    capitulo = capitulo,
                                     isFav = isFav,
                                     fechaCreacionMillis = newEntryDateMillis ?: System.currentTimeMillis()
                                 )
@@ -605,6 +660,7 @@ class FragDiario : Fragment() {
                                     title = title.trim(),
                                     content = content.trim(),
                                     emocion = emotionKey,
+                                    capitulo = capitulo,
                                     isFav = isFav,
                                     fechaOriginal = existing.fecha
                                 )
@@ -654,6 +710,7 @@ class FragDiario : Fragment() {
                                     title = entry.title,
                                     content = entry.content,
                                     emocion = emotion.key,
+                                    capitulo = entry.capitulo,
                                     isFav = entry.isFav,
                                     fechaOriginal = entry.fecha
                                 )
@@ -729,6 +786,79 @@ class FragDiario : Fragment() {
                         titleDialogTarget = null
                     }) {
                         Text(getString(R.string.guardar))
+                    }
+                }
+            )
+        }
+
+        capituloARenombrar?.let { capitulo ->
+            RenameChapterDialog(
+                capitulo = capitulo,
+                onDismiss = { capituloARenombrar = null },
+                onRename = { nuevoCapitulo ->
+                    val normalizado = nuevoCapitulo.trim()
+                    dbExecutor.execute {
+                        val afectadas = entradas.filter { nombreCapitulo(it) == capitulo }
+                        afectadas.forEach { diarioRepository().cambiarCapitulo(it.id, normalizado) }
+                        activity?.runOnUiThread {
+                            capitulosPlegados.remove(capitulo)
+                            if (normalizado.isNotEmpty()) {
+                                capitulosPlegados.add(normalizado)
+                            }
+                            capituloARenombrar = null
+                            recargarEntradas()
+                            Toast.makeText(context, "Capítulo actualizado", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            )
+        }
+
+        capituloAMover?.let { capitulo ->
+            MoveChapterDialog(
+                capitulo = capitulo,
+                capitulosDisponibles = capitulosExistentes.filter { it != capitulo },
+                onDismiss = { capituloAMover = null },
+                onMove = { destino ->
+                    val normalizado = destino.trim()
+                    dbExecutor.execute {
+                        val afectadas = entradas.filter { nombreCapitulo(it) == capitulo }
+                        afectadas.forEach { diarioRepository().cambiarCapitulo(it.id, normalizado) }
+                        activity?.runOnUiThread {
+                            capitulosPlegados.remove(capitulo)
+                            capituloAMover = null
+                            recargarEntradas()
+                            Toast.makeText(context, "Entradas movidas", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            )
+        }
+
+        capituloAEliminar?.let { capitulo ->
+            AlertDialog(
+                onDismissRequest = { capituloAEliminar = null },
+                title = { Text("Eliminar entradas") },
+                text = { Text("¿Eliminar todas las entradas de \"$capitulo\"? Esta acción no se puede deshacer.") },
+                dismissButton = {
+                    TextButton(onClick = { capituloAEliminar = null }) {
+                        Text(getString(R.string.cancelar))
+                    }
+                },
+                confirmButton = {
+                    TextButton(onClick = {
+                        dbExecutor.execute {
+                            val afectadas = entradas.filter { nombreCapitulo(it) == capitulo }
+                            afectadas.forEach(diarioRepository()::eliminar)
+                            activity?.runOnUiThread {
+                                capitulosPlegados.remove(capitulo)
+                                capituloAEliminar = null
+                                recargarEntradas()
+                                Toast.makeText(context, "Entradas eliminadas", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }) {
+                        Text(getString(R.string.eliminar))
                     }
                 }
             )
@@ -976,6 +1106,8 @@ class FragDiario : Fragment() {
         onFiltroTituloChange: (String) -> Unit,
         filtroContenido: String,
         onFiltroContenidoChange: (String) -> Unit,
+        filtroCapitulo: String,
+        onFiltroCapituloChange: (String) -> Unit,
         filtroEmocionKey: String,
         emociones: List<DiarioEmotion>,
         onFiltroEmocionKeyChange: (String) -> Unit,
@@ -1048,6 +1180,25 @@ class FragDiario : Fragment() {
                     )
                 )
             }
+
+            OutlinedTextField(
+                value = filtroCapitulo,
+                onValueChange = onFiltroCapituloChange,
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                shape = RoundedCornerShape(18.dp),
+                label = { Text("Buscar por capítulo", color = Color.White) },
+                textStyle = androidx.compose.ui.text.TextStyle(color = Color.White),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = Color.White,
+                    focusedBorderColor = Color.White,
+                    unfocusedBorderColor = Color.White.copy(alpha = 0.7f),
+                    focusedLabelColor = Color.White,
+                    unfocusedLabelColor = Color.White.copy(alpha = 0.9f),
+                    cursorColor = Color.White
+                )
+            )
 
             FlowRow(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 FilterChip(
@@ -1135,11 +1286,14 @@ class FragDiario : Fragment() {
     private fun DiarioEditorDialog(
         entradaEnEdicion: DiarioEntity?,
         emociones: List<DiarioEmotion>,
+        capitulosExistentes: List<String>,
         onDismiss: () -> Unit,
-        onSave: (String, String, String, Boolean) -> Boolean
+        onSave: (String, String, String, String, Boolean) -> Boolean
     ) {
         var titulo by remember(entradaEnEdicion?.id) { mutableStateOf(entradaEnEdicion?.title.orEmpty()) }
         var contenido by remember(entradaEnEdicion?.id) { mutableStateOf(entradaEnEdicion?.content.orEmpty()) }
+        var capitulo by remember(entradaEnEdicion?.id) { mutableStateOf(entradaEnEdicion?.capitulo.orEmpty()) }
+        var showChapterMenu by remember { mutableStateOf(false) }
         var emocionKey by remember(entradaEnEdicion?.id) {
             mutableStateOf(DiarioEmotion.fromStored(entradaEnEdicion?.emocion)?.key ?: DiarioEmotion.NEUTRAL.key)
         }
@@ -1192,6 +1346,47 @@ class FragDiario : Fragment() {
                         }
                     )
 
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        OutlinedTextField(
+                            value = capitulo,
+                            onValueChange = { capitulo = it },
+                            modifier = Modifier.fillMaxWidth(),
+                            singleLine = true,
+                            textStyle = androidx.compose.ui.text.TextStyle(color = Color.White),
+                            label = { Text("Capítulo", color = Color.White) },
+                            placeholder = { Text("Ej. Mis recuerdos del pasado verano", color = Color(0xFFE6ECEF)) },
+                            trailingIcon = {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_menu_open),
+                                    contentDescription = "Capítulos existentes",
+                                    tint = Color.White,
+                                    modifier = Modifier.clickable { showChapterMenu = true }
+                                )
+                            }
+                        )
+                        DropdownMenu(
+                            expanded = showChapterMenu,
+                            onDismissRequest = { showChapterMenu = false }
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text(SIN_CAPITULO) },
+                                onClick = {
+                                    capitulo = ""
+                                    showChapterMenu = false
+                                }
+                            )
+                            capitulosExistentes.forEach { existente ->
+                                DropdownMenuItem(
+                                    text = { Text(existente) },
+                                    onClick = {
+                                        capitulo = existente
+                                        showChapterMenu = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+
                     Text(text = "Emoción", fontWeight = FontWeight.SemiBold, color = Color.White)
                     FlowRow(
                         modifier = Modifier.fillMaxWidth(),
@@ -1230,7 +1425,7 @@ class FragDiario : Fragment() {
                         Button(onClick = onDismiss, modifier = Modifier.padding(end = 50.dp)) {
                             Text(getString(R.string.cerrar))
                         }
-                        Button(onClick = { onSave(titulo, contenido, emocionKey, isFav) }) {
+                        Button(onClick = { onSave(titulo, contenido, emocionKey, capitulo, isFav) }) {
                             Text(getString(R.string.guardar))
                         }
                     }
@@ -1385,6 +1580,172 @@ class FragDiario : Fragment() {
                 )
             }
         }
+    }
+
+    @Composable
+    private fun ChapterHeader(
+        capitulo: String,
+        cantidad: Int,
+        isCollapsed: Boolean,
+        onToggle: () -> Unit,
+        onRename: () -> Unit,
+        onMove: () -> Unit,
+        onDelete: () -> Unit
+    ) {
+        var showChapterMenu by remember(capitulo) { mutableStateOf(false) }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp, vertical = 2.dp)
+                .background(Color(0xE82F3840), RoundedCornerShape(12.dp))
+                .clickable(onClick = onToggle)
+                .padding(horizontal = 12.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = if (isCollapsed) "▶" else "▼",
+                color = Color.White,
+                fontSize = 14.sp,
+                modifier = Modifier.padding(end = 8.dp)
+            )
+            Text(
+                text = capitulo,
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f)
+            )
+            Text(
+                text = cantidad.toString(),
+                color = Color(0xFFFFD58B),
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(horizontal = 10.dp)
+            )
+            Box {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_menu_open),
+                    contentDescription = "Opciones de capítulo",
+                    tint = Color.White,
+                    modifier = Modifier
+                        .size(20.dp)
+                        .clickable { showChapterMenu = true }
+                )
+                DropdownMenu(
+                    expanded = showChapterMenu,
+                    onDismissRequest = { showChapterMenu = false }
+                ) {
+                    DropdownMenuItem(
+                        text = { Text("Editar nombre del capítulo") },
+                        onClick = {
+                            showChapterMenu = false
+                            onRename()
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Pasar entradas a otro capítulo") },
+                        onClick = {
+                            showChapterMenu = false
+                            onMove()
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Eliminar entradas de este capítulo") },
+                        onClick = {
+                            showChapterMenu = false
+                            onDelete()
+                        }
+                    )
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun RenameChapterDialog(
+        capitulo: String,
+        onDismiss: () -> Unit,
+        onRename: (String) -> Unit
+    ) {
+        var draft by remember(capitulo) {
+            mutableStateOf(if (capitulo == SIN_CAPITULO) "" else capitulo)
+        }
+
+        AlertDialog(
+            onDismissRequest = onDismiss,
+            title = { Text("Editar capítulo") },
+            text = {
+                OutlinedTextField(
+                    value = draft,
+                    onValueChange = { draft = it },
+                    singleLine = true,
+                    label = { Text("Capítulo") }
+                )
+            },
+            dismissButton = {
+                TextButton(onClick = onDismiss) {
+                    Text(getString(R.string.cancelar))
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { onRename(draft) }) {
+                    Text(getString(R.string.guardar))
+                }
+            }
+        )
+    }
+
+    @Composable
+    private fun MoveChapterDialog(
+        capitulo: String,
+        capitulosDisponibles: List<String>,
+        onDismiss: () -> Unit,
+        onMove: (String) -> Unit
+    ) {
+        var selected by remember(capitulo, capitulosDisponibles) {
+            mutableStateOf(capitulosDisponibles.firstOrNull().orEmpty())
+        }
+
+        AlertDialog(
+            onDismissRequest = onDismiss,
+            title = { Text("Mover entradas") },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text("Elige el capítulo de destino para las entradas de \"$capitulo\".")
+                    if (capitulosDisponibles.isEmpty()) {
+                        Text("No hay otro capítulo existente.")
+                    } else {
+                        capitulosDisponibles.forEach { destino ->
+                            Text(
+                                text = if (selected == destino) "✓ $destino" else destino,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .background(
+                                        if (selected == destino) Color(0x223B6E8F) else Color.Transparent,
+                                        RoundedCornerShape(8.dp)
+                                    )
+                                    .clickable { selected = destino }
+                                    .padding(horizontal = 8.dp, vertical = 8.dp)
+                            )
+                        }
+                    }
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = onDismiss) {
+                    Text(getString(R.string.cancelar))
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    enabled = selected.isNotBlank(),
+                    onClick = { onMove(selected) }
+                ) {
+                    Text("Mover")
+                }
+            }
+        )
     }
 
     private fun startOfDay(timeMillis: Long): Long {
@@ -1542,6 +1903,9 @@ class FragDiario : Fragment() {
         return DiarioRepository(db.diarioDao())
     }
 
+    private fun nombreCapitulo(entrada: DiarioEntity): String =
+        entrada.capitulo.trim().ifEmpty { SIN_CAPITULO }
+
     private data class CalendarDay(
         val dayStartMillis: Long,
         val dayNumber: String,
@@ -1596,6 +1960,7 @@ class FragDiario : Fragment() {
     companion object {
         private const val DAY_MS = 24L * 60 * 60 * 1000
         private const val DEFAULT_NEW_CONTENT = "Nuevo Contenido!"
+        private const val SIN_CAPITULO = "Sin capítulo"
         private val WEEKDAY_LABELS = listOf("Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom")
     }
 }

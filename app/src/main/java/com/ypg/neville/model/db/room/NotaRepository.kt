@@ -9,7 +9,9 @@ class NotaRepository(private val notaDao: NotaDao) {
         titulo: String,
         nota: String,
         isFav: Boolean = false,
-        categoria: String = ""
+        categoria: String = "",
+        isChecklist: Boolean = false,
+        checklistJson: String = ""
     ): Long {
         val now = System.currentTimeMillis()
         val item = SecureRoomText.encryptNota(NotaEntity(
@@ -18,7 +20,9 @@ class NotaRepository(private val notaDao: NotaDao) {
             fechaCreacion = now,
             fechaModificacion = now,
             isFav = isFav,
-            categoria = categoria.trim()
+            categoria = categoria.trim(),
+            isChecklist = isChecklist,
+            checklistJson = checklistJson
         ))
         val id = notaDao.insert(item)
         WeeklySummaryEventLogger.log(WeeklySummaryEventType.NOTES_CREATED, targetKey = id.toString())
@@ -31,7 +35,9 @@ class NotaRepository(private val notaDao: NotaDao) {
         nota: String,
         fechaCreacionOriginal: Long,
         isFav: Boolean = false,
-        categoria: String = ""
+        categoria: String = "",
+        isChecklist: Boolean = false,
+        checklistJson: String = ""
     ) {
         val item = SecureRoomText.encryptNota(NotaEntity(
             id = id,
@@ -40,7 +46,9 @@ class NotaRepository(private val notaDao: NotaDao) {
             fechaCreacion = fechaCreacionOriginal,
             fechaModificacion = System.currentTimeMillis(),
             isFav = isFav,
-            categoria = categoria.trim()
+            categoria = categoria.trim(),
+            isChecklist = isChecklist,
+            checklistJson = checklistJson
         ))
         notaDao.update(item)
         WeeklySummaryEventLogger.log(WeeklySummaryEventType.NOTES_MODIFIED, targetKey = id.toString())
@@ -57,7 +65,9 @@ class NotaRepository(private val notaDao: NotaDao) {
             nota = nota.nota,
             fechaCreacionOriginal = nota.fechaCreacion,
             isFav = nota.isFav,
-            categoria = categoria
+            categoria = categoria,
+            isChecklist = nota.isChecklist,
+            checklistJson = nota.checklistJson
         )
     }
 

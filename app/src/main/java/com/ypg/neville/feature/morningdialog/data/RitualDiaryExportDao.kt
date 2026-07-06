@@ -11,6 +11,9 @@ interface RitualDiaryExportDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(item: RitualDiaryExportEntity): Long
 
+    @Query("SELECT * FROM ritual_diary_exports ORDER BY createdAt DESC")
+    fun getAll(): List<RitualDiaryExportEntity>
+
     @Query("SELECT COUNT(*) > 0 FROM ritual_diary_exports WHERE sessionId = :sessionId")
     fun existsBySessionId(sessionId: Long): Boolean
 

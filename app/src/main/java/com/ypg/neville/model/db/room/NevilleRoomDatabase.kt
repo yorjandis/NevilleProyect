@@ -55,7 +55,7 @@ import com.ypg.neville.model.security.PostQuantumAesTextCrypto
         AgendaItemEntity::class,
         PresenceEventEntity::class
     ],
-    version = 24,
+    version = 26,
     exportSchema = false
 )
 abstract class NevilleRoomDatabase : RoomDatabase() {
@@ -617,6 +617,21 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_24_25 = object : Migration(24, 25) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "ALTER TABLE `Diario` ADD COLUMN `capitulo` TEXT NOT NULL DEFAULT ''"
+                )
+            }
+        }
+
+        private val MIGRATION_25_26 = object : Migration(25, 26) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE `notas` ADD COLUMN `isChecklist` INTEGER NOT NULL DEFAULT 0")
+                db.execSQL("ALTER TABLE `notas` ADD COLUMN `checklistJson` TEXT NOT NULL DEFAULT ''")
+            }
+        }
+
         private val ENCRYPT_PERSONAL_TEXT_ON_OPEN = object : Callback() {
             override fun onOpen(db: SupportSQLiteDatabase) {
                 PostQuantumAesTextCrypto.syncRecoveryKeyFromDatabase(db)
@@ -626,18 +641,24 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
         }
 
         private fun encryptLegacyNotas(db: SupportSQLiteDatabase) {
-            db.query("SELECT id, titulo, nota FROM notas").use { cursor ->
-                val pending = mutableListOf<Triple<Long, String, String>>()
+            db.query("SELECT id, titulo, nota, checklistJson FROM notas").use { cursor ->
+                val pending = mutableListOf<Array<Any>>()
                 while (cursor.moveToNext()) {
                     val id = cursor.getLong(0)
                     val titulo = cursor.getString(1) ?: ""
                     val nota = cursor.getString(2) ?: ""
-                    if (!SecureRoomText.isRecoverableEncrypted(titulo) || !SecureRoomText.isRecoverableEncrypted(nota)) {
+                    val checklistJson = cursor.getString(3) ?: ""
+                    if (
+                        !SecureRoomText.isRecoverableEncrypted(titulo) ||
+                        !SecureRoomText.isRecoverableEncrypted(nota) ||
+                        !SecureRoomText.isRecoverableEncrypted(checklistJson)
+                    ) {
                         pending.add(
-                            Triple(
-                                id,
+                            arrayOf(
                                 SecureRoomText.encryptNotaTitulo(titulo),
-                                SecureRoomText.encryptNotaContenido(nota)
+                                SecureRoomText.encryptNotaContenido(nota),
+                                SecureRoomText.encryptNotaChecklist(checklistJson),
+                                id
                             )
                         )
                     }
@@ -646,10 +667,10 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
 
                 db.beginTransaction()
                 try {
-                    pending.forEach { (id, titulo, nota) ->
+                    pending.forEach { args ->
                         db.execSQL(
-                            "UPDATE notas SET titulo = ?, nota = ? WHERE id = ?",
-                            arrayOf<Any>(titulo, nota, id)
+                            "UPDATE notas SET titulo = ?, nota = ?, checklistJson = ? WHERE id = ?",
+                            args
                         )
                     }
                     db.setTransactionSuccessful()
@@ -725,7 +746,9 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
                         MIGRATION_20_21,
                         MIGRATION_21_22,
                         MIGRATION_22_23,
-                        MIGRATION_23_24
+                        MIGRATION_23_24,
+                        MIGRATION_24_25,
+                        MIGRATION_25_26
                     )
                     .addCallback(ENCRYPT_PERSONAL_TEXT_ON_OPEN)
                     .allowMainThreadQueries()

@@ -31,7 +31,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.CheckBox
+import androidx.compose.material.icons.filled.CheckBoxOutlineBlank
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.Folder
@@ -39,6 +45,7 @@ import androidx.compose.material.icons.filled.FolderOpen
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.FloatingActionButton
@@ -78,6 +85,8 @@ import com.ypg.neville.MainActivity
 import com.ypg.neville.R
 import com.ypg.neville.model.backup.BackupRestoreSignal
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
+import com.ypg.neville.model.db.room.NotaChecklistCodec
+import com.ypg.neville.model.db.room.NotaChecklistItem
 import com.ypg.neville.model.db.room.NotaEntity
 import com.ypg.neville.model.db.room.NotaRepository
 import com.ypg.neville.model.db.utilsDB
@@ -140,6 +149,7 @@ class FragNotas : Fragment() {
         var notaEnEdicion by remember { mutableStateOf<NotaEntity?>(null) }
         var notaAEliminar by remember { mutableStateOf<NotaEntity?>(null) }
         var categoriaARenombrar by remember { mutableStateOf<String?>(null) }
+        var categoriaAMover by remember { mutableStateOf<String?>(null) }
         var categoriaAEliminar by remember { mutableStateOf<String?>(null) }
         var showEditor by remember { mutableStateOf(false) }
         var notaExpandidaId by remember { mutableStateOf<Long?>(null) }
@@ -183,7 +193,7 @@ class FragNotas : Fragment() {
                 nota.titulo.contains(filtroTitulo.trim(), ignoreCase = true)
 
             val cumpleContenido = filtroContenido.isBlank() ||
-                nota.nota.contains(filtroContenido.trim(), ignoreCase = true)
+                buildNotaSearchText(nota).contains(filtroContenido.trim(), ignoreCase = true)
 
             val cumpleFav = when (filtroFav) {
                 FavoritoFiltro.TODAS -> true
@@ -268,6 +278,9 @@ class FragNotas : Fragment() {
                                             showEditor = true
                                         },
                                         onDelete = { notaAEliminar = nota },
+                                        onRenameCategory = { categoriaARenombrar = it },
+                                        onMoveCategory = { categoriaAMover = it },
+                                        onDeleteCategory = { categoriaAEliminar = it },
                                         onReload = ::recargarNotas
                                     )
                                 }
@@ -302,6 +315,9 @@ class FragNotas : Fragment() {
                                                     showEditor = true
                                                 },
                                                 onDelete = { notaAEliminar = nota },
+                                                onRenameCategory = { categoriaARenombrar = it },
+                                                onMoveCategory = { categoriaAMover = it },
+                                                onDeleteCategory = { categoriaAEliminar = it },
                                                 onReload = ::recargarNotas
                                             )
                                         }
@@ -414,9 +430,16 @@ class FragNotas : Fragment() {
                 notaEnEdicion = notaEnEdicion,
                 categoriasExistentes = categoriasExistentes,
                 onDismiss = { showEditor = false },
-                onSave = { titulo, contenido, isFav, categoria ->
-                    if (titulo.isBlank() || contenido.isBlank()) {
-                        Toast.makeText(context, "Debes escribir título y nota", Toast.LENGTH_SHORT).show()
+                onSave = { titulo, contenido, isFav, categoria, isChecklist, checklistJson ->
+                    val checklistItems = NotaChecklistCodec.decode(checklistJson)
+                    if (titulo.isBlank()) {
+                        Toast.makeText(context, "Debes escribir un título", Toast.LENGTH_SHORT).show()
+                        false
+                    } else if (!isChecklist && contenido.isBlank()) {
+                        Toast.makeText(context, "Debes escribir el contenido de la nota", Toast.LENGTH_SHORT).show()
+                        false
+                    } else if (isChecklist && checklistItems.isEmpty()) {
+                        Toast.makeText(context, "Añade al menos un elemento al checklist", Toast.LENGTH_SHORT).show()
                         false
                     } else {
                         dbExecutor.execute {
@@ -426,7 +449,9 @@ class FragNotas : Fragment() {
                                     titulo.trim(),
                                     contenido.trim(),
                                     isFav,
-                                    categoria.trim()
+                                    categoria.trim(),
+                                    isChecklist,
+                                    checklistJson
                                 )
                             } else {
                                 notaRepository().actualizar(
@@ -435,7 +460,9 @@ class FragNotas : Fragment() {
                                     nota = contenido.trim(),
                                     fechaCreacionOriginal = existing.fechaCreacion,
                                     isFav = isFav,
-                                    categoria = categoria.trim()
+                                    categoria = categoria.trim(),
+                                    isChecklist = isChecklist,
+                                    checklistJson = checklistJson
                                 )
                             }
 
@@ -467,6 +494,34 @@ class FragNotas : Fragment() {
                             Toast.makeText(
                                 context,
                                 "${afectadas.size} nota(s) actualizada(s)",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+            )
+        }
+
+        categoriaAMover?.let { categoria ->
+            MoveCategoryDialog(
+                categoria = categoria,
+                categoriasExistentes = categoriasExistentes.filterNot {
+                    it.equals(categoria, ignoreCase = true)
+                },
+                onDismiss = { categoriaAMover = null },
+                onMove = { destino ->
+                    val normalizada = destino.trim()
+                    dbExecutor.execute {
+                        val afectadas = notas.filter { nombreCategoria(it) == categoria }
+                        afectadas.forEach { notaRepository().cambiarCategoria(it, normalizada) }
+                        activity?.runOnUiThread {
+                            categoriasPlegadas.remove(categoria)
+                            categoriasPlegadas.add(normalizada.ifEmpty { SIN_CATEGORIA })
+                            categoriaAMover = null
+                            recargarNotas()
+                            Toast.makeText(
+                                context,
+                                "${afectadas.size} nota(s) movida(s)",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -543,6 +598,9 @@ class FragNotas : Fragment() {
         onExpandChange: () -> Unit,
         onEdit: () -> Unit,
         onDelete: () -> Unit,
+        onRenameCategory: (String) -> Unit,
+        onMoveCategory: (String) -> Unit,
+        onDeleteCategory: (String) -> Unit,
         onReload: () -> Unit
     ) {
         val context = LocalContext.current
@@ -552,6 +610,9 @@ class FragNotas : Fragment() {
             fechaTexto = "Creado: ${dateFormat.format(Date(nota.fechaCreacion))} | Modificado: ${dateFormat.format(Date(nota.fechaModificacion))}",
             onEdit = onEdit,
             onDelete = onDelete,
+            onRenameCategory = onRenameCategory,
+            onMoveCategory = onMoveCategory,
+            onDeleteCategory = onDeleteCategory,
             onToggleExpand = onExpandChange,
             onToggleFav = {
                 dbExecutor.execute {
@@ -559,8 +620,28 @@ class FragNotas : Fragment() {
                     activity?.runOnUiThread(onReload)
                 }
             },
+            onToggleChecklistItem = { item ->
+                val updatedJson = NotaChecklistCodec.encode(
+                    NotaChecklistCodec.decode(nota.checklistJson).map {
+                        if (it.id == item.id) it.copy(checked = !it.checked) else it
+                    }
+                )
+                dbExecutor.execute {
+                    notaRepository().actualizar(
+                        id = nota.id,
+                        titulo = nota.titulo,
+                        nota = nota.nota,
+                        fechaCreacionOriginal = nota.fechaCreacion,
+                        isFav = nota.isFav,
+                        categoria = nota.categoria,
+                        isChecklist = nota.isChecklist,
+                        checklistJson = updatedJson
+                    )
+                    activity?.runOnUiThread(onReload)
+                }
+            },
             onExportToFrases = {
-                                        val frase = nota.nota.trim().ifBlank { nota.titulo.trim() }
+                                        val frase = buildNotaPayload(nota).trim().ifBlank { nota.titulo.trim() }
                                         if (frase.isBlank()) {
                                             Toast.makeText(context, "La nota está vacía", Toast.LENGTH_SHORT).show()
                                             return@NotaRow
@@ -630,12 +711,34 @@ class FragNotas : Fragment() {
     private fun buildNotaPayload(nota: NotaEntity): String {
         val titulo = nota.titulo.trim()
         val contenido = nota.nota.trim()
+        val checklist = if (nota.isChecklist) {
+            NotaChecklistCodec.decode(nota.checklistJson)
+                .joinToString("\n") { item ->
+                    "${if (item.checked) "[x]" else "[ ]"} ${item.text}"
+                }
+                .trim()
+        } else {
+            ""
+        }
         return when {
+            titulo.isNotBlank() && contenido.isNotBlank() && checklist.isNotBlank() -> "$titulo\n\n$contenido\n\n$checklist"
+            titulo.isNotBlank() && checklist.isNotBlank() -> "$titulo\n\n$checklist"
             titulo.isNotBlank() && contenido.isNotBlank() -> "$titulo\n\n$contenido"
+            contenido.isNotBlank() && checklist.isNotBlank() -> "$contenido\n\n$checklist"
             contenido.isNotBlank() -> contenido
+            checklist.isNotBlank() -> checklist
             else -> titulo
         }
     }
+
+    private fun buildNotaSearchText(nota: NotaEntity): String =
+        buildString {
+            append(nota.nota)
+            if (nota.isChecklist) {
+                append('\n')
+                NotaChecklistCodec.decode(nota.checklistJson).forEach { appendLine(it.text) }
+            }
+        }
 
     private fun notaRepository(): NotaRepository {
         val db = NevilleRoomDatabase.getInstance(requireContext().applicationContext)
@@ -804,12 +907,18 @@ class FragNotas : Fragment() {
         notaEnEdicion: NotaEntity?,
         categoriasExistentes: List<String>,
         onDismiss: () -> Unit,
-        onSave: (String, String, Boolean, String) -> Boolean
+        onSave: (String, String, Boolean, String, Boolean, String) -> Boolean
     ) {
         var titulo by remember(notaEnEdicion?.id) { mutableStateOf(notaEnEdicion?.titulo.orEmpty()) }
         var nota by remember(notaEnEdicion?.id) { mutableStateOf(notaEnEdicion?.nota.orEmpty()) }
         var categoria by remember(notaEnEdicion?.id) { mutableStateOf(notaEnEdicion?.categoria.orEmpty()) }
         var isFav by remember(notaEnEdicion?.id) { mutableStateOf(notaEnEdicion?.isFav ?: false) }
+        var isChecklist by remember(notaEnEdicion?.id) { mutableStateOf(notaEnEdicion?.isChecklist ?: false) }
+        val checklistItems = remember(notaEnEdicion?.id) {
+            mutableStateListOf<NotaChecklistItem>().apply {
+                addAll(NotaChecklistCodec.decode(notaEnEdicion?.checklistJson.orEmpty()))
+            }
+        }
         var showCategoryMenu by remember { mutableStateOf(false) }
 
         Dialog(
@@ -823,7 +932,10 @@ class FragNotas : Fragment() {
                     .padding(10.dp)
             ) {
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(max = 720.dp)
+                        .verticalScroll(rememberScrollState()),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     OutlinedTextField(
@@ -886,6 +998,26 @@ class FragNotas : Fragment() {
                         }
                     }
 
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        NoteTypeChip(
+                            label = "Texto",
+                            selected = !isChecklist,
+                            icon = Icons.Default.CheckBoxOutlineBlank,
+                            onClick = { isChecklist = false },
+                            modifier = Modifier.weight(1f)
+                        )
+                        NoteTypeChip(
+                            label = "Checklist",
+                            selected = isChecklist,
+                            icon = Icons.Default.CheckBox,
+                            onClick = { isChecklist = true },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+
                     OutlinedTextField(
                         value = nota,
                         onValueChange = { nota = it },
@@ -899,8 +1031,39 @@ class FragNotas : Fragment() {
                             textAlign = TextAlign.Start,
                             color = colorResource(id = R.color.light_blue_50)
                         ),
-                        placeholder = { Text("Escribe el contenido de tu nota", color = Color.White) }
+                        placeholder = {
+                            Text(
+                                if (isChecklist) "Descripción opcional del checklist" else "Escribe el contenido de tu nota",
+                                color = Color.White
+                            )
+                        }
                     )
+
+                    if (isChecklist) {
+                        ChecklistEditorSection(
+                            items = checklistItems,
+                            onAdd = {
+                                checklistItems.add(
+                                    NotaChecklistItem(
+                                        id = "item-${System.currentTimeMillis()}-${checklistItems.size}",
+                                        text = "",
+                                        checked = false
+                                    )
+                                )
+                            },
+                            onTextChange = { item, text ->
+                                val index = checklistItems.indexOfFirst { it.id == item.id }
+                                if (index >= 0) checklistItems[index] = item.copy(text = text)
+                            },
+                            onCheckedChange = { item, checked ->
+                                val index = checklistItems.indexOfFirst { it.id == item.id }
+                                if (index >= 0) checklistItems[index] = item.copy(checked = checked)
+                            },
+                            onDelete = { item ->
+                                checklistItems.removeAll { it.id == item.id }
+                            }
+                        )
+                    }
 
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -930,9 +1093,135 @@ class FragNotas : Fragment() {
                         ) {
                             Text(stringResource(id = R.string.cerrar))
                         }
-                        Button(onClick = { onSave(titulo, nota, isFav, categoria) }) {
+                        Button(
+                            onClick = {
+                                onSave(
+                                    titulo,
+                                    nota,
+                                    isFav,
+                                    categoria,
+                                    isChecklist,
+                                    NotaChecklistCodec.encode(checklistItems)
+                                )
+                            }
+                        ) {
                             Text(stringResource(id = R.string.guardar))
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun NoteTypeChip(
+        label: String,
+        selected: Boolean,
+        icon: androidx.compose.ui.graphics.vector.ImageVector,
+        onClick: () -> Unit,
+        modifier: Modifier = Modifier
+    ) {
+        Row(
+            modifier = modifier
+                .background(
+                    if (selected) Color(0xFFD2E4EE) else Color(0x55334C63),
+                    RoundedCornerShape(12.dp)
+                )
+                .clickable(onClick = onClick)
+                .padding(horizontal = 12.dp, vertical = 9.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = label,
+                tint = if (selected) Color(0xFF11232E) else Color.White,
+                modifier = Modifier.size(18.dp)
+            )
+            Spacer(Modifier.width(6.dp))
+            Text(
+                text = label,
+                color = if (selected) Color(0xFF11232E) else Color.White,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
+    }
+
+    @Composable
+    private fun ChecklistEditorSection(
+        items: List<NotaChecklistItem>,
+        onAdd: () -> Unit,
+        onTextChange: (NotaChecklistItem, String) -> Unit,
+        onCheckedChange: (NotaChecklistItem, Boolean) -> Unit,
+        onDelete: (NotaChecklistItem) -> Unit
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color(0x55334C63), RoundedCornerShape(14.dp))
+                .padding(10.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = "Checklist",
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
+                IconButton(onClick = onAdd, modifier = Modifier.size(36.dp)) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Añadir elemento",
+                        tint = Color.White
+                    )
+                }
+            }
+
+            if (items.isEmpty()) {
+                Text(
+                    text = "Añade el primer elemento",
+                    color = Color.White.copy(alpha = 0.72f),
+                    fontSize = 14.sp
+                )
+            }
+
+            items.forEach { item ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    Checkbox(
+                        checked = item.checked,
+                        onCheckedChange = { onCheckedChange(item, it) }
+                    )
+                    OutlinedTextField(
+                        value = item.text,
+                        onValueChange = { onTextChange(item, it) },
+                        modifier = Modifier.weight(1f),
+                        singleLine = true,
+                        shape = RoundedCornerShape(12.dp),
+                        placeholder = { Text("Elemento", color = Color.White.copy(alpha = 0.7f)) },
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedTextColor = Color.White,
+                            unfocusedTextColor = Color.White,
+                            cursorColor = Color.White,
+                            focusedBorderColor = Color.White,
+                            unfocusedBorderColor = Color.Gray
+                        )
+                    )
+                    IconButton(onClick = { onDelete(item) }, modifier = Modifier.size(36.dp)) {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = "Eliminar elemento",
+                            tint = Color(0xFFFFA336)
+                        )
                     }
                 }
             }
@@ -946,8 +1235,12 @@ class FragNotas : Fragment() {
         fechaTexto: String,
         onEdit: () -> Unit,
         onDelete: () -> Unit,
+        onRenameCategory: (String) -> Unit,
+        onMoveCategory: (String) -> Unit,
+        onDeleteCategory: (String) -> Unit,
         onToggleExpand: () -> Unit,
         onToggleFav: () -> Unit,
+        onToggleChecklistItem: (NotaChecklistItem) -> Unit,
         onExportToFrases: () -> Unit,
         onExportToLienzo: () -> Unit,
         onGenerateQr: () -> Unit,
@@ -955,7 +1248,9 @@ class FragNotas : Fragment() {
         onCopyToClipboard: () -> Unit
     ) {
         var showContextMenu by remember(nota.id) { mutableStateOf(false) }
-        var showMetaActions by remember(nota.id) { mutableStateOf(false) }
+        var showCategoryMenu by remember(nota.id, nota.categoria) { mutableStateOf(false) }
+        val checklistItems = remember(nota.checklistJson) { NotaChecklistCodec.decode(nota.checklistJson) }
+        val categoriaTexto = nombreCategoria(nota)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -970,7 +1265,6 @@ class FragNotas : Fragment() {
                     ),
                     shape = RoundedCornerShape(20.dp)
                 )
-                .clickable(onClick = onEdit)
                 .padding(12.dp)
         ) {
             Row(
@@ -994,37 +1288,69 @@ class FragNotas : Fragment() {
                 )
             }
 
-            Text(
-                text = nota.nota,
-                fontSize = 16.sp,
-                lineHeight = 20.sp,
-                maxLines = if (isExpanded) Int.MAX_VALUE else 3,
-                overflow = if (isExpanded) TextOverflow.Clip else TextOverflow.Ellipsis,
-                color = Color.White,
-                modifier = Modifier
-                    .padding(top = 6.dp)
-                    .fillMaxWidth()
-                    .clickable(onClick = onToggleExpand)
-                    .then(
-                        if (isExpanded) {
-                            Modifier
-                        } else {
-                            Modifier.heightIn(min = 60.dp)
+            if (isExpanded && nota.nota.isNotBlank()) {
+                Text(
+                    text = nota.nota,
+                    fontSize = 16.sp,
+                    lineHeight = 20.sp,
+                    overflow = TextOverflow.Clip,
+                    color = Color.White,
+                    modifier = Modifier
+                        .padding(top = 6.dp)
+                        .fillMaxWidth()
+                        .clickable(onClick = onToggleExpand)
+                )
+            }
+
+            if (isExpanded && nota.isChecklist) {
+                ChecklistPreview(
+                    items = checklistItems,
+                    isExpanded = isExpanded,
+                    onToggleExpand = onToggleExpand,
+                    onToggleItem = onToggleChecklistItem
+                )
+            }
+
+            Box(modifier = Modifier.padding(top = 6.dp)) {
+                Text(
+                    text = categoriaTexto,
+                    fontSize = 12.sp,
+                    color = Color(0xFFD9E8F2),
+                    modifier = Modifier
+                        .background(Color(0x55334C63), RoundedCornerShape(10.dp))
+                        .clickable { showCategoryMenu = true }
+                        .padding(horizontal = 8.dp, vertical = 3.dp)
+                )
+                DropdownMenu(
+                    expanded = showCategoryMenu,
+                    onDismissRequest = { showCategoryMenu = false },
+                    shape = RoundedCornerShape(14.dp)
+                ) {
+                    DropdownMenuItem(
+                        text = { Text("Editar categoría") },
+                        onClick = {
+                            showCategoryMenu = false
+                            onRenameCategory(categoriaTexto)
                         }
                     )
-            )
+                    DropdownMenuItem(
+                        text = { Text("Mover a categoría existente") },
+                        onClick = {
+                            showCategoryMenu = false
+                            onMoveCategory(categoriaTexto)
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Eliminar notas de esta categoría") },
+                        onClick = {
+                            showCategoryMenu = false
+                            onDeleteCategory(categoriaTexto)
+                        }
+                    )
+                }
+            }
 
-            Text(
-                text = nombreCategoria(nota),
-                fontSize = 12.sp,
-                color = Color(0xFFD9E8F2),
-                modifier = Modifier
-                    .padding(top = 6.dp)
-                    .background(Color(0x55334C63), RoundedCornerShape(10.dp))
-                    .padding(horizontal = 8.dp, vertical = 3.dp)
-            )
-
-            if (showMetaActions) {
+            if (isExpanded) {
                 Text(
                     text = fechaTexto,
                     fontSize = 12.sp,
@@ -1117,19 +1443,90 @@ class FragNotas : Fragment() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 2.dp),
+                    .padding(top = if (isExpanded) 2.dp else 0.dp),
                 horizontalArrangement = Arrangement.End
             ) {
                 Icon(
                     painter = painterResource(
-                        id = if (showMetaActions) R.drawable.ic_arriba else R.drawable.ic_abajo
+                        id = if (isExpanded) R.drawable.ic_arriba else R.drawable.ic_abajo
                     ),
-                    contentDescription = if (showMetaActions) "Ocultar detalles" else "Mostrar detalles",
+                    contentDescription = if (isExpanded) "Colapsar nota" else "Expandir nota",
                     tint = Color.White.copy(alpha = 0.8f),
                     modifier = Modifier
                         .size(16.dp)
-                        .clickable { showMetaActions = !showMetaActions }
+                        .clickable(onClick = onToggleExpand)
                 )
+            }
+        }
+    }
+
+    @Composable
+    private fun ChecklistPreview(
+        items: List<NotaChecklistItem>,
+        isExpanded: Boolean,
+        onToggleExpand: () -> Unit,
+        onToggleItem: (NotaChecklistItem) -> Unit
+    ) {
+        val visibleItems = if (isExpanded) items else items.take(3)
+        val canCollapseExpand = items.size > 3
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            visibleItems.forEach { item ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable(
+                            enabled = canCollapseExpand,
+                            onClick = onToggleExpand
+                        ),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Checkbox(
+                        checked = item.checked,
+                        onCheckedChange = { onToggleItem(item) }
+                    )
+                    Text(
+                        text = item.text,
+                        fontSize = 15.sp,
+                        lineHeight = 18.sp,
+                        color = Color.White,
+                        maxLines = if (isExpanded) Int.MAX_VALUE else 1,
+                        overflow = if (isExpanded) TextOverflow.Clip else TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable(
+                                enabled = canCollapseExpand,
+                                onClick = onToggleExpand
+                            )
+                    )
+                }
+            }
+            if (canCollapseExpand) {
+                Row(
+                    modifier = Modifier
+                        .padding(start = 48.dp)
+                        .clickable(onClick = onToggleExpand),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Text(
+                        text = if (isExpanded) "Mostrar menos" else "+${items.size - visibleItems.size} más",
+                        color = Color(0xFFD9E8F2),
+                        fontSize = 12.sp
+                    )
+                    Icon(
+                        painter = painterResource(
+                            id = if (isExpanded) R.drawable.ic_arriba else R.drawable.ic_abajo
+                        ),
+                        contentDescription = if (isExpanded) "Colapsar checklist" else "Expandir checklist",
+                        tint = Color(0xFFD9E8F2),
+                        modifier = Modifier.size(14.dp)
+                    )
+                }
             }
         }
     }
@@ -1254,6 +1651,78 @@ class FragNotas : Fragment() {
             confirmButton = {
                 TextButton(onClick = { onRename(draft) }) {
                     Text("Actualizar")
+                }
+            }
+        )
+    }
+
+    @Composable
+    private fun MoveCategoryDialog(
+        categoria: String,
+        categoriasExistentes: List<String>,
+        onDismiss: () -> Unit,
+        onMove: (String) -> Unit
+    ) {
+        var selected by remember(categoria, categoriasExistentes) {
+            mutableStateOf(categoriasExistentes.firstOrNull().orEmpty())
+        }
+        var showMenu by remember { mutableStateOf(false) }
+
+        AlertDialog(
+            onDismissRequest = onDismiss,
+            title = { Text("Mover categoría") },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text("Mover las notas de \"$categoria\" a:")
+                    if (categoriasExistentes.isEmpty()) {
+                        Text("No hay otra categoría existente disponible.")
+                    } else {
+                        Box {
+                            OutlinedTextField(
+                                value = selected,
+                                onValueChange = {},
+                                label = { Text("Categoría destino") },
+                                readOnly = true,
+                                singleLine = true,
+                                trailingIcon = {
+                                    IconButton(onClick = { showMenu = true }) {
+                                        Icon(
+                                            imageVector = Icons.Default.Folder,
+                                            contentDescription = "Seleccionar categoría"
+                                        )
+                                    }
+                                },
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                            DropdownMenu(
+                                expanded = showMenu,
+                                onDismissRequest = { showMenu = false }
+                            ) {
+                                categoriasExistentes.forEach { categoriaDestino ->
+                                    DropdownMenuItem(
+                                        text = { Text(categoriaDestino) },
+                                        onClick = {
+                                            selected = categoriaDestino
+                                            showMenu = false
+                                        }
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = onDismiss) {
+                    Text(stringResource(id = R.string.cancelar))
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    enabled = selected.isNotBlank(),
+                    onClick = { onMove(selected) }
+                ) {
+                    Text("Mover")
                 }
             }
         )

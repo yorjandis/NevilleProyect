@@ -9,6 +9,7 @@ class DiarioRepository(private val diarioDao: DiarioDao) {
         title: String,
         content: String,
         emocion: String,
+        capitulo: String = "",
         isFav: Boolean,
         fechaCreacionMillis: Long = System.currentTimeMillis()
     ): Long {
@@ -17,6 +18,7 @@ class DiarioRepository(private val diarioDao: DiarioDao) {
             title = title,
             content = content,
             emocion = emocion,
+            capitulo = capitulo.trim(),
             fecha = fechaCreacionMillis,
             fechaM = now,
             isFav = isFav
@@ -26,12 +28,21 @@ class DiarioRepository(private val diarioDao: DiarioDao) {
         return id
     }
 
-    fun actualizar(id: Long, title: String, content: String, emocion: String, isFav: Boolean, fechaOriginal: Long) {
+    fun actualizar(
+        id: Long,
+        title: String,
+        content: String,
+        emocion: String,
+        capitulo: String = "",
+        isFav: Boolean,
+        fechaOriginal: Long
+    ) {
         val item = SecureRoomText.encryptDiario(DiarioEntity(
             id = id,
             title = title,
             content = content,
             emocion = emocion,
+            capitulo = capitulo.trim(),
             fecha = fechaOriginal,
             fechaM = System.currentTimeMillis(),
             isFav = isFav
@@ -42,6 +53,11 @@ class DiarioRepository(private val diarioDao: DiarioDao) {
 
     fun cambiarFavorito(id: Long, isFav: Boolean) {
         diarioDao.updateFavoritoById(id = id, isFav = isFav)
+    }
+
+    fun cambiarCapitulo(id: Long, capitulo: String) {
+        diarioDao.updateCapituloById(id = id, capitulo = capitulo.trim())
+        WeeklySummaryEventLogger.log(WeeklySummaryEventType.JOURNAL_MODIFIED, targetKey = id.toString())
     }
 
     fun eliminar(diario: DiarioEntity) {

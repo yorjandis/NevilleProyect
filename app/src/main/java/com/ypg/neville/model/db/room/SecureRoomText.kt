@@ -5,20 +5,23 @@ import com.ypg.neville.model.security.PostQuantumAesTextCrypto
 object SecureRoomText {
     private const val NOTA_TITULO_AAD = "neville.room.notas.titulo.v1"
     private const val NOTA_NOTA_AAD = "neville.room.notas.nota.v1"
+    private const val NOTA_CHECKLIST_AAD = "neville.room.notas.checklist.v1"
     private const val DIARIO_TITLE_AAD = "neville.room.diario.title.v1"
     private const val DIARIO_CONTENT_AAD = "neville.room.diario.content.v1"
 
     fun encryptNota(entity: NotaEntity): NotaEntity {
         return entity.copy(
             titulo = encryptNotaTitulo(entity.titulo),
-            nota = encryptNotaContenido(entity.nota)
+            nota = encryptNotaContenido(entity.nota),
+            checklistJson = encryptNotaChecklist(entity.checklistJson)
         )
     }
 
     fun decryptNota(entity: NotaEntity): NotaEntity {
         return entity.copy(
             titulo = decryptNotaTitulo(entity.titulo),
-            nota = decryptNotaContenido(entity.nota)
+            nota = decryptNotaContenido(entity.nota),
+            checklistJson = decryptNotaChecklist(entity.checklistJson)
         )
     }
 
@@ -38,11 +41,13 @@ object SecureRoomText {
 
     fun encryptNotaTitulo(value: String): String = encrypt(value, NOTA_TITULO_AAD)
     fun encryptNotaContenido(value: String): String = encrypt(value, NOTA_NOTA_AAD)
+    fun encryptNotaChecklist(value: String): String = encrypt(value, NOTA_CHECKLIST_AAD)
     fun encryptDiarioTitle(value: String): String = encrypt(value, DIARIO_TITLE_AAD)
     fun encryptDiarioContent(value: String): String = encrypt(value, DIARIO_CONTENT_AAD)
 
     fun decryptNotaTitulo(value: String): String = decrypt(value, NOTA_TITULO_AAD)
     fun decryptNotaContenido(value: String): String = decrypt(value, NOTA_NOTA_AAD)
+    fun decryptNotaChecklist(value: String): String = decrypt(value, NOTA_CHECKLIST_AAD)
     fun decryptDiarioTitle(value: String): String = decrypt(value, DIARIO_TITLE_AAD)
     fun decryptDiarioContent(value: String): String = decrypt(value, DIARIO_CONTENT_AAD)
 

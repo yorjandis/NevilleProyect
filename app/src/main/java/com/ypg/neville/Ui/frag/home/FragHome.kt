@@ -174,6 +174,14 @@ class FragHome : Fragment() {
                 )
             )
         }
+        var accessGradientIds by remember {
+            mutableStateOf(
+                normalizeAlternativeGradientIds(
+                    prefs.getString(PREF_KEY_HOME_ALTERNATIVE_ACCESS_GRADIENT_IDS, "").orEmpty(),
+                    accessIds
+                )
+            )
+        }
         var showEditor by remember { mutableStateOf(false) }
         var presenceCount by remember { mutableStateOf(0) }
         var diaryCount by remember { mutableStateOf(0) }
@@ -278,9 +286,12 @@ class FragHome : Fragment() {
                     verticalArrangement = Arrangement.spacedBy(gridSpacing),
                     contentPadding = PaddingValues(0.dp)
                 ) {
-                    items(accessIds.mapNotNull { id -> HomeAlternativeAccess.entries.firstOrNull { it.id == id } }) { access ->
+                    items(accessIds.indices.toList()) { index ->
+                        val access = HomeAlternativeAccess.entries.firstOrNull { it.id == accessIds[index] } ?: return@items
+                        val gradient = homeAlternativeGradientForId(accessGradientIds.getOrNull(index), access)
                         AlternativeAccessCard(
                             access = access,
+                            colors = gradient.colors,
                             theme = theme,
                             showBadge = access == HomeAlternativeAccess.Agenda &&
                                 agendaCountToday > 0 &&
@@ -343,15 +354,37 @@ class FragHome : Fragment() {
         if (showEditor) {
             AlternativeAccessEditorDialog(
                 accessIds = accessIds,
+                accessGradientIds = accessGradientIds,
                 theme = theme,
                 onDismiss = { showEditor = false },
                 onReset = {
-                    accessIds = HOME_ALTERNATIVE_DEFAULT_ACCESS_IDS
-                    prefs.edit { putString(PREF_KEY_HOME_ALTERNATIVE_ACCESS_IDS, encodeAlternativeAccessIds(accessIds)) }
+                    val resetAccessIds = HOME_ALTERNATIVE_DEFAULT_ACCESS_IDS
+                    val resetGradientIds = defaultAlternativeGradientIds(resetAccessIds)
+                    accessIds = resetAccessIds
+                    accessGradientIds = resetGradientIds
+                    prefs.edit {
+                        putString(PREF_KEY_HOME_ALTERNATIVE_ACCESS_IDS, encodeAlternativeAccessIds(resetAccessIds))
+                        putString(
+                            PREF_KEY_HOME_ALTERNATIVE_ACCESS_GRADIENT_IDS,
+                            encodeAlternativeGradientIds(resetGradientIds, resetAccessIds)
+                        )
+                    }
                 },
-                onChange = { newIds ->
-                    accessIds = normalizeAlternativeAccessIds(encodeAlternativeAccessIds(newIds))
-                    prefs.edit { putString(PREF_KEY_HOME_ALTERNATIVE_ACCESS_IDS, encodeAlternativeAccessIds(accessIds)) }
+                onChange = { newIds, newGradientIds ->
+                    val nextAccessIds = normalizeAlternativeAccessIds(encodeAlternativeAccessIds(newIds))
+                    val nextGradientIds = normalizeAlternativeGradientIds(
+                        encodeAlternativeGradientIds(newGradientIds, nextAccessIds),
+                        nextAccessIds
+                    )
+                    accessIds = nextAccessIds
+                    accessGradientIds = nextGradientIds
+                    prefs.edit {
+                        putString(PREF_KEY_HOME_ALTERNATIVE_ACCESS_IDS, encodeAlternativeAccessIds(nextAccessIds))
+                        putString(
+                            PREF_KEY_HOME_ALTERNATIVE_ACCESS_GRADIENT_IDS,
+                            encodeAlternativeGradientIds(nextGradientIds, nextAccessIds)
+                        )
+                    }
                 }
             )
         }
@@ -361,6 +394,7 @@ class FragHome : Fragment() {
     @Composable
     private fun AlternativeAccessCard(
         access: HomeAlternativeAccess,
+        colors: List<Color>,
         theme: AlternativeHomeTheme,
         showBadge: Boolean,
         badgeText: String,
@@ -376,7 +410,7 @@ class FragHome : Fragment() {
                     .shadow(HOME_ALTERNATIVE_CARD_SHADOW_DP.dp, RoundedCornerShape(HOME_ALTERNATIVE_CARD_CORNER_DP.dp))
                     .clip(RoundedCornerShape(HOME_ALTERNATIVE_CARD_CORNER_DP.dp))
                     .combinedClickable(onClick = onClick, onLongClick = onLongClick)
-                    .background(Brush.linearGradient(access.colors))
+                    .background(Brush.linearGradient(colors))
                     .border(1.dp, theme.cardStroke, RoundedCornerShape(HOME_ALTERNATIVE_CARD_CORNER_DP.dp))
                     .padding(HOME_ALTERNATIVE_CARD_PADDING_DP.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -495,10 +529,11 @@ class FragHome : Fragment() {
     @Composable
     private fun AlternativeAccessEditorDialog(
         accessIds: List<String>,
+        accessGradientIds: List<String>,
         theme: AlternativeHomeTheme,
         onDismiss: () -> Unit,
         onReset: () -> Unit,
-        onChange: (List<String>) -> Unit
+        onChange: (List<String>, List<String>) -> Unit
     ) {
         AlertDialog(
             onDismissRequest = onDismiss,
@@ -510,10 +545,17 @@ class FragHome : Fragment() {
             },
             title = { Text("Accesos") },
             text = {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Column(
+                    modifier = Modifier
+                        .heightIn(max = 520.dp)
+                        .verticalScroll(rememberScrollState()),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
                     accessIds.forEachIndexed { index, id ->
                         val access = HomeAlternativeAccess.entries.firstOrNull { it.id == id } ?: return@forEachIndexed
-                        var expanded by remember(id, index) { mutableStateOf(false) }
+                        val selectedGradient = homeAlternativeGradientForId(accessGradientIds.getOrNull(index), access)
+                        var accessExpanded by remember(id, index) { mutableStateOf(false) }
+                        var gradientExpanded by remember(id, selectedGradient.id, index) { mutableStateOf(false) }
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically,
@@ -521,37 +563,97 @@ class FragHome : Fragment() {
                         ) {
                             Icon(access.icon, contentDescription = access.title, tint = theme.primaryText, modifier = Modifier.size(20.dp))
                             Text(access.title, modifier = Modifier.weight(1f), color = theme.primaryText, maxLines = 1)
+                            Box {
+                                Surface(
+                                    modifier = Modifier
+                                        .size(30.dp)
+                                        .clip(CircleShape)
+                                        .clickable { gradientExpanded = true },
+                                    shape = CircleShape,
+                                    color = Color.Transparent,
+                                    contentColor = Color.White
+                                ) {
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .background(Brush.linearGradient(selectedGradient.colors))
+                                            .border(1.dp, theme.cardStroke, CircleShape)
+                                    )
+                                }
+                                DropdownMenu(expanded = gradientExpanded, onDismissRequest = { gradientExpanded = false }) {
+                                    HomeAlternativeGradient.entries.forEach { gradient ->
+                                        DropdownMenuItem(
+                                            text = { Text(gradient.title) },
+                                            leadingIcon = {
+                                                Box(
+                                                    modifier = Modifier
+                                                        .size(22.dp)
+                                                        .clip(CircleShape)
+                                                        .background(Brush.linearGradient(gradient.colors))
+                                                        .border(1.dp, theme.divider, CircleShape)
+                                                )
+                                            },
+                                            onClick = {
+                                                gradientExpanded = false
+                                                onChange(
+                                                    accessIds,
+                                                    accessGradientIds.toMutableList().also { gradients ->
+                                                        while (gradients.size <= index) {
+                                                            gradients.add(defaultAlternativeGradientId(accessIds[gradients.size]))
+                                                        }
+                                                        gradients[index] = gradient.id
+                                                    }
+                                                )
+                                            }
+                                        )
+                                    }
+                                }
+                            }
                             IconButton(onClick = {
                                 if (index > 0) {
-                                    onChange(accessIds.toMutableList().also {
+                                    val nextAccessIds = accessIds.toMutableList().also {
                                         val moved = it.removeAt(index)
                                         it.add(index - 1, moved)
-                                    })
+                                    }
+                                    val nextGradientIds = currentAlternativeGradientIds(accessGradientIds, accessIds)
+                                        .toMutableList()
+                                        .also {
+                                            val moved = it.removeAt(index)
+                                            it.add(index - 1, moved)
+                                        }
+                                    onChange(nextAccessIds, nextGradientIds)
                                 }
                             }) {
                                 Icon(Icons.Rounded.ArrowUpward, contentDescription = "Subir", modifier = Modifier.size(18.dp))
                             }
                             IconButton(onClick = {
                                 if (index < accessIds.lastIndex) {
-                                    onChange(accessIds.toMutableList().also {
+                                    val nextAccessIds = accessIds.toMutableList().also {
                                         val moved = it.removeAt(index)
                                         it.add(index + 1, moved)
-                                    })
+                                    }
+                                    val nextGradientIds = currentAlternativeGradientIds(accessGradientIds, accessIds)
+                                        .toMutableList()
+                                        .also {
+                                            val moved = it.removeAt(index)
+                                            it.add(index + 1, moved)
+                                        }
+                                    onChange(nextAccessIds, nextGradientIds)
                                 }
                             }) {
                                 Icon(Icons.Rounded.ArrowDownward, contentDescription = "Bajar", modifier = Modifier.size(18.dp))
                             }
                             Box {
-                                IconButton(onClick = { expanded = true }) {
+                                IconButton(onClick = { accessExpanded = true }) {
                                     Icon(Icons.Rounded.KeyboardArrowDown, contentDescription = "Cambiar", modifier = Modifier.size(20.dp))
                                 }
-                                DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                                DropdownMenu(expanded = accessExpanded, onDismissRequest = { accessExpanded = false }) {
                                     HomeAlternativeAccess.entries.forEach { candidate ->
                                         DropdownMenuItem(
                                             text = { Text(candidate.title) },
                                             leadingIcon = { Icon(candidate.icon, contentDescription = null) },
                                             onClick = {
-                                                expanded = false
+                                                accessExpanded = false
                                                 val next = accessIds.toMutableList()
                                                 val oldValue = next[index]
                                                 val existingIndex = next.indexOf(candidate.id)
@@ -559,7 +661,7 @@ class FragHome : Fragment() {
                                                     next[existingIndex] = oldValue
                                                 }
                                                 next[index] = candidate.id
-                                                onChange(next)
+                                                onChange(next, currentAlternativeGradientIds(accessGradientIds, accessIds))
                                             }
                                         )
                                     }
@@ -595,37 +697,66 @@ class FragHome : Fragment() {
         val cardForeground: Color = if (isDark) Color(0xFF050816) else Color.White
     }
 
+    private enum class HomeAlternativeGradient(
+        val id: String,
+        val title: String,
+        val colors: List<Color>
+    ) {
+        Ocean("ocean", "Océano", listOf(Color(0xFF2196F3), Color(0xFF00BCD4))),
+        Sunrise("sunrise", "Amanecer", listOf(Color(0xFFFFD95A), Color(0xFFFF9800))),
+        Mint("mint", "Menta", listOf(Color(0xFF009688), Color(0xFF6DE0B6))),
+        Growth("growth", "Crecimiento", listOf(Color(0xFF4CAF50), Color(0xFF8BE28E))),
+        Journal("journal", "Diario", listOf(Color(0xFF9C27B0), Color(0xFFE85BA5))),
+        VioletInk("violet_ink", "Tinta violeta", listOf(Color(0xFF3F51B5), Color(0xFF8E44AD))),
+        Flame("flame", "Fuego", listOf(Color(0xFFE53935), Color(0xFFFF9800))),
+        Ritual("ritual", "Ritual", listOf(Color(0xFFE91E63), Color(0xFFFF8A3D))),
+        Summary("summary", "Resumen", listOf(Color(0xFF607D8B), Color(0xFF00BCD4))),
+        Voice("voice", "Voz", listOf(Color(0xFF00ACC1), Color(0xFF1976D2))),
+        Anchor("anchor", "Ancla", listOf(Color(0xFFFF7A92), Color(0xFFE53935))),
+        Coherence("coherence", "Coherencia", listOf(Color(0xFF3F51B5), Color(0xFF26A69A))),
+        Notes("notes", "Notas", listOf(Color(0xFF00BCD4), Color(0xFF1976D2))),
+        Phrase("phrase", "Frases", listOf(Color(0xFFE91E63), Color(0xFF8E44AD))),
+        Encyclopedia("encyclopedia", "Enciclopedia", listOf(Color(0xFF00ACC1), Color(0xFF66D9C7))),
+        Reflection("reflection", "Reflexión", listOf(Color(0xFFFFD54F), Color(0xFFE85BA5))),
+        Evidence("evidence", "Evidencia", listOf(Color(0xFF7E57C2), Color(0xFF26C6DA))),
+        Help("help", "Ayuda", listOf(Color(0xFF26A69A), Color(0xFF1976D2))),
+        Neville("neville", "Neville", listOf(Color(0xFF8D6E63), Color(0xFFFF9800))),
+        Joe("joe", "JD", listOf(Color(0xFF4DB6AC), Color(0xFF1976D2))),
+        Bruce("bruce", "Bruce", listOf(Color(0xFF4CAF50), Color(0xFFFFD54F))),
+        Gregg("gregg", "Gregg", listOf(Color(0xFF2196F3), Color(0xFF8E44AD)))
+    }
+
     private enum class HomeAlternativeAccess(
         val id: String,
         val title: String,
         val icon: ImageVector,
-        val colors: List<Color>,
+        val defaultGradient: HomeAlternativeGradient,
         val destinationId: Int,
         val listElementLoaded: String? = null,
         val requiresPremium: Boolean = false
     ) {
-        Calma("calma", "Calma", Icons.Rounded.Spa, listOf(Color(0xFF2196F3), Color(0xFF00BCD4)), R.id.frag_calm_space, requiresPremium = true),
-        Agenda("agenda", "Agenda", Icons.Rounded.CalendarMonth, listOf(Color(0xFFFFD95A), Color(0xFFFF9800)), R.id.frag_agenda, requiresPremium = true),
-        Presencia("presencia", "Presencia", Icons.Rounded.SelfImprovement, listOf(Color(0xFF009688), Color(0xFF6DE0B6)), R.id.frag_presence, requiresPremium = true),
-        Metas("metas", "Metas", Icons.Rounded.Checklist, listOf(Color(0xFF4CAF50), Color(0xFF8BE28E)), R.id.frag_metas, requiresPremium = true),
-        Diario("diario", "Diario", Icons.Rounded.MenuBook, listOf(Color(0xFF9C27B0), Color(0xFFE85BA5)), R.id.frag_diario),
-        Lienzo("lienzo", "Lienzo", Icons.Rounded.EditNote, listOf(Color(0xFF3F51B5), Color(0xFF8E44AD)), R.id.frag_lienzo, requiresPremium = true),
-        Recordatorios("recordatorios", "Recordatorios", Icons.Rounded.Notifications, listOf(Color(0xFFE53935), Color(0xFFFF9800)), R.id.frag_reminders, requiresPremium = true),
-        Ritual("ritual", "Ritual", Icons.Rounded.WbSunny, listOf(Color(0xFFE91E63), Color(0xFFFF8A3D)), R.id.frag_morning_dialog, requiresPremium = true),
-        Resumen("resumen", "Resumen", Icons.Rounded.GraphicEq, listOf(Color(0xFF607D8B), Color(0xFF00BCD4)), R.id.frag_weekly_summary, requiresPremium = true),
-        Voces("voces", "Voces", Icons.Rounded.Mic, listOf(Color(0xFF00ACC1), Color(0xFF1976D2)), R.id.frag_voice_recordings, requiresPremium = true),
-        Anclas("anclas", "Anclas", Icons.Rounded.Favorite, listOf(Color(0xFFFF7A92), Color(0xFFE53935)), R.id.frag_emotional_anchors, requiresPremium = true),
-        Cardio("cardio", "Coherencia", Icons.Rounded.Favorite, listOf(Color(0xFF3F51B5), Color(0xFF26A69A)), R.id.frag_cardio_coherence, requiresPremium = true),
-        Notas("notas", "Notas", Icons.Rounded.EditNote, listOf(Color(0xFF00BCD4), Color(0xFF1976D2)), R.id.frag_notas),
-        Frases("frases", "Frases", Icons.Rounded.Favorite, listOf(Color(0xFFE91E63), Color(0xFF8E44AD)), R.id.frag_listado_frases),
-        Enciclopedia("enciclopedia", "Enciclopedia", Icons.Rounded.MenuBook, listOf(Color(0xFF00ACC1), Color(0xFF66D9C7)), R.id.frag_listado, "enciclopedia"),
-        Reflexiones("reflexiones", "Reflexiones", Icons.Rounded.Checklist, listOf(Color(0xFFFFD54F), Color(0xFFE85BA5)), R.id.frag_listado, "reflexiones"),
-        Evidencia("evidencia", "Evidencia", Icons.Rounded.Science, listOf(Color(0xFF7E57C2), Color(0xFF26C6DA)), R.id.frag_listado, "evidenciaCientifica"),
-        Ayudas("ayudas", "Ayudas", Icons.Rounded.HelpOutline, listOf(Color(0xFF26A69A), Color(0xFF1976D2)), R.id.frag_listado, "ayudas"),
-        AutorNeville("autor_neville", "Neville", Icons.Rounded.Person, listOf(Color(0xFF8D6E63), Color(0xFFFF9800)), R.id.frag_neville_goddard),
-        AutorJoe("autor_jd", "JD", Icons.Rounded.Psychology, listOf(Color(0xFF4DB6AC), Color(0xFF1976D2)), R.id.frag_joe_dispenza),
-        AutorBruce("autor_bruce", "Bruce", Icons.Rounded.Spa, listOf(Color(0xFF4CAF50), Color(0xFFFFD54F)), R.id.frag_bruce_lipton),
-        AutorGregg("autor_gregg", "Gregg", Icons.Rounded.GraphicEq, listOf(Color(0xFF2196F3), Color(0xFF8E44AD)), R.id.frag_gregg)
+        Calma("calma", "Calma", Icons.Rounded.Spa, HomeAlternativeGradient.Ocean, R.id.frag_calm_space, requiresPremium = true),
+        Agenda("agenda", "Agenda", Icons.Rounded.CalendarMonth, HomeAlternativeGradient.Sunrise, R.id.frag_agenda, requiresPremium = true),
+        Presencia("presencia", "Presencia", Icons.Rounded.SelfImprovement, HomeAlternativeGradient.Mint, R.id.frag_presence, requiresPremium = true),
+        Metas("metas", "Metas", Icons.Rounded.Checklist, HomeAlternativeGradient.Growth, R.id.frag_metas, requiresPremium = true),
+        Diario("diario", "Diario", Icons.Rounded.MenuBook, HomeAlternativeGradient.Journal, R.id.frag_diario),
+        Lienzo("lienzo", "Lienzo", Icons.Rounded.EditNote, HomeAlternativeGradient.VioletInk, R.id.frag_lienzo, requiresPremium = true),
+        Recordatorios("recordatorios", "Recordatorios", Icons.Rounded.Notifications, HomeAlternativeGradient.Flame, R.id.frag_reminders, requiresPremium = true),
+        Ritual("ritual", "Ritual", Icons.Rounded.WbSunny, HomeAlternativeGradient.Ritual, R.id.frag_morning_dialog, requiresPremium = true),
+        Resumen("resumen", "Resumen", Icons.Rounded.GraphicEq, HomeAlternativeGradient.Summary, R.id.frag_weekly_summary, requiresPremium = true),
+        Voces("voces", "Voces", Icons.Rounded.Mic, HomeAlternativeGradient.Voice, R.id.frag_voice_recordings, requiresPremium = true),
+        Anclas("anclas", "Anclas", Icons.Rounded.Favorite, HomeAlternativeGradient.Anchor, R.id.frag_emotional_anchors, requiresPremium = true),
+        Cardio("cardio", "Coherencia", Icons.Rounded.Favorite, HomeAlternativeGradient.Coherence, R.id.frag_cardio_coherence, requiresPremium = true),
+        Notas("notas", "Notas", Icons.Rounded.EditNote, HomeAlternativeGradient.Notes, R.id.frag_notas),
+        Frases("frases", "Frases", Icons.Rounded.Favorite, HomeAlternativeGradient.Phrase, R.id.frag_listado_frases),
+        Enciclopedia("enciclopedia", "Enciclopedia", Icons.Rounded.MenuBook, HomeAlternativeGradient.Encyclopedia, R.id.frag_listado, "enciclopedia"),
+        Reflexiones("reflexiones", "Reflexiones", Icons.Rounded.Checklist, HomeAlternativeGradient.Reflection, R.id.frag_listado, "reflexiones"),
+        Evidencia("evidencia", "Evidencia", Icons.Rounded.Science, HomeAlternativeGradient.Evidence, R.id.frag_listado, "evidenciaCientifica"),
+        Ayudas("ayudas", "Ayudas", Icons.Rounded.HelpOutline, HomeAlternativeGradient.Help, R.id.frag_listado, "ayudas"),
+        AutorNeville("autor_neville", "Neville", Icons.Rounded.Person, HomeAlternativeGradient.Neville, R.id.frag_neville_goddard),
+        AutorJoe("autor_jd", "JD", Icons.Rounded.Psychology, HomeAlternativeGradient.Joe, R.id.frag_joe_dispenza),
+        AutorBruce("autor_bruce", "Bruce", Icons.Rounded.Spa, HomeAlternativeGradient.Bruce, R.id.frag_bruce_lipton),
+        AutorGregg("autor_gregg", "Gregg", Icons.Rounded.GraphicEq, HomeAlternativeGradient.Gregg, R.id.frag_gregg)
     }
 
     private fun normalizeAlternativeAccessIds(stored: String): List<String> {
@@ -645,6 +776,43 @@ class FragHome : Fragment() {
 
     private fun encodeAlternativeAccessIds(ids: List<String>): String {
         return normalizeAlternativeAccessIds(ids.joinToString(",")).joinToString(",")
+    }
+
+    private fun defaultAlternativeGradientId(accessId: String): String {
+        return HomeAlternativeAccess.entries
+            .firstOrNull { it.id == accessId }
+            ?.defaultGradient
+            ?.id
+            ?: HomeAlternativeGradient.Ocean.id
+    }
+
+    private fun defaultAlternativeGradientIds(accessIds: List<String>): List<String> {
+        return accessIds.map(::defaultAlternativeGradientId)
+    }
+
+    private fun normalizeAlternativeGradientIds(stored: String, accessIds: List<String>): List<String> {
+        val available = HomeAlternativeGradient.entries.map { it.id }
+        val decoded = stored.split(",").map { it.trim() }
+        return accessIds.take(HOME_ALTERNATIVE_GRID_SIZE).mapIndexed { index, accessId ->
+            decoded.getOrNull(index)
+                ?.takeIf { it in available }
+                ?: defaultAlternativeGradientId(accessId)
+        }
+    }
+
+    private fun currentAlternativeGradientIds(gradientIds: List<String>, accessIds: List<String>): List<String> {
+        return normalizeAlternativeGradientIds(gradientIds.joinToString(","), accessIds)
+    }
+
+    private fun encodeAlternativeGradientIds(gradientIds: List<String>, accessIds: List<String>): String {
+        return currentAlternativeGradientIds(gradientIds, accessIds).joinToString(",")
+    }
+
+    private fun homeAlternativeGradientForId(
+        gradientId: String?,
+        access: HomeAlternativeAccess
+    ): HomeAlternativeGradient {
+        return HomeAlternativeGradient.entries.firstOrNull { it.id == gradientId } ?: access.defaultGradient
     }
 
     private fun alternativePhraseForNow(): String {
@@ -1481,6 +1649,7 @@ class FragHome : Fragment() {
         const val HOME_ALTERNATIVE_GOALS_TOTAL_DEFAULT = 1
         const val HOME_ALTERNATIVE_DIARY_TOTAL_DEFAULT = 1
         private const val PREF_KEY_HOME_ALTERNATIVE_ACCESS_IDS = "home_alternative_access_ids"
+        private const val PREF_KEY_HOME_ALTERNATIVE_ACCESS_GRADIENT_IDS = "home_alternative_access_gradient_ids"
         private const val PREF_KEY_AGENDA_INDICATOR_HIDDEN_DAY = "agenda_indicator_hidden_day"
         private const val PREF_KEY_RITUAL_BUTTON_HIDDEN_DAY = "morning_ritual_button_hidden_day"
         private const val PREF_KEY_RITUAL_HIDDEN_DAY_RESET_DONE = "morning_ritual_hidden_day_reset_done"

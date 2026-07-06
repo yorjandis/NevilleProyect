@@ -35,4 +35,7 @@ interface DiarioDao {
 
     @Query("UPDATE Diario SET isFav = :isFav, fechaM = :fechaModificacion WHERE id = :id")
     fun updateFavoritoById(id: Long, isFav: Boolean, fechaModificacion: Long = System.currentTimeMillis())
+
+    @Query("UPDATE Diario SET capitulo = :capitulo, fechaM = :fechaModificacion WHERE id = :id")
+    fun updateCapituloById(id: Long, capitulo: String, fechaModificacion: Long = System.currentTimeMillis())
 }

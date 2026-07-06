@@ -26,5 +26,11 @@ data class NotaEntity(
     val isFav: Boolean = false,
 
     @ColumnInfo(name = "categoria")
-    val categoria: String = ""
+    val categoria: String = "",
+
+    @ColumnInfo(name = "isChecklist")
+    val isChecklist: Boolean = false,
+
+    @ColumnInfo(name = "checklistJson")
+    val checklistJson: String = ""
 )
