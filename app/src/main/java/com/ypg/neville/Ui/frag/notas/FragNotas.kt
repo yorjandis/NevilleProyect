@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -28,6 +30,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -73,6 +76,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.graphics.TransformOrigin
@@ -81,8 +85,10 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
+import com.ypg.neville.feature.calmspace.data.CalmPersonalPhraseEntity
 import com.ypg.neville.model.backup.BackupRestoreSignal
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
 import com.ypg.neville.model.db.room.NotaChecklistCodec
@@ -90,18 +96,61 @@ import com.ypg.neville.model.db.room.NotaChecklistItem
 import com.ypg.neville.model.db.room.NotaEntity
 import com.ypg.neville.model.db.room.NotaRepository
 import com.ypg.neville.model.db.utilsDB
+import com.ypg.neville.model.migration.CanonicalRecord
+import com.ypg.neville.model.migration.MigrationFormat
+import com.ypg.neville.model.migration.MyAppMigrationService
+import com.ypg.neville.model.migration.NevilleMigrationRoomBridge
 import com.ypg.neville.model.utils.FraseContextActions
 import com.ypg.neville.model.utils.QRManager
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.Executors
+import kotlinx.coroutines.launch
 
 class FragNotas : Fragment() {
 
     private val dbExecutor = Executors.newSingleThreadExecutor()
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
     private var screenRefreshTick by mutableStateOf(0)
+    private lateinit var createSelectedMigrationExportLauncher: ActivityResultLauncher<String>
+    private var pendingSelectedMigrationPassword: CharArray? = null
+    private var pendingSelectedMigrationRecords: List<CanonicalRecord> = emptyList()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        createSelectedMigrationExportLauncher = registerForActivityResult(
+            ActivityResultContracts.CreateDocument("application/octet-stream")
+        ) { uri ->
+            val password = pendingSelectedMigrationPassword
+            val records = pendingSelectedMigrationRecords
+            pendingSelectedMigrationPassword = null
+            pendingSelectedMigrationRecords = emptyList()
+            if (uri == null || password == null) {
+                password?.fill('\u0000')
+                return@registerForActivityResult
+            }
+
+            lifecycleScope.launch {
+                val result = MyAppMigrationService(requireContext().applicationContext)
+                    .exportSelectedToUri(uri, password, records)
+                password.fill('\u0000')
+                result.onSuccess { export ->
+                    Toast.makeText(
+                        requireContext(),
+                        "Exportadas ${export.countsByType.values.sum()} nota(s)",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }.onFailure { error ->
+                    Toast.makeText(
+                        requireContext(),
+                        "Error al exportar: ${error.message ?: "desconocido"}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: android.view.LayoutInflater,
@@ -151,10 +200,18 @@ class FragNotas : Fragment() {
         var categoriaARenombrar by remember { mutableStateOf<String?>(null) }
         var categoriaAMover by remember { mutableStateOf<String?>(null) }
         var categoriaAEliminar by remember { mutableStateOf<String?>(null) }
+        var notaCategoriaCambiar by remember { mutableStateOf<NotaEntity?>(null) }
+        var showSelectedCategoryDialog by remember { mutableStateOf(false) }
+        var showConfirmDeleteSelected by remember { mutableStateOf(false) }
         var showEditor by remember { mutableStateOf(false) }
         var notaExpandidaId by remember { mutableStateOf<Long?>(null) }
-        var modoLista by remember { mutableStateOf(NotasListMode.TODAS) }
+        var modoLista by remember { mutableStateOf(NotasListMode.POR_CATEGORIAS) }
         val categoriasPlegadas = remember { mutableStateListOf<String>() }
+        var categoriasPlegadasInicializadas by remember { mutableStateOf(false) }
+        val notasSeleccionadas = remember { mutableStateListOf<Long>() }
+        var selectionModeManual by remember { mutableStateOf(false) }
+        var showSelectedExportDialog by remember { mutableStateOf(false) }
+        var selectedExportPassword by remember { mutableStateOf("") }
 
         var showFabMenu by remember { mutableStateOf(false) }
         var showFilterPanel by remember { mutableStateOf(false) }
@@ -220,8 +277,102 @@ class FragNotas : Fragment() {
                 }.thenBy(String.CASE_INSENSITIVE_ORDER) { it.first }
             )
 
+        if (!categoriasPlegadasInicializadas && notasAgrupadas.isNotEmpty()) {
+            categoriasPlegadas.clear()
+            categoriasPlegadas.addAll(notasAgrupadas.map { it.first })
+            categoriasPlegadasInicializadas = true
+        }
+
         if (notaExpandidaId != null && notasFiltradas.none { it.id == notaExpandidaId }) {
             notaExpandidaId = null
+        }
+
+        val selectionMode = selectionModeManual || notasSeleccionadas.isNotEmpty()
+        val selectedNotas = notas.filter { it.id in notasSeleccionadas }
+
+        fun toggleNotaSelection(id: Long) {
+            if (id in notasSeleccionadas) {
+                notasSeleccionadas.remove(id)
+            } else {
+                notasSeleccionadas.add(id)
+            }
+        }
+
+        fun clearSelection() {
+            notasSeleccionadas.clear()
+            selectionModeManual = false
+        }
+
+        fun exportSelectedToMigration() {
+            selectedExportPassword = ""
+            showSelectedExportDialog = true
+        }
+
+        fun passSelectedToFrases() {
+            if (selectedNotas.isEmpty()) {
+                Toast.makeText(context, "Selecciona al menos una nota", Toast.LENGTH_SHORT).show()
+                return
+            }
+            dbExecutor.execute {
+                var inserted = 0
+                selectedNotas.forEach { nota ->
+                    val frase = buildNotaPayload(nota).trim().ifBlank { nota.titulo.trim() }
+                    if (frase.isNotBlank()) {
+                        val result = utilsDB.insertNewFrase(
+                            context,
+                            frase,
+                            "Notas",
+                            nota.titulo.trim(),
+                            "0"
+                        )
+                        if (result >= 0) inserted += 1
+                    }
+                }
+                activity?.runOnUiThread {
+                    clearSelection()
+                    Toast.makeText(
+                        context,
+                        "$inserted nota(s) pasada(s) a Frases",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+
+        fun passSelectedToCalmPhrases() {
+            if (selectedNotas.isEmpty()) {
+                Toast.makeText(context, "Selecciona al menos una nota", Toast.LENGTH_SHORT).show()
+                return
+            }
+            dbExecutor.execute {
+                val dao = NevilleRoomDatabase
+                    .getInstance(context.applicationContext)
+                    .calmPersonalPhraseDao()
+                var inserted = 0
+                val now = System.currentTimeMillis()
+                selectedNotas.forEach { nota ->
+                    val phrase = buildNotaPayload(nota).trim().ifBlank { nota.titulo.trim() }
+                    if (phrase.isNotBlank()) {
+                        runCatching {
+                            dao.insert(
+                                CalmPersonalPhraseEntity(
+                                    phrase = phrase,
+                                    createdAt = now,
+                                    updatedAt = System.currentTimeMillis()
+                                )
+                            )
+                        }.onSuccess { inserted += 1 }
+                    }
+                }
+                activity?.runOnUiThread {
+                    clearSelection()
+                    Toast.makeText(
+                        context,
+                        "$inserted nota(s) pasada(s) a Frases de Calma",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
 
         Box(
@@ -247,6 +398,18 @@ class FragNotas : Fragment() {
                         .fillMaxWidth()
                         .padding(start = 12.dp, end = 12.dp, top = 8.dp)
                 )
+
+                if (selectionMode) {
+                    SelectedNotesBar(
+                        selectedCount = notasSeleccionadas.size,
+                        onDelete = { showConfirmDeleteSelected = true },
+                        onPassToFrases = ::passSelectedToFrases,
+                        onPassToCalm = ::passSelectedToCalmPhrases,
+                        onChangeCategory = { showSelectedCategoryDialog = true },
+                        onExportMigration = ::exportSelectedToMigration,
+                        onCancel = ::clearSelection
+                    )
+                }
 
                 if (notas.isEmpty()) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -281,7 +444,12 @@ class FragNotas : Fragment() {
                                         onRenameCategory = { categoriaARenombrar = it },
                                         onMoveCategory = { categoriaAMover = it },
                                         onDeleteCategory = { categoriaAEliminar = it },
-                                        onReload = ::recargarNotas
+                                        onChangeNoteCategory = { notaCategoriaCambiar = it },
+                                        categoriasExistentes = categoriasExistentes,
+                                        onReload = ::recargarNotas,
+                                        selected = nota.id in notasSeleccionadas,
+                                        selectionMode = selectionMode,
+                                        onToggleSelection = { toggleNotaSelection(nota.id) },
                                     )
                                 }
                             } else {
@@ -318,7 +486,12 @@ class FragNotas : Fragment() {
                                                 onRenameCategory = { categoriaARenombrar = it },
                                                 onMoveCategory = { categoriaAMover = it },
                                                 onDeleteCategory = { categoriaAEliminar = it },
-                                                onReload = ::recargarNotas
+                                                onChangeNoteCategory = { notaCategoriaCambiar = it },
+                                                categoriasExistentes = categoriasExistentes,
+                                                onReload = ::recargarNotas,
+                                                selected = nota.id in notasSeleccionadas,
+                                                selectionMode = selectionMode,
+                                                onToggleSelection = { toggleNotaSelection(nota.id) },
                                             )
                                         }
                                     }
@@ -377,6 +550,18 @@ class FragNotas : Fragment() {
                             }
                         )
                         FabActionItem(
+                            label = if (selectionMode) "Cancelar selección" else "Seleccionar notas",
+                            iconRes = R.drawable.ic_list,
+                            onClick = {
+                                showFabMenu = false
+                                if (selectionMode) {
+                                    clearSelection()
+                                } else {
+                                    selectionModeManual = true
+                                }
+                            }
+                        )
+                        FabActionItem(
                             label = if (showFilterPanel) "Ocultar filtros" else "Mostrar filtros",
                             iconRes = R.drawable.ic_show,
                             onClick = {
@@ -423,6 +608,119 @@ class FragNotas : Fragment() {
                         .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
                 )
             }
+        }
+
+        if (showSelectedExportDialog) {
+            AlertDialog(
+                onDismissRequest = {
+                    selectedExportPassword = ""
+                    showSelectedExportDialog = false
+                },
+                title = { Text("Exportar notas seleccionadas") },
+                text = {
+                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                        Text("Se creará un archivo ${MigrationFormat.FILE_EXTENSION} solo con las notas seleccionadas.")
+                        OutlinedTextField(
+                            value = selectedExportPassword,
+                            onValueChange = { selectedExportPassword = it },
+                            label = { Text("Contraseña del archivo") },
+                            visualTransformation = PasswordVisualTransformation(),
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                },
+                confirmButton = {
+                    TextButton(onClick = {
+                        val selected = notas.filter { it.id in notasSeleccionadas }
+                        if (selected.isEmpty()) {
+                            Toast.makeText(context, "Selecciona al menos una nota", Toast.LENGTH_LONG).show()
+                            return@TextButton
+                        }
+                        if (selectedExportPassword.isBlank()) {
+                            Toast.makeText(context, "Introduce una contraseña", Toast.LENGTH_LONG).show()
+                            return@TextButton
+                        }
+                        val db = NevilleRoomDatabase.getInstance(context.applicationContext)
+                        pendingSelectedMigrationRecords = NevilleMigrationRoomBridge(db).exportSelectedRecords(notes = selected)
+                        pendingSelectedMigrationPassword = selectedExportPassword.toCharArray()
+                        selectedExportPassword = ""
+                        notasSeleccionadas.clear()
+                        showSelectedExportDialog = false
+                        createSelectedMigrationExportLauncher.launch("notas-${System.currentTimeMillis()}${MigrationFormat.FILE_EXTENSION}")
+                    }) {
+                        Text("Exportar")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = {
+                        selectedExportPassword = ""
+                        showSelectedExportDialog = false
+                    }) {
+                        Text("Cancelar")
+                    }
+                }
+            )
+        }
+
+        if (showConfirmDeleteSelected) {
+            AlertDialog(
+                onDismissRequest = { showConfirmDeleteSelected = false },
+                title = { Text("Eliminar notas seleccionadas") },
+                text = { Text("¿Eliminar ${notasSeleccionadas.size} nota(s)? Esta acción no se puede deshacer.") },
+                dismissButton = {
+                    TextButton(onClick = { showConfirmDeleteSelected = false }) {
+                        Text(getString(R.string.cancelar))
+                    }
+                },
+                confirmButton = {
+                    TextButton(onClick = {
+                        val toDelete = selectedNotas
+                        dbExecutor.execute {
+                            toDelete.forEach(notaRepository()::eliminar)
+                            activity?.runOnUiThread {
+                                showConfirmDeleteSelected = false
+                                clearSelection()
+                                recargarNotas()
+                                Toast.makeText(
+                                    context,
+                                    "${toDelete.size} nota(s) eliminada(s)",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }) {
+                        Text(getString(R.string.eliminar))
+                    }
+                }
+            )
+        }
+
+        if (showSelectedCategoryDialog) {
+            ChangeCategoryDialog(
+                title = "Cambiar categoría",
+                message = "Se actualizarán ${notasSeleccionadas.size} nota(s) seleccionada(s).",
+                currentCategory = "",
+                categoriasExistentes = categoriasExistentes,
+                onDismiss = { showSelectedCategoryDialog = false },
+                onApply = { nuevaCategoria ->
+                    val toUpdate = selectedNotas
+                    dbExecutor.execute {
+                        toUpdate.forEach {
+                            notaRepository().cambiarCategoria(it, nuevaCategoria.trim())
+                        }
+                        activity?.runOnUiThread {
+                            showSelectedCategoryDialog = false
+                            clearSelection()
+                            recargarNotas()
+                            Toast.makeText(
+                                context,
+                                "${toUpdate.size} nota(s) actualizada(s)",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+            )
         }
 
         if (showEditor) {
@@ -563,6 +861,30 @@ class FragNotas : Fragment() {
             )
         }
 
+        notaCategoriaCambiar?.let { nota ->
+            ChangeCategoryDialog(
+                title = "Cambiar categoría",
+                message = "Nota: ${nota.titulo}",
+                currentCategory = nota.categoria,
+                categoriasExistentes = categoriasExistentes,
+                onDismiss = { notaCategoriaCambiar = null },
+                onApply = { nuevaCategoria ->
+                    dbExecutor.execute {
+                        notaRepository().cambiarCategoria(nota, nuevaCategoria.trim())
+                        activity?.runOnUiThread {
+                            notaCategoriaCambiar = null
+                            recargarNotas()
+                            Toast.makeText(
+                                context,
+                                "Categoría actualizada",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+            )
+        }
+
         notaAEliminar?.let { target ->
             AlertDialog(
                 onDismissRequest = { notaAEliminar = null },
@@ -601,7 +923,12 @@ class FragNotas : Fragment() {
         onRenameCategory: (String) -> Unit,
         onMoveCategory: (String) -> Unit,
         onDeleteCategory: (String) -> Unit,
-        onReload: () -> Unit
+        onChangeNoteCategory: (NotaEntity) -> Unit,
+        categoriasExistentes: List<String>,
+        onReload: () -> Unit,
+        selected: Boolean,
+        selectionMode: Boolean,
+        onToggleSelection: () -> Unit
     ) {
         val context = LocalContext.current
         NotaRow(
@@ -613,6 +940,8 @@ class FragNotas : Fragment() {
             onRenameCategory = onRenameCategory,
             onMoveCategory = onMoveCategory,
             onDeleteCategory = onDeleteCategory,
+            onChangeNoteCategory = onChangeNoteCategory,
+            categoriasExistentes = categoriasExistentes,
             onToggleExpand = onExpandChange,
             onToggleFav = {
                 dbExecutor.execute {
@@ -704,7 +1033,10 @@ class FragNotas : Fragment() {
                                             clipboard?.setPrimaryClip(ClipData.newPlainText("nota", payload))
                                             Toast.makeText(context, "Nota copiada al portapapeles", Toast.LENGTH_SHORT).show()
                                         }
-            }
+            },
+            selected = selected,
+            selectionMode = selectionMode,
+            onToggleSelection = onToggleSelection
         )
     }
 
@@ -743,6 +1075,78 @@ class FragNotas : Fragment() {
     private fun notaRepository(): NotaRepository {
         val db = NevilleRoomDatabase.getInstance(requireContext().applicationContext)
         return NotaRepository(db.notaDao())
+    }
+
+    @Composable
+    private fun SelectedNotesBar(
+        selectedCount: Int,
+        onDelete: () -> Unit,
+        onPassToFrases: () -> Unit,
+        onPassToCalm: () -> Unit,
+        onChangeCategory: () -> Unit,
+        onExportMigration: () -> Unit,
+        onCancel: () -> Unit
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 6.dp)
+                .background(Color(0xE8323A42), RoundedCornerShape(14.dp))
+                .padding(horizontal = 10.dp, vertical = 6.dp),
+            verticalArrangement = Arrangement.spacedBy(2.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "$selectedCount seleccionadas",
+                    color = Color.White,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.weight(1f)
+                )
+                TextButton(onClick = onCancel) {
+                    Text("Cerrar", color = Color.White)
+                }
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState()),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                TextButton(
+                    enabled = selectedCount > 0,
+                    onClick = onDelete
+                ) {
+                    Text("Eliminar", color = if (selectedCount > 0) Color.White else Color.Gray)
+                }
+                TextButton(
+                    enabled = selectedCount > 0,
+                    onClick = onPassToFrases
+                ) {
+                    Text("A Frases", color = if (selectedCount > 0) Color.White else Color.Gray)
+                }
+                TextButton(
+                    enabled = selectedCount > 0,
+                    onClick = onPassToCalm
+                ) {
+                    Text("A Frases de Calma", color = if (selectedCount > 0) Color.White else Color.Gray)
+                }
+                TextButton(
+                    enabled = selectedCount > 0,
+                    onClick = onChangeCategory
+                ) {
+                    Text("Categoría", color = if (selectedCount > 0) Color.White else Color.Gray)
+                }
+                TextButton(
+                    enabled = selectedCount > 0,
+                    onClick = onExportMigration
+                ) {
+                    Text("Exportar iOS", color = if (selectedCount > 0) Color.White else Color.Gray)
+                }
+            }
+        }
     }
 
     @Composable
@@ -1238,6 +1642,8 @@ class FragNotas : Fragment() {
         onRenameCategory: (String) -> Unit,
         onMoveCategory: (String) -> Unit,
         onDeleteCategory: (String) -> Unit,
+        onChangeNoteCategory: (NotaEntity) -> Unit,
+        categoriasExistentes: List<String>,
         onToggleExpand: () -> Unit,
         onToggleFav: () -> Unit,
         onToggleChecklistItem: (NotaChecklistItem) -> Unit,
@@ -1245,7 +1651,10 @@ class FragNotas : Fragment() {
         onExportToLienzo: () -> Unit,
         onGenerateQr: () -> Unit,
         onShare: () -> Unit,
-        onCopyToClipboard: () -> Unit
+        onCopyToClipboard: () -> Unit,
+        selected: Boolean,
+        selectionMode: Boolean,
+        onToggleSelection: () -> Unit
     ) {
         var showContextMenu by remember(nota.id) { mutableStateOf(false) }
         var showCategoryMenu by remember(nota.id, nota.categoria) { mutableStateOf(false) }
@@ -1271,6 +1680,17 @@ class FragNotas : Fragment() {
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                if (selectionMode) {
+                    Icon(
+                        imageVector = if (selected) Icons.Filled.CheckBox else Icons.Filled.CheckBoxOutlineBlank,
+                        contentDescription = if (selected) "Nota seleccionada" else "Seleccionar nota",
+                        tint = Color.White,
+                        modifier = Modifier
+                            .padding(end = 8.dp)
+                            .size(24.dp)
+                            .clickable(onClick = onToggleSelection)
+                    )
+                }
                 Text(
                     text = nota.titulo,
                     fontSize = 20.sp,
@@ -1400,6 +1820,13 @@ class FragNotas : Fragment() {
                             onDismissRequest = { showContextMenu = false },
                             shape = RoundedCornerShape(18.dp)
                         ) {
+                            DropdownMenuItem(
+                                text = { Text("Cambiar categoría") },
+                                onClick = {
+                                    showContextMenu = false
+                                    onChangeNoteCategory(nota)
+                                }
+                            )
                             DropdownMenuItem(
                                 text = { Text("Exportar a Frases") },
                                 onClick = {
@@ -1650,6 +2077,85 @@ class FragNotas : Fragment() {
             },
             confirmButton = {
                 TextButton(onClick = { onRename(draft) }) {
+                    Text("Actualizar")
+                }
+            }
+        )
+    }
+
+    @Composable
+    private fun ChangeCategoryDialog(
+        title: String,
+        message: String,
+        currentCategory: String,
+        categoriasExistentes: List<String>,
+        onDismiss: () -> Unit,
+        onApply: (String) -> Unit
+    ) {
+        var draft by remember(currentCategory) { mutableStateOf(currentCategory.trim()) }
+        var showMenu by remember { mutableStateOf(false) }
+
+        AlertDialog(
+            onDismissRequest = onDismiss,
+            title = { Text(title) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    if (message.isNotBlank()) {
+                        Text(message)
+                    }
+                    Box {
+                        OutlinedTextField(
+                            value = draft,
+                            onValueChange = { draft = it },
+                            label = { Text("Categoría") },
+                            placeholder = { Text(SIN_CATEGORIA) },
+                            singleLine = true,
+                            trailingIcon = {
+                                IconButton(onClick = { showMenu = true }) {
+                                    Icon(
+                                        imageVector = Icons.Default.Folder,
+                                        contentDescription = "Seleccionar categoría"
+                                    )
+                                }
+                            },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        DropdownMenu(
+                            expanded = showMenu,
+                            onDismissRequest = { showMenu = false }
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text(SIN_CATEGORIA) },
+                                onClick = {
+                                    draft = ""
+                                    showMenu = false
+                                }
+                            )
+                            categoriasExistentes.forEach { categoria ->
+                                DropdownMenuItem(
+                                    text = { Text(categoria) },
+                                    onClick = {
+                                        draft = categoria
+                                        showMenu = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+                    Text(
+                        text = "Puedes escribir una categoría nueva, elegir una existente o dejar el campo vacío.",
+                        fontSize = 12.sp,
+                        color = Color.Gray
+                    )
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = onDismiss) {
+                    Text(stringResource(id = R.string.cancelar))
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { onApply(draft) }) {
                     Text("Actualizar")
                 }
             }

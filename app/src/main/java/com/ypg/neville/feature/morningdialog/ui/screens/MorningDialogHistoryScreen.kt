@@ -1,15 +1,16 @@
 package com.ypg.neville.feature.morningdialog.ui.screens
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.spring
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -21,6 +22,8 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -29,22 +32,28 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ypg.neville.R
 import com.ypg.neville.feature.morningdialog.domain.MorningDialogSession
 import com.ypg.neville.feature.morningdialog.ui.components.MorningDialogStyles
 import java.time.Instant
+import java.time.LocalDate
+import java.time.YearMonth
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 private val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy")
+private val monthFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMMM yyyy", Locale.forLanguageTag("es-ES"))
 
 @Composable
 fun MorningDialogHistoryScreen(
@@ -54,11 +63,19 @@ fun MorningDialogHistoryScreen(
     onDeleteClick: (Long) -> Unit
 ) {
     var expandedSessionId by remember { mutableStateOf<Long?>(null) }
+    var showCalendar by remember { mutableStateOf(false) }
+    var selectedEpochDay by remember { mutableStateOf<Long?>(null) }
+    var visibleMonth by remember { mutableStateOf(YearMonth.now()) }
+    var searchText by remember { mutableStateOf("") }
 
     LaunchedEffect(sessions) {
         val expanded = expandedSessionId
         if (expanded != null && sessions.none { it.id == expanded }) {
             expandedSessionId = null
+        }
+        val selected = selectedEpochDay
+        if (selected != null && sessions.none { it.sessionDateEpochDay == selected }) {
+            selectedEpochDay = null
         }
     }
 
@@ -79,6 +96,21 @@ fun MorningDialogHistoryScreen(
         return
     }
 
+    val sessionsByDay = remember(sessions) { sessions.associateBy { it.sessionDateEpochDay } }
+    val filteredSessions = remember(sessions, searchText, showCalendar, selectedEpochDay) {
+        val normalizedQuery = searchText.trim().lowercase()
+        val baseSessions = if (showCalendar) {
+            selectedEpochDay?.let { day -> sessions.filter { it.sessionDateEpochDay == day } }.orEmpty()
+        } else {
+            sessions
+        }
+        if (normalizedQuery.isBlank()) {
+            baseSessions
+        } else {
+            baseSessions.filter { it.matchesHistoryQuery(normalizedQuery) }
+        }
+    }
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -86,7 +118,57 @@ fun MorningDialogHistoryScreen(
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        items(sessions, key = { it.id }) { session ->
+        item {
+            HistoryFiltersCard(
+                searchText = searchText,
+                onSearchTextChange = { searchText = it },
+                showCalendar = showCalendar,
+                onToggleCalendar = {
+                    showCalendar = !showCalendar
+                    if (!showCalendar) {
+                        selectedEpochDay = null
+                    } else if (selectedEpochDay == null) {
+                        selectedEpochDay = sessions.firstOrNull()?.sessionDateEpochDay
+                        selectedEpochDay?.let { visibleMonth = YearMonth.from(LocalDate.ofEpochDay(it)) }
+                    }
+                }
+            )
+        }
+
+        if (showCalendar) {
+            item {
+                RitualCalendar(
+                    visibleMonth = visibleMonth,
+                    sessionsByDay = sessionsByDay,
+                    selectedEpochDay = selectedEpochDay,
+                    onPreviousMonth = { visibleMonth = visibleMonth.minusMonths(1) },
+                    onNextMonth = { visibleMonth = visibleMonth.plusMonths(1) },
+                    onDaySelected = { selectedEpochDay = it }
+                )
+            }
+        }
+
+        if (filteredSessions.isEmpty()) {
+            item {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = MorningDialogStyles.ritualCardColor)
+                ) {
+                    Text(
+                        text = when {
+                            showCalendar && selectedEpochDay == null -> "Selecciona un día del calendario."
+                            showCalendar -> "No hay ritual guardado para este día con el filtro actual."
+                            else -> "No hay rituales que coincidan con la búsqueda."
+                        },
+                        style = MaterialTheme.typography.bodyLarge.copy(fontSize = 17.sp, lineHeight = 24.sp),
+                        color = MorningDialogStyles.ritualCardText,
+                        modifier = Modifier.padding(14.dp)
+                    )
+                }
+            }
+        }
+
+        items(filteredSessions, key = { it.id }) { session ->
             var showMenu by remember(session.id) { mutableStateOf(false) }
             var showDeleteConfirm by remember(session.id) { mutableStateOf(false) }
             val isExpanded = expandedSessionId == session.id
@@ -239,6 +321,179 @@ fun MorningDialogHistoryScreen(
 }
 
 @Composable
+private fun HistoryFiltersCard(
+    searchText: String,
+    onSearchTextChange: (String) -> Unit,
+    showCalendar: Boolean,
+    onToggleCalendar: () -> Unit
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MorningDialogStyles.ritualCardColor)
+    ) {
+        Column(
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(6.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Filtros",
+                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                    color = MorningDialogStyles.ritualCardText
+                )
+                TextButton(onClick = onToggleCalendar) {
+                    Text(
+                        text = if (showCalendar) "Ocultar calendario" else "Mostrar calendario",
+                        color = MorningDialogStyles.ritualCardText
+                    )
+                }
+            }
+
+            OutlinedTextField(
+                value = searchText,
+                onValueChange = onSearchTextChange,
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                label = { Text("Buscar") },
+                placeholder = {
+                    Text(
+                        text = "Metas, emociones o nota",
+                        color = MorningDialogStyles.ritualCardText
+                    )
+                },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedPlaceholderColor = MorningDialogStyles.ritualCardText,
+                    unfocusedPlaceholderColor = MorningDialogStyles.ritualCardText
+                ),
+                trailingIcon = {
+                    if (searchText.isNotBlank()) {
+                        TextButton(onClick = { onSearchTextChange("") }) {
+                            Text("Limpiar")
+                        }
+                    }
+                }
+            )
+        }
+    }
+}
+
+@Composable
+private fun RitualCalendar(
+    visibleMonth: YearMonth,
+    sessionsByDay: Map<Long, MorningDialogSession>,
+    selectedEpochDay: Long?,
+    onPreviousMonth: () -> Unit,
+    onNextMonth: () -> Unit,
+    onDaySelected: (Long) -> Unit
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MorningDialogStyles.ritualCardColor)
+    ) {
+        Column(
+            modifier = Modifier.padding(14.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                TextButton(onClick = onPreviousMonth) { Text("←") }
+                Text(
+                    text = visibleMonth.atDay(1).format(monthFormatter)
+                        .replaceFirstChar { char -> char.titlecase(Locale.getDefault()) },
+                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                    color = MorningDialogStyles.ritualCardText,
+                    textAlign = TextAlign.Center
+                )
+                TextButton(onClick = onNextMonth) { Text("→") }
+            }
+
+            Row(modifier = Modifier.fillMaxWidth()) {
+                listOf("L", "M", "X", "J", "V", "S", "D").forEach { dayName ->
+                    Text(
+                        text = dayName,
+                        modifier = Modifier.weight(1f),
+                        style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
+                        color = MorningDialogStyles.ritualCardText,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+
+            val firstDay = visibleMonth.atDay(1)
+            val leadingEmptyDays = firstDay.dayOfWeek.value - 1
+            val daysInMonth = visibleMonth.lengthOfMonth()
+            val totalCells = ((leadingEmptyDays + daysInMonth + 6) / 7) * 7
+
+            (0 until totalCells).chunked(7).forEach { week ->
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    week.forEach { cellIndex ->
+                        val dayNumber = cellIndex - leadingEmptyDays + 1
+                        val date = if (dayNumber in 1..daysInMonth) visibleMonth.atDay(dayNumber) else null
+                        val epochDay = date?.toEpochDay()
+                        val hasEntry = epochDay != null && sessionsByDay.containsKey(epochDay)
+                        val isSelected = epochDay != null && epochDay == selectedEpochDay
+
+                        CalendarDayCell(
+                            dayNumber = date?.dayOfMonth,
+                            hasEntry = hasEntry,
+                            isSelected = isSelected,
+                            onClick = {
+                                if (epochDay != null) onDaySelected(epochDay)
+                            },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun CalendarDayCell(
+    dayNumber: Int?,
+    hasEntry: Boolean,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val backgroundColor = when {
+        isSelected -> MorningDialogStyles.buttonColor
+        hasEntry -> Color(0xFFB9DDF6)
+        else -> Color.Transparent
+    }
+    val shape = RoundedCornerShape(10.dp)
+    val clickableModifier = if (dayNumber != null) Modifier.clickable(onClick = onClick) else Modifier
+
+    Box(
+        modifier = modifier
+            .height(28.dp)
+            .padding(1.dp)
+            .background(backgroundColor, shape)
+            .then(clickableModifier),
+        contentAlignment = Alignment.Center
+    ) {
+        if (dayNumber != null) {
+            Text(
+                text = dayNumber.toString(),
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    fontWeight = if (hasEntry) FontWeight.Bold else FontWeight.Normal
+                ),
+                color = MorningDialogStyles.ritualCardText,
+                textAlign = TextAlign.Center
+            )
+        }
+    }
+}
+
+@Composable
 private fun RitualExpandedContent(session: MorningDialogSession) {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -322,4 +577,10 @@ private fun buildCollapsedPreview(session: MorningDialogSession): String {
         appendLine("Identidad: ${session.identity.ifBlank { "-" }}")
         append("Emociones: ${session.emotions.joinToString().ifBlank { "-" }}")
     }
+}
+
+private fun MorningDialogSession.matchesHistoryQuery(query: String): Boolean {
+    return goals.any { it.contains(query, ignoreCase = true) } ||
+        emotions.any { it.contains(query, ignoreCase = true) } ||
+        noteText.contains(query, ignoreCase = true)
 }

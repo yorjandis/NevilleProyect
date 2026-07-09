@@ -189,6 +189,9 @@ class frag_Setting : Fragment() {
             pendingMigrationPassphrase = null
             if (uri == null || passphrase == null) {
                 passphrase?.fill('\u0000')
+                migrationStatusMessage = null
+                migrationResultDialogMessage = null
+                migrationImportPreview = null
                 return@registerForActivityResult
             }
 
@@ -216,6 +219,9 @@ class frag_Setting : Fragment() {
             pendingMigrationPassphrase = null
             if (uri == null || passphrase == null) {
                 passphrase?.fill('\u0000')
+                migrationStatusMessage = null
+                migrationResultDialogMessage = null
+                migrationImportPreview = null
                 return@registerForActivityResult
             }
 
@@ -1153,28 +1159,40 @@ class frag_Setting : Fragment() {
             item {
                 SettingSection(
                     title = "Migración iOS / Android",
-                    subtitle = "Intercambio portable cifrado con formato ${MigrationFormat.FILE_EXTENSION}"
+                    subtitle = "Permite la migración segura a/desde iOS"
                 ) {
-                    Text(
-                        text = "Formato canónico: manifest.json + data.ndjson cifrados con AES-256-GCM",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    FieldDivider()
                     ActionField(
                         title = "Exportar a iOS >",
                         description = "Crea un archivo ${MigrationFormat.FILE_EXTENSION} con notas, diario, agenda, metas y frases personales"
                     ) {
-                        migrationExportPassphraseInput = ""
-                        showMigrationExportDialog = true
+                        authenticateForMigration(
+                            title = "Exportar datos",
+                            subtitle = "Autentícate para crear un archivo de migración"
+                        ) {
+                            migrationStatusMessage = null
+                            migrationResultDialogMessage = null
+                            migrationImportPreview = null
+                            migrationImportPassphraseInput = ""
+                            migrationExportPassphraseInput = ""
+                            showMigrationExportDialog = true
+                        }
                     }
                     FieldDivider()
                     ActionField(
                         title = "Importar desde iOS >",
                         description = "Abre un ${MigrationFormat.FILE_EXTENSION}, valida y muestra vista previa antes de importar"
                     ) {
-                        migrationImportPassphraseInput = ""
-                        showMigrationImportDialog = true
+                        authenticateForMigration(
+                            title = "Importar datos",
+                            subtitle = "Autentícate para leer un archivo de migración"
+                        ) {
+                            migrationStatusMessage = null
+                            migrationResultDialogMessage = null
+                            migrationImportPreview = null
+                            migrationExportPassphraseInput = ""
+                            migrationImportPassphraseInput = ""
+                            showMigrationImportDialog = true
+                        }
                     }
                     migrationStatusMessage?.takeIf { it.isNotBlank() }?.let { message ->
                         FieldDivider(padding = 8.dp)
@@ -1236,7 +1254,11 @@ class frag_Setting : Fragment() {
 
         if (showMigrationExportDialog) {
             AlertDialog(
-                onDismissRequest = { showMigrationExportDialog = false },
+                onDismissRequest = {
+                    migrationExportPassphraseInput = ""
+                    pendingMigrationPassphrase = null
+                    showMigrationExportDialog = false
+                },
                 title = { Text("Exportar a iOS") },
                 text = {
                     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -1268,7 +1290,11 @@ class frag_Setting : Fragment() {
                     }
                 },
                 dismissButton = {
-                    TextButton(onClick = { showMigrationExportDialog = false }) {
+                    TextButton(onClick = {
+                        migrationExportPassphraseInput = ""
+                        pendingMigrationPassphrase = null
+                        showMigrationExportDialog = false
+                    }) {
                         Text("Cancelar")
                     }
                 }
@@ -1277,7 +1303,11 @@ class frag_Setting : Fragment() {
 
         if (showMigrationImportDialog) {
             AlertDialog(
-                onDismissRequest = { showMigrationImportDialog = false },
+                onDismissRequest = {
+                    migrationImportPassphraseInput = ""
+                    pendingMigrationPassphrase = null
+                    showMigrationImportDialog = false
+                },
                 title = { Text("Importar desde iOS") },
                 text = {
                     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -1308,7 +1338,11 @@ class frag_Setting : Fragment() {
                     }
                 },
                 dismissButton = {
-                    TextButton(onClick = { showMigrationImportDialog = false }) {
+                    TextButton(onClick = {
+                        migrationImportPassphraseInput = ""
+                        pendingMigrationPassphrase = null
+                        showMigrationImportDialog = false
+                    }) {
                         Text("Cancelar")
                     }
                 }
@@ -1317,7 +1351,13 @@ class frag_Setting : Fragment() {
 
         migrationImportPreview?.let { preview ->
             AlertDialog(
-                onDismissRequest = { migrationImportPreview = null },
+                onDismissRequest = {
+                    migrationImportPreview = null
+                    migrationStatusMessage = null
+                    migrationExportPassphraseInput = ""
+                    migrationImportPassphraseInput = ""
+                    pendingMigrationPassphrase = null
+                },
                 title = { Text("Vista previa de importación") },
                 text = {
                     Column(
@@ -1325,16 +1365,14 @@ class frag_Setting : Fragment() {
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Text("Origen: ${preview.manifest.optString("sourcePlatform")} · ${preview.records.size} elementos")
-                        preview.countsByType.forEach { (type, count) ->
-                            Text("$type: $count")
-                        }
+                        Text("Elementos: ${migrationCountsInline(preview.countsByType)}")
                         if (preview.conflicts.isNotEmpty()) {
                             Text(
                                 "Conflictos/duplicados: ${preview.conflicts.size}. Se omitirán salvo política explícita.",
                                 color = MaterialTheme.colorScheme.error
                             )
-                            preview.conflicts.take(5).forEach { conflict ->
-                                Text("${conflict.type}: ${conflict.reason}", style = MaterialTheme.typography.bodySmall)
+                            migrationConflictSummaryLines(preview).forEach { line ->
+                                Text(line, style = MaterialTheme.typography.bodySmall)
                             }
                         }
                         if (preview.errors.isNotEmpty()) {
@@ -1369,7 +1407,13 @@ class frag_Setting : Fragment() {
                     }
                 },
                 dismissButton = {
-                    TextButton(onClick = { migrationImportPreview = null }) {
+                    TextButton(onClick = {
+                        migrationImportPreview = null
+                        migrationStatusMessage = null
+                        migrationExportPassphraseInput = ""
+                        migrationImportPassphraseInput = ""
+                        pendingMigrationPassphrase = null
+                    }) {
                         Text("Cancelar")
                     }
                 }
@@ -2005,7 +2049,45 @@ class frag_Setting : Fragment() {
         }
         appendLine("Por tipo:")
         countsByType.toSortedMap().forEach { (type, count) ->
-            appendLine("- $type: $count")
+            appendLine("- ${migrationTypeLabel(type)}: $count")
+        }
+    }
+
+    private fun migrationCountsInline(countsByType: Map<String, Int>): String {
+        if (countsByType.isEmpty()) return "sin elementos"
+        return countsByType.toSortedMap()
+            .map { (type, count) -> "${migrationTypeLabel(type, count)}: $count" }
+            .joinToString("; ")
+    }
+
+    private fun migrationConflictSummaryLines(preview: ImportPreview): List<String> {
+        return preview.conflicts
+            .groupingBy { it.type }
+            .eachCount()
+            .toSortedMap()
+            .map { (type, count) ->
+                val verb = if (count == 1) "se omitirá" else "se omitirán"
+                "- ${migrationTypeLabel(type, count)}: $count existentes; $verb"
+            }
+    }
+
+    private fun migrationTypeLabel(type: String): String {
+        return migrationTypeLabel(type, 1)
+    }
+
+    private fun migrationTypeLabel(type: String, count: Int): String {
+        val singular = count == 1
+        return when (type) {
+            "note" -> if (singular) "Nota" else "Notas"
+            "diary_entry" -> if (singular) "Entrada de Diario" else "Entradas de Diario"
+            "agenda_entry" -> if (singular) "Entrada de Agenda" else "Entradas de Agenda"
+            "goal" -> if (singular) "Meta" else "Metas"
+            "archived_goal" -> if (singular) "Meta archivada" else "Metas archivadas"
+            "personal_phrase" -> if (singular) "Frase personal" else "Frases personales"
+            "personal_reflection" -> if (singular) "Reflexión personal" else "Reflexiones personales"
+            "day_ritual_archive" -> if (singular) "Ritual del día archivado" else "Rituales del día archivados"
+            "calm_personal_phrase" -> if (singular) "Frase personal de Espacio Calma" else "Frases personales de Espacio Calma"
+            else -> type
         }
     }
 
@@ -2292,6 +2374,57 @@ class frag_Setting : Fragment() {
             Toast.makeText(
                 requireContext(),
                 error.message ?: "No se pudo iniciar autenticación biométrica",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    private fun authenticateForMigration(
+        title: String,
+        subtitle: String,
+        onSuccess: () -> Unit
+    ) {
+        val context = context ?: return
+        val authenticators = BiometricManager.Authenticators.BIOMETRIC_STRONG or
+            BiometricManager.Authenticators.BIOMETRIC_WEAK or
+            BiometricManager.Authenticators.DEVICE_CREDENTIAL
+        val canAuth = BiometricManager.from(context).canAuthenticate(authenticators)
+        if (canAuth != BiometricManager.BIOMETRIC_SUCCESS) {
+            Toast.makeText(
+                context,
+                "Configura biometría o bloqueo de pantalla para usar la migración",
+                Toast.LENGTH_LONG
+            ).show()
+            return
+        }
+
+        runCatching {
+            val executor = ContextCompat.getMainExecutor(context)
+            val prompt = BiometricPrompt(
+                this,
+                executor,
+                object : BiometricPrompt.AuthenticationCallback() {
+                    override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                        onSuccess()
+                    }
+
+                    override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                        Toast.makeText(requireContext(), errString, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            )
+
+            val promptInfo = BiometricPrompt.PromptInfo.Builder()
+                .setTitle(title)
+                .setSubtitle(subtitle)
+                .setAllowedAuthenticators(authenticators)
+                .build()
+
+            prompt.authenticate(promptInfo)
+        }.onFailure { error ->
+            Toast.makeText(
+                requireContext(),
+                error.message ?: "No se pudo iniciar la autenticación",
                 Toast.LENGTH_LONG
             ).show()
         }

@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.compose.animation.AnimatedVisibility
@@ -17,6 +19,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,6 +33,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -66,6 +70,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -75,17 +80,23 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
 import com.ypg.neville.model.backup.BackupRestoreSignal
 import com.ypg.neville.model.db.room.DiarioEntity
 import com.ypg.neville.model.db.room.DiarioRepository
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
+import com.ypg.neville.model.migration.CanonicalRecord
+import com.ypg.neville.model.migration.MigrationFormat
+import com.ypg.neville.model.migration.MyAppMigrationService
+import com.ypg.neville.model.migration.NevilleMigrationRoomBridge
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.Executors
+import kotlinx.coroutines.launch
 
 class FragDiario : Fragment() {
 
@@ -93,6 +104,9 @@ class FragDiario : Fragment() {
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
     private val monthFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
     private var screenRefreshTick by mutableStateOf(0)
+    private lateinit var createSelectedMigrationExportLauncher: ActivityResultLauncher<String>
+    private var pendingSelectedMigrationPassword: CharArray? = null
+    private var pendingSelectedMigrationRecords: List<CanonicalRecord> = emptyList()
 
     private val emotions = DiarioEmotion.entries
     private val ageFilters = listOf(
@@ -104,6 +118,40 @@ class FragDiario : Fragment() {
         AgeFilter("6 meses", 180L * DAY_MS),
         AgeFilter("1 año", 365L * DAY_MS)
     )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        createSelectedMigrationExportLauncher = registerForActivityResult(
+            ActivityResultContracts.CreateDocument("application/octet-stream")
+        ) { uri ->
+            val password = pendingSelectedMigrationPassword
+            val records = pendingSelectedMigrationRecords
+            pendingSelectedMigrationPassword = null
+            pendingSelectedMigrationRecords = emptyList()
+            if (uri == null || password == null) {
+                password?.fill('\u0000')
+                return@registerForActivityResult
+            }
+            lifecycleScope.launch {
+                val result = MyAppMigrationService(requireContext().applicationContext)
+                    .exportSelectedToUri(uri, password, records)
+                password.fill('\u0000')
+                result.onSuccess { export ->
+                    Toast.makeText(
+                        requireContext(),
+                        "Exportadas ${export.countsByType.values.sum()} entrada(s) de diario",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }.onFailure { error ->
+                    Toast.makeText(
+                        requireContext(),
+                        "Error al exportar: ${error.message ?: "desconocido"}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: android.view.LayoutInflater,
@@ -150,15 +198,21 @@ class FragDiario : Fragment() {
 
         var entradaEnEdicion by remember { mutableStateOf<DiarioEntity?>(null) }
         var entradaAEliminar by remember { mutableStateOf<DiarioEntity?>(null) }
+        var entradaACambiarCapitulo by remember { mutableStateOf<DiarioEntity?>(null) }
         var entradaExpandidaId by remember { mutableStateOf<Long?>(null) }
         var capituloARenombrar by remember { mutableStateOf<String?>(null) }
         var capituloAMover by remember { mutableStateOf<String?>(null) }
         var capituloAEliminar by remember { mutableStateOf<String?>(null) }
         val capitulosPlegados = remember { mutableStateListOf<String>() }
+        var capitulosColapsadosInicialmente by remember { mutableStateOf(false) }
         val entradasSeleccionadas = remember { mutableStateListOf<Long>() }
+        var manualSelectionMode by remember { mutableStateOf(false) }
         var showBatchEmotionPicker by remember { mutableStateOf(false) }
         var pendingBatchEmotion by remember { mutableStateOf<DiarioEmotion?>(null) }
+        var showBatchChapterPicker by remember { mutableStateOf(false) }
         var showBatchDeleteConfirmation by remember { mutableStateOf(false) }
+        var showSelectedExportDialog by remember { mutableStateOf(false) }
+        var selectedExportPassword by remember { mutableStateOf("") }
 
         var titleDialogTarget by remember { mutableStateOf<DiarioEntity?>(null) }
         var titleDialogText by remember { mutableStateOf("") }
@@ -306,6 +360,15 @@ class FragDiario : Fragment() {
             .sortedByDescending { (_, entries) ->
                 entries.maxOfOrNull { if (sortMode == SortMode.CREATION) it.fecha else it.fechaM } ?: 0L
             }
+        val capitulosVisibles = entradasAgrupadas.map { it.first }
+
+        LaunchedEffect(capitulosVisibles) {
+            if (!capitulosColapsadosInicialmente && capitulosVisibles.isNotEmpty()) {
+                capitulosPlegados.clear()
+                capitulosPlegados.addAll(capitulosVisibles)
+                capitulosColapsadosInicialmente = true
+            }
+        }
 
         if (entradaExpandidaId != null && filtered.none { it.id == entradaExpandidaId }) {
             entradaExpandidaId = null
@@ -416,12 +479,20 @@ class FragDiario : Fragment() {
                     )
                 }
 
-                if (entradasSeleccionadas.isNotEmpty()) {
+                if (manualSelectionMode) {
                     BatchSelectionBar(
                         selectedCount = entradasSeleccionadas.size,
+                        onExport = {
+                            selectedExportPassword = ""
+                            showSelectedExportDialog = true
+                        },
                         onChangeEmotion = { showBatchEmotionPicker = true },
+                        onChangeChapter = { showBatchChapterPicker = true },
                         onDelete = { showBatchDeleteConfirmation = true },
-                        onCancel = { entradasSeleccionadas.clear() }
+                        onCancel = {
+                            manualSelectionMode = false
+                            entradasSeleccionadas.clear()
+                        }
                     )
                 }
 
@@ -466,13 +537,14 @@ class FragDiario : Fragment() {
                                         isExpanded = entradaExpandidaId == entrada.id,
                                         showEmotionMenu = emotionMenuId == entrada.id,
                                         showItemMenu = itemMenuId == entrada.id,
-                                        selectionMode = entradasSeleccionadas.isNotEmpty(),
+                                        selectionMode = manualSelectionMode,
                                         isSelected = entrada.id in entradasSeleccionadas,
                                         fechaTexto = "Modificado: ${dateFormat.format(Date(entrada.fechaM))}\nCreado: ${dateFormat.format(Date(entrada.fecha))}",
                                         onToggleSelection = { toggleBatchSelection(entrada.id) },
                                         onStartSelection = {
                                             itemMenuId = null
                                             emotionMenuId = null
+                                            manualSelectionMode = true
                                             if (entrada.id !in entradasSeleccionadas) {
                                                 entradasSeleccionadas.add(entrada.id)
                                             }
@@ -500,6 +572,10 @@ class FragDiario : Fragment() {
                                         },
                                         onToggleItemMenu = {
                                             itemMenuId = if (itemMenuId == entrada.id) null else entrada.id
+                                        },
+                                        onChangeChapter = {
+                                            itemMenuId = null
+                                            entradaACambiarCapitulo = entrada
                                         },
                                         onEdit = {
                                             itemMenuId = null
@@ -564,6 +640,17 @@ class FragDiario : Fragment() {
                             onClick = {
                                 showFabMenu = false
                                 MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_weekly_summary)
+                            }
+                        )
+                        FabActionItem(
+                            label = if (manualSelectionMode) "Salir selección múltiple" else "Selección múltiple",
+                            iconRes = R.drawable.ic_list,
+                            onClick = {
+                                showFabMenu = false
+                                manualSelectionMode = !manualSelectionMode
+                                if (!manualSelectionMode) {
+                                    entradasSeleccionadas.clear()
+                                }
                             }
                         )
                         FabActionItem(
@@ -718,12 +805,38 @@ class FragDiario : Fragment() {
                             activity?.runOnUiThread {
                                 pendingBatchEmotion = null
                                 entradasSeleccionadas.clear()
+                                manualSelectionMode = false
                                 recargarEntradas()
                                 Toast.makeText(context, "Emoción actualizada", Toast.LENGTH_SHORT).show()
                             }
                         }
                     }) {
                         Text("Confirmar")
+                    }
+                }
+            )
+        }
+
+        if (showBatchChapterPicker) {
+            ChangeEntryChapterDialog(
+                title = "Cambiar capítulo",
+                message = "Elige un capítulo existente o escribe uno nuevo para ${entradasSeleccionadas.size} entradas seleccionadas.",
+                initialChapter = "",
+                capitulosExistentes = capitulosExistentes,
+                onDismiss = { showBatchChapterPicker = false },
+                onApply = { capitulo ->
+                    val selectedEntries = entradas.filter { it.id in entradasSeleccionadas }
+                    dbExecutor.execute {
+                        selectedEntries.forEach { entry ->
+                            diarioRepository().cambiarCapitulo(entry.id, capitulo)
+                        }
+                        activity?.runOnUiThread {
+                            showBatchChapterPicker = false
+                            entradasSeleccionadas.clear()
+                            manualSelectionMode = false
+                            recargarEntradas()
+                            Toast.makeText(context, "Capítulo actualizado", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             )
@@ -749,6 +862,7 @@ class FragDiario : Fragment() {
                             activity?.runOnUiThread {
                                 showBatchDeleteConfirmation = false
                                 entradasSeleccionadas.clear()
+                                manualSelectionMode = false
                                 recargarEntradas()
                                 Toast.makeText(context, "Entradas eliminadas", Toast.LENGTH_SHORT).show()
                             }
@@ -786,6 +900,26 @@ class FragDiario : Fragment() {
                         titleDialogTarget = null
                     }) {
                         Text(getString(R.string.guardar))
+                    }
+                }
+            )
+        }
+
+        entradaACambiarCapitulo?.let { target ->
+            ChangeEntryChapterDialog(
+                title = "Cambiar capítulo",
+                message = "Elige un capítulo existente o escribe uno nuevo para esta entrada.",
+                initialChapter = target.capitulo,
+                capitulosExistentes = capitulosExistentes,
+                onDismiss = { entradaACambiarCapitulo = null },
+                onApply = { capitulo ->
+                    dbExecutor.execute {
+                        diarioRepository().cambiarCapitulo(target.id, capitulo)
+                        activity?.runOnUiThread {
+                            entradaACambiarCapitulo = null
+                            recargarEntradas()
+                            Toast.makeText(context, "Capítulo actualizado", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             )
@@ -902,6 +1036,59 @@ class FragDiario : Fragment() {
                     onRefresh = { recargarEntradas() }
                 )
             }
+        }
+
+        if (showSelectedExportDialog) {
+            AlertDialog(
+                onDismissRequest = {
+                    selectedExportPassword = ""
+                    showSelectedExportDialog = false
+                },
+                title = { Text("Exportar entradas seleccionadas") },
+                text = {
+                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                        Text("Se creará un archivo ${MigrationFormat.FILE_EXTENSION} solo con las entradas seleccionadas.")
+                        OutlinedTextField(
+                            value = selectedExportPassword,
+                            onValueChange = { selectedExportPassword = it },
+                            label = { Text("Contraseña del archivo") },
+                            visualTransformation = PasswordVisualTransformation(),
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                },
+                confirmButton = {
+                    TextButton(onClick = {
+                        val selected = entradas.filter { it.id in entradasSeleccionadas }
+                        if (selected.isEmpty()) {
+                            Toast.makeText(context, "Selecciona al menos una entrada", Toast.LENGTH_LONG).show()
+                            return@TextButton
+                        }
+                        if (selectedExportPassword.isBlank()) {
+                            Toast.makeText(context, "Introduce una contraseña", Toast.LENGTH_LONG).show()
+                            return@TextButton
+                        }
+                        val db = NevilleRoomDatabase.getInstance(context.applicationContext)
+                        pendingSelectedMigrationRecords = NevilleMigrationRoomBridge(db).exportSelectedRecords(diaryEntries = selected)
+                        pendingSelectedMigrationPassword = selectedExportPassword.toCharArray()
+                        selectedExportPassword = ""
+                        entradasSeleccionadas.clear()
+                        manualSelectionMode = false
+                        showSelectedExportDialog = false
+                        createSelectedMigrationExportLauncher.launch("diario-${System.currentTimeMillis()}${MigrationFormat.FILE_EXTENSION}")
+                    }) {
+                        Text("Exportar")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = {
+                        selectedExportPassword = ""
+                        showSelectedExportDialog = false
+                    }) {
+                        Text("Cancelar")
+                    }
+                }
+            )
         }
     }
 
@@ -1034,7 +1221,9 @@ class FragDiario : Fragment() {
     @Composable
     private fun BatchSelectionBar(
         selectedCount: Int,
+        onExport: () -> Unit,
         onChangeEmotion: () -> Unit,
+        onChangeChapter: () -> Unit,
         onDelete: () -> Unit,
         onCancel: () -> Unit
     ) {
@@ -1043,6 +1232,7 @@ class FragDiario : Fragment() {
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp, vertical = 6.dp)
                 .background(Color(0xE8323A42), RoundedCornerShape(14.dp))
+                .horizontalScroll(rememberScrollState())
                 .padding(horizontal = 10.dp, vertical = 4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -1050,10 +1240,16 @@ class FragDiario : Fragment() {
                 text = "$selectedCount seleccionadas",
                 color = Color.White,
                 fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.padding(end = 10.dp)
             )
+            TextButton(onClick = onExport) {
+                Text("Exportar", color = Color.White)
+            }
             TextButton(onClick = onChangeEmotion) {
                 Text("Emoción", color = Color.White)
+            }
+            TextButton(onClick = onChangeChapter) {
+                Text("Capítulo", color = Color.White)
             }
             TextButton(onClick = onDelete) {
                 Text("Eliminar", color = Color(0xFFFFB4AB))
@@ -1453,6 +1649,7 @@ class FragDiario : Fragment() {
         onToggleEmotionMenu: () -> Unit,
         onChangeEmotion: (DiarioEmotion) -> Unit,
         onToggleItemMenu: () -> Unit,
+        onChangeChapter: () -> Unit,
         onEdit: () -> Unit,
         onDelete: () -> Unit
     ) {
@@ -1531,7 +1728,7 @@ class FragDiario : Fragment() {
                                 .clickable(onClick = onToggleItemMenu)
                         )
                         DropdownMenu(expanded = showItemMenu, onDismissRequest = onToggleItemMenu) {
-                            DropdownMenuItem(text = { Text("Seleccionar") }, onClick = onStartSelection)
+                            DropdownMenuItem(text = { Text("Cambiar capítulo") }, onClick = onChangeChapter)
                             DropdownMenuItem(text = { Text("Editar") }, onClick = onEdit)
                             DropdownMenuItem(text = { Text("Eliminar") }, onClick = onDelete)
                         }
@@ -1690,6 +1887,77 @@ class FragDiario : Fragment() {
             },
             confirmButton = {
                 TextButton(onClick = { onRename(draft) }) {
+                    Text(getString(R.string.guardar))
+                }
+            }
+        )
+    }
+
+    @Composable
+    private fun ChangeEntryChapterDialog(
+        title: String,
+        message: String,
+        initialChapter: String,
+        capitulosExistentes: List<String>,
+        onDismiss: () -> Unit,
+        onApply: (String) -> Unit
+    ) {
+        var draft by remember(initialChapter) { mutableStateOf(initialChapter) }
+        var showChapterMenu by remember { mutableStateOf(false) }
+
+        AlertDialog(
+            onDismissRequest = onDismiss,
+            title = { Text(title) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Text(message)
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        OutlinedTextField(
+                            value = draft,
+                            onValueChange = { draft = it },
+                            modifier = Modifier.fillMaxWidth(),
+                            singleLine = true,
+                            label = { Text("Capítulo") },
+                            placeholder = { Text("Nuevo capítulo") },
+                            trailingIcon = {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_menu_open),
+                                    contentDescription = "Capítulos existentes",
+                                    modifier = Modifier.clickable { showChapterMenu = true }
+                                )
+                            }
+                        )
+                        DropdownMenu(
+                            expanded = showChapterMenu,
+                            onDismissRequest = { showChapterMenu = false }
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text(SIN_CAPITULO) },
+                                onClick = {
+                                    draft = ""
+                                    showChapterMenu = false
+                                }
+                            )
+                            capitulosExistentes.forEach { existente ->
+                                DropdownMenuItem(
+                                    text = { Text(existente) },
+                                    onClick = {
+                                        draft = existente
+                                        showChapterMenu = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = onDismiss) {
+                    Text(getString(R.string.cancelar))
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { onApply(draft.trim()) }) {
                     Text(getString(R.string.guardar))
                 }
             }
