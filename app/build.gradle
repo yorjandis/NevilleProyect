@@ -14,8 +14,8 @@ android {
         minSdk 24
         //noinspection OldTargetApi
         targetSdk 36
-        versionCode 69
-        versionName "3.0.11"
+        versionCode 70
+        versionName "3.0.12"
         signingConfig = signingConfigs.debug
     }
 
@@ -86,6 +86,7 @@ dependencies {
     implementation 'com.github.androidmads:QRGenerator:1.0.1'
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
     implementation 'com.google.zxing:core:3.5.4'
+    implementation 'org.bouncycastle:bcprov-jdk18on:1.84'
     implementation "com.github.skydoves:colorpickerview:2.4.0"
     implementation "com.github.skydoves:balloon:1.7.6"
 
@@ -93,6 +94,9 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.8.4'
     implementation 'androidx.room:room-ktx:2.8.4'
     ksp 'androidx.room:room-compiler:2.8.4'
+
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.json:json:20240303'
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
 }
