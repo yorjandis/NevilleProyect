@@ -46,10 +46,12 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
+import com.ypg.neville.R
 import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
 import com.ypg.neville.model.reminders.ReminderEntity
@@ -59,6 +61,7 @@ import com.ypg.neville.model.reminders.ReminderScheduler
 import com.ypg.neville.model.subscription.SubscriptionManager
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
+import java.text.DateFormatSymbols
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -169,7 +172,7 @@ class FragReminders : Fragment() {
             } else {
                 Column(modifier = Modifier.fillMaxSize()) {
                     Text(
-                        text = "Recordatorios",
+                        text = stringResource(R.string.reminders_title),
                         style = MaterialTheme.typography.headlineMedium,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
@@ -183,19 +186,22 @@ class FragReminders : Fragment() {
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Button(onClick = { showCreate = true }, modifier = Modifier.weight(1f)) {
-                            Text("Nuevo")
+                            Text(stringResource(R.string.reminders_new))
                         }
                         Button(
                             onClick = { persistHideText(!hideTextInProgress) },
                             modifier = Modifier.weight(1f)
                         ) {
-                            Text(if (hideTextInProgress) "Mostrar tiempo" else "Ocultar tiempo")
+                            Text(
+                                if (hideTextInProgress) stringResource(R.string.reminders_show_time)
+                                else stringResource(R.string.reminders_hide_time)
+                            )
                         }
                     }
 
                     if (reminders.isEmpty()) {
                         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                            Text("No hay recordatorios", style = MaterialTheme.typography.titleMedium)
+                            Text(stringResource(R.string.reminders_empty), style = MaterialTheme.typography.titleMedium)
                         }
                     } else {
                         LazyColumn(
@@ -273,9 +279,9 @@ class FragReminders : Fragment() {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Surface(shape = RoundedCornerShape(16.dp), tonalElevation = 4.dp) {
                 Column(modifier = Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("Recordatorios es una función premium", fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.reminders_premium_title), fontWeight = FontWeight.Bold)
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text("Activa la suscripción anual para usar este módulo.")
+                    Text(stringResource(R.string.reminders_premium_description))
                 }
             }
         }
@@ -325,7 +331,10 @@ class FragReminders : Fragment() {
                 )
 
                 Text(
-                    text = "Frecuencia: ${frequency?.description() ?: "Inválida"}",
+                    text = stringResource(
+                        R.string.reminders_frequency_value,
+                        frequency?.localizedDescription() ?: stringResource(R.string.reminders_invalid_frequency)
+                    ),
                     style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.Bold,
                     color = cardTextColor
@@ -347,15 +356,18 @@ class FragReminders : Fragment() {
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Button(onClick = onPlayPause, modifier = Modifier.weight(1f)) {
-                        Text(if (reminder.isStarted) "Detener" else "Iniciar")
+                        Text(
+                            if (reminder.isStarted) stringResource(R.string.reminders_stop)
+                            else stringResource(R.string.reminders_start)
+                        )
                     }
                     if (reminder.isStarted) {
                         Button(onClick = onEdit, modifier = Modifier.weight(1f)) {
-                            Text("Editar")
+                            Text(stringResource(R.string.common_edit))
                         }
                     }
                     Button(onClick = onDelete, modifier = Modifier.weight(1f)) {
-                        Text("Borrar")
+                        Text(stringResource(R.string.common_delete))
                     }
                 }
             }
@@ -448,12 +460,57 @@ class FragReminders : Fragment() {
         }
     }
 
-    private enum class ReminderEditorMode(val label: String) {
-        INTERVAL("Intervalo"),
-        DAILY("Diario"),
-        DATE("Fecha"),
-        MONTHLY("Mensual"),
-        YEARLY("Anual")
+    private enum class ReminderEditorMode {
+        INTERVAL,
+        DAILY,
+        DATE,
+        MONTHLY,
+        YEARLY
+    }
+
+    private fun ReminderEditorMode.labelResource(): Int = when (this) {
+        ReminderEditorMode.INTERVAL -> R.string.reminders_mode_interval
+        ReminderEditorMode.DAILY -> R.string.reminders_mode_daily
+        ReminderEditorMode.DATE -> R.string.reminders_mode_date
+        ReminderEditorMode.MONTHLY -> R.string.reminders_mode_monthly
+        ReminderEditorMode.YEARLY -> R.string.reminders_mode_yearly
+    }
+
+    @Composable
+    private fun ReminderFrequency.localizedDescription(): String {
+        val context = LocalContext.current
+        val locale = context.resources.configuration.locales[0]
+        return when (this) {
+            is ReminderFrequency.Interval -> {
+                val parts = buildList {
+                    if (hours > 0) add("${hours}h")
+                    if (minutes > 0) add("${minutes}m")
+                }
+                context.getString(R.string.reminders_every_interval, parts.joinToString(" "))
+            }
+            is ReminderFrequency.Daily -> context.getString(
+                R.string.reminders_every_day_at,
+                hour,
+                minute
+            )
+            is ReminderFrequency.DateOnce -> {
+                val formatter = SimpleDateFormat("d MMM yyyy, HH:mm", locale)
+                context.getString(R.string.reminders_once_on, formatter.format(Date(dateMillis)))
+            }
+            is ReminderFrequency.Monthly -> context.getString(
+                R.string.reminders_every_month,
+                day,
+                hour,
+                minute
+            )
+            is ReminderFrequency.Yearly -> context.getString(
+                R.string.reminders_every_year,
+                DateFormatSymbols(locale).months[(month - 1).coerceIn(0, 11)],
+                day,
+                hour,
+                minute
+            )
+        }
     }
 
     @Composable
@@ -527,24 +584,29 @@ class FragReminders : Fragment() {
 
         AlertDialog(
             onDismissRequest = onDismiss,
-            title = { Text(if (initial == null) "Nuevo recordatorio" else "Editar recordatorio") },
+            title = {
+                Text(
+                    if (initial == null) stringResource(R.string.reminders_new_title)
+                    else stringResource(R.string.reminders_edit_title)
+                )
+            },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     OutlinedTextField(
                         value = title,
                         onValueChange = { title = it },
-                        label = { Text("Título") },
+                        label = { Text(stringResource(R.string.common_title)) },
                         modifier = Modifier.fillMaxWidth()
                     )
                     OutlinedTextField(
                         value = message,
                         onValueChange = { message = it },
-                        label = { Text("Contenido") },
+                        label = { Text(stringResource(R.string.common_content)) },
                         modifier = Modifier.fillMaxWidth(),
                         minLines = 2
                     )
 
-                    Text("Frecuencia", style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(R.string.reminders_frequency), style = MaterialTheme.typography.labelLarge)
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -564,7 +626,7 @@ class FragReminders : Fragment() {
                                 modifier = Modifier.clickable { mode = item }
                             ) {
                                 Text(
-                                    text = item.label,
+                                    text = stringResource(item.labelResource()),
                                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
                                     fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal
                                 )
@@ -575,14 +637,14 @@ class FragReminders : Fragment() {
                     when (mode) {
                         ReminderEditorMode.INTERVAL -> {
                             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                NumberField("Horas", intervalHours) { intervalHours = it }
-                                NumberField("Minutos", intervalMinutes) { intervalMinutes = it }
+                                NumberField(stringResource(R.string.reminders_hours), intervalHours) { intervalHours = it }
+                                NumberField(stringResource(R.string.reminders_minutes), intervalMinutes) { intervalMinutes = it }
                             }
                         }
                         ReminderEditorMode.DAILY -> {
                             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                NumberField("Hora", dailyHour) { dailyHour = it }
-                                NumberField("Minuto", dailyMinute) { dailyMinute = it }
+                                NumberField(stringResource(R.string.reminders_hour), dailyHour) { dailyHour = it }
+                                NumberField(stringResource(R.string.reminders_minute), dailyMinute) { dailyMinute = it }
                             }
                         }
                         ReminderEditorMode.DATE -> {
@@ -591,29 +653,29 @@ class FragReminders : Fragment() {
                                     dateMillis = selected
                                 }
                             }) {
-                                val formatter = SimpleDateFormat("d MMM yyyy, HH:mm", Locale("es", "ES"))
-                                Text("Fecha: ${formatter.format(Date(dateMillis))}")
+                                val formatter = SimpleDateFormat("d MMM yyyy, HH:mm", Locale.getDefault())
+                                Text(stringResource(R.string.reminders_date_value, formatter.format(Date(dateMillis))))
                             }
                         }
                         ReminderEditorMode.MONTHLY -> {
                             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                NumberField("Día", monthlyDay) { monthlyDay = it }
-                                NumberField("Hora", monthlyHour) { monthlyHour = it }
-                                NumberField("Min", monthlyMinute) { monthlyMinute = it }
+                                NumberField(stringResource(R.string.reminders_day), monthlyDay) { monthlyDay = it }
+                                NumberField(stringResource(R.string.reminders_hour), monthlyHour) { monthlyHour = it }
+                                NumberField(stringResource(R.string.reminders_short_minute), monthlyMinute) { monthlyMinute = it }
                             }
                             Text(
-                                text = "Si el día no existe en un mes (p. ej. 30 en febrero), ese mes se omite.",
+                                text = stringResource(R.string.reminders_missing_day_hint),
                                 style = MaterialTheme.typography.bodySmall
                             )
                         }
                         ReminderEditorMode.YEARLY -> {
                             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                NumberField("Mes", yearlyMonth) { yearlyMonth = it }
-                                NumberField("Día", yearlyDay) { yearlyDay = it }
+                                NumberField(stringResource(R.string.reminders_month), yearlyMonth) { yearlyMonth = it }
+                                NumberField(stringResource(R.string.reminders_day), yearlyDay) { yearlyDay = it }
                             }
                             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                NumberField("Hora", yearlyHour) { yearlyHour = it }
-                                NumberField("Min", yearlyMinute) { yearlyMinute = it }
+                                NumberField(stringResource(R.string.reminders_hour), yearlyHour) { yearlyHour = it }
+                                NumberField(stringResource(R.string.reminders_short_minute), yearlyMinute) { yearlyMinute = it }
                             }
                         }
                     }
@@ -627,13 +689,13 @@ class FragReminders : Fragment() {
                 TextButton(onClick = {
                     val titleTrim = title.trim()
                     if (titleTrim.isEmpty()) {
-                        errorText = "Debes introducir un título para el recordatorio"
+                        errorText = context.getString(R.string.reminders_title_required)
                         return@TextButton
                     }
 
                     val messageTrim = message.trim()
                     if (messageTrim.isEmpty()) {
-                        errorText = "Debes introducir un mensaje para el recordatorio"
+                        errorText = context.getString(R.string.reminders_message_required)
                         return@TextButton
                     }
 
@@ -672,17 +734,20 @@ class FragReminders : Fragment() {
                     }
 
                     if (frequency == null) {
-                        errorText = "Debes elegir un tiempo válido para el recordatorio"
+                        errorText = context.getString(R.string.reminders_invalid_time)
                         return@TextButton
                     }
 
                     onSave(titleTrim, messageTrim, frequency)
                 }) {
-                    Text(if (mode == ReminderEditorMode.DATE) "Programar" else "Guardar")
+                    Text(
+                        if (mode == ReminderEditorMode.DATE) stringResource(R.string.reminders_schedule)
+                        else stringResource(R.string.common_save)
+                    )
                 }
             },
             dismissButton = {
-                TextButton(onClick = onDismiss) { Text("Cancelar") }
+                TextButton(onClick = onDismiss) { Text(stringResource(R.string.common_cancel)) }
             }
         )
     }

@@ -53,7 +53,7 @@ class Utils(private val context: Context) {
                 capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
 
             if (!isConnected) {
-                Toast.makeText(contextP, "Contenido no accesible sin conexión", Toast.LENGTH_SHORT).show()
+                Toast.makeText(contextP, contextP.getString(R.string.global_offline_content), Toast.LENGTH_SHORT).show()
             }
             return isConnected
         }
@@ -113,11 +113,15 @@ class Utils(private val context: Context) {
      */
     @RequiresApi(Build.VERSION_CODES.O)
     fun show_Notification(bigtext: String, intent: Intent) {
-        val notificationChannel = NotificationChannel(utilsFields.NOTIFICACION_CHANNEL_ID, "name", NotificationManager.IMPORTANCE_LOW)
+        val notificationChannel = NotificationChannel(
+            utilsFields.NOTIFICACION_CHANNEL_ID,
+            context.getString(R.string.global_update_channel),
+            NotificationManager.IMPORTANCE_LOW
+        )
         val pendingIntent = PendingIntent.getActivity(context, 1, intent, PendingIntent.FLAG_IMMUTABLE)
         val updateAction = Notification.Action.Builder(
             Icon.createWithResource(context, android.R.drawable.sym_action_chat),
-            "Actualizar",
+            context.getString(R.string.global_update_action),
             pendingIntent
         ).build()
 

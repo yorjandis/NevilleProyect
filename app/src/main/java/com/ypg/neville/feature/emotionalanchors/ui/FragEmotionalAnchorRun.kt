@@ -47,6 +47,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -136,7 +138,7 @@ class FragEmotionalAnchorRun : Fragment() {
                 }.onFailure {
                     activity?.runOnUiThread {
                         isPlaying = false
-                        Toast.makeText(context, "No se pudo reproducir el audio", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.anchors_play_audio_error), Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -147,7 +149,7 @@ class FragEmotionalAnchorRun : Fragment() {
                 val loaded = controller.getById(anchorId)
                 activity?.runOnUiThread {
                     if (loaded == null) {
-                        Toast.makeText(context, "Ancla no encontrada", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.anchors_not_found), Toast.LENGTH_SHORT).show()
                         findNavController().popBackStack()
                     } else {
                         anchor = loaded
@@ -168,7 +170,7 @@ class FragEmotionalAnchorRun : Fragment() {
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                Text("Cargando ancla...", color = Color.White)
+                Text(stringResource(R.string.anchors_loading), color = Color.White)
             }
             return
         }
@@ -177,13 +179,13 @@ class FragEmotionalAnchorRun : Fragment() {
             BitmapFactory.decodeFile(current.imagePath)?.asImageBitmap()
         }
         val hasAudio = current.audioPath.isNotBlank() && File(current.audioPath).exists()
-        val helpMessages = remember { HELP_MESSAGES.ifEmpty { listOf("Respira... Estas en control") } }
+        val helpMessages = stringArrayResource(R.array.anchor_help_messages).toList()
         var helpMessageIndex by remember { mutableIntStateOf(0) }
         val helpAlpha = remember { Animatable(0f) }
         var showHelpText by remember { mutableStateOf(true) }
         var showHelpMenu by remember { mutableStateOf(false) }
 
-        LaunchedEffect(helpMessages) {
+        LaunchedEffect(Unit) {
             while (true) {
                 helpAlpha.animateTo(
                     targetValue = 0.95f,
@@ -202,7 +204,7 @@ class FragEmotionalAnchorRun : Fragment() {
             if (bitmap != null) {
                 Image(
                     bitmap = bitmap,
-                    contentDescription = "Imagen del ancla de fondo",
+                    contentDescription = stringResource(R.string.anchors_background_image),
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize()
                 )
@@ -286,7 +288,7 @@ class FragEmotionalAnchorRun : Fragment() {
                                 shape = ContextMenuShape
                             ) {
                                 DropdownMenuItem(
-                                    text = { Text("Ocultar frases de ayuda") },
+                                    text = { Text(stringResource(R.string.anchors_hide_help_phrases)) },
                                     onClick = {
                                         showHelpMenu = false
                                         showHelpText = false
@@ -334,7 +336,7 @@ class FragEmotionalAnchorRun : Fragment() {
                                 ) {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_anchor_loop),
-                                        contentDescription = "Reproducir en bucle",
+                                        contentDescription = stringResource(R.string.anchors_loop_playback),
                                         tint = if (shouldLoop) {
                                             Color(0xFF81817C)
                                         } else {
@@ -360,7 +362,7 @@ class FragEmotionalAnchorRun : Fragment() {
                                         painter = painterResource(
                                             id = if (isPlaying) R.drawable.ic_anchor_stop else R.drawable.ic_anchor_play
                                         ),
-                                        contentDescription = if (isPlaying) "Detener" else "Reproducir",
+                                        contentDescription = if (isPlaying) stringResource(R.string.anchors_stop_playback) else stringResource(R.string.anchors_play),
                                         tint = Color.White.copy(alpha = 0.95f)
                                     )
                                 }
@@ -377,7 +379,7 @@ class FragEmotionalAnchorRun : Fragment() {
                                 ) {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_anchor_close),
-                                        contentDescription = "Cerrar",
+                                        contentDescription = stringResource(R.string.common_close),
                                         tint = Color.White.copy(alpha = 0.88f)
                                     )
                                 }
@@ -395,48 +397,6 @@ class FragEmotionalAnchorRun : Fragment() {
         private const val HELP_FADE_IN_MS = 4000
         private const val HELP_FADE_OUT_MS = 6000
         private const val HELP_BETWEEN_MESSAGES_MS = 220L
-
-        private val HELP_MESSAGES = listOf(
-            "Respira... Estas en control",
-            "Inhala calma, exhala tensión",
-            "Vuelve al presente, todo está bien",
-            "Suave y lento... recupera tu centro",
-            "Eres importante! Continua así",
-
-            "Respira profundo, aquí y ahora",
-            "Todo pasa, esto también",
-            "Inhala paz, exhala preocupación",
-            "Un respiro a la vez",
-            "Tu respiración es tu ancla",
-            "Calma… no hay prisa",
-
-            "Este momento es suficiente",
-            "Aquí estás a salvo",
-            "Vuelve a lo simple",
-            "Solo este instante importa",
-            "Siente el ahora",
-            "Paso a paso, sin prisa",
-
-            "Puedes con esto",
-            "Ya has superado mucho",
-            "Sigue, lo estás haciendo bien",
-            "Eres más fuerte de lo que crees",
-            "No te rindas ahora",
-            "Confía en ti",
-
-            "Déjalo pasar, no te aferres",
-            "No todo merece tu energía",
-            "Suelta lo que no controlas",
-            "Es solo una emoción, no es permanente",
-            "Permítete sentir y soltar",
-
-            "Está bien no estar bien",
-            "Haz lo mejor que puedas",
-            "Eres suficiente",
-            "Trátate con amabilidad",
-            "No tienes que ser perfecto",
-            "Descansa, lo necesitas"
-        )
 
         private fun nextRandomHelpIndex(currentIndex: Int, total: Int): Int {
             if (total <= 1) return 0

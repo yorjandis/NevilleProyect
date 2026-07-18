@@ -39,6 +39,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -86,7 +88,7 @@ fun GoalStatsScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Estadísticas de Metas",
+                    text = stringResource(R.string.goal_stats_title),
                     color = Color.White,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
@@ -95,12 +97,12 @@ fun GoalStatsScreen(
                 TextButton(onClick = onRefresh) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_refress),
-                        contentDescription = "Recargar",
+                        contentDescription = stringResource(R.string.common_refresh),
                         tint = Color.White
                     )
                 }
                 TextButton(onClick = onClose) {
-                    Text("Cerrar", color = Color.White)
+                    Text(stringResource(R.string.common_close), color = Color.White)
                 }
             }
 
@@ -123,7 +125,7 @@ fun GoalStatsScreen(
             title = { Text(info.title) },
             text = { Text(info.message) },
             confirmButton = {
-                TextButton(onClick = { infoItem = null }) { Text("Cerrar") }
+                TextButton(onClick = { infoItem = null }) { Text(stringResource(R.string.common_close)) }
             }
         )
     }
@@ -146,9 +148,9 @@ private data class GoalStatsSnapshot(
     val topUnitTypes: List<UnitTypeCount>,
     private val dailyCounts: Map<Long, Int>
 ) {
-    data class WeekdayCount(val dayLabel: String, val count: Int)
-    data class StatusShare(val title: String, val value: Int, val color: Color, val symbol: String)
-    data class UnitTypeCount(val title: String, val count: Int)
+    data class WeekdayCount(val dayIndex: Int, val count: Int)
+    data class StatusShare(val status: UnitStatus, val value: Int, val color: Color, val symbol: String)
+    data class UnitTypeCount(val type: TimeUnitType, val count: Int)
     data class DayPoint(val dayStartMillis: Long, val count: Int)
 
     constructor(goals: List<GoalCardState>, archivedGoals: List<ArchivedGoalCardState>) : this(
@@ -210,9 +212,9 @@ private data class GoalStatsSnapshot(
             val archivedUnits = archivedGoals.flatMap { it.units.map { unit -> UnitStatus.fromRaw(unit.status) } }
             val allUnits = liveUnits + archivedUnits
             return listOf(
-                StatusShare("Fichadas", allUnits.count { it == UnitStatus.COMPLETED }, Color(0xFF66BB6A), "OK"),
-                StatusShare("Pendientes", allUnits.count { it == UnitStatus.PENDING }, Color(0xFF4DD0E1), "..."),
-                StatusShare("Perdidas", allUnits.count { it == UnitStatus.LOST }, Color(0xFFFFB74D), "!")
+                StatusShare(UnitStatus.COMPLETED, allUnits.count { it == UnitStatus.COMPLETED }, Color(0xFF66BB6A), "OK"),
+                StatusShare(UnitStatus.PENDING, allUnits.count { it == UnitStatus.PENDING }, Color(0xFF4DD0E1), "..."),
+                StatusShare(UnitStatus.LOST, allUnits.count { it == UnitStatus.LOST }, Color(0xFFFFB74D), "!")
             )
         }
 
@@ -222,21 +224,20 @@ private data class GoalStatsSnapshot(
         ): List<UnitTypeCount> {
             val unitTypes = goals.map { it.goal.unitType } + archivedGoals.map { it.goal.unitType }
             return unitTypes
-                .groupingBy { TimeUnitType.fromRaw(it).descriptionFor(2).replaceFirstChar { c -> c.uppercase() } }
+                .groupingBy { TimeUnitType.fromRaw(it) }
                 .eachCount()
                 .map { UnitTypeCount(it.key, it.value) }
                 .sortedByDescending { it.count }
         }
 
         private fun calculateWeekdayCounts(days: List<Long>): List<WeekdayCount> {
-            val labels = listOf("D", "L", "M", "X", "J", "V", "S")
             val counts = IntArray(7)
             val cal = Calendar.getInstance()
             days.forEach { day ->
                 cal.timeInMillis = day
                 counts[cal.get(Calendar.DAY_OF_WEEK) - 1]++
             }
-            return labels.indices.map { idx -> WeekdayCount(labels[idx], counts[idx]) }
+            return counts.indices.map { idx -> WeekdayCount(idx, counts[idx]) }
         }
 
         private fun calculateCurrentStreak(days: List<Long>): Int {
@@ -296,33 +297,45 @@ private data class GoalInfoItem(val title: String, val message: String)
 @Composable
 private fun GoalHeadlineCards(stats: GoalStatsSnapshot, onInfo: (GoalInfoItem) -> Unit) {
     val percentFormatter = remember { DecimalFormat("0%") }
+    val activeTitle = stringResource(R.string.goal_stats_active)
+    val completedTitle = stringResource(R.string.goal_stats_completed)
+    val readyTitle = stringResource(R.string.goal_stats_ready)
+    val effectivenessTitle = stringResource(R.string.goal_stats_effectiveness)
+    val currentStreakTitle = stringResource(R.string.goal_stats_current_streak)
+    val bestStreakTitle = stringResource(R.string.goal_stats_best_streak)
+    val activeInfo = stringResource(R.string.goal_stats_active_info)
+    val completedInfo = stringResource(R.string.goal_stats_completed_info)
+    val readyInfo = stringResource(R.string.goal_stats_ready_info)
+    val effectivenessInfo = stringResource(R.string.goal_stats_effectiveness_info)
+    val currentStreakInfo = stringResource(R.string.goal_stats_current_streak_info)
+    val bestStreakInfo = stringResource(R.string.goal_stats_best_streak_info)
     Column(modifier = Modifier.padding(horizontal = 14.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Text("Tu avance en metas", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+        Text(stringResource(R.string.goal_stats_your_progress), color = Color.White, fontWeight = FontWeight.Bold, fontSize = 20.sp)
 
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            GoalMetricCard("Activas", stats.activeGoals.toString(), "en curso", Modifier.weight(1f)) {
-                onInfo(GoalInfoItem("Metas Activas", "Metas iniciadas que todavía tienen unidades pendientes."))
+            GoalMetricCard(activeTitle, stats.activeGoals.toString(), stringResource(R.string.goal_stats_in_progress), Modifier.weight(1f)) {
+                onInfo(GoalInfoItem(activeTitle, activeInfo))
             }
-            GoalMetricCard("Completadas", stats.completedGoals.toString(), "histórico", Modifier.weight(1f)) {
-                onInfo(GoalInfoItem("Metas Completadas", "Metas terminadas, incluyendo las que ya fueron archivadas."))
+            GoalMetricCard(completedTitle, stats.completedGoals.toString(), stringResource(R.string.goal_stats_history), Modifier.weight(1f)) {
+                onInfo(GoalInfoItem(completedTitle, completedInfo))
             }
         }
 
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            GoalMetricCard("Listas", stats.actionReadyGoals.toString(), "para fichar", Modifier.weight(1f)) {
-                onInfo(GoalInfoItem("Metas Listas", "Metas con al menos una unidad pendiente cuyo tiempo de inicio ya llegó."))
+            GoalMetricCard(readyTitle, stats.actionReadyGoals.toString(), stringResource(R.string.goal_stats_to_check_in), Modifier.weight(1f)) {
+                onInfo(GoalInfoItem(readyTitle, readyInfo))
             }
-            GoalMetricCard("Efectividad", percentFormatter.format(stats.completionRate), "unidades", Modifier.weight(1f)) {
-                onInfo(GoalInfoItem("Efectividad", "Porcentaje de unidades fichadas sobre el total de unidades creadas."))
+            GoalMetricCard(effectivenessTitle, percentFormatter.format(stats.completionRate), stringResource(R.string.goal_stats_units_lower), Modifier.weight(1f)) {
+                onInfo(GoalInfoItem(effectivenessTitle, effectivenessInfo))
             }
         }
 
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            GoalMetricCard("Racha actual", stats.currentStreak.toString(), "días", Modifier.weight(1f)) {
-                onInfo(GoalInfoItem("Racha Actual", "Días consecutivos recientes con al menos una unidad completada."))
+            GoalMetricCard(currentStreakTitle, stats.currentStreak.toString(), stringResource(R.string.goal_stats_days_lower), Modifier.weight(1f)) {
+                onInfo(GoalInfoItem(currentStreakTitle, currentStreakInfo))
             }
-            GoalMetricCard("Mejor racha", stats.longestStreak.toString(), "días", Modifier.weight(1f)) {
-                onInfo(GoalInfoItem("Mejor Racha", "Mayor número histórico de días consecutivos completando unidades."))
+            GoalMetricCard(bestStreakTitle, stats.longestStreak.toString(), stringResource(R.string.goal_stats_days_lower), Modifier.weight(1f)) {
+                onInfo(GoalInfoItem(bestStreakTitle, bestStreakInfo))
             }
         }
     }
@@ -348,7 +361,7 @@ private fun GoalMetricCard(
             Box(modifier = Modifier.weight(1f))
             Icon(
                 painter = painterResource(id = R.drawable.ic_help),
-                contentDescription = "Info",
+                contentDescription = stringResource(R.string.common_information),
                 tint = Color.White.copy(alpha = 0.9f),
                 modifier = Modifier.size(16.dp).clickable(onClick = onInfo)
             )
@@ -361,8 +374,10 @@ private fun GoalMetricCard(
 @Composable
 private fun GoalWeeklyBarChart(stats: GoalStatsSnapshot, onInfo: (GoalInfoItem) -> Unit) {
     val maxCount = max(1, stats.weekdayCounts.maxOfOrNull { it.count } ?: 1)
-    GoalPanel(title = "Frecuencia semanal", onInfo = {
-        onInfo(GoalInfoItem("Frecuencia Semanal", "Cuenta cuántas unidades fueron completadas en cada día de la semana."))
+    val title = stringResource(R.string.goal_stats_weekly_frequency)
+    val info = stringResource(R.string.goal_stats_weekly_frequency_info)
+    GoalPanel(title = title, onInfo = {
+        onInfo(GoalInfoItem(title, info))
     }) {
         Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.fillMaxWidth()) {
             stats.weekdayCounts.forEach { item ->
@@ -383,7 +398,7 @@ private fun GoalWeeklyBarChart(stats: GoalStatsSnapshot, onInfo: (GoalInfoItem) 
                                 .background(Brush.verticalGradient(colors = listOf(Color(0xFFFFC107), Color(0xFFFF9800))))
                         )
                     }
-                    Text(item.dayLabel, color = Color.White, fontSize = 12.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 6.dp))
+                    Text(localizedWeekday(item.dayIndex), color = Color.White, fontSize = 12.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 6.dp))
                     Text(item.count.toString(), color = Color.White.copy(alpha = 0.85f), fontSize = 10.sp)
                 }
             }
@@ -393,8 +408,12 @@ private fun GoalWeeklyBarChart(stats: GoalStatsSnapshot, onInfo: (GoalInfoItem) 
 
 @Composable
 private fun GoalStatusRingsSection(stats: GoalStatsSnapshot, onInfo: (GoalInfoItem) -> Unit) {
-    GoalPanel(title = "Estado de unidades", onInfo = {
-        onInfo(GoalInfoItem("Estado de Unidades", "Reparte todas las unidades entre fichadas, pendientes y perdidas."))
+    val sectionTitle = stringResource(R.string.goal_stats_unit_status)
+    val sectionInfo = stringResource(R.string.goal_stats_unit_status_info)
+    val ringTitle = stringResource(R.string.goal_stats_status_ring)
+    val ringInfo = stringResource(R.string.goal_stats_status_ring_info)
+    GoalPanel(title = sectionTitle, onInfo = {
+        onInfo(GoalInfoItem(sectionTitle, sectionInfo))
     }) {
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
             stats.statusShares.forEach { share ->
@@ -402,11 +421,11 @@ private fun GoalStatusRingsSection(stats: GoalStatsSnapshot, onInfo: (GoalInfoIt
                     progress = share.value.toDouble() / max(1, stats.totalUnits).toDouble(),
                     color = share.color,
                     symbol = share.symbol,
-                    title = share.title,
+                    title = localizedStatus(share.status),
                     value = share.value,
                     modifier = Modifier.weight(1f),
                     onInfo = {
-                        onInfo(GoalInfoItem("Anillo de Estado", "Cada anillo muestra el porcentaje de ese estado sobre el total de unidades."))
+                        onInfo(GoalInfoItem(ringTitle, ringInfo))
                     }
                 )
             }
@@ -428,7 +447,7 @@ private fun GoalRingMetric(
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_help),
-                contentDescription = "Info",
+                contentDescription = stringResource(R.string.common_information),
                 tint = Color.White.copy(alpha = 0.9f),
                 modifier = Modifier.size(14.dp).clickable(onClick = onInfo)
             )
@@ -460,21 +479,25 @@ private fun GoalRingMetric(
 @Composable
 private fun GoalFocusSection(stats: GoalStatsSnapshot, onInfo: (GoalInfoItem) -> Unit) {
     val percentFormatter = remember { DecimalFormat("0%") }
-    GoalPanel(title = "Enfoque de práctica", onInfo = {
-        onInfo(GoalInfoItem("Enfoque de Práctica", "Muestra el progreso medio de metas activas y los tipos de unidad más utilizados."))
+    val focusTitle = stringResource(R.string.goal_stats_practice_focus)
+    val focusInfo = stringResource(R.string.goal_stats_practice_focus_info)
+    val averageTitle = stringResource(R.string.goal_stats_average_progress)
+    val averageInfo = stringResource(R.string.goal_stats_average_progress_info)
+    GoalPanel(title = focusTitle, onInfo = {
+        onInfo(GoalInfoItem(focusTitle, focusInfo))
     }) {
         GoalMetricCard(
-            title = "Progreso medio",
+            title = averageTitle,
             value = percentFormatter.format(stats.averageProgress),
-            subtitle = "metas activas",
+            subtitle = stringResource(R.string.goal_stats_active_goals_lower),
             modifier = Modifier.fillMaxWidth(),
             onInfo = {
-                onInfo(GoalInfoItem("Progreso Medio", "Promedio del avance de las metas activas según unidades completadas o perdidas."))
+                onInfo(GoalInfoItem(averageTitle, averageInfo))
             }
         )
 
         if (stats.topUnitTypes.isEmpty()) {
-            Text("Aún no hay tipos de unidad suficientes.", color = Color.White.copy(alpha = 0.75f), fontSize = 13.sp)
+            Text(stringResource(R.string.goal_stats_not_enough_unit_types), color = Color.White.copy(alpha = 0.75f), fontSize = 13.sp)
         } else {
             Row(
                 modifier = Modifier.horizontalScroll(rememberScrollState()),
@@ -488,8 +511,8 @@ private fun GoalFocusSection(stats: GoalStatsSnapshot, onInfo: (GoalInfoItem) ->
                             .background(Color.White.copy(alpha = 0.12f))
                             .padding(12.dp)
                     ) {
-                        Text(type.title, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 13.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                        Text("${type.count} metas", color = Color.White.copy(alpha = 0.75f), fontSize = 11.sp)
+                        Text(localizedTimeUnitTitle(type.type), color = Color.White, fontWeight = FontWeight.Bold, fontSize = 13.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        Text(pluralStringResource(R.plurals.goal_stats_goal_count, type.count, type.count), color = Color.White.copy(alpha = 0.75f), fontSize = 11.sp)
                     }
                 }
             }
@@ -506,10 +529,12 @@ private fun GoalDotTrendSection(stats: GoalStatsSnapshot, onInfo: (GoalInfoItem)
     val rows = max(1, (points.size + 6) / 7)
     val gridHeight = (rows * 44 + (rows - 1) * 12).dp
 
-    GoalPanel(title = "Actividad de los últimos $selectedDays días", onInfo = {
-        onInfo(GoalInfoItem("Actividad de los últimos $selectedDays Días", "Cada punto representa un día y su tamaño indica cuántas unidades fueron fichadas."))
+    val sectionTitle = stringResource(R.string.goal_stats_recent_activity, selectedDays)
+    val sectionInfo = stringResource(R.string.goal_stats_recent_activity_info)
+    GoalPanel(title = sectionTitle, onInfo = {
+        onInfo(GoalInfoItem(sectionTitle, sectionInfo))
     }, bottomPadding = 8.dp) {
-        Text("Visualización por puntos al estilo Fitness", color = Color.White.copy(alpha = 0.75f), fontSize = 12.sp)
+        Text(stringResource(R.string.goal_stats_fitness_dots), color = Color.White.copy(alpha = 0.75f), fontSize = 12.sp)
 
         Row(
             modifier = Modifier.horizontalScroll(rememberScrollState()),
@@ -518,7 +543,7 @@ private fun GoalDotTrendSection(stats: GoalStatsSnapshot, onInfo: (GoalInfoItem)
             dayOptions.forEach { days ->
                 val selected = selectedDays == days
                 Text(
-                    text = "${days}d",
+                    text = stringResource(R.string.goal_stats_day_option, days),
                     color = if (selected) Color.Black else Color.White,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.SemiBold,
@@ -594,7 +619,7 @@ private fun GoalPanel(
             Box(modifier = Modifier.weight(1f))
             Icon(
                 painter = painterResource(id = R.drawable.ic_help),
-                contentDescription = "Info",
+                contentDescription = stringResource(R.string.common_information),
                 tint = Color.White.copy(alpha = 0.9f),
                 modifier = Modifier.size(18.dp).clickable(onClick = onInfo)
             )
@@ -602,6 +627,41 @@ private fun GoalPanel(
         content()
     }
 }
+
+@Composable
+private fun localizedWeekday(index: Int): String = stringResource(
+    when (index) {
+        0 -> R.string.goal_stats_sunday_short
+        1 -> R.string.goal_stats_monday_short
+        2 -> R.string.goal_stats_tuesday_short
+        3 -> R.string.goal_stats_wednesday_short
+        4 -> R.string.goal_stats_thursday_short
+        5 -> R.string.goal_stats_friday_short
+        else -> R.string.goal_stats_saturday_short
+    }
+)
+
+@Composable
+private fun localizedStatus(status: UnitStatus): String = stringResource(
+    when (status) {
+        UnitStatus.COMPLETED -> R.string.goal_stats_checked
+        UnitStatus.PENDING -> R.string.goal_stats_pending
+        UnitStatus.LOST -> R.string.goal_stats_lost
+    }
+)
+
+@Composable
+private fun localizedTimeUnitTitle(type: TimeUnitType): String = pluralStringResource(
+    when (type) {
+        TimeUnitType.MINUTOS -> R.plurals.goals_minutes
+        TimeUnitType.HORAS -> R.plurals.goals_hours
+        TimeUnitType.DIAS -> R.plurals.goals_days
+        TimeUnitType.SEMANAS -> R.plurals.goals_weeks
+        TimeUnitType.MESES -> R.plurals.goals_months
+        TimeUnitType.ANIOS -> R.plurals.goals_years
+    },
+    2
+).replaceFirstChar { it.titlecase(Locale.getDefault()) }
 
 private fun goalStartOfDay(timeMillis: Long): Long {
     val cal = Calendar.getInstance()

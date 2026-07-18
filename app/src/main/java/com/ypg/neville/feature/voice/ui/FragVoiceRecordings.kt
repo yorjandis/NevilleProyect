@@ -42,6 +42,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
@@ -128,7 +129,11 @@ class FragVoiceRecordings : Fragment() {
             if (isStopping) return
             isStopping = true
             dbExecutor.execute {
-                val result = controller.stopAndSave(titleDraft)
+                val title = titleDraft.takeIf { it.isNotBlank() } ?: context.getString(
+                    com.ypg.neville.R.string.voice_default_title,
+                    formatDate(System.currentTimeMillis())
+                )
+                val result = controller.stopAndSave(title)
                 activity?.runOnUiThread {
                     isStopping = false
                     isRecording = false
@@ -139,12 +144,12 @@ class FragVoiceRecordings : Fragment() {
                         titleDraft = ""
                         reload()
                         if (isAutomatic) {
-                            Toast.makeText(context, "Límite de 3 minutos alcanzado", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, context.getString(com.ypg.neville.R.string.voice_limit_reached), Toast.LENGTH_SHORT).show()
                         }
                     } else {
                         Toast.makeText(
                             context,
-                            result.exceptionOrNull()?.message ?: "No se pudo guardar la grabación",
+                            context.getString(com.ypg.neville.R.string.voice_save_error),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -163,7 +168,7 @@ class FragVoiceRecordings : Fragment() {
                     } else {
                         Toast.makeText(
                             context,
-                            result.exceptionOrNull()?.message ?: "No se pudo iniciar la grabación",
+                            context.getString(com.ypg.neville.R.string.voice_start_error),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -177,7 +182,7 @@ class FragVoiceRecordings : Fragment() {
                 if (granted) {
                     startRecording()
                 } else {
-                    Toast.makeText(context, "Permiso de micrófono denegado", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(com.ypg.neville.R.string.voice_microphone_denied), Toast.LENGTH_SHORT).show()
                 }
             }
         )
@@ -224,13 +229,13 @@ class FragVoiceRecordings : Fragment() {
                 .padding(12.dp)
         ) {
             Text(
-                text = "Notas de Voz",
+                text = stringResource(com.ypg.neville.R.string.voice_notes_title),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
             )
             Text(
-                text = "Graba frases de voz de hasta 3 minutos y reprodúcelas cuando quieras.",
+                text = stringResource(com.ypg.neville.R.string.voice_notes_intro),
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color(0xFF1B2A41),
                 modifier = Modifier.padding(top = 4.dp, bottom = 10.dp)
@@ -242,15 +247,15 @@ class FragVoiceRecordings : Fragment() {
                         value = titleDraft,
                         onValueChange = { titleDraft = it },
                         singleLine = true,
-                        label = { Text("Título (opcional)") },
-                        placeholder = { Text("Ej: Mi frase de enfoque") },
+                        label = { Text(stringResource(com.ypg.neville.R.string.voice_title_optional)) },
+                        placeholder = { Text(stringResource(com.ypg.neville.R.string.voice_title_example)) },
                         modifier = Modifier.fillMaxWidth(),
                         enabled = !isRecording
                     )
 
                     Spacer(modifier = Modifier.height(10.dp))
                     Text(
-                        text = "Tiempo: ${formatClock(elapsedMs)} / 03:00",
+                        text = stringResource(com.ypg.neville.R.string.voice_recording_time, formatClock(elapsedMs)),
                         style = MaterialTheme.typography.titleMedium,
                         color = if (isRecording) Color(0xFFFF9800) else Color(0xFFB5F24A)
                     )
@@ -265,14 +270,14 @@ class FragVoiceRecordings : Fragment() {
                                 onClick = { startWithPermission() },
                                 modifier = Modifier.weight(1f)
                             ) {
-                                Text("Iniciar grabación")
+                                Text(stringResource(com.ypg.neville.R.string.voice_start_recording))
                             }
                         } else {
                             Button(
                                 onClick = { stopAndPersist() },
                                 modifier = Modifier.weight(1f)
                             ) {
-                                Text("Detener y guardar")
+                                Text(stringResource(com.ypg.neville.R.string.voice_stop_and_save))
                             }
 
                             Button(
@@ -283,13 +288,13 @@ class FragVoiceRecordings : Fragment() {
                                             isRecording = false
                                             elapsedMs = 0L
                                             startedAt = 0L
-                                            Toast.makeText(context, "Grabación cancelada", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(context, context.getString(com.ypg.neville.R.string.voice_recording_canceled), Toast.LENGTH_SHORT).show()
                                         }
                                     }
                                 },
                                 modifier = Modifier.weight(1f)
                             ) {
-                                Text("Cancelar")
+                                Text(stringResource(com.ypg.neville.R.string.common_cancel))
                             }
                         }
                     }
@@ -301,7 +306,7 @@ class FragVoiceRecordings : Fragment() {
             if (recordings.isEmpty()) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Text(
-                        text = "Todavía no tienes notas de voz guardadas",
+                        text = stringResource(com.ypg.neville.R.string.voice_empty),
                         style = MaterialTheme.typography.titleMedium,
                         color = Color(0xFF324A5F)
                     )
@@ -331,7 +336,7 @@ class FragVoiceRecordings : Fragment() {
                                     }.onFailure {
                                         Toast.makeText(
                                             context,
-                                            it.message ?: "No se pudo reproducir",
+                                            context.getString(com.ypg.neville.R.string.voice_play_error),
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     }
@@ -356,7 +361,7 @@ class FragVoiceRecordings : Fragment() {
                             if (updated != null) {
                                 reload()
                             } else {
-                                Toast.makeText(context, "Título no válido", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, context.getString(com.ypg.neville.R.string.voice_invalid_title), Toast.LENGTH_SHORT).show()
                             }
                             renameTarget = null
                         }
@@ -368,8 +373,8 @@ class FragVoiceRecordings : Fragment() {
         deleteTarget?.let { item ->
             AlertDialog(
                 onDismissRequest = { deleteTarget = null },
-                title = { Text("Eliminar voz") },
-                text = { Text("¿Quieres eliminar \"${item.title}\"?") },
+                title = { Text(stringResource(com.ypg.neville.R.string.voice_delete_title)) },
+                text = { Text(stringResource(com.ypg.neville.R.string.voice_delete_message, item.title)) },
                 confirmButton = {
                     TextButton(onClick = {
                         dbExecutor.execute {
@@ -383,12 +388,12 @@ class FragVoiceRecordings : Fragment() {
                             }
                         }
                     }) {
-                        Text("Eliminar")
+                        Text(stringResource(com.ypg.neville.R.string.common_delete))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = { deleteTarget = null }) {
-                        Text("Cancelar")
+                        Text(stringResource(com.ypg.neville.R.string.common_cancel))
                     }
                 }
             )
@@ -411,7 +416,7 @@ class FragVoiceRecordings : Fragment() {
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    text = "Duración ${formatClock(item.durationMs)} · ${formatDate(item.createdAt)}",
+                    text = stringResource(com.ypg.neville.R.string.voice_duration_date, formatClock(item.durationMs), formatDate(item.createdAt)),
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color(0xFF425466),
                     modifier = Modifier.padding(top = 2.dp, bottom = 10.dp)
@@ -422,13 +427,13 @@ class FragVoiceRecordings : Fragment() {
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Button(onClick = onPlayToggle, modifier = Modifier.weight(1f)) {
-                        Text(if (isPlaying) "Detener" else "Reproducir")
+                        Text(if (isPlaying) stringResource(com.ypg.neville.R.string.voice_stop) else stringResource(com.ypg.neville.R.string.voice_play))
                     }
                     Button(onClick = onRename, modifier = Modifier.weight(1f)) {
-                        Text("Renombrar")
+                        Text(stringResource(com.ypg.neville.R.string.voice_rename))
                     }
                     Button(onClick = onDelete, modifier = Modifier.weight(1f)) {
-                        Text("Eliminar")
+                        Text(stringResource(com.ypg.neville.R.string.common_delete))
                     }
                 }
             }
@@ -445,24 +450,24 @@ class FragVoiceRecordings : Fragment() {
 
         AlertDialog(
             onDismissRequest = onDismiss,
-            title = { Text("Renombrar voz") },
+            title = { Text(stringResource(com.ypg.neville.R.string.voice_rename_title)) },
             text = {
                 OutlinedTextField(
                     value = draft,
                     onValueChange = { draft = it },
                     singleLine = true,
-                    label = { Text("Nuevo título") },
+                    label = { Text(stringResource(com.ypg.neville.R.string.voice_new_title)) },
                     modifier = Modifier.fillMaxWidth()
                 )
             },
             confirmButton = {
                 TextButton(onClick = { onConfirm(draft) }) {
-                    Text("Guardar")
+                    Text(stringResource(com.ypg.neville.R.string.common_save))
                 }
             },
             dismissButton = {
                 TextButton(onClick = onDismiss) {
-                    Text("Cancelar")
+                    Text(stringResource(com.ypg.neville.R.string.common_cancel))
                 }
             }
         )

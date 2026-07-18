@@ -20,7 +20,7 @@ object FraseContextActions {
         val texto = frase.trim()
         if (texto.isBlank()) return NotaCreadaResult(ok = false, titulo = "")
 
-        val baseTitle = buildNotaTitle(texto)
+        val baseTitle = buildNotaTitle(context, texto)
         var candidate = baseTitle
         var i = 2
         while (utilsDB.getApunteByTitle(context, candidate) != null) {
@@ -35,7 +35,7 @@ object FraseContextActions {
     fun abrirNotaDeFrase(context: Context, frase: String) {
         val texto = frase.trim()
         if (texto.isBlank()) {
-            Toast.makeText(context, "La frase está vacía", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.phrases_empty_quote), Toast.LENGTH_SHORT).show()
             return
         }
         val nota = utilsDB.getFraseNota(context, texto)
@@ -51,7 +51,7 @@ object FraseContextActions {
     fun cargarFraseEnLienzo(context: Context, frase: String) {
         val texto = frase.trim()
         if (texto.isBlank()) {
-            Toast.makeText(context, "La frase está vacía", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.phrases_empty_quote), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -71,26 +71,26 @@ object FraseContextActions {
     ) {
         val texto = frase.trim()
         if (texto.isBlank()) {
-            Toast.makeText(context, "La frase está vacía", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.phrases_empty_quote), Toast.LENGTH_SHORT).show()
             return
         }
 
         val payload = buildString {
             append(texto)
             if (autor.isNotBlank()) append("\n\n<$autor>")
-            if (fuente.isNotBlank()) append("\nFuente: $fuente")
+            if (fuente.isNotBlank()) append("\n${context.getString(R.string.phrases_source_value, fuente)}")
         }
 
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
             putExtra(Intent.EXTRA_TEXT, payload)
         }
-        context.startActivity(Intent.createChooser(intent, "Compartir Frase"))
+        context.startActivity(Intent.createChooser(intent, context.getString(R.string.phrases_share_title)))
     }
 
-    private fun buildNotaTitle(frase: String): String {
+    private fun buildNotaTitle(context: Context, frase: String): String {
         val normalized = frase.replace("\n", " ").trim()
-        if (normalized.isBlank()) return "Frase"
-        return normalized.take(20).trim().ifBlank { "Frase" }
+        if (normalized.isBlank()) return context.getString(R.string.global_default_quote_title)
+        return normalized.take(20).trim().ifBlank { context.getString(R.string.global_default_quote_title) }
     }
 }

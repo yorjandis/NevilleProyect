@@ -67,6 +67,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -110,13 +111,13 @@ class FragDiario : Fragment() {
 
     private val emotions = DiarioEmotion.entries
     private val ageFilters = listOf(
-        AgeFilter("Todo", null),
-        AgeFilter("1 semana", 7L * DAY_MS),
-        AgeFilter("15 días", 15L * DAY_MS),
-        AgeFilter("1 mes", 30L * DAY_MS),
-        AgeFilter("3 meses", 90L * DAY_MS),
-        AgeFilter("6 meses", 180L * DAY_MS),
-        AgeFilter("1 año", 365L * DAY_MS)
+        AgeFilter(R.string.diary_age_all, null),
+        AgeFilter(R.string.diary_age_one_week, 7L * DAY_MS),
+        AgeFilter(R.string.diary_age_fifteen_days, 15L * DAY_MS),
+        AgeFilter(R.string.diary_age_one_month, 30L * DAY_MS),
+        AgeFilter(R.string.diary_age_three_months, 90L * DAY_MS),
+        AgeFilter(R.string.diary_age_six_months, 180L * DAY_MS),
+        AgeFilter(R.string.diary_age_one_year, 365L * DAY_MS)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -139,13 +140,13 @@ class FragDiario : Fragment() {
                 result.onSuccess { export ->
                     Toast.makeText(
                         requireContext(),
-                        "Exportadas ${export.countsByType.values.sum()} entrada(s) de diario",
+                        getString(R.string.diary_exported_count, export.countsByType.values.sum()),
                         Toast.LENGTH_LONG
                     ).show()
                 }.onFailure { error ->
                     Toast.makeText(
                         requireContext(),
-                        "Error al exportar: ${error.message ?: "desconocido"}",
+                        getString(R.string.diary_export_error, error.message ?: getString(R.string.common_unknown_error)),
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -194,7 +195,7 @@ class FragDiario : Fragment() {
         val restoreTick by BackupRestoreSignal.restoreTick.collectAsState()
         val refreshTick = screenRefreshTick
         var authState by remember { mutableStateOf(DiarioAuthState.CHECKING) }
-        var authMessage by remember { mutableStateOf("Comprobando biometría...") }
+        var authMessage by remember { mutableStateOf(context.getString(R.string.diary_checking_biometrics)) }
 
         var entradaEnEdicion by remember { mutableStateOf<DiarioEntity?>(null) }
         var entradaAEliminar by remember { mutableStateOf<DiarioEntity?>(null) }
@@ -385,7 +386,7 @@ class FragDiario : Fragment() {
                     message = authMessage,
                     onRetry = {
                         authState = DiarioAuthState.CHECKING
-                        authMessage = "Comprobando biometría..."
+                        authMessage = context.getString(R.string.diary_checking_biometrics)
                         requestDiarioBiometricAccess(
                             onSuccess = {
                                 authState = DiarioAuthState.AUTHORIZED
@@ -414,7 +415,7 @@ class FragDiario : Fragment() {
                     .padding(horizontal = 8.dp)
             ) {
                 Text(
-                    text = "Diario",
+                    text = stringResource(R.string.diary_title),
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier
@@ -431,7 +432,7 @@ class FragDiario : Fragment() {
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_calendar_toggle),
-                        contentDescription = if (showCalendarPanel) "Ocultar calendario" else "Mostrar calendario",
+                        contentDescription = if (showCalendarPanel) stringResource(R.string.common_hide_calendar) else stringResource(R.string.common_show_calendar),
                         tint = if (showCalendarPanel) Color(0xFF0F4C6E) else Color(0xFF1F2D36),
                         modifier = Modifier
                             .padding(end = 4.dp)
@@ -443,7 +444,7 @@ class FragDiario : Fragment() {
                     )
                     if (selectedCalendarDayMillis != null) {
                         TextButton(onClick = { selectedCalendarDayMillis = null }) {
-                            Text("Quitar Selección")
+                            Text(stringResource(R.string.diary_clear_date_selection))
                         }
                     }
                 }
@@ -468,7 +469,7 @@ class FragDiario : Fragment() {
                         onDoubleTapDay = { dayMillis ->
                             val today = startOfDay(System.currentTimeMillis())
                             if (dayMillis > today) {
-                                Toast.makeText(context, "No se puede crear una entrada en una fecha futura", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, context.getString(R.string.diary_future_entry_error), Toast.LENGTH_SHORT).show()
                             } else {
                                 selectedCalendarDayMillis = dayMillis
                                 entradaEnEdicion = null
@@ -498,11 +499,11 @@ class FragDiario : Fragment() {
 
                 if (entradas.isEmpty()) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text("No hay entradas todavía", fontSize = 18.sp)
+                        Text(stringResource(R.string.diary_no_entries), fontSize = 18.sp)
                     }
                 } else if (filtered.isEmpty()) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text("No hay entradas que coincidan", fontSize = 16.sp)
+                        Text(stringResource(R.string.diary_no_matching_entries), fontSize = 16.sp)
                     }
                 } else {
                     LazyColumn(
@@ -539,7 +540,11 @@ class FragDiario : Fragment() {
                                         showItemMenu = itemMenuId == entrada.id,
                                         selectionMode = manualSelectionMode,
                                         isSelected = entrada.id in entradasSeleccionadas,
-                                        fechaTexto = "Modificado: ${dateFormat.format(Date(entrada.fechaM))}\nCreado: ${dateFormat.format(Date(entrada.fecha))}",
+                                        fechaTexto = stringResource(
+                                            R.string.diary_dates,
+                                            dateFormat.format(Date(entrada.fechaM)),
+                                            dateFormat.format(Date(entrada.fecha))
+                                        ),
                                         onToggleSelection = { toggleBatchSelection(entrada.id) },
                                         onStartSelection = {
                                             itemMenuId = null
@@ -617,7 +622,7 @@ class FragDiario : Fragment() {
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         FabActionItem(
-                            label = "Nueva entrada",
+                            label = stringResource(R.string.diary_new_entry),
                             iconRes = R.drawable.ic_note_add,
                             onClick = {
                                 showFabMenu = false
@@ -627,7 +632,7 @@ class FragDiario : Fragment() {
                             }
                         )
                         FabActionItem(
-                            label = "Estadísticas",
+                            label = stringResource(R.string.diary_statistics),
                             iconRes = R.drawable.ic_item,
                             onClick = {
                                 showFabMenu = false
@@ -635,7 +640,7 @@ class FragDiario : Fragment() {
                             }
                         )
                         FabActionItem(
-                            label = "Resumen semanal",
+                            label = stringResource(R.string.diary_weekly_summary),
                             iconRes = R.drawable.ic_calendar_toggle,
                             onClick = {
                                 showFabMenu = false
@@ -643,7 +648,7 @@ class FragDiario : Fragment() {
                             }
                         )
                         FabActionItem(
-                            label = if (manualSelectionMode) "Salir selección múltiple" else "Selección múltiple",
+                            label = if (manualSelectionMode) stringResource(R.string.common_exit_multi_select) else stringResource(R.string.common_multi_select),
                             iconRes = R.drawable.ic_list,
                             onClick = {
                                 showFabMenu = false
@@ -654,7 +659,7 @@ class FragDiario : Fragment() {
                             }
                         )
                         FabActionItem(
-                            label = if (showFilterPanel) "Ocultar filtros" else "Mostrar filtros",
+                            label = if (showFilterPanel) stringResource(R.string.diary_hide_filters) else stringResource(R.string.diary_show_filters),
                             iconRes = R.drawable.ic_show,
                             onClick = {
                                 showFabMenu = false
@@ -662,7 +667,7 @@ class FragDiario : Fragment() {
                             }
                         )
                         FabActionItem(
-                            label = if (sortMode == SortMode.CREATION) "Orden: creación" else "Orden: modificación",
+                            label = if (sortMode == SortMode.CREATION) stringResource(R.string.diary_sort_creation) else stringResource(R.string.diary_sort_modification),
                             iconRes = R.drawable.ic_refress,
                             onClick = {
                                 showFabMenu = false
@@ -679,7 +684,7 @@ class FragDiario : Fragment() {
                 ) {
                     Icon(
                         painter = painterResource(id = if (showFabMenu) R.drawable.ic_abajo else R.drawable.ic_menu_open),
-                        contentDescription = "Menú Diario"
+                        contentDescription = stringResource(R.string.diary_menu)
                     )
                 }
             }
@@ -727,7 +732,7 @@ class FragDiario : Fragment() {
                 },
                 onSave = { title, content, emotionKey, capitulo, isFav ->
                     if (title.isBlank()) {
-                        Toast.makeText(context, "Debes escribir un título", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.diary_title_required), Toast.LENGTH_SHORT).show()
                         false
                     } else {
                         dbExecutor.execute {
@@ -735,7 +740,7 @@ class FragDiario : Fragment() {
                             if (existing == null) {
                                 diarioRepository().insertar(
                                     title = title.trim(),
-                                    content = content.trim().ifBlank { DEFAULT_NEW_CONTENT },
+                                    content = content.trim().ifBlank { context.getString(R.string.diary_default_new_content) },
                                     emocion = emotionKey,
                                     capitulo = capitulo,
                                     isFav = isFav,
@@ -778,13 +783,13 @@ class FragDiario : Fragment() {
         pendingBatchEmotion?.let { emotion ->
             AlertDialog(
                 onDismissRequest = { pendingBatchEmotion = null },
-                title = { Text("Cambiar emoción") },
+                title = { Text(stringResource(R.string.diary_change_emotion)) },
                 text = {
-                    Text("¿Cambiar a ${emotion.emoji} la emoción de ${entradasSeleccionadas.size} entradas seleccionadas?")
+                    Text(stringResource(R.string.diary_change_selected_emotion_question, emotion.emoji, entradasSeleccionadas.size))
                 },
                 dismissButton = {
                     TextButton(onClick = { pendingBatchEmotion = null }) {
-                        Text(getString(R.string.cancelar))
+                        Text(stringResource(R.string.common_cancel))
                     }
                 },
                 confirmButton = {
@@ -807,11 +812,11 @@ class FragDiario : Fragment() {
                                 entradasSeleccionadas.clear()
                                 manualSelectionMode = false
                                 recargarEntradas()
-                                Toast.makeText(context, "Emoción actualizada", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, context.getString(R.string.diary_emotion_updated), Toast.LENGTH_SHORT).show()
                             }
                         }
                     }) {
-                        Text("Confirmar")
+                        Text(stringResource(R.string.common_confirm))
                     }
                 }
             )
@@ -819,8 +824,8 @@ class FragDiario : Fragment() {
 
         if (showBatchChapterPicker) {
             ChangeEntryChapterDialog(
-                title = "Cambiar capítulo",
-                message = "Elige un capítulo existente o escribe uno nuevo para ${entradasSeleccionadas.size} entradas seleccionadas.",
+                title = stringResource(R.string.diary_change_chapter),
+                message = stringResource(R.string.diary_change_selected_chapter_description, entradasSeleccionadas.size),
                 initialChapter = "",
                 capitulosExistentes = capitulosExistentes,
                 onDismiss = { showBatchChapterPicker = false },
@@ -835,7 +840,7 @@ class FragDiario : Fragment() {
                             entradasSeleccionadas.clear()
                             manualSelectionMode = false
                             recargarEntradas()
-                            Toast.makeText(context, "Capítulo actualizado", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, context.getString(R.string.diary_chapter_updated), Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -845,13 +850,13 @@ class FragDiario : Fragment() {
         if (showBatchDeleteConfirmation) {
             AlertDialog(
                 onDismissRequest = { showBatchDeleteConfirmation = false },
-                title = { Text("Eliminar entradas") },
+                title = { Text(stringResource(R.string.diary_delete_entries)) },
                 text = {
-                    Text("¿Seguro que quieres eliminar ${entradasSeleccionadas.size} entradas seleccionadas?")
+                    Text(stringResource(R.string.diary_delete_selected_question, entradasSeleccionadas.size))
                 },
                 dismissButton = {
                     TextButton(onClick = { showBatchDeleteConfirmation = false }) {
-                        Text(getString(R.string.cancelar))
+                        Text(stringResource(R.string.common_cancel))
                     }
                 },
                 confirmButton = {
@@ -864,11 +869,11 @@ class FragDiario : Fragment() {
                                 entradasSeleccionadas.clear()
                                 manualSelectionMode = false
                                 recargarEntradas()
-                                Toast.makeText(context, "Entradas eliminadas", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, context.getString(R.string.diary_entries_deleted), Toast.LENGTH_SHORT).show()
                             }
                         }
                     }) {
-                        Text(getString(R.string.eliminar))
+                        Text(stringResource(R.string.common_delete))
                     }
                 }
             )
@@ -877,18 +882,18 @@ class FragDiario : Fragment() {
         titleDialogTarget?.let { target ->
             AlertDialog(
                 onDismissRequest = { titleDialogTarget = null },
-                title = { Text("Modificar título") },
+                title = { Text(stringResource(R.string.diary_edit_title)) },
                 text = {
                     OutlinedTextField(
                         value = titleDialogText,
                         onValueChange = { titleDialogText = it },
                         singleLine = true,
-                        label = { Text("Título") }
+                        label = { Text(stringResource(R.string.common_title)) }
                     )
                 },
                 dismissButton = {
                     TextButton(onClick = { titleDialogTarget = null }) {
-                        Text(getString(R.string.cancelar))
+                        Text(stringResource(R.string.common_cancel))
                     }
                 },
                 confirmButton = {
@@ -899,7 +904,7 @@ class FragDiario : Fragment() {
                         }
                         titleDialogTarget = null
                     }) {
-                        Text(getString(R.string.guardar))
+                        Text(stringResource(R.string.common_save))
                     }
                 }
             )
@@ -907,8 +912,8 @@ class FragDiario : Fragment() {
 
         entradaACambiarCapitulo?.let { target ->
             ChangeEntryChapterDialog(
-                title = "Cambiar capítulo",
-                message = "Elige un capítulo existente o escribe uno nuevo para esta entrada.",
+                title = stringResource(R.string.diary_change_chapter),
+                message = stringResource(R.string.diary_change_entry_chapter_description),
                 initialChapter = target.capitulo,
                 capitulosExistentes = capitulosExistentes,
                 onDismiss = { entradaACambiarCapitulo = null },
@@ -918,7 +923,7 @@ class FragDiario : Fragment() {
                         activity?.runOnUiThread {
                             entradaACambiarCapitulo = null
                             recargarEntradas()
-                            Toast.makeText(context, "Capítulo actualizado", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, context.getString(R.string.diary_chapter_updated), Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -941,7 +946,7 @@ class FragDiario : Fragment() {
                             }
                             capituloARenombrar = null
                             recargarEntradas()
-                            Toast.makeText(context, "Capítulo actualizado", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, context.getString(R.string.diary_chapter_updated), Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -962,7 +967,7 @@ class FragDiario : Fragment() {
                             capitulosPlegados.remove(capitulo)
                             capituloAMover = null
                             recargarEntradas()
-                            Toast.makeText(context, "Entradas movidas", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, context.getString(R.string.diary_entries_moved), Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -972,11 +977,11 @@ class FragDiario : Fragment() {
         capituloAEliminar?.let { capitulo ->
             AlertDialog(
                 onDismissRequest = { capituloAEliminar = null },
-                title = { Text("Eliminar entradas") },
-                text = { Text("¿Eliminar todas las entradas de \"$capitulo\"? Esta acción no se puede deshacer.") },
+                title = { Text(stringResource(R.string.diary_delete_entries)) },
+                text = { Text(stringResource(R.string.diary_delete_chapter_entries_question, displayChapterName(capitulo))) },
                 dismissButton = {
                     TextButton(onClick = { capituloAEliminar = null }) {
-                        Text(getString(R.string.cancelar))
+                        Text(stringResource(R.string.common_cancel))
                     }
                 },
                 confirmButton = {
@@ -988,11 +993,11 @@ class FragDiario : Fragment() {
                                 capitulosPlegados.remove(capitulo)
                                 capituloAEliminar = null
                                 recargarEntradas()
-                                Toast.makeText(context, "Entradas eliminadas", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, context.getString(R.string.diary_entries_deleted), Toast.LENGTH_SHORT).show()
                             }
                         }
                     }) {
-                        Text(getString(R.string.eliminar))
+                        Text(stringResource(R.string.common_delete))
                     }
                 }
             )
@@ -1001,11 +1006,11 @@ class FragDiario : Fragment() {
         entradaAEliminar?.let { target ->
             AlertDialog(
                 onDismissRequest = { entradaAEliminar = null },
-                title = { Text("Eliminar entrada") },
-                text = { Text("¿Seguro que quieres eliminar '${target.title}'?") },
+                title = { Text(stringResource(R.string.diary_delete_entry)) },
+                text = { Text(stringResource(R.string.diary_delete_entry_question, target.title)) },
                 dismissButton = {
                     TextButton(onClick = { entradaAEliminar = null }) {
-                        Text(getString(R.string.cancelar))
+                        Text(stringResource(R.string.common_cancel))
                     }
                 },
                 confirmButton = {
@@ -1015,11 +1020,11 @@ class FragDiario : Fragment() {
                             activity?.runOnUiThread {
                                 entradaAEliminar = null
                                 recargarEntradas()
-                                Toast.makeText(context, "Entrada eliminada", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, context.getString(R.string.diary_entry_deleted), Toast.LENGTH_SHORT).show()
                             }
                         }
                     }) {
-                        Text(getString(R.string.eliminar))
+                        Text(stringResource(R.string.common_delete))
                     }
                 }
             )
@@ -1044,14 +1049,14 @@ class FragDiario : Fragment() {
                     selectedExportPassword = ""
                     showSelectedExportDialog = false
                 },
-                title = { Text("Exportar entradas seleccionadas") },
+                title = { Text(stringResource(R.string.diary_export_selected_title)) },
                 text = {
                     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                        Text("Se creará un archivo ${MigrationFormat.FILE_EXTENSION} solo con las entradas seleccionadas.")
+                        Text(stringResource(R.string.diary_export_selected_description, MigrationFormat.FILE_EXTENSION))
                         OutlinedTextField(
                             value = selectedExportPassword,
                             onValueChange = { selectedExportPassword = it },
-                            label = { Text("Contraseña del archivo") },
+                            label = { Text(stringResource(R.string.common_file_password)) },
                             visualTransformation = PasswordVisualTransformation(),
                             modifier = Modifier.fillMaxWidth()
                         )
@@ -1061,11 +1066,11 @@ class FragDiario : Fragment() {
                     TextButton(onClick = {
                         val selected = entradas.filter { it.id in entradasSeleccionadas }
                         if (selected.isEmpty()) {
-                            Toast.makeText(context, "Selecciona al menos una entrada", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, context.getString(R.string.diary_select_entry), Toast.LENGTH_LONG).show()
                             return@TextButton
                         }
                         if (selectedExportPassword.isBlank()) {
-                            Toast.makeText(context, "Introduce una contraseña", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, context.getString(R.string.diary_enter_password), Toast.LENGTH_LONG).show()
                             return@TextButton
                         }
                         val db = NevilleRoomDatabase.getInstance(context.applicationContext)
@@ -1077,7 +1082,7 @@ class FragDiario : Fragment() {
                         showSelectedExportDialog = false
                         createSelectedMigrationExportLauncher.launch("diario-${System.currentTimeMillis()}${MigrationFormat.FILE_EXTENSION}")
                     }) {
-                        Text("Exportar")
+                        Text(stringResource(R.string.common_export))
                     }
                 },
                 dismissButton = {
@@ -1085,7 +1090,7 @@ class FragDiario : Fragment() {
                         selectedExportPassword = ""
                         showSelectedExportDialog = false
                     }) {
-                        Text("Cancelar")
+                        Text(stringResource(R.string.common_cancel))
                     }
                 }
             )
@@ -1122,19 +1127,19 @@ class FragDiario : Fragment() {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 TextButton(onClick = onToggleHide) {
-                    Text(if (hideCalendarGrid) "Mostrar" else "Ocultar")
+                    Text(if (hideCalendarGrid) stringResource(R.string.common_show) else stringResource(R.string.common_hide))
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     TextButton(onClick = onPrevMonth) { Text("◀") }
                     Text(monthText, fontWeight = FontWeight.SemiBold)
                     TextButton(onClick = onNextMonth) { Text("▶") }
                 }
-                TextButton(onClick = onToday) { Text("Hoy") }
+                TextButton(onClick = onToday) { Text(stringResource(R.string.common_today)) }
             }
 
             if (!hideCalendarGrid) {
                 Row(modifier = Modifier.fillMaxWidth()) {
-                    WEEKDAY_LABELS.forEach { label ->
+                    diaryWeekdayLabels().forEach { label ->
                         Text(
                             text = label,
                             modifier = Modifier.weight(1f),
@@ -1237,25 +1242,25 @@ class FragDiario : Fragment() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "$selectedCount seleccionadas",
+                text = stringResource(R.string.common_selected_count, selectedCount),
                 color = Color.White,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier.padding(end = 10.dp)
             )
             TextButton(onClick = onExport) {
-                Text("Exportar", color = Color.White)
+                Text(stringResource(R.string.common_export), color = Color.White)
             }
             TextButton(onClick = onChangeEmotion) {
-                Text("Emoción", color = Color.White)
+                Text(stringResource(R.string.diary_emotion), color = Color.White)
             }
             TextButton(onClick = onChangeChapter) {
-                Text("Capítulo", color = Color.White)
+                Text(stringResource(R.string.diary_chapter), color = Color.White)
             }
             TextButton(onClick = onDelete) {
-                Text("Eliminar", color = Color(0xFFFFB4AB))
+                Text(stringResource(R.string.common_delete), color = Color(0xFFFFB4AB))
             }
             TextButton(onClick = onCancel) {
-                Text("Cerrar", color = Color.White)
+                Text(stringResource(R.string.common_close), color = Color.White)
             }
         }
     }
@@ -1268,7 +1273,7 @@ class FragDiario : Fragment() {
     ) {
         AlertDialog(
             onDismissRequest = onDismiss,
-            title = { Text("Elegir emoción") },
+            title = { Text(stringResource(R.string.diary_choose_emotion)) },
             text = {
                 FlowRow(
                     modifier = Modifier.fillMaxWidth(),
@@ -1290,7 +1295,7 @@ class FragDiario : Fragment() {
             confirmButton = {},
             dismissButton = {
                 TextButton(onClick = onDismiss) {
-                    Text(getString(R.string.cancelar))
+                    Text(stringResource(R.string.common_cancel))
                 }
             }
         )
@@ -1328,10 +1333,10 @@ class FragDiario : Fragment() {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("Filtros", color = Color.White, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
+                Text(stringResource(R.string.diary_filters), color = Color.White, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
                 Row {
-                    TextButton(onClick = onClear) { Text("Limpiar", fontSize = 12.sp, color = Color.White) }
-                    TextButton(onClick = onHide) { Text("Ocultar", fontSize = 12.sp, color = Color.White) }
+                    TextButton(onClick = onClear) { Text(stringResource(R.string.common_clear), fontSize = 12.sp, color = Color.White) }
+                    TextButton(onClick = onHide) { Text(stringResource(R.string.common_hide), fontSize = 12.sp, color = Color.White) }
                 }
             }
 
@@ -1345,7 +1350,7 @@ class FragDiario : Fragment() {
                     modifier = Modifier.weight(1f),
                     singleLine = true,
                     shape = RoundedCornerShape(18.dp),
-                    label = { Text("Buscar en Título", color = Color.White) },
+                    label = { Text(stringResource(R.string.diary_search_title), color = Color.White) },
                     textStyle = androidx.compose.ui.text.TextStyle(color = Color.White),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedTextColor = Color.White,
@@ -1363,7 +1368,7 @@ class FragDiario : Fragment() {
                     modifier = Modifier.weight(1f),
                     singleLine = true,
                     shape = RoundedCornerShape(18.dp),
-                    label = { Text("Buscar en texto", color = Color.White) },
+                    label = { Text(stringResource(R.string.diary_search_text), color = Color.White) },
                     textStyle = androidx.compose.ui.text.TextStyle(color = Color.White),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedTextColor = Color.White,
@@ -1383,7 +1388,7 @@ class FragDiario : Fragment() {
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 shape = RoundedCornerShape(18.dp),
-                label = { Text("Buscar por capítulo", color = Color.White) },
+                label = { Text(stringResource(R.string.diary_search_chapter), color = Color.White) },
                 textStyle = androidx.compose.ui.text.TextStyle(color = Color.White),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = Color.White,
@@ -1398,7 +1403,7 @@ class FragDiario : Fragment() {
 
             FlowRow(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 FilterChip(
-                    label = "Todas",
+                    label = stringResource(R.string.common_all),
                     selected = filtroEmocionKey == "all",
                     onClick = { onFiltroEmocionKeyChange("all") }
                 )
@@ -1414,7 +1419,7 @@ class FragDiario : Fragment() {
             FlowRow(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 FavoritoFiltro.entries.forEach { option ->
                     FilterChip(
-                        label = option.label,
+                        label = option.localizedLabel(),
                         selected = filtroFav == option,
                         onClick = { onFiltroFavChange(option) }
                     )
@@ -1424,7 +1429,7 @@ class FragDiario : Fragment() {
             FlowRow(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 filtrosAntiguedad.forEach { age ->
                     FilterChip(
-                        label = age.label,
+                        label = stringResource(age.labelRes),
                         selected = filtroAntiguedad == age,
                         onClick = { onFiltroAntiguedadChange(age) }
                     )
@@ -1522,7 +1527,7 @@ class FragDiario : Fragment() {
                             fontWeight = FontWeight.Bold,
                             color = colorResource(id = R.color.nota_title)
                         ),
-                        placeholder = { Text("Título de la entrada", color = Color(0xFFE6ECEF)) },
+                        placeholder = { Text(stringResource(R.string.diary_entry_title_placeholder), color = Color(0xFFE6ECEF)) },
                         singleLine = true
                     )
 
@@ -1536,7 +1541,7 @@ class FragDiario : Fragment() {
                         ),
                         placeholder = {
                             Text(
-                                if (entradaEnEdicion == null) DEFAULT_NEW_CONTENT else "¿Qué ocurrió hoy?",
+                                if (entradaEnEdicion == null) stringResource(R.string.diary_new_content_placeholder) else stringResource(R.string.diary_what_happened_today),
                                 color = Color(0xFFE6ECEF)
                             )
                         }
@@ -1549,12 +1554,12 @@ class FragDiario : Fragment() {
                             modifier = Modifier.fillMaxWidth(),
                             singleLine = true,
                             textStyle = androidx.compose.ui.text.TextStyle(color = Color.White),
-                            label = { Text("Capítulo", color = Color.White) },
-                            placeholder = { Text("Ej. Mis recuerdos del pasado verano", color = Color(0xFFE6ECEF)) },
+                            label = { Text(stringResource(R.string.diary_chapter), color = Color.White) },
+                            placeholder = { Text(stringResource(R.string.diary_chapter_example), color = Color(0xFFE6ECEF)) },
                             trailingIcon = {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_menu_open),
-                                    contentDescription = "Capítulos existentes",
+                                    contentDescription = stringResource(R.string.diary_existing_chapters),
                                     tint = Color.White,
                                     modifier = Modifier.clickable { showChapterMenu = true }
                                 )
@@ -1565,7 +1570,7 @@ class FragDiario : Fragment() {
                             onDismissRequest = { showChapterMenu = false }
                         ) {
                             DropdownMenuItem(
-                                text = { Text(SIN_CAPITULO) },
+                                text = { Text(stringResource(R.string.diary_no_chapter)) },
                                 onClick = {
                                     capitulo = ""
                                     showChapterMenu = false
@@ -1583,7 +1588,7 @@ class FragDiario : Fragment() {
                         }
                     }
 
-                    Text(text = "Emoción", fontWeight = FontWeight.SemiBold, color = Color.White)
+                    Text(text = stringResource(R.string.diary_emotion), fontWeight = FontWeight.SemiBold, color = Color.White)
                     FlowRow(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(6.dp),
@@ -1608,21 +1613,21 @@ class FragDiario : Fragment() {
                     Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_toolbar_favorite),
-                            contentDescription = "Favorito",
+                            contentDescription = stringResource(R.string.diary_favorite),
                             tint = if (isFav) Color(0xFFFF9800) else colorResource(id = R.color.fav_inactive),
                             modifier = Modifier.size(22.dp)
                         )
                         TextButton(onClick = { isFav = !isFav }) {
-                            Text(if (isFav) "Quitar favorito" else "Marcar favorito", color = Color.Yellow)
+                            Text(if (isFav) stringResource(R.string.diary_remove_favorite) else stringResource(R.string.diary_mark_favorite), color = Color.Yellow)
                         }
                     }
 
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                         Button(onClick = onDismiss, modifier = Modifier.padding(end = 50.dp)) {
-                            Text(getString(R.string.cerrar))
+                            Text(stringResource(R.string.common_close))
                         }
                         Button(onClick = { onSave(titulo, contenido, emocionKey, capitulo, isFav) }) {
-                            Text(getString(R.string.guardar))
+                            Text(stringResource(R.string.common_save))
                         }
                     }
                 }
@@ -1688,7 +1693,7 @@ class FragDiario : Fragment() {
                     DropdownMenu(expanded = showEmotionMenu && !selectionMode, onDismissRequest = onToggleEmotionMenu) {
                         DiarioEmotion.entries.forEach { emo ->
                             DropdownMenuItem(
-                                text = { Text("${emo.label} ${emo.emoji}") },
+                                text = { Text("${emo.localizedLabel()} ${emo.emoji}") },
                                 onClick = { onChangeEmotion(emo) }
                             )
                         }
@@ -1721,16 +1726,16 @@ class FragDiario : Fragment() {
                     Box {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_menu_open),
-                            contentDescription = "Opciones",
+                            contentDescription = stringResource(R.string.common_options),
                             tint = Color.Black,
                             modifier = Modifier
                                 .size(20.dp)
                                 .clickable(onClick = onToggleItemMenu)
                         )
                         DropdownMenu(expanded = showItemMenu, onDismissRequest = onToggleItemMenu) {
-                            DropdownMenuItem(text = { Text("Cambiar capítulo") }, onClick = onChangeChapter)
-                            DropdownMenuItem(text = { Text("Editar") }, onClick = onEdit)
-                            DropdownMenuItem(text = { Text("Eliminar") }, onClick = onDelete)
+                            DropdownMenuItem(text = { Text(stringResource(R.string.diary_change_chapter)) }, onClick = onChangeChapter)
+                            DropdownMenuItem(text = { Text(stringResource(R.string.common_edit)) }, onClick = onEdit)
+                            DropdownMenuItem(text = { Text(stringResource(R.string.common_delete)) }, onClick = onDelete)
                         }
                     }
                 }
@@ -1768,7 +1773,7 @@ class FragDiario : Fragment() {
                 )
                 Icon(
                     painter = painterResource(id = R.drawable.ic_toolbar_favorite),
-                    contentDescription = "Favorito",
+                    contentDescription = stringResource(R.string.diary_favorite),
                     tint = if (entrada.isFav) Color(0xFFD32F2F) else Color(0xFF888888),
                     modifier = Modifier.size(24.dp)
                         .clickable {
@@ -1807,7 +1812,7 @@ class FragDiario : Fragment() {
                 modifier = Modifier.padding(end = 8.dp)
             )
             Text(
-                text = capitulo,
+                text = displayChapterName(capitulo),
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,
@@ -1823,7 +1828,7 @@ class FragDiario : Fragment() {
             Box {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_menu_open),
-                    contentDescription = "Opciones de capítulo",
+                    contentDescription = stringResource(R.string.diary_chapter_options),
                     tint = Color.White,
                     modifier = Modifier
                         .size(20.dp)
@@ -1834,21 +1839,21 @@ class FragDiario : Fragment() {
                     onDismissRequest = { showChapterMenu = false }
                 ) {
                     DropdownMenuItem(
-                        text = { Text("Editar nombre del capítulo") },
+                        text = { Text(stringResource(R.string.diary_edit_chapter_name)) },
                         onClick = {
                             showChapterMenu = false
                             onRename()
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text("Pasar entradas a otro capítulo") },
+                        text = { Text(stringResource(R.string.diary_move_entries_to_chapter)) },
                         onClick = {
                             showChapterMenu = false
                             onMove()
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text("Eliminar entradas de este capítulo") },
+                        text = { Text(stringResource(R.string.diary_delete_chapter_entries)) },
                         onClick = {
                             showChapterMenu = false
                             onDelete()
@@ -1871,23 +1876,23 @@ class FragDiario : Fragment() {
 
         AlertDialog(
             onDismissRequest = onDismiss,
-            title = { Text("Editar capítulo") },
+            title = { Text(stringResource(R.string.diary_edit_chapter)) },
             text = {
                 OutlinedTextField(
                     value = draft,
                     onValueChange = { draft = it },
                     singleLine = true,
-                    label = { Text("Capítulo") }
+                    label = { Text(stringResource(R.string.diary_chapter)) }
                 )
             },
             dismissButton = {
                 TextButton(onClick = onDismiss) {
-                    Text(getString(R.string.cancelar))
+                    Text(stringResource(R.string.common_cancel))
                 }
             },
             confirmButton = {
                 TextButton(onClick = { onRename(draft) }) {
-                    Text(getString(R.string.guardar))
+                    Text(stringResource(R.string.common_save))
                 }
             }
         )
@@ -1917,12 +1922,12 @@ class FragDiario : Fragment() {
                             onValueChange = { draft = it },
                             modifier = Modifier.fillMaxWidth(),
                             singleLine = true,
-                            label = { Text("Capítulo") },
-                            placeholder = { Text("Nuevo capítulo") },
+                            label = { Text(stringResource(R.string.diary_chapter)) },
+                            placeholder = { Text(stringResource(R.string.diary_new_chapter)) },
                             trailingIcon = {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_menu_open),
-                                    contentDescription = "Capítulos existentes",
+                                    contentDescription = stringResource(R.string.diary_existing_chapters),
                                     modifier = Modifier.clickable { showChapterMenu = true }
                                 )
                             }
@@ -1932,7 +1937,7 @@ class FragDiario : Fragment() {
                             onDismissRequest = { showChapterMenu = false }
                         ) {
                             DropdownMenuItem(
-                                text = { Text(SIN_CAPITULO) },
+                                text = { Text(stringResource(R.string.diary_no_chapter)) },
                                 onClick = {
                                     draft = ""
                                     showChapterMenu = false
@@ -1953,12 +1958,12 @@ class FragDiario : Fragment() {
             },
             dismissButton = {
                 TextButton(onClick = onDismiss) {
-                    Text(getString(R.string.cancelar))
+                    Text(stringResource(R.string.common_cancel))
                 }
             },
             confirmButton = {
                 TextButton(onClick = { onApply(draft.trim()) }) {
-                    Text(getString(R.string.guardar))
+                    Text(stringResource(R.string.common_save))
                 }
             }
         )
@@ -1977,12 +1982,12 @@ class FragDiario : Fragment() {
 
         AlertDialog(
             onDismissRequest = onDismiss,
-            title = { Text("Mover entradas") },
+            title = { Text(stringResource(R.string.diary_move_entries)) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text("Elige el capítulo de destino para las entradas de \"$capitulo\".")
+                    Text(stringResource(R.string.diary_choose_destination_chapter, displayChapterName(capitulo)))
                     if (capitulosDisponibles.isEmpty()) {
-                        Text("No hay otro capítulo existente.")
+                        Text(stringResource(R.string.diary_no_other_chapter))
                     } else {
                         capitulosDisponibles.forEach { destino ->
                             Text(
@@ -2002,7 +2007,7 @@ class FragDiario : Fragment() {
             },
             dismissButton = {
                 TextButton(onClick = onDismiss) {
-                    Text(getString(R.string.cancelar))
+                    Text(stringResource(R.string.common_cancel))
                 }
             },
             confirmButton = {
@@ -2010,7 +2015,7 @@ class FragDiario : Fragment() {
                     enabled = selected.isNotBlank(),
                     onClick = { onMove(selected) }
                 ) {
-                    Text("Mover")
+                    Text(stringResource(R.string.common_move))
                 }
             }
         )
@@ -2098,7 +2103,7 @@ class FragDiario : Fragment() {
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Text(
-                    text = "Diario Protegido",
+                    text = stringResource(R.string.diary_protected),
                     fontSize = 26.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF1D2B34)
@@ -2110,7 +2115,7 @@ class FragDiario : Fragment() {
                 )
                 if (state != DiarioAuthState.UNAVAILABLE) {
                     Button(onClick = onRetry) {
-                        Text("Reintentar biometría")
+                        Text(stringResource(R.string.diary_retry_biometrics))
                     }
                 }
             }
@@ -2128,11 +2133,11 @@ class FragDiario : Fragment() {
         val biometricManager = BiometricManager.from(requireContext())
         when (biometricManager.canAuthenticate(authenticators)) {
             BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE ->
-                onUnavailable("Este dispositivo no dispone de biometría para acceder al Diario.")
+                onUnavailable(getString(R.string.diary_no_biometric_hardware))
             BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE ->
-                onUnavailable("La biometría no está disponible en este momento.")
+                onUnavailable(getString(R.string.diary_biometrics_unavailable))
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED ->
-                onUnavailable("No hay biometría configurada en el dispositivo. Actívala para acceder al Diario.")
+                onUnavailable(getString(R.string.diary_biometrics_not_configured))
             BiometricManager.BIOMETRIC_SUCCESS -> {
                 val executor = ContextCompat.getMainExecutor(requireContext())
                 val prompt = BiometricPrompt(
@@ -2148,21 +2153,21 @@ class FragDiario : Fragment() {
                         }
 
                         override fun onAuthenticationFailed() {
-                            onFailed("No se pudo verificar la identidad. Inténtalo de nuevo.")
+                            onFailed(getString(R.string.diary_identity_verification_failed))
                         }
                     }
                 )
 
                 val promptInfo = BiometricPrompt.PromptInfo.Builder()
-                    .setTitle("Acceso al Diario")
-                    .setSubtitle("Bienvenido al Diario. Usa biometría para acceder.")
+                    .setTitle(getString(R.string.diary_access_title))
+                    .setSubtitle(getString(R.string.diary_access_subtitle))
                     .setAllowedAuthenticators(authenticators)
-                    .setNegativeButtonText("Cancelar")
+                    .setNegativeButtonText(getString(R.string.common_cancel))
                     .build()
 
                 prompt.authenticate(promptInfo)
             }
-            else -> onUnavailable("No se pudo inicializar la biometría en este dispositivo.")
+            else -> onUnavailable(getString(R.string.diary_biometrics_initialization_failed))
         }
     }
 
@@ -2181,14 +2186,14 @@ class FragDiario : Fragment() {
     )
 
     private data class AgeFilter(
-        val label: String,
+        val labelRes: Int,
         val maxAgeMillis: Long?
     )
 
-    private enum class FavoritoFiltro(val label: String) {
-        TODAS("Todas"),
-        SOLO_FAVORITAS("Favoritas"),
-        SOLO_NO_FAVORITAS("No favoritas")
+    private enum class FavoritoFiltro {
+        TODAS,
+        SOLO_FAVORITAS,
+        SOLO_NO_FAVORITAS
     }
 
     private enum class SortMode {
@@ -2203,18 +2208,18 @@ class FragDiario : Fragment() {
         UNAVAILABLE
     }
 
-    private enum class DiarioEmotion(val key: String, val label: String, val emoji: String) {
-        FELIZ("feliz", "Feliz", "😊"),
-        TRISTE("triste", "Triste", "🥺"),
-        ENFADADO("enfadado", "Enfadado", "😤"),
-        DESANIMADO("desanimado", "Desanimado", "😔"),
-        SORPRESA("sorpresa", "Sorpresa", "😮"),
-        DISTRAIDO("distraido", "Distraído", "🙄"),
-        NEUTRAL("neutral", "Neutral", "🙂"),
-        ENAMORADO("enamorado", "Enamorado", "🥰"),
-        ENFERMO("enfermo", "Enfermo", "🤒"),
-        PENSATIVO("pensativo", "Pensativo", "🤔"),
-        FESTIVO("festivo", "Festivo", "🥳");
+    private enum class DiarioEmotion(val key: String, val emoji: String) {
+        FELIZ("feliz", "😊"),
+        TRISTE("triste", "🥺"),
+        ENFADADO("enfadado", "😤"),
+        DESANIMADO("desanimado", "😔"),
+        SORPRESA("sorpresa", "😮"),
+        DISTRAIDO("distraido", "🙄"),
+        NEUTRAL("neutral", "🙂"),
+        ENAMORADO("enamorado", "🥰"),
+        ENFERMO("enfermo", "🤒"),
+        PENSATIVO("pensativo", "🤔"),
+        FESTIVO("festivo", "🥳");
 
         companion object {
             fun fromStored(stored: String?): DiarioEmotion? {
@@ -2225,11 +2230,46 @@ class FragDiario : Fragment() {
         }
     }
 
+    @Composable
+    private fun FavoritoFiltro.localizedLabel(): String = when (this) {
+        FavoritoFiltro.TODAS -> stringResource(R.string.common_all)
+        FavoritoFiltro.SOLO_FAVORITAS -> stringResource(R.string.diary_favorites)
+        FavoritoFiltro.SOLO_NO_FAVORITAS -> stringResource(R.string.diary_not_favorites)
+    }
+
+    @Composable
+    private fun DiarioEmotion.localizedLabel(): String = when (this) {
+        DiarioEmotion.FELIZ -> stringResource(R.string.diary_emotion_happy)
+        DiarioEmotion.TRISTE -> stringResource(R.string.diary_emotion_sad)
+        DiarioEmotion.ENFADADO -> stringResource(R.string.diary_emotion_angry)
+        DiarioEmotion.DESANIMADO -> stringResource(R.string.diary_emotion_discouraged)
+        DiarioEmotion.SORPRESA -> stringResource(R.string.diary_emotion_surprised)
+        DiarioEmotion.DISTRAIDO -> stringResource(R.string.diary_emotion_distracted)
+        DiarioEmotion.NEUTRAL -> stringResource(R.string.diary_emotion_neutral)
+        DiarioEmotion.ENAMORADO -> stringResource(R.string.diary_emotion_loving)
+        DiarioEmotion.ENFERMO -> stringResource(R.string.diary_emotion_unwell)
+        DiarioEmotion.PENSATIVO -> stringResource(R.string.diary_emotion_thoughtful)
+        DiarioEmotion.FESTIVO -> stringResource(R.string.diary_emotion_celebratory)
+    }
+
+    @Composable
+    private fun displayChapterName(chapter: String): String =
+        if (chapter == SIN_CAPITULO) stringResource(R.string.diary_no_chapter) else chapter
+
+    @Composable
+    private fun diaryWeekdayLabels(): List<String> = listOf(
+        stringResource(R.string.diary_weekday_mon),
+        stringResource(R.string.diary_weekday_tue),
+        stringResource(R.string.diary_weekday_wed),
+        stringResource(R.string.diary_weekday_thu),
+        stringResource(R.string.diary_weekday_fri),
+        stringResource(R.string.diary_weekday_sat),
+        stringResource(R.string.diary_weekday_sun)
+    )
+
     companion object {
         private const val DAY_MS = 24L * 60 * 60 * 1000
-        private const val DEFAULT_NEW_CONTENT = "Nuevo Contenido!"
         private const val SIN_CAPITULO = "Sin capítulo"
-        private val WEEKDAY_LABELS = listOf("Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom")
     }
 }
 
@@ -2258,7 +2298,7 @@ private fun DiarioFullPreview() {
                 .padding(horizontal = 8.dp)
         ) {
             Text(
-                text = "Diario",
+                text = stringResource(R.string.diary_title),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
@@ -2275,12 +2315,12 @@ private fun DiarioFullPreview() {
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_calendar_toggle),
-                    contentDescription = "Mostrar calendario",
+                    contentDescription = stringResource(R.string.common_show_calendar),
                     tint = Color(0xFF1F2D36),
                     modifier = Modifier.size(24.dp)
                 )
                 TextButton(onClick = {}) {
-                    Text("Quitar Selección")
+                    Text(stringResource(R.string.diary_clear_date_selection))
                 }
             }
 
@@ -2292,7 +2332,7 @@ private fun DiarioFullPreview() {
                     .padding(10.dp)
             ) {
                 Text(
-                    text = "Calendario (Preview)",
+                    text = stringResource(R.string.common_calendar),
                     fontSize = 12.sp,
                     color = Color(0xFF465862)
                 )
@@ -2309,7 +2349,7 @@ private fun DiarioFullPreview() {
                 Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                     Text("🙂", fontSize = 34.sp)
                     Text(
-                        text = "Entrada de ejemplo",
+                        text = stringResource(R.string.diary_preview_title),
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier
@@ -2318,14 +2358,14 @@ private fun DiarioFullPreview() {
                     )
                     Icon(
                         painter = painterResource(id = R.drawable.ic_menu_open),
-                        contentDescription = "Opciones",
+                        contentDescription = stringResource(R.string.common_options),
                         tint = Color.Black,
                         modifier = Modifier.size(20.dp)
                     )
                 }
 
                 Text(
-                    text = "Contenido de ejemplo para previsualizar colores y contraste del Diario.",
+                    text = stringResource(R.string.diary_preview_content),
                     fontSize = 18.sp,
                     fontFamily = FontFamily.Serif,
                     fontStyle = FontStyle.Italic,
@@ -2343,7 +2383,7 @@ private fun DiarioFullPreview() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Modificado: 08/04/2026 18:30\nCreado: 08/04/2026 10:20",
+                        text = stringResource(R.string.diary_dates, "08/04/2026 18:30", "08/04/2026 10:20"),
                         fontSize = 11.sp,
                         lineHeight = 14.sp,
                         color = Color(0xFF4D4D4D),
@@ -2351,7 +2391,7 @@ private fun DiarioFullPreview() {
                     )
                     Icon(
                         painter = painterResource(id = R.drawable.ic_toolbar_favorite),
-                        contentDescription = "Favorito",
+                        contentDescription = stringResource(R.string.diary_favorite),
                         tint = Color(0xFFD32F2F),
                         modifier = Modifier.size(24.dp)
                     )
@@ -2369,7 +2409,7 @@ private fun DiarioFullPreview() {
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_menu_open),
-                contentDescription = "Menú Diario"
+                contentDescription = stringResource(R.string.diary_menu)
             )
         }
     }

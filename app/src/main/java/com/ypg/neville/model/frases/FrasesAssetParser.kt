@@ -1,6 +1,7 @@
 package com.ypg.neville.model.frases
 
 import android.content.Context
+import com.ypg.neville.localization.AuthorContentLocalization
 
 data class ParsedFrase(
     val assetKey: String,
@@ -31,6 +32,10 @@ object FrasesAssetParser {
         SourceSpec("frases/listfrases_otros.txt", CATEGORIA_OTROS),
         SourceSpec("frases/listfrases_salud.txt", CATEGORIA_SALUD)
     )
+
+    fun localizedSourceSpecs(context: Context): List<SourceSpec> = sourceSpecs.map { spec ->
+        spec.copy(assetPath = AuthorContentLocalization.resolveAssetPath(context, spec.assetPath))
+    }
 
     fun parse(context: Context, spec: SourceSpec): List<ParsedFrase> {
         val raw = context.assets.open(spec.assetPath).bufferedReader(Charsets.UTF_8).use { it.readText() }

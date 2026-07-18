@@ -1,6 +1,7 @@
 package com.ypg.neville.ui.frag
 
 import android.os.Bundle
+import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -35,11 +36,13 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.ypg.neville.MainActivity
+import com.ypg.neville.R
 import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.utils.FraseContextActions
 import java.util.concurrent.Executors
@@ -75,7 +78,7 @@ class FragImportSharedText : Fragment() {
         val context = LocalContext.current
         var sharedText by rememberSaveable { mutableStateOf(initialText) }
         var target by rememberSaveable { mutableStateOf(ImportTarget.NOTA) }
-        var notaTitulo by rememberSaveable { mutableStateOf(defaultNoteTitle(initialText)) }
+        var notaTitulo by rememberSaveable { mutableStateOf(defaultNoteTitle(context, initialText)) }
         var fraseAutor by rememberSaveable { mutableStateOf("Web") }
         var fraseFuente by rememberSaveable { mutableStateOf("") }
         var showInvalidDialog by remember { mutableStateOf(false) }
@@ -91,7 +94,7 @@ class FragImportSharedText : Fragment() {
             dbExecutor.execute {
                 val ok = when (target) {
                     ImportTarget.NOTA -> {
-                        val title = notaTitulo.trim().ifBlank { defaultNoteTitle(cleanText) }
+                        val title = notaTitulo.trim().ifBlank { defaultNoteTitle(context, cleanText) }
                         utilsDB.insertNewApunte(context, title, cleanText) > 0L
                     }
                     ImportTarget.FRASE -> {
@@ -111,11 +114,11 @@ class FragImportSharedText : Fragment() {
                     if (ok) {
                         when (target) {
                             ImportTarget.NOTA -> {
-                                Toast.makeText(context, "Texto importado a Notas", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, context.getString(R.string.shared_import_success_notes), Toast.LENGTH_SHORT).show()
                                 dismissHostSheet()
                             }
                             ImportTarget.FRASE -> {
-                                Toast.makeText(context, "Texto importado a Frases", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, context.getString(R.string.shared_import_success_quotes), Toast.LENGTH_SHORT).show()
                                 dismissHostSheet()
                             }
                             ImportTarget.LIENZO -> {
@@ -124,7 +127,7 @@ class FragImportSharedText : Fragment() {
                             }
                         }
                     } else {
-                        Toast.makeText(context, "No se pudo importar el texto", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.shared_import_failed), Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -147,13 +150,13 @@ class FragImportSharedText : Fragment() {
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Text(
-                text = "Importar texto compartido",
+                text = stringResource(R.string.shared_import_title),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
 
             Text(
-                text = "Elige destino y confirma antes de guardar.",
+                text = stringResource(R.string.shared_import_subtitle),
                 color = Color.Black,
                 style = MaterialTheme.typography.bodyMedium
             )
@@ -161,21 +164,21 @@ class FragImportSharedText : Fragment() {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 AssistChip(
                     onClick = { target = ImportTarget.NOTA },
-                    label = { Text("Notas", color = Color.Black) },
+                    label = { Text(stringResource(R.string.home_nav_notes), color = Color.Black) },
                     colors = AssistChipDefaults.assistChipColors(
                         containerColor = if (target == ImportTarget.NOTA) Color(0xFFFF9800) else Color.White
                     )
                 )
                 AssistChip(
                     onClick = { target = ImportTarget.FRASE },
-                    label = { Text("Frases", color = Color.Black) },
+                    label = { Text(stringResource(R.string.home_nav_quotes), color = Color.Black) },
                     colors = AssistChipDefaults.assistChipColors(
                         containerColor = if (target == ImportTarget.FRASE) Color(0xFFFF9800) else Color.White
                     )
                 )
                 AssistChip(
                     onClick = { target = ImportTarget.LIENZO },
-                    label = { Text("Lienzo", color = Color.Black) },
+                    label = { Text(stringResource(R.string.home_nav_canvas), color = Color.Black) },
                     colors = AssistChipDefaults.assistChipColors(
                         containerColor = if (target == ImportTarget.LIENZO) Color(0xFFFF9800) else Color.White
                     )
@@ -188,7 +191,7 @@ class FragImportSharedText : Fragment() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(220.dp),
-                label = { Text("Texto compartido", color = Color.Black) },
+                label = { Text(stringResource(R.string.shared_import_text), color = Color.Black) },
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = Color.Black,
                     unfocusedTextColor = Color.Black
@@ -202,7 +205,7 @@ class FragImportSharedText : Fragment() {
                     value = notaTitulo,
                     onValueChange = { notaTitulo = it },
                     modifier = Modifier.fillMaxWidth(),
-                    label = { Text("Título de la nota", color = Color.Black) },
+                    label = { Text(stringResource(R.string.shared_import_note_title), color = Color.Black) },
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedTextColor = Color.Black,
                         unfocusedTextColor = Color.Black
@@ -214,7 +217,7 @@ class FragImportSharedText : Fragment() {
                     value = fraseAutor,
                     onValueChange = { fraseAutor = it },
                     modifier = Modifier.fillMaxWidth(),
-                    label = { Text("Autor", color = Color.Black) },
+                    label = { Text(stringResource(R.string.phrases_author_field), color = Color.Black) },
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedTextColor = Color.Black,
                         unfocusedTextColor = Color.Black
@@ -225,7 +228,7 @@ class FragImportSharedText : Fragment() {
                     value = fraseFuente,
                     onValueChange = { fraseFuente = it },
                     modifier = Modifier.fillMaxWidth(),
-                    label = { Text("Fuente", color = Color.Black) },
+                    label = { Text(stringResource(R.string.phrases_source_field), color = Color.Black) },
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedTextColor = Color.Black,
                         unfocusedTextColor = Color.Black
@@ -240,7 +243,11 @@ class FragImportSharedText : Fragment() {
                 contentPadding = PaddingValues(vertical = 12.dp)
             ) {
                 Text(
-                    if (saving) "Guardando..." else if (target == ImportTarget.LIENZO) "Cargar en Lienzo" else "Guardar",
+                    stringResource(
+                        if (saving) R.string.shared_import_saving
+                        else if (target == ImportTarget.LIENZO) R.string.shared_import_load_canvas
+                        else R.string.common_save
+                    ),
                     color = Color.Black
                 )
             }
@@ -249,11 +256,11 @@ class FragImportSharedText : Fragment() {
         if (showInvalidDialog) {
             AlertDialog(
                 onDismissRequest = { showInvalidDialog = false },
-                title = { Text("Texto vacío") },
-                text = { Text("Añade o pega contenido antes de guardarlo.") },
+                title = { Text(stringResource(R.string.shared_import_empty_title)) },
+                text = { Text(stringResource(R.string.shared_import_empty_body)) },
                 confirmButton = {
                     TextButton(onClick = { showInvalidDialog = false }) {
-                        Text("Entendido")
+                        Text(stringResource(R.string.shared_import_understood))
                     }
                 }
             )
@@ -271,7 +278,7 @@ class FragImportSharedText : Fragment() {
         }
     }
 
-    private fun defaultNoteTitle(text: String): String {
+    private fun defaultNoteTitle(context: Context, text: String): String {
         val candidate = text
             .lineSequence()
             .map { it.trim() }
@@ -281,9 +288,9 @@ class FragImportSharedText : Fragment() {
             .trim()
 
         return if (candidate.isBlank()) {
-            "Importado"
+            context.getString(R.string.shared_import_default_title)
         } else {
-            "Importado: $candidate"
+            context.getString(R.string.shared_import_default_title_format, candidate)
         }
     }
 

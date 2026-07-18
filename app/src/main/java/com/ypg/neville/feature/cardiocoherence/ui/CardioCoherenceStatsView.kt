@@ -39,12 +39,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.annotation.StringRes
 import com.ypg.neville.R
 import com.ypg.neville.feature.cardiocoherence.domain.MeditationSessionRecord
+import com.ypg.neville.feature.cardiocoherence.domain.PostSessionEmotion
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -83,7 +86,7 @@ fun CardioCoherenceStatsScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Estadísticas de Coherencia",
+                    text = stringResource(R.string.coherence_stats_title),
                     color = Color.White,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
@@ -92,12 +95,12 @@ fun CardioCoherenceStatsScreen(
                 TextButton(onClick = onRefresh) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_refress),
-                        contentDescription = "Recargar",
+                        contentDescription = stringResource(R.string.common_refresh),
                         tint = Color.White
                     )
                 }
                 TextButton(onClick = onClose) {
-                    Text("Cerrar", color = Color.White)
+                    Text(stringResource(R.string.common_close), color = Color.White)
                 }
             }
 
@@ -127,10 +130,10 @@ fun CardioCoherenceStatsScreen(
     infoItem?.let { info ->
         AlertDialog(
             onDismissRequest = { infoItem = null },
-            title = { Text(info.title) },
-            text = { Text(info.message) },
+            title = { Text(stringResource(info.titleRes, *info.titleArgs.toTypedArray())) },
+            text = { Text(stringResource(info.messageRes)) },
             confirmButton = {
-                TextButton(onClick = { infoItem = null }) { Text("Cerrar") }
+                TextButton(onClick = { infoItem = null }) { Text(stringResource(R.string.common_close)) }
             }
         )
     }
@@ -152,7 +155,7 @@ private data class CardioCoherenceStatsSnapshot(
     private val dailyCounts: Map<Long, Int>
 ) {
     data class WeekdayCount(val dayLabel: String, val count: Int)
-    data class EmotionCount(val label: String, val emoji: String, val count: Int)
+    data class EmotionCount(val emotion: PostSessionEmotion, val emoji: String, val count: Int)
     data class DayPoint(val dayStartMillis: Long, val count: Int)
 
     constructor(records: List<MeditationSessionRecord>) : this(
@@ -189,13 +192,12 @@ private data class CardioCoherenceStatsSnapshot(
             return records
                 .groupingBy { it.predominantEmotion }
                 .eachCount()
-                .map { EmotionCount(it.key.label, it.key.emoji, it.value) }
+                .map { EmotionCount(it.key, it.key.emoji, it.value) }
                 .sortedByDescending { it.count }
                 .take(5)
         }
 
         private fun calculateWeekdayCounts(records: List<MeditationSessionRecord>): List<WeekdayCount> {
-            val labels = listOf("D", "L", "M", "X", "J", "V", "S")
             val counts = IntArray(7)
             val cal = Calendar.getInstance()
             records.forEach { record ->
@@ -203,7 +205,14 @@ private data class CardioCoherenceStatsSnapshot(
                 val weekday = cal.get(Calendar.DAY_OF_WEEK)
                 counts[weekday - 1]++
             }
-            return labels.indices.map { idx -> WeekdayCount(labels[idx], counts[idx]) }
+            val labelCalendar = Calendar.getInstance()
+            return counts.indices.map { idx ->
+                labelCalendar.set(Calendar.DAY_OF_WEEK, idx + 1)
+                WeekdayCount(
+                    SimpleDateFormat("EEEEE", Locale.getDefault()).format(labelCalendar.time).uppercase(Locale.getDefault()),
+                    counts[idx]
+                )
+            }
         }
 
         private fun calculateWeeklyAverage(records: List<MeditationSessionRecord>): Double {
@@ -260,8 +269,9 @@ private data class CardioCoherenceStatsSnapshot(
 }
 
 private data class CardioCoherenceInfoItem(
-    val title: String,
-    val message: String
+    @StringRes val titleRes: Int,
+    @StringRes val messageRes: Int,
+    val titleArgs: List<Any> = emptyList()
 )
 
 @Composable
@@ -272,7 +282,7 @@ private fun CardioCoherenceHeadlineCards(
     val formatter = remember { DecimalFormat("0.0") }
     Column(modifier = Modifier.padding(horizontal = 14.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Text(
-            text = "Tu práctica de coherencia",
+            text = stringResource(R.string.coherence_your_practice),
             color = Color.White,
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp
@@ -280,84 +290,84 @@ private fun CardioCoherenceHeadlineCards(
 
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             CardioCoherenceMetricCard(
-                title = "Sesiones",
+                title = stringResource(R.string.coherence_sessions),
                 value = stats.totalSessions.toString(),
-                subtitle = "total",
+                subtitle = stringResource(R.string.coherence_total),
                 modifier = Modifier.weight(1f),
                 onInfo = {
-                    onInfo(CardioCoherenceInfoItem("Sesiones Totales", "Cantidad total de sesiones de coherencia registradas."))
+                    onInfo(CardioCoherenceInfoItem(R.string.coherence_info_total_sessions_title, R.string.coherence_info_total_sessions))
                 }
             )
             CardioCoherenceMetricCard(
-                title = "Tiempo",
+                title = stringResource(R.string.coherence_time),
                 value = stats.totalMinutes.toString(),
-                subtitle = "minutos",
+                subtitle = stringResource(R.string.coherence_minutes),
                 modifier = Modifier.weight(1f),
                 onInfo = {
-                    onInfo(CardioCoherenceInfoItem("Tiempo Total", "Minutos acumulados de práctica registrados en Coherencia Cardio-Cerebral."))
+                    onInfo(CardioCoherenceInfoItem(R.string.coherence_info_total_time_title, R.string.coherence_info_total_time))
                 }
             )
         }
 
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             CardioCoherenceMetricCard(
-                title = "Racha actual",
+                title = stringResource(R.string.coherence_current_streak),
                 value = stats.currentStreak.toString(),
-                subtitle = "días",
+                subtitle = stringResource(R.string.coherence_days),
                 modifier = Modifier.weight(1f),
                 onInfo = {
-                    onInfo(CardioCoherenceInfoItem("Racha Actual", "Días consecutivos recientes con al menos una sesión de coherencia."))
+                    onInfo(CardioCoherenceInfoItem(R.string.coherence_current_streak, R.string.coherence_info_current_streak))
                 }
             )
             CardioCoherenceMetricCard(
-                title = "Mejor racha",
+                title = stringResource(R.string.coherence_best_streak),
                 value = stats.longestStreak.toString(),
-                subtitle = "días",
+                subtitle = stringResource(R.string.coherence_days),
                 modifier = Modifier.weight(1f),
                 onInfo = {
-                    onInfo(CardioCoherenceInfoItem("Mejor Racha", "Mayor número histórico de días consecutivos con sesiones registradas."))
+                    onInfo(CardioCoherenceInfoItem(R.string.coherence_best_streak, R.string.coherence_info_best_streak))
                 }
             )
         }
 
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             CardioCoherenceMetricCard(
-                title = "Cambio",
+                title = stringResource(R.string.coherence_change),
                 value = signedDecimal(stats.averageScoreDelta, formatter),
-                subtitle = "promedio",
+                subtitle = stringResource(R.string.coherence_average),
                 modifier = Modifier.weight(1f),
                 onInfo = {
-                    onInfo(CardioCoherenceInfoItem("Cambio Promedio", "Promedio de diferencia entre la puntuación posterior y la puntuación inicial de cada sesión."))
+                    onInfo(CardioCoherenceInfoItem(R.string.coherence_change, R.string.coherence_info_average_change))
                 }
             )
             CardioCoherenceMetricCard(
-                title = "Promedio",
+                title = stringResource(R.string.coherence_average),
                 value = formatter.format(stats.weeklyAverage),
-                subtitle = "por semana",
+                subtitle = stringResource(R.string.coherence_per_week),
                 modifier = Modifier.weight(1f),
                 onInfo = {
-                    onInfo(CardioCoherenceInfoItem("Promedio Semanal", "Promedio de sesiones creadas por semana durante el historial disponible."))
+                    onInfo(CardioCoherenceInfoItem(R.string.coherence_card_weekly_average_title, R.string.coherence_info_weekly_average))
                 }
             )
         }
 
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             CardioCoherenceMetricCard(
-                title = "Promedio",
+                title = stringResource(R.string.coherence_average),
                 value = formatter.format(stats.monthlyAverage),
-                subtitle = "por mes",
+                subtitle = stringResource(R.string.coherence_per_month),
                 modifier = Modifier.weight(1f),
                 onInfo = {
-                    onInfo(CardioCoherenceInfoItem("Promedio Mensual", "Promedio de sesiones creadas por mes considerando todo el historial de coherencia."))
+                    onInfo(CardioCoherenceInfoItem(R.string.coherence_card_monthly_average_title, R.string.coherence_info_monthly_average))
                 }
             )
             CardioCoherenceMetricCard(
-                title = "Coherencia",
+                title = stringResource(R.string.coherence_label),
                 value = scoreText(stats.averageAfterScore),
-                subtitle = "final media",
+                subtitle = stringResource(R.string.coherence_final_average),
                 modifier = Modifier.weight(1f),
                 onInfo = {
-                    onInfo(CardioCoherenceInfoItem("Coherencia Final Media", "Promedio de calma/coherencia percibida después de las sesiones."))
+                    onInfo(CardioCoherenceInfoItem(R.string.coherence_final_average, R.string.coherence_info_final_average))
                 }
             )
         }
@@ -384,7 +394,7 @@ private fun CardioCoherenceMetricCard(
             Box(modifier = Modifier.weight(1f))
             Icon(
                 painter = painterResource(id = R.drawable.ic_help),
-                contentDescription = "Info",
+                contentDescription = stringResource(R.string.coherence_info),
                 tint = Color.White.copy(alpha = 0.9f),
                 modifier = Modifier.size(16.dp).clickable(onClick = onInfo)
             )
@@ -402,10 +412,10 @@ private fun CardioCoherenceWeeklyBarChart(
     val maxCount = max(1, stats.weekdayCounts.maxOfOrNull { it.count } ?: 1)
     CardioCoherenceStatsPanel {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text("Frecuencia semanal", color = Color.White, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.coherence_weekly_frequency), color = Color.White, fontWeight = FontWeight.Bold)
             Box(modifier = Modifier.weight(1f))
             CardioCoherenceInfoIcon {
-                onInfo(CardioCoherenceInfoItem("Frecuencia Semanal", "Cuenta cuántas sesiones se registraron en cada día de la semana."))
+                onInfo(CardioCoherenceInfoItem(R.string.coherence_weekly_frequency, R.string.coherence_info_weekly_frequency))
             }
         }
 
@@ -443,10 +453,10 @@ private fun CardioCoherenceRingsSection(
 ) {
     CardioCoherenceStatsPanel {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text("Calidad percibida", color = Color.White, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.coherence_perceived_quality), color = Color.White, fontWeight = FontWeight.Bold)
             Box(modifier = Modifier.weight(1f))
             CardioCoherenceInfoIcon {
-                onInfo(CardioCoherenceInfoItem("Calidad Percibida", "Promedia la calma/coherencia final, claridad mental y conexión con el corazón."))
+                onInfo(CardioCoherenceInfoItem(R.string.coherence_perceived_quality, R.string.coherence_info_perceived_quality))
             }
         }
 
@@ -455,33 +465,33 @@ private fun CardioCoherenceRingsSection(
                 progress = stats.averageAfterScore / 10.0,
                 color = Color(0xFF80CBC4),
                 emoji = "😌",
-                title = "Coherencia",
+                title = stringResource(R.string.coherence_label),
                 value = scoreText(stats.averageAfterScore),
                 modifier = Modifier.weight(1f),
                 onInfo = {
-                    onInfo(CardioCoherenceInfoItem("Coherencia Percibida", "Promedio de calma/coherencia valorada al terminar la sesión."))
+                    onInfo(CardioCoherenceInfoItem(R.string.coherence_label, R.string.coherence_info_perceived_coherence))
                 }
             )
             CardioCoherenceRingMetric(
                 progress = stats.averageMentalClarity / 10.0,
                 color = Color(0xFF4DD0E1),
                 emoji = "✨",
-                title = "Claridad",
+                title = stringResource(R.string.coherence_clarity),
                 value = scoreText(stats.averageMentalClarity),
                 modifier = Modifier.weight(1f),
                 onInfo = {
-                    onInfo(CardioCoherenceInfoItem("Claridad Mental", "Promedio de claridad mental indicada después de cada sesión."))
+                    onInfo(CardioCoherenceInfoItem(R.string.coherence_mental_clarity, R.string.coherence_info_mental_clarity))
                 }
             )
             CardioCoherenceRingMetric(
                 progress = stats.averageHeartConnection / 10.0,
                 color = Color(0xFFCE93D8),
                 emoji = "💗",
-                title = "Corazón",
+                title = stringResource(R.string.coherence_heart),
                 value = scoreText(stats.averageHeartConnection),
                 modifier = Modifier.weight(1f),
                 onInfo = {
-                    onInfo(CardioCoherenceInfoItem("Conexión con el Corazón", "Promedio de conexión corporal y emocional percibida al finalizar."))
+                    onInfo(CardioCoherenceInfoItem(R.string.coherence_heart_connection, R.string.coherence_info_heart_connection))
                 }
             )
         }
@@ -495,15 +505,15 @@ private fun CardioCoherenceEmotionSection(
 ) {
     CardioCoherenceStatsPanel {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text("Emociones predominantes", color = Color.White, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.coherence_predominant_emotions), color = Color.White, fontWeight = FontWeight.Bold)
             Box(modifier = Modifier.weight(1f))
             CardioCoherenceInfoIcon {
-                onInfo(CardioCoherenceInfoItem("Emociones Predominantes", "Ordena las emociones elegidas al final de la sesión y muestra las 3 más frecuentes."))
+                onInfo(CardioCoherenceInfoItem(R.string.coherence_predominant_emotions, R.string.coherence_info_predominant_emotions))
             }
         }
 
         if (stats.topEmotions.isEmpty()) {
-            Text("Aún no hay datos emocionales suficientes.", color = Color.White.copy(alpha = 0.75f), fontSize = 13.sp)
+            Text(stringResource(R.string.coherence_not_enough_emotion_data), color = Color.White.copy(alpha = 0.75f), fontSize = 13.sp)
         } else {
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
                 stats.topEmotions.take(3).forEachIndexed { idx, emotion ->
@@ -515,11 +525,11 @@ private fun CardioCoherenceEmotionSection(
                             else -> Color(0xFFB39DDB)
                         },
                         emoji = emotion.emoji,
-                        title = emotion.label,
+                        title = localizedPostSessionEmotionLabel(emotion.emotion),
                         value = emotion.count.toString(),
                         modifier = Modifier.weight(1f),
                         onInfo = {
-                            onInfo(CardioCoherenceInfoItem("Anillo de Emoción", "Cada anillo representa el porcentaje de una emoción sobre el total de sesiones registradas."))
+                            onInfo(CardioCoherenceInfoItem(R.string.coherence_predominant_emotions, R.string.coherence_info_emotion_ring))
                         }
                     )
                 }
@@ -580,14 +590,14 @@ private fun CardioCoherenceDotTrendSection(
 
     CardioCoherenceStatsPanel(modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text("Actividad de los últimos $selectedDays días", color = Color.White, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.coherence_last_days_activity, selectedDays), color = Color.White, fontWeight = FontWeight.Bold)
             Box(modifier = Modifier.weight(1f))
             CardioCoherenceInfoIcon {
-                onInfo(CardioCoherenceInfoItem("Actividad de los últimos $selectedDays Días", "Cada punto representa un día. Puedes cambiar el rango para ver la constancia de tus sesiones."))
+                onInfo(CardioCoherenceInfoItem(R.string.coherence_last_days_activity, R.string.coherence_info_activity, listOf(selectedDays)))
             }
         }
 
-        Text("Visualización por puntos al estilo Fitness", color = Color.White.copy(alpha = 0.75f), fontSize = 12.sp)
+        Text(stringResource(R.string.coherence_fitness_dots), color = Color.White.copy(alpha = 0.75f), fontSize = 12.sp)
 
         Row(
             modifier = Modifier.horizontalScroll(rememberScrollState()),
@@ -596,7 +606,7 @@ private fun CardioCoherenceDotTrendSection(
             dayOptions.forEach { days ->
                 val selected = selectedDays == days
                 Text(
-                    text = "${days}d",
+                    text = stringResource(R.string.coherence_days_short, days),
                     color = if (selected) Color.Black else Color.White,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.SemiBold,
@@ -685,7 +695,7 @@ private fun CardioCoherenceInfoIcon(
 ) {
     Icon(
         painter = painterResource(id = R.drawable.ic_help),
-        contentDescription = "Info",
+        contentDescription = stringResource(R.string.coherence_info),
         tint = Color.White.copy(alpha = 0.9f),
         modifier = Modifier
             .size(sizeDp.dp)
@@ -708,6 +718,20 @@ private fun scoreText(value: Double): String {
     val rounded = (value * 10.0).roundToInt() / 10.0
     return DecimalFormat("0.0").format(rounded)
 }
+
+@Composable
+private fun localizedPostSessionEmotionLabel(emotion: PostSessionEmotion): String = stringResource(
+    when (emotion) {
+        PostSessionEmotion.CALM -> R.string.coherence_emotion_calm
+        PostSessionEmotion.GRATITUDE -> R.string.coherence_emotion_gratitude
+        PostSessionEmotion.LOVE -> R.string.coherence_emotion_love
+        PostSessionEmotion.PEACE -> R.string.coherence_emotion_peace
+        PostSessionEmotion.JOY -> R.string.coherence_emotion_joy
+        PostSessionEmotion.CLARITY -> R.string.coherence_emotion_clarity
+        PostSessionEmotion.HOPE -> R.string.coherence_emotion_hope
+        PostSessionEmotion.NEUTRAL -> R.string.coherence_emotion_neutral
+    }
+)
 
 private fun startOfDay(timeMillis: Long): Long {
     val cal = Calendar.getInstance()

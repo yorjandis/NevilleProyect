@@ -47,6 +47,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -130,9 +131,15 @@ class FragListadoFrases : Fragment() {
             return source in setOf("Bruce", "Gregg", "Joe", "Otros", "Salud")
         }
 
-        fun sourceLabel(source: String): String {
-            //return if (isSourcePremium(source)) "$source (Premium)" else source
-            return source
+        @Composable
+        fun sourceLabel(source: String): String = when (source) {
+            "Todos" -> stringResource(R.string.phrases_filter_all)
+            "Otros" -> stringResource(R.string.phrases_filter_others)
+            "Salud" -> stringResource(R.string.phrases_filter_health)
+            "Personales" -> stringResource(R.string.phrases_filter_personal)
+            "Favoritas" -> stringResource(R.string.phrases_filter_favorites)
+            "Con nota" -> stringResource(R.string.phrases_filter_with_note)
+            else -> source
         }
 
         fun isFrasePremium(item: FraseEntity): Boolean {
@@ -173,7 +180,7 @@ class FragListadoFrases : Fragment() {
                 FloatingActionButton(onClick = { showCreateDialog = true }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_add_note),
-                        contentDescription = "Nueva frase"
+                        contentDescription = stringResource(R.string.phrases_new_quote)
                     )
                 }
             }
@@ -185,13 +192,13 @@ class FragListadoFrases : Fragment() {
                     .padding(horizontal = 12.dp, vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Text("Listado de Frases", fontWeight = FontWeight.SemiBold)
+                Text(stringResource(R.string.phrases_list_title), fontWeight = FontWeight.SemiBold)
 
                 OutlinedTextField(
                     value = query,
                     onValueChange = { query = it },
                     modifier = Modifier.fillMaxWidth(),
-                    label = { Text("Buscar por frase o nota") },
+                    label = { Text(stringResource(R.string.phrases_search_hint)) },
                     shape = RoundedCornerShape(14.dp),
                     singleLine = true
                 )
@@ -202,7 +209,9 @@ class FragListadoFrases : Fragment() {
                 ) {
                     AssistChip(
                         onClick = { showSourceMenu = true },
-                        label = { Text("Fuente/Filtro: ${sourceLabel(selectedSource)}") },
+                        label = {
+                            Text(stringResource(R.string.phrases_source_filter, sourceLabel(selectedSource)))
+                        },
                         colors = AssistChipDefaults.assistChipColors()
                     )
                     DropdownMenu(
@@ -211,12 +220,16 @@ class FragListadoFrases : Fragment() {
                         shape = ContextMenuShape
                     ) {
                         sourceOptions.forEach { option ->
+                            val optionLabel = sourceLabel(option)
                             DropdownMenuItem(
-                                text = { Text(sourceLabel(option)) },
+                                text = { Text(optionLabel) },
                                 onClick = {
                                     if (isSourcePremium(option)) {
                                         hostActivity?.showSubscriptionPaywall(
-                                            "La categoría \"$option\" forma parte de la suscripción anual."
+                                            context.getString(
+                                                R.string.paywall_reason_category_format,
+                                                optionLabel
+                                            )
                                         )
                                     } else {
                                         selectedSource = option
@@ -263,13 +276,13 @@ class FragListadoFrases : Fragment() {
                                             if (result.ok) {
                                                 Toast.makeText(
                                                     context,
-                                                    "Nota creada: ${result.titulo}",
+                                                    context.getString(R.string.phrases_note_created, result.titulo),
                                                     Toast.LENGTH_SHORT
                                                 ).show()
                                             } else {
                                                 Toast.makeText(
                                                     context,
-                                                    "No se pudo crear la nota",
+                                                    context.getString(R.string.phrases_note_creation_failed),
                                                     Toast.LENGTH_SHORT
                                                 ).show()
                                             }
@@ -302,14 +315,14 @@ class FragListadoFrases : Fragment() {
                                 )
                                 if (item.nota.isNotBlank()) {
                                     Text(
-                                        text = "Nota: ${item.nota}",
+                                        text = stringResource(R.string.phrases_note_value, item.nota),
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
                                 }
                                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                    if (item.personalState() == "1") Tag("Personal", Color(0xFF0E7A2F))
-                                    if (item.favState() == "1") Tag("Favorita", Color(0xFFC28A00))
-                                    if (item.nota.isNotBlank()) Tag("Con nota", Color(0xFF2457A6))
+                                    if (item.personalState() == "1") Tag(stringResource(R.string.phrases_tag_personal), Color(0xFF0E7A2F))
+                                    if (item.favState() == "1") Tag(stringResource(R.string.phrases_tag_favorite), Color(0xFFC28A00))
+                                    if (item.nota.isNotBlank()) Tag(stringResource(R.string.phrases_tag_with_note), Color(0xFF2457A6))
                                 }
                             }
                         }
@@ -323,7 +336,7 @@ class FragListadoFrases : Fragment() {
                 onDismiss = { showCreateDialog = false },
                 onSave = { frase, autor, fuente ->
                     if (frase.trim().isBlank()) {
-                        Toast.makeText(context, "Debe escribir una frase", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.phrases_quote_required), Toast.LENGTH_SHORT).show()
                     } else {
                         val result = utilsDB.insertNewFrase(
                             context,
@@ -333,9 +346,9 @@ class FragListadoFrases : Fragment() {
                             "0"
                         )
                         if (result < 0) {
-                            Toast.makeText(context, "No se pudo crear la frase", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, context.getString(R.string.phrases_creation_failed), Toast.LENGTH_SHORT).show()
                         } else {
-                            Toast.makeText(context, "Frase creada", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, context.getString(R.string.phrases_created), Toast.LENGTH_SHORT).show()
                             showCreateDialog = false
                             reload()
                         }
@@ -367,13 +380,13 @@ class FragListadoFrases : Fragment() {
             onDismissRequest = onDismiss,
             modifier = Modifier.fillMaxWidth(0.96f),
             properties = DialogProperties(usePlatformDefaultWidth = false),
-            title = { Text("Nueva frase personal") },
+            title = { Text(stringResource(R.string.phrases_personal_quote_title)) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     OutlinedTextField(
                         value = frase,
                         onValueChange = { frase = it },
-                        label = { Text("Frase") },
+                        label = { Text(stringResource(R.string.phrases_quote_field)) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(168.dp),
@@ -384,14 +397,14 @@ class FragListadoFrases : Fragment() {
                     OutlinedTextField(
                         value = autor,
                         onValueChange = { autor = it },
-                        label = { Text("Autor") },
+                        label = { Text(stringResource(R.string.phrases_author_field)) },
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(14.dp)
                     )
                     OutlinedTextField(
                         value = fuente,
                         onValueChange = { fuente = it },
-                        label = { Text("Fuente") },
+                        label = { Text(stringResource(R.string.phrases_source_field)) },
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(14.dp)
                     )
@@ -399,12 +412,12 @@ class FragListadoFrases : Fragment() {
             },
             confirmButton = {
                 androidx.compose.material3.TextButton(onClick = { onSave(frase, autor, fuente) }) {
-                    Text("Guardar")
+                    Text(stringResource(R.string.common_save))
                 }
             },
             dismissButton = {
                 androidx.compose.material3.TextButton(onClick = onDismiss) {
-                    Text("Cancelar")
+                    Text(stringResource(R.string.common_cancel))
                 }
             }
         )

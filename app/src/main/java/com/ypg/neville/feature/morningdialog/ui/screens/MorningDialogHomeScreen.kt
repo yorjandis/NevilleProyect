@@ -26,9 +26,11 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.ypg.neville.R
 import com.ypg.neville.feature.morningdialog.ui.components.MorningDialogStyles
 import com.ypg.neville.feature.morningdialog.ui.components.SectionCard
 
@@ -54,19 +56,19 @@ fun MorningDialogHomeScreen(
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
         Text(
-            "Ritual Matutino",
+            stringResource(R.string.ritual_title),
             style = MaterialTheme.typography.headlineLarge,
             fontWeight = FontWeight.Bold,
             color = MorningDialogStyles.ritualCardText
         )
 
         SectionCard(
-            title = "Diseña con intención este día",
-            body = "Un ritual breve para estructurar tu día con claridad, intención y presencia."
+            title = stringResource(R.string.ritual_design_day),
+            body = stringResource(R.string.ritual_design_day_body)
         ) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(
-                    if (todayCompleted) "Completado hoy" else "Ritual pendiente",
+                    if (todayCompleted) stringResource(R.string.ritual_completed_today) else stringResource(R.string.ritual_pending),
                     color = MorningDialogStyles.ritualCardText,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -80,21 +82,21 @@ fun MorningDialogHomeScreen(
                     contentColor = MorningDialogStyles.buttonTextColor
                 )
             ) {
-                Text(if (todayCompleted) "Repetir diálogo" else "Iniciar diálogo")
+                Text(if (todayCompleted) stringResource(R.string.ritual_repeat_dialog) else stringResource(R.string.ritual_start_dialog))
             }
         }
 
         SectionCard(
-            title = "Cierre consciente",
+            title = stringResource(R.string.ritual_evening),
             body = if (todayReviewCompleted) {
-                "Tu día ya tiene un cierre. Vuelve a él para recordar lo que aprendiste."
+                stringResource(R.string.ritual_evening_completed_body)
             } else {
-                "Termina el día con claridad, integra lo vivido y deja una única mejora para mañana."
+                stringResource(R.string.ritual_evening_pending_body)
             }
         ) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(
-                    if (todayReviewCompleted) "Completado hoy" else "Cierre pendiente",
+                    if (todayReviewCompleted) stringResource(R.string.ritual_completed_today) else stringResource(R.string.ritual_evening_pending),
                     color = MorningDialogStyles.ritualCardText,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -109,7 +111,7 @@ fun MorningDialogHomeScreen(
                         contentColor = MorningDialogStyles.buttonTextColor
                     )
                 ) {
-                    Text("Tu día ha cambiado · actualizar cierre", maxLines = 2)
+                    Text(stringResource(R.string.ritual_day_changed_update), maxLines = 2)
                 }
             }
             Button(
@@ -120,18 +122,18 @@ fun MorningDialogHomeScreen(
                     contentColor = MorningDialogStyles.buttonTextColor
                 )
             ) {
-                Text(if (todayReviewCompleted) "Ver cierre" else "Cerrar día")
+                Text(if (todayReviewCompleted) stringResource(R.string.ritual_view_evening) else stringResource(R.string.ritual_close_day))
             }
         }
 
-        SectionCard(title = "Explorar") {
+        SectionCard(title = stringResource(R.string.ritual_explore)) {
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                ExploreButton("Ajustes", Icons.Rounded.Settings, Modifier.weight(1f), onOpenSettings)
-                ExploreButton("Historial", Icons.Rounded.History, Modifier.weight(1f), onOpenHistory)
+                ExploreButton(stringResource(R.string.ritual_settings), Icons.Rounded.Settings, Modifier.weight(1f), onOpenSettings)
+                ExploreButton(stringResource(R.string.ritual_history), Icons.Rounded.History, Modifier.weight(1f), onOpenHistory)
             }
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                ExploreButton("Resumen", Icons.Rounded.BarChart, Modifier.weight(1f), onOpenSummary)
-                ExploreButton("Mi día", Icons.Rounded.Timeline, Modifier.weight(1f), onOpenMyDay)
+                ExploreButton(stringResource(R.string.ritual_summary), Icons.Rounded.BarChart, Modifier.weight(1f), onOpenSummary)
+                ExploreButton(stringResource(R.string.ritual_my_day), Icons.Rounded.Timeline, Modifier.weight(1f), onOpenMyDay)
             }
         }
         Spacer(Modifier.height(8.dp))

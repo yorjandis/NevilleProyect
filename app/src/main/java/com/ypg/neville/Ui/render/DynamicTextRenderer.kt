@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -41,6 +42,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
+import com.ypg.neville.R
 
 
 data class RenderStyle(
@@ -113,7 +115,7 @@ private fun BlockRenderer(
         is BlockType.ImageRemote -> {
             Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 Text(
-                    text = "Imagen remota",
+                    text = stringResource(R.string.reader_remote_image),
                     style = MaterialTheme.typography.labelLarge,
                     fontWeight = FontWeight.Bold
                 )
@@ -259,7 +261,7 @@ private fun AssetImageBlock(assetPath: String, sizeDp: Float) {
 
     if (bitmap == null) {
         Text(
-            text = "No se pudo cargar imagen: $assetPath",
+            text = stringResource(R.string.reader_image_load_error, assetPath),
             color = Color.Gray,
             style = MaterialTheme.typography.bodySmall
         )

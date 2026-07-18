@@ -51,6 +51,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -72,6 +73,8 @@ import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
 import com.ypg.neville.model.db.room.ReflexionRepository
 import com.ypg.neville.model.subscription.SubscriptionManager
+import com.ypg.neville.localization.AuthorContentLocalization
+import com.ypg.neville.localization.LibraryContentLocalization
 import com.ypg.neville.model.utils.Utils
 import com.ypg.neville.model.utils.utilsFields
 import com.ypg.neville.ui.theme.ContextMenuShape
@@ -197,7 +200,11 @@ class frag_listado : Fragment() {
                     ayudasContenido.clear()
                     listado.forEach { key ->
                         val raw = runCatching {
-                            requireContext().assets.open("ayudas/$key.txt").bufferedReader().use { it.readText() }
+                            val path = LibraryContentLocalization.resolveAssetPath(
+                                requireContext(),
+                                "ayudas/$key.txt"
+                            )
+                            requireContext().assets.open(path).bufferedReader().use { it.readText() }
                         }.getOrDefault("")
                         ayudasContenido[key] = extractReflexionText(raw)
                     }
@@ -305,7 +312,7 @@ class frag_listado : Fragment() {
                         ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_menu_open),
-                                contentDescription = "Opciones"
+                                contentDescription = stringResource(R.string.common_options)
                             )
                         }
                         DropdownMenu(
@@ -314,14 +321,14 @@ class frag_listado : Fragment() {
                             shape = ContextMenuShape
                         ) {
                             DropdownMenuItem(
-                                text = { Text(if (showSearchPanel) "Ocultar búsqueda" else "Mostrar búsqueda") },
+                                text = { Text(stringResource(if (showSearchPanel) R.string.list_hide_search else R.string.list_show_search)) },
                                 onClick = {
                                     showOptionsMenu = false
                                     showSearchPanel = !showSearchPanel
                                 }
                             )
                             DropdownMenuItem(
-                                text = { Text("Filtro: Todas") },
+                                text = { Text(stringResource(R.string.list_filter_all)) },
                                 onClick = {
                                     showOptionsMenu = false
                                     filter = "Todas"
@@ -330,7 +337,7 @@ class frag_listado : Fragment() {
                                 }
                             )
                             DropdownMenuItem(
-                                text = { Text("Filtro: Favoritos") },
+                                text = { Text(stringResource(R.string.list_filter_favorites)) },
                                 onClick = {
                                     showOptionsMenu = false
                                     filter = "Favoritos"
@@ -339,7 +346,7 @@ class frag_listado : Fragment() {
                                 }
                             )
                             DropdownMenuItem(
-                                text = { Text("Filtro: Con notas") },
+                                text = { Text(stringResource(R.string.list_filter_with_notes)) },
                                 onClick = {
                                     showOptionsMenu = false
                                     filter = "Con notas"
@@ -348,7 +355,7 @@ class frag_listado : Fragment() {
                                 }
                             )
                             DropdownMenuItem(
-                                text = { Text("Restablecer") },
+                                text = { Text(stringResource(R.string.list_reset)) },
                                 onClick = {
                                     showOptionsMenu = false
                                     filter = "Todas"
@@ -374,7 +381,9 @@ class frag_listado : Fragment() {
                         ) {
                             Icon(
                                 painter = painterResource(id = if (showAyudasFilterPanel) R.drawable.ic_abajo else R.drawable.ic_menu_open),
-                                contentDescription = if (showAyudasFilterPanel) "Ocultar filtros" else "Mostrar filtros"
+                                contentDescription = stringResource(
+                                    if (showAyudasFilterPanel) R.string.list_hide_filters else R.string.list_show_filters
+                                )
                             )
                         }
                     }
@@ -387,7 +396,7 @@ class frag_listado : Fragment() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 8.dp),
-                        label = { Text("Buscar en títulos (${listado.size})") },
+                        label = { Text(stringResource(R.string.list_search_titles_count, listado.size)) },
                         shape = RoundedCornerShape(14.dp),
                         singleLine = true
                     )
@@ -398,7 +407,7 @@ class frag_listado : Fragment() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 8.dp),
-                        label = { Text("Buscar dentro de conferencias") },
+                        label = { Text(stringResource(R.string.list_search_lectures)) },
                         shape = RoundedCornerShape(14.dp),
                         singleLine = true
                     )
@@ -415,11 +424,11 @@ class frag_listado : Fragment() {
                                     listado.clear()
                                     listado.addAll(Utils.searchInConf(context, queryContenido))
                                 } catch (_: IOException) {
-                                    Toast.makeText(context, "No se pudo realizar la búsqueda", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context, context.getString(R.string.list_search_failed), Toast.LENGTH_SHORT).show()
                                 }
                             }
                         }) {
-                            Text("Buscar")
+                            Text(stringResource(R.string.list_search))
                         }
 
                         Button(onClick = {
@@ -427,7 +436,7 @@ class frag_listado : Fragment() {
                             listado.addAll(loadConfByFilter(filter))
                             queryContenido = ""
                         }) {
-                            Text("Restablecer")
+                            Text(stringResource(R.string.list_reset))
                         }
                     }
                 }
@@ -439,7 +448,7 @@ class frag_listado : Fragment() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 8.dp),
-                        label = { Text("Buscar en titulos (${listado.size})") },
+                        label = { Text(stringResource(R.string.list_search_titles_count, listado.size)) },
                         shape = RoundedCornerShape(14.dp),
                         singleLine = true,
                         colors = OutlinedTextFieldDefaults.colors(
@@ -459,7 +468,7 @@ class frag_listado : Fragment() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 8.dp),
-                        label = { Text("Buscar en contenido") },
+                        label = { Text(stringResource(R.string.list_search_content)) },
                         shape = RoundedCornerShape(14.dp),
                         singleLine = true,
                         colors = OutlinedTextFieldDefaults.colors(
@@ -482,10 +491,15 @@ class frag_listado : Fragment() {
                 ) {
                     if (isReflexionesView) {
                         items(reflexionesFiltradas, key = { "${if (it.isCustom) "db" else "asset"}-${it.id ?: it.rawAssetKey}" }) { item ->
-                            val titlePrefix = if (item.isCustom) "[Personal] " else ""
-                            val titleSuffix = if (item.favorito) " (Favorita)" else ""
+                            var displayTitle = item.titulo
+                            if (item.isCustom) {
+                                displayTitle = stringResource(R.string.list_personal_title, displayTitle)
+                            }
+                            if (item.favorito) {
+                                displayTitle = stringResource(R.string.list_favorite_title, displayTitle)
+                            }
                             Text(
-                                text = "$titlePrefix${item.titulo}$titleSuffix",
+                                text = displayTitle,
                                 fontSize = listTextSize.sp,
                                 lineHeight = (listTextSize * 1.24f).sp,
                                 color = listPrimaryColor,
@@ -537,7 +551,7 @@ class frag_listado : Fragment() {
                     if ((isReflexionesView && reflexionesFiltradas.isEmpty()) || (!isReflexionesView && noGeneralItems)) {
                         item {
                             Text(
-                                text = "No hay elementos para mostrar",
+                                text = stringResource(R.string.list_empty),
                                 fontSize = (listTextSize - 2f).coerceAtLeast(12f).sp,
                                 color = listSecondaryColor,
                                 fontStyle = FontStyle.Italic,
@@ -556,7 +570,7 @@ class frag_listado : Fragment() {
                             MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_listado)
                         }
                     },
-                    label = { Text("Atrás", color = Color.Black) },
+                    label = { Text(stringResource(R.string.list_back), color = Color.Black) },
                     colors = AssistChipDefaults.assistChipColors(
                         containerColor = Color(0xFFE3E8EF).copy(alpha = 0.96f)
                     ),
@@ -580,7 +594,7 @@ class frag_listado : Fragment() {
                             }
                         }
                     },
-                    label = { Text("Atrás", color = Color.Black) },
+                    label = { Text(stringResource(R.string.list_back), color = Color.Black) },
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
                         .padding(end = 12.dp, bottom = 12.dp)
@@ -598,7 +612,7 @@ class frag_listado : Fragment() {
                 ) {
                     if (showReflexionesFabMenu) {
                         FabActionItem(
-                            label = "Crear reflexion",
+                            label = stringResource(R.string.list_create_reflection),
                             iconRes = R.drawable.ic_note_add,
                             onClick = {
                                 showReflexionesFabMenu = false
@@ -607,7 +621,9 @@ class frag_listado : Fragment() {
                             }
                         )
                         FabActionItem(
-                            label = if (showReflexionesFilterPanel) "Ocultar filtros" else "Mostrar filtros",
+                            label = stringResource(
+                                if (showReflexionesFilterPanel) R.string.list_hide_filters else R.string.list_show_filters
+                            ),
                             iconRes = R.drawable.ic_show,
                             onClick = {
                                 showReflexionesFabMenu = false
@@ -624,7 +640,7 @@ class frag_listado : Fragment() {
                         Icon(
                             painter = painterResource(id = if (showReflexionesFabMenu) R.drawable.ic_abajo else R.drawable.ic_menu_open),
                             tint = Color.White,
-                            contentDescription = "Menu Reflexiones"
+                            contentDescription = stringResource(R.string.list_reflections_menu)
                         )
                     }
                 }
@@ -684,7 +700,7 @@ class frag_listado : Fragment() {
                     )
                     conferenceEditingTitle = null
                     reloadCurrentConferenceFilter()
-                    Toast.makeText(context, "Conferencia actualizada", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.list_conference_updated), Toast.LENGTH_SHORT).show()
                 }
             )
         }
@@ -695,7 +711,11 @@ class frag_listado : Fragment() {
                 onDismiss = { showReflexionEditor = false },
                 onSave = { titulo, contenido, favorito, nota ->
                     if (titulo.isBlank() || contenido.isBlank()) {
-                        Toast.makeText(context, "Debes escribir titulo y contenido", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.list_reflection_title_content_required),
+                            Toast.LENGTH_SHORT
+                        ).show()
                         false
                     } else {
                         val existing = reflexionEnEdicion
@@ -718,7 +738,7 @@ class frag_listado : Fragment() {
                         }
                         recargarReflexiones()
                         showReflexionEditor = false
-                        Toast.makeText(context, "Reflexion guardada", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.list_reflection_saved), Toast.LENGTH_SHORT).show()
                         true
                     }
                 }
@@ -760,7 +780,7 @@ class frag_listado : Fragment() {
                             contentColor = Color(0xFF13212C)
                         )
                     ) {
-                        Text(if (isFavorite) "Favorita: Sí" else "Favorita: No")
+                        Text(stringResource(if (isFavorite) R.string.list_favorite_yes else R.string.list_favorite_no))
                     }
 
                     OutlinedTextField(
@@ -769,7 +789,7 @@ class frag_listado : Fragment() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .heightIn(min = 180.dp),
-                        label = { Text("Nota de la conferencia", color = Color.White) },
+                        label = { Text(stringResource(R.string.list_conference_note), color = Color.White) },
                         shape = RoundedCornerShape(16.dp),
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = Color(0xFF6E84CF),
@@ -786,14 +806,14 @@ class frag_listado : Fragment() {
                             shape = RoundedCornerShape(14.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFBAC4CF))
                         ) {
-                            Text("Cancelar")
+                            Text(stringResource(R.string.common_cancel))
                         }
                         Button(
                             onClick = onSave,
                             shape = RoundedCornerShape(14.dp),
                             modifier = Modifier.padding(start = 10.dp)
                         ) {
-                            Text("Guardar")
+                            Text(stringResource(R.string.common_save))
                         }
                     }
                 }
@@ -825,13 +845,13 @@ class frag_listado : Fragment() {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("Filtros", color = Color.White)
+                Text(stringResource(R.string.list_filters), color = Color.White)
                 Row {
                     TextButton(onClick = onClear) {
-                        Text("Limpiar", color = Color.White)
+                        Text(stringResource(R.string.common_clear), color = Color.White)
                     }
                     TextButton(onClick = onHide) {
-                        Text("Ocultar", color = Color.White)
+                        Text(stringResource(R.string.common_hide), color = Color.White)
                     }
                 }
             }
@@ -845,7 +865,7 @@ class frag_listado : Fragment() {
                     onValueChange = onFiltroTituloChange,
                     modifier = Modifier.weight(1f),
                     singleLine = true,
-                    label = { Text("Buscar en titulo", color = Color.White) },
+                    label = { Text(stringResource(R.string.list_search_title), color = Color.White) },
                     shape = RoundedCornerShape(14.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedTextColor = Color.White,
@@ -860,7 +880,7 @@ class frag_listado : Fragment() {
                     onValueChange = onFiltroContenidoChange,
                     modifier = Modifier.weight(1f),
                     singleLine = true,
-                    label = { Text("Buscar en contenido", color = Color.White) },
+                    label = { Text(stringResource(R.string.list_search_content), color = Color.White) },
                     shape = RoundedCornerShape(14.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedTextColor = Color.White,
@@ -878,7 +898,13 @@ class frag_listado : Fragment() {
             ) {
                 ReflexionFavoritoFiltro.entries.forEach { option ->
                     MiniFilterChip(
-                        label = option.label,
+                        label = stringResource(
+                            when (option) {
+                                ReflexionFavoritoFiltro.TODAS -> R.string.list_all
+                                ReflexionFavoritoFiltro.SOLO_FAVORITAS -> R.string.list_favorites
+                                ReflexionFavoritoFiltro.SOLO_NO_FAVORITAS -> R.string.list_filter_not_favorites
+                            }
+                        ),
                         selected = filtroFav == option,
                         onClick = { onFiltroFavChange(option) }
                     )
@@ -964,7 +990,9 @@ class frag_listado : Fragment() {
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     Text(
-                        text = if (reflexion == null) "Nueva reflexion" else "Editar reflexion",
+                        text = stringResource(
+                            if (reflexion == null) R.string.list_new_reflection else R.string.list_edit_reflection
+                        ),
                         color = Color.White
                     )
                     OutlinedTextField(
@@ -972,7 +1000,7 @@ class frag_listado : Fragment() {
                         onValueChange = { titulo = it },
                         modifier = Modifier.fillMaxWidth(),
                         textStyle = androidx.compose.ui.text.TextStyle(fontSize = 22.sp),
-                        label = { Text("Titulo", color = Color(0xFFFF9800), fontWeight = FontWeight.Bold) },
+                        label = { Text(stringResource(R.string.common_title), color = Color(0xFFFF9800), fontWeight = FontWeight.Bold) },
                         shape = RoundedCornerShape(14.dp),
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedTextColor = Color(0xFFFF9800),
@@ -989,7 +1017,7 @@ class frag_listado : Fragment() {
                             .fillMaxWidth()
                             .heightIn(min = 180.dp),
                         textStyle = androidx.compose.ui.text.TextStyle(fontSize = 22.sp),
-                        label = { Text("Contenido", color = Color.White) },
+                        label = { Text(stringResource(R.string.common_content), color = Color.White) },
                         shape = RoundedCornerShape(14.dp),
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedTextColor = Color.White,
@@ -1003,7 +1031,7 @@ class frag_listado : Fragment() {
                         value = nota,
                         onValueChange = { nota = it },
                         modifier = Modifier.fillMaxWidth(),
-                        label = { Text("Nota", color = Color.White) },
+                        label = { Text(stringResource(R.string.common_note), color = Color.White) },
                         shape = RoundedCornerShape(14.dp),
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedTextColor = Color.White,
@@ -1022,7 +1050,7 @@ class frag_listado : Fragment() {
                             contentColor = Color(0xFF13212C)
                         )
                     ) {
-                        Text(if (favorita) "Favorita: Si" else "Favorita: No")
+                        Text(stringResource(if (favorita) R.string.list_favorite_yes else R.string.list_favorite_no))
                     }
 
                     Row(
@@ -1034,14 +1062,14 @@ class frag_listado : Fragment() {
                             shape = RoundedCornerShape(14.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFBAC4CF))
                         ) {
-                            Text("Cancelar")
+                            Text(stringResource(R.string.common_cancel))
                         }
                         Button(
                             onClick = { onSave(titulo, contenido, favorita, nota) },
                             shape = RoundedCornerShape(14.dp),
                             modifier = Modifier.padding(start = 10.dp)
                         ) {
-                            Text("Guardar")
+                            Text(stringResource(R.string.common_save))
                         }
                     }
                 }
@@ -1188,6 +1216,25 @@ class frag_listado : Fragment() {
     }
 
     private fun formatListadoDisplayName(rawName: String): String {
+        if (elementLoaded == "citasConferencias") {
+            return AuthorContentLocalization.localizedCitationTitle(requireContext(), rawName) ?: rawName
+        }
+
+        if (elementLoaded == "enciclopedia") {
+            return LibraryContentLocalization.localizedEncyclopediaCategoryTitle(requireContext(), rawName)
+                ?: rawName
+        }
+
+        val libraryAssetPath = when {
+            elementLoaded.startsWith("enciclopedia/") -> "$elementLoaded/$rawName.txt"
+            elementLoaded == "reflexiones" -> "reflexiones/$rawName.txt"
+            elementLoaded == "ayudas" -> "ayudas/$rawName.txt"
+            else -> null
+        }
+        if (libraryAssetPath != null) {
+            LibraryContentLocalization.localizedTitle(requireContext(), libraryAssetPath)?.let { return it }
+        }
+
         if (elementLoaded.equals("autores/neville/conf", ignoreCase = true)) {
             val locale = Locale.getDefault()
             return rawName
@@ -1231,8 +1278,12 @@ class frag_listado : Fragment() {
         runCatching { utils.listFilesInAssets("reflexiones", keys) }
 
         return keys.map { key ->
+            val path = LibraryContentLocalization.resolveAssetPath(
+                requireContext(),
+                "reflexiones/$key.txt"
+            )
             val content = runCatching {
-                requireContext().assets.open("reflexiones/$key.txt").bufferedReader().use { it.readText() }
+                requireContext().assets.open(path).bufferedReader().use { it.readText() }
             }.getOrDefault("")
 
             val normalizedContent = extractReflexionText(content)

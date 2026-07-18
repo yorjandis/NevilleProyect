@@ -1,4 +1,10 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<!--
+    Missing translations are expected while the UI is localized view by view.
+    Remove this temporary suppression once every UI string has been translated.
+-->
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
     <string name="app_name">Neville</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -32,8 +38,8 @@
     <string name="author_quotes_section_title">Frases</string>
     <string name="author_resources_section_title">Recursos</string>
     <string name="author_biography_button_placeholder">Biografía (próximamente)</string>
-    <string name="author_quote_placeholder">Frase placeholder de %1$s. El contenido del compendio se añadirá próximamente.</string>
-    <string name="author_quote_premium_placeholder">Las Frases y enseñanzas de %1$s están disponibles en la versión extendida</string>
+    <string name="author_quote_placeholder">Próximamente añadiremos el compendio de frases de %1$s.</string>
+    <string name="author_quote_premium_placeholder">Las frases y enseñanzas de %1$s están disponibles en la versión extendida.</string>
     <string name="autores">Autores</string>
     <string name="image_de_neville">image de neville</string>
     <string name="la_imaginaci_n_crea_la_realidad">La imaginación crea la realidad</string>
@@ -158,6 +164,115 @@
     <string name="autor_tag_format">&lt;%1$s&gt;</string>
     <string name="qr_share_frase_payload">f::%1$s::%2$s:: </string>
     <string name="mostrar_ocultar_controles_frase">Mostrar u ocultar controles de la frase</string>
+
+    <!-- Vistas de autores -->
+    <string name="author_biography">Biografía</string>
+    <string name="author_teaching_summary">Enseñanzas</string>
+    <string name="author_filter_quotes">Filtrar frases</string>
+    <string name="author_filter_quotes_title">Filtrar frases:</string>
+    <string name="author_filter_all">Todas</string>
+    <string name="author_filter_favorites">Favoritas</string>
+    <string name="author_filter_with_notes">Con notas</string>
+    <string name="author_add_to_favorites">Agregar a favoritas</string>
+    <string name="author_remove_from_favorites">Quitar de favoritas</string>
+    <string name="author_note_created">Nota creada: %1$s</string>
+    <string name="author_note_creation_failed">No se pudo crear la nota</string>
+    <string name="phrase_action_convert_to_note">Convertir en nota</string>
+    <string name="phrase_action_load_canvas">Cargar en Lienzo</string>
+    <string name="phrase_action_share">Compartir frase</string>
+    <string name="phrase_action_open_note">Acceder a la nota</string>
+    <string name="phrase_action_create_new">Crear nueva frase</string>
+    <string name="author_extended_version_available">Disponible en la versión extendida</string>
+    <string name="author_no_resources">No hay recursos disponibles</string>
+    <string name="author_photo_gallery_title">Galería de fotos</string>
+    <string name="author_no_photos">No hay fotos disponibles</string>
+    <string name="author_photo_load_failed">No se pudo cargar la foto</string>
+    <string name="author_photo_content_description">Foto del autor</string>
+    <string name="author_open_list">Abrir listado</string>
+    <string name="author_view_photos">Ver fotos</string>
+    <string name="author_summary">Resumen</string>
+    <string name="author_plan">Plan</string>
+    <string name="author_chapters">Capítulos</string>
+    <string name="author_chapter_format">Capítulo %1$d</string>
+    <string name="author_episodes">Episodios</string>
+    <string name="author_episode_format">Episodio %1$d</string>
+    <string name="author_book_summaries">Resumen de libros</string>
+    <string name="author_formula_series_summary_section">Resumen: serie La Fórmula</string>
+    <string name="author_book_summary">Resumen del libro</string>
+    <string name="author_inner_evolution_summary_section">Resumen: Evolución Interior</string>
+    <string name="author_title_divine_matrix">La Matriz Divina</string>
+    <string name="author_title_purely_human">Puramente Humanos</string>
+    <string name="author_title_resilience_from_the_heart">Resiliencia Desde el Corazón</string>
+    <string name="author_title_evolve_your_brain">Desarrolla Tu Cerebro</string>
+    <string name="author_title_breaking_habit">Deja de Ser Tú</string>
+    <string name="author_title_you_are_placebo">El Placebo Eres Tú</string>
+    <string name="author_title_becoming_supernatural">Sobrenatural</string>
+    <string name="author_title_formula_series_summary">Resumen de la serie La Fórmula</string>
+    <string name="author_title_biology_belief">La Biología de la Creencia</string>
+    <string name="author_title_inner_evolution_summary">Resumen de la serie Evolución Interior</string>
+
+    <!-- Muro de pago -->
+    <string name="paywall_purchase_start_failed">No se pudo iniciar la compra. Comprueba la conexión con Google Play.</string>
+    <string name="paywall_restoring_purchases">Verificando compras…</string>
+    <string name="paywall_price_fallback">el precio mostrado en Google Play</string>
+    <string name="paywall_subscription_active">Suscripción activa</string>
+    <string name="paywall_extended_version_title">Versión Extendida</string>
+    <string name="paywall_active_subtitle">Ya tienes acceso a la versión extendida</string>
+    <string name="paywall_access_all_premium">Accede a todo el contenido premium</string>
+    <string name="paywall_first_week_free">Primera semana gratis</string>
+    <string name="paywall_intro_offer_eligibility">Oferta para nuevos suscriptores elegibles.</string>
+    <string name="paywall_trial_price_format">7 días gratis; después, %1$s al año</string>
+    <string name="paywall_annual_price_format">%1$s al año</string>
+    <string name="paywall_start_free_trial">Empezar prueba gratis</string>
+    <string name="paywall_subscribe_now">Suscribirme ahora</string>
+    <string name="paywall_trial_renewal_format">Al finalizar los 7 días, la suscripción se renovará automáticamente por %1$s al año hasta que la canceles.</string>
+    <string name="paywall_annual_renewal">La suscripción se renovará automáticamente cada año hasta que la canceles.</string>
+    <string name="paywall_restore">Restaurar</string>
+    <string name="paywall_close">Cerrar</string>
+    <string name="paywall_neville_remains_free">Las enseñanzas de Neville seguirán siendo gratis. Nada cambiará eso.</string>
+    <string name="paywall_reason_notes_biometric">La protección biométrica de las notas forma parte de la suscripción anual.</string>
+    <string name="paywall_reason_category_format">La categoría «%1$s» forma parte de la suscripción anual.</string>
+    <string name="paywall_reason_healing_center">Las situaciones guiadas, técnicas y explicaciones del Centro Sanador forman parte de la suscripción anual.</string>
+
+    <!-- Características premium -->
+    <string name="premium_exclusive_content_title">Contenido exclusivo</string>
+    <string name="premium_exclusive_content_description">Accede a frases y enseñanzas de Joe Dispenza, Bruce Lipton, Gregg Braden y otros autores.</string>
+    <string name="premium_goals_title">Metas y transformación personal</string>
+    <string name="premium_goals_description">Define objetivos, sigue hábitos saludables y utiliza programas prácticos para impulsar tu cambio.</string>
+    <string name="premium_canvas_title">Lienzo creativo</string>
+    <string name="premium_canvas_description">Crea imágenes con tus citas favoritas para compartirlas o usarlas como tarjetas de enfoque.</string>
+    <string name="premium_morning_ritual_title">Ritual Matutino</string>
+    <string name="premium_morning_ritual_description">Diseña cada día con intención y lleva un registro del progreso de tu transformación.</string>
+    <string name="premium_evening_ritual_title">Ritual de Cierre</string>
+    <string name="premium_evening_ritual_description">Revisa cómo has vivido el día, integra lo aprendido y prepara con claridad tu intención para mañana.</string>
+    <string name="premium_agenda_title">Agenda</string>
+    <string name="premium_agenda_description">Organiza tus actividades y tareas, y añade recordatorios para no olvidar lo importante.</string>
+    <string name="premium_coherence_title">Coherencia cardio-cerebral</string>
+    <string name="premium_coherence_description">Sigue una guía visual para sincronizar corazón y cerebro y entrar en un estado de coherencia.</string>
+    <string name="premium_presence_title">Presencia Consciente</string>
+    <string name="premium_presence_description">Registra pequeños momentos de despertar durante el día y vuelve al presente con un solo toque.</string>
+    <string name="premium_calm_space_title">Espacio de Calma</string>
+    <string name="premium_calm_space_description">Disfruta de esferas relajantes, música, frases y fondos inmersivos.</string>
+    <string name="premium_healing_center_title">Centro Sanador</string>
+    <string name="premium_healing_center_description">Comprende mejor lo que te ocurre y practica técnicas guiadas de regulación, con indicaciones de seguridad y acceso a recursos de ayuda.</string>
+    <string name="premium_reminders_title">Recordatorios inteligentes</string>
+    <string name="premium_reminders_description">Programa avisos para tareas y prácticas como meditar, agradecer o revisar tus metas.</string>
+    <string name="premium_encyclopedia_title">Enciclopedia</string>
+    <string name="premium_encyclopedia_description">Consulta conocimientos prácticos sobre neurociencia, meditación, hábitos y temas relacionados.</string>
+    <string name="premium_scientific_evidence_title">Evidencia científica</string>
+    <string name="premium_scientific_evidence_description">Explora investigaciones que respaldan estas enseñanzas en resúmenes fáciles de consultar.</string>
+    <string name="premium_emotional_anchors_title">Anclas Emocionales</string>
+    <string name="premium_emotional_anchors_description">Utiliza una herramienta cognitiva guiada para afrontar momentos de estrés.</string>
+    <string name="premium_voice_notes_title">Notas de voz</string>
+    <string name="premium_voice_notes_description">Graba y reproduce ideas o reflexiones sin necesidad de escribirlas.</string>
+    <string name="premium_weekly_summary_title">Resumen Semanal</string>
+    <string name="premium_weekly_summary_description">Consulta estadísticas generales y conserva un histórico de tu evolución.</string>
+    <string name="premium_protected_notes_title">Notas protegidas</string>
+    <string name="premium_protected_notes_description">Protege tus notas privadas mediante autenticación biométrica.</string>
+    <string name="premium_paste_into_title">Menú «Pegar en»</string>
+    <string name="premium_paste_into_description">Convierte rápidamente el texto seleccionado en una nota, un lienzo o una frase.</string>
+    <string name="premium_health_quotes_title">Frases de salud</string>
+    <string name="premium_health_quotes_description">Amplía tu biblioteca con frases de salud y contenidos de autores adicionales.</string>
 
 
 </resources>

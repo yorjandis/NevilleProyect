@@ -50,9 +50,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.annotation.StringRes
 import androidx.fragment.app.DialogFragment
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
@@ -62,8 +64,8 @@ class SubscriptionPaywallDialog : DialogFragment() {
 
     private data class PremiumFeature(
         val icon: ImageVector,
-        val title: String,
-        val description: String
+        @param:StringRes val titleRes: Int,
+        @param:StringRes val descriptionRes: Int
     )
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -86,7 +88,7 @@ class SubscriptionPaywallDialog : DialogFragment() {
                                     if (!launched) {
                                         Toast.makeText(
                                             requireContext(),
-                                            "No se pudo iniciar la compra. Verifica la conexión con Google Play.",
+                                            R.string.paywall_purchase_start_failed,
                                             Toast.LENGTH_LONG
                                         ).show()
                                     }
@@ -95,7 +97,7 @@ class SubscriptionPaywallDialog : DialogFragment() {
                                     SubscriptionManager.restorePurchases()
                                     Toast.makeText(
                                         requireContext(),
-                                        "Verificando compras...",
+                                        R.string.paywall_restoring_purchases,
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }
@@ -125,7 +127,7 @@ class SubscriptionPaywallDialog : DialogFragment() {
         val state by SubscriptionManager.uiState.collectAsState()
         val hasPremium = state.isActive
         val hasTrial = state.hasIntroductoryTrial
-        val price = state.productPrice ?: "el precio mostrado en Google Play"
+        val price = state.productPrice ?: stringResource(R.string.paywall_price_fallback)
 
         Surface(
             shape = RoundedCornerShape(24.dp),
@@ -154,7 +156,13 @@ class SubscriptionPaywallDialog : DialogFragment() {
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     Text(
-                        text = if (hasPremium) "Suscripción activa" else "Versión Extendida",
+                        text = stringResource(
+                            if (hasPremium) {
+                                R.string.paywall_subscription_active
+                            } else {
+                                R.string.paywall_extended_version_title
+                            }
+                        ),
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.headlineSmall,
@@ -163,9 +171,9 @@ class SubscriptionPaywallDialog : DialogFragment() {
                     )
                     Text(
                         text = if (hasPremium) {
-                            "Ya tienes acceso a la versión extendida"
+                            stringResource(R.string.paywall_active_subtitle)
                         } else {
-                            "Accede a todo el contenido premium"
+                            stringResource(R.string.paywall_access_all_premium)
                         },
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center,
@@ -176,7 +184,7 @@ class SubscriptionPaywallDialog : DialogFragment() {
 
                     if (!hasPremium) {
                         Text(
-                            text = "Primera semana gratis",
+                            text = stringResource(R.string.paywall_first_week_free),
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
                                 .background(
@@ -189,7 +197,7 @@ class SubscriptionPaywallDialog : DialogFragment() {
                             color = Color(0xFF083B3B)
                         )
                         Text(
-                            text = "Oferta para nuevos suscriptores elegibles.",
+                            text = stringResource(R.string.paywall_intro_offer_eligibility),
                             modifier = Modifier.fillMaxWidth(),
                             textAlign = TextAlign.Center,
                             style = MaterialTheme.typography.bodySmall,
@@ -233,9 +241,9 @@ class SubscriptionPaywallDialog : DialogFragment() {
                 ) {
                     Text(
                         text = if (hasTrial) {
-                            "7 días gratis; después $price al año"
+                            stringResource(R.string.paywall_trial_price_format, price)
                         } else {
-                            "$price al año"
+                            stringResource(R.string.paywall_annual_price_format, price)
                         },
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center,
@@ -253,9 +261,9 @@ class SubscriptionPaywallDialog : DialogFragment() {
                 ) {
                     Text(
                         text = when {
-                            hasPremium -> "Suscripción activa"
-                            hasTrial -> "Empezar prueba gratis"
-                            else -> "Suscribirme ahora"
+                            hasPremium -> stringResource(R.string.paywall_subscription_active)
+                            hasTrial -> stringResource(R.string.paywall_start_free_trial)
+                            else -> stringResource(R.string.paywall_subscribe_now)
                         },
                         color = if (hasPremium) Color.Black else Color.White,
                         fontWeight = FontWeight.Bold
@@ -265,9 +273,9 @@ class SubscriptionPaywallDialog : DialogFragment() {
                 if (!hasPremium) {
                     Text(
                         text = if (hasTrial) {
-                            "Al finalizar los 7 días, la suscripción se renovará automáticamente por $price al año hasta que la canceles."
+                            stringResource(R.string.paywall_trial_renewal_format, price)
                         } else {
-                            "La suscripción se renovará automáticamente cada año hasta que la canceles."
+                            stringResource(R.string.paywall_annual_renewal)
                         },
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center,
@@ -281,15 +289,15 @@ class SubscriptionPaywallDialog : DialogFragment() {
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     OutlinedButton(onClick = onRestore, modifier = Modifier.weight(1f)) {
-                        Text("Restaurar", color = Color.Black)
+                        Text(stringResource(R.string.paywall_restore), color = Color.Black)
                     }
                     OutlinedButton(onClick = onClose, modifier = Modifier.weight(1f)) {
-                        Text("Cerrar", color = Color.Black)
+                        Text(stringResource(R.string.paywall_close), color = Color.Black)
                     }
                 }
 
                 Text(
-                    text = "Las enseñanzas de Neville seguirán siendo gratis, nada cambiará eso.",
+                    text = stringResource(R.string.paywall_neville_remains_free),
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center,
                     color = Color.Black,
@@ -325,14 +333,14 @@ class SubscriptionPaywallDialog : DialogFragment() {
                     modifier = Modifier.size(24.dp)
                 )
                 Text(
-                    text = feature.title,
+                    text = stringResource(feature.titleRes),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.ExtraBold,
                     color = Color(0xFF0A3B39)
                 )
             }
             Text(
-                text = feature.description,
+                text = stringResource(feature.descriptionRes),
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.SemiBold,
                 color = Color.Black.copy(alpha = 0.82f)
@@ -351,88 +359,98 @@ class SubscriptionPaywallDialog : DialogFragment() {
         private val premiumFeatures = listOf(
             PremiumFeature(
                 Icons.Outlined.Star,
-                "Contenido exclusivo",
-                "Accede a frases y enseñanzas de Joe Dispenza, Bruce Lipton, Gregg Braden y otros autores."
+                R.string.premium_exclusive_content_title,
+                R.string.premium_exclusive_content_description
             ),
             PremiumFeature(
                 Icons.Outlined.CheckCircle,
-                "Metas y transformación personal",
-                "Define objetivos, sigue hábitos saludables y utiliza programas prácticos para impulsar tu cambio."
+                R.string.premium_goals_title,
+                R.string.premium_goals_description
             ),
             PremiumFeature(
                 Icons.Outlined.Palette,
-                "Lienzo creativo",
-                "Crea imágenes con tus citas favoritas para compartirlas o usarlas como tarjetas de enfoque."
+                R.string.premium_canvas_title,
+                R.string.premium_canvas_description
             ),
             PremiumFeature(
                 Icons.Outlined.WbSunny,
-                "Ritual Matutino",
-                "Diseña cada día con intención y lleva un registro del progreso de tu transformación."
-            ),
-            PremiumFeature(
-                Icons.Outlined.CalendarMonth,
-                "Agenda",
-                "Organiza tus actividades y tareas, y añade recordatorios para no olvidar lo importante."
-            ),
-            PremiumFeature(
-                Icons.Outlined.Favorite,
-                "Coherencia cardio-cerebral",
-                "Sigue una guía visual para sincronizar corazón y cerebro y entrar en un estado de coherencia."
-            ),
-            PremiumFeature(
-                Icons.Outlined.Spa,
-                "Presencia Consciente",
-                "Registra pequeños momentos de despertar durante el día y vuelve al presente con un solo toque."
-            ),
-            PremiumFeature(
-                Icons.Outlined.Spa,
-                "Espacio de Calma",
-                "Disfruta de esferas relajantes, música, frases y fondos inmersivos."
-            ),
-            PremiumFeature(
-                Icons.Outlined.Notifications,
-                "Recordatorios inteligentes",
-                "Programa avisos para tareas y prácticas como meditar, agradecer o revisar tus metas."
-            ),
-            PremiumFeature(
-                Icons.AutoMirrored.Outlined.MenuBook,
-                "Enciclopedia",
-                "Consulta conocimientos prácticos sobre neurociencia, meditación, hábitos y temas relacionados."
-            ),
-            PremiumFeature(
-                Icons.Outlined.Science,
-                "Evidencia científica",
-                "Explora investigaciones que respaldan estas enseñanzas en resúmenes fáciles de consultar."
-            ),
-            PremiumFeature(
-                Icons.Outlined.Psychology,
-                "Anclas Emocionales",
-                "Utiliza una herramienta cognitiva guiada para afrontar momentos de estrés."
-            ),
-            PremiumFeature(
-                Icons.Outlined.Mic,
-                "Notas de voz",
-                "Graba y reproduce ideas o reflexiones sin necesidad de escribirlas."
+                R.string.premium_morning_ritual_title,
+                R.string.premium_morning_ritual_description
             ),
             PremiumFeature(
                 Icons.Outlined.Event,
-                "Resumen Semanal",
-                "Consulta estadísticas generales y conserva un histórico de tu evolución."
+                R.string.premium_evening_ritual_title,
+                R.string.premium_evening_ritual_description
+            ),
+            PremiumFeature(
+                Icons.Outlined.CalendarMonth,
+                R.string.premium_agenda_title,
+                R.string.premium_agenda_description
+            ),
+            PremiumFeature(
+                Icons.Outlined.Favorite,
+                R.string.premium_coherence_title,
+                R.string.premium_coherence_description
+            ),
+            PremiumFeature(
+                Icons.Outlined.Spa,
+                R.string.premium_presence_title,
+                R.string.premium_presence_description
+            ),
+            PremiumFeature(
+                Icons.Outlined.Spa,
+                R.string.premium_calm_space_title,
+                R.string.premium_calm_space_description
+            ),
+            PremiumFeature(
+                Icons.Outlined.Spa,
+                R.string.premium_healing_center_title,
+                R.string.premium_healing_center_description
+            ),
+            PremiumFeature(
+                Icons.Outlined.Notifications,
+                R.string.premium_reminders_title,
+                R.string.premium_reminders_description
+            ),
+            PremiumFeature(
+                Icons.AutoMirrored.Outlined.MenuBook,
+                R.string.premium_encyclopedia_title,
+                R.string.premium_encyclopedia_description
+            ),
+            PremiumFeature(
+                Icons.Outlined.Science,
+                R.string.premium_scientific_evidence_title,
+                R.string.premium_scientific_evidence_description
+            ),
+            PremiumFeature(
+                Icons.Outlined.Psychology,
+                R.string.premium_emotional_anchors_title,
+                R.string.premium_emotional_anchors_description
+            ),
+            PremiumFeature(
+                Icons.Outlined.Mic,
+                R.string.premium_voice_notes_title,
+                R.string.premium_voice_notes_description
+            ),
+            PremiumFeature(
+                Icons.Outlined.Event,
+                R.string.premium_weekly_summary_title,
+                R.string.premium_weekly_summary_description
             ),
             PremiumFeature(
                 Icons.Outlined.Lock,
-                "Notas protegidas",
-                "Protege tus notas privadas mediante autenticación biométrica."
+                R.string.premium_protected_notes_title,
+                R.string.premium_protected_notes_description
             ),
             PremiumFeature(
                 Icons.Outlined.ContentPaste,
-                "Menú «Pegar en»",
-                "Convierte rápidamente el texto seleccionado en una nota, un lienzo o una frase."
+                R.string.premium_paste_into_title,
+                R.string.premium_paste_into_description
             ),
             PremiumFeature(
                 Icons.Outlined.Edit,
-                "Frases de salud",
-                "Amplía tu biblioteca con frases de salud y contenidos de autores adicionales."
+                R.string.premium_health_quotes_title,
+                R.string.premium_health_quotes_description
             )
         )
 

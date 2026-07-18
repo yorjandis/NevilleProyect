@@ -45,9 +45,13 @@ class MorningDialogNotificationHelper(
 
         val notification = NotificationCompat.Builder(appContext, MorningDialogNotificationConfig.CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification_neville)
-            .setContentTitle(MorningDialogNotificationConfig.TITLE)
-            .setContentText(MorningDialogNotificationConfig.TEXT)
-            .setStyle(NotificationCompat.BigTextStyle().bigText(MorningDialogNotificationConfig.TEXT))
+            .setContentTitle(appContext.getString(R.string.global_ritual_morning_title))
+            .setContentText(appContext.getString(R.string.global_ritual_morning_text))
+            .setStyle(
+                NotificationCompat.BigTextStyle().bigText(
+                    appContext.getString(R.string.global_ritual_morning_text)
+                )
+            )
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
@@ -80,10 +84,10 @@ class MorningDialogNotificationHelper(
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        val text = "Vuelve a tu intención consciente de hoy."
+        val text = appContext.getString(R.string.global_ritual_day_text)
         val notification = NotificationCompat.Builder(appContext, MorningDialogNotificationConfig.CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification_neville)
-            .setContentTitle("Recordatorio de tu ritual")
+            .setContentTitle(appContext.getString(R.string.global_ritual_day_title))
             .setContentText(text)
             .setStyle(NotificationCompat.BigTextStyle().bigText(text))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -113,10 +117,10 @@ class MorningDialogNotificationHelper(
             openIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-        val text = "Una pausa para integrar el día y preparar mañana."
+        val text = appContext.getString(R.string.global_ritual_evening_text)
         val notification = NotificationCompat.Builder(appContext, MorningDialogNotificationConfig.CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification_neville)
-            .setContentTitle("Cierra tu día con conciencia")
+            .setContentTitle(appContext.getString(R.string.global_ritual_evening_title))
             .setContentText(text)
             .setStyle(NotificationCompat.BigTextStyle().bigText(text))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -132,15 +136,12 @@ class MorningDialogNotificationHelper(
     private fun ensureChannel() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
         val manager = appContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val existing = manager.getNotificationChannel(MorningDialogNotificationConfig.CHANNEL_ID)
-        if (existing != null) return
-
         val channel = NotificationChannel(
             MorningDialogNotificationConfig.CHANNEL_ID,
-            MorningDialogNotificationConfig.CHANNEL_NAME,
+            appContext.getString(R.string.global_ritual_channel),
             NotificationManager.IMPORTANCE_HIGH
         ).apply {
-            description = MorningDialogNotificationConfig.CHANNEL_DESCRIPTION
+            description = appContext.getString(R.string.global_ritual_channel_description)
         }
         manager.createNotificationChannel(channel)
     }

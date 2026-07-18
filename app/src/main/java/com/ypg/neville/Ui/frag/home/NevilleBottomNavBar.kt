@@ -30,6 +30,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ypg.neville.R
 import com.ypg.neville.ui.theme.ContextMenuShape
@@ -108,6 +109,7 @@ fun NevilleBottomNavBar(
                 activeId = activeId,
                 id = "conf",
                 icon = R.drawable.ic_conf,
+                contentDescription = stringResource(R.string.home_nav_lectures),
                 onClick = onConf,
                 modifier = Modifier.weight(1f)
             )
@@ -115,6 +117,7 @@ fun NevilleBottomNavBar(
                 activeId = activeId,
                 id = "notas",
                 icon = R.drawable.ic_note,
+                contentDescription = stringResource(R.string.home_nav_notes),
                 onClick = onNotas,
                 modifier = Modifier.weight(1f)
             )
@@ -122,6 +125,7 @@ fun NevilleBottomNavBar(
                 activeId = activeId,
                 id = "home",
                 icon = R.drawable.ic_nav_home,
+                contentDescription = stringResource(R.string.home_nav_home),
                 onClick = onHome,
                 modifier = Modifier.weight(1f)
             )
@@ -130,6 +134,7 @@ fun NevilleBottomNavBar(
                 activeId = activeId,
                 id = "diario",
                 icon = R.drawable.ic_diario_pen_book,
+                contentDescription = stringResource(R.string.home_nav_diary),
                 onClick = onDiario,
                 modifier = Modifier.weight(1f)
             )
@@ -138,6 +143,7 @@ fun NevilleBottomNavBar(
                     activeId = if (activeId in setOf("lienzo", "metas", "recordatorios", "agenda", "morning_dialog", "weekly_summary", "voces", "anclas", "calma", "cardio", "presence")) "productividad" else activeId,
                     id = "productividad",
                     icon = R.drawable.ic_icon_drawer,
+                    contentDescription = stringResource(R.string.home_menu_productivity),
                     onClick = { showProductivityMenu = true },
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -147,11 +153,11 @@ fun NevilleBottomNavBar(
                     shape = ContextMenuShape
                 ) {
                     DropdownMenuItem(
-                        text = { Text("Diario") },
+                        text = { Text(stringResource(R.string.home_nav_diary)) },
                         leadingIcon = {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_diario_pen_book),
-                                contentDescription = "Diario"
+                                contentDescription = stringResource(R.string.home_nav_diary)
                             )
                         },
                         onClick = {
@@ -160,11 +166,11 @@ fun NevilleBottomNavBar(
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text("Lienzo") },
+                        text = { Text(stringResource(R.string.home_nav_canvas)) },
                         leadingIcon = {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_edit_note),
-                                contentDescription = "Lienzo"
+                                contentDescription = stringResource(R.string.home_nav_canvas)
                             )
                         },
                         onClick = {
@@ -173,11 +179,11 @@ fun NevilleBottomNavBar(
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text("Metas") },
+                        text = { Text(stringResource(R.string.home_nav_goals)) },
                         leadingIcon = {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_arriba),
-                                contentDescription = "Metas"
+                                contentDescription = stringResource(R.string.home_nav_goals)
                             )
                         },
                         onClick = {
@@ -186,11 +192,11 @@ fun NevilleBottomNavBar(
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text("Agenda") },
+                        text = { Text(stringResource(R.string.home_nav_agenda)) },
                         leadingIcon = {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_calendar_toggle),
-                                contentDescription = "Agenda"
+                                contentDescription = stringResource(R.string.home_nav_agenda)
                             )
                         },
                         onClick = {
@@ -199,11 +205,11 @@ fun NevilleBottomNavBar(
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text("Recordatorios") },
+                        text = { Text(stringResource(R.string.home_nav_reminders)) },
                         leadingIcon = {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_calendar_toggle),
-                                contentDescription = "Recordatorios"
+                                contentDescription = stringResource(R.string.home_nav_reminders)
                             )
                         },
                         onClick = {
@@ -212,11 +218,11 @@ fun NevilleBottomNavBar(
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text("Ritual del día") },
+                        text = { Text(stringResource(R.string.home_nav_daily_ritual)) },
                         leadingIcon = {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_calendar_toggle),
-                                contentDescription = "Ritual del día"
+                                contentDescription = stringResource(R.string.home_nav_daily_ritual)
                             )
                         },
                         onClick = {
@@ -225,11 +231,11 @@ fun NevilleBottomNavBar(
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text("Resumen Semanal") },
+                        text = { Text(stringResource(R.string.weekly_summary_title)) },
                         leadingIcon = {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_item),
-                                contentDescription = "Resumen Semanal"
+                                contentDescription = stringResource(R.string.weekly_summary_title)
                             )
                         },
                         onClick = {
@@ -238,11 +244,11 @@ fun NevilleBottomNavBar(
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text("Notas de Voz") },
+                        text = { Text(stringResource(R.string.voice_notes_title)) },
                         leadingIcon = {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_audio),
-                                contentDescription = "Notas de Voz"
+                                contentDescription = stringResource(R.string.voice_notes_title)
                             )
                         },
                         onClick = {
@@ -251,11 +257,11 @@ fun NevilleBottomNavBar(
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text("Anclas Emocionales") },
+                        text = { Text(stringResource(R.string.anchors_title)) },
                         leadingIcon = {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_tips),
-                                contentDescription = "Anclas Emocionales"
+                                contentDescription = stringResource(R.string.anchors_title)
                             )
                         },
                         onClick = {
@@ -264,11 +270,11 @@ fun NevilleBottomNavBar(
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text("Espacio de Calma") },
+                        text = { Text(stringResource(R.string.calm_title)) },
                         leadingIcon = {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_show),
-                                contentDescription = "Espacio de Calma"
+                                contentDescription = stringResource(R.string.calm_title)
                             )
                         },
                         onClick = {
@@ -277,11 +283,11 @@ fun NevilleBottomNavBar(
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text("Coherencia Cardio-Cerebral") },
+                        text = { Text(stringResource(R.string.coherence_title)) },
                         leadingIcon = {
                             Icon(
                                 imageVector = Icons.Rounded.BookmarkAdded,
-                                contentDescription = "Coherencia Cardio-Cerebral"
+                                contentDescription = stringResource(R.string.coherence_title)
                             )
                         },
                         onClick = {
@@ -290,11 +296,11 @@ fun NevilleBottomNavBar(
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text("Presencia Consciente") },
+                        text = { Text(stringResource(R.string.presence_title)) },
                         leadingIcon = {
                             Icon(
                                 imageVector = Icons.Rounded.BookmarkAdded,
-                                contentDescription = "Presencia Consciente"
+                                contentDescription = stringResource(R.string.presence_title)
                             )
                         },
                         onClick = {
@@ -313,6 +319,7 @@ private fun BottomNavButton(
     activeId: String?,
     id: String,
     icon: Int,
+    contentDescription: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -349,7 +356,7 @@ private fun BottomNavButton(
     ) {
         Icon(
             painter = painterResource(id = icon),
-            contentDescription = id,
+            contentDescription = contentDescription,
             tint = if (active) Color(0xFF1E2A32) else Color(0xFF2E3B44),
             modifier = Modifier.size(22.dp)
         )

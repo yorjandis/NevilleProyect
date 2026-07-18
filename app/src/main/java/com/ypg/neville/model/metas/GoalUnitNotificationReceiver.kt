@@ -85,8 +85,10 @@ class GoalUnitNotificationReceiver : BroadcastReceiver() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        val descriptionText = goalDescription.trim().ifBlank { "Sin descripción." }
-        val message = "Unidad \"$unitName\" lista para fichar.\n$descriptionText"
+        val descriptionText = goalDescription.trim().ifBlank {
+            context.getString(R.string.global_no_description)
+        }
+        val message = context.getString(R.string.global_goal_unit_available, unitName, descriptionText)
         val notification = NotificationCompat.Builder(context, GoalUnitNotificationScheduler.CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification_neville)
             .setContentTitle(goalTitle)
@@ -95,7 +97,7 @@ class GoalUnitNotificationReceiver : BroadcastReceiver() {
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
-            .addAction(R.drawable.ic_show, "Abrir Metas", openMetasPendingIntent)
+            .addAction(R.drawable.ic_show, context.getString(R.string.global_open_goals), openMetasPendingIntent)
             .build()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -114,15 +116,12 @@ class GoalUnitNotificationReceiver : BroadcastReceiver() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
 
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val existing = manager.getNotificationChannel(GoalUnitNotificationScheduler.CHANNEL_ID)
-        if (existing != null) return
-
         val channel = NotificationChannel(
             GoalUnitNotificationScheduler.CHANNEL_ID,
-            "Metas",
+            context.getString(R.string.global_goals_channel),
             NotificationManager.IMPORTANCE_HIGH
         ).apply {
-            description = "Notificaciones de unidades disponibles para fichar"
+            description = context.getString(R.string.global_goals_channel_description)
         }
         manager.createNotificationChannel(channel)
     }

@@ -36,14 +36,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.ypg.neville.R
 import com.ypg.neville.feature.morningdialog.ui.components.SectionCard
 import com.ypg.neville.feature.morningdialog.ui.components.SelectableChip
 import com.ypg.neville.feature.morningdialog.ui.components.StepProgress
 import com.ypg.neville.feature.morningdialog.ui.components.MorningDialogStyles
 import com.ypg.neville.feature.morningdialog.ui.viewmodel.MorningDialogFlowUiState
 import com.ypg.neville.feature.morningdialog.ui.viewmodel.TriggerResponseInput
-import com.ypg.neville.feature.morningdialog.utils.MorningDialogCopy
 import kotlinx.coroutines.delay
 import java.util.Locale
 
@@ -144,7 +146,7 @@ fun MorningDialogFlowScreen(
 
             state.validationMessage?.let { message ->
                 Text(
-                    text = message,
+                    text = localizedFlowValidation(message),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.error
                 )
@@ -169,7 +171,7 @@ fun MorningDialogFlowScreen(
                         contentColor = MorningDialogStyles.buttonTextColor
                     )
                 ) {
-                    Text("Atrás")
+                    Text(stringResource(R.string.ritual_back))
                 }
 
                 Button(
@@ -182,7 +184,7 @@ fun MorningDialogFlowScreen(
                         contentColor = MorningDialogStyles.buttonTextColor
                     )
                 ) {
-                    Text(if (state.step < 6) "Continuar" else "Finalizar")
+                    Text(if (state.step < 6) stringResource(R.string.ritual_continue) else stringResource(R.string.ritual_finish))
                 }
             }
 
@@ -195,7 +197,7 @@ fun MorningDialogFlowScreen(
                         contentColor = MorningDialogStyles.buttonTextColor
                     )
                 ) {
-                    Text("Volver al inicio")
+                    Text(stringResource(R.string.ritual_back_home))
                 }
             }
         }
@@ -204,17 +206,7 @@ fun MorningDialogFlowScreen(
 
 @Composable
 private fun PresenceStep(onStepChange: (Int) -> Unit) {
-    val sequence = remember { listOf(
-        "Respira profundo, exhala suavemente",
-        "Hoy me mantendré enfocado y presente",
-        "Hoy Mantendré mi equilibrio emocional",
-        "Voy a detenerme antes de reaccionar",
-        "No seré la víctima de las circunstancias",
-        "Ahora es mi momento creativo",
-        "Voy a dejar las emociones de mi pasado",
-        "Y enfocarme en sentir mi futuro",
-        "Hoy es un nuevo día, lleno de posibilidades",
-        "Hoy soy una mejor versión de mí") }
+    val sequence = stringArrayResource(R.array.ritual_presence_sequence).toList()
     var sequenceIndex by remember { mutableIntStateOf(0) }
     val sequenceAlpha = remember { Animatable(0f) }
 
@@ -234,11 +226,11 @@ private fun PresenceStep(onStepChange: (Int) -> Unit) {
     }
 
     SectionCard(
-        title = MorningDialogCopy.step1Title,
-        body = MorningDialogCopy.step1Body
+        title = stringResource(R.string.ritual_step1_title),
+        body = stringResource(R.string.ritual_step1_body)
     ) {
         Text(
-            text = "Antes de decidir tu día, vuelve al presente.",
+            text = stringResource(R.string.ritual_present_intro),
             style = MaterialTheme.typography.bodyLarge
         )
 
@@ -257,7 +249,7 @@ private fun PresenceStep(onStepChange: (Int) -> Unit) {
                 contentColor = MorningDialogStyles.buttonTextColor
             )
         ) {
-            Text("Estoy presente")
+            Text(stringResource(R.string.ritual_i_am_present))
         }
     }
 }
@@ -273,7 +265,7 @@ private fun GoalsStep(
     onAddGoal: () -> Unit,
     onRemoveGoal: (Int) -> Unit
 ) {
-    SectionCard(title = "¿Qué quieres crear hoy?", body = MorningDialogCopy.step2Prompt) {
+    SectionCard(title = stringResource(R.string.ritual_create_today), body = stringResource(R.string.ritual_step2_prompt)) {
         goals.forEachIndexed { index, goal ->
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedTextField(
@@ -281,7 +273,7 @@ private fun GoalsStep(
                     onValueChange = { onGoalChange(index, it) },
                     modifier = Modifier.weight(1f),
                     singleLine = true,
-                    label = { Text("Meta ${index + 1}", color = Color.Black) },
+                    label = { Text(stringResource(R.string.ritual_goal_number, index + 1), color = Color.Black) },
                     textStyle = MaterialTheme.typography.bodyLarge.copy(color = Color.Black)
                 )
                 if (goals.size > 1) {
@@ -291,7 +283,7 @@ private fun GoalsStep(
                             containerColor = MorningDialogStyles.buttonColor,
                             contentColor = MorningDialogStyles.buttonTextColor
                         )
-                    ) { Text("Quitar") }
+                    ) { Text(stringResource(R.string.ritual_remove)) }
                 }
             }
         }
@@ -303,7 +295,7 @@ private fun GoalsStep(
                     containerColor = MorningDialogStyles.buttonColor,
                     contentColor = MorningDialogStyles.buttonTextColor
                 )
-            ) { Text("Añadir meta") }
+            ) { Text(stringResource(R.string.ritual_add_goal)) }
         }
     }
 }
@@ -315,11 +307,12 @@ private fun IdentityStep(
     onToggleIdentity: (String) -> Unit,
     onCustomIdentityChange: (String) -> Unit
 ) {
-    SectionCard(title = "Identidad intencional", body = MorningDialogCopy.step3Prompt) {
+    val localizedSuggestions = stringArrayResource(R.array.ritual_identity_suggestions)
+    SectionCard(title = stringResource(R.string.ritual_intentional_identity), body = stringResource(R.string.ritual_step3_prompt)) {
         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            identitySuggestions.forEach { suggestion ->
+            identitySuggestions.forEachIndexed { index, suggestion ->
                 SelectableChip(
-                    text = suggestion,
+                    text = localizedSuggestions.getOrElse(index) { suggestion },
                     selected = identities.contains(suggestion),
                     onClick = { onToggleIdentity(suggestion) }
                 )
@@ -330,7 +323,7 @@ private fun IdentityStep(
             value = customIdentity,
             onValueChange = onCustomIdentityChange,
             singleLine = true,
-            label = { Text("Identidad personalizada (opcional)") },
+            label = { Text(stringResource(R.string.ritual_custom_identity)) },
             textStyle = MaterialTheme.typography.bodyLarge.copy(color = Color.Black)
         )
     }
@@ -343,11 +336,12 @@ private fun EmotionStep(
     onToggleEmotion: (String) -> Unit,
     onCustomEmotionChange: (String) -> Unit
 ) {
-    SectionCard(title = "Estado emocional elegido", body = MorningDialogCopy.step4Prompt) {
+    val localizedSuggestions = stringArrayResource(R.array.ritual_emotion_suggestions)
+    SectionCard(title = stringResource(R.string.ritual_chosen_emotion), body = stringResource(R.string.ritual_step4_prompt)) {
         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            emotionSuggestions.forEach { suggestion ->
+            emotionSuggestions.forEachIndexed { index, suggestion ->
                 SelectableChip(
-                    text = suggestion,
+                    text = localizedSuggestions.getOrElse(index) { suggestion },
                     selected = emotions.contains(suggestion),
                     onClick = { onToggleEmotion(suggestion) }
                 )
@@ -358,7 +352,7 @@ private fun EmotionStep(
             value = customEmotion,
             onValueChange = onCustomEmotionChange,
             singleLine = true,
-            label = { Text("Emoción personalizada (opcional)") },
+            label = { Text(stringResource(R.string.ritual_custom_emotion)) },
             textStyle = MaterialTheme.typography.bodyLarge.copy(color = Color.Black)
         )
     }
@@ -373,8 +367,8 @@ private fun AnticipationStep(
     onRemovePair: (Int) -> Unit
 ) {
     SectionCard(
-        title = "Anticipación consciente",
-        body = "${MorningDialogCopy.step5PromptA}\n${MorningDialogCopy.step5PromptB}"
+        title = stringResource(R.string.ritual_conscious_anticipation),
+        body = stringResource(R.string.ritual_step5_prompt)
     ) {
         pairs.forEachIndexed { index, pair ->
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -382,14 +376,14 @@ private fun AnticipationStep(
                     value = pair.trigger,
                     onValueChange = { onTriggerChange(index, it) },
                     modifier = Modifier.fillMaxWidth(),
-                    label = { Text("Si ocurre X...") },
+                    label = { Text(stringResource(R.string.ritual_trigger_hint)) },
                     textStyle = MaterialTheme.typography.bodyLarge.copy(color = Color.Black)
                 )
                 OutlinedTextField(
                     value = pair.response,
                     onValueChange = { onResponseChange(index, it) },
                     modifier = Modifier.fillMaxWidth(),
-                    label = { Text("Responderé con Y...") },
+                    label = { Text(stringResource(R.string.ritual_response_hint)) },
                     textStyle = MaterialTheme.typography.bodyLarge.copy(color = Color.Black)
                 )
                 if (pairs.size > 1) {
@@ -401,7 +395,7 @@ private fun AnticipationStep(
                             contentColor = MorningDialogStyles.buttonTextColor
                         )
                     ) {
-                        Text("Quitar situación")
+                        Text(stringResource(R.string.ritual_remove_situation))
                     }
                 }
             }
@@ -415,7 +409,7 @@ private fun AnticipationStep(
                     contentColor = MorningDialogStyles.buttonTextColor
                 )
             ) {
-                Text("Añadir situación")
+                Text(stringResource(R.string.ritual_add_situation))
             }
         }
     }
@@ -429,6 +423,8 @@ private fun SummaryStep(
     onRemoveDayReminderTime: (Int) -> Unit
 ) {
     val context = LocalContext.current
+    val localizedIdentities = stringArrayResource(R.array.ritual_identity_suggestions)
+    val localizedEmotions = stringArrayResource(R.array.ritual_emotion_suggestions)
 
     val goals = state.goals.map { it.trim() }.filter { it.isNotEmpty() }
     val identities = buildList {
@@ -440,19 +436,33 @@ private fun SummaryStep(
         state.customEmotion.trim().takeIf { it.isNotEmpty() }?.let { add(it) }
     }.distinct()
 
-    SectionCard(title = "Cierre y visualización breve") {
-        Text("Metas: ${if (goals.isEmpty()) "-" else goals.joinToString()}")
-        Text("Identidad: ${if (identities.isEmpty()) "-" else identities.joinToString()}")
-        Text("Emociones: ${if (emotions.isEmpty()) "-" else emotions.joinToString()}")
+    SectionCard(title = stringResource(R.string.ritual_closing_visualization)) {
+        Text(stringResource(R.string.ritual_goals_value, if (goals.isEmpty()) "—" else goals.joinToString()))
+        Text(
+            stringResource(
+                R.string.ritual_identity_value,
+                if (identities.isEmpty()) "—" else identities.joinToString { value ->
+                    identitySuggestions.indexOf(value).takeIf { it >= 0 }?.let { localizedIdentities.getOrElse(it) { value } } ?: value
+                }
+            )
+        )
+        Text(
+            stringResource(
+                R.string.ritual_emotions_value,
+                if (emotions.isEmpty()) "—" else emotions.joinToString { value ->
+                    emotionSuggestions.indexOf(value).takeIf { it >= 0 }?.let { localizedEmotions.getOrElse(it) { value } } ?: value
+                }
+            )
+        )
 
         val pairs = state.triggerResponses
             .map { it.copy(trigger = it.trigger.trim(), response = it.response.trim()) }
             .filter { it.trigger.isNotEmpty() && it.response.isNotEmpty() }
         if (pairs.isEmpty()) {
-            Text("Respuestas conscientes: -")
+            Text(stringResource(R.string.ritual_responses_empty))
         } else {
             pairs.forEach {
-                Text("Si ${it.trigger}, responderé con ${it.response}")
+                Text(stringResource(R.string.ritual_response_value, it.trigger, it.response))
             }
         }
 
@@ -460,7 +470,7 @@ private fun SummaryStep(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("Recordatorios del día (opcional)")
+            Text(stringResource(R.string.ritual_day_reminders))
             Switch(
                 checked = state.dayRemindersEnabled,
                 onCheckedChange = onSetDayRemindersEnabled
@@ -503,19 +513,19 @@ private fun SummaryStep(
                         contentColor = MorningDialogStyles.buttonTextColor
                     )
                 ) {
-                    Text("Añadir hora (máx. 6)")
+                    Text(stringResource(R.string.ritual_add_time))
                 }
             }
 
             if (state.dayReminderTimes.isEmpty()) {
                 Text(
-                    text = "No hay horas seleccionadas. Añade al menos una para activar los recordatorios del día.",
+                    text = stringResource(R.string.ritual_no_times),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             } else {
                 Text(
-                    text = "Toca una hora para quitarla.",
+                    text = stringResource(R.string.ritual_tap_remove_time),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -523,7 +533,7 @@ private fun SummaryStep(
         }
 
         Text(
-            text = "${MorningDialogCopy.finalLine1}\n${MorningDialogCopy.finalLine2}",
+            text = stringResource(R.string.ritual_final_lines),
             style = MaterialTheme.typography.titleMedium,
             color = Color(0xFFFF9800)
         )
@@ -533,11 +543,22 @@ private fun SummaryStep(
 private fun formatMinuteOfDay(value: Int): String {
     val hour24 = (value / 60).coerceIn(0, 23)
     val minute = (value % 60).coerceIn(0, 59)
-    val suffix = if (hour24 < 12) "am" else "pm"
-    val hour12 = when {
-        hour24 == 0 -> 12
-        hour24 > 12 -> hour24 - 12
-        else -> hour24
+    val calendar = java.util.Calendar.getInstance().apply {
+        set(java.util.Calendar.HOUR_OF_DAY, hour24)
+        set(java.util.Calendar.MINUTE, minute)
     }
-    return String.format(Locale.getDefault(), "%02d:%02d %s", hour12, minute, suffix)
+    return java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT, Locale.getDefault()).format(calendar.time)
 }
+
+@Composable
+private fun localizedFlowValidation(message: String): String = stringResource(
+    when (message) {
+        "Añade al menos 1 meta para hoy." -> R.string.ritual_validation_goal_required
+        "Solo puedes guardar hasta 3 metas." -> R.string.ritual_validation_goal_limit
+        "Elige al menos una identidad o añade una personalizada." -> R.string.ritual_validation_identity
+        "Elige al menos una emoción o intención para cultivar hoy." -> R.string.ritual_validation_emotion
+        "Completa al menos una situación y tu respuesta consciente." -> R.string.ritual_validation_situation
+        "Añade al menos una hora o desactiva los recordatorios del día." -> R.string.ritual_validation_time
+        else -> R.string.common_unknown_error
+    }
+)

@@ -88,7 +88,7 @@ class ReminderWorker(
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
             .setContentIntent(openPendingIntent)
-            .addAction(R.drawable.ic_delete, "Detener", stopPendingIntent)
+            .addAction(R.drawable.ic_delete, applicationContext.getString(R.string.global_stop), stopPendingIntent)
             .build()
 
         NotificationManagerCompat.from(applicationContext)
@@ -99,15 +99,12 @@ class ReminderWorker(
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
 
         val manager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val existing = manager.getNotificationChannel(ReminderScheduler.CHANNEL_ID)
-        if (existing != null) return
-
         val channel = NotificationChannel(
             ReminderScheduler.CHANNEL_ID,
-            "Recordatorios",
+            applicationContext.getString(R.string.global_reminders_channel),
             NotificationManager.IMPORTANCE_HIGH
         ).apply {
-            description = "Notificaciones de recordatorios"
+            description = applicationContext.getString(R.string.global_reminders_channel_description)
         }
         manager.createNotificationChannel(channel)
     }

@@ -70,6 +70,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
@@ -1160,7 +1161,7 @@ class FragCalmSpace : Fragment() {
                     if (currentBitmap != null) {
                         Image(
                             bitmap = currentBitmap,
-                            contentDescription = "Fondo de calma",
+                            contentDescription = stringResource(R.string.calm_background_content_description),
                             contentScale = ContentScale.Crop,
                             modifier = Modifier.fillMaxSize()
                         )
@@ -1693,27 +1694,27 @@ class FragCalmSpace : Fragment() {
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Text(
-                            text = "Espacio de Calma",
+                            text = stringResource(R.string.calm_title),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.ExtraBold,
                             color = Color.White
                         )
                         Text(
-                            text = "Toca una esfera para liberar su frase.",
+                            text = stringResource(R.string.calm_tap_sphere_hint),
                             style = MaterialTheme.typography.bodySmall,
                             color = Color.White.copy(alpha = 0.9f)
                         )
                         Text(
-                            text = "Partículas",
+                            text = stringResource(R.string.calm_particles),
                             style = MaterialTheme.typography.labelLarge,
                             color = Color.White
                         )
                         Box(modifier = Modifier.fillMaxWidth()) {
                             Text(
                                 text = when (particleMode) {
-                                    CalmParticleMode.SPHERE -> "Esferas"
-                                    CalmParticleMode.FIREFLY -> "Luciérnagas"
-                                    CalmParticleMode.BOTH -> "Esferas + Luciérnagas"
+                                    CalmParticleMode.SPHERE -> stringResource(R.string.calm_spheres)
+                                    CalmParticleMode.FIREFLY -> stringResource(R.string.calm_fireflies)
+                                    CalmParticleMode.BOTH -> stringResource(R.string.calm_spheres_fireflies)
                                 },
                                 color = Color.White,
                                 modifier = Modifier
@@ -1728,21 +1729,21 @@ class FragCalmSpace : Fragment() {
                                 onDismissRequest = { onParticleModeMenuChange(false) }
                             ) {
                                 DropdownMenuItem(
-                                    text = { Text("Esferas") },
+                                    text = { Text(stringResource(R.string.calm_spheres)) },
                                     onClick = {
                                         onParticleModeChange(CalmParticleMode.SPHERE)
                                         onParticleModeMenuChange(false)
                                     }
                                 )
                                 DropdownMenuItem(
-                                    text = { Text("Luciérnagas") },
+                                    text = { Text(stringResource(R.string.calm_fireflies)) },
                                     onClick = {
                                         onParticleModeChange(CalmParticleMode.FIREFLY)
                                         onParticleModeMenuChange(false)
                                     }
                                 )
                                 DropdownMenuItem(
-                                    text = { Text("Esferas + Luciérnagas") },
+                                    text = { Text(stringResource(R.string.calm_spheres_fireflies)) },
                                     onClick = {
                                         onParticleModeChange(CalmParticleMode.BOTH)
                                         onParticleModeMenuChange(false)
@@ -1751,16 +1752,16 @@ class FragCalmSpace : Fragment() {
                             }
                         }
                         Text(
-                            text = "Fuente de frases",
+                            text = stringResource(R.string.calm_phrase_source),
                             style = MaterialTheme.typography.labelLarge,
                             color = Color.White
                         )
                         Box(modifier = Modifier.fillMaxWidth()) {
                             Text(
                                 text = when (phraseSourceMode) {
-                                    CalmPhraseSourceMode.INBUILT -> "Inbuilt"
-                                    CalmPhraseSourceMode.PERSONAL -> "Personales"
-                                    CalmPhraseSourceMode.BOTH -> "Inbuilt + Personales"
+                                    CalmPhraseSourceMode.INBUILT -> stringResource(R.string.calm_included_phrases)
+                                    CalmPhraseSourceMode.PERSONAL -> stringResource(R.string.calm_personal_phrases)
+                                    CalmPhraseSourceMode.BOTH -> stringResource(R.string.calm_included_personal_phrases)
                                 },
                                 color = Color.White,
                                 modifier = Modifier
@@ -1775,21 +1776,21 @@ class FragCalmSpace : Fragment() {
                                 onDismissRequest = { onPhraseSourceMenuChange(false) }
                             ) {
                                 DropdownMenuItem(
-                                    text = { Text("Inbuilt") },
+                                    text = { Text(stringResource(R.string.calm_included_phrases)) },
                                     onClick = {
                                         onPhraseSourceModeChange(CalmPhraseSourceMode.INBUILT)
                                         onPhraseSourceMenuChange(false)
                                     }
                                 )
                                 DropdownMenuItem(
-                                    text = { Text("Personales") },
+                                    text = { Text(stringResource(R.string.calm_personal_phrases)) },
                                     onClick = {
                                         onPhraseSourceModeChange(CalmPhraseSourceMode.PERSONAL)
                                         onPhraseSourceMenuChange(false)
                                     }
                                 )
                                 DropdownMenuItem(
-                                    text = { Text("Inbuilt + Personales") },
+                                    text = { Text(stringResource(R.string.calm_included_personal_phrases)) },
                                     onClick = {
                                         onPhraseSourceModeChange(CalmPhraseSourceMode.BOTH)
                                         onPhraseSourceMenuChange(false)
@@ -1817,7 +1818,7 @@ class FragCalmSpace : Fragment() {
 
                         if (particleMode == CalmParticleMode.SPHERE || particleMode == CalmParticleMode.BOTH) {
                             Text(
-                                text = "Esferas: $sphereCount",
+                                text = stringResource(R.string.calm_sphere_count, sphereCount),
                                 style = MaterialTheme.typography.labelLarge,
                                 color = Color.White
                             )
@@ -1830,7 +1831,7 @@ class FragCalmSpace : Fragment() {
                         }
                         if (particleMode == CalmParticleMode.FIREFLY || particleMode == CalmParticleMode.BOTH) {
                             Text(
-                                text = "Luciérnagas: $fireflyCount",
+                                text = stringResource(R.string.calm_firefly_count, fireflyCount),
                                 style = MaterialTheme.typography.labelLarge,
                                 color = Color.White
                             )
@@ -1842,7 +1843,7 @@ class FragCalmSpace : Fragment() {
                             )
                         }
                         Text(
-                            text = "Velocidad inercial nominal: ${nominalReleaseSpeed.toInt()}",
+                            text = stringResource(R.string.calm_release_speed, nominalReleaseSpeed.toInt()),
                             style = MaterialTheme.typography.labelLarge,
                             color = Color.White
                         )
@@ -1856,7 +1857,7 @@ class FragCalmSpace : Fragment() {
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("Música en segundo plano", color = Color.White)
+                            Text(stringResource(R.string.calm_background_music), color = Color.White)
                             Switch(
                                 checked = keepMusicInBackground,
                                 onCheckedChange = onKeepMusicInBackgroundChange
@@ -1867,7 +1868,7 @@ class FragCalmSpace : Fragment() {
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("Mantener pantalla encendida", color = Color.White)
+                            Text(stringResource(R.string.calm_keep_screen_on), color = Color.White)
                             Switch(
                                 checked = keepScreenOn,
                                 onCheckedChange = onKeepScreenOnChange
@@ -1878,7 +1879,7 @@ class FragCalmSpace : Fragment() {
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("Fondo fijo", color = Color.White)
+                            Text(stringResource(R.string.calm_fixed_background), color = Color.White)
                             Switch(checked = useFixedBackground, onCheckedChange = onUseFixedBackgroundChange)
                         }
                         Row(
@@ -1887,7 +1888,7 @@ class FragCalmSpace : Fragment() {
                         ) {
                             Box(modifier = Modifier.fillMaxWidth(0.64f)) {
                                 Text(
-                                    text = currentBackground?.let(backgroundLabelFor) ?: "Sin fondo",
+                                    text = currentBackground?.let(backgroundLabelFor) ?: stringResource(R.string.calm_no_background),
                                     color = Color.White,
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -1936,7 +1937,7 @@ class FragCalmSpace : Fragment() {
                                     .padding(horizontal = 12.dp, vertical = 10.dp),
                                 contentAlignment = Alignment.Center
                             ) {
-                                Text(text = "Aleatorio", color = Color.White)
+                                Text(text = stringResource(R.string.calm_random_masculine), color = Color.White)
                             }
                         }
                         Row(
@@ -1944,7 +1945,7 @@ class FragCalmSpace : Fragment() {
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("Música fija", color = Color.White)
+                            Text(stringResource(R.string.calm_fixed_music), color = Color.White)
                             Switch(checked = useFixedMusic, onCheckedChange = onUseFixedMusicChange)
                         }
                         Row(
@@ -1953,7 +1954,7 @@ class FragCalmSpace : Fragment() {
                         ) {
                             Box(modifier = Modifier.fillMaxWidth(0.64f)) {
                                 Text(
-                                    text = currentMusic?.let(musicLabelFor) ?: "Sin música",
+                                    text = currentMusic?.let(musicLabelFor) ?: stringResource(R.string.calm_no_music),
                                     color = Color.White,
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -1986,7 +1987,7 @@ class FragCalmSpace : Fragment() {
                                     .padding(horizontal = 12.dp, vertical = 10.dp),
                                 contentAlignment = Alignment.Center
                             ) {
-                                Text(text = "Aleatoria", color = Color.White)
+                                Text(text = stringResource(R.string.calm_random_feminine), color = Color.White)
                             }
                         }
                     }

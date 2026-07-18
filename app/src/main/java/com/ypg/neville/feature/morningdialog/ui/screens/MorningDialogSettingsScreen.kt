@@ -35,9 +35,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import com.ypg.neville.R
 import com.ypg.neville.feature.morningdialog.data.MorningDialogSettings
 import com.ypg.neville.feature.morningdialog.ui.components.MorningDialogStyles
 import com.ypg.neville.feature.morningdialog.ui.components.SectionCard
@@ -67,7 +69,7 @@ fun MorningDialogSettingsScreen(
     var message by remember { mutableStateOf<String?>(null) }
 
     val permissionLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-        message = if (granted) "Permiso de notificación concedido." else "Sin permiso, los recordatorios no podrán mostrarse."
+        message = if (granted) context.getString(R.string.ritual_permission_granted) else context.getString(R.string.ritual_permission_denied)
     }
 
     LaunchedEffect(settings) {
@@ -85,11 +87,11 @@ fun MorningDialogSettingsScreen(
             .verticalScroll(rememberScrollState()).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
-        Text("Ajustes de rituales", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+        Text(stringResource(R.string.ritual_settings_title), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
 
         ReminderSettingsCard(
-            title = "Recordatorio matutino",
-            subtitle = "Empieza el día con intención.",
+            title = stringResource(R.string.ritual_morning_reminder),
+            subtitle = stringResource(R.string.ritual_morning_reminder_body),
             enabled = enabled,
             hour = hour,
             minute = minute,
@@ -100,8 +102,8 @@ fun MorningDialogSettingsScreen(
             evening = false
         )
         ReminderSettingsCard(
-            title = "Recordatorio de cierre",
-            subtitle = "Una pausa para integrar el día y preparar mañana.",
+            title = stringResource(R.string.ritual_evening_reminder),
+            subtitle = stringResource(R.string.ritual_evening_reminder_body),
             enabled = eveningEnabled,
             hour = eveningHour,
             minute = eveningMinute,
@@ -113,11 +115,11 @@ fun MorningDialogSettingsScreen(
         )
 
         SectionCard(
-            title = "Proteger reflexiones de cierre",
-            body = "Pide biometría o el código del dispositivo para abrir cierres y el panel Mi día."
+            title = stringResource(R.string.ritual_protect_reflections),
+            body = stringResource(R.string.ritual_protect_reflections_body)
         ) {
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Text("Protección del dispositivo", Modifier.weight(1f))
+                Text(stringResource(R.string.ritual_device_protection), Modifier.weight(1f))
                 Switch(
                     checked = protectClosingReflections,
                     onCheckedChange = { protectClosingReflections = it }
@@ -139,14 +141,14 @@ fun MorningDialogSettingsScreen(
                     eveningMinute,
                     protectClosingReflections
                 )
-                message = "Cambios guardados y programación actualizada."
+                message = context.getString(R.string.ritual_settings_saved)
             },
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
                 containerColor = MorningDialogStyles.buttonColor,
                 contentColor = MorningDialogStyles.buttonTextColor
             )
-        ) { Text("Guardar cambios") }
+        ) { Text(stringResource(R.string.ritual_save_changes)) }
 
         message?.let { Text(it, style = MaterialTheme.typography.bodyMedium) }
     }
@@ -166,7 +168,7 @@ private fun ReminderSettingsCard(
     SectionCard(title = title, body = subtitle) {
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Icon(if (evening) Icons.Rounded.NightsStay else Icons.Rounded.WbSunny, null)
-            Text("Activar recordatorio", Modifier.weight(1f).padding(start = 8.dp))
+            Text(stringResource(R.string.ritual_enable_reminder), Modifier.weight(1f).padding(start = 8.dp))
             Switch(checked = enabled, onCheckedChange = onEnabledChange)
         }
         OutlinedButton(
@@ -178,7 +180,7 @@ private fun ReminderSettingsCard(
                 contentColor = MorningDialogStyles.buttonTextColor
             )
         ) {
-            Text("Hora diaria: ${String.format(Locale.getDefault(), "%02d:%02d", hour, minute)}")
+            Text(stringResource(R.string.ritual_daily_time, hour, minute))
         }
     }
 }

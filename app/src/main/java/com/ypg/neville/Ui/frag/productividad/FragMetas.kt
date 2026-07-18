@@ -60,6 +60,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -197,7 +199,7 @@ class FragMetas : Fragment() {
         ) {
             Column(modifier = Modifier.fillMaxSize()) {
                 Text(
-                    text = if (showArchived) "Metas Archivadas" else "Metas",
+                    text = if (showArchived) stringResource(R.string.goals_archived_title) else stringResource(R.string.goals_title),
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(6.dp)
@@ -209,7 +211,7 @@ class FragMetas : Fragment() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 6.dp),
-                    label = { Text("Buscar meta por título", color = Color.Black) },
+                    label = { Text(stringResource(R.string.goals_search), color = Color.Black) },
                     shape = RoundedCornerShape(14.dp),
                     singleLine = true
                 )
@@ -222,7 +224,7 @@ class FragMetas : Fragment() {
                 ) {
                     if (!showArchived) {
                         Button(onClick = { showCreate = true }, modifier = Modifier.weight(1f)) {
-                            Text("Crear")
+                            Text(stringResource(R.string.goals_create))
                         }
                         Button(
                             onClick = {
@@ -231,7 +233,7 @@ class FragMetas : Fragment() {
                             },
                             modifier = Modifier.weight(1f)
                         ) {
-                            Text("Archivadas")
+                            Text(stringResource(R.string.goals_archived))
                         }
                     } else {
                         Button(
@@ -241,7 +243,7 @@ class FragMetas : Fragment() {
                             },
                             modifier = Modifier.weight(1f)
                         ) {
-                            Text("Volver a activas")
+                            Text(stringResource(R.string.goals_back_to_active))
                         }
                     }
                 }
@@ -254,12 +256,12 @@ class FragMetas : Fragment() {
                         .fillMaxWidth()
                         .padding(horizontal = 6.dp)
                 ) {
-                    Text("Estadísticas")
+                    Text(stringResource(R.string.goals_statistics))
                 }
 
                 if (!showArchived) {
                     if (filteredGoals.isEmpty()) {
-                        EmptyState("No hay metas activas")
+                        EmptyState(stringResource(R.string.goals_no_active))
                     } else {
                         LazyColumn(
                             modifier = Modifier.fillMaxSize(),
@@ -278,7 +280,7 @@ class FragMetas : Fragment() {
                 } else {
                     val archivedFiltered = archivedGoals.filter { it.titleMatches(searchText) }
                     if (archivedFiltered.isEmpty()) {
-                        EmptyState("No hay metas archivadas")
+                        EmptyState(stringResource(R.string.goals_no_archived))
                     } else {
                         LazyColumn(
                             modifier = Modifier.fillMaxSize(),
@@ -340,6 +342,7 @@ class FragMetas : Fragment() {
         repository: MetasRepository,
         onChanged: () -> Unit
     ) {
+        val context = LocalContext.current
         var expandUnits by remember(state.goal.id) { mutableStateOf(false) }
         var expandNotes by remember(state.goal.id) { mutableStateOf(false) }
         var showEditGoal by remember(state.goal.id) { mutableStateOf(false) }
@@ -353,9 +356,9 @@ class FragMetas : Fragment() {
         var notifyHintText by remember(state.goal.id) { mutableStateOf("") }
         var unitDetail by remember { mutableStateOf<GoalUnitEntity?>(null) }
 
-        val timeText = repository.timeUntilNextUnit(state, nowMs)
         val nextUnit = repository.nextPendingUnit(state, nowMs)
-        val canCheck = timeText == "Listo" && nextUnit != null
+        val canCheck = nextUnit?.startDate?.let { nowMs >= it } == true
+        val timeText = localizedTimeUntilNextUnit(state, nextUnit, nowMs)
         val expiration = repository.nextExpirationDate(state, nowMs)
 
         LaunchedEffect(showNotifyHint) {
@@ -396,18 +399,18 @@ class FragMetas : Fragment() {
                 )
 
                 Text(
-                    text = "🗓 ${state.planSummary}",
+                    text = "🗓 ${localizedPlanSummary(state)}",
                     style = MaterialTheme.typography.bodySmall,
                     color = Color(0xFF4D3A2A)
                 )
 
                 if (state.isCompleted && state.goal.isStarted) {
-                    Text("Completado", color = Color(0xFF1E8E3E), fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.goals_completed), color = Color(0xFF1E8E3E), fontWeight = FontWeight.Bold)
                 } else {
                     if (canCheck && expiration != null) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(
-                                "Esta unidad vence en: ${formatRemaining(expiration - nowMs)}",
+                                stringResource(R.string.goals_unit_expires_in, formatRemaining(expiration - nowMs)),
                                 modifier = Modifier.weight(1f)
                             )
                             Button(onClick = {
@@ -416,7 +419,7 @@ class FragMetas : Fragment() {
                                     activity?.runOnUiThread { onChanged() }
                                 }
                             }) {
-                                Text("Fichar")
+                                Text(stringResource(R.string.goals_check_in))
                             }
                         }
                     } else if (!timeText.isNullOrBlank()) {
@@ -431,7 +434,7 @@ class FragMetas : Fragment() {
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        text = "Progreso: ${state.completedCount}/${state.goal.totalUnits}",
+                        text = stringResource(R.string.goals_progress_value, state.completedCount, state.goal.totalUnits),
                         style = MaterialTheme.typography.bodySmall,
                         fontWeight = FontWeight.SemiBold
                     )
@@ -443,9 +446,9 @@ class FragMetas : Fragment() {
                             onCheckedChange = { enabled ->
                                 notifyOnUnitAvailable = enabled
                                 notifyHintText = if (enabled) {
-                                    "Notificaciones activadas"
+                                    context.getString(R.string.goals_notifications_on)
                                 } else {
-                                    "Notificaciones desactivadas"
+                                    context.getString(R.string.goals_notifications_off)
                                 }
                                 showNotifyHint = true
                                 dbExecutor.execute {
@@ -474,20 +477,20 @@ class FragMetas : Fragment() {
 
                     if (state.isCompleted && state.goal.isStarted) {
                         TextButton(onClick = { showReactivateConfirm = true }) {
-                            Text("Reactivar")
+                            Text(stringResource(R.string.goals_reactivate))
                         }
                         TextButton(onClick = {
                             dbExecutor.execute {
                                 repository.archiveGoal(state.goal.id)
                                 activity?.runOnUiThread { onChanged() }
                             }
-                        }) { Text("Archivar") }
+                        }) { Text(stringResource(R.string.goals_archive)) }
                     }
 
                     IconButton(onClick = { expandNotes = !expandNotes; if (expandNotes) expandUnits = false }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_note),
-                            contentDescription = "Notas"
+                            contentDescription = stringResource(R.string.goals_notes)
                         )
                     }
 
@@ -497,12 +500,12 @@ class FragMetas : Fragment() {
                                 repository.startGoal(state.goal.id)
                                 activity?.runOnUiThread { onChanged() }
                             }
-                        }) { Text("Iniciar", color = Color.Blue, fontWeight = FontWeight.Bold) }
+                        }) { Text(stringResource(R.string.goals_start), color = Color.Blue, fontWeight = FontWeight.Bold) }
                     } else {
                         IconButton(onClick = { expandUnits = !expandUnits; if (expandUnits) expandNotes = false }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_show),
-                                contentDescription = "Progreso"
+                                contentDescription = stringResource(R.string.goals_progress)
                             )
                         }
                     }
@@ -510,14 +513,14 @@ class FragMetas : Fragment() {
                     IconButton(onClick = { showEditGoal = true }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_edit_note),
-                            contentDescription = "Editar"
+                            contentDescription = stringResource(R.string.common_edit)
                         )
                     }
 
                     IconButton(onClick = { showDeleteConfirm = true }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_delete),
-                            contentDescription = "Eliminar"
+                            contentDescription = stringResource(R.string.common_delete)
                         )
                     }
                 }
@@ -538,14 +541,14 @@ class FragMetas : Fragment() {
                 }
 
                 if (expandNotes) {
-                    Text("Notas Generales", fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.goals_general_notes), fontWeight = FontWeight.Bold)
                     OutlinedTextField(
                         value = noteText,
                         onValueChange = { noteText = it },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(140.dp),
-                        label = { Text("Texto descriptivo", color = Color.Black) },
+                        label = { Text(stringResource(R.string.goals_descriptive_text), color = Color.Black) },
                         shape = RoundedCornerShape(14.dp),
                         textStyle = MaterialTheme.typography.titleMedium.copy(color = Color.Black),
                         colors = OutlinedTextFieldDefaults.colors(
@@ -560,7 +563,7 @@ class FragMetas : Fragment() {
                             activity?.runOnUiThread { onChanged() }
                         }
                     }) {
-                        Text("Guardar", color = Color.Black)
+                        Text(stringResource(R.string.common_save), color = Color.Black)
                     }
                 }
             }
@@ -568,9 +571,9 @@ class FragMetas : Fragment() {
 
         if (showDeleteConfirm) {
             ConfirmDialog(
-                title = "Eliminar objetivo",
-                message = "¿Quieres eliminar esta meta y su progreso?",
-                confirmText = "Eliminar",
+                title = stringResource(R.string.goals_delete_title),
+                message = stringResource(R.string.goals_delete_message),
+                confirmText = stringResource(R.string.common_delete),
                 onDismiss = { showDeleteConfirm = false },
                 onConfirm = {
                     showDeleteConfirm = false
@@ -585,9 +588,9 @@ class FragMetas : Fragment() {
 
         if (showReactivateConfirm) {
             ConfirmDialog(
-                title = "Reactivar Meta",
-                message = "La ejecución terminada se conservará en el historial y se creará una nueva Meta activa sin iniciar.",
-                confirmText = "Reactivar",
+                title = stringResource(R.string.goals_reactivate_title),
+                message = stringResource(R.string.goals_reactivate_completed_message),
+                confirmText = stringResource(R.string.goals_reactivate),
                 onDismiss = { showReactivateConfirm = false },
                 onConfirm = {
                     showReactivateConfirm = false
@@ -669,7 +672,7 @@ class FragMetas : Fragment() {
             ) {
                 Text(state.goal.title, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
                 Spacer(Modifier.height(6.dp))
-                Text("Cumplimiento: ${(state.completionRate * 100).toInt()}%")
+                Text(stringResource(R.string.goals_completion_value, (state.completionRate * 100).toInt()))
                 Spacer(Modifier.height(6.dp))
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -679,30 +682,30 @@ class FragMetas : Fragment() {
                 Spacer(Modifier.height(4.dp))
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("Completado: ${state.completedCount}/${state.goal.totalUnits}", fontWeight = FontWeight.SemiBold)
+                    Text(stringResource(R.string.goals_completed_value, state.completedCount, state.goal.totalUnits), fontWeight = FontWeight.SemiBold)
                     Spacer(Modifier.weight(1f))
                     IconButton(onClick = { showRestore = true }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_play_store),
-                            contentDescription = "Reactivar"
+                            contentDescription = stringResource(R.string.goals_reactivate)
                         )
                     }
                     IconButton(onClick = { expandNotes = !expandNotes; if (expandNotes) expandUnits = false }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_note),
-                            contentDescription = "Notas"
+                            contentDescription = stringResource(R.string.goals_notes)
                         )
                     }
                     IconButton(onClick = { expandUnits = !expandUnits; if (expandUnits) expandNotes = false }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_show),
-                            contentDescription = "Progreso"
+                            contentDescription = stringResource(R.string.goals_progress)
                         )
                     }
                     IconButton(onClick = { showDelete = true }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_delete),
-                            contentDescription = "Eliminar"
+                            contentDescription = stringResource(R.string.common_delete)
                         )
                     }
                 }
@@ -714,7 +717,7 @@ class FragMetas : Fragment() {
 
                 if (expandNotes) {
                     Spacer(Modifier.height(8.dp))
-                    Text("Notas Generales", fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.goals_general_notes), fontWeight = FontWeight.Bold)
                     OutlinedTextField(
                         value = noteText,
                         onValueChange = { noteText = it },
@@ -734,16 +737,16 @@ class FragMetas : Fragment() {
                             repository.updateArchivedGoalDescription(state.goal.id, noteText)
                             activity?.runOnUiThread { onChanged() }
                         }
-                    }) { Text("Guardar") }
+                    }) { Text(stringResource(R.string.common_save)) }
                 }
             }
         }
 
         if (showDelete) {
             ConfirmDialog(
-                title = "Eliminar meta archivada",
-                message = "¿Eliminar esta meta permanentemente del historial?",
-                confirmText = "Eliminar",
+                title = stringResource(R.string.goals_delete_archived_title),
+                message = stringResource(R.string.goals_delete_archived_message),
+                confirmText = stringResource(R.string.common_delete),
                 onDismiss = { showDelete = false },
                 onConfirm = {
                     showDelete = false
@@ -757,9 +760,9 @@ class FragMetas : Fragment() {
 
         if (showRestore) {
             ConfirmDialog(
-                title = "Reactivar Meta",
-                message = "La meta se cargará como activa. ¿Continuar?",
-                confirmText = "Reactivar",
+                title = stringResource(R.string.goals_reactivate_title),
+                message = stringResource(R.string.goals_restore_message),
+                confirmText = stringResource(R.string.goals_reactivate),
                 onDismiss = { showRestore = false },
                 onConfirm = {
                     showRestore = false
@@ -830,7 +833,7 @@ class FragMetas : Fragment() {
                 ) {
                     Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.Top) {
                         Text(
-                            unit.name.ifBlank { "Unidad ${unit.unitIndex}" },
+                            unit.name.ifBlank { stringResource(R.string.goals_unit_number, unit.unitIndex) },
                             color = Color.Black,
                             fontWeight = FontWeight.Bold,
                             maxLines = 1,
@@ -838,7 +841,11 @@ class FragMetas : Fragment() {
                             modifier = Modifier.weight(1f)
                         )
                         if (unit.note.isNotBlank()) {
-                            Text("N", color = Color(0xFF16813B), fontWeight = FontWeight.Bold)
+                            Text(
+                                stringResource(R.string.goals_note_badge),
+                                color = Color(0xFF16813B),
+                                fontWeight = FontWeight.Bold
+                            )
                         }
                     }
                     val emoji = when (status) {
@@ -922,7 +929,7 @@ class FragMetas : Fragment() {
                 TextButton(onClick = onConfirm) { Text(confirmText) }
             },
             dismissButton = {
-                TextButton(onClick = onDismiss) { Text("Cancelar") }
+                TextButton(onClick = onDismiss) { Text(stringResource(R.string.common_cancel)) }
             }
         )
     }
@@ -947,35 +954,35 @@ class FragMetas : Fragment() {
                     modifier = Modifier.padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Text("Modificar Meta", fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.goals_edit_title), fontWeight = FontWeight.Bold)
                     OutlinedTextField(
                         value = title,
                         onValueChange = { title = it },
-                        label = { Text("Título") },
+                        label = { Text(stringResource(R.string.common_title)) },
                         shape = RoundedCornerShape(14.dp)
                     )
                     OutlinedTextField(
                         value = desc,
                         onValueChange = { desc = it },
-                        label = { Text("Descripción") },
+                        label = { Text(stringResource(R.string.goals_description)) },
                         modifier = Modifier.height(120.dp),
                         shape = RoundedCornerShape(14.dp)
                     )
                     OutlinedTextField(
                         value = unitLabel,
                         onValueChange = { unitLabel = it },
-                        label = { Text("Nombre de la unidad (opcional)") },
+                        label = { Text(stringResource(R.string.goals_optional_unit_name)) },
                         shape = RoundedCornerShape(14.dp)
                     )
                     ConfigSelector(
-                        label = "Momento del día",
-                        options = GoalDayPeriod.entries.map { it to it.label },
+                        label = stringResource(R.string.goals_time_of_day),
+                        options = GoalDayPeriod.entries.map { it to localizedDayPeriod(it) },
                         selected = dayPeriod,
                         onSelected = { dayPeriod = it }
                     )
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        TextButton(onClick = onDismiss) { Text("Cancelar") }
-                        Button(onClick = { onSave(title, desc, unitLabel, dayPeriod) }) { Text("Actualizar") }
+                        TextButton(onClick = onDismiss) { Text(stringResource(R.string.common_cancel)) }
+                        Button(onClick = { onSave(title, desc, unitLabel, dayPeriod) }) { Text(stringResource(R.string.goals_update)) }
                     }
                 }
             }
@@ -1006,12 +1013,12 @@ class FragMetas : Fragment() {
                 ) {
                     Text(title, fontWeight = FontWeight.Bold)
                     if (completedDate != null) {
-                        Text("Fichado: ${formatDate(completedDate)}", style = MaterialTheme.typography.bodySmall)
+                        Text(stringResource(R.string.goals_checked_on, formatDate(completedDate)), style = MaterialTheme.typography.bodySmall)
                     }
 
                     PrimaryTabRow(selectedTabIndex = selectedTab) {
-                        Tab(selected = selectedTab == 0, onClick = { selectedTab = 0 }, text = { Text("Notas") })
-                        Tab(selected = selectedTab == 1, onClick = { selectedTab = 1 }, text = { Text("Info") })
+                        Tab(selected = selectedTab == 0, onClick = { selectedTab = 0 }, text = { Text(stringResource(R.string.goals_notes)) })
+                        Tab(selected = selectedTab == 1, onClick = { selectedTab = 1 }, text = { Text(stringResource(R.string.goals_info)) })
                     }
 
                     if (selectedTab == 0) {
@@ -1026,7 +1033,7 @@ class FragMetas : Fragment() {
                         )
                     } else {
                         Text(
-                            text = info.ifBlank { "Sin información" },
+                            text = info.ifBlank { stringResource(R.string.goals_no_information) },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(180.dp)
@@ -1037,8 +1044,8 @@ class FragMetas : Fragment() {
                     }
 
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        TextButton(onClick = onDismiss) { Text("Cerrar") }
-                        Button(onClick = { onSaveNote(localNote) }) { Text("Guardar") }
+                        TextButton(onClick = onDismiss) { Text(stringResource(R.string.common_close)) }
+                        Button(onClick = { onSaveNote(localNote) }) { Text(stringResource(R.string.common_save)) }
                     }
                 }
             }
@@ -1161,7 +1168,7 @@ class FragMetas : Fragment() {
                         )
                         .padding(12.dp)
                 ) {
-                    Text("Nueva Meta",
+                    Text(stringResource(R.string.goals_new_title),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
                         color = Color(0xFFFF9800)
@@ -1177,21 +1184,21 @@ class FragMetas : Fragment() {
                         Tab(
                             selected = selectedTab == 0,
                             onClick = { selectedTab = 0 },
-                            text = { Text("Crear Meta") },
+                            text = { Text(stringResource(R.string.goals_create_tab)) },
                             selectedContentColor = Color.Black,
                             unselectedContentColor = Color(0xFF2E4158)
                         )
                         Tab(
                             selected = selectedTab == 1,
                             onClick = { selectedTab = 1 },
-                            text = { Text("Hábitos") },
+                            text = { Text(stringResource(R.string.goals_habits_tab)) },
                             selectedContentColor = Color.Black,
                             unselectedContentColor = Color(0xFF2E4158)
                         )
                         Tab(
                             selected = selectedTab == 2,
                             onClick = { selectedTab = 2 },
-                            text = { Text("Programas") },
+                            text = { Text(stringResource(R.string.goals_programs_tab)) },
                             selectedContentColor = Color.Black,
                             unselectedContentColor = Color(0xFF2E4158)
                         )
@@ -1207,23 +1214,23 @@ class FragMetas : Fragment() {
                                     .verticalScroll(rememberScrollState()),
                                 verticalArrangement = Arrangement.spacedBy(10.dp)
                             ) {
-                                Text("Título de la Meta", fontWeight = FontWeight.Bold, color = Color.Black)
+                                Text(stringResource(R.string.goals_goal_title), fontWeight = FontWeight.Bold, color = Color.Black)
                                 OutlinedTextField(
                                     value = title,
                                     onValueChange = { title = it },
                                     modifier = Modifier.fillMaxWidth(),
-                                    placeholder = { Text("Ej. Meditar todos los días") },
+                                    placeholder = { Text(stringResource(R.string.goals_title_example)) },
                                     shape = RoundedCornerShape(14.dp),
                                     colors = darkFieldColors
                                 )
 
-                                Text("Objetivo por ejecución", fontWeight = FontWeight.Bold, color = Color.Black)
+                                Text(stringResource(R.string.goals_target_per_session), fontWeight = FontWeight.Bold, color = Color.Black)
                                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                     OutlinedTextField(
                                         value = executionTargetText,
                                         onValueChange = { executionTargetText = it.filter { c -> c.isDigit() || c == '.' || c == ',' } },
                                         modifier = Modifier.width(92.dp),
-                                        label = { Text("Cantidad") },
+                                        label = { Text(stringResource(R.string.goals_amount)) },
                                         colors = fieldColors,
                                         singleLine = true
                                     )
@@ -1231,16 +1238,16 @@ class FragMetas : Fragment() {
                                         value = customUnitLabel,
                                         onValueChange = { customUnitLabel = it },
                                         modifier = Modifier.weight(1f),
-                                        label = { Text("minutos, páginas, km…") },
+                                        label = { Text(stringResource(R.string.goals_unit_examples_label)) },
                                         colors = fieldColors,
                                         singleLine = true
                                     )
                                 }
-                                Text("Ejemplos: 10 minutos, 3 páginas o 5 km cada vez.", style = MaterialTheme.typography.bodySmall, color = Color.DarkGray)
+                                Text(stringResource(R.string.goals_unit_examples), style = MaterialTheme.typography.bodySmall, color = Color.DarkGray)
 
                                 ConfigSelector(
-                                    label = "La meta termina por",
-                                    options = GoalCompletionBasis.entries.map { it to it.label },
+                                    label = stringResource(R.string.goals_ends_by),
+                                    options = GoalCompletionBasis.entries.map { it to localizedCompletionBasis(it) },
                                     selected = completionBasis,
                                     onSelected = {
                                         completionBasis = it
@@ -1255,7 +1262,7 @@ class FragMetas : Fragment() {
                                         value = amountText,
                                         onValueChange = { amountText = it.filter(Char::isDigit) },
                                         modifier = Modifier.fillMaxWidth(),
-                                        label = { Text("Cantidad total de ejecuciones") },
+                                        label = { Text(stringResource(R.string.goals_total_sessions)) },
                                         colors = fieldColors,
                                         singleLine = true
                                     )
@@ -1265,13 +1272,13 @@ class FragMetas : Fragment() {
                                             value = durationValueText,
                                             onValueChange = { durationValueText = it.filter(Char::isDigit) },
                                             modifier = Modifier.width(110.dp),
-                                            label = { Text("Duración") },
+                                            label = { Text(stringResource(R.string.goals_duration)) },
                                             colors = fieldColors,
                                             singleLine = true
                                         )
                                         ConfigSelector(
-                                            label = "Unidad",
-                                            options = listOf(TimeUnitType.DIAS, TimeUnitType.SEMANAS, TimeUnitType.MESES, TimeUnitType.ANIOS).map { it to it.descriptionFor(2) },
+                                            label = stringResource(R.string.goals_unit),
+                                            options = listOf(TimeUnitType.DIAS, TimeUnitType.SEMANAS, TimeUnitType.MESES, TimeUnitType.ANIOS).map { it to localizedTimeUnit(it, 2) },
                                             selected = durationUnit,
                                             onSelected = { durationUnit = it },
                                             modifier = Modifier.weight(1f)
@@ -1280,10 +1287,10 @@ class FragMetas : Fragment() {
                                 }
 
                                 ConfigSelector(
-                                    label = "Programación",
+                                    label = stringResource(R.string.goals_schedule),
                                     options = GoalScheduleType.entries
                                         .filter { completionBasis == GoalCompletionBasis.EXECUTIONS || it != GoalScheduleType.SPECIFIC_DATES }
-                                        .map { it to it.label },
+                                        .map { it to localizedScheduleType(it) },
                                     selected = scheduleType,
                                     onSelected = { scheduleType = it }
                                 )
@@ -1294,13 +1301,13 @@ class FragMetas : Fragment() {
                                             value = frequencyText,
                                             onValueChange = { frequencyText = it.filter(Char::isDigit) },
                                             modifier = Modifier.width(90.dp),
-                                            label = { Text("Cada") },
+                                            label = { Text(stringResource(R.string.goals_every)) },
                                             colors = fieldColors,
                                             singleLine = true
                                         )
                                         ConfigSelector(
-                                            label = "Unidad de tiempo",
-                                            options = TimeUnitType.entries.map { it to it.descriptionFor(2) },
+                                            label = stringResource(R.string.goals_time_unit),
+                                            options = TimeUnitType.entries.map { it to localizedTimeUnit(it, 2) },
                                             selected = selectedUnit,
                                             onSelected = { selectedUnit = it },
                                             modifier = Modifier.weight(1f)
@@ -1310,12 +1317,12 @@ class FragMetas : Fragment() {
                                         value = weeklyDaysText,
                                         onValueChange = { weeklyDaysText = it.filter(Char::isDigit) },
                                         modifier = Modifier.fillMaxWidth(),
-                                        label = { Text("Días por semana (1–7)") },
+                                        label = { Text(stringResource(R.string.goals_days_per_week_input)) },
                                         colors = fieldColors,
                                         singleLine = true
                                     )
                                     GoalScheduleType.SPECIFIC_DATES -> {
-                                        Text("Fecha de cada ejecución", fontWeight = FontWeight.Bold, color = Color.Black)
+                                        Text(stringResource(R.string.goals_session_dates), fontWeight = FontWeight.Bold, color = Color.Black)
                                         specificDates.forEachIndexed { index, date ->
                                             val context = LocalContext.current
                                             Button(onClick = {
@@ -1333,21 +1340,21 @@ class FragMetas : Fragment() {
                                                     calendar.get(java.util.Calendar.DAY_OF_MONTH)
                                                 ).show()
                                             }) {
-                                                Text("Ejecución ${index + 1}: ${formatDateOnly(date)}")
+                                                Text(stringResource(R.string.goals_session_date_value, index + 1, formatDateOnly(date)))
                                             }
                                         }
                                     }
                                 }
 
                                 ConfigSelector(
-                                    label = "Momento del día",
-                                    options = GoalDayPeriod.entries.map { it to it.label },
+                                    label = stringResource(R.string.goals_time_of_day),
+                                    options = GoalDayPeriod.entries.map { it to localizedDayPeriod(it) },
                                     selected = dayPeriod,
                                     onSelected = { dayPeriod = it }
                                 )
 
                                 Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                                    Text("Notificar cuando haya una ejecución disponible", color = Color.Black, modifier = Modifier.weight(1f), fontWeight = FontWeight.SemiBold)
+                                    Text(stringResource(R.string.goals_notify_available), color = Color.Black, modifier = Modifier.weight(1f), fontWeight = FontWeight.SemiBold)
                                     Switch(checked = notifyOnUnitAvailable, onCheckedChange = { notifyOnUnitAvailable = it })
                                 }
 
@@ -1359,7 +1366,7 @@ class FragMetas : Fragment() {
                                     verticalArrangement = Arrangement.spacedBy(4.dp)
                                 ) {
                                     Text(
-                                        text = "Resumen",
+                                        text = stringResource(R.string.goals_summary),
                                         style = MaterialTheme.typography.titleMedium,
                                         fontWeight = FontWeight.Bold,
                                         color = Color.Black
@@ -1385,14 +1392,19 @@ class FragMetas : Fragment() {
                                 }
 
                                 TextButton(onClick = { showDescription = !showDescription }) {
-                                    Text(if (showDescription) "Descripción ▲" else "Descripción ▼", color = Color.Black, fontWeight = FontWeight.Bold)
+                                    Text(
+                                        if (showDescription) stringResource(R.string.goals_hide_description)
+                                        else stringResource(R.string.goals_show_description),
+                                        color = Color.Black,
+                                        fontWeight = FontWeight.Bold
+                                    )
                                 }
                                 if (showDescription) {
                                     OutlinedTextField(
                                         value = description,
                                         onValueChange = { description = it },
                                         modifier = Modifier.fillMaxWidth().height(130.dp),
-                                        label = { Text("Descripción") },
+                                        label = { Text(stringResource(R.string.goals_description)) },
                                         colors = darkFieldColors
                                     )
                                 }
@@ -1404,7 +1416,7 @@ class FragMetas : Fragment() {
                                 value = habitTitleFilter,
                                 onValueChange = { habitTitleFilter = it },
                                 modifier = Modifier.fillMaxWidth(),
-                                label = { Text("Filtrar por título") },
+                                label = { Text(stringResource(R.string.goals_filter_title)) },
                                 shape = RoundedCornerShape(14.dp),
                                 colors = fieldColors,
                                 singleLine = true
@@ -1414,7 +1426,7 @@ class FragMetas : Fragment() {
                                 value = habitContentFilter,
                                 onValueChange = { habitContentFilter = it },
                                 modifier = Modifier.fillMaxWidth(),
-                                label = { Text("Filtrar por contenido") },
+                                label = { Text(stringResource(R.string.goals_filter_content)) },
                                 shape = RoundedCornerShape(14.dp),
                                 colors = fieldColors,
                                 singleLine = true
@@ -1457,7 +1469,7 @@ class FragMetas : Fragment() {
                                                     notifyOnUnitAvailable = false
                                                     selectedTab = 0
                                                 }) {
-                                                    Text("Cargar")
+                                                    Text(stringResource(R.string.goals_load))
                                                 }
                                             }
                                         }
@@ -1466,7 +1478,7 @@ class FragMetas : Fragment() {
                                 if (filteredHabits.isEmpty()) {
                                     item {
                                         Text(
-                                            text = "No hay hábitos que coincidan con los filtros",
+                                            text = stringResource(R.string.goals_no_matching_habits),
                                             style = MaterialTheme.typography.bodyMedium,
                                             modifier = Modifier.padding(8.dp)
                                         )
@@ -1489,7 +1501,7 @@ class FragMetas : Fragment() {
                                         color = Color(0xFFFFEB3B)
                                     )
                                     TextButton(onClick = { selectedProgramaGroup = null }) {
-                                        Text("Volver")
+                                        Text(stringResource(R.string.goals_back))
                                     }
                                 }
                             }
@@ -1541,7 +1553,7 @@ class FragMetas : Fragment() {
                                                     verticalAlignment = Alignment.CenterVertically
                                                 ) {
                                                     Button(onClick = { previewPrograma = programa }) {
-                                                        Text("Resumen")
+                                                        Text(stringResource(R.string.goals_summary))
                                                     }
                                                     Spacer(modifier = Modifier.weight(1f))
                                                     Button(onClick = {
@@ -1550,7 +1562,7 @@ class FragMetas : Fragment() {
                                                             activity?.runOnUiThread { onCreated() }
                                                         }
                                                     }) {
-                                                        Text("Comenzar Programa")
+                                                        Text(stringResource(R.string.goals_start_program))
                                                     }
                                                 }
                                             }
@@ -1558,7 +1570,7 @@ class FragMetas : Fragment() {
                                     }
                                     item {
                                         Text(
-                                            text = "Categoría: ${readableProgramaGroup(group)}",
+                                            text = stringResource(R.string.goals_category_value, readableProgramaGroup(group)),
                                             style = MaterialTheme.typography.bodySmall,
                                             modifier = Modifier.padding(top = 4.dp, start = 4.dp, bottom = 2.dp),
                                             color = Color.White
@@ -1573,7 +1585,7 @@ class FragMetas : Fragment() {
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        TextButton(onClick = onDismiss) { Text("Cancelar", color = Color.Black) }
+                        TextButton(onClick = onDismiss) { Text(stringResource(R.string.common_cancel), color = Color.Black) }
                         if (selectedTab == 0) {
                             Button(
                                 onClick = {
@@ -1605,7 +1617,7 @@ class FragMetas : Fragment() {
                                     (completionBasis != GoalCompletionBasis.DURATION || (durationValueText.toIntOrNull() ?: 0) > 0) &&
                                     (scheduleType != GoalScheduleType.SPECIFIC_DATES || specificDates.size == (amountText.toIntOrNull() ?: 0))
                             ) {
-                                Text("Crear Meta", color = Color.Black)
+                                Text(stringResource(R.string.goals_create_tab), color = Color.Black)
                             }
                         }
                     }
@@ -1657,14 +1669,14 @@ class FragMetas : Fragment() {
                         .verticalScroll(scroll),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    Text("Resumen del Programa", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                    Text("Título: ${programa.title}", fontWeight = FontWeight.Bold, color = Color.Black)
-                    Text("Detalles: ${programa.detalles.ifBlank { "Sin detalles" }}", color = Color.Black)
-                    Text("Descripción: ${programa.description.ifBlank { "Sin descripción" }}", color = Color.Black)
-                    Text("Programación: ${programScheduleSummary(programa)}", color = Color.Black, fontWeight = FontWeight.SemiBold)
+                    Text(stringResource(R.string.goals_program_summary), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.goals_title_value, programa.title), fontWeight = FontWeight.Bold, color = Color.Black)
+                    Text(stringResource(R.string.goals_details_value, programa.detalles.ifBlank { stringResource(R.string.goals_no_details) }), color = Color.Black)
+                    Text(stringResource(R.string.goals_description_value, programa.description.ifBlank { stringResource(R.string.goals_no_description) }), color = Color.Black)
+                    Text(stringResource(R.string.goals_schedule_value, programScheduleSummary(programa)), color = Color.Black, fontWeight = FontWeight.SemiBold)
 
                     HorizontalDivider()
-                    Text("Unidades", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.goals_units), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
 
                     programa.unidadesinfo.forEachIndexed { index, unit ->
                         val unitNumber = index + 1
@@ -1678,7 +1690,7 @@ class FragMetas : Fragment() {
                             shape = RoundedCornerShape(12.dp)
                         ) {
                             Column(modifier = Modifier.padding(10.dp)) {
-                                val unitTitle = unit.name.ifBlank { "Unidad $unitNumber" }
+                                val unitTitle = unit.name.ifBlank { stringResource(R.string.goals_unit_number, unitNumber) }
                                 Text(
                                     text = "$unitTitle ${if (isExpanded) "▲" else "▼"}",
                                     fontWeight = FontWeight.SemiBold
@@ -1695,7 +1707,7 @@ class FragMetas : Fragment() {
                                             .padding(horizontal = 10.dp, vertical = 8.dp)
                                     ) {
                                         Text(
-                                            text = unit.info.ifBlank { "Sin contenido para esta unidad." },
+                                            text = unit.info.ifBlank { stringResource(R.string.goals_no_unit_content) },
                                             color = Color.Black
                                         )
                                     }
@@ -1708,7 +1720,7 @@ class FragMetas : Fragment() {
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.End
                     ) {
-                        TextButton(onClick = onDismiss) { Text("Cerrar", color = Color.Black) }
+                        TextButton(onClick = onDismiss) { Text(stringResource(R.string.common_close), color = Color.Black) }
                     }
                 }
             }
@@ -1783,7 +1795,7 @@ class FragMetas : Fragment() {
         val selectedLabel = options.firstOrNull { it.first == selected }?.second.orEmpty()
         Box(modifier = modifier) {
             Button(onClick = { expanded = true }, modifier = Modifier.fillMaxWidth()) {
-                Text("$label: $selectedLabel", maxLines = 2, overflow = TextOverflow.Ellipsis)
+                Text(stringResource(R.string.goals_selector_value, label, selectedLabel), maxLines = 2, overflow = TextOverflow.Ellipsis)
             }
             DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                 options.forEach { (value, text) ->
@@ -1799,6 +1811,7 @@ class FragMetas : Fragment() {
         }
     }
 
+    @Composable
     private fun buildGoalCreationSummary(
         title: String,
         targetText: String,
@@ -1816,48 +1829,160 @@ class FragMetas : Fragment() {
         val target = targetText.replace(',', '.').toDoubleOrNull() ?: 0.0
         val number = if (target % 1.0 == 0.0) target.toInt().toString() else targetText
         val action = when {
-            unitLabel.isNotBlank() && target == 1.0 -> "realizar ${unitLabel.trim()}"
-            unitLabel.isNotBlank() -> "realizar $number ${unitLabel.trim()}"
-            target == 1.0 -> "realizar una ejecución"
-            else -> "realizar $number en cada ejecución"
+            unitLabel.isNotBlank() && target == 1.0 -> stringResource(R.string.goals_action_named, unitLabel.trim())
+            unitLabel.isNotBlank() -> stringResource(R.string.goals_action_named, "$number ${unitLabel.trim()}")
+            target == 1.0 -> stringResource(R.string.goals_action_one)
+            else -> stringResource(R.string.goals_action_number, number)
         }
         val frequency = (frequencyText.toIntOrNull() ?: 1).coerceAtLeast(1)
         val cadence = when (scheduleType) {
-            GoalScheduleType.INTERVAL -> "una vez cada ${if (frequency == 1) "" else "$frequency "}${intervalUnit.descriptionFor(frequency)}"
-            GoalScheduleType.WEEKLY -> "${(weeklyDaysText.toIntOrNull() ?: 3).coerceIn(1, 7)} ${if ((weeklyDaysText.toIntOrNull() ?: 3) == 1) "día" else "días"} por semana"
-            GoalScheduleType.SPECIFIC_DATES -> "en las ${(amountText.toIntOrNull() ?: 0)} fechas elegidas"
+            GoalScheduleType.INTERVAL -> stringResource(
+                R.string.goals_once_every,
+                "${if (frequency == 1) "" else "$frequency "}${localizedTimeUnit(intervalUnit, frequency)}"
+            )
+            GoalScheduleType.WEEKLY -> stringResource(
+                R.string.goals_weekly_cadence,
+                (weeklyDaysText.toIntOrNull() ?: 3).coerceIn(1, 7)
+            )
+            GoalScheduleType.SPECIFIC_DATES -> stringResource(
+                R.string.goals_selected_dates_cadence,
+                amountText.toIntOrNull() ?: 0
+            )
         }
-        val period = if (dayPeriod == GoalDayPeriod.ANYTIME) "" else ", ${dayPeriod.label.lowercase()}"
+        val cadenceWithPeriod = if (dayPeriod == GoalDayPeriod.ANYTIME) cadence else "$cadence · ${localizedDayPeriod(dayPeriod)}"
         val ending = if (completionBasis == GoalCompletionBasis.EXECUTIONS) {
             val amount = amountText.toIntOrNull() ?: 0
-            "La meta terminará cuando completes $amount ${if (amount == 1) "ejecución" else "ejecuciones"}"
+            val sessions = stringResource(
+                if (amount == 1) R.string.goals_execution_singular else R.string.goals_execution_plural,
+                amount
+            )
+            stringResource(R.string.goals_ending_executions, sessions)
         } else {
             val duration = (durationText.toIntOrNull() ?: 0).coerceAtLeast(0)
-            "La meta permanecerá activa durante $duration ${durationUnit.descriptionFor(duration)}"
+            stringResource(R.string.goals_ending_duration, duration, localizedTimeUnit(durationUnit, duration))
         }
-        val goalName = title.trim().ifBlank { "Esta meta" }
-        val subject = if (title.isBlank()) goalName else "La meta «$goalName»"
-        return "$subject consiste en $action, $cadence$period. $ending."
+        return if (title.isBlank()) {
+            stringResource(R.string.goals_creation_summary_unnamed, action, cadenceWithPeriod, ending)
+        } else {
+            stringResource(R.string.goals_creation_summary_named, title.trim(), action, cadenceWithPeriod, ending)
+        }
     }
 
+    @Composable
     private fun habitScheduleSummary(habit: HabitPreset): String {
         val cadence = when (habit.scheduleType) {
-            GoalScheduleType.INTERVAL -> "Cada ${if (habit.noFrecuencias == 1) "" else "${habit.noFrecuencias} "}${TimeUnitType.DIAS.descriptionFor(habit.noFrecuencias)}"
-            GoalScheduleType.WEEKLY -> "${habit.weeklyDaysPerWeek.coerceIn(1, 7)} días por semana"
-            GoalScheduleType.SPECIFIC_DATES -> "Fechas específicas"
+            GoalScheduleType.INTERVAL -> stringResource(
+                R.string.goals_interval_every,
+                "${if (habit.noFrecuencias == 1) "" else "${habit.noFrecuencias} "}${localizedTimeUnit(TimeUnitType.DIAS, habit.noFrecuencias)}"
+            )
+            GoalScheduleType.WEEKLY -> stringResource(R.string.goals_weekly_cadence, habit.weeklyDaysPerWeek.coerceIn(1, 7))
+            GoalScheduleType.SPECIFIC_DATES -> stringResource(R.string.goals_specific_dates)
         }
-        return if (habit.dayPeriod == GoalDayPeriod.ANYTIME) cadence else "$cadence · ${habit.dayPeriod.label}"
+        return if (habit.dayPeriod == GoalDayPeriod.ANYTIME) cadence else "$cadence · ${localizedDayPeriod(habit.dayPeriod)}"
     }
 
+    @Composable
     private fun programScheduleSummary(program: ProgramaPreestablecido): String {
         val unit = TimeUnitType.fromRaw(program.tipoUnidad)
         val cadence = when (program.scheduleType) {
-            GoalScheduleType.INTERVAL -> "Cada ${if (program.frecuencia == 1) "" else "${program.frecuencia} "}${unit.descriptionFor(program.frecuencia)}"
-            GoalScheduleType.WEEKLY -> "${program.weeklyDaysPerWeek.coerceIn(1, 7)} días por semana"
-            GoalScheduleType.SPECIFIC_DATES -> "Fechas específicas"
+            GoalScheduleType.INTERVAL -> stringResource(
+                R.string.goals_interval_every,
+                "${if (program.frecuencia == 1) "" else "${program.frecuencia} "}${localizedTimeUnit(unit, program.frecuencia)}"
+            )
+            GoalScheduleType.WEEKLY -> stringResource(R.string.goals_weekly_cadence, program.weeklyDaysPerWeek.coerceIn(1, 7))
+            GoalScheduleType.SPECIFIC_DATES -> stringResource(R.string.goals_specific_dates)
         }
-        return if (program.dayPeriod == GoalDayPeriod.ANYTIME) cadence else "$cadence · ${program.dayPeriod.label}"
+        return if (program.dayPeriod == GoalDayPeriod.ANYTIME) cadence else "$cadence · ${localizedDayPeriod(program.dayPeriod)}"
     }
+
+    @Composable
+    private fun localizedPlanSummary(state: GoalCardState): String {
+        val value = state.goal.executionTargetValue.takeIf { it > 0 } ?: 1.0
+        val number = if (value % 1.0 == 0.0) value.toInt().toString() else "%.2f".format(value).trimEnd('0').trimEnd('.')
+        val label = state.goal.customUnitLabel.trim()
+        val execution = when {
+            label.isNotEmpty() -> stringResource(R.string.goals_per_session, "$number $label")
+            value == 1.0 -> stringResource(R.string.goals_one_session)
+            else -> stringResource(R.string.goals_per_session, number)
+        }
+        val cadence = when (state.scheduleType) {
+            GoalScheduleType.INTERVAL -> stringResource(
+                R.string.goals_interval_every,
+                "${if (state.goal.frequency == 1) "" else "${state.goal.frequency} "}${localizedTimeUnit(state.unitType, state.goal.frequency)}"
+            )
+            GoalScheduleType.WEEKLY -> stringResource(R.string.goals_weekly_cadence, state.goal.weeklyDaysPerWeek.coerceIn(1, 7))
+            GoalScheduleType.SPECIFIC_DATES -> stringResource(R.string.goals_specific_dates)
+        }.let { if (state.dayPeriod == GoalDayPeriod.ANYTIME) it else "$it · ${localizedDayPeriod(state.dayPeriod)}" }
+        val ending = when (state.completionBasis) {
+            GoalCompletionBasis.EXECUTIONS -> stringResource(
+                if (state.goal.totalUnits == 1) R.string.goals_execution_singular else R.string.goals_execution_plural,
+                state.goal.totalUnits
+            )
+            GoalCompletionBasis.DURATION -> {
+                val valueDuration = state.goal.durationValue.coerceAtLeast(1)
+                stringResource(
+                    R.string.goals_during_duration,
+                    valueDuration,
+                    localizedTimeUnit(TimeUnitType.fromRaw(state.goal.durationUnit), valueDuration)
+                )
+            }
+        }
+        return "$execution · $cadence · $ending"
+    }
+
+    @Composable
+    private fun localizedTimeUntilNextUnit(state: GoalCardState, next: GoalUnitEntity?, now: Long): String? {
+        if (!state.goal.isStarted || next == null) return null
+        val start = next.startDate ?: return null
+        if (now >= start) return stringResource(R.string.goals_ready)
+        val seconds = kotlin.math.ceil((start - now) / 1000.0).toInt().coerceAtLeast(0)
+        if (seconds < 60) return stringResource(R.string.goals_next_seconds, seconds)
+        val totalMinutes = kotlin.math.ceil((start - now) / 60_000.0).toInt().coerceAtLeast(1)
+        val hours = totalMinutes / 60
+        val minutes = totalMinutes % 60
+        return if (hours > 0) stringResource(R.string.goals_next_hours_minutes, hours, minutes)
+        else stringResource(R.string.goals_next_minutes, totalMinutes)
+    }
+
+    @Composable
+    private fun localizedTimeUnit(unit: TimeUnitType, value: Int): String = pluralStringResource(
+        when (unit) {
+            TimeUnitType.MINUTOS -> R.plurals.goals_minutes
+            TimeUnitType.HORAS -> R.plurals.goals_hours
+            TimeUnitType.DIAS -> R.plurals.goals_days
+            TimeUnitType.SEMANAS -> R.plurals.goals_weeks
+            TimeUnitType.MESES -> R.plurals.goals_months
+            TimeUnitType.ANIOS -> R.plurals.goals_years
+        },
+        value.coerceAtLeast(0)
+    )
+
+    @Composable
+    private fun localizedScheduleType(value: GoalScheduleType): String = stringResource(
+        when (value) {
+            GoalScheduleType.INTERVAL -> R.string.goals_schedule_interval
+            GoalScheduleType.WEEKLY -> R.string.goals_schedule_weekly
+            GoalScheduleType.SPECIFIC_DATES -> R.string.goals_schedule_specific
+        }
+    )
+
+    @Composable
+    private fun localizedCompletionBasis(value: GoalCompletionBasis): String = stringResource(
+        when (value) {
+            GoalCompletionBasis.EXECUTIONS -> R.string.goals_basis_executions
+            GoalCompletionBasis.DURATION -> R.string.goals_basis_duration
+        }
+    )
+
+    @Composable
+    private fun localizedDayPeriod(value: GoalDayPeriod): String = stringResource(
+        when (value) {
+            GoalDayPeriod.ANYTIME -> R.string.goals_period_anytime
+            GoalDayPeriod.MORNING -> R.string.goals_period_morning
+            GoalDayPeriod.AFTERNOON -> R.string.goals_period_afternoon
+            GoalDayPeriod.NIGHT -> R.string.goals_period_night
+        }
+    )
 
     private fun formatUnitSchedule(epoch: Long, schedule: GoalScheduleType, period: GoalDayPeriod): String {
         val pattern = if (schedule == GoalScheduleType.SPECIFIC_DATES || schedule == GoalScheduleType.WEEKLY) {
@@ -1873,8 +1998,21 @@ class FragMetas : Fragment() {
     private fun formatDateOnly(epoch: Long): String =
         SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(epoch))
 
+    @Composable
     private fun readableProgramaGroup(raw: String): String {
-        return raw.removePrefix("prog_")
+        val resource = when (raw) {
+            "prog_anti_ansiedad" -> R.string.goals_program_category_anti_anxiety
+            "prog_dejar_alcohol" -> R.string.goals_program_category_quit_alcohol
+            "prog_dejar_fumar" -> R.string.goals_program_category_quit_smoking
+            "prog_dieta_semanal" -> R.string.goals_program_category_weekly_diet
+            "prog_eliminar_antojos" -> R.string.goals_program_category_eliminate_cravings
+            "prog_regulacion_digital_menores" -> R.string.goals_program_category_digital_regulation_minors
+            "prog_reset_dopaminergico" -> R.string.goals_program_category_dopamine_reset
+            "prog_respiracion_buteyko" -> R.string.goals_program_category_buteyko_breathing
+            "prog_visualizacion_creativa_neville" -> R.string.goals_program_category_neville_visualization
+            else -> null
+        }
+        return resource?.let { stringResource(it) } ?: raw.removePrefix("prog_")
             .replace("_", " ")
             .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
     }

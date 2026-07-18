@@ -26,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -47,7 +48,7 @@ class FragNevilleGoddard : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 com.ypg.neville.ui.theme.NevilleTheme {
-                    val author = getString(R.string.neville_goddard)
+                    val authorDisplayName = stringResource(R.string.neville_goddard)
                     val authorAssetsFolder = "autores/neville"
                     val context = requireContext()
                     val prefs = remember { DbPreferences.default(context) }
@@ -56,7 +57,7 @@ class FragNevilleGoddard : Fragment() {
                     val biographyAssetPath = remember { loadAuthorBiographyAssetPath(context, authorAssetsFolder) }
                     val teachingSummaryAssetPath = remember { loadAuthorTeachingSummaryAssetPath(context, authorAssetsFolder) }
                     val cards = remember { nevilleResourceCards() }
-                    val placeholder = getString(R.string.author_quote_placeholder, author)
+                    val placeholder = stringResource(R.string.author_quote_placeholder, authorDisplayName)
                     var quoteFilter by remember {
                         mutableStateOf(
                             AuthorQuoteFilter(
@@ -68,7 +69,7 @@ class FragNevilleGoddard : Fragment() {
                     val initialQuoteItem = remember {
                         utilsDB.getRandomFraseByAutor(
                             context = context,
-                            autor = author,
+                            autor = AUTHOR_DATABASE_NAME,
                             onlyFav = quoteFilter.onlyFavorites,
                             onlyWithNotes = quoteFilter.onlyWithNotes
                         )
@@ -78,14 +79,14 @@ class FragNevilleGoddard : Fragment() {
                     }
                     var quoteFavState by remember { mutableStateOf(initialQuoteItem?.fav ?: "") }
                     AuthorPlaceholderScreen(
-                        authorName = author,
+                        authorName = authorDisplayName,
                         imageRes = R.drawable.neville,
                         quote = quote,
                         quoteFilter = quoteFilter,
                         onQuoteClick = {
                             val nextQuoteItem = utilsDB.getRandomFraseByAutor(
                                 context = context,
-                                autor = author,
+                                autor = AUTHOR_DATABASE_NAME,
                                 onlyFav = quoteFilter.onlyFavorites,
                                 onlyWithNotes = quoteFilter.onlyWithNotes
                             )
@@ -99,7 +100,13 @@ class FragNevilleGoddard : Fragment() {
                                 putBoolean(filterNotesKey, newFilter.onlyWithNotes)
                             }
                         },
-                        favoriteOptionLabel = if (quoteFavState == "1") "Quitar de Favoritas" else "Agregar a Favoritas",
+                        favoriteOptionLabel = stringResource(
+                            if (quoteFavState == "1") {
+                                R.string.author_remove_from_favorites
+                            } else {
+                                R.string.author_add_to_favorites
+                            }
+                        ),
                         onToggleFavorito = {
                             if (quote.isNotBlank()) {
                                 val result = utilsDB.UpdateFavorito(
@@ -134,7 +141,6 @@ class FragNevilleGoddard : Fragment() {
                                             MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_listado)
                                         }
                                         "autores/neville/fotos" -> {
-                                            FragAuthorPhotoGallery.title = "Galería de Fotos"
                                             FragAuthorPhotoGallery.assetFolder = assetPath
                                             MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_author_photo_gallery)
                                         }
@@ -159,23 +165,23 @@ class FragNevilleGoddard : Fragment() {
     private fun nevilleResourceCards(): List<AccessCardPlaceholder> {
         return listOf(
             AccessCardPlaceholder(
-                title = "Conferencias",
-                primaryButton = "Abrir listado",
+                title = getString(R.string.conferencias),
+                primaryButton = getString(R.string.author_open_list),
                 primaryAssetPath = "autores/neville/conf"
             ),
             AccessCardPlaceholder(
-                title = "Citas",
-                primaryButton = "Abrir listado",
+                title = getString(R.string.citas),
+                primaryButton = getString(R.string.author_open_list),
                 primaryAssetPath = "citasConferencias"
             ),
             AccessCardPlaceholder(
-                title = "Preguntas",
-                primaryButton = "Abrir listado",
+                title = getString(R.string.preguntas_y_respuestas),
+                primaryButton = getString(R.string.author_open_list),
                 primaryAssetPath = "preguntas"
             ),
             AccessCardPlaceholder(
-                title = "Galería de Fotos",
-                primaryButton = "Ver fotos",
+                title = getString(R.string.author_photo_gallery_title),
+                primaryButton = getString(R.string.author_view_photos),
                 primaryAssetPath = "autores/neville/fotos"
             )
         )
@@ -200,7 +206,7 @@ class FragNevilleGoddard : Fragment() {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "Recursos",
+                text = stringResource(R.string.author_resources_section_title),
                 color = titleColor,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
@@ -208,7 +214,7 @@ class FragNevilleGoddard : Fragment() {
 
             if (!hasPremium) {
                 Text(
-                    text = "Disponible en la Versión Extendida",
+                    text = stringResource(R.string.author_extended_version_available),
                     color = bodyColor,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Medium
@@ -218,7 +224,7 @@ class FragNevilleGoddard : Fragment() {
 
         if (cards.isEmpty()) {
             Text(
-                text = "No hay recursos disponibles",
+                text = stringResource(R.string.author_no_resources),
                 color = bodyColor,
                 fontSize = 14.sp,
                 modifier = Modifier
@@ -277,5 +283,9 @@ class FragNevilleGoddard : Fragment() {
                 }
             }
         }
+    }
+
+    private companion object {
+        const val AUTHOR_DATABASE_NAME = "Neville Goddard"
     }
 }

@@ -74,6 +74,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -102,7 +103,7 @@ import com.ypg.neville.model.migration.MyAppMigrationService
 import com.ypg.neville.model.migration.NevilleMigrationRoomBridge
 import com.ypg.neville.model.utils.FraseContextActions
 import com.ypg.neville.model.utils.QRManager
-import java.text.SimpleDateFormat
+import java.text.DateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.Executors
@@ -111,7 +112,7 @@ import kotlinx.coroutines.launch
 class FragNotas : Fragment() {
 
     private val dbExecutor = Executors.newSingleThreadExecutor()
-    private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+    private val dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
     private var screenRefreshTick by mutableStateOf(0)
     private lateinit var createSelectedMigrationExportLauncher: ActivityResultLauncher<String>
     private var pendingSelectedMigrationPassword: CharArray? = null
@@ -136,15 +137,19 @@ class FragNotas : Fragment() {
                     .exportSelectedToUri(uri, password, records)
                 password.fill('\u0000')
                 result.onSuccess { export ->
+                    val count = export.countsByType.values.sum()
                     Toast.makeText(
                         requireContext(),
-                        "Exportadas ${export.countsByType.values.sum()} nota(s)",
+                        resources.getQuantityString(R.plurals.notes_exported_count, count, count),
                         Toast.LENGTH_LONG
                     ).show()
                 }.onFailure { error ->
                     Toast.makeText(
                         requireContext(),
-                        "Error al exportar: ${error.message ?: "desconocido"}",
+                        getString(
+                            R.string.notes_export_error,
+                            error.message ?: getString(R.string.common_unknown_error)
+                        ),
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -310,7 +315,7 @@ class FragNotas : Fragment() {
 
         fun passSelectedToFrases() {
             if (selectedNotas.isEmpty()) {
-                Toast.makeText(context, "Selecciona al menos una nota", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, R.string.notes_select_at_least_one, Toast.LENGTH_SHORT).show()
                 return
             }
             dbExecutor.execute {
@@ -332,7 +337,11 @@ class FragNotas : Fragment() {
                     clearSelection()
                     Toast.makeText(
                         context,
-                        "$inserted nota(s) pasada(s) a Frases",
+                        context.resources.getQuantityString(
+                            R.plurals.notes_moved_to_quotes_count,
+                            inserted,
+                            inserted
+                        ),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -341,7 +350,7 @@ class FragNotas : Fragment() {
 
         fun passSelectedToCalmPhrases() {
             if (selectedNotas.isEmpty()) {
-                Toast.makeText(context, "Selecciona al menos una nota", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, R.string.notes_select_at_least_one, Toast.LENGTH_SHORT).show()
                 return
             }
             dbExecutor.execute {
@@ -368,7 +377,11 @@ class FragNotas : Fragment() {
                     clearSelection()
                     Toast.makeText(
                         context,
-                        "$inserted nota(s) pasada(s) a Frases de Calma",
+                        context.resources.getQuantityString(
+                            R.plurals.notes_moved_to_calm_count,
+                            inserted,
+                            inserted
+                        ),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -391,7 +404,7 @@ class FragNotas : Fragment() {
         ) {
             Column(modifier = Modifier.fillMaxSize()) {
                 Text(
-                    text = "Notas",
+                    text = stringResource(R.string.notes_title),
                     fontSize = 26.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier
@@ -413,12 +426,16 @@ class FragNotas : Fragment() {
 
                 if (notas.isEmpty()) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text("No hay notas todavía", fontSize = 18.sp)
+                        Text(stringResource(R.string.notes_empty), fontSize = 18.sp)
                     }
                 } else {
                     if (notasFiltradas.isEmpty()) {
                         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                            Text("No hay notas que coincidan con los filtros", fontSize = 16.sp, color = Color(0xFFD7D7D7))
+                            Text(
+                                stringResource(R.string.notes_no_filter_results),
+                                fontSize = 16.sp,
+                                color = Color(0xFFD7D7D7)
+                            )
                         }
                     } else {
                         LazyColumn(
@@ -527,7 +544,7 @@ class FragNotas : Fragment() {
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         FabActionItem(
-                            label = "Crear nota",
+                            label = stringResource(R.string.notes_create),
                             iconRes = R.drawable.ic_note_add,
                             onClick = {
                                 showFabMenu = false
@@ -536,7 +553,11 @@ class FragNotas : Fragment() {
                             }
                         )
                         FabActionItem(
-                            label = if (modoLista == NotasListMode.TODAS) "Por categorías" else "Todas las notas",
+                            label = if (modoLista == NotasListMode.TODAS) {
+                                stringResource(R.string.notes_by_categories)
+                            } else {
+                                stringResource(R.string.notes_all_notes)
+                            },
                             iconRes = if (modoLista == NotasListMode.TODAS) R.drawable.ic_folder else R.drawable.ic_list,
                             onClick = {
                                 showFabMenu = false
@@ -550,7 +571,11 @@ class FragNotas : Fragment() {
                             }
                         )
                         FabActionItem(
-                            label = if (selectionMode) "Cancelar selección" else "Seleccionar notas",
+                            label = if (selectionMode) {
+                                stringResource(R.string.notes_cancel_selection)
+                            } else {
+                                stringResource(R.string.notes_select_notes)
+                            },
                             iconRes = R.drawable.ic_list,
                             onClick = {
                                 showFabMenu = false
@@ -562,7 +587,11 @@ class FragNotas : Fragment() {
                             }
                         )
                         FabActionItem(
-                            label = if (showFilterPanel) "Ocultar filtros" else "Mostrar filtros",
+                            label = if (showFilterPanel) {
+                                stringResource(R.string.notes_hide_filters)
+                            } else {
+                                stringResource(R.string.notes_show_filters)
+                            },
                             iconRes = R.drawable.ic_show,
                             onClick = {
                                 showFabMenu = false
@@ -580,7 +609,7 @@ class FragNotas : Fragment() {
                     Icon(
                         painter = painterResource(id = if (showFabMenu) R.drawable.ic_abajo else R.drawable.ic_menu_open),
                         tint = Color.White,
-                        contentDescription = "Menú Notas"
+                        contentDescription = stringResource(R.string.notes_menu)
 
                     )
                 }
@@ -616,14 +645,19 @@ class FragNotas : Fragment() {
                     selectedExportPassword = ""
                     showSelectedExportDialog = false
                 },
-                title = { Text("Exportar notas seleccionadas") },
+                title = { Text(stringResource(R.string.notes_export_selected_title)) },
                 text = {
                     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                        Text("Se creará un archivo ${MigrationFormat.FILE_EXTENSION} solo con las notas seleccionadas.")
+                        Text(
+                            stringResource(
+                                R.string.notes_export_selected_message,
+                                MigrationFormat.FILE_EXTENSION
+                            )
+                        )
                         OutlinedTextField(
                             value = selectedExportPassword,
                             onValueChange = { selectedExportPassword = it },
-                            label = { Text("Contraseña del archivo") },
+                            label = { Text(stringResource(R.string.common_file_password)) },
                             visualTransformation = PasswordVisualTransformation(),
                             modifier = Modifier.fillMaxWidth()
                         )
@@ -633,11 +667,11 @@ class FragNotas : Fragment() {
                     TextButton(onClick = {
                         val selected = notas.filter { it.id in notasSeleccionadas }
                         if (selected.isEmpty()) {
-                            Toast.makeText(context, "Selecciona al menos una nota", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, R.string.notes_select_at_least_one, Toast.LENGTH_LONG).show()
                             return@TextButton
                         }
                         if (selectedExportPassword.isBlank()) {
-                            Toast.makeText(context, "Introduce una contraseña", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, R.string.notes_enter_password, Toast.LENGTH_LONG).show()
                             return@TextButton
                         }
                         val db = NevilleRoomDatabase.getInstance(context.applicationContext)
@@ -648,7 +682,7 @@ class FragNotas : Fragment() {
                         showSelectedExportDialog = false
                         createSelectedMigrationExportLauncher.launch("notas-${System.currentTimeMillis()}${MigrationFormat.FILE_EXTENSION}")
                     }) {
-                        Text("Exportar")
+                        Text(stringResource(R.string.common_export))
                     }
                 },
                 dismissButton = {
@@ -656,7 +690,7 @@ class FragNotas : Fragment() {
                         selectedExportPassword = ""
                         showSelectedExportDialog = false
                     }) {
-                        Text("Cancelar")
+                        Text(stringResource(R.string.common_cancel))
                     }
                 }
             )
@@ -665,11 +699,19 @@ class FragNotas : Fragment() {
         if (showConfirmDeleteSelected) {
             AlertDialog(
                 onDismissRequest = { showConfirmDeleteSelected = false },
-                title = { Text("Eliminar notas seleccionadas") },
-                text = { Text("¿Eliminar ${notasSeleccionadas.size} nota(s)? Esta acción no se puede deshacer.") },
+                title = { Text(stringResource(R.string.notes_delete_selected_title)) },
+                text = {
+                    Text(
+                        pluralStringResource(
+                            R.plurals.notes_delete_selected_message,
+                            notasSeleccionadas.size,
+                            notasSeleccionadas.size
+                        )
+                    )
+                },
                 dismissButton = {
                     TextButton(onClick = { showConfirmDeleteSelected = false }) {
-                        Text(getString(R.string.cancelar))
+                        Text(stringResource(R.string.common_cancel))
                     }
                 },
                 confirmButton = {
@@ -683,13 +725,17 @@ class FragNotas : Fragment() {
                                 recargarNotas()
                                 Toast.makeText(
                                     context,
-                                    "${toDelete.size} nota(s) eliminada(s)",
+                                    context.resources.getQuantityString(
+                                        R.plurals.notes_deleted_count,
+                                        toDelete.size,
+                                        toDelete.size
+                                    ),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
                         }
                     }) {
-                        Text(getString(R.string.eliminar))
+                        Text(stringResource(R.string.common_delete))
                     }
                 }
             )
@@ -697,8 +743,12 @@ class FragNotas : Fragment() {
 
         if (showSelectedCategoryDialog) {
             ChangeCategoryDialog(
-                title = "Cambiar categoría",
-                message = "Se actualizarán ${notasSeleccionadas.size} nota(s) seleccionada(s).",
+                title = stringResource(R.string.notes_change_category),
+                message = pluralStringResource(
+                    R.plurals.notes_selected_update_message,
+                    notasSeleccionadas.size,
+                    notasSeleccionadas.size
+                ),
                 currentCategory = "",
                 categoriasExistentes = categoriasExistentes,
                 onDismiss = { showSelectedCategoryDialog = false },
@@ -714,7 +764,11 @@ class FragNotas : Fragment() {
                             recargarNotas()
                             Toast.makeText(
                                 context,
-                                "${toUpdate.size} nota(s) actualizada(s)",
+                                context.resources.getQuantityString(
+                                    R.plurals.notes_updated_count,
+                                    toUpdate.size,
+                                    toUpdate.size
+                                ),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -731,13 +785,13 @@ class FragNotas : Fragment() {
                 onSave = { titulo, contenido, isFav, categoria, isChecklist, checklistJson ->
                     val checklistItems = NotaChecklistCodec.decode(checklistJson)
                     if (titulo.isBlank()) {
-                        Toast.makeText(context, "Debes escribir un título", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, R.string.notes_title_required, Toast.LENGTH_SHORT).show()
                         false
                     } else if (!isChecklist && contenido.isBlank()) {
-                        Toast.makeText(context, "Debes escribir el contenido de la nota", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, R.string.notes_content_required, Toast.LENGTH_SHORT).show()
                         false
                     } else if (isChecklist && checklistItems.isEmpty()) {
-                        Toast.makeText(context, "Añade al menos un elemento al checklist", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, R.string.notes_checklist_item_required, Toast.LENGTH_SHORT).show()
                         false
                     } else {
                         dbExecutor.execute {
@@ -791,7 +845,11 @@ class FragNotas : Fragment() {
                             recargarNotas()
                             Toast.makeText(
                                 context,
-                                "${afectadas.size} nota(s) actualizada(s)",
+                                context.resources.getQuantityString(
+                                    R.plurals.notes_updated_count,
+                                    afectadas.size,
+                                    afectadas.size
+                                ),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -819,7 +877,11 @@ class FragNotas : Fragment() {
                             recargarNotas()
                             Toast.makeText(
                                 context,
-                                "${afectadas.size} nota(s) movida(s)",
+                                context.resources.getQuantityString(
+                                    R.plurals.notes_moved_count,
+                                    afectadas.size,
+                                    afectadas.size
+                                ),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -831,11 +893,13 @@ class FragNotas : Fragment() {
         categoriaAEliminar?.let { categoria ->
             AlertDialog(
                 onDismissRequest = { categoriaAEliminar = null },
-                title = { Text("Eliminar categoría") },
-                text = { Text("¿Eliminar todas las notas de “$categoria”? Esta acción no se puede deshacer.") },
+                title = { Text(stringResource(R.string.notes_delete_category)) },
+                text = {
+                    Text(stringResource(R.string.notes_delete_category_message, displayCategory(categoria)))
+                },
                 dismissButton = {
                     TextButton(onClick = { categoriaAEliminar = null }) {
-                        Text(getString(R.string.cancelar))
+                        Text(stringResource(R.string.common_cancel))
                     }
                 },
                 confirmButton = {
@@ -849,13 +913,17 @@ class FragNotas : Fragment() {
                                 recargarNotas()
                                 Toast.makeText(
                                     context,
-                                    "${afectadas.size} nota(s) eliminada(s)",
+                                    context.resources.getQuantityString(
+                                        R.plurals.notes_deleted_count,
+                                        afectadas.size,
+                                        afectadas.size
+                                    ),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
                         }
                     }) {
-                        Text(getString(R.string.eliminar))
+                        Text(stringResource(R.string.common_delete))
                     }
                 }
             )
@@ -863,8 +931,8 @@ class FragNotas : Fragment() {
 
         notaCategoriaCambiar?.let { nota ->
             ChangeCategoryDialog(
-                title = "Cambiar categoría",
-                message = "Nota: ${nota.titulo}",
+                title = stringResource(R.string.notes_change_category),
+                message = stringResource(R.string.notes_note_label, nota.titulo),
                 currentCategory = nota.categoria,
                 categoriasExistentes = categoriasExistentes,
                 onDismiss = { notaCategoriaCambiar = null },
@@ -876,7 +944,7 @@ class FragNotas : Fragment() {
                             recargarNotas()
                             Toast.makeText(
                                 context,
-                                "Categoría actualizada",
+                                getString(R.string.notes_category_updated),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -888,11 +956,11 @@ class FragNotas : Fragment() {
         notaAEliminar?.let { target ->
             AlertDialog(
                 onDismissRequest = { notaAEliminar = null },
-                title = { Text("Eliminar nota") },
-                text = { Text("¿Seguro que quieres eliminar '${target.titulo}'?") },
+                title = { Text(stringResource(R.string.notes_delete_note)) },
+                text = { Text(stringResource(R.string.notes_delete_note_message, target.titulo)) },
                 dismissButton = {
                     TextButton(onClick = { notaAEliminar = null }) {
-                        Text(getString(R.string.cancelar))
+                        Text(stringResource(R.string.common_cancel))
                     }
                 },
                 confirmButton = {
@@ -902,11 +970,11 @@ class FragNotas : Fragment() {
                             activity?.runOnUiThread {
                                 notaAEliminar = null
                                 recargarNotas()
-                                Toast.makeText(context, "Nota eliminada", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, R.string.notes_note_deleted, Toast.LENGTH_SHORT).show()
                             }
                         }
                     }) {
-                        Text(getString(R.string.eliminar))
+                        Text(stringResource(R.string.common_delete))
                     }
                 }
             )
@@ -931,10 +999,16 @@ class FragNotas : Fragment() {
         onToggleSelection: () -> Unit
     ) {
         val context = LocalContext.current
+        val createdAt = dateFormat.format(Date(nota.fechaCreacion))
+        val modifiedAt = dateFormat.format(Date(nota.fechaModificacion))
         NotaRow(
             nota = nota,
             isExpanded = isExpanded,
-            fechaTexto = "Creado: ${dateFormat.format(Date(nota.fechaCreacion))} | Modificado: ${dateFormat.format(Date(nota.fechaModificacion))}",
+            fechaTexto = stringResource(
+                R.string.notes_created_modified,
+                createdAt,
+                modifiedAt
+            ),
             onEdit = onEdit,
             onDelete = onDelete,
             onRenameCategory = onRenameCategory,
@@ -972,7 +1046,7 @@ class FragNotas : Fragment() {
             onExportToFrases = {
                                         val frase = buildNotaPayload(nota).trim().ifBlank { nota.titulo.trim() }
                                         if (frase.isBlank()) {
-                                            Toast.makeText(context, "La nota está vacía", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(context, R.string.notes_empty_note, Toast.LENGTH_SHORT).show()
                                             return@NotaRow
                                         }
                                         dbExecutor.execute {
@@ -985,11 +1059,11 @@ class FragNotas : Fragment() {
                                             )
                                             activity?.runOnUiThread {
                                                 if (result >= 0) {
-                                                    Toast.makeText(context, "Nota exportada a Frases", Toast.LENGTH_SHORT).show()
+                                                    Toast.makeText(context, R.string.notes_exported_to_quotes, Toast.LENGTH_SHORT).show()
                                                 } else {
                                                     Toast.makeText(
                                                         context,
-                                                        "No se pudo exportar a Frases (puede que ya exista)",
+                                                        context.getString(R.string.notes_export_to_quotes_failed),
                                                         Toast.LENGTH_LONG
                                                     ).show()
                                                 }
@@ -1002,36 +1076,41 @@ class FragNotas : Fragment() {
             onGenerateQr = {
                                         val payload = buildNotaPayload(nota)
                                         if (payload.isBlank()) {
-                                            Toast.makeText(context, "La nota está vacía", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(context, R.string.notes_empty_note, Toast.LENGTH_SHORT).show()
                                         } else {
                                             QRManager.ShowQRDialog(
                                                 context,
                                                 payload,
-                                                "Compartir Nota",
-                                                "Puede utilizar el lector QR para importar notas"
+                                                context.getString(R.string.notes_share_title),
+                                                context.getString(R.string.notes_qr_import_hint)
                                             )
                                         }
             },
             onShare = {
                                         val payload = buildNotaPayload(nota)
                                         if (payload.isBlank()) {
-                                            Toast.makeText(context, "La nota está vacía", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(context, R.string.notes_empty_note, Toast.LENGTH_SHORT).show()
                                         } else {
                                             val intent = Intent(Intent.ACTION_SEND).apply {
                                                 type = "text/plain"
                                                 putExtra(Intent.EXTRA_TEXT, payload)
                                             }
-                                            context.startActivity(Intent.createChooser(intent, "Compartir nota"))
+                                            context.startActivity(
+                                                Intent.createChooser(
+                                                    intent,
+                                                    context.getString(R.string.notes_share_title)
+                                                )
+                                            )
                                         }
             },
             onCopyToClipboard = {
                                         val payload = buildNotaPayload(nota)
                                         if (payload.isBlank()) {
-                                            Toast.makeText(context, "La nota está vacía", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(context, R.string.notes_empty_note, Toast.LENGTH_SHORT).show()
                                         } else {
                                             val clipboard = context.getSystemService(ClipboardManager::class.java)
                                             clipboard?.setPrimaryClip(ClipData.newPlainText("nota", payload))
-                                            Toast.makeText(context, "Nota copiada al portapapeles", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(context, R.string.notes_copied, Toast.LENGTH_SHORT).show()
                                         }
             },
             selected = selected,
@@ -1100,13 +1179,17 @@ class FragNotas : Fragment() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "$selectedCount seleccionadas",
+                    text = pluralStringResource(
+                        R.plurals.notes_selected_count,
+                        selectedCount,
+                        selectedCount
+                    ),
                     color = Color.White,
                     fontWeight = FontWeight.SemiBold,
                     modifier = Modifier.weight(1f)
                 )
                 TextButton(onClick = onCancel) {
-                    Text("Cerrar", color = Color.White)
+                    Text(stringResource(R.string.common_close), color = Color.White)
                 }
             }
             Row(
@@ -1119,31 +1202,31 @@ class FragNotas : Fragment() {
                     enabled = selectedCount > 0,
                     onClick = onDelete
                 ) {
-                    Text("Eliminar", color = if (selectedCount > 0) Color.White else Color.Gray)
+                    Text(stringResource(R.string.common_delete), color = if (selectedCount > 0) Color.White else Color.Gray)
                 }
                 TextButton(
                     enabled = selectedCount > 0,
                     onClick = onPassToFrases
                 ) {
-                    Text("A Frases", color = if (selectedCount > 0) Color.White else Color.Gray)
+                    Text(stringResource(R.string.notes_to_quotes), color = if (selectedCount > 0) Color.White else Color.Gray)
                 }
                 TextButton(
                     enabled = selectedCount > 0,
                     onClick = onPassToCalm
                 ) {
-                    Text("A Frases de Calma", color = if (selectedCount > 0) Color.White else Color.Gray)
+                    Text(stringResource(R.string.notes_to_calm_quotes), color = if (selectedCount > 0) Color.White else Color.Gray)
                 }
                 TextButton(
                     enabled = selectedCount > 0,
                     onClick = onChangeCategory
                 ) {
-                    Text("Categoría", color = if (selectedCount > 0) Color.White else Color.Gray)
+                    Text(stringResource(R.string.notes_category), color = if (selectedCount > 0) Color.White else Color.Gray)
                 }
                 TextButton(
                     enabled = selectedCount > 0,
                     onClick = onExportMigration
                 ) {
-                    Text("Exportar iOS", color = if (selectedCount > 0) Color.White else Color.Gray)
+                    Text(stringResource(R.string.notes_export_ios), color = if (selectedCount > 0) Color.White else Color.Gray)
                 }
             }
         }
@@ -1175,13 +1258,13 @@ class FragNotas : Fragment() {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("Filtros", color = Color.White, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
+                Text(stringResource(R.string.notes_filters), color = Color.White, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
                 Row {
                     TextButton(onClick = onClear) {
-                        Text("Limpiar", color = Color.White, fontSize = 14.sp)
+                        Text(stringResource(R.string.common_clear), color = Color.White, fontSize = 14.sp)
                     }
                     TextButton(onClick = onHide) {
-                        Text("Ocultar", color = Color.White, fontSize = 14.sp)
+                        Text(stringResource(R.string.common_hide), color = Color.White, fontSize = 14.sp)
                     }
                 }
             }
@@ -1195,7 +1278,7 @@ class FragNotas : Fragment() {
                     onValueChange = onFiltroTituloChange,
                     modifier = Modifier.weight(1f),
                     singleLine = true,
-                    label = { Text("Buscar en título", color = Color.White) },
+                    label = { Text(stringResource(R.string.notes_search_title), color = Color.White) },
                     shape = RoundedCornerShape(14.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedTextColor = Color.White,
@@ -1210,7 +1293,7 @@ class FragNotas : Fragment() {
                     onValueChange = onFiltroContenidoChange,
                     modifier = Modifier.weight(1f),
                     singleLine = true,
-                    label = { Text("Buscar en nota", color = Color.White) },
+                    label = { Text(stringResource(R.string.notes_search_content), color = Color.White) },
                     shape = RoundedCornerShape(14.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedTextColor = Color.White,
@@ -1227,7 +1310,7 @@ class FragNotas : Fragment() {
                 onValueChange = onFiltroCategoriaChange,
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
-                label = { Text("Buscar en categoría", color = Color.White) },
+                label = { Text(stringResource(R.string.notes_search_category), color = Color.White) },
                 shape = RoundedCornerShape(14.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = Color.White,
@@ -1244,7 +1327,7 @@ class FragNotas : Fragment() {
             ) {
                 FavoritoFiltro.entries.forEach { option ->
                     FilterChip(
-                        label = option.label,
+                        label = favoriteFilterLabel(option),
                         selected = filtroFav == option,
                         onClick = { onFiltroFavChange(option) }
                     )
@@ -1353,7 +1436,7 @@ class FragNotas : Fragment() {
                             textAlign = TextAlign.Start,
                             color = colorResource(id = R.color.nota_title)
                         ),
-                        placeholder = { Text("Título de la nota", color = Color.White) },
+                        placeholder = { Text(stringResource(R.string.notes_note_title), color = Color.White) },
                         singleLine = true
                     )
 
@@ -1363,8 +1446,8 @@ class FragNotas : Fragment() {
                             onValueChange = { categoria = it },
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(14.dp),
-                            label = { Text("Categoría", color = Color.White) },
-                            placeholder = { Text(SIN_CATEGORIA, color = Color.White.copy(alpha = 0.7f)) },
+                            label = { Text(stringResource(R.string.notes_category), color = Color.White) },
+                            placeholder = { Text(stringResource(R.string.notes_uncategorized), color = Color.White.copy(alpha = 0.7f)) },
                             singleLine = true,
                             trailingIcon = {
                                 IconButton(
@@ -1373,7 +1456,7 @@ class FragNotas : Fragment() {
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.Folder,
-                                        contentDescription = "Categorías existentes",
+                                        contentDescription = stringResource(R.string.notes_existing_categories),
                                         tint = Color.White
                                     )
                                 }
@@ -1384,7 +1467,7 @@ class FragNotas : Fragment() {
                             onDismissRequest = { showCategoryMenu = false }
                         ) {
                             DropdownMenuItem(
-                                text = { Text(SIN_CATEGORIA) },
+                                text = { Text(stringResource(R.string.notes_uncategorized)) },
                                 onClick = {
                                     categoria = ""
                                     showCategoryMenu = false
@@ -1407,14 +1490,14 @@ class FragNotas : Fragment() {
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         NoteTypeChip(
-                            label = "Texto",
+                            label = stringResource(R.string.notes_text_type),
                             selected = !isChecklist,
                             icon = Icons.Default.CheckBoxOutlineBlank,
                             onClick = { isChecklist = false },
                             modifier = Modifier.weight(1f)
                         )
                         NoteTypeChip(
-                            label = "Checklist",
+                            label = stringResource(R.string.notes_checklist_type),
                             selected = isChecklist,
                             icon = Icons.Default.CheckBox,
                             onClick = { isChecklist = true },
@@ -1437,7 +1520,11 @@ class FragNotas : Fragment() {
                         ),
                         placeholder = {
                             Text(
-                                if (isChecklist) "Descripción opcional del checklist" else "Escribe el contenido de tu nota",
+                                if (isChecklist) {
+                                    stringResource(R.string.notes_checklist_description)
+                                } else {
+                                    stringResource(R.string.notes_content_placeholder)
+                                },
                                 color = Color.White
                             )
                         }
@@ -1475,7 +1562,7 @@ class FragNotas : Fragment() {
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_toolbar_favorite),
-                            contentDescription = "Favorito",
+                            contentDescription = stringResource(R.string.notes_favorite),
                             tint = if (isFav)
                                 Color(0xFFFF9800)
                             else
@@ -1483,7 +1570,13 @@ class FragNotas : Fragment() {
                             modifier = Modifier.size(22.dp)
                         )
                         TextButton(onClick = { isFav = !isFav }) {
-                            Text(if (isFav) "Quitar favorito" else "Marcar favorito", color = Color.White)
+                            Text(
+                                stringResource(
+                                    if (isFav) R.string.notes_remove_favorite
+                                    else R.string.notes_mark_favorite
+                                ),
+                                color = Color.White
+                            )
                         }
                     }
 
@@ -1495,7 +1588,7 @@ class FragNotas : Fragment() {
                             onClick = onDismiss,
                             modifier = Modifier.padding(end = 50.dp)
                         ) {
-                            Text(stringResource(id = R.string.cerrar))
+                            Text(stringResource(id = R.string.common_close))
                         }
                         Button(
                             onClick = {
@@ -1509,7 +1602,7 @@ class FragNotas : Fragment() {
                                 )
                             }
                         ) {
-                            Text(stringResource(id = R.string.guardar))
+                            Text(stringResource(id = R.string.common_save))
                         }
                     }
                 }
@@ -1573,7 +1666,7 @@ class FragNotas : Fragment() {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "Checklist",
+                    text = stringResource(R.string.notes_checklist_type),
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
@@ -1581,7 +1674,7 @@ class FragNotas : Fragment() {
                 IconButton(onClick = onAdd, modifier = Modifier.size(36.dp)) {
                     Icon(
                         imageVector = Icons.Default.Add,
-                        contentDescription = "Añadir elemento",
+                        contentDescription = stringResource(R.string.notes_add_checklist_item),
                         tint = Color.White
                     )
                 }
@@ -1589,7 +1682,7 @@ class FragNotas : Fragment() {
 
             if (items.isEmpty()) {
                 Text(
-                    text = "Añade el primer elemento",
+                    text = stringResource(R.string.notes_add_first_item),
                     color = Color.White.copy(alpha = 0.72f),
                     fontSize = 14.sp
                 )
@@ -1611,7 +1704,12 @@ class FragNotas : Fragment() {
                         modifier = Modifier.weight(1f),
                         singleLine = true,
                         shape = RoundedCornerShape(12.dp),
-                        placeholder = { Text("Elemento", color = Color.White.copy(alpha = 0.7f)) },
+                        placeholder = {
+                            Text(
+                                stringResource(R.string.notes_checklist_item),
+                                color = Color.White.copy(alpha = 0.7f)
+                            )
+                        },
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedTextColor = Color.White,
                             unfocusedTextColor = Color.White,
@@ -1623,7 +1721,7 @@ class FragNotas : Fragment() {
                     IconButton(onClick = { onDelete(item) }, modifier = Modifier.size(36.dp)) {
                         Icon(
                             imageVector = Icons.Default.Close,
-                            contentDescription = "Eliminar elemento",
+                            contentDescription = stringResource(R.string.notes_delete_checklist_item),
                             tint = Color(0xFFFFA336)
                         )
                     }
@@ -1660,6 +1758,7 @@ class FragNotas : Fragment() {
         var showCategoryMenu by remember(nota.id, nota.categoria) { mutableStateOf(false) }
         val checklistItems = remember(nota.checklistJson) { NotaChecklistCodec.decode(nota.checklistJson) }
         val categoriaTexto = nombreCategoria(nota)
+        val categoriaVisible = displayCategory(categoriaTexto)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -1683,7 +1782,9 @@ class FragNotas : Fragment() {
                 if (selectionMode) {
                     Icon(
                         imageVector = if (selected) Icons.Filled.CheckBox else Icons.Filled.CheckBoxOutlineBlank,
-                        contentDescription = if (selected) "Nota seleccionada" else "Seleccionar nota",
+                        contentDescription = stringResource(
+                            if (selected) R.string.notes_selected else R.string.notes_select_note
+                        ),
                         tint = Color.White,
                         modifier = Modifier
                             .padding(end = 8.dp)
@@ -1700,7 +1801,7 @@ class FragNotas : Fragment() {
                 )
                 Icon(
                     painter = painterResource(id = R.drawable.ic_toolbar_favorite),
-                    contentDescription = "Favorita",
+                    contentDescription = stringResource(R.string.notes_favorite),
                     tint = if (nota.isFav) Color(0xFFFF7A00) else Color(0xFF0B2F55),
                     modifier = Modifier
                         .size(22.dp)
@@ -1733,7 +1834,7 @@ class FragNotas : Fragment() {
 
             Box(modifier = Modifier.padding(top = 6.dp)) {
                 Text(
-                    text = categoriaTexto,
+                    text = categoriaVisible,
                     fontSize = 12.sp,
                     color = Color(0xFFD9E8F2),
                     modifier = Modifier
@@ -1747,21 +1848,21 @@ class FragNotas : Fragment() {
                     shape = RoundedCornerShape(14.dp)
                 ) {
                     DropdownMenuItem(
-                        text = { Text("Editar categoría") },
+                        text = { Text(stringResource(R.string.notes_edit_category)) },
                         onClick = {
                             showCategoryMenu = false
                             onRenameCategory(categoriaTexto)
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text("Mover a categoría existente") },
+                        text = { Text(stringResource(R.string.notes_move_to_existing_category)) },
                         onClick = {
                             showCategoryMenu = false
                             onMoveCategory(categoriaTexto)
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text("Eliminar notas de esta categoría") },
+                        text = { Text(stringResource(R.string.notes_delete_category_notes)) },
                         onClick = {
                             showCategoryMenu = false
                             onDeleteCategory(categoriaTexto)
@@ -1787,7 +1888,7 @@ class FragNotas : Fragment() {
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_edit_note),
-                        contentDescription = "Editar nota",
+                        contentDescription = stringResource(R.string.notes_edit_note),
                         tint = colorResource(id = R.color.shared_social),
                         modifier = Modifier
                             .size(24.dp)
@@ -1795,7 +1896,7 @@ class FragNotas : Fragment() {
                     )
                     Icon(
                         painter = painterResource(id = R.drawable.ic_delete),
-                        contentDescription = "Eliminar nota",
+                        contentDescription = stringResource(R.string.notes_delete_note),
                         tint = Color(0xFFFFA336),
                         modifier = Modifier
                             .padding(start = 20.dp)
@@ -1809,7 +1910,7 @@ class FragNotas : Fragment() {
                         ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_menu_open),
-                                contentDescription = "Menú contextual de nota",
+                                contentDescription = stringResource(R.string.notes_note_context_menu),
                                 tint = Color.White,
                                 modifier = Modifier
                                     .size(24.dp)
@@ -1821,42 +1922,42 @@ class FragNotas : Fragment() {
                             shape = RoundedCornerShape(18.dp)
                         ) {
                             DropdownMenuItem(
-                                text = { Text("Cambiar categoría") },
+                                text = { Text(stringResource(R.string.notes_change_category)) },
                                 onClick = {
                                     showContextMenu = false
                                     onChangeNoteCategory(nota)
                                 }
                             )
                             DropdownMenuItem(
-                                text = { Text("Exportar a Frases") },
+                                text = { Text(stringResource(R.string.notes_export_to_quotes)) },
                                 onClick = {
                                     showContextMenu = false
                                     onExportToFrases()
                                 }
                             )
                             DropdownMenuItem(
-                                text = { Text("Exportar a Lienzo") },
+                                text = { Text(stringResource(R.string.notes_export_to_canvas)) },
                                 onClick = {
                                     showContextMenu = false
                                     onExportToLienzo()
                                 }
                             )
                             DropdownMenuItem(
-                                text = { Text("Generar QR") },
+                                text = { Text(stringResource(R.string.notes_generate_qr)) },
                                 onClick = {
                                     showContextMenu = false
                                     onGenerateQr()
                                 }
                             )
                             DropdownMenuItem(
-                                text = { Text("Compartir...") },
+                                text = { Text(stringResource(R.string.notes_share_ellipsis)) },
                                 onClick = {
                                     showContextMenu = false
                                     onShare()
                                 }
                             )
                             DropdownMenuItem(
-                                text = { Text("Copiar al portapapeles") },
+                                text = { Text(stringResource(R.string.notes_copy_clipboard)) },
                                 onClick = {
                                     showContextMenu = false
                                     onCopyToClipboard()
@@ -1877,7 +1978,10 @@ class FragNotas : Fragment() {
                     painter = painterResource(
                         id = if (isExpanded) R.drawable.ic_arriba else R.drawable.ic_abajo
                     ),
-                    contentDescription = if (isExpanded) "Colapsar nota" else "Expandir nota",
+                    contentDescription = stringResource(
+                        if (isExpanded) R.string.notes_collapse_note
+                        else R.string.notes_expand_note
+                    ),
                     tint = Color.White.copy(alpha = 0.8f),
                     modifier = Modifier
                         .size(16.dp)
@@ -1941,7 +2045,12 @@ class FragNotas : Fragment() {
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Text(
-                        text = if (isExpanded) "Mostrar menos" else "+${items.size - visibleItems.size} más",
+                        text = if (isExpanded) {
+                            stringResource(R.string.notes_show_less)
+                        } else {
+                            val remaining = items.size - visibleItems.size
+                            pluralStringResource(R.plurals.notes_more_count, remaining, remaining)
+                        },
                         color = Color(0xFFD9E8F2),
                         fontSize = 12.sp
                     )
@@ -1949,7 +2058,10 @@ class FragNotas : Fragment() {
                         painter = painterResource(
                             id = if (isExpanded) R.drawable.ic_arriba else R.drawable.ic_abajo
                         ),
-                        contentDescription = if (isExpanded) "Colapsar checklist" else "Expandir checklist",
+                        contentDescription = stringResource(
+                            if (isExpanded) R.string.notes_collapse_checklist
+                            else R.string.notes_expand_checklist
+                        ),
                         tint = Color(0xFFD9E8F2),
                         modifier = Modifier.size(14.dp)
                     )
@@ -1964,6 +2076,16 @@ class FragNotas : Fragment() {
         SOLO_NO_FAVORITAS("No favoritas")
     }
 
+    @Composable
+    private fun favoriteFilterLabel(filter: FavoritoFiltro): String =
+        stringResource(
+            when (filter) {
+                FavoritoFiltro.TODAS -> R.string.notes_filter_all
+                FavoritoFiltro.SOLO_FAVORITAS -> R.string.notes_filter_favorites
+                FavoritoFiltro.SOLO_NO_FAVORITAS -> R.string.notes_filter_not_favorites
+            }
+        )
+
     private enum class NotasListMode {
         TODAS,
         POR_CATEGORIAS
@@ -1971,6 +2093,14 @@ class FragNotas : Fragment() {
 
     private fun nombreCategoria(nota: NotaEntity): String =
         nota.categoria.trim().ifEmpty { SIN_CATEGORIA }
+
+    @Composable
+    private fun displayCategory(category: String): String =
+        if (category == SIN_CATEGORIA) {
+            stringResource(R.string.notes_uncategorized)
+        } else {
+            category
+        }
 
     @Composable
     private fun CategoryHeader(
@@ -1998,7 +2128,7 @@ class FragNotas : Fragment() {
             )
             Spacer(Modifier.width(8.dp))
             Text(
-                text = categoria,
+                text = displayCategory(categoria),
                 color = Color.White,
                 fontWeight = FontWeight.Bold
             )
@@ -2009,7 +2139,7 @@ class FragNotas : Fragment() {
                 ) {
                     Icon(
                         imageVector = Icons.Default.MoreVert,
-                        contentDescription = "Opciones de categoría",
+                        contentDescription = stringResource(R.string.notes_category_options),
                         tint = Color.White.copy(alpha = 0.8f),
                         modifier = Modifier.size(18.dp)
                     )
@@ -2020,14 +2150,14 @@ class FragNotas : Fragment() {
                     shape = RoundedCornerShape(14.dp)
                 ) {
                     DropdownMenuItem(
-                        text = { Text("Renombrar categoría") },
+                        text = { Text(stringResource(R.string.notes_rename_category)) },
                         onClick = {
                             showCategoryMenu = false
                             onRename()
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text("Eliminar categoría") },
+                        text = { Text(stringResource(R.string.notes_delete_category)) },
                         onClick = {
                             showCategoryMenu = false
                             onDelete()
@@ -2043,7 +2173,9 @@ class FragNotas : Fragment() {
             )
             Icon(
                 imageVector = if (isCollapsed) Icons.Default.ExpandMore else Icons.Default.ExpandLess,
-                contentDescription = if (isCollapsed) "Mostrar notas" else "Ocultar notas",
+                contentDescription = stringResource(
+                    if (isCollapsed) R.string.notes_show_notes else R.string.notes_hide_notes
+                ),
                 tint = Color.White
             )
         }
@@ -2060,24 +2192,24 @@ class FragNotas : Fragment() {
         }
         AlertDialog(
             onDismissRequest = onDismiss,
-            title = { Text("Renombrar categoría") },
+            title = { Text(stringResource(R.string.notes_rename_category)) },
             text = {
                 OutlinedTextField(
                     value = draft,
                     onValueChange = { draft = it },
-                    label = { Text("Categoría") },
-                    placeholder = { Text(SIN_CATEGORIA) },
+                    label = { Text(stringResource(R.string.notes_category)) },
+                    placeholder = { Text(stringResource(R.string.notes_uncategorized)) },
                     singleLine = true
                 )
             },
             dismissButton = {
                 TextButton(onClick = onDismiss) {
-                    Text(stringResource(id = R.string.cancelar))
+                    Text(stringResource(id = R.string.common_cancel))
                 }
             },
             confirmButton = {
                 TextButton(onClick = { onRename(draft) }) {
-                    Text("Actualizar")
+                    Text(stringResource(R.string.notes_update))
                 }
             }
         )
@@ -2107,14 +2239,14 @@ class FragNotas : Fragment() {
                         OutlinedTextField(
                             value = draft,
                             onValueChange = { draft = it },
-                            label = { Text("Categoría") },
-                            placeholder = { Text(SIN_CATEGORIA) },
+                            label = { Text(stringResource(R.string.notes_category)) },
+                            placeholder = { Text(stringResource(R.string.notes_uncategorized)) },
                             singleLine = true,
                             trailingIcon = {
                                 IconButton(onClick = { showMenu = true }) {
                                     Icon(
                                         imageVector = Icons.Default.Folder,
-                                        contentDescription = "Seleccionar categoría"
+                                        contentDescription = stringResource(R.string.notes_select_category)
                                     )
                                 }
                             },
@@ -2125,7 +2257,7 @@ class FragNotas : Fragment() {
                             onDismissRequest = { showMenu = false }
                         ) {
                             DropdownMenuItem(
-                                text = { Text(SIN_CATEGORIA) },
+                                text = { Text(stringResource(R.string.notes_uncategorized)) },
                                 onClick = {
                                     draft = ""
                                     showMenu = false
@@ -2143,7 +2275,7 @@ class FragNotas : Fragment() {
                         }
                     }
                     Text(
-                        text = "Puedes escribir una categoría nueva, elegir una existente o dejar el campo vacío.",
+                        text = stringResource(R.string.notes_category_help),
                         fontSize = 12.sp,
                         color = Color.Gray
                     )
@@ -2151,12 +2283,12 @@ class FragNotas : Fragment() {
             },
             dismissButton = {
                 TextButton(onClick = onDismiss) {
-                    Text(stringResource(id = R.string.cancelar))
+                    Text(stringResource(id = R.string.common_cancel))
                 }
             },
             confirmButton = {
                 TextButton(onClick = { onApply(draft) }) {
-                    Text("Actualizar")
+                    Text(stringResource(R.string.notes_update))
                 }
             }
         )
@@ -2176,25 +2308,25 @@ class FragNotas : Fragment() {
 
         AlertDialog(
             onDismissRequest = onDismiss,
-            title = { Text("Mover categoría") },
+            title = { Text(stringResource(R.string.notes_move_category)) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text("Mover las notas de \"$categoria\" a:")
+                    Text(stringResource(R.string.notes_move_category_message, displayCategory(categoria)))
                     if (categoriasExistentes.isEmpty()) {
-                        Text("No hay otra categoría existente disponible.")
+                        Text(stringResource(R.string.notes_no_other_category))
                     } else {
                         Box {
                             OutlinedTextField(
                                 value = selected,
                                 onValueChange = {},
-                                label = { Text("Categoría destino") },
+                                label = { Text(stringResource(R.string.notes_target_category)) },
                                 readOnly = true,
                                 singleLine = true,
                                 trailingIcon = {
                                     IconButton(onClick = { showMenu = true }) {
                                         Icon(
                                             imageVector = Icons.Default.Folder,
-                                            contentDescription = "Seleccionar categoría"
+                                            contentDescription = stringResource(R.string.notes_select_category)
                                         )
                                     }
                                 },
@@ -2220,7 +2352,7 @@ class FragNotas : Fragment() {
             },
             dismissButton = {
                 TextButton(onClick = onDismiss) {
-                    Text(stringResource(id = R.string.cancelar))
+                    Text(stringResource(id = R.string.common_cancel))
                 }
             },
             confirmButton = {
@@ -2228,7 +2360,7 @@ class FragNotas : Fragment() {
                     enabled = selected.isNotBlank(),
                     onClick = { onMove(selected) }
                 ) {
-                    Text("Mover")
+                    Text(stringResource(R.string.common_move))
                 }
             }
         )

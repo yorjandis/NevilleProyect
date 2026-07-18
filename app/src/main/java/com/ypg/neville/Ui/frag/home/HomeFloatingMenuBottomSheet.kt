@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.DialogFragment
 import com.ypg.neville.MainActivity
@@ -151,16 +152,16 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                     verticalArrangement = Arrangement.spacedBy(HOME_MENU_VERTICAL_SPACING_DP.dp)
                 ) {
                     Button(onClick = { onNavigate("neville") }, modifier = Modifier.fillMaxWidth()) {
-                        Text("Neville")
+                        Text(stringResource(R.string.neville_goddard))
                     }
                     Button(onClick = { onNavigate("joe") }, modifier = Modifier.fillMaxWidth()) {
-                        Text("Joe Dispenza")
+                        Text(stringResource(R.string.joe_dispenza))
                     }
                     Button(onClick = { onNavigate("gregg") }, modifier = Modifier.fillMaxWidth()) {
-                        Text("Gregg Braden")
+                        Text(stringResource(R.string.gregg_braden))
                     }
                     Button(onClick = { onNavigate("bruce") }, modifier = Modifier.fillMaxWidth()) {
-                        Text("Bruce Lipton")
+                        Text(stringResource(R.string.bruce_lipton))
                     }
                 }
 
@@ -194,7 +195,7 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                 ) {
                     Box(modifier = Modifier.fillMaxWidth()) {
                         Button(onClick = { showRecursos = true }, modifier = Modifier.fillMaxWidth()) {
-                            Text("Recursos Didácticos")
+                            Text(stringResource(R.string.home_menu_learning_resources))
                         }
 
                         DropdownMenu(
@@ -203,31 +204,34 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                             shape = ContextMenuShape
                         ) {
                             DropdownMenuItem(
-                                text = { Text("Frases") },
+                                text = { Text(stringResource(R.string.home_nav_quotes)) },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_item),
-                                        contentDescription = "Frases"
+                                        contentDescription = stringResource(R.string.home_nav_quotes)
                                     )
                                 },
                                 onClick = { showRecursos = false; onNavigate("frases") }
                             )
                             DropdownMenuItem(
-                                text = { Text("Notas") },
+                                text = { Text(stringResource(R.string.home_nav_notes)) },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_note),
-                                        contentDescription = "Notas"
+                                        contentDescription = stringResource(R.string.home_nav_notes)
                                     )
                                 },
                                 onClick = { showRecursos = false; onNavigate("notas") }
                             )
                             DropdownMenuItem(
-                                text = { Text(if (hasPremium) "Enciclopedia" else "Enciclopedia (Preview)") },
+                                text = {
+                                    val title = stringResource(R.string.home_nav_encyclopedia)
+                                    Text(if (hasPremium) title else stringResource(R.string.home_preview_label, title))
+                                },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_conf),
-                                        contentDescription = "Enciclopedia"
+                                        contentDescription = stringResource(R.string.home_nav_encyclopedia)
                                     )
                                 },
                                 onClick = {
@@ -236,11 +240,14 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                                 }
                             )
                             DropdownMenuItem(
-                                text = { Text(if (hasPremium) "Evidencia Científica" else "Evidencia Científica (Preview)") },
+                                text = {
+                                    val title = stringResource(R.string.home_nav_scientific_evidence)
+                                    Text(if (hasPremium) title else stringResource(R.string.home_preview_label, title))
+                                },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_tips),
-                                        contentDescription = "Evidencia Científica"
+                                        contentDescription = stringResource(R.string.home_nav_scientific_evidence)
                                     )
                                 },
                                 onClick = {
@@ -249,21 +256,21 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                                 }
                             )
                             DropdownMenuItem(
-                                text = { Text("Reflexiones") },
+                                text = { Text(stringResource(R.string.home_nav_reflections)) },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_show),
-                                        contentDescription = "Reflexiones"
+                                        contentDescription = stringResource(R.string.home_nav_reflections)
                                     )
                                 },
                                 onClick = { showRecursos = false; onNavigate("reflexiones") }
                             )
                             DropdownMenuItem(
-                                text = { Text("Ayudas") },
+                                text = { Text(stringResource(R.string.home_nav_help)) },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_ayuda),
-                                        contentDescription = "Ayudas"
+                                        contentDescription = stringResource(R.string.home_nav_help)
                                     )
                                 },
                                 onClick = { showRecursos = false; onNavigate("ayudas") }
@@ -272,7 +279,7 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                     }
                     Box(modifier = Modifier.fillMaxWidth()) {
                         Button(onClick = { showProductividad = true }, modifier = Modifier.fillMaxWidth()) {
-                            Text("Productividad")
+                            Text(stringResource(R.string.home_menu_productivity))
                         }
                         DropdownMenu(
                             expanded = showProductividad,
@@ -280,131 +287,131 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                             shape = ContextMenuShape
                         ) {
                             DropdownMenuItem(
-                                text = { Text("Diario") },
+                                text = { Text(stringResource(R.string.home_nav_diary)) },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_open_book),
-                                        contentDescription = "Diario"
+                                        contentDescription = stringResource(R.string.home_nav_diary)
                                     )
                                 },
                                 onClick = { showProductividad = false; onNavigate("diario") }
                             )
                             DropdownMenuItem(
-                                text = { Text("Lienzo") },
+                                text = { Text(stringResource(R.string.home_nav_canvas)) },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_edit_note),
-                                        contentDescription = "Lienzo"
+                                        contentDescription = stringResource(R.string.home_nav_canvas)
                                     )
                                 },
                                 onClick = { showProductividad = false; onNavigate("lienzo") }
                             )
                             DropdownMenuItem(
-                                text = { Text("Metas") },
+                                text = { Text(stringResource(R.string.home_nav_goals)) },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_arriba),
-                                        contentDescription = "Metas"
+                                        contentDescription = stringResource(R.string.home_nav_goals)
                                     )
                                 },
                                 onClick = { showProductividad = false; onNavigate("metas") }
                             )
                             DropdownMenuItem(
-                                text = { Text("Agenda") },
+                                text = { Text(stringResource(R.string.home_nav_agenda)) },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_calendar_toggle),
-                                        contentDescription = "Agenda"
+                                        contentDescription = stringResource(R.string.home_nav_agenda)
                                     )
                                 },
                                 onClick = { showProductividad = false; onNavigate("agenda") }
                             )
                             DropdownMenuItem(
-                                text = { Text("Recordatorios") },
+                                text = { Text(stringResource(R.string.home_nav_reminders)) },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_calendar_toggle),
-                                        contentDescription = "Recordatorios"
+                                        contentDescription = stringResource(R.string.home_nav_reminders)
                                     )
                                 },
                                 onClick = { showProductividad = false; onNavigate("recordatorios") }
                             )
                             DropdownMenuItem(
-                                text = { Text("Ritual Matutino") },
+                                text = { Text(stringResource(R.string.home_nav_daily_ritual)) },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_calendar_toggle),
-                                        contentDescription = "Ritual Matutino"
+                                        contentDescription = stringResource(R.string.home_nav_daily_ritual)
                                     )
                                 },
                                 onClick = { showProductividad = false; onNavigate("dialogo_matutino") }
                             )
                             DropdownMenuItem(
-                                text = { Text("Resumen Semanal") },
+                                text = { Text(stringResource(R.string.weekly_summary_title)) },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_item),
-                                        contentDescription = "Resumen Semanal"
+                                        contentDescription = stringResource(R.string.weekly_summary_title)
                                     )
                                 },
                                 onClick = { showProductividad = false; onNavigate("resumen_semanal") }
                             )
                             DropdownMenuItem(
-                                text = { Text("Notas de Voz") },
+                                text = { Text(stringResource(R.string.voice_notes_title)) },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_audio),
-                                        contentDescription = "Notas de Voz"
+                                        contentDescription = stringResource(R.string.voice_notes_title)
                                     )
                                 },
                                 onClick = { showProductividad = false; onNavigate("voces") }
                             )
                             DropdownMenuItem(
-                                text = { Text("Anclas Emocionales") },
+                                text = { Text(stringResource(R.string.anchors_title)) },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_tips),
-                                        contentDescription = "Anclas Emocionales"
+                                        contentDescription = stringResource(R.string.anchors_title)
                                     )
                                 },
                                 onClick = { showProductividad = false; onNavigate("anclas") }
                             )
                             DropdownMenuItem(
-                                text = { Text("Espacio de Calma") },
+                                text = { Text(stringResource(R.string.calm_title)) },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_show),
-                                        contentDescription = "Espacio de Calma"
+                                        contentDescription = stringResource(R.string.calm_title)
                                     )
                                 },
                                 onClick = { showProductividad = false; onNavigate("calma") }
                             )
                             DropdownMenuItem(
-                                text = { Text("Coherencia Cardio-Cerebral") },
+                                text = { Text(stringResource(R.string.coherence_title)) },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_tips),
-                                        contentDescription = "Coherencia Cardio-Cerebral"
+                                        contentDescription = stringResource(R.string.coherence_title)
                                     )
                                 },
                                 onClick = { showProductividad = false; onNavigate("cardio") }
                             )
                             DropdownMenuItem(
-                                text = { Text("Presencia Consciente") },
+                                text = { Text(stringResource(R.string.presence_title)) },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_show),
-                                        contentDescription = "Presencia Consciente"
+                                        contentDescription = stringResource(R.string.presence_title)
                                     )
                                 },
                                 onClick = { showProductividad = false; onNavigate("presencia") }
                             )
                             DropdownMenuItem(
-                                text = { Text("Centro Sanador") },
+                                text = { Text(stringResource(R.string.healing_center_title)) },
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_ayuda),
-                                        contentDescription = "Centro Sanador"
+                                        contentDescription = stringResource(R.string.healing_center_title)
                                     )
                                 },
                                 onClick = { showProductividad = false; onNavigate("centro_sanador") }
@@ -412,10 +419,15 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                         }
                     }
                     Button(onClick = { onNavigate("ajustes") }, modifier = Modifier.fillMaxWidth()) {
-                        Text("Ajuste")
+                        Text(stringResource(R.string.home_nav_settings))
                     }
                     Button(onClick = { onNavigate("premium") }, modifier = Modifier.fillMaxWidth()) {
-                        Text(if (hasPremium) "Suscripción Activa" else "Versión Extendida")
+                        Text(
+                            stringResource(
+                                if (hasPremium) R.string.home_subscription_active
+                                else R.string.home_extended_version
+                            )
+                        )
                     }
                 }
             }

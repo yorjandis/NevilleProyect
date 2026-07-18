@@ -121,9 +121,9 @@ class MainActivity : AppCompatActivity() {
                 if (pUpdateAvailable) {
                     val intentNotification = Intent(Intent.ACTION_VIEW, "market://details?id=$packageName".toUri())
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        utils.show_Notification("Nueva actualización disponible!", intentNotification)
+                        utils.show_Notification(getString(R.string.main_update_available), intentNotification)
                     } else {
-                        Toast.makeText(this@MainActivity, "Nueva actualización disponible!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@MainActivity, getString(R.string.main_update_available), Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -131,17 +131,17 @@ class MainActivity : AppCompatActivity() {
 
         val hadLegacyDatabase = utilsDB.hasLegacyDatabase(this)
         if (hadLegacyDatabase) {
-            Toast.makeText(this, "Estamos migrando tus datos a la nueva base de datos. Por favor espera...", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.main_migrating_data), Toast.LENGTH_LONG).show()
         }
 
         if (utilsDB.RestoreDBInfo(this)) {
             if (hadLegacyDatabase) {
-                Toast.makeText(this, "Migración de datos completada.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.main_migration_completed), Toast.LENGTH_SHORT).show()
             }
             recreate()
         } else {
             if (hadLegacyDatabase) {
-                Toast.makeText(this, "Migración de datos completada.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.main_migration_completed), Toast.LENGTH_SHORT).show()
             }
             val currentInstallMarker = currentInstallFirstTime()
             val storedInstallMarker = prefs.getLong(installMarkerPrefKey, -1L)
@@ -151,9 +151,9 @@ class MainActivity : AppCompatActivity() {
             if (shouldShowNews) {
                 UiModalWindows.showAyudaContectual(
                     this,
-                    "Novedades",
-                    "Que hay de nuevo?",
-                    NewsContent.buildNewsText(),
+                    getString(R.string.settings_whats_new),
+                    getString(R.string.main_whats_new_subtitle),
+                    NewsContent.buildNewsText(this),
                     false,
                     AppCompatResources.getDrawable(this, R.drawable.neville)
                 )
@@ -356,7 +356,7 @@ class MainActivity : AppCompatActivity() {
         if (destinationId == R.id.frag_home) return
         if (destinationId == R.id.frag_notas && shouldRequireNotesBiometricLock()) {
             if (!SubscriptionManager.hasActiveSubscriptionNow()) {
-                showSubscriptionPaywall("La protección biométrica de Notas forma parte de la suscripción anual.")
+                showSubscriptionPaywall(getString(R.string.paywall_reason_notes_biometric))
                 return
             }
             showNotesBiometricPrompt {
@@ -481,7 +481,7 @@ class MainActivity : AppCompatActivity() {
         if (canAuth != BiometricManager.BIOMETRIC_SUCCESS) {
             Toast.makeText(
                 this,
-                "No hay biometría disponible/configurada en este dispositivo",
+                getString(R.string.settings_biometric_unavailable),
                 Toast.LENGTH_LONG
             ).show()
             return
@@ -504,9 +504,9 @@ class MainActivity : AppCompatActivity() {
             )
 
             val promptInfo = BiometricPrompt.PromptInfo.Builder()
-                .setTitle("Acceso a Notas")
-                .setSubtitle("Autentícate para abrir tu lista de notas")
-                .setNegativeButtonText("Cancelar")
+                .setTitle(getString(R.string.main_notes_biometric_title))
+                .setSubtitle(getString(R.string.main_notes_biometric_subtitle))
+                .setNegativeButtonText(getString(R.string.common_cancel))
                 .setAllowedAuthenticators(
                     BiometricManager.Authenticators.BIOMETRIC_STRONG or
                         BiometricManager.Authenticators.BIOMETRIC_WEAK
@@ -517,7 +517,7 @@ class MainActivity : AppCompatActivity() {
         }.onFailure { error ->
             Toast.makeText(
                 this,
-                error.message ?: "No se pudo iniciar autenticación biométrica",
+                error.message ?: getString(R.string.settings_biometric_start_error),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -536,7 +536,7 @@ class MainActivity : AppCompatActivity() {
             if (!qrContent.isNullOrEmpty()) {
                 procesarQrCode(qrContent)
             } else {
-                Toast.makeText(this, "Error al leer el código QR", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.main_qr_read_error), Toast.LENGTH_SHORT).show()
             }
             QRManager.Request_Code = false
         }
@@ -571,7 +571,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun procesarQrCode(result: String?) {
         if (TextUtils.isEmpty(result)) {
-            Toast.makeText(this, "No se puede importar un texto vacío", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.main_import_empty), Toast.LENGTH_SHORT).show()
             QRManager.Request_Code = false
             return
         }
@@ -579,7 +579,7 @@ class MainActivity : AppCompatActivity() {
         val temp = result!!.split("::").toTypedArray()
         if (temp[0].contains("f")) {
             if (temp.size < 4) {
-                Toast.makeText(this, "No se pudo importar el código", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.main_import_code_error), Toast.LENGTH_SHORT).show()
                 return
             }
             val contentValues = ContentValues()
@@ -589,7 +589,7 @@ class MainActivity : AppCompatActivity() {
             UiModalWindows.Add_New_frase(this, contentValues)
         } else if (temp[0].contains("a")) {
             if (temp.size < 3) {
-                Toast.makeText(this, "No se pudo importar el código", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.main_import_code_error), Toast.LENGTH_SHORT).show()
                 return
             }
             val contentValues = ContentValues()

@@ -34,8 +34,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.font.FontWeight
@@ -53,8 +55,17 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-private val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy")
-private val monthFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMMM yyyy", Locale.forLanguageTag("es-ES"))
+private val storedRitualIdentities = listOf(
+    "Enfocado", "Calmado", "Disciplinado", "Valiente", "Presente", "Compasivo", "Curioso",
+    "Reflexivo", "Proactivo", "Consciente", "Observador", "Intencional", "Constante", "Organizado",
+    "Persistente", "Productivo", "Comprometido", "Auténtico", "Visionario", "Autodidacta", "Valiente",
+    "Explorador", "Innovador", "Expansivo"
+)
+private val storedRitualEmotions = listOf(
+    "Calma", "Confianza", "Gratitud", "Claridad", "Energía", "Apertura", "Serenidad", "Empatía",
+    "Autoestima", "Alegría", "Paz", "Amor", "Compasión", "Esperanza", "Entusiasmo", "Seguridad",
+    "Asombro", "Satisfacción", "Fluidez", "Conexión", "Fortaleza", "Resiliencia"
+)
 
 @Composable
 private fun EveningHistoryList(reviews: List<EveningReview>, onDeleteReview: (Long) -> Unit) {
@@ -67,8 +78,8 @@ private fun EveningHistoryList(reviews: List<EveningReview>, onDeleteReview: (Lo
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Aún no hay cierres guardados.", color = Color.White, style = MaterialTheme.typography.titleMedium)
-            Text("Cuando cierres un día, su aprendizaje aparecerá aquí.", color = Color.White.copy(alpha = 0.72f), textAlign = TextAlign.Center)
+            Text(stringResource(R.string.ritual_evening_history_empty), color = Color.White, style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.ritual_evening_history_empty_body), color = Color.White.copy(alpha = 0.72f), textAlign = TextAlign.Center)
         }
         return
     }
@@ -88,28 +99,28 @@ private fun EveningHistoryList(reviews: List<EveningReview>, onDeleteReview: (Lo
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                         Column(Modifier.weight(1f)) {
                             Text(
-                                LocalDate.ofEpochDay(review.sessionDateEpochDay).format(dateFormatter),
+                                LocalDate.ofEpochDay(review.sessionDateEpochDay).format(localizedDateFormatter()),
                                 color = MorningDialogStyles.ritualCardText,
                                 fontWeight = FontWeight.Bold
                             )
-                            Text("Cierre consciente", color = MorningDialogStyles.ritualCardText.copy(alpha = 0.68f))
+                            Text(stringResource(R.string.ritual_evening), color = MorningDialogStyles.ritualCardText.copy(alpha = 0.68f))
                         }
-                        TextButton(onClick = { pendingDelete = review.id }) { Text("Eliminar") }
+                        TextButton(onClick = { pendingDelete = review.id }) { Text(stringResource(R.string.common_delete)) }
                     }
                     if (expanded) {
-                        EveningHistoryValue("Energía", "${review.energy}/5")
-                        EveningHistoryValue("Emoción predominante", com.ypg.neville.feature.morningdialog.domain.EveningRitualRepository.emotionTitle(review.predominantEmotionId))
-                        EveningHistoryValue("Lo que salió bien", review.whatWentWell)
-                        EveningHistoryValue("Aprendizaje", review.learning)
-                        EveningHistoryValue("Piloto automático", review.autopilotMoment)
-                        EveningHistoryValue("Gratitud", review.gratitude)
-                        EveningHistoryValue("Preparado para mañana", review.tomorrowPreparation)
-                        EveningHistoryValue("Coherencia", "${review.identityAlignment}/5")
-                        EveningHistoryValue("Huella", "Agenda ${review.agendaCompletedCount}/${review.agendaTotalCount} · Metas ${review.goalUnitsCompletedCount} · Presencia ${review.presenceReturns}")
-                        EveningHistoryValue("Mejora para mañana", review.suggestion)
+                        EveningHistoryValue(stringResource(R.string.ritual_energy), "${review.energy}/5")
+                        EveningHistoryValue(stringResource(R.string.ritual_predominant_emotion), localizedEveningEmotion(review.predominantEmotionId))
+                        EveningHistoryValue(stringResource(R.string.ritual_went_well_label), review.whatWentWell)
+                        EveningHistoryValue(stringResource(R.string.ritual_learning_label), review.learning)
+                        EveningHistoryValue(stringResource(R.string.ritual_autopilot_label), review.autopilotMoment)
+                        EveningHistoryValue(stringResource(R.string.ritual_gratitude_label), review.gratitude)
+                        EveningHistoryValue(stringResource(R.string.ritual_prepared_tomorrow), review.tomorrowPreparation)
+                        EveningHistoryValue(stringResource(R.string.ritual_coherence_label), "${review.identityAlignment}/5")
+                        EveningHistoryValue(stringResource(R.string.ritual_footprint), stringResource(R.string.ritual_footprint_value, review.agendaCompletedCount, review.agendaTotalCount, review.goalUnitsCompletedCount, review.presenceReturns))
+                        EveningHistoryValue(stringResource(R.string.ritual_improvement_tomorrow), review.suggestion)
                     } else {
                         Text(
-                            "Energía ${review.energy}/5 · ${com.ypg.neville.feature.morningdialog.domain.EveningRitualRepository.emotionTitle(review.predominantEmotionId)}\n${review.learning.ifBlank { review.suggestion }}",
+                            "${stringResource(R.string.ritual_energy)} ${review.energy}/5 · ${localizedEveningEmotion(review.predominantEmotionId)}\n${review.learning.ifBlank { review.suggestion }}",
                             color = MorningDialogStyles.ritualCardText,
                             maxLines = 3,
                             overflow = TextOverflow.Ellipsis
@@ -123,12 +134,12 @@ private fun EveningHistoryList(reviews: List<EveningReview>, onDeleteReview: (Lo
     pendingDelete?.let { id ->
         AlertDialog(
             onDismissRequest = { pendingDelete = null },
-            title = { Text("Eliminar cierre") },
-            text = { Text("¿Seguro que deseas eliminar este cierre del historial?") },
+            title = { Text(stringResource(R.string.ritual_delete_evening)) },
+            text = { Text(stringResource(R.string.ritual_delete_evening_question)) },
             confirmButton = {
-                TextButton(onClick = { pendingDelete = null; onDeleteReview(id) }) { Text("Eliminar") }
+                TextButton(onClick = { pendingDelete = null; onDeleteReview(id) }) { Text(stringResource(R.string.common_delete)) }
             },
-            dismissButton = { TextButton(onClick = { pendingDelete = null }) { Text("Cancelar") } }
+            dismissButton = { TextButton(onClick = { pendingDelete = null }) { Text(stringResource(R.string.common_cancel)) } }
         )
     }
 }
@@ -137,7 +148,7 @@ private fun EveningHistoryList(reviews: List<EveningReview>, onDeleteReview: (Lo
 private fun EveningHistoryValue(title: String, value: String) {
     Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
         Text(title, color = MorningDialogStyles.ritualCardText, fontWeight = FontWeight.SemiBold)
-        Text(value.ifBlank { "Sin respuesta" }, color = MorningDialogStyles.ritualCardText.copy(alpha = 0.78f))
+        Text(value.ifBlank { stringResource(R.string.ritual_no_answer) }, color = MorningDialogStyles.ritualCardText.copy(alpha = 0.78f))
     }
 }
 
@@ -164,7 +175,10 @@ fun MorningDialogHistoryScreen(
                         RoundedCornerShape(14.dp)
                     )
                 ) {
-                    Text(item.title, color = if (kind == item) MorningDialogStyles.ritualCardText else Color.White)
+                    Text(
+                        if (item == HistoryKind.Morning) stringResource(R.string.ritual_title) else stringResource(R.string.ritual_evening),
+                        color = if (kind == item) MorningDialogStyles.ritualCardText else Color.White
+                    )
                 }
             }
         }
@@ -178,9 +192,9 @@ fun MorningDialogHistoryScreen(
     }
 }
 
-private enum class HistoryKind(val title: String) {
-    Morning("Ritual Matutino"),
-    Evening("Cierre Consciente")
+private enum class HistoryKind {
+    Morning,
+    Evening
 }
 
 @Composable
@@ -216,7 +230,7 @@ private fun MorningHistoryList(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                "Aún no hay sesiones guardadas.",
+                stringResource(R.string.ritual_history_empty),
                 style = MaterialTheme.typography.titleMedium,
                 color = Color.White
             )
@@ -284,9 +298,9 @@ private fun MorningHistoryList(
                 ) {
                     Text(
                         text = when {
-                            showCalendar && selectedEpochDay == null -> "Selecciona un día del calendario."
-                            showCalendar -> "No hay ritual guardado para este día con el filtro actual."
-                            else -> "No hay rituales que coincidan con la búsqueda."
+                            showCalendar && selectedEpochDay == null -> stringResource(R.string.ritual_history_select_day)
+                            showCalendar -> stringResource(R.string.ritual_history_no_day)
+                            else -> stringResource(R.string.ritual_history_no_match)
                         },
                         style = MaterialTheme.typography.bodyLarge.copy(fontSize = 17.sp, lineHeight = 24.sp),
                         color = MorningDialogStyles.ritualCardText,
@@ -323,7 +337,7 @@ private fun MorningHistoryList(
                         Text(
                             text = Instant.ofEpochMilli(session.completedAtEpochMillis)
                                 .atZone(ZoneId.systemDefault())
-                                .format(dateFormatter),
+                                .format(localizedDateFormatter()),
                             style = MaterialTheme.typography.titleMedium,
                             color = MorningDialogStyles.ritualCardText,
                             modifier = Modifier.weight(1f)
@@ -332,7 +346,7 @@ private fun MorningHistoryList(
                             IconButton(onClick = { showMenu = true }) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_menu_open),
-                                    contentDescription = "Opciones ritual",
+                                    contentDescription = stringResource(R.string.ritual_options),
                                     tint = MorningDialogStyles.ritualCardText
                                 )
                             }
@@ -342,11 +356,11 @@ private fun MorningHistoryList(
                                 shape = RoundedCornerShape(18.dp)
                             ) {
                                 DropdownMenuItem(
-                                    text = { Text(if (session.noteText.isBlank()) "Crear nota" else "Editar nota") },
+                                    text = { Text(if (session.noteText.isBlank()) stringResource(R.string.ritual_create_note) else stringResource(R.string.ritual_edit_note)) },
                                     leadingIcon = {
                                         Icon(
                                             painter = painterResource(id = R.drawable.ic_note),
-                                            contentDescription = "Nota",
+                                            contentDescription = stringResource(R.string.ritual_note),
                                             tint = MaterialTheme.colorScheme.onSurface
                                         )
                                     },
@@ -356,11 +370,11 @@ private fun MorningHistoryList(
                                     }
                                 )
                                 DropdownMenuItem(
-                                    text = { Text("Exportar al Diario") },
+                                    text = { Text(stringResource(R.string.ritual_export_diary)) },
                                     leadingIcon = {
                                         Icon(
                                             painter = painterResource(id = R.drawable.ic_diario_pen_book),
-                                            contentDescription = "Exportar al Diario",
+                                            contentDescription = stringResource(R.string.ritual_export_diary),
                                             tint = MaterialTheme.colorScheme.onSurface
                                         )
                                     },
@@ -370,11 +384,11 @@ private fun MorningHistoryList(
                                     }
                                 )
                                 DropdownMenuItem(
-                                    text = { Text("Eliminar ritual") },
+                                    text = { Text(stringResource(R.string.ritual_delete)) },
                                     leadingIcon = {
                                         Icon(
                                             painter = painterResource(id = R.drawable.ic_delete),
-                                            contentDescription = "Eliminar ritual",
+                                            contentDescription = stringResource(R.string.ritual_delete),
                                             tint = MaterialTheme.colorScheme.onSurface
                                         )
                                     },
@@ -410,7 +424,7 @@ private fun MorningHistoryList(
                             painter = painterResource(
                                 id = if (isExpanded) R.drawable.ic_arriba else R.drawable.ic_abajo
                             ),
-                            contentDescription = if (isExpanded) "Colapsar" else "Expandir",
+                            contentDescription = if (isExpanded) stringResource(R.string.ritual_collapse) else stringResource(R.string.ritual_expand),
                             tint = MorningDialogStyles.ritualCardText,
                             modifier = Modifier
                                 .clickable {
@@ -425,8 +439,8 @@ private fun MorningHistoryList(
             if (showDeleteConfirm) {
                 AlertDialog(
                     onDismissRequest = { showDeleteConfirm = false },
-                    title = { Text("Eliminar ritual") },
-                    text = { Text("¿Seguro que deseas eliminar este ritual del historial?") },
+                    title = { Text(stringResource(R.string.ritual_delete)) },
+                    text = { Text(stringResource(R.string.ritual_delete_question)) },
                     confirmButton = {
                         TextButton(
                             onClick = {
@@ -434,12 +448,12 @@ private fun MorningHistoryList(
                                 onDeleteClick(session.id)
                             }
                         ) {
-                            Text("Eliminar")
+                            Text(stringResource(R.string.common_delete))
                         }
                     },
                     dismissButton = {
                         TextButton(onClick = { showDeleteConfirm = false }) {
-                            Text("Cancelar")
+                            Text(stringResource(R.string.common_cancel))
                         }
                     }
                 )
@@ -469,13 +483,13 @@ private fun HistoryFiltersCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Filtros",
+                    text = stringResource(R.string.ritual_filters),
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                     color = MorningDialogStyles.ritualCardText
                 )
                 TextButton(onClick = onToggleCalendar) {
                     Text(
-                        text = if (showCalendar) "Ocultar calendario" else "Mostrar calendario",
+                        text = if (showCalendar) stringResource(R.string.common_hide_calendar) else stringResource(R.string.common_show_calendar),
                         color = MorningDialogStyles.ritualCardText
                     )
                 }
@@ -486,10 +500,10 @@ private fun HistoryFiltersCard(
                 onValueChange = onSearchTextChange,
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
-                label = { Text("Buscar") },
+                label = { Text(stringResource(R.string.ritual_search)) },
                 placeholder = {
                     Text(
-                        text = "Metas, emociones o nota",
+                        text = stringResource(R.string.ritual_search_hint),
                         color = MorningDialogStyles.ritualCardText
                     )
                 },
@@ -500,7 +514,7 @@ private fun HistoryFiltersCard(
                 trailingIcon = {
                     if (searchText.isNotBlank()) {
                         TextButton(onClick = { onSearchTextChange("") }) {
-                            Text("Limpiar")
+                            Text(stringResource(R.string.common_clear))
                         }
                     }
                 }
@@ -533,7 +547,7 @@ private fun RitualCalendar(
             ) {
                 TextButton(onClick = onPreviousMonth) { Text("←") }
                 Text(
-                    text = visibleMonth.atDay(1).format(monthFormatter)
+                    text = visibleMonth.atDay(1).format(localizedMonthFormatter())
                         .replaceFirstChar { char -> char.titlecase(Locale.getDefault()) },
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                     color = MorningDialogStyles.ritualCardText,
@@ -543,7 +557,7 @@ private fun RitualCalendar(
             }
 
             Row(modifier = Modifier.fillMaxWidth()) {
-                listOf("L", "M", "X", "J", "V", "S", "D").forEach { dayName ->
+                localizedCalendarWeekdays().forEach { dayName ->
                     Text(
                         text = dayName,
                         modifier = Modifier.weight(1f),
@@ -623,24 +637,26 @@ private fun CalendarDayCell(
 
 @Composable
 private fun RitualExpandedContent(session: MorningDialogSession) {
+    val localizedIdentities = androidx.compose.ui.res.stringArrayResource(R.array.ritual_identity_suggestions)
+    val localizedEmotions = androidx.compose.ui.res.stringArrayResource(R.array.ritual_emotion_suggestions)
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        SectionLabel("Metas")
+        SectionLabel(stringResource(R.string.ritual_goals))
         BulletLines(session.goals)
 
-        SectionLabel("Identidad")
+        SectionLabel(stringResource(R.string.ritual_identity))
         Text(
-            text = session.identity.ifBlank { "-" },
+            text = localizeStoredSuggestion(session.identity, storedRitualIdentities, localizedIdentities).ifBlank { "—" },
             style = MaterialTheme.typography.bodyLarge.copy(fontSize = 17.sp, lineHeight = 24.sp),
             color = MorningDialogStyles.ritualCardText
         )
 
-        SectionLabel("Emociones")
-        BulletLines(session.emotions)
+        SectionLabel(stringResource(R.string.ritual_emotions))
+        BulletLines(session.emotions.map { localizeStoredSuggestion(it, storedRitualEmotions, localizedEmotions) })
 
-        SectionLabel("Situaciones y respuestas")
+        SectionLabel(stringResource(R.string.ritual_situations_responses))
         if (session.anticipatedSituations.isEmpty()) {
             Text(
                 text = "-",
@@ -651,14 +667,14 @@ private fun RitualExpandedContent(session: MorningDialogSession) {
             session.anticipatedSituations.forEachIndexed { index, trigger ->
                 val response = session.consciousResponses.getOrElse(index) { "" }
                 Text(
-                    text = "• Si $trigger, responderé con $response",
+                    text = "• ${stringResource(R.string.ritual_response_value, trigger, response)}",
                     style = MaterialTheme.typography.bodyLarge.copy(fontSize = 17.sp, lineHeight = 24.sp),
                     color = MorningDialogStyles.ritualCardText
                 )
             }
         }
 
-        SectionLabel("Nota del ritual")
+        SectionLabel(stringResource(R.string.ritual_note_title))
         Text(
             text = session.noteText.ifBlank { "-" },
             style = MaterialTheme.typography.bodyLarge.copy(fontSize = 17.sp, lineHeight = 24.sp),
@@ -699,13 +715,66 @@ private fun BulletLines(items: List<String>) {
     }
 }
 
+@Composable
 private fun buildCollapsedPreview(session: MorningDialogSession): String {
-    return buildString {
-        appendLine("Metas: ${session.goals.joinToString().ifBlank { "-" }}")
-        appendLine("Identidad: ${session.identity.ifBlank { "-" }}")
-        append("Emociones: ${session.emotions.joinToString().ifBlank { "-" }}")
+    val localizedIdentities = androidx.compose.ui.res.stringArrayResource(R.array.ritual_identity_suggestions)
+    val localizedEmotions = androidx.compose.ui.res.stringArrayResource(R.array.ritual_emotion_suggestions)
+    return listOf(
+        stringResource(R.string.ritual_goals_value, session.goals.joinToString().ifBlank { "—" }),
+        stringResource(
+            R.string.ritual_identity_value,
+            localizeStoredSuggestion(session.identity, storedRitualIdentities, localizedIdentities).ifBlank { "—" }
+        ),
+        stringResource(
+            R.string.ritual_emotions_value,
+            session.emotions.joinToString { localizeStoredSuggestion(it, storedRitualEmotions, localizedEmotions) }.ifBlank { "—" }
+        )
+    ).joinToString("\n")
+}
+
+private fun localizeStoredSuggestion(value: String, stored: List<String>, localized: Array<String>): String {
+    return value.split(',').joinToString(", ") { rawPart ->
+        val part = rawPart.trim()
+        val index = stored.indexOf(part)
+        if (index >= 0) localized.getOrElse(index) { part } else part
     }
 }
+
+@Composable
+private fun localizedDateFormatter(): DateTimeFormatter {
+    val locale = LocalConfiguration.current.locales[0]
+    return remember(locale) { DateTimeFormatter.ofPattern("dd MMM yyyy", locale) }
+}
+
+@Composable
+private fun localizedMonthFormatter(): DateTimeFormatter {
+    val locale = LocalConfiguration.current.locales[0]
+    return remember(locale) { DateTimeFormatter.ofPattern("MMMM yyyy", locale) }
+}
+
+@Composable
+private fun localizedCalendarWeekdays(): List<String> = listOf(
+    stringResource(R.string.goal_stats_monday_short),
+    stringResource(R.string.goal_stats_tuesday_short),
+    stringResource(R.string.goal_stats_wednesday_short),
+    stringResource(R.string.goal_stats_thursday_short),
+    stringResource(R.string.goal_stats_friday_short),
+    stringResource(R.string.goal_stats_saturday_short),
+    stringResource(R.string.goal_stats_sunday_short)
+)
+
+@Composable
+private fun localizedEveningEmotion(id: String): String = stringResource(
+    when (id.lowercase(Locale.ROOT)) {
+        "alegre" -> R.string.ritual_emotion_happy
+        "ansioso" -> R.string.ritual_emotion_anxious
+        "triste" -> R.string.ritual_emotion_sad
+        "enfadado" -> R.string.ritual_emotion_angry
+        "cansado" -> R.string.ritual_emotion_tired
+        "agradecido" -> R.string.ritual_emotion_grateful
+        else -> R.string.ritual_emotion_serene
+    }
+)
 
 private fun MorningDialogSession.matchesHistoryQuery(query: String): Boolean {
     return goals.any { it.contains(query, ignoreCase = true) } ||

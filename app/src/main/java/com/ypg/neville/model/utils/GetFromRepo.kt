@@ -62,19 +62,27 @@ class GetFromRepo(var context: Context) {
 
                     handler.post {
                         if (finalError) {
-                            Toast.makeText(context, "Se produjo un error, código: 001", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, context.getString(R.string.global_repo_error), Toast.LENGTH_SHORT).show()
                         } else {
                             if (finalResult > 0) {
-                                Toast.makeText(context, "Se han añadido: $finalResult Frases nuevas", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.global_repo_quotes_added, finalResult),
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                             if (finalResultError > 0) {
-                                Toast.makeText(context, "No se han añadido: $finalResultError Frases", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.global_repo_quotes_failed, finalResultError),
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         }
                     }
                 }
             } else {
-                Toast.makeText(context, "Error al importar frases. No se detecta conexión internet", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.global_repo_no_connection), Toast.LENGTH_SHORT).show()
             }
         }
 

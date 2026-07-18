@@ -77,14 +77,14 @@ class JournalDailyReminderReceiver : BroadcastReceiver() {
 
         val notification = NotificationCompat.Builder(context, ReminderScheduler.CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification_neville)
-            .setContentTitle("Recordatorio Diario")
+            .setContentTitle(context.getString(R.string.global_journal_reminder_title))
             .setContentText(message)
             .setStyle(NotificationCompat.BigTextStyle().bigText(message))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
             .setContentIntent(openPendingIntent)
-            .addAction(R.drawable.ic_note, "Abrir Diario", openDiarioPendingIntent)
-            .addAction(R.drawable.ic_delete, "Desactivar", disablePendingIntent)
+            .addAction(R.drawable.ic_note, context.getString(R.string.global_open_journal), openDiarioPendingIntent)
+            .addAction(R.drawable.ic_delete, context.getString(R.string.global_disable), disablePendingIntent)
             .build()
 
         NotificationManagerCompat.from(context)
@@ -95,15 +95,12 @@ class JournalDailyReminderReceiver : BroadcastReceiver() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
 
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val existing = manager.getNotificationChannel(ReminderScheduler.CHANNEL_ID)
-        if (existing != null) return
-
         val channel = NotificationChannel(
             ReminderScheduler.CHANNEL_ID,
-            "Recordatorios",
+            context.getString(R.string.global_reminders_channel),
             NotificationManager.IMPORTANCE_HIGH
         ).apply {
-            description = "Notificaciones de recordatorios"
+            description = context.getString(R.string.global_reminders_channel_description)
         }
         manager.createNotificationChannel(channel)
     }

@@ -25,13 +25,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import com.ypg.neville.R
 
 @Composable
 fun StepProgress(currentStep: Int, totalSteps: Int, modifier: Modifier = Modifier) {
     val progress = currentStep.toFloat() / totalSteps.toFloat()
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
-            text = "Paso $currentStep de $totalSteps",
+            text = stringResource(R.string.ritual_step_progress, currentStep, totalSteps),
             style = MaterialTheme.typography.labelMedium,
             color = Color.White.copy(alpha = 0.86f)
         )

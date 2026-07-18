@@ -47,9 +47,11 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.ypg.neville.R
 import com.ypg.neville.feature.calmspace.data.CalmMediaStorage
 import java.io.File
 
@@ -86,10 +88,10 @@ class FragCalmBackgroundsManager : Fragment() {
         fun import(uri: android.net.Uri) {
             val result = CalmMediaStorage.importImage(context, uri)
             result.onSuccess {
-                Toast.makeText(context, "Imagen agregada", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.calm_image_added), Toast.LENGTH_SHORT).show()
                 reloadTick++
             }.onFailure { error ->
-                Toast.makeText(context, error.message ?: "No se pudo importar la imagen", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, context.getString(R.string.calm_image_import_error), Toast.LENGTH_LONG).show()
             }
         }
 
@@ -125,12 +127,12 @@ class FragCalmBackgroundsManager : Fragment() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Fondos de Espacio Calma",
+                    text = stringResource(R.string.calm_backgrounds_manager_title),
                     style = MaterialTheme.typography.headlineSmall,
                     color = Color.White
                 )
                 Text(
-                    text = "Cerrar",
+                    text = stringResource(R.string.common_close),
                     color = Color.White,
                     modifier = Modifier
                         .clickable { findNavController().popBackStack() }
@@ -141,17 +143,17 @@ class FragCalmBackgroundsManager : Fragment() {
             Spacer(modifier = Modifier.height(8.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Button(onClick = { filePickerLauncher.launch(arrayOf("image/*")) }) {
-                    Text("Agregar (Archivos)")
+                    Text(stringResource(R.string.calm_add_files))
                 }
                 Button(onClick = { galleryPickerLauncher.launch("image/*") }) {
-                    Text("Agregar (Galería)")
+                    Text(stringResource(R.string.calm_add_gallery))
                 }
             }
 
             Spacer(modifier = Modifier.height(10.dp))
             if (items.isEmpty()) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text("No hay imágenes personalizadas", color = Color.White.copy(alpha = 0.85f))
+                    Text(stringResource(R.string.calm_no_custom_images), color = Color.White.copy(alpha = 0.85f))
                 }
             } else {
                 LazyColumn(
@@ -188,20 +190,20 @@ class FragCalmBackgroundsManager : Fragment() {
                                             .background(Color.Black.copy(alpha = 0.22f)),
                                         contentAlignment = Alignment.Center
                                     ) {
-                                        Text("IMG", color = Color.White)
+                                        Text(stringResource(R.string.calm_image_placeholder), color = Color.White)
                                     }
                                 }
                                 Spacer(modifier = Modifier.width(10.dp))
                                 Column(modifier = Modifier.weight(1f)) {
                                     Text(text = file.name, color = Color.White, maxLines = 2)
                                     Text(
-                                        text = "Pulsa miniatura para ver",
+                                        text = stringResource(R.string.calm_tap_thumbnail),
                                         color = Color.White.copy(alpha = 0.76f),
                                         style = MaterialTheme.typography.bodySmall
                                     )
                                 }
                                 TextButton(onClick = { deleteTarget = file }) {
-                                    Text("Eliminar")
+                                    Text(stringResource(R.string.common_delete))
                                 }
                             }
                         }
@@ -214,7 +216,7 @@ class FragCalmBackgroundsManager : Fragment() {
             AlertDialog(
                 onDismissRequest = { previewFile = null },
                 confirmButton = {
-                    TextButton(onClick = { previewFile = null }) { Text("Cerrar") }
+                    TextButton(onClick = { previewFile = null }) { Text(stringResource(R.string.common_close)) }
                 },
                 title = { Text(file.name) },
                 text = {
@@ -231,7 +233,7 @@ class FragCalmBackgroundsManager : Fragment() {
                                 .height(280.dp)
                         )
                     } else {
-                        Text("No se pudo cargar vista previa.")
+                        Text(stringResource(R.string.calm_preview_error))
                     }
                 }
             )
@@ -240,20 +242,19 @@ class FragCalmBackgroundsManager : Fragment() {
         deleteTarget?.let { file ->
             AlertDialog(
                 onDismissRequest = { deleteTarget = null },
-                title = { Text("Eliminar imagen") },
-                text = { Text("¿Eliminar ${file.name}?") },
+                title = { Text(stringResource(R.string.calm_delete_image)) },
+                text = { Text(stringResource(R.string.calm_delete_file_question, file.name)) },
                 confirmButton = {
                     TextButton(onClick = {
                         runCatching { file.delete() }
                         deleteTarget = null
                         reloadTick++
-                    }) { Text("Eliminar") }
+                    }) { Text(stringResource(R.string.common_delete)) }
                 },
                 dismissButton = {
-                    TextButton(onClick = { deleteTarget = null }) { Text("Cancelar") }
+                    TextButton(onClick = { deleteTarget = null }) { Text(stringResource(R.string.common_cancel)) }
                 }
             )
         }
     }
 }
-

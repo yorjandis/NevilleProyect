@@ -97,12 +97,14 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.ypg.neville.R
 import com.ypg.neville.feature.presence.data.PresenceDayStats
 import com.ypg.neville.feature.presence.data.PresenceEventPoint
 import com.ypg.neville.feature.presence.data.PresenceMood
@@ -140,16 +142,16 @@ class FragPresence : Fragment() {
     }
 }
 
-private enum class PresenceStatsCard(val title: String) {
-    TodayReturns("Hoy"),
-    CurrentStreak("Racha"),
-    WeeklyAverage("Promedio semanal"),
-    DominantMood("Estado predominante"),
-    PracticalInsights("Datos prácticos"),
-    DailyEvents("Eventos diarios"),
-    DailyTimeline("Momentos de hoy"),
-    Ratio("Cociente"),
-    Moods("Estados de ánimo")
+private enum class PresenceStatsCard {
+    TodayReturns,
+    CurrentStreak,
+    WeeklyAverage,
+    DominantMood,
+    PracticalInsights,
+    DailyEvents,
+    DailyTimeline,
+    Ratio,
+    Moods
 }
 
 private data class PresenceStatsTheme(
@@ -218,11 +220,12 @@ private fun PresenceMainScreen(
     var showMoodList by rememberSaveable { mutableStateOf(false) }
     val view = LocalView.current
     val prefs = remember { DbPreferences.default(view.context.applicationContext) }
-    val celebrationPhrase = remember(state.showCelebration) {
+    val defaultCelebrationPhrase = stringResource(R.string.presence_mood_future)
+    val celebrationPhrase = remember(state.showCelebration, defaultCelebrationPhrase) {
         prefs.getString(
             PresenceSettings.CUSTOM_CELEBRATION_PHRASE_KEY,
-            PresenceSettings.DEFAULT_CELEBRATION_PHRASE
-        )?.trim().orEmpty().ifBlank { PresenceSettings.DEFAULT_CELEBRATION_PHRASE }
+            defaultCelebrationPhrase
+        )?.trim().orEmpty().ifBlank { defaultCelebrationPhrase }
     }
 
     LaunchedEffect(state.showCelebration) {
@@ -243,18 +246,18 @@ private fun PresenceMainScreen(
             containerColor = Color.Transparent,
             topBar = {
                 TopAppBar(
-                    title = { Text("Presencia", color = Color.White) },
+                    title = { Text(stringResource(R.string.presence_short_title), color = Color.White) },
                     navigationIcon = {
                         IconButton(onClick = onClose) {
-                            Icon(Icons.Rounded.Close, "Cerrar", tint = Color.White)
+                            Icon(Icons.Rounded.Close, stringResource(R.string.common_close), tint = Color.White)
                         }
                     },
                     actions = {
                         IconButton(onClick = { showInfo = true }) {
-                            Icon(Icons.Rounded.Info, "Información", tint = Color.White)
+                            Icon(Icons.Rounded.Info, stringResource(R.string.common_information), tint = Color.White)
                         }
                         IconButton(onClick = onShowStats) {
-                            Icon(Icons.Rounded.BarChart, "Estadísticas", tint = Color.White)
+                            Icon(Icons.Rounded.BarChart, stringResource(R.string.coherence_statistics), tint = Color.White)
                         }
                     },
                     colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
@@ -301,19 +304,19 @@ private fun PresenceMainScreen(
 private fun PresenceHeader(todayCount: Int, showMilestone: Boolean) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(
-            "Vuelve al Presente",
+            stringResource(R.string.presence_back_to_present),
             style = MaterialTheme.typography.headlineLarge,
             fontWeight = FontWeight.Bold,
             color = Color.White
         )
         Text(
-            "Hoy has vuelto al presente $todayCount veces.",
+            stringResource(R.string.presence_today_count, todayCount),
             style = MaterialTheme.typography.titleMedium,
             color = Color.White.copy(alpha = 0.82f)
         )
         AnimatedVisibility(showMilestone) {
             Text(
-                "Lo estás haciendo genial: sigue regresando.",
+                stringResource(R.string.presence_milestone),
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
@@ -362,7 +365,7 @@ private fun PresenceHaloButton(onClick: () -> Unit) {
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(9.dp)) {
                 Icon(Icons.Rounded.Spa, null, tint = Color.White, modifier = Modifier.size(52.dp))
-                Text("Estoy aquí", color = Color.White, fontWeight = FontWeight.SemiBold)
+                Text(stringResource(R.string.presence_here), color = Color.White, fontWeight = FontWeight.SemiBold)
             }
         }
     }
@@ -391,7 +394,7 @@ private fun MoodSection(
                 )
                 Spacer(Modifier.width(10.dp))
                 Text(
-                    if (expanded) "Ocultar estado de ánimo" else "Añadir estado de ánimo",
+                    if (expanded) stringResource(R.string.presence_hide_mood) else stringResource(R.string.presence_add_mood),
                     color = Color.White,
                     fontWeight = FontWeight.SemiBold,
                     modifier = Modifier.weight(1f)
@@ -407,7 +410,7 @@ private fun MoodSection(
                     .padding(14.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Text("Estado de ánimo", color = Color.White, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.presence_mood), color = Color.White, fontWeight = FontWeight.Bold)
                 PresenceMood.common.forEach { mood ->
                     Surface(
                         modifier = Modifier.fillMaxWidth().clickable { onRecordMood(mood) },
@@ -420,7 +423,7 @@ private fun MoodSection(
                             horizontalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
                             Icon(moodIcon(mood.id), null, tint = Color.White, modifier = Modifier.size(24.dp))
-                            Text(mood.title, color = Color.White, fontWeight = FontWeight.Medium, modifier = Modifier.weight(1f))
+                            Text(localizedPresenceMood(mood.id, mood.title), color = Color.White, fontWeight = FontWeight.Medium, modifier = Modifier.weight(1f))
                             Icon(Icons.Rounded.AddCircle, null, tint = Color.White.copy(alpha = 0.72f))
                         }
                     }
@@ -477,23 +480,23 @@ private fun PresenceStatsScreen(
         containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
-                title = { Text("Presencia", color = theme.primaryText) },
+                title = { Text(stringResource(R.string.presence_short_title), color = theme.primaryText) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, "Volver", tint = theme.primaryText)
+                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, stringResource(R.string.presence_back), tint = theme.primaryText)
                     }
                 },
                 actions = {
                     Box {
                         IconButton(onClick = { visibilityMenuOpen = true }) {
-                            Icon(Icons.Rounded.GridView, "Seleccionar tarjetas visibles", tint = theme.primaryText)
+                            Icon(Icons.Rounded.GridView, stringResource(R.string.presence_select_visible_cards), tint = theme.primaryText)
                         }
                         DropdownMenu(
                             expanded = visibilityMenuOpen,
                             onDismissRequest = { visibilityMenuOpen = false }
                         ) {
                             DropdownMenuItem(
-                                text = { Text("Mostrar todas") },
+                                text = { Text(stringResource(R.string.presence_show_all)) },
                                 leadingIcon = { Icon(Icons.Rounded.GridView, null) },
                                 onClick = {
                                     persistCards(PresenceStatsCard.entries.toSet())
@@ -502,7 +505,7 @@ private fun PresenceStatsScreen(
                             )
                             PresenceStatsCard.entries.forEach { card ->
                                 DropdownMenuItem(
-                                    text = { Text(card.title) },
+                                    text = { Text(card.localizedTitle()) },
                                     leadingIcon = {
                                         Icon(
                                             if (card in visibleCards) Icons.Rounded.CheckCircle
@@ -527,12 +530,12 @@ private fun PresenceStatsScreen(
                     ) {
                         Icon(
                             if (isDark) Icons.Rounded.DarkMode else Icons.Rounded.LightMode,
-                            "Cambiar apariencia",
+                            stringResource(R.string.presence_change_appearance),
                             tint = theme.primaryText
                         )
                     }
                     IconButton(onClick = { showResetConfirmation = true }) {
-                        Icon(Icons.Rounded.Delete, "Resetear estadísticas", tint = theme.primaryText)
+                        Icon(Icons.Rounded.Delete, stringResource(R.string.presence_reset_stats), tint = theme.primaryText)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
@@ -550,13 +553,13 @@ private fun PresenceStatsScreen(
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 Text(
-                    "Presencia",
+                    stringResource(R.string.presence_short_title),
                     style = MaterialTheme.typography.headlineLarge,
                     fontWeight = FontWeight.Bold,
                     color = theme.primaryText
                 )
                 Text(
-                    "Hoy has vuelto al presente ${state.todayPresentCount} veces.",
+                    stringResource(R.string.presence_today_count, state.todayPresentCount),
                     style = MaterialTheme.typography.titleMedium,
                     color = theme.secondaryText
                 )
@@ -616,16 +619,16 @@ private fun PresenceStatsScreen(
     if (showResetConfirmation) {
         AlertDialog(
             onDismissRequest = { showResetConfirmation = false },
-            title = { Text("Resetear estadísticas de Presencia") },
-            text = { Text("Esta acción borrará todo el historial de Presencia. No se puede deshacer.") },
+            title = { Text(stringResource(R.string.presence_reset_title)) },
+            text = { Text(stringResource(R.string.presence_reset_message)) },
             confirmButton = {
                 TextButton(onClick = {
                     showResetConfirmation = false
                     onReset()
-                }) { Text("Borrar historial completo") }
+                }) { Text(stringResource(R.string.presence_delete_history)) }
             },
             dismissButton = {
-                TextButton(onClick = { showResetConfirmation = false }) { Text("Cancelar") }
+                TextButton(onClick = { showResetConfirmation = false }) { Text(stringResource(R.string.common_cancel)) }
             }
         )
     }
@@ -648,9 +651,9 @@ private fun InsightCards(
             if (PresenceStatsCard.TodayReturns in visibleCards) {
                 MetricCard(
                     icon = Icons.Rounded.Today,
-                    title = "Hoy: retornos",
+                    title = stringResource(R.string.presence_today_returns),
                     value = state.todayPresentCount.toString(),
-                    subtitle = if (state.todayPresentCount >= 10) "¡Sigue así!" else "Vuelve cuando lo notes",
+                    subtitle = if (state.todayPresentCount >= 10) stringResource(R.string.presence_keep_going) else stringResource(R.string.presence_return_when_notice),
                     accent = Color(0xFF9C68E8),
                     theme = theme,
                     modifier = Modifier.weight(1f)
@@ -659,9 +662,9 @@ private fun InsightCards(
             if (PresenceStatsCard.CurrentStreak in visibleCards) {
                 MetricCard(
                     icon = Icons.Rounded.LocalFireDepartment,
-                    title = "Racha actual",
+                    title = stringResource(R.string.presence_current_streak),
                     value = state.streakStats.currentDays.toString(),
-                    subtitle = "días seguidos",
+                    subtitle = stringResource(R.string.presence_consecutive_days),
                     accent = Color(0xFFFF9E42),
                     theme = theme,
                     modifier = Modifier.weight(1f),
@@ -688,9 +691,9 @@ private fun InsightCards(
             if (PresenceStatsCard.WeeklyAverage in visibleCards) {
                 MetricCard(
                     icon = Icons.AutoMirrored.Rounded.TrendingUp,
-                    title = "Esta semana: promedio diario",
+                    title = stringResource(R.string.presence_week_average),
                     value = (week.sumOf { it.presentes }.toDouble() / 7.0).roundToInt().toString(),
-                    subtitle = "retornos",
+                    subtitle = stringResource(R.string.presence_returns),
                     accent = Color(0xFF43C77B),
                     theme = theme,
                     modifier = Modifier.weight(1f),
@@ -710,7 +713,7 @@ private fun InsightCards(
                         CompactRangeMenu(dominantMoodRange, onDominantRangeChange, theme)
                     }
                     Text(
-                        "Estado de ánimo predominante",
+                        stringResource(R.string.presence_dominant_mood),
                         color = theme.primaryText,
                         fontWeight = FontWeight.SemiBold,
                         style = MaterialTheme.typography.bodySmall
@@ -723,7 +726,7 @@ private fun InsightCards(
                         modifier = Modifier.size(48.dp).align(Alignment.CenterHorizontally)
                     )
                     Text(
-                        dominant?.title ?: "Sin registros",
+                        dominant?.let { localizedPresenceMood(it.moodId, it.title) } ?: stringResource(R.string.presence_no_records),
                         color = Color(0xFF4D9DE0),
                         fontWeight = FontWeight.Bold,
                         maxLines = 1,
@@ -732,8 +735,8 @@ private fun InsightCards(
                         textAlign = TextAlign.Center
                     )
                     Text(
-                        if (dominant == null) "Registra un estado"
-                        else "${(dominant.count.toFloat() / dominantTotal.coerceAtLeast(1) * 100).roundToInt()}% de tus registros",
+                        if (dominant == null) stringResource(R.string.presence_record_mood)
+                        else stringResource(R.string.presence_record_percentage, (dominant.count.toFloat() / dominantTotal.coerceAtLeast(1) * 100).roundToInt()),
                         color = theme.secondaryText,
                         style = MaterialTheme.typography.bodySmall,
                         modifier = Modifier.fillMaxWidth(),
@@ -822,39 +825,44 @@ private fun PracticalInsightsCard(
         .maxByOrNull { it.second }
         ?.takeIf { it.second > 0 }
     val trend = when {
-        currentWeek == 0 && previousWeek == 0 -> "Sin tendencia suficiente."
-        previousWeek == 0 -> "Nueva actividad esta semana."
+        currentWeek == 0 && previousWeek == 0 -> stringResource(R.string.presence_no_trend)
+        previousWeek == 0 -> stringResource(R.string.presence_new_activity)
         else -> {
             val percentage = ((currentWeek - previousWeek).toDouble() / previousWeek * 100).roundToInt()
-            if (percentage == 0) "Igual que la semana pasada."
-            else "${if (percentage > 0) "+" else ""}$percentage% ${if (percentage > 0) "más" else "menos"} momentos presentes que la semana pasada."
+            if (percentage == 0) stringResource(R.string.presence_same_as_last_week)
+            else stringResource(
+                R.string.presence_trend_change,
+                if (percentage > 0) "+" else "",
+                kotlin.math.abs(percentage),
+                if (percentage > 0) stringResource(R.string.presence_more) else stringResource(R.string.presence_less)
+            )
         }
     }
 
     StatsCard(Color(0xFF42C8D2), theme) {
-        Text("Datos prácticos", color = theme.primaryText, fontWeight = FontWeight.Bold)
+        Text(stringResource(R.string.presence_practical_data), color = theme.primaryText, fontWeight = FontWeight.Bold)
         RangePicker(range, onRangeChange, theme)
         InsightRow(
             Icons.Rounded.CalendarMonth,
-            "Día con más presencia",
-            bestDay?.let { "Tu día más consciente fue el ${weekdayName(it.dateMillis)}." }
-                ?: "Aún no hay un día destacado.",
+            stringResource(R.string.presence_best_day),
+            bestDay?.let { stringResource(R.string.presence_best_day_value, weekdayName(it.dateMillis)) }
+                ?: stringResource(R.string.presence_no_best_day),
             Color(0xFF71D7B3),
             theme
         )
-        InsightRow(Icons.Rounded.AutoAwesome, "Promedio por día", "${formatAverage(average)} por día", Color(0xFF45C7DD), theme)
-        InsightRow(Icons.AutoMirrored.Rounded.TrendingUp, "Tendencia semanal", trend, Color(0xFF43C77B), theme)
+        InsightRow(Icons.Rounded.AutoAwesome, stringResource(R.string.presence_daily_average), stringResource(R.string.presence_per_day, formatAverage(average)), Color(0xFF45C7DD), theme)
+        InsightRow(Icons.AutoMirrored.Rounded.TrendingUp, stringResource(R.string.presence_weekly_trend), trend, Color(0xFF43C77B), theme)
         InsightRow(
             Icons.Rounded.Warning,
-            "Franja crítica",
-            criticalWindow?.let { "Entre ${hourText(it.first)} y ${hourText(it.first + 3)} se concentra más piloto automático." }
-                ?: "No se detecta una franja crítica.",
+            stringResource(R.string.presence_critical_window),
+            criticalWindow?.let { stringResource(R.string.presence_critical_window_value, hourText(it.first), hourText(it.first + 3)) }
+                ?: stringResource(R.string.presence_no_critical_window),
             Color(0xFFFF9E42),
             theme
         )
         InsightRow(
             Icons.Rounded.AutoAwesome,
-            "Sugerencia contextual",
+            stringResource(R.string.presence_contextual_suggestion),
             contextualSuggestion(stats, events),
             Color(0xFF71D7B3),
             theme
@@ -892,7 +900,7 @@ private fun DailyEventsCard(
 ) {
     val max = stats.maxOfOrNull { maxOf(it.presentes, it.inconscientes) }?.coerceAtLeast(1) ?: 1
     StatsCard(Color(0xFF71D7B3), theme) {
-        Text("Eventos diarios", color = theme.primaryText, fontWeight = FontWeight.Bold)
+        Text(stringResource(R.string.presence_card_daily_events), color = theme.primaryText, fontWeight = FontWeight.Bold)
         RangePicker(range, onRangeChange, theme)
         Row(
             Modifier.horizontalScroll(rememberScrollState()).height(180.dp),
@@ -931,12 +939,12 @@ private fun DailyTimelineCard(events: List<PresenceEventPoint>, theme: PresenceS
     val width = 960.dp
     StatsCard(Color(0xFF45C7DD), theme) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text("Momentos de presencia de hoy", color = theme.primaryText, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+            Text(stringResource(R.string.presence_today_moments), color = theme.primaryText, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
             Text(timelineEvents.size.toString(), color = theme.secondaryText, style = MaterialTheme.typography.labelMedium)
         }
         if (timelineEvents.isEmpty()) {
             Text(
-                "Aún no hay eventos de presencia registrados hoy.",
+                stringResource(R.string.presence_no_events_today),
                 color = theme.secondaryText,
                 modifier = Modifier.height(90.dp)
             )
@@ -991,7 +999,7 @@ private fun RatioCard(
 ) {
     val chartWidth = maxOf(320, stats.size * 25).dp
     StatsCard(Color(0xFF45C7DD), theme) {
-        Text("Cociente presente/inconsciente", color = theme.primaryText, fontWeight = FontWeight.Bold)
+        Text(stringResource(R.string.presence_ratio_title), color = theme.primaryText, fontWeight = FontWeight.Bold)
         RangePicker(range, onRangeChange, theme)
         Box(Modifier.horizontalScroll(rememberScrollState())) {
             Canvas(Modifier.width(chartWidth).height(130.dp)) {
@@ -1023,7 +1031,7 @@ private fun RatioCard(
             }
         }
         Text(
-            "Más alto significa que hubo más retornos conscientes entre tus eventos registrados.",
+            stringResource(R.string.presence_ratio_explanation),
             color = theme.secondaryText,
             style = MaterialTheme.typography.bodySmall
         )
@@ -1038,17 +1046,17 @@ private fun MoodStatsCard(
     theme: PresenceStatsTheme
 ) {
     StatsCard(Color(0xFFE66AA5), theme) {
-        Text("Estados de ánimo", color = theme.primaryText, fontWeight = FontWeight.Bold)
+        Text(stringResource(R.string.presence_moods_title), color = theme.primaryText, fontWeight = FontWeight.Bold)
         RangePicker(range, onRangeChange, theme)
         if (stats.isEmpty()) {
-            Text("Aún no hay estados registrados.", color = theme.secondaryText)
+            Text(stringResource(R.string.presence_no_moods), color = theme.secondaryText)
         } else {
             stats.take(8).forEach { item ->
                 Row(
                     Modifier.fillMaxWidth().background(theme.rowBackground, RoundedCornerShape(8.dp)).padding(12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(item.title, color = theme.primaryText, modifier = Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Text(localizedPresenceMood(item.moodId, item.title), color = theme.primaryText, modifier = Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
                     Text(item.count.toString(), color = theme.primaryText, fontWeight = FontWeight.Bold)
                 }
             }
@@ -1069,7 +1077,7 @@ private fun RangePicker(range: Int, onRangeChange: (Int) -> Unit, theme: Presenc
                 shape = RoundedCornerShape(7.dp)
             ) {
                 Text(
-                    "$days días",
+                    stringResource(R.string.presence_days_format, days),
                     color = theme.primaryText,
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = if (range == days) FontWeight.Bold else FontWeight.Normal,
@@ -1086,12 +1094,12 @@ private fun CompactRangeMenu(range: Int, onRangeChange: (Int) -> Unit, theme: Pr
     var open by remember { mutableStateOf(false) }
     Box {
         TextButton(onClick = { open = true }) {
-            Text("${range}d", color = theme.secondaryText, style = MaterialTheme.typography.labelMedium)
+            Text(stringResource(R.string.presence_days_short, range), color = theme.secondaryText, style = MaterialTheme.typography.labelMedium)
         }
         DropdownMenu(expanded = open, onDismissRequest = { open = false }) {
             listOf(14, 30, 90).forEach {
                 DropdownMenuItem(
-                    text = { Text("$it días") },
+                    text = { Text(stringResource(R.string.presence_days_format, it)) },
                     onClick = {
                         onRangeChange(it)
                         open = false
@@ -1124,8 +1132,8 @@ private fun StatsCard(
 @Composable
 private fun StatsLegend(theme: PresenceStatsTheme) {
     Row(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
-        Legend("Presente", Color(0xFF71D7B3), theme)
-        Legend("Piloto automático", Color(0xFFFFA94D), theme)
+        Legend(stringResource(R.string.presence_present), Color(0xFF71D7B3), theme)
+        Legend(stringResource(R.string.presence_autopilot), Color(0xFFFFA94D), theme)
     }
 }
 
@@ -1168,11 +1176,11 @@ private fun PresenceCelebration(phrase: String) {
 private fun PresenceInfoDialog(onDismiss: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Presencia Consciente") },
+        title = { Text(stringResource(R.string.presence_title)) },
         text = {
-            Text("La práctica une dos gestos: despertar del piloto automático y encarnar el estado deseado ahora. Cada toque es una interrupción amable del viejo hábito y una elección deliberada de identidad.")
+            Text(stringResource(R.string.presence_info_body))
         },
-        confirmButton = { TextButton(onClick = onDismiss) { Text("Cerrar") } }
+        confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.common_close)) } }
     )
 }
 
@@ -1199,33 +1207,67 @@ private fun currentWeekStats(stats: List<PresenceDayStats>): List<PresenceDaySta
     }
 }
 
+@Composable
 private fun contextualSuggestion(stats: List<PresenceDayStats>, events: List<PresenceEventPoint>): String {
     val present = stats.sumOf { it.presentes }
     val automatic = stats.sumOf { it.inconscientes }
     val total = present + automatic
     val activeDays = stats.count { it.total > 0 }
-    if (total == 0) return "Aún no hay suficientes registros en este rango. Haz uno o dos retornos conscientes hoy para que aparezca un patrón útil."
-    if (activeDays <= maxOf(2, stats.size / 6)) return "Hay pocos días con registros. Prueba una pausa breve a media mañana y otra al final de la tarde para empezar a revelar tu patrón."
-    if (present == 0) return "Por ahora solo aparecen momentos de piloto automático. Elige una hora fácil, como antes de comer, para registrar un retorno consciente deliberado."
+    if (total == 0) return stringResource(R.string.presence_suggestion_no_data)
+    if (activeDays <= maxOf(2, stats.size / 6)) return stringResource(R.string.presence_suggestion_few_days)
+    if (present == 0) return stringResource(R.string.presence_suggestion_no_presence)
     if (automatic > present) {
         val automaticEvents = events.filter { it.isAutomaticPilot }
         val window = (0..21 step 3)
             .map { start -> start to automaticEvents.count { hourOf(it.createdAtMillis) in start until start + 3 } }
             .maxByOrNull { it.second }
         if (window != null && window.second >= 2) {
-            return "El piloto automático se concentra entre ${hourText(window.first)} y ${hourText(window.first + 3)}. Prueba una pausa de 30 segundos justo antes de esa franja."
+            return stringResource(R.string.presence_suggestion_window, hourText(window.first), hourText(window.first + 3))
         }
-        return "En este rango hay más piloto automático que presencia. Elige una transición diaria para volver al cuerpo."
+        return stringResource(R.string.presence_suggestion_more_autopilot)
     }
-    if (automatic == 0) return "Este rango muestra presencia sin piloto automático registrado. Añade también los momentos de distracción para obtener sugerencias más precisas."
-    return "Tus registros están bastante equilibrados. Elige una franja concreta del día y repite ahí una pausa consciente para convertirla en hábito."
+    if (automatic == 0) return stringResource(R.string.presence_suggestion_no_autopilot)
+    return stringResource(R.string.presence_suggestion_balanced)
 }
 
 private fun weekdayName(millis: Long): String =
-    SimpleDateFormat("EEEE", Locale.forLanguageTag("es-ES")).format(millis)
+    SimpleDateFormat("EEEE", Locale.getDefault()).format(millis)
 
 private fun weekdayLetter(millis: Long): String =
-    SimpleDateFormat("EEEEE", Locale.forLanguageTag("es-ES")).format(millis).uppercase()
+    SimpleDateFormat("EEEEE", Locale.getDefault()).format(millis).uppercase(Locale.getDefault())
+
+@Composable
+private fun PresenceStatsCard.localizedTitle(): String = stringResource(
+    when (this) {
+        PresenceStatsCard.TodayReturns -> R.string.presence_card_today
+        PresenceStatsCard.CurrentStreak -> R.string.presence_card_streak
+        PresenceStatsCard.WeeklyAverage -> R.string.presence_card_weekly_average
+        PresenceStatsCard.DominantMood -> R.string.presence_card_dominant_mood
+        PresenceStatsCard.PracticalInsights -> R.string.presence_card_practical
+        PresenceStatsCard.DailyEvents -> R.string.presence_card_daily_events
+        PresenceStatsCard.DailyTimeline -> R.string.presence_card_today_moments
+        PresenceStatsCard.Ratio -> R.string.presence_card_ratio
+        PresenceStatsCard.Moods -> R.string.presence_card_moods
+    }
+)
+
+@Composable
+private fun localizedPresenceMood(id: String, fallback: String): String {
+    val resourceId = when (id) {
+        "sientoMiFuturoAhora" -> R.string.presence_mood_future
+        "pilotoAutomatico" -> R.string.presence_mood_autopilot
+        "distraido" -> R.string.presence_mood_distracted
+        "sereno" -> R.string.presence_mood_serene
+        "alegre" -> R.string.presence_mood_happy
+        "ansioso" -> R.string.presence_mood_anxious
+        "triste" -> R.string.presence_mood_sad
+        "enfadado" -> R.string.presence_mood_angry
+        "cansado" -> R.string.presence_mood_tired
+        "agradecido" -> R.string.presence_mood_grateful
+        else -> null
+    }
+    return resourceId?.let { stringResource(it) } ?: fallback
+}
 
 private fun dayLabel(millis: Long): String =
     SimpleDateFormat("d", Locale.getDefault()).format(millis)

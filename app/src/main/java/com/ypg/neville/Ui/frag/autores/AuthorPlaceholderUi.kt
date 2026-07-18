@@ -1,6 +1,7 @@
 package com.ypg.neville.ui.frag
 
 import android.content.Context
+import com.ypg.neville.R
 
 data class AccessCardPlaceholder(
     val title: String,
@@ -133,9 +134,9 @@ fun loadAuthorResourceCards(context: Context, authorAssetsFolder: String): List<
                 !resumen.isNullOrBlank() && !plan.isNullOrBlank() -> {
                     AccessCardPlaceholder(
                         title = readableTitle,
-                        primaryButton = "Resumen",
+                        primaryButton = context.getString(R.string.author_summary),
                         primaryAssetPath = resumen,
-                        secondaryButton = "Plan",
+                        secondaryButton = context.getString(R.string.author_plan),
                         secondaryAssetPath = plan
                     )
                 }
@@ -143,7 +144,7 @@ fun loadAuthorResourceCards(context: Context, authorAssetsFolder: String): List<
                 !resumen.isNullOrBlank() -> {
                     AccessCardPlaceholder(
                         title = readableTitle,
-                        primaryButton = "Resumen",
+                        primaryButton = context.getString(R.string.author_summary),
                         primaryAssetPath = resumen
                     )
                 }
@@ -151,7 +152,7 @@ fun loadAuthorResourceCards(context: Context, authorAssetsFolder: String): List<
                 !plan.isNullOrBlank() -> {
                     AccessCardPlaceholder(
                         title = readableTitle,
-                        primaryButton = "Plan",
+                        primaryButton = context.getString(R.string.author_plan),
                         primaryAssetPath = plan
                     )
                 }
@@ -177,14 +178,14 @@ fun loadBruceEvolutionSeriesCard(context: Context): AccessCardPlaceholder? {
 
     val menuItems = files.mapIndexed { index, file ->
         AccessCardMenuItem(
-            title = "Capítulo ${index + 1}",
+            title = context.getString(R.string.author_chapter_format, index + 1),
             assetPath = "$folder/$file"
         )
     }
 
     return AccessCardPlaceholder(
-        title = "Resumen Serie Evolución Interior",
-        primaryButton = "Capítulos",
+        title = context.getString(R.string.author_title_inner_evolution_summary),
+        primaryButton = context.getString(R.string.author_chapters),
         primaryAssetPath = menuItems.first().assetPath,
         menuItems = menuItems
     )

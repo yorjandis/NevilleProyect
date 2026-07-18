@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -40,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.fragment.app.Fragment
+import com.ypg.neville.R
 
 class FragAuthorPhotoGallery : Fragment() {
 
@@ -52,7 +54,6 @@ class FragAuthorPhotoGallery : Fragment() {
             setContent {
                 com.ypg.neville.ui.theme.NevilleTheme {
                     AuthorPhotoGalleryScreen(
-                        title = title,
                         assetFolder = assetFolder
                     )
                 }
@@ -61,14 +62,12 @@ class FragAuthorPhotoGallery : Fragment() {
     }
 
     companion object {
-        var title = "Galería de Fotos"
         var assetFolder = "autores/neville/fotos"
     }
 }
 
 @Composable
 private fun AuthorPhotoGalleryScreen(
-    title: String,
     assetFolder: String
 ) {
     val context = LocalContext.current
@@ -85,7 +84,7 @@ private fun AuthorPhotoGalleryScreen(
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             Text(
-                text = title,
+                text = stringResource(R.string.author_photo_gallery_title),
                 color = titleColor,
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold,
@@ -96,7 +95,7 @@ private fun AuthorPhotoGalleryScreen(
 
             if (photos.isEmpty()) {
                 Text(
-                    text = "No hay fotos disponibles",
+                    text = stringResource(R.string.author_no_photos),
                     color = bodyColor,
                     fontSize = 15.sp,
                     textAlign = TextAlign.Center,
@@ -188,7 +187,7 @@ private fun AssetImage(
     if (imageBitmap != null) {
         Image(
             bitmap = imageBitmap,
-            contentDescription = null,
+            contentDescription = stringResource(R.string.author_photo_content_description),
             contentScale = contentScale,
             modifier = modifier
         )
@@ -198,7 +197,7 @@ private fun AssetImage(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "No se pudo cargar la foto",
+                text = stringResource(R.string.author_photo_load_failed),
                 color = Color(0xFF3A3026),
                 fontSize = 13.sp,
                 textAlign = TextAlign.Center,

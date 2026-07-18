@@ -10,6 +10,7 @@ import java.security.MessageDigest
 object FrasesAssetSyncManager {
 
     private const val PREF_HASH_PREFIX = "frases_asset_hash::"
+    private const val PREF_ACTIVE_SOURCE_SET = "frases_asset_active_source_set"
 
     fun syncIfNeeded(context: Context, room: NevilleRoomDatabase): Boolean {
         return syncInternal(context, room, force = false)
@@ -22,20 +23,22 @@ object FrasesAssetSyncManager {
     private fun syncInternal(context: Context, room: NevilleRoomDatabase, force: Boolean): Boolean {
         val prefs = DbPreferences.default(context)
         val dao = room.fraseDao()
+        val sourceSpecs = FrasesAssetParser.localizedSourceSpecs(context)
 
-        val sourceHashes = FrasesAssetParser.sourceSpecs.associate { spec ->
+        val sourceHashes = sourceSpecs.associate { spec ->
             val raw = context.assets.open(spec.assetPath).bufferedReader(Charsets.UTF_8).use { it.readText() }
             spec.assetPath to sha256(raw)
         }
+        val sourceSet = sourceSpecs.joinToString(separator = "|") { it.assetPath }
 
-        val hasChanged = sourceHashes.any { (assetPath, hash) ->
+        val hasChanged = prefs.getString(PREF_ACTIVE_SOURCE_SET, null) != sourceSet || sourceHashes.any { (assetPath, hash) ->
             prefs.getString("$PREF_HASH_PREFIX$assetPath", null) != hash
         }
 
         val hasManagedRows = dao.countManagedAssetFrases() > 0
         if (!force && !hasChanged && hasManagedRows) return false
 
-        val parsed = FrasesAssetParser.sourceSpecs.flatMap { spec ->
+        val parsed = sourceSpecs.flatMap { spec ->
             val fileHash = sourceHashes[spec.assetPath].orEmpty()
             FrasesAssetParser.parse(context, spec).map { it.copy(assetHash = fileHash) }
         }
@@ -76,6 +79,7 @@ object FrasesAssetSyncManager {
         }
 
         prefs.edit {
+            putString(PREF_ACTIVE_SOURCE_SET, sourceSet)
             sourceHashes.forEach { (assetPath, hash) ->
                 putString("$PREF_HASH_PREFIX$assetPath", hash)
             }

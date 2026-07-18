@@ -44,9 +44,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.ypg.neville.R
 import com.ypg.neville.feature.calmspace.data.CalmMediaStorage
 import java.io.File
 
@@ -95,10 +97,10 @@ class FragCalmMusicManager : Fragment() {
         fun import(uri: android.net.Uri) {
             val result = CalmMediaStorage.importMusic(context, uri)
             result.onSuccess {
-                Toast.makeText(context, "Música agregada", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.calm_music_added), Toast.LENGTH_SHORT).show()
                 reloadTick++
             }.onFailure { error ->
-                Toast.makeText(context, error.message ?: "No se pudo importar el audio", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, context.getString(R.string.calm_audio_import_error), Toast.LENGTH_LONG).show()
             }
         }
 
@@ -138,12 +140,12 @@ class FragCalmMusicManager : Fragment() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Música de Espacio Calma",
+                    text = stringResource(R.string.calm_music_manager_title),
                     style = MaterialTheme.typography.headlineSmall,
                     color = Color.White
                 )
                 Text(
-                    text = "Cerrar",
+                    text = stringResource(R.string.common_close),
                     color = Color.White,
                     modifier = Modifier
                         .clickable { findNavController().popBackStack() }
@@ -154,17 +156,17 @@ class FragCalmMusicManager : Fragment() {
             Spacer(modifier = Modifier.height(8.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Button(onClick = { filePickerLauncher.launch(arrayOf("audio/*")) }) {
-                    Text("Agregar (Archivos)")
+                    Text(stringResource(R.string.calm_add_files))
                 }
                 Button(onClick = { contentPickerLauncher.launch("audio/*") }) {
-                    Text("Agregar (Galería)")
+                    Text(stringResource(R.string.calm_add_gallery))
                 }
             }
 
             Spacer(modifier = Modifier.height(10.dp))
             if (items.isEmpty()) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text("No hay música personalizada", color = Color.White.copy(alpha = 0.85f))
+                    Text(stringResource(R.string.calm_no_custom_music), color = Color.White.copy(alpha = 0.85f))
                 }
             } else {
                 LazyColumn(
@@ -186,7 +188,7 @@ class FragCalmMusicManager : Fragment() {
                                 Column(modifier = Modifier.weight(1f)) {
                                     Text(text = file.name, color = Color.White, maxLines = 2)
                                     Text(
-                                        text = if (isPlaying) "Reproduciendo..." else "Pista lista para reproducir",
+                                        text = if (isPlaying) stringResource(R.string.calm_playing) else stringResource(R.string.calm_track_ready),
                                         color = Color.White.copy(alpha = 0.76f),
                                         style = MaterialTheme.typography.bodySmall
                                     )
@@ -206,7 +208,7 @@ class FragCalmMusicManager : Fragment() {
                                                 }
                                             }.getOrNull()
                                             if (player == null) {
-                                                Toast.makeText(context, "No se pudo reproducir", Toast.LENGTH_SHORT).show()
+                                                Toast.makeText(context, context.getString(R.string.calm_play_error), Toast.LENGTH_SHORT).show()
                                             } else {
                                                 playerHolder.value = player
                                                 playingPath = file.absolutePath
@@ -215,10 +217,10 @@ class FragCalmMusicManager : Fragment() {
                                         }
                                     }
                                 ) {
-                                    Text(if (isPlaying) "Detener" else "Reproducir")
+                                    Text(if (isPlaying) stringResource(R.string.calm_stop) else stringResource(R.string.calm_play))
                                 }
                                 TextButton(onClick = { deleteTarget = file }) {
-                                    Text("Eliminar")
+                                    Text(stringResource(R.string.common_delete))
                                 }
                             }
                         }
@@ -230,8 +232,8 @@ class FragCalmMusicManager : Fragment() {
         deleteTarget?.let { file ->
             AlertDialog(
                 onDismissRequest = { deleteTarget = null },
-                title = { Text("Eliminar audio") },
-                text = { Text("¿Eliminar ${file.name}?") },
+                title = { Text(stringResource(R.string.calm_delete_audio)) },
+                text = { Text(stringResource(R.string.calm_delete_file_question, file.name)) },
                 confirmButton = {
                     TextButton(onClick = {
                         if (playingPath == file.absolutePath) {
@@ -240,13 +242,12 @@ class FragCalmMusicManager : Fragment() {
                         runCatching { file.delete() }
                         deleteTarget = null
                         reloadTick++
-                    }) { Text("Eliminar") }
+                    }) { Text(stringResource(R.string.common_delete)) }
                 },
                 dismissButton = {
-                    TextButton(onClick = { deleteTarget = null }) { Text("Cancelar") }
+                    TextButton(onClick = { deleteTarget = null }) { Text(stringResource(R.string.common_cancel)) }
                 }
             )
         }
     }
 }
-

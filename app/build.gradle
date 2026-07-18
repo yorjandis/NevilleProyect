@@ -37,6 +37,13 @@ android {
         buildConfig = true
     }
 
+    androidResources {
+        // Generates the Android 13+ per-app language configuration from the
+        // locale-specific resource folders. The source locale is declared in
+        // src/main/res/resources.properties.
+        generateLocaleConfig = true
+    }
+
     namespace = 'com.ypg.neville'
 }
 

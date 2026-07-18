@@ -16,9 +16,11 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidmads.library.qrgenearator.QRGContents
 import androidmads.library.qrgenearator.QRGEncoder
+import com.ypg.neville.R
 
 object QRManager {
 
@@ -28,7 +30,7 @@ object QRManager {
     @JvmStatic
     fun ShowQRDialog(context: Context, textoQR: String, title: String, message: String?) {
         if (textoQR.length > 4000) {
-            Toast.makeText(context, "Se ha sobrepasado el límite de texto para QR", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.global_qr_text_too_long), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -49,13 +51,13 @@ object QRManager {
                     if (bitmap != null) {
                         Image(
                             bitmap = bitmap.asImageBitmap(),
-                            contentDescription = "QR",
+                            contentDescription = stringResource(R.string.global_qr_description),
                             modifier = Modifier.size(300.dp)
                         )
                     }
 
                     Text(
-                        text = "Compartir texto",
+                        text = stringResource(R.string.global_share_text),
                         modifier = Modifier.clickable {
                             val intent = Intent(Intent.ACTION_SEND)
                             intent.type = "text/plain"

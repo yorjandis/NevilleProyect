@@ -66,6 +66,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.layout.ContentScale
@@ -332,7 +333,7 @@ private fun LienzoScreen() {
             .padding(10.dp)
     ) {
         Text(
-            text = "Lienzo",
+            text = stringResource(R.string.canvas_title),
             fontSize = 26.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground,
@@ -361,10 +362,10 @@ private fun LienzoScreen() {
                 .horizontalScroll(rememberScrollState()),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            LienzoTabButton("Fondo", tab == LienzoTab.FONDO) { tab = LienzoTab.FONDO }
-            LienzoTabButton("Texto", tab == LienzoTab.TEXTO) { tab = LienzoTab.TEXTO }
-            LienzoTabButton("Imagen", tab == LienzoTab.IMAGEN) { tab = LienzoTab.IMAGEN }
-            LienzoTabButton("Exportar", tab == LienzoTab.EXPORTAR) { tab = LienzoTab.EXPORTAR }
+            LienzoTabButton(stringResource(R.string.canvas_background_tab), tab == LienzoTab.FONDO) { tab = LienzoTab.FONDO }
+            LienzoTabButton(stringResource(R.string.canvas_text_tab), tab == LienzoTab.TEXTO) { tab = LienzoTab.TEXTO }
+            LienzoTabButton(stringResource(R.string.canvas_image_tab), tab == LienzoTab.IMAGEN) { tab = LienzoTab.IMAGEN }
+            LienzoTabButton(stringResource(R.string.common_export), tab == LienzoTab.EXPORTAR) { tab = LienzoTab.EXPORTAR }
         }
 
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
@@ -380,7 +381,7 @@ private fun LienzoScreen() {
             when (tab) {
                 LienzoTab.FONDO -> {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text("Usar imagen de fondo", modifier = Modifier.weight(1f), color = labelColor)
+                        Text(stringResource(R.string.canvas_use_background_image), modifier = Modifier.weight(1f), color = labelColor)
                         Switch(
                             checked = state.usarImagenDeFondo,
                             onCheckedChange = { update(state.copy(usarImagenDeFondo = it)) },
@@ -388,7 +389,7 @@ private fun LienzoScreen() {
                         )
                     }
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text("Expandir imagen a todo el lienzo", modifier = Modifier.weight(1f), color = labelColor)
+                        Text(stringResource(R.string.canvas_expand_background_image), modifier = Modifier.weight(1f), color = labelColor)
                         Switch(
                             checked = state.expandirImagenFondo,
                             onCheckedChange = { update(state.copy(expandirImagenFondo = it)) },
@@ -396,9 +397,9 @@ private fun LienzoScreen() {
                         )
                     }
                     Button(onClick = { pickImagenFondo.launch("image/*") }) {
-                        Text("Cargar imagen de fondo")
+                        Text(stringResource(R.string.canvas_load_background_image))
                     }
-                    Text("Plantillas de degradado", color = labelColor)
+                    Text(stringResource(R.string.canvas_gradient_templates), color = labelColor)
                     val presets = remember {
                         listOf(
                             // Tonalidades suaves
@@ -464,13 +465,13 @@ private fun LienzoScreen() {
                         }
                     }
 
-                    Text("Colores personalizados", color = labelColor)
-                    Text("Color 1", color = labelColor)
+                    Text(stringResource(R.string.canvas_custom_colors), color = labelColor)
+                    Text(stringResource(R.string.canvas_color_one), color = labelColor)
                     ColorPaletteRow(
                         selectedColor = state.colorCustom1,
                         onColorSelected = { c -> update(state.copy(colorCustom1 = c)) }
                     )
-                    Text("Color 2", color = labelColor)
+                    Text(stringResource(R.string.canvas_color_two), color = labelColor)
                     ColorPaletteRow(
                         selectedColor = state.colorCustom2,
                         onColorSelected = { c -> update(state.copy(colorCustom2 = c)) }
@@ -484,7 +485,7 @@ private fun LienzoScreen() {
                             )
                         )
                     }) {
-                        Text("Aplicar colores personalizados")
+                        Text(stringResource(R.string.canvas_apply_custom_colors))
                     }
                 }
 
@@ -492,23 +493,23 @@ private fun LienzoScreen() {
                     OutlinedTextField(
                         value = state.textoPrincipal,
                         onValueChange = { update(state.copy(textoPrincipal = it)) },
-                        label = { Text("Texto principal", color = labelColor) },
+                        label = { Text(stringResource(R.string.canvas_primary_text), color = labelColor) },
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(14.dp),
                         colors = textFieldColors
                     )
-                    Text("Tamaño texto principal", color = labelColor)
+                    Text(stringResource(R.string.canvas_primary_text_size), color = labelColor)
                     Slider(
                         value = state.tamanoTextoPrincipal,
                         valueRange = 10f..80f,
                         onValueChange = { update(state.copy(tamanoTextoPrincipal = it)) }
                     )
-                    Text("Posición texto principal", color = labelColor)
+                    Text(stringResource(R.string.canvas_primary_text_position), color = labelColor)
                     PositionSelector(
                         selected = state.posicionTextoPrincipal,
                         onSelected = { update(state.copy(posicionTextoPrincipal = it)) }
                     )
-                    Text("Color texto principal", color = labelColor)
+                    Text(stringResource(R.string.canvas_primary_text_color), color = labelColor)
                     ColorPaletteRow(
                         selectedColor = state.colorTextoPrincipal,
                         onColorSelected = { update(state.copy(colorTextoPrincipal = it)) }
@@ -517,7 +518,7 @@ private fun LienzoScreen() {
                     HorizontalDivider()
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text("Mostrar texto secundario", modifier = Modifier.weight(1f), color = labelColor)
+                        Text(stringResource(R.string.canvas_show_secondary_text), modifier = Modifier.weight(1f), color = labelColor)
                         Switch(
                             checked = state.visibilidadTextoSecundario,
                             onCheckedChange = { update(state.copy(visibilidadTextoSecundario = it)) },
@@ -527,23 +528,23 @@ private fun LienzoScreen() {
                     OutlinedTextField(
                         value = state.textoSecundario,
                         onValueChange = { update(state.copy(textoSecundario = it)) },
-                        label = { Text("Texto secundario", color = labelColor) },
+                        label = { Text(stringResource(R.string.canvas_secondary_text), color = labelColor) },
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(14.dp),
                         colors = textFieldColors
                     )
-                    Text("Tamaño texto secundario", color = labelColor)
+                    Text(stringResource(R.string.canvas_secondary_text_size), color = labelColor)
                     Slider(
                         value = state.tamanoTextoSecundario,
                         valueRange = 10f..80f,
                         onValueChange = { update(state.copy(tamanoTextoSecundario = it)) }
                     )
-                    Text("Posición texto secundario", color = labelColor)
+                    Text(stringResource(R.string.canvas_secondary_text_position), color = labelColor)
                     PositionSelector(
                         selected = state.posicionTextoSecundario,
                         onSelected = { update(state.copy(posicionTextoSecundario = it)) }
                     )
-                    Text("Color texto secundario", color = labelColor)
+                    Text(stringResource(R.string.canvas_secondary_text_color), color = labelColor)
                     ColorPaletteRow(
                         selectedColor = state.colorTextoSecundario,
                         onColorSelected = { update(state.copy(colorTextoSecundario = it)) }
@@ -560,8 +561,8 @@ private fun LienzoScreen() {
                         )
                     }
 
-                    Text("Imagen principal", fontWeight = FontWeight.SemiBold, color = labelColor)
-                    Text("Galería autores", color = labelColor)
+                    Text(stringResource(R.string.canvas_primary_image), fontWeight = FontWeight.SemiBold, color = labelColor)
+                    Text(stringResource(R.string.canvas_author_gallery), color = labelColor)
                     AuthorImageGallery(
                         presets = authorPresets,
                         onPresetSelected = { preset ->
@@ -576,13 +577,13 @@ private fun LienzoScreen() {
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Button(onClick = { pickImagenPrincipal.launch("image/*") }, modifier = Modifier.weight(1f)) {
-                            Text("Cambiar")
+                            Text(stringResource(R.string.common_change))
                         }
                         Row(
                             modifier = Modifier.weight(1f),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text("Visible", modifier = Modifier.weight(1f), color = labelColor)
+                            Text(stringResource(R.string.canvas_visible), modifier = Modifier.weight(1f), color = labelColor)
                             Switch(
                                 checked = state.visibilidadImagenPrincipal,
                                 onCheckedChange = { update(state.copy(visibilidadImagenPrincipal = it)) },
@@ -590,21 +591,21 @@ private fun LienzoScreen() {
                             )
                         }
                     }
-                    Text("Tamaño imagen principal", color = labelColor)
+                    Text(stringResource(R.string.canvas_primary_image_size), color = labelColor)
                     Slider(
                         value = state.tamanoImagenPrincipal,
                         valueRange = 40f..220f,
                         onValueChange = { update(state.copy(tamanoImagenPrincipal = it)) }
                     )
-                    Text("Posición imagen principal", color = labelColor)
+                    Text(stringResource(R.string.canvas_primary_image_position), color = labelColor)
                     PositionSelector(
                         selected = state.posicionImagenPrincipal,
                         onSelected = { update(state.copy(posicionImagenPrincipal = it)) }
                     )
 
                     HorizontalDivider()
-                    Text("Imagen secundaria", fontWeight = FontWeight.SemiBold, color = labelColor)
-                    Text("Galería autores", color = labelColor)
+                    Text(stringResource(R.string.canvas_secondary_image), fontWeight = FontWeight.SemiBold, color = labelColor)
+                    Text(stringResource(R.string.canvas_author_gallery), color = labelColor)
                     AuthorImageGallery(
                         presets = authorPresets,
                         onPresetSelected = { preset ->
@@ -619,13 +620,13 @@ private fun LienzoScreen() {
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Button(onClick = { pickImagenSecundaria.launch("image/*") }, modifier = Modifier.weight(1f)) {
-                            Text("Cambiar")
+                            Text(stringResource(R.string.common_change))
                         }
                         Row(
                             modifier = Modifier.weight(1f),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text("Visible", modifier = Modifier.weight(1f), color = labelColor)
+                            Text(stringResource(R.string.canvas_visible), modifier = Modifier.weight(1f), color = labelColor)
                             Switch(
                                 checked = state.visibilidadImagenSecundaria,
                                 onCheckedChange = { update(state.copy(visibilidadImagenSecundaria = it)) },
@@ -633,13 +634,13 @@ private fun LienzoScreen() {
                             )
                         }
                     }
-                    Text("Tamaño imagen secundaria", color = labelColor)
+                    Text(stringResource(R.string.canvas_secondary_image_size), color = labelColor)
                     Slider(
                         value = state.tamanoImagenSecundaria,
                         valueRange = 40f..220f,
                         onValueChange = { update(state.copy(tamanoImagenSecundaria = it)) }
                     )
-                    Text("Posición imagen secundaria", color = labelColor)
+                    Text(stringResource(R.string.canvas_secondary_image_position), color = labelColor)
                     PositionSelector(
                         selected = state.posicionImagenSecundaria,
                         onSelected = { update(state.copy(posicionImagenSecundaria = it)) }
@@ -647,7 +648,7 @@ private fun LienzoScreen() {
                 }
 
                 LienzoTab.EXPORTAR -> {
-                    Text("Exportar imagen del lienzo", fontWeight = FontWeight.SemiBold, color = labelColor)
+                    Text(stringResource(R.string.canvas_export_image), fontWeight = FontWeight.SemiBold, color = labelColor)
                     Button(onClick = {
                         val bitmap = renderLienzoBitmap(
                             state = state,
@@ -657,12 +658,12 @@ private fun LienzoScreen() {
                         )
                         val uri = saveBitmapToGallery(context, bitmap, "lienzo_neville")
                         if (uri != null) {
-                            Toast.makeText(context, "Imagen guardada en galería", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, context.getString(R.string.canvas_image_saved), Toast.LENGTH_SHORT).show()
                         } else {
-                            Toast.makeText(context, "No se pudo guardar la imagen", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, context.getString(R.string.canvas_image_save_error), Toast.LENGTH_SHORT).show()
                         }
                     }) {
-                        Text("Guardar en galería")
+                        Text(stringResource(R.string.canvas_save_to_gallery))
                     }
                     Button(onClick = {
                         val bitmap = renderLienzoBitmap(
@@ -679,13 +680,13 @@ private fun LienzoScreen() {
                                 addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
                             }
                             context.startActivity(
-                                android.content.Intent.createChooser(shareIntent, "Compartir lienzo")
+                                android.content.Intent.createChooser(shareIntent, context.getString(R.string.canvas_share_chooser))
                             )
                         } else {
-                            Toast.makeText(context, "No se pudo preparar la imagen para compartir", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, context.getString(R.string.canvas_share_prepare_error), Toast.LENGTH_SHORT).show()
                         }
                     }) {
-                        Text("Compartir")
+                        Text(stringResource(R.string.common_share))
                     }
                 }
             }
@@ -928,10 +929,19 @@ private fun PositionSelector(selected: LienzoPosicion, onSelected: (LienzoPosici
                     .clickable { onSelected(pos) }
                     .padding(horizontal = 12.dp, vertical = 8.dp)
             ) {
-                Text(pos.name.lowercase().replaceFirstChar { it.uppercase() }, color = textColor)
+                Text(pos.localizedLabel(), color = textColor)
             }
         }
     }
+}
+
+@Composable
+private fun LienzoPosicion.localizedLabel(): String = when (this) {
+    LienzoPosicion.ARRIBA -> stringResource(R.string.canvas_position_top)
+    LienzoPosicion.ABAJO -> stringResource(R.string.canvas_position_bottom)
+    LienzoPosicion.DERECHA -> stringResource(R.string.canvas_position_right)
+    LienzoPosicion.IZQUIERDA -> stringResource(R.string.canvas_position_left)
+    LienzoPosicion.CENTRO -> stringResource(R.string.canvas_position_center)
 }
 
 @Composable

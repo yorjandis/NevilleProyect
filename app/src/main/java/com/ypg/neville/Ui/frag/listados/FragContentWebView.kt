@@ -1,6 +1,5 @@
 package com.ypg.neville.ui.frag
 
-import android.R
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.ContentValues
@@ -36,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -45,6 +45,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.MainActivity
+import com.ypg.neville.R
 import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryEventLogger
 import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryEventType
 import com.ypg.neville.model.db.DatabaseHelper
@@ -53,6 +54,8 @@ import com.ypg.neville.model.utils.FraseContextActions
 import com.ypg.neville.model.utils.UiModalWindows
 import com.ypg.neville.model.utils.utilsFields
 import com.ypg.neville.model.subscription.SubscriptionManager
+import com.ypg.neville.localization.AuthorContentLocalization
+import com.ypg.neville.localization.LibraryContentLocalization
 import com.ypg.neville.ui.render.BlockType
 import com.ypg.neville.ui.render.ContentBlock
 import com.ypg.neville.ui.render.DynamicTextRenderer
@@ -104,7 +107,7 @@ class FragContentWebView : Fragment() {
 
                     AssistChip(
                         onClick = { navigateToPreviousScreen() },
-                        label = { Text("Atrás", color = Color.Black) },
+                        label = { Text(stringResource(R.string.list_back), color = Color.Black) },
                         colors = AssistChipDefaults.assistChipColors(
                             containerColor = Color(0xFFE3E8EF).copy(alpha = 0.96f)
                         ),
@@ -133,7 +136,7 @@ class FragContentWebView : Fragment() {
                                 },
                                 label = {
                                     Text(
-                                        "Pegar en",
+                                        stringResource(R.string.reader_paste_in),
                                         color = Color.Black
                                     )
                                 },
@@ -148,26 +151,34 @@ class FragContentWebView : Fragment() {
                                 onDismissRequest = { showPasteMenu = false }
                             ) {
                                 DropdownMenuItem(
-                                    text = { Text("Pegar en Notas") },
+                                    text = { Text(stringResource(R.string.reader_paste_notes)) },
                                     onClick = {
                                         showPasteMenu = false
                                         val result = FraseContextActions.convertirFraseEnNota(requireContext(), copiedText)
                                         if (result.ok) {
-                                            Toast.makeText(requireContext(), "Nota creada: ${result.titulo}", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(
+                                                requireContext(),
+                                                getString(R.string.phrases_note_created, result.titulo),
+                                                Toast.LENGTH_SHORT
+                                            ).show()
                                         } else {
-                                            Toast.makeText(requireContext(), "No se pudo crear la nota", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(
+                                                requireContext(),
+                                                getString(R.string.phrases_note_creation_failed),
+                                                Toast.LENGTH_SHORT
+                                            ).show()
                                         }
                                     }
                                 )
                                 DropdownMenuItem(
-                                    text = { Text("Pegar en Lienzo") },
+                                    text = { Text(stringResource(R.string.reader_paste_canvas)) },
                                     onClick = {
                                         showPasteMenu = false
                                         FraseContextActions.cargarFraseEnLienzo(requireContext(), copiedText)
                                     }
                                 )
                                 DropdownMenuItem(
-                                    text = { Text("Convertir en frase personal") },
+                                    text = { Text(stringResource(R.string.reader_convert_personal_quote)) },
                                     onClick = {
                                         showPasteMenu = false
                                         val values = ContentValues().apply {
@@ -300,7 +311,7 @@ class FragContentWebView : Fragment() {
             runCatching {
                 requireContext().assets.open(assetPath).bufferedReader().use { it.readText() }
             }.getOrElse {
-                "No se pudo cargar el contenido: $assetPath"
+                requireContext().getString(R.string.reader_load_error, assetPath)
             }
         }
 
@@ -390,7 +401,7 @@ class FragContentWebView : Fragment() {
             return listOf(
                 ContentBlock(content = BlockType.Text(previewText)),
                 ContentBlock(content = BlockType.Text("")),
-                ContentBlock(content = BlockType.Text("[Contenido disponible en la Versión extendida]"))
+                ContentBlock(content = BlockType.Text(getString(R.string.reader_extended_content)))
             )
         }
 
@@ -398,7 +409,7 @@ class FragContentWebView : Fragment() {
         if (reflection != null) {
             val blocks = mutableListOf<ContentBlock>()
             blocks.add(ContentBlock(content = BlockType.Text(reflection.titulo)))
-            blocks.add(ContentBlock(content = BlockType.Text("Autor: ${reflection.autor}")))
+            blocks.add(ContentBlock(content = BlockType.Text(getString(R.string.reader_author_format, reflection.autor))))
             reflection.contenido
                 .filter { it.isNotBlank() }
                 .forEach { paragraph ->
@@ -442,8 +453,8 @@ class FragContentWebView : Fragment() {
                 null
             } else {
                 ReflectionContent(
-                    titulo = if (titulo.isBlank()) "Recurso" else titulo,
-                    autor = if (autor.isBlank()) "Desconocido" else autor,
+                    titulo = if (titulo.isBlank()) getString(R.string.reader_default_resource) else titulo,
+                    autor = if (autor.isBlank()) getString(R.string.reader_unknown) else autor,
                     contenido = contenido
                 )
             }
@@ -451,6 +462,12 @@ class FragContentWebView : Fragment() {
     }
 
     private fun resolveAssetPath(path: String): String {
+        val localizedAuthorPath = AuthorContentLocalization.resolveAssetPath(requireContext(), path)
+        if (localizedAuthorPath != path && assetExists(localizedAuthorPath)) return localizedAuthorPath
+
+        val localizedLibraryPath = LibraryContentLocalization.resolveAssetPath(requireContext(), path)
+        if (localizedLibraryPath != path && assetExists(localizedLibraryPath)) return localizedLibraryPath
+
         if (assetExists(path)) return path
 
         // Resolver títulos de conferencias con variaciones de tildes/espacios/símbolos.

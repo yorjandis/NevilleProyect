@@ -72,6 +72,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -83,6 +84,7 @@ import androidx.fragment.app.Fragment
 import com.ypg.neville.feature.agenda.data.AgendaItemEntity
 import com.ypg.neville.feature.agenda.data.AgendaPriority
 import com.ypg.neville.feature.agenda.data.AgendaRepository
+import com.ypg.neville.R
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
 import com.ypg.neville.model.migration.CanonicalRecord
 import com.ypg.neville.model.migration.MigrationFormat
@@ -127,13 +129,16 @@ class FragAgenda : Fragment() {
                 result.onSuccess { export ->
                     Toast.makeText(
                         requireContext(),
-                        "Exportadas ${export.countsByType.values.sum()} entrada(s) de agenda",
+                        getString(R.string.agenda_exported_count, export.countsByType.values.sum()),
                         Toast.LENGTH_LONG
                     ).show()
                 }.onFailure { error ->
                     Toast.makeText(
                         requireContext(),
-                        "Error al exportar: ${error.message ?: "desconocido"}",
+                        getString(
+                            R.string.agenda_export_error,
+                            error.message ?: getString(R.string.common_unknown_error)
+                        ),
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -210,7 +215,7 @@ class FragAgenda : Fragment() {
                     val scheduledAt = mergedDateTime(updated.activityDateMillis, updated.activityTimeMillis)
                     if (scheduledAt <= System.currentTimeMillis()) {
                         activity?.runOnUiThread {
-                            alertMessage = "La hora seleccionada ya pasó. Ajusta la fecha u hora del recordatorio a un momento futuro para poder activarlo."
+                            alertMessage = context.getString(R.string.agenda_reminder_time_past)
                         }
                         return@execute
                     }
@@ -264,18 +269,18 @@ class FragAgenda : Fragment() {
                 Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
-                            text = "Agenda",
+                            text = stringResource(R.string.agenda_title),
                             style = MaterialTheme.typography.headlineSmall,
                             fontWeight = FontWeight.Bold,
                             color = Color.Black,
                             modifier = Modifier.weight(1f)
                         )
                         TextButton(onClick = { showReminderManager = true }) {
-                            Text("Recordatorios", color = Color.Black)
+                            Text(stringResource(R.string.agenda_reminders), color = Color.Black)
                         }
                         Box {
                             IconButton(onClick = { menuExpanded = true }) {
-                                Icon(Icons.Rounded.MoreVert, contentDescription = "Más opciones", tint = Color.Black)
+                                Icon(Icons.Rounded.MoreVert, contentDescription = stringResource(R.string.common_more_options), tint = Color.Black)
                             }
                             AgendaOptionsMenu(
                                 expanded = menuExpanded,
@@ -300,7 +305,7 @@ class FragAgenda : Fragment() {
                                 },
                                 onExportSelected = {
                                     if (selectedIds.isEmpty()) {
-                                        alertMessage = "Selecciona al menos una actividad para exportar."
+                                        alertMessage = context.getString(R.string.agenda_select_activity_to_export)
                                     } else {
                                         selectedExportPassword = ""
                                         showSelectedExportDialog = true
@@ -319,7 +324,7 @@ class FragAgenda : Fragment() {
                                     val selected = listedItems.filter { it.id in selectedIds }
                                     val invalid = selected.any { mergedDateTime(it.activityDateMillis, it.activityTimeMillis) <= System.currentTimeMillis() && !it.reminderActive }
                                     if (invalid) {
-                                        alertMessage = "No se activó ningún recordatorio: al menos una actividad seleccionada tiene una hora pasada. Ajusta esas horas a futuro y vuelve a intentarlo."
+                                        alertMessage = context.getString(R.string.agenda_selected_reminder_time_past)
                                     } else {
                                         selected.filter { !it.reminderActive }.forEach { toggleReminder(it) }
                                     }
@@ -332,17 +337,17 @@ class FragAgenda : Fragment() {
                             )
                         }
                         IconButton(onClick = { editorItem = repository.create(selectedDate, System.currentTimeMillis()) }) {
-                            Icon(Icons.Rounded.Add, contentDescription = "Nueva actividad", tint = Color.Black)
+                            Icon(Icons.Rounded.Add, contentDescription = stringResource(R.string.agenda_new_activity), tint = Color.Black)
                         }
                     }
 
                     if (multiSelectionMode) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text("Seleccionadas: ${selectedIds.size}", color = Color.Black.copy(alpha = 0.75f), modifier = Modifier.weight(1f))
+                            Text(stringResource(R.string.common_selected_count, selectedIds.size), color = Color.Black.copy(alpha = 0.75f), modifier = Modifier.weight(1f))
                             TextButton(onClick = {
                                 multiSelectionMode = false
                                 selectedIds.clear()
-                            }) { Text("Cancelar", color = Color.Black) }
+                            }) { Text(stringResource(R.string.common_cancel), color = Color.Black) }
                         }
                     }
 
@@ -355,11 +360,11 @@ class FragAgenda : Fragment() {
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text("Calendario", color = Color.Black.copy(alpha = 0.75f), modifier = Modifier.weight(1f))
+                        Text(stringResource(R.string.common_calendar), color = Color.Black.copy(alpha = 0.75f), modifier = Modifier.weight(1f))
                         IconButton(onClick = { calendarExpanded = !calendarExpanded }) {
                             Icon(
                                 if (calendarExpanded) Icons.Rounded.ExpandLess else Icons.Rounded.ExpandMore,
-                                contentDescription = if (calendarExpanded) "Ocultar calendario" else "Mostrar calendario",
+                                contentDescription = if (calendarExpanded) stringResource(R.string.common_hide_calendar) else stringResource(R.string.common_show_calendar),
                                 tint = Color.Black.copy(alpha = 0.65f)
                             )
                         }
@@ -410,7 +415,7 @@ class FragAgenda : Fragment() {
                     } else {
                         LazyColumn(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                             items(collapsedSections, key = { it.dateMillis }) { section ->
-                                Text(sectionTitle(section.dateMillis), color = Color.Black, fontWeight = FontWeight.Bold)
+                                Text(sectionTitle(context, section.dateMillis), color = Color.Black, fontWeight = FontWeight.Bold)
                                 section.items.forEach { item ->
                                     AgendaCard(
                                         item = item,
@@ -463,17 +468,17 @@ class FragAgenda : Fragment() {
         if (deleteTarget.isNotEmpty()) {
             AlertDialog(
                 onDismissRequest = { deleteTarget = emptyList() },
-                title = { Text(if (deleteTarget.size == 1) "¿Eliminar actividad?" else "¿Eliminar actividades?") },
-                text = { Text("También se eliminarán sus recordatorios. Esta acción no se puede deshacer.") },
+                title = { Text(if (deleteTarget.size == 1) stringResource(R.string.agenda_delete_activity) else stringResource(R.string.agenda_delete_activities)) },
+                text = { Text(stringResource(R.string.agenda_delete_warning)) },
                 confirmButton = {
                     TextButton(onClick = {
                         val target = deleteTarget
                         deleteTarget = emptyList()
                         selectedIds.removeAll(target.map { it.id }.toSet())
                         target.forEach { deleteAgendaItem(it) }
-                    }) { Text("Eliminar") }
+                    }) { Text(stringResource(R.string.common_delete)) }
                 },
-                dismissButton = { TextButton(onClick = { deleteTarget = emptyList() }) { Text("Cancelar") } }
+                dismissButton = { TextButton(onClick = { deleteTarget = emptyList() }) { Text(stringResource(R.string.common_cancel)) } }
             )
         }
 
@@ -483,14 +488,14 @@ class FragAgenda : Fragment() {
                     selectedExportPassword = ""
                     showSelectedExportDialog = false
                 },
-                title = { Text("Exportar agenda seleccionada") },
+                title = { Text(stringResource(R.string.agenda_export_selected_title)) },
                 text = {
                     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                        Text("Se creará un archivo ${MigrationFormat.FILE_EXTENSION} solo con las actividades seleccionadas.")
+                        Text(stringResource(R.string.agenda_export_selected_description, MigrationFormat.FILE_EXTENSION))
                         OutlinedTextField(
                             value = selectedExportPassword,
                             onValueChange = { selectedExportPassword = it },
-                            label = { Text("Contraseña del archivo") },
+                            label = { Text(stringResource(R.string.common_file_password)) },
                             visualTransformation = PasswordVisualTransformation(),
                             modifier = Modifier.fillMaxWidth()
                         )
@@ -500,11 +505,11 @@ class FragAgenda : Fragment() {
                     TextButton(onClick = {
                         val selected = listedItems.filter { it.id in selectedIds }
                         if (selected.isEmpty()) {
-                            alertMessage = "Selecciona al menos una actividad para exportar."
+                            alertMessage = context.getString(R.string.agenda_select_activity_to_export)
                             return@TextButton
                         }
                         if (selectedExportPassword.isBlank()) {
-                            alertMessage = "Introduce una contraseña para el archivo."
+                            alertMessage = context.getString(R.string.common_enter_file_password)
                             return@TextButton
                         }
                         val db = NevilleRoomDatabase.getInstance(context.applicationContext)
@@ -516,7 +521,7 @@ class FragAgenda : Fragment() {
                         showSelectedExportDialog = false
                         createSelectedMigrationExportLauncher.launch("agenda-${System.currentTimeMillis()}${MigrationFormat.FILE_EXTENSION}")
                     }) {
-                        Text("Exportar")
+                        Text(stringResource(R.string.common_export))
                     }
                 },
                 dismissButton = {
@@ -524,7 +529,7 @@ class FragAgenda : Fragment() {
                         selectedExportPassword = ""
                         showSelectedExportDialog = false
                     }) {
-                        Text("Cancelar")
+                        Text(stringResource(R.string.common_cancel))
                     }
                 }
             )
@@ -533,9 +538,9 @@ class FragAgenda : Fragment() {
         alertMessage?.let { message ->
             AlertDialog(
                 onDismissRequest = { alertMessage = null },
-                title = { Text("Recordatorio") },
+                title = { Text(stringResource(R.string.agenda_reminder_title)) },
                 text = { Text(message) },
-                confirmButton = { TextButton(onClick = { alertMessage = null }) { Text("Aceptar") } }
+                confirmButton = { TextButton(onClick = { alertMessage = null }) { Text(stringResource(R.string.common_accept)) } }
             )
         }
     }
@@ -545,9 +550,9 @@ class FragAgenda : Fragment() {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Surface(shape = RoundedCornerShape(16.dp), tonalElevation = 4.dp) {
                 Column(modifier = Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("Agenda es una función premium", fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.agenda_premium_title), fontWeight = FontWeight.Bold)
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text("Activa la suscripción anual para usar este módulo.")
+                    Text(stringResource(R.string.agenda_premium_description))
                 }
             }
         }
@@ -566,7 +571,7 @@ class FragAgenda : Fragment() {
             QuickFilter.entries.forEach { filter ->
                 val active = filter == selected
                 Text(
-                    text = filter.label,
+                    text = filter.localizedLabel(),
                     color = Color.Black,
                     textAlign = TextAlign.Center,
                     maxLines = 1,
@@ -685,7 +690,7 @@ class FragAgenda : Fragment() {
     ) {
         if (items.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("No hay actividades", color = Color.Black.copy(alpha = 0.75f))
+                Text(stringResource(R.string.agenda_no_activities), color = Color.Black.copy(alpha = 0.75f))
             }
         } else {
             LazyColumn(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -748,7 +753,7 @@ class FragAgenda : Fragment() {
                         if (multiSelectionMode) {
                             Icon(
                                 if (selected) Icons.Rounded.CheckCircle else Icons.Rounded.RadioButtonUnchecked,
-                                contentDescription = "Seleccionar",
+                                contentDescription = stringResource(R.string.common_select),
                                 tint = if (selected) Color(0xFF1565C0) else Color.Black.copy(alpha = 0.55f),
                                 modifier = Modifier.size(20.dp)
                             )
@@ -757,12 +762,12 @@ class FragAgenda : Fragment() {
                         AgendaCheckIndicator(item.completed)
                         Text(item.title, fontWeight = FontWeight.Bold, color = Color.Black, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f))
                         if (item.reminderActive) {
-                            Icon(Icons.Rounded.Notifications, contentDescription = "Recordatorio activo", tint = Color.Black, modifier = Modifier.size(16.dp))
+                            Icon(Icons.Rounded.Notifications, contentDescription = stringResource(R.string.agenda_reminder_active), tint = Color.Black, modifier = Modifier.size(16.dp))
                         }
                         Text(formatTime(item.activityTimeMillis), color = Color.Black.copy(alpha = 0.7f), modifier = Modifier.padding(start = 8.dp))
                     }
                     if (item.place.isNotBlank()) {
-                        Text("Lugar: ${item.place}", color = Color.Black.copy(alpha = 0.85f), maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        Text(stringResource(R.string.agenda_place_value, item.place), color = Color.Black.copy(alpha = 0.85f), maxLines = 1, overflow = TextOverflow.Ellipsis)
                     }
                     val detail = cardDetailText(item)
                     if (detail.isNotBlank()) {
@@ -784,7 +789,7 @@ class FragAgenda : Fragment() {
                         .padding(end = 4.dp, bottom = 2.dp)
                 ) {
                     IconButton(onClick = { actionsExpanded = true }, modifier = Modifier.size(40.dp)) {
-                        Icon(Icons.Rounded.MoreVert, contentDescription = "Acciones", tint = Color.Black.copy(alpha = 0.72f))
+                        Icon(Icons.Rounded.MoreVert, contentDescription = stringResource(R.string.common_actions), tint = Color.Black.copy(alpha = 0.72f))
                     }
                     DropdownMenu(
                         expanded = actionsExpanded,
@@ -795,7 +800,7 @@ class FragAgenda : Fragment() {
                         shadowElevation = 6.dp
                     ) {
                         DropdownMenuItem(
-                            text = { Text("Editar", color = Color.Black) },
+                            text = { Text(stringResource(R.string.common_edit), color = Color.Black) },
                             leadingIcon = { Icon(Icons.Rounded.Edit, contentDescription = null, tint = Color.Black) },
                             onClick = {
                                 actionsExpanded = false
@@ -811,7 +816,7 @@ class FragAgenda : Fragment() {
                             }
                         )
                         DropdownMenuItem(
-                            text = { Text(if (item.reminderActive) "Quitar recordatorio" else "Recordatorio", color = Color.Black) },
+                            text = { Text(if (item.reminderActive) stringResource(R.string.agenda_remove_reminder) else stringResource(R.string.agenda_reminder_title), color = Color.Black) },
                             leadingIcon = { Icon(Icons.Rounded.Alarm, contentDescription = null, tint = Color.Black) },
                             onClick = {
                                 actionsExpanded = false
@@ -820,7 +825,7 @@ class FragAgenda : Fragment() {
                         )
                         Box {
                             DropdownMenuItem(
-                                text = { Text("Prioridad", color = Color.Black) },
+                                text = { Text(stringResource(R.string.agenda_priority), color = Color.Black) },
                                 leadingIcon = {
                                     Box(
                                         modifier = Modifier
@@ -845,7 +850,7 @@ class FragAgenda : Fragment() {
                                     DropdownMenuItem(
                                         text = {
                                             Text(
-                                                option.title,
+                                                option.localizedTitle(),
                                                 color = Color.Black,
                                                 fontWeight = if (isCurrent) FontWeight.Bold else FontWeight.Normal
                                             )
@@ -873,7 +878,7 @@ class FragAgenda : Fragment() {
                             }
                         }
                         DropdownMenuItem(
-                            text = { Text("Eliminar", color = Color.Black) },
+                            text = { Text(stringResource(R.string.common_delete), color = Color.Black) },
                             leadingIcon = { Icon(Icons.Rounded.Delete, contentDescription = null, tint = Color.Black) },
                             onClick = {
                                 actionsExpanded = false
@@ -893,7 +898,7 @@ class FragAgenda : Fragment() {
             true -> {
                 Icon(
                     Icons.Rounded.CheckCircle,
-                    contentDescription = "Checkeado",
+                    contentDescription = stringResource(R.string.agenda_completed),
                     tint = Color(0xFF2E7D32),
                     modifier = Modifier
                         .padding(end = 8.dp)
@@ -903,7 +908,7 @@ class FragAgenda : Fragment() {
             false -> {
                 Icon(
                     Icons.Rounded.RadioButtonUnchecked,
-                    contentDescription = "Activa",
+                    contentDescription = stringResource(R.string.agenda_active),
                     tint = Color.Black.copy(alpha = 0.62f),
                     modifier = Modifier
                         .padding(end = 8.dp)
@@ -973,7 +978,7 @@ class FragAgenda : Fragment() {
                     verticalArrangement = Arrangement.spacedBy(14.dp)
                 ) {
                     Text(
-                        text = if (initial.title.isBlank()) "Nueva actividad" else "Editar actividad",
+                        text = if (initial.title.isBlank()) stringResource(R.string.agenda_new_activity) else stringResource(R.string.agenda_edit_activity),
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
@@ -983,7 +988,7 @@ class FragAgenda : Fragment() {
                             OutlinedTextField(
                                 value = title,
                                 onValueChange = { title = it },
-                                label = { Text("Título", color = Color.Black.copy(alpha = 0.72f)) },
+                                label = { Text(stringResource(R.string.common_title), color = Color.Black.copy(alpha = 0.72f)) },
                                 singleLine = true,
                                 colors = fieldColors,
                                 shape = RoundedCornerShape(14.dp),
@@ -1038,7 +1043,7 @@ class FragAgenda : Fragment() {
                             OutlinedTextField(
                                 value = place,
                                 onValueChange = { place = it },
-                                label = { Text("Lugar", color = Color.Black.copy(alpha = 0.72f)) },
+                                label = { Text(stringResource(R.string.agenda_place), color = Color.Black.copy(alpha = 0.72f)) },
                                 colors = fieldColors,
                                 shape = RoundedCornerShape(14.dp),
                                 modifier = Modifier.fillMaxWidth()
@@ -1048,7 +1053,7 @@ class FragAgenda : Fragment() {
                             OutlinedTextField(
                                 value = note,
                                 onValueChange = { note = it },
-                                label = { Text("Nota", color = Color.Black.copy(alpha = 0.72f)) },
+                                label = { Text(stringResource(R.string.common_note), color = Color.Black.copy(alpha = 0.72f)) },
                                 minLines = 2,
                                 colors = fieldColors,
                                 shape = RoundedCornerShape(14.dp),
@@ -1059,7 +1064,7 @@ class FragAgenda : Fragment() {
                             OutlinedTextField(
                                 value = content,
                                 onValueChange = { content = it },
-                                label = { Text("Contenido", color = Color.Black.copy(alpha = 0.72f)) },
+                                label = { Text(stringResource(R.string.common_content), color = Color.Black.copy(alpha = 0.72f)) },
                                 minLines = 2,
                                 colors = fieldColors,
                                 shape = RoundedCornerShape(14.dp),
@@ -1070,7 +1075,7 @@ class FragAgenda : Fragment() {
                             Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                                 AgendaPriority.entries.forEach { option ->
                                 Text(
-                                    option.title,
+                                    option.localizedTitle(),
                                     color = Color.Black,
                                     textAlign = TextAlign.Center,
                                     modifier = Modifier
@@ -1090,7 +1095,11 @@ class FragAgenda : Fragment() {
                         }
                         item {
                             Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                                listOf(null to "No aplicar", false to "Activa", true to "Completada").forEach { (value, label) ->
+                                listOf(
+                                    null to stringResource(R.string.agenda_not_applicable),
+                                    false to stringResource(R.string.agenda_active),
+                                    true to stringResource(R.string.agenda_completed)
+                                ).forEach { (value, label) ->
                                     Text(
                                         label,
                                         color = Color.Black,
@@ -1107,7 +1116,7 @@ class FragAgenda : Fragment() {
                         }
                         item {
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text("Activar recordatorio", color = Color.Black, modifier = Modifier.weight(1f))
+                                Text(stringResource(R.string.agenda_enable_reminder), color = Color.Black, modifier = Modifier.weight(1f))
                                 Switch(checked = reminderActive, onCheckedChange = { reminderActive = it })
                             }
                         }
@@ -1116,7 +1125,7 @@ class FragAgenda : Fragment() {
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.End
                     ) {
-                        TextButton(onClick = onDismiss) { Text("Cancelar", color = Color.Black) }
+                        TextButton(onClick = onDismiss) { Text(stringResource(R.string.common_cancel), color = Color.Black) }
                         TextButton(
                             enabled = title.trim().isNotBlank(),
                             onClick = {
@@ -1134,7 +1143,7 @@ class FragAgenda : Fragment() {
                                     )
                                 )
                             }
-                        ) { Text("Guardar", color = Color.Black) }
+                        ) { Text(stringResource(R.string.common_save), color = Color.Black) }
                     }
                 }
             }
@@ -1175,13 +1184,13 @@ class FragAgenda : Fragment() {
                     verticalArrangement = Arrangement.spacedBy(14.dp)
                 ) {
                     Text(
-                        text = "Recordatorios Agenda",
+                        text = stringResource(R.string.agenda_reminders_dialog_title),
                         color = Color.Black,
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold
                     )
                     if (items.isEmpty()) {
-                        Text("No hay recordatorios activos.", color = Color.Black.copy(alpha = 0.72f))
+                        Text(stringResource(R.string.agenda_no_active_reminders), color = Color.Black.copy(alpha = 0.72f))
                     } else {
                         LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
                             items(items, key = { it.id }) { item ->
@@ -1204,7 +1213,7 @@ class FragAgenda : Fragment() {
                                             )
                                         }
                                         TextButton(onClick = { onDeactivate(item) }) {
-                                            Text("Desactivar", color = Color.Black)
+                                            Text(stringResource(R.string.common_disable), color = Color.Black)
                                         }
                                     }
                                 }
@@ -1213,7 +1222,7 @@ class FragAgenda : Fragment() {
                     }
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                         TextButton(onClick = onDismiss) {
-                            Text("Cerrar", color = Color.Black)
+                            Text(stringResource(R.string.common_close), color = Color.Black)
                         }
                     }
                 }
@@ -1237,25 +1246,33 @@ class FragAgenda : Fragment() {
         onDeactivateSelectedReminders: () -> Unit
     ) {
         DropdownMenu(expanded = expanded, onDismissRequest = onDismiss) {
-            DropdownMenuItem(text = { Text("Eliminar mes actual") }, onClick = onDeleteMonth)
-            DropdownMenuItem(text = { Text("Eliminar semana actual") }, onClick = onDeleteWeek)
-            DropdownMenuItem(text = { Text(if (multiSelectionMode) "Salir selección múltiple" else "Selección múltiple") }, onClick = onToggleSelection)
+            DropdownMenuItem(text = { Text(stringResource(R.string.agenda_delete_current_month)) }, onClick = onDeleteMonth)
+            DropdownMenuItem(text = { Text(stringResource(R.string.agenda_delete_current_week)) }, onClick = onDeleteWeek)
+            DropdownMenuItem(text = { Text(if (multiSelectionMode) stringResource(R.string.common_exit_multi_select) else stringResource(R.string.common_multi_select)) }, onClick = onToggleSelection)
             if (multiSelectionMode) {
-                DropdownMenuItem(text = { Text("Exportar seleccionadas") }, onClick = onExportSelected)
-                DropdownMenuItem(text = { Text("Eliminar seleccionadas") }, onClick = onDeleteSelected)
-                DropdownMenuItem(text = { Text("Marcar seleccionadas completadas") }, onClick = onMarkSelected)
-                DropdownMenuItem(text = { Text("Quitar modo check seleccionadas") }, onClick = onClearSelectedCheck)
-                DropdownMenuItem(text = { Text("Activar recordatorios seleccionadas") }, onClick = onActivateSelectedReminders)
-                DropdownMenuItem(text = { Text("Desactivar recordatorios seleccionadas") }, onClick = onDeactivateSelectedReminders)
+                DropdownMenuItem(text = { Text(stringResource(R.string.common_export_selected)) }, onClick = onExportSelected)
+                DropdownMenuItem(text = { Text(stringResource(R.string.common_delete_selected)) }, onClick = onDeleteSelected)
+                DropdownMenuItem(text = { Text(stringResource(R.string.agenda_mark_selected_completed)) }, onClick = onMarkSelected)
+                DropdownMenuItem(text = { Text(stringResource(R.string.agenda_clear_selected_check)) }, onClick = onClearSelectedCheck)
+                DropdownMenuItem(text = { Text(stringResource(R.string.agenda_enable_selected_reminders)) }, onClick = onActivateSelectedReminders)
+                DropdownMenuItem(text = { Text(stringResource(R.string.agenda_disable_selected_reminders)) }, onClick = onDeactivateSelectedReminders)
             }
         }
     }
 
-    private enum class QuickFilter(val label: String) {
-        HOY("Hoy"),
-        SIETE_DIAS("Próx. 7 días"),
-        CON_RECORDATORIO("Con recordatorio"),
-        TODOS("Todos")
+    private enum class QuickFilter {
+        HOY,
+        SIETE_DIAS,
+        CON_RECORDATORIO,
+        TODOS
+    }
+
+    @Composable
+    private fun QuickFilter.localizedLabel(): String = when (this) {
+        QuickFilter.HOY -> stringResource(R.string.common_today)
+        QuickFilter.SIETE_DIAS -> stringResource(R.string.agenda_next_seven_days)
+        QuickFilter.CON_RECORDATORIO -> stringResource(R.string.agenda_with_reminder)
+        QuickFilter.TODOS -> stringResource(R.string.common_all)
     }
 
     private data class AgendaSection(val dateMillis: Long, val items: List<AgendaItemEntity>)
@@ -1356,12 +1373,21 @@ private fun priorityChipBorder(priority: AgendaPriority): Color {
     }
 }
 
+@Composable
 private fun checkActionTitle(completed: Boolean?): String {
     return when (completed) {
-        null -> "Activar check"
-        true -> "Reactivar"
-        false -> "Quitar check"
+        null -> stringResource(R.string.agenda_enable_check)
+        true -> stringResource(R.string.agenda_reactivate)
+        false -> stringResource(R.string.agenda_remove_check)
     }
+}
+
+@Composable
+private fun AgendaPriority.localizedTitle(): String = when (this) {
+    AgendaPriority.NEUTRAL -> stringResource(R.string.agenda_priority_neutral)
+    AgendaPriority.BAJA -> stringResource(R.string.agenda_priority_low)
+    AgendaPriority.MEDIA -> stringResource(R.string.agenda_priority_medium)
+    AgendaPriority.ALTA -> stringResource(R.string.agenda_priority_high)
 }
 
 private fun checkActionIcon(completed: Boolean?) = when (completed) {
@@ -1468,9 +1494,9 @@ private fun monthTitle(millis: Long): String {
     return SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(millis).replaceFirstChar { it.titlecase(Locale.getDefault()) }
 }
 
-private fun sectionTitle(millis: Long): String {
+private fun sectionTitle(context: android.content.Context, millis: Long): String {
     val title = SimpleDateFormat("EEEE d MMMM", Locale.getDefault()).format(millis).replaceFirstChar { it.titlecase(Locale.getDefault()) }
-    return if (isSameDay(millis, System.currentTimeMillis())) "Hoy · $title" else title
+    return if (isSameDay(millis, System.currentTimeMillis())) context.getString(R.string.agenda_today_section, title) else title
 }
 
 private fun formatDate(millis: Long): String = SimpleDateFormat("d MMM yyyy", Locale.getDefault()).format(millis)

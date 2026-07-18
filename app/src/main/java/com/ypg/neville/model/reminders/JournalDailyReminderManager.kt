@@ -2,17 +2,15 @@ package com.ypg.neville.model.reminders
 
 import android.content.Context
 import androidx.core.content.edit
+import com.ypg.neville.R
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
 import com.ypg.neville.model.preferences.DbPreferences
 
 object JournalDailyReminderManager {
 
     private const val REMINDER_ID = "journal_daily_reminder"
-    private const val REMINDER_TITLE = "Recordatorio Diario"
-
     const val DEFAULT_HOUR = 22
     const val DEFAULT_MINUTE = 0
-    const val DEFAULT_MESSAGE = "Recodatorio de escribir en Diario la experiencia del día"
 
     private const val PREF_ENABLED = "journal_daily_reminder_enabled"
     private const val PREF_HOUR = "journal_daily_reminder_hour"
@@ -23,10 +21,11 @@ object JournalDailyReminderManager {
         val enabled: Boolean,
         val hour: Int,
         val minute: Int,
-        val customMessage: String
+        val customMessage: String,
+        val defaultMessage: String
     ) {
         val resolvedMessage: String
-            get() = customMessage.trim().ifBlank { DEFAULT_MESSAGE }
+            get() = customMessage.trim().ifBlank { defaultMessage }
     }
 
     fun readConfig(context: Context): Config {
@@ -35,7 +34,8 @@ object JournalDailyReminderManager {
             enabled = prefs.getBoolean(PREF_ENABLED, true),
             hour = prefs.getInt(PREF_HOUR, DEFAULT_HOUR).coerceIn(0, 23),
             minute = prefs.getInt(PREF_MINUTE, DEFAULT_MINUTE).coerceIn(0, 59),
-            customMessage = prefs.getString(PREF_MESSAGE, "").orEmpty()
+            customMessage = prefs.getString(PREF_MESSAGE, "").orEmpty(),
+            defaultMessage = context.getString(R.string.global_journal_default_message)
         )
     }
 
@@ -100,7 +100,7 @@ object JournalDailyReminderManager {
 
         val base = existing ?: ReminderEntity(
             id = REMINDER_ID,
-            title = REMINDER_TITLE,
+            title = appContext.getString(R.string.global_journal_reminder_title),
             message = config.resolvedMessage,
             frequencyType = "daily",
             isStarted = config.enabled,
@@ -111,7 +111,7 @@ object JournalDailyReminderManager {
 
         val updated = ReminderFrequency.applyToEntity(
             base.copy(
-                title = REMINDER_TITLE,
+                title = appContext.getString(R.string.global_journal_reminder_title),
                 message = config.resolvedMessage,
                 isPinned = true
             ),

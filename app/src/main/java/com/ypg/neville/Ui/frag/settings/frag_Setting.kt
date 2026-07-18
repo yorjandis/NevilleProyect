@@ -56,6 +56,7 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLocale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.font.FontWeight
@@ -97,6 +98,7 @@ class frag_Setting : Fragment() {
     private var migrationImportPreview: ImportPreview? by mutableStateOf(null)
     private var migrationStatusMessage: String? by mutableStateOf(null)
     private var migrationResultDialogMessage: String? by mutableStateOf(null)
+    private var migrationResultIsError by mutableStateOf(false)
     private var recoveredPassphraseMessage: String? by mutableStateOf(null)
     private val notesBiometricLockPrefKey = "notes_biometric_lock_enabled"
     private val defaultBackupFileName = "neville_backup_latest.nvbak"
@@ -114,14 +116,14 @@ class frag_Setting : Fragment() {
             result.onSuccess { provider ->
                 Toast.makeText(
                     requireContext(),
-                    "Proveedor conectado: ${provider.displayName}",
+                    getString(R.string.settings_provider_connected_toast, provider.displayName),
                     Toast.LENGTH_SHORT
                 ).show()
                 settingsUiRefreshTick++
             }.onFailure { error ->
                 Toast.makeText(
                     requireContext(),
-                    error.message ?: "No se pudo conectar el proveedor",
+                    error.message ?: getString(R.string.settings_provider_connect_error),
                     Toast.LENGTH_LONG
                 ).show()
             }
@@ -139,14 +141,14 @@ class frag_Setting : Fragment() {
             result.onSuccess { provider ->
                 Toast.makeText(
                     requireContext(),
-                    "Proveedor conectado: ${provider.displayName}",
+                    getString(R.string.settings_provider_connected_toast, provider.displayName),
                     Toast.LENGTH_SHORT
                 ).show()
                 settingsUiRefreshTick++
             }.onFailure { error ->
                 Toast.makeText(
                     requireContext(),
-                    error.message ?: "No se pudo conectar el proveedor",
+                    error.message ?: getString(R.string.settings_provider_connect_error),
                     Toast.LENGTH_LONG
                 ).show()
             }
@@ -166,7 +168,7 @@ class frag_Setting : Fragment() {
                     is CloudBackupManager.RestoreResult.Success -> {
                         Toast.makeText(
                             requireContext(),
-                            "Restauración completada. Datos actualizados.",
+                            getString(R.string.settings_restore_complete),
                             Toast.LENGTH_LONG
                         ).show()
                         settingsUiRefreshTick++
@@ -174,7 +176,7 @@ class frag_Setting : Fragment() {
                     is CloudBackupManager.RestoreResult.Error -> {
                         Toast.makeText(
                             requireContext(),
-                            "Error al restaurar: ${result.reason}",
+                            getString(R.string.settings_restore_error, result.reason),
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -201,14 +203,19 @@ class frag_Setting : Fragment() {
                 result.onSuccess { export ->
                     migrationStatusMessage = buildExportSummary(export.countsByType)
                     migrationResultDialogMessage = migrationStatusMessage
+                    migrationResultIsError = false
                     Toast.makeText(
                         requireContext(),
-                        "Archivo ${MigrationFormat.FILE_EXTENSION} creado",
+                        getString(R.string.settings_migration_file_created, MigrationFormat.FILE_EXTENSION),
                         Toast.LENGTH_LONG
                     ).show()
                 }.onFailure { error ->
-                    migrationStatusMessage = "Error al exportar: ${error.message ?: "desconocido"}"
+                    migrationStatusMessage = getString(
+                        R.string.settings_migration_export_error,
+                        error.message ?: getString(R.string.settings_unknown_error)
+                    )
                     migrationResultDialogMessage = migrationStatusMessage
+                    migrationResultIsError = true
                     Toast.makeText(requireContext(), migrationStatusMessage, Toast.LENGTH_LONG).show()
                 }
             }
@@ -233,8 +240,12 @@ class frag_Setting : Fragment() {
                     migrationStatusMessage = buildPreviewSummary(preview)
                 }.onFailure { error ->
                     migrationImportPreview = null
-                    migrationStatusMessage = "Error al leer importación: ${error.message ?: "contraseña o archivo inválidos"}"
+                    migrationStatusMessage = getString(
+                        R.string.settings_migration_read_error,
+                        error.message ?: getString(R.string.settings_invalid_password_or_file)
+                    )
                     migrationResultDialogMessage = migrationStatusMessage
+                    migrationResultIsError = true
                     Toast.makeText(requireContext(), migrationStatusMessage, Toast.LENGTH_LONG).show()
                 }
             }
@@ -418,12 +429,12 @@ class frag_Setting : Fragment() {
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Text(
-                        text = "Ajustes",
+                        text = stringResource(R.string.settings_title),
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.SemiBold
                     )
                     Text(
-                        text = "Personaliza apariencia, tamaños y contenido de inicio.",
+                        text = stringResource(R.string.settings_subtitle),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -432,12 +443,12 @@ class frag_Setting : Fragment() {
 
             item {
                 SettingSection(
-                    title = "Apariencia",
-                    subtitle = "Tema y colores del contenido"
+                    title = stringResource(R.string.settings_appearance_title),
+                    subtitle = stringResource(R.string.settings_appearance_subtitle)
                 ) {
                     SwitchField(
-                        title = "Tema oscuro",
-                        description = "Activa o desactiva el modo oscuro de la aplicación",
+                        title = stringResource(R.string.settings_dark_theme),
+                        description = stringResource(R.string.settings_dark_theme_description),
                         checked = temaNoche,
                         onCheckedChange = {
                             temaNoche = it
@@ -450,38 +461,38 @@ class frag_Setting : Fragment() {
                     )
                     FieldDivider()
                     ActionField(
-                        title = "Color de fuente en Inicio >",
-                        description = "Color del texto de frase en FragHome"
+                        title = stringResource(R.string.settings_home_font_color),
+                        description = stringResource(R.string.settings_home_font_color_description)
                     ) {
                         ColorPickerManager.showColorPicker(
                             context,
                             prefs.getInt("color_letra_frases_home", prefs.getInt("color_letra_frases", 0xFF1F2A37.toInt())),
                             "color_letra_frases_home",
-                            "Color de fuente en Inicio"
+                            context.getString(R.string.settings_home_font_color_picker_title)
                         )
                     }
                     FieldDivider()
                     ActionField(
-                        title = "Color superior del degradado >",
-                        description = "Primer color del degradado en Inicio"
+                        title = stringResource(R.string.settings_gradient_top_color),
+                        description = stringResource(R.string.settings_home_gradient_top_description)
                     ) {
                         ColorPickerManager.showColorPicker(
                             context,
                             prefs.getInt("color_fondo_a", 0xFFC69FF9.toInt()),
                             "color_fondo_a",
-                            "Color superior del degradado"
+                            context.getString(R.string.settings_gradient_top_color_picker_title)
                         )
                     }
                     FieldDivider()
                     ActionField(
-                        title = "Color inferior del degradado >",
-                        description = "Segundo color del degradado en Inicio"
+                        title = stringResource(R.string.settings_gradient_bottom_color),
+                        description = stringResource(R.string.settings_home_gradient_bottom_description)
                     ) {
                         ColorPickerManager.showColorPicker(
                             context,
                             prefs.getInt("color_fondo_b", 0xFFC4AA8E.toInt()),
                             "color_fondo_b",
-                            "Color inferior del degradado"
+                            context.getString(R.string.settings_gradient_bottom_color_picker_title)
                         )
                     }
                 }
@@ -489,12 +500,12 @@ class frag_Setting : Fragment() {
 
             item {
                 SettingSection(
-                    title = "Tamaño de Letra",
-                    subtitle = "Ajuste independiente por tipo de contenido"
+                    title = stringResource(R.string.settings_font_size_title),
+                    subtitle = stringResource(R.string.settings_font_size_subtitle)
                 ) {
                     SliderField(
-                        title = "Texto de Frases",
-                        description = "Inicio y vistas de autor",
+                        title = stringResource(R.string.settings_quote_text),
+                        description = stringResource(R.string.settings_quote_text_description),
                         value = fuenteFrase,
                         range = 14..40
                     ) {
@@ -503,8 +514,8 @@ class frag_Setting : Fragment() {
                     }
                     FieldDivider()
                     SliderField(
-                        title = "Listados",
-                        description = "Conferencias, Enciclopedia, Evidencia y Reflexiones",
+                        title = stringResource(R.string.settings_lists),
+                        description = stringResource(R.string.settings_lists_description),
                         value = fuenteListados,
                         range = 12..40
                     ) {
@@ -513,8 +524,8 @@ class frag_Setting : Fragment() {
                     }
                     FieldDivider()
                     SliderField(
-                        title = "Zoom de contenido",
-                        description = "Visor interno de texto",
+                        title = stringResource(R.string.settings_content_zoom),
+                        description = stringResource(R.string.settings_content_zoom_description),
                         value = fuenteConf,
                         range = 100..250
                     ) {
@@ -526,42 +537,42 @@ class frag_Setting : Fragment() {
 
             item {
                 SettingSection(
-                    title = "Colores de lectura",
-                    subtitle = "Fondo degradado y color de texto para el visualizador de contenido"
+                    title = stringResource(R.string.settings_reading_colors_title),
+                    subtitle = stringResource(R.string.settings_reading_colors_subtitle)
                 ) {
                     ActionField(
-                        title = "Color superior del degradado >",
+                        title = stringResource(R.string.settings_gradient_top_color),
                         description = ""
                     ) {
                         ColorPickerManager.showColorPicker(
                             context,
                             prefs.getInt("color_lectura_fondo_a", 0xFFF8F4EA.toInt()),
                             "color_lectura_fondo_a",
-                            "Color superior del degradado"
+                            context.getString(R.string.settings_gradient_top_color_picker_title)
                         )
                     }
                     FieldDivider()
                     ActionField(
-                        title = "Color inferior del degradado >",
+                        title = stringResource(R.string.settings_gradient_bottom_color),
                         description = ""
                     ) {
                         ColorPickerManager.showColorPicker(
                             context,
                             prefs.getInt("color_lectura_fondo_b", 0xFFECE3D3.toInt()),
                             "color_lectura_fondo_b",
-                            "Color inferior del degradado"
+                            context.getString(R.string.settings_gradient_bottom_color_picker_title)
                         )
                     }
                     FieldDivider()
                     ActionField(
-                        title = "Color del texto del visor de contenido >",
-                        description = "Color principal del texto en el visor de contenido"
+                        title = stringResource(R.string.settings_reader_text_color),
+                        description = stringResource(R.string.settings_reader_text_color_description)
                     ) {
                         ColorPickerManager.showColorPicker(
                             context,
                             prefs.getInt("color_lectura_texto", 0xFF2B2115.toInt()),
                             "color_lectura_texto",
-                            "Color de texto del visor de contenido"
+                            context.getString(R.string.settings_reader_text_color_picker_title)
                         )
                     }
                 }
@@ -569,21 +580,21 @@ class frag_Setting : Fragment() {
 
             item {
                 SettingSection(
-                    title = "Frases en Inicio",
-                    subtitle = "Selecciona qué categorías y autores mostrar en la pantalla inicial"
+                    title = stringResource(R.string.settings_home_quotes_title),
+                    subtitle = stringResource(R.string.settings_home_quotes_subtitle)
                 ) {
                     val anyAuthorActive = filterAutorNeville || filterAutorJoe || filterAutorGregg || filterAutorBruce
                     val hasFavOrNoteFilter = filterFavoritas || filterConNota
                     val favNoteDescriptor = when {
-                        filterFavoritas && filterConNota -> "favoritas/con notas"
-                        filterFavoritas -> "favoritas"
-                        else -> "con notas"
+                        filterFavoritas && filterConNota -> stringResource(R.string.settings_filter_favorites_with_notes)
+                        filterFavoritas -> stringResource(R.string.settings_filter_favorites_lowercase)
+                        else -> stringResource(R.string.settings_filter_with_notes_lowercase)
                     }
 
                     Box(modifier = Modifier.fillMaxWidth()) {
                         ActionField(
-                            title = "Seleccionar filtros >",
-                            description = "Abre el menú y activa/desactiva filtros de Inicio"
+                            title = stringResource(R.string.settings_select_filters),
+                            description = stringResource(R.string.settings_select_filters_description)
                         ) {
                             showFrasesInicioFilterMenu = true
                         }
@@ -616,7 +627,7 @@ class frag_Setting : Fragment() {
                                 }
                             )
                             DropdownMenuItem(
-                                text = { Text(if (filterOtros) "✓ Otros autores" else "Otros autores") },
+                                text = { Text(if (filterOtros) stringResource(R.string.settings_checked_other_authors) else stringResource(R.string.settings_other_authors)) },
                                 onClick = {
                                     val newValue = !filterOtros
                                     filterOtros = newValue
@@ -624,7 +635,7 @@ class frag_Setting : Fragment() {
                                 }
                             )
                             DropdownMenuItem(
-                                text = { Text(if (filterSalud) "✓ Salud" else "Salud") },
+                                text = { Text(if (filterSalud) stringResource(R.string.settings_checked_health) else stringResource(R.string.settings_health)) },
                                 onClick = {
                                     val newValue = !filterSalud
                                     filterSalud = newValue
@@ -632,7 +643,7 @@ class frag_Setting : Fragment() {
                                 }
                             )
                             DropdownMenuItem(
-                                text = { Text(if (filterFavoritas) "✓ Frases Favoritas" else "Frases Favoritas") },
+                                text = { Text(if (filterFavoritas) stringResource(R.string.settings_checked_favorite_quotes) else stringResource(R.string.settings_favorite_quotes)) },
                                 onClick = {
                                     val newValue = !filterFavoritas
                                     filterFavoritas = newValue
@@ -640,7 +651,7 @@ class frag_Setting : Fragment() {
                                 }
                             )
                             DropdownMenuItem(
-                                text = { Text(if (filterPersonales) "✓ Frases Personales" else "Frases Personales") },
+                                text = { Text(if (filterPersonales) stringResource(R.string.settings_checked_personal_quotes) else stringResource(R.string.settings_personal_quotes)) },
                                 onClick = {
                                     val newValue = !filterPersonales
                                     filterPersonales = newValue
@@ -648,7 +659,7 @@ class frag_Setting : Fragment() {
                                 }
                             )
                             DropdownMenuItem(
-                                text = { Text(if (filterConNota) "✓ Frases con nota" else "Frases con nota") },
+                                text = { Text(if (filterConNota) stringResource(R.string.settings_checked_quotes_with_note) else stringResource(R.string.settings_quotes_with_note)) },
                                 onClick = {
                                     val newValue = !filterConNota
                                     filterConNota = newValue
@@ -661,9 +672,9 @@ class frag_Setting : Fragment() {
                     if (hasFavOrNoteFilter) {
                         Text(
                             text = if (anyAuthorActive) {
-                                "Se mostrarán solo las frases $favNoteDescriptor de los autores activos."
+                                stringResource(R.string.settings_filtered_active_authors, favNoteDescriptor)
                             } else {
-                                "Se mostrarán las frases $favNoteDescriptor de todos los autores."
+                                stringResource(R.string.settings_filtered_all_authors, favNoteDescriptor)
                             },
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -683,23 +694,23 @@ class frag_Setting : Fragment() {
                         if (filterAutorBruce) add("Bruce" to {
                             applyAuthorSelection(bruce = false)
                         })
-                        if (filterOtros) add("Otros" to {
+                        if (filterOtros) add(stringResource(R.string.settings_filter_other) to {
                             filterOtros = false
                             prefs.edit { putBoolean("home_filter_otros", false) }
                         })
-                        if (filterSalud) add("Salud" to {
+                        if (filterSalud) add(stringResource(R.string.settings_health) to {
                             filterSalud = false
                             prefs.edit { putBoolean("home_filter_salud", false) }
                         })
-                        if (filterFavoritas) add("Favoritas" to {
+                        if (filterFavoritas) add(stringResource(R.string.settings_filter_favorites) to {
                             filterFavoritas = false
                             prefs.edit { putBoolean("home_filter_favoritas", false) }
                         })
-                        if (filterPersonales) add("Personales" to {
+                        if (filterPersonales) add(stringResource(R.string.settings_filter_personal) to {
                             filterPersonales = false
                             prefs.edit { putBoolean("home_filter_personales", false) }
                         })
-                        if (filterConNota) add("Con nota" to {
+                        if (filterConNota) add(stringResource(R.string.settings_filter_with_note) to {
                             filterConNota = false
                             prefs.edit { putBoolean("home_filter_con_nota", false) }
                         })
@@ -707,7 +718,7 @@ class frag_Setting : Fragment() {
 
                     if (activeFilters.isEmpty()) {
                         Text(
-                            text = "Sin filtros activos",
+                            text = stringResource(R.string.settings_no_active_filters),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -727,26 +738,26 @@ class frag_Setting : Fragment() {
 
             item {
                 SettingSection(
-                    title = "Espacio Calma",
-                    subtitle = "Configura el contenido personalizado de frases para las partículas"
+                    title = stringResource(R.string.settings_calm_space_title),
+                    subtitle = stringResource(R.string.settings_calm_space_subtitle)
                 ) {
                     ActionField(
-                        title = "Gestionar frases personales de Calma >",
-                        description = "Agrega, edita o elimina frases personales para Espacio Calma"
+                        title = stringResource(R.string.settings_manage_calm_quotes),
+                        description = stringResource(R.string.settings_manage_calm_quotes_description)
                     ) {
                         MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_calm_phrase_manager)
                     }
                     FieldDivider()
                     ActionField(
-                        title = "Gestionar fondos personalizados >",
-                        description = "Agrega o elimina imágenes de fondo para Espacio Calma"
+                        title = stringResource(R.string.settings_manage_calm_backgrounds),
+                        description = stringResource(R.string.settings_manage_calm_backgrounds_description)
                     ) {
                         MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_calm_backgrounds_manager)
                     }
                     FieldDivider()
                     ActionField(
-                        title = "Gestionar música personalizada >",
-                        description = "Agrega o elimina pistas de música para Espacio Calma"
+                        title = stringResource(R.string.settings_manage_calm_music),
+                        description = stringResource(R.string.settings_manage_calm_music_description)
                     ) {
                         MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_calm_music_manager)
                     }
@@ -755,12 +766,12 @@ class frag_Setting : Fragment() {
 
             item {
                 SettingSection(
-                    title = "Vista Home Alternativa",
-                    subtitle = "Totales objetivo usados por los indicadores circulares de progreso"
+                    title = stringResource(R.string.settings_alternative_home_title),
+                    subtitle = stringResource(R.string.settings_alternative_home_subtitle)
                 ) {
                     SliderField(
-                        title = "Total de Presencia",
-                        description = "Eventos necesarios para completar el indicador",
+                        title = stringResource(R.string.settings_presence_total),
+                        description = stringResource(R.string.settings_presence_total_description),
                         value = homeAlternativePresenceTotal,
                         range = FragHome.HOME_ALTERNATIVE_PRESENCE_TOTAL_DEFAULT..50
                     ) { value ->
@@ -775,8 +786,8 @@ class frag_Setting : Fragment() {
                     }
                     FieldDivider()
                     SliderField(
-                        title = "Total de Metas",
-                        description = "Metas activas necesarias para completar el indicador",
+                        title = stringResource(R.string.settings_goals_total),
+                        description = stringResource(R.string.settings_goals_total_description),
                         value = homeAlternativeGoalsTotal,
                         range = FragHome.HOME_ALTERNATIVE_GOALS_TOTAL_DEFAULT..20
                     ) { value ->
@@ -791,8 +802,8 @@ class frag_Setting : Fragment() {
                     }
                     FieldDivider()
                     SliderField(
-                        title = "Total de Diario",
-                        description = "Entradas de hoy necesarias para completar el indicador",
+                        title = stringResource(R.string.settings_diary_total),
+                        description = stringResource(R.string.settings_diary_total_description),
                         value = homeAlternativeDiaryTotal,
                         range = FragHome.HOME_ALTERNATIVE_DIARY_TOTAL_DEFAULT..20
                     ) { value ->
@@ -810,26 +821,26 @@ class frag_Setting : Fragment() {
 
             item {
                 SettingSection(
-                    title = "Coherencia Cardio Cerebral",
-                    subtitle = "Personaliza las frases que acompañan las cuatro fases de la sesión"
+                    title = stringResource(R.string.settings_coherence_title),
+                    subtitle = stringResource(R.string.settings_coherence_subtitle)
                 ) {
                     ActionField(
-                        title = "Frases de la sesión >",
-                        description = "Dos frases por fase, mostradas en sincronía con la respiración"
+                        title = stringResource(R.string.settings_session_quotes),
+                        description = stringResource(R.string.settings_session_quotes_description)
                     ) {
                         cardioSessionPhrases = CardioCoherencePreferences.loadSessionPhrases(context)
                         showCardioPhrasesDialog = true
                     }
                     FieldDivider()
                     ActionField(
-                        title = "Restaurar frases por defecto",
-                        description = "Recupera las ocho frases originales"
+                        title = stringResource(R.string.settings_restore_default_quotes),
+                        description = stringResource(R.string.settings_restore_default_quotes_description)
                     ) {
                         CardioCoherencePreferences.resetSessionPhrases(context)
                         cardioSessionPhrases = CardioCoherencePreferences.defaultSessionPhrases
                         Toast.makeText(
                             context,
-                            "Frases de Coherencia restauradas",
+                            context.getString(R.string.settings_coherence_quotes_restored),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -838,11 +849,11 @@ class frag_Setting : Fragment() {
 
             item {
                 SettingSection(
-                    title = "Presencia Consciente",
-                    subtitle = "Personaliza la frase que aparece al registrar un retorno al presente"
+                    title = stringResource(R.string.settings_presence_title),
+                    subtitle = stringResource(R.string.settings_presence_subtitle)
                 ) {
                     ActionField(
-                        title = "Frase de celebración >",
+                        title = stringResource(R.string.settings_celebration_quote),
                         description = presenceCelebrationPhrase.trim().ifBlank {
                             PresenceSettings.DEFAULT_CELEBRATION_PHRASE
                         }
@@ -852,7 +863,7 @@ class frag_Setting : Fragment() {
                     }
                     FieldDivider()
                     ActionField(
-                        title = "Restaurar frase por defecto",
+                        title = stringResource(R.string.settings_restore_default_quote),
                         description = PresenceSettings.DEFAULT_CELEBRATION_PHRASE
                     ) {
                         presenceCelebrationPhrase = PresenceSettings.DEFAULT_CELEBRATION_PHRASE
@@ -863,12 +874,12 @@ class frag_Setting : Fragment() {
                                 PresenceSettings.DEFAULT_CELEBRATION_PHRASE
                             )
                         }
-                        Toast.makeText(context, "Frase de Presencia restaurada", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.settings_presence_quote_restored), Toast.LENGTH_SHORT).show()
                     }
                     FieldDivider()
                     SwitchField(
-                        title = if (presenceHomeButtonEnabled) "Botón en Home activo" else "Botón en Home oculto",
-                        description = "Muestra u oculta el acceso directo a Presencia junto a Agenda y Ritual del día.",
+                        title = if (presenceHomeButtonEnabled) stringResource(R.string.settings_home_button_active) else stringResource(R.string.settings_home_button_hidden),
+                        description = stringResource(R.string.settings_presence_home_button_description),
                         checked = presenceHomeButtonEnabled
                     ) { enabled ->
                         presenceHomeButtonEnabled = enabled
@@ -879,12 +890,12 @@ class frag_Setting : Fragment() {
 
             item {
                 SettingSection(
-                    title = "Agenda",
-                    subtitle = "Controla el acceso directo de Agenda en Inicio"
+                    title = stringResource(R.string.settings_agenda_title),
+                    subtitle = stringResource(R.string.settings_agenda_subtitle)
                 ) {
                     SwitchField(
-                        title = if (agendaHomeButtonEnabled) "Botón en FragHome activo" else "Botón en FragHome oculto",
-                        description = "Muestra u oculta el botón de Agenda junto a Ritual del día en la pantalla de inicio.",
+                        title = if (agendaHomeButtonEnabled) stringResource(R.string.settings_home_button_active) else stringResource(R.string.settings_home_button_hidden),
+                        description = stringResource(R.string.settings_agenda_home_button_description),
                         checked = agendaHomeButtonEnabled
                     ) { enabled ->
                         agendaHomeButtonEnabled = enabled
@@ -895,12 +906,12 @@ class frag_Setting : Fragment() {
 
             item {
                 SettingSection(
-                    title = "Notas",
-                    subtitle = "Controla el acceso a la lista de notas"
+                    title = stringResource(R.string.settings_notes_title),
+                    subtitle = stringResource(R.string.settings_notes_subtitle)
                 ) {
                     SwitchField(
-                        title = "Bloqueo biométrico (Suscripción)",
-                        description = "Solicita biometría para abrir la lista de Notas",
+                        title = stringResource(R.string.settings_biometric_lock),
+                        description = stringResource(R.string.settings_biometric_lock_description),
                         checked = notesBiometricLockEnabled
                     ) { newValue ->
                         if (!newValue) {
@@ -909,7 +920,7 @@ class frag_Setting : Fragment() {
                                 prefs.edit { putBoolean(notesBiometricLockPrefKey, false) }
                                 Toast.makeText(
                                     context,
-                                    "Bloqueo biométrico de Notas desactivado",
+                                    context.getString(R.string.settings_notes_biometric_disabled),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -928,7 +939,7 @@ class frag_Setting : Fragment() {
                         if (canAuth != BiometricManager.BIOMETRIC_SUCCESS) {
                             Toast.makeText(
                                 context,
-                                "No hay biometría disponible/configurada en este dispositivo",
+                                context.getString(R.string.settings_biometric_unavailable),
                                 Toast.LENGTH_LONG
                             ).show()
                             return@SwitchField
@@ -942,31 +953,27 @@ class frag_Setting : Fragment() {
 
             item {
                 SettingSection(
-                    title = "Recordatorio Diario",
+                    title = stringResource(R.string.settings_daily_reminder_title),
                     subtitle = if (hasPremiumSubscription) {
-                        "Notificación diaria para escribir en tu Diario, Reflexionar, tomar notas, etc"
+                        stringResource(R.string.settings_daily_reminder_premium_subtitle)
                     } else {
-                        "Función Premium: suscríbete para activar recordatorios diarios"
+                        stringResource(R.string.settings_daily_reminder_locked_subtitle)
                     }
                 ) {
                     SwitchField(
-                        title = if (journalReminderEnabled) "Recordatorio activo" else "Recordatorio pausado",
+                        title = if (journalReminderEnabled) stringResource(R.string.settings_reminder_active) else stringResource(R.string.settings_reminder_paused),
                         description = if (hasPremiumSubscription) {
                             val locale = LocalLocale.current.platformLocale
                             if (journalReminderEnabled) {
-                                "Se enviará cada día a las ${
-                                    String.format(
-                                        locale,
-                                        "%02d:%02d",
-                                        journalReminderHour,
-                                        journalReminderMinute
-                                    )
-                                }"
+                                stringResource(
+                                    R.string.settings_reminder_sends_daily_at,
+                                    String.format(locale, "%02d:%02d", journalReminderHour, journalReminderMinute)
+                                )
                             } else {
-                                "Actívalo para volver a programar el recordatorio"
+                                stringResource(R.string.settings_reminder_enable_description)
                             }
                         } else {
-                            "Disponible solo para usuarios con suscripción activa"
+                            stringResource(R.string.settings_subscription_required)
                         },
                         checked = journalReminderEnabled
                     ) { enabled ->
@@ -984,12 +991,10 @@ class frag_Setting : Fragment() {
                     FieldDivider()
                     val locale = LocalLocale.current.platformLocale
                     ActionField(
-                        title = "Hora de aviso >",
-                        description = String.format(
-                            locale,
-                            "Programado para las %02d:%02d cada día",
-                            journalReminderHour,
-                            journalReminderMinute
+                        title = stringResource(R.string.settings_notification_time),
+                        description = stringResource(
+                            R.string.settings_scheduled_daily_at,
+                            String.format(locale, "%02d:%02d", journalReminderHour, journalReminderMinute)
                         )
                     ) {
                         if (!hasPremiumSubscription) {
@@ -1001,9 +1006,12 @@ class frag_Setting : Fragment() {
 
                     FieldDivider()
                     ActionField(
-                        title = "Texto de notificación (opcional) >",
+                        title = stringResource(R.string.settings_notification_text),
                         description = journalReminderCustomMessage.trim().ifBlank {
-                            "Por defecto: ${JournalDailyReminderManager.DEFAULT_MESSAGE}"
+                            stringResource(
+                                R.string.settings_default_value,
+                                stringResource(R.string.global_journal_default_message)
+                            )
                         }
                     ) {
                         if (!hasPremiumSubscription) {
@@ -1018,42 +1026,42 @@ class frag_Setting : Fragment() {
 
             item {
                 SettingSection(
-                    title = "Backup de Base de Datos",
-                    subtitle = "Conecta Drive/OneDrive/otros y programa respaldos automáticos"
+                    title = stringResource(R.string.settings_backup_title),
+                    subtitle = stringResource(R.string.settings_backup_subtitle)
                 ) {
                     Text(
-                        text = "Cifrado activo: AES-GCM (Post-Cuántico)",
+                        text = stringResource(R.string.settings_encryption_active),
                         style = MaterialTheme.typography.bodySmall,
                         color = Color(0xFFFF9800)
                     )
                     FieldDivider()
                     ActionField(
-                        title = if (providerInfo == null) "Conectar proveedor personal >" else "Proveedor conectado",
+                        title = if (providerInfo == null) stringResource(R.string.settings_connect_provider) else stringResource(R.string.settings_provider_connected),
                         description = providerInfo?.let {
-                            "${it.displayName} (${it.authority}) · ${it.destinationKind.toUiLabel()}"
-                        } ?: "Selecciona una carpeta en Drive, OneDrive u otro proveedor"
+                            "${it.displayName} (${it.authority}) · ${it.destinationKind.toUiLabel(context)}"
+                        } ?: stringResource(R.string.settings_provider_description)
                     ) {
                         showProviderDestinationDialog = true
                     }
                     if (providerInfo != null) {
                         FieldDivider()
                         ActionField(
-                            title = "Desconectar proveedor >",
-                            description = "Quita el enlace y detiene backups automáticos"
+                            title = stringResource(R.string.settings_disconnect_provider),
+                            description = stringResource(R.string.settings_disconnect_provider_description)
                         ) {
                             backupManager.disconnectProvider()
                             settingsUiRefreshTick++
-                            Toast.makeText(context, "Proveedor desconectado", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, context.getString(R.string.settings_provider_disconnected), Toast.LENGTH_SHORT).show()
                         }
                     }
 
                     FieldDivider()
                     ActionField(
-                        title = if (hasSavedPassphrase) "Actualizar clave de cifrado >" else "Configurar clave de cifrado >",
+                        title = if (hasSavedPassphrase) stringResource(R.string.settings_update_encryption_key) else stringResource(R.string.settings_configure_encryption_key),
                         description = if (hasSavedPassphrase) {
-                            "Protege backups y recuperación de Notas/Diario"
+                            stringResource(R.string.settings_key_protects_description)
                         } else {
-                            "Requerida para recuperar Notas/Diario tras reinstalar"
+                            stringResource(R.string.settings_key_required_description)
                         }
                     ) {
                         currentPassphraseInput = ""
@@ -1066,8 +1074,8 @@ class frag_Setting : Fragment() {
                     if (hasSavedPassphrase) {
                         FieldDivider()
                         ActionField(
-                            title = "Eliminar clave guardada >",
-                            description = "Requiere la clave actual"
+                            title = stringResource(R.string.settings_delete_saved_key),
+                            description = stringResource(R.string.settings_current_key_required)
                         ) {
                             deleteCurrentPassphraseInput = ""
                             showDeletePassphraseDialog = true
@@ -1077,8 +1085,8 @@ class frag_Setting : Fragment() {
                     if (hasSavedPassphrase) {
                         FieldDivider()
                         ActionField(
-                            title = "Recuperar contraseña con biometría >",
-                            description = "Se mostrará la contraseña tras autenticar con biometría"
+                            title = stringResource(R.string.settings_recover_password_biometrics),
+                            description = stringResource(R.string.settings_recover_password_biometrics_description)
                         ) {
                             val canAuth = BiometricManager.from(context).canAuthenticate(
                                 BiometricManager.Authenticators.BIOMETRIC_STRONG or
@@ -1087,7 +1095,7 @@ class frag_Setting : Fragment() {
                             if (canAuth != BiometricManager.BIOMETRIC_SUCCESS) {
                                 Toast.makeText(
                                     context,
-                                    "No hay biometría disponible/configurada en este dispositivo",
+                                    context.getString(R.string.settings_biometric_unavailable),
                                     Toast.LENGTH_LONG
                                 ).show()
                                 return@ActionField
@@ -1098,33 +1106,33 @@ class frag_Setting : Fragment() {
 
                     FieldDivider()
                     ActionField(
-                        title = "Guía de recuperación >",
-                        description = "Cómo recuperar la contraseña con biometría"
+                        title = stringResource(R.string.settings_recovery_guide),
+                        description = stringResource(R.string.settings_recovery_guide_description)
                     ) {
                         showRecoveryGuideDialog = true
                     }
 
                     FieldDivider()
                     ActionField(
-                        title = "Frecuencia de backup >",
-                        description = backupFrequency.toUiLabel()
+                        title = stringResource(R.string.settings_backup_frequency),
+                        description = backupFrequency.toUiLabel(context)
                     ) {
                         showFrequencyDialog = true
                     }
 
                     FieldDivider()
                     ActionField(
-                        title = "Hacer backup ahora >",
+                        title = stringResource(R.string.settings_backup_now),
                         description = if (hasSavedPassphrase) {
-                            "Genera una copia manual inmediatamente"
+                            stringResource(R.string.settings_backup_now_description)
                         } else {
-                            "Configura una clave de cifrado para habilitar esta acción"
+                            stringResource(R.string.settings_backup_key_required_action)
                         }
                     ) {
                         if (!hasSavedPassphrase) {
                             Toast.makeText(
                                 context,
-                                "Configura primero la clave de cifrado",
+                                context.getString(R.string.settings_configure_key_first),
                                 Toast.LENGTH_LONG
                             ).show()
                             return@ActionField
@@ -1134,21 +1142,21 @@ class frag_Setting : Fragment() {
 
                     FieldDivider()
                     ActionField(
-                        title = "Restaurar desde backup >",
-                        description = "Selecciona un archivo .nvbak desde un proveedor"
+                        title = stringResource(R.string.settings_restore_from_backup),
+                        description = stringResource(R.string.settings_restore_from_backup_description)
                     ) {
                         showRestoreDialog = true
                     }
 
                     FieldDivider(padding = 8.dp)
                     Text(
-                        text = "Último backup: ${backupManager.formatTimestamp(lastBackupAt)}",
+                        text = stringResource(R.string.settings_last_backup, backupManager.formatTimestamp(lastBackupAt)),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     if (!lastBackupError.isNullOrBlank()) {
                         Text(
-                            text = "Último error: $lastBackupError",
+                            text = stringResource(R.string.settings_last_error, lastBackupError),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.error
                         )
@@ -1158,16 +1166,16 @@ class frag_Setting : Fragment() {
 
             item {
                 SettingSection(
-                    title = "Migración iOS / Android",
-                    subtitle = "Permite la migración segura a/desde iOS"
+                    title = stringResource(R.string.settings_migration_title),
+                    subtitle = stringResource(R.string.settings_migration_subtitle)
                 ) {
                     ActionField(
-                        title = "Exportar a iOS >",
-                        description = "Crea un archivo ${MigrationFormat.FILE_EXTENSION} con notas, diario, agenda, metas y frases personales"
+                        title = stringResource(R.string.settings_export_to_ios),
+                        description = stringResource(R.string.settings_export_to_ios_description, MigrationFormat.FILE_EXTENSION)
                     ) {
                         authenticateForMigration(
-                            title = "Exportar datos",
-                            subtitle = "Autentícate para crear un archivo de migración"
+                            title = context.getString(R.string.settings_export_data),
+                            subtitle = context.getString(R.string.settings_export_authentication)
                         ) {
                             migrationStatusMessage = null
                             migrationResultDialogMessage = null
@@ -1179,12 +1187,12 @@ class frag_Setting : Fragment() {
                     }
                     FieldDivider()
                     ActionField(
-                        title = "Importar desde iOS >",
-                        description = "Abre un ${MigrationFormat.FILE_EXTENSION}, valida y muestra vista previa antes de importar"
+                        title = stringResource(R.string.settings_import_from_ios),
+                        description = stringResource(R.string.settings_import_from_ios_description, MigrationFormat.FILE_EXTENSION)
                     ) {
                         authenticateForMigration(
-                            title = "Importar datos",
-                            subtitle = "Autentícate para leer un archivo de migración"
+                            title = context.getString(R.string.settings_import_data),
+                            subtitle = context.getString(R.string.settings_import_authentication)
                         ) {
                             migrationStatusMessage = null
                             migrationResultDialogMessage = null
@@ -1207,43 +1215,43 @@ class frag_Setting : Fragment() {
 
             item {
                 SettingSection(
-                    title = "Proyecto y Soporte",
-                    subtitle = "Acciones de contacto, reseña y novedades"
+                    title = stringResource(R.string.settings_project_support_title),
+                    subtitle = stringResource(R.string.settings_project_support_subtitle)
                 ) {
-                    ActionField("Ver novedades", "Consultar cambios de versión") {
+                    ActionField(stringResource(R.string.settings_whats_new), stringResource(R.string.settings_whats_new_description)) {
                         UiModalWindows.showAyudaContectual(
                             context,
-                            "Novedades",
-                            "Que hay de nuevo?",
-                            NewsContent.buildNewsText(),
+                            context.getString(R.string.settings_whats_new),
+                            context.getString(R.string.settings_whats_new_question),
+                            NewsContent.buildNewsText(context),
                             false,
                             AppCompatResources.getDrawable(context, R.drawable.neville)
                         )
                     }
                     FieldDivider()
-                    ActionField("Enviar comentario", "Contactar con el desarrollador") {
+                    ActionField(stringResource(R.string.settings_send_feedback), stringResource(R.string.settings_send_feedback_description)) {
                         val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
                             data = "mailto:info@ypgcode.es".toUri()
-                            putExtra(Intent.EXTRA_SUBJECT, "Comentario sobre Neville Para Todos")
+                            putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.settings_feedback_email_subject))
                         }
                         try {
                             startActivity(emailIntent)
                         } catch (_: ActivityNotFoundException) {
-                            Toast.makeText(context, "No se encontró una app de correo", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, context.getString(R.string.settings_email_app_not_found), Toast.LENGTH_LONG).show()
                         }
                     }
                     FieldDivider()
-                    ActionField("Sitio web del proyecto", "Abrir web oficial") {
+                    ActionField(stringResource(R.string.settings_project_website), stringResource(R.string.settings_project_website_description)) {
                         startActivity(Intent(Intent.ACTION_VIEW, "https://ypgcode.es/neville_goddard/".toUri()))
                     }
                     FieldDivider()
-                    ActionField("Escribir reseña", "Valorar la app en Google Play") {
+                    ActionField(stringResource(R.string.settings_write_review), stringResource(R.string.settings_write_review_description)) {
                         val uri = "market://details?id=${context.packageName}".toUri()
                         val intent = Intent(Intent.ACTION_VIEW, uri)
                         try {
                             startActivity(intent)
                         } catch (_: ActivityNotFoundException) {
-                            Toast.makeText(context, "No se encontró la app de tienda", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, context.getString(R.string.settings_store_app_not_found), Toast.LENGTH_LONG).show()
                         }
                     }
 
@@ -1259,14 +1267,14 @@ class frag_Setting : Fragment() {
                     pendingMigrationPassphrase = null
                     showMigrationExportDialog = false
                 },
-                title = { Text("Exportar a iOS") },
+                title = { Text(stringResource(R.string.settings_export_to_ios_dialog)) },
                 text = {
                     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                        Text("Usa una contraseña larga. No se guarda en el dispositivo.")
+                        Text(stringResource(R.string.settings_migration_password_hint))
                         OutlinedTextField(
                             value = migrationExportPassphraseInput,
                             onValueChange = { migrationExportPassphraseInput = it },
-                            label = { Text("Contraseña de exportación") },
+                            label = { Text(stringResource(R.string.settings_export_password)) },
                             visualTransformation = PasswordVisualTransformation(),
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                             modifier = Modifier.fillMaxWidth()
@@ -1277,7 +1285,7 @@ class frag_Setting : Fragment() {
                     TextButton(onClick = {
                         val passphrase = migrationExportPassphraseInput.toCharArray()
                         if (passphrase.isEmpty()) {
-                            Toast.makeText(context, "Introduce una contraseña", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, context.getString(R.string.settings_enter_password), Toast.LENGTH_LONG).show()
                             return@TextButton
                         }
                         pendingMigrationPassphrase = passphrase
@@ -1286,7 +1294,7 @@ class frag_Setting : Fragment() {
                         val fileName = "neville-${System.currentTimeMillis()}${MigrationFormat.FILE_EXTENSION}"
                         createMigrationExportFileLauncher.launch(fileName)
                     }) {
-                        Text("Crear archivo")
+                        Text(stringResource(R.string.settings_create_file))
                     }
                 },
                 dismissButton = {
@@ -1295,7 +1303,7 @@ class frag_Setting : Fragment() {
                         pendingMigrationPassphrase = null
                         showMigrationExportDialog = false
                     }) {
-                        Text("Cancelar")
+                        Text(stringResource(R.string.settings_cancel))
                     }
                 }
             )
@@ -1308,14 +1316,14 @@ class frag_Setting : Fragment() {
                     pendingMigrationPassphrase = null
                     showMigrationImportDialog = false
                 },
-                title = { Text("Importar desde iOS") },
+                title = { Text(stringResource(R.string.settings_import_from_ios_dialog)) },
                 text = {
                     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                        Text("Se descifrará solo en memoria para mostrar una vista previa.")
+                        Text(stringResource(R.string.settings_import_memory_only_hint))
                         OutlinedTextField(
                             value = migrationImportPassphraseInput,
                             onValueChange = { migrationImportPassphraseInput = it },
-                            label = { Text("Contraseña del archivo") },
+                            label = { Text(stringResource(R.string.settings_file_password)) },
                             visualTransformation = PasswordVisualTransformation(),
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                             modifier = Modifier.fillMaxWidth()
@@ -1326,7 +1334,7 @@ class frag_Setting : Fragment() {
                     TextButton(onClick = {
                         val passphrase = migrationImportPassphraseInput.toCharArray()
                         if (passphrase.isEmpty()) {
-                            Toast.makeText(context, "Introduce la contraseña", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, context.getString(R.string.settings_enter_the_password), Toast.LENGTH_LONG).show()
                             return@TextButton
                         }
                         pendingMigrationPassphrase = passphrase
@@ -1334,7 +1342,7 @@ class frag_Setting : Fragment() {
                         showMigrationImportDialog = false
                         pickMigrationImportFileLauncher.launch(arrayOf("application/octet-stream", "*/*"))
                     }) {
-                        Text("Seleccionar archivo")
+                        Text(stringResource(R.string.settings_select_file))
                     }
                 },
                 dismissButton = {
@@ -1343,7 +1351,7 @@ class frag_Setting : Fragment() {
                         pendingMigrationPassphrase = null
                         showMigrationImportDialog = false
                     }) {
-                        Text("Cancelar")
+                        Text(stringResource(R.string.settings_cancel))
                     }
                 }
             )
@@ -1358,17 +1366,17 @@ class frag_Setting : Fragment() {
                     migrationImportPassphraseInput = ""
                     pendingMigrationPassphrase = null
                 },
-                title = { Text("Vista previa de importación") },
+                title = { Text(stringResource(R.string.settings_import_preview)) },
                 text = {
                     Column(
                         modifier = Modifier.heightIn(max = 420.dp).verticalScroll(rememberScrollState()),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text("Origen: ${preview.manifest.optString("sourcePlatform")} · ${preview.records.size} elementos")
-                        Text("Elementos: ${migrationCountsInline(preview.countsByType)}")
+                        Text(stringResource(R.string.settings_import_source, preview.manifest.optString("sourcePlatform"), preview.records.size))
+                        Text(stringResource(R.string.settings_items, migrationCountsInline(preview.countsByType)))
                         if (preview.conflicts.isNotEmpty()) {
                             Text(
-                                "Conflictos/duplicados: ${preview.conflicts.size}. Se omitirán salvo política explícita.",
+                                stringResource(R.string.settings_conflicts_skipped, preview.conflicts.size),
                                 color = MaterialTheme.colorScheme.error
                             )
                             migrationConflictSummaryLines(preview).forEach { line ->
@@ -1376,7 +1384,7 @@ class frag_Setting : Fragment() {
                             }
                         }
                         if (preview.errors.isNotEmpty()) {
-                            Text("Errores: ${preview.errors.size}", color = MaterialTheme.colorScheme.error)
+                            Text(stringResource(R.string.settings_errors_count, preview.errors.size), color = MaterialTheme.colorScheme.error)
                             preview.errors.take(5).forEach { error ->
                                 Text(error, style = MaterialTheme.typography.bodySmall)
                             }
@@ -1393,17 +1401,22 @@ class frag_Setting : Fragment() {
                                 result.onSuccess { summary ->
                                     migrationStatusMessage = buildImportSummary(summary)
                                     migrationResultDialogMessage = migrationStatusMessage
+                                    migrationResultIsError = false
                                     migrationImportPreview = null
-                                    Toast.makeText(context, "Importación completada", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(context, context.getString(R.string.settings_import_complete), Toast.LENGTH_LONG).show()
                                 }.onFailure { error ->
-                                    migrationStatusMessage = "Error al importar: ${error.message ?: "desconocido"}"
+                                    migrationStatusMessage = context.getString(
+                                        R.string.settings_import_error,
+                                        error.message ?: context.getString(R.string.settings_unknown_error)
+                                    )
                                     migrationResultDialogMessage = migrationStatusMessage
+                                    migrationResultIsError = true
                                     Toast.makeText(context, migrationStatusMessage, Toast.LENGTH_LONG).show()
                                 }
                             }
                         }
                     ) {
-                        Text("Importar omitiendo conflictos")
+                        Text(stringResource(R.string.settings_import_skipping_conflicts))
                     }
                 },
                 dismissButton = {
@@ -1414,7 +1427,7 @@ class frag_Setting : Fragment() {
                         migrationImportPassphraseInput = ""
                         pendingMigrationPassphrase = null
                     }) {
-                        Text("Cancelar")
+                        Text(stringResource(R.string.settings_cancel))
                     }
                 }
             )
@@ -1424,14 +1437,20 @@ class frag_Setting : Fragment() {
             AlertDialog(
                 onDismissRequest = { migrationResultDialogMessage = null },
                 title = {
-                    Text(if (message.startsWith("Error")) "Fallo de migración" else "Resumen de migración")
+                    Text(
+                        if (migrationResultIsError) {
+                            stringResource(R.string.settings_migration_failed)
+                        } else {
+                            stringResource(R.string.settings_migration_summary)
+                        }
+                    )
                 },
                 text = {
                     Text(message)
                 },
                 confirmButton = {
                     TextButton(onClick = { migrationResultDialogMessage = null }) {
-                        Text("Cerrar")
+                        Text(stringResource(R.string.settings_close))
                     }
                 }
             )
@@ -1440,12 +1459,10 @@ class frag_Setting : Fragment() {
         if (showBackupWarningDialog) {
             AlertDialog(
                 onDismissRequest = { showBackupWarningDialog = false },
-                title = { Text("Clave de recuperación del backup") },
+                title = { Text(stringResource(R.string.settings_backup_recovery_key)) },
                 text = {
                     Text(
-                        "Este backup quedará protegido con la clave de cifrado actual. " +
-                            "Para recuperarlo en el futuro deberás usar esta misma clave. " +
-                            "Si cambias la clave después, este backup antiguo no podrá restaurarse con la clave nueva."
+                        stringResource(R.string.settings_backup_recovery_warning)
                     )
                 },
                 confirmButton = {
@@ -1457,7 +1474,7 @@ class frag_Setting : Fragment() {
                                     settingsUiRefreshTick++
                                     Toast.makeText(
                                         context,
-                                        "Backup creado: ${result.fileName}",
+                                        context.getString(R.string.settings_backup_created, result.fileName),
                                         Toast.LENGTH_LONG
                                     ).show()
                                 }
@@ -1465,19 +1482,19 @@ class frag_Setting : Fragment() {
                                     settingsUiRefreshTick++
                                     Toast.makeText(
                                         context,
-                                        "Error de backup: ${result.reason}",
+                                        context.getString(R.string.settings_backup_error, result.reason),
                                         Toast.LENGTH_LONG
                                     ).show()
                                 }
                             }
                         }
                     }) {
-                        Text("Crear backup")
+                        Text(stringResource(R.string.settings_create_backup))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = { showBackupWarningDialog = false }) {
-                        Text("Cancelar")
+                        Text(stringResource(R.string.settings_cancel))
                     }
                 }
             )
@@ -1486,14 +1503,14 @@ class frag_Setting : Fragment() {
         if (showPresencePhraseDialog) {
             AlertDialog(
                 onDismissRequest = { showPresencePhraseDialog = false },
-                title = { Text("Frase de Presencia") },
+                title = { Text(stringResource(R.string.settings_presence_quote_dialog)) },
                 text = {
                     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                        Text("Esta frase aparecerá cuando registres un evento de Presencia Consciente.")
+                        Text(stringResource(R.string.settings_presence_quote_dialog_description))
                         OutlinedTextField(
                             value = presencePhraseInput,
                             onValueChange = { presencePhraseInput = it },
-                            label = { Text("Frase personalizada") },
+                            label = { Text(stringResource(R.string.settings_custom_quote)) },
                             singleLine = false,
                             minLines = 2,
                             modifier = Modifier.fillMaxWidth()
@@ -1511,14 +1528,14 @@ class frag_Setting : Fragment() {
                             putString(PresenceSettings.CUSTOM_CELEBRATION_PHRASE_KEY, next)
                         }
                         showPresencePhraseDialog = false
-                        Toast.makeText(context, "Frase de Presencia guardada", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.settings_presence_quote_saved), Toast.LENGTH_SHORT).show()
                     }) {
-                        Text("Guardar")
+                        Text(stringResource(R.string.settings_save))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = { showPresencePhraseDialog = false }) {
-                        Text("Cancelar")
+                        Text(stringResource(R.string.settings_cancel))
                     }
                 }
             )
@@ -1527,7 +1544,7 @@ class frag_Setting : Fragment() {
         if (showCardioPhrasesDialog) {
             AlertDialog(
                 onDismissRequest = { showCardioPhrasesDialog = false },
-                title = { Text("Frases de Coherencia Cardio Cerebral") },
+                title = { Text(stringResource(R.string.settings_coherence_quotes_dialog)) },
                 text = {
                     Column(
                         modifier = Modifier
@@ -1535,7 +1552,13 @@ class frag_Setting : Fragment() {
                             .verticalScroll(rememberScrollState()),
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        CardioCoherencePreferences.phaseTitles.forEachIndexed { phaseIndex, title ->
+                        val phaseTitles = listOf(
+                            stringResource(R.string.settings_coherence_phase_regulation),
+                            stringResource(R.string.settings_coherence_phase_heart_connection),
+                            stringResource(R.string.settings_coherence_phase_elevated_emotion),
+                            stringResource(R.string.settings_coherence_phase_integration)
+                        )
+                        phaseTitles.forEachIndexed { phaseIndex, title ->
                             Text(
                                 text = title,
                                 style = MaterialTheme.typography.titleMedium,
@@ -1552,7 +1575,7 @@ class frag_Setting : Fragment() {
                                         )
                                         cardioSessionPhrases = updated
                                     },
-                                    label = { Text("Frase ${phraseOffset + 1}") },
+                                    label = { Text(stringResource(R.string.settings_quote_number, phraseOffset + 1)) },
                                     supportingText = {
                                         Text(
                                             "${cardioSessionPhrases[phraseIndex].length}/" +
@@ -1573,16 +1596,16 @@ class frag_Setting : Fragment() {
                         showCardioPhrasesDialog = false
                         Toast.makeText(
                             context,
-                            "Frases de Coherencia guardadas",
+                            context.getString(R.string.settings_coherence_quotes_saved),
                             Toast.LENGTH_SHORT
                         ).show()
                     }) {
-                        Text("Guardar")
+                        Text(stringResource(R.string.settings_save))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = { showCardioPhrasesDialog = false }) {
-                        Text("Cancelar")
+                        Text(stringResource(R.string.settings_cancel))
                     }
                 }
             )
@@ -1591,11 +1614,11 @@ class frag_Setting : Fragment() {
         if (showFrequencyDialog) {
             AlertDialog(
                 onDismissRequest = { showFrequencyDialog = false },
-                title = { Text("Frecuencia de backup") },
+                title = { Text(stringResource(R.string.settings_backup_frequency_dialog)) },
                 text = {
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         FrequencyOption(
-                            title = "Manual",
+                            title = stringResource(R.string.settings_frequency_manual),
                             selected = backupFrequency == CloudBackupManager.BackupFrequency.MANUAL
                         ) {
                             backupManager.setFrequency(CloudBackupManager.BackupFrequency.MANUAL)
@@ -1606,13 +1629,13 @@ class frag_Setting : Fragment() {
                                 .onFailure { error ->
                                     Toast.makeText(
                                         context,
-                                        error.message ?: "No se pudo guardar la frecuencia",
+                                        error.message ?: context.getString(R.string.settings_frequency_save_error),
                                         Toast.LENGTH_LONG
                                     ).show()
                                 }
                         }
                         FrequencyOption(
-                            title = "Diario",
+                            title = stringResource(R.string.settings_frequency_daily),
                             selected = backupFrequency == CloudBackupManager.BackupFrequency.DAILY
                         ) {
                             backupManager.setFrequency(CloudBackupManager.BackupFrequency.DAILY)
@@ -1623,13 +1646,13 @@ class frag_Setting : Fragment() {
                                 .onFailure { error ->
                                     Toast.makeText(
                                         context,
-                                        error.message ?: "No se pudo guardar la frecuencia",
+                                        error.message ?: context.getString(R.string.settings_frequency_save_error),
                                         Toast.LENGTH_LONG
                                     ).show()
                                 }
                         }
                         FrequencyOption(
-                            title = "Semanal",
+                            title = stringResource(R.string.settings_frequency_weekly),
                             selected = backupFrequency == CloudBackupManager.BackupFrequency.WEEKLY
                         ) {
                             backupManager.setFrequency(CloudBackupManager.BackupFrequency.WEEKLY)
@@ -1640,7 +1663,7 @@ class frag_Setting : Fragment() {
                                 .onFailure { error ->
                                     Toast.makeText(
                                         context,
-                                        error.message ?: "No se pudo guardar la frecuencia",
+                                        error.message ?: context.getString(R.string.settings_frequency_save_error),
                                         Toast.LENGTH_LONG
                                     ).show()
                                 }
@@ -1649,7 +1672,7 @@ class frag_Setting : Fragment() {
                 },
                 confirmButton = {
                     TextButton(onClick = { showFrequencyDialog = false }) {
-                        Text("Cerrar")
+                        Text(stringResource(R.string.settings_close))
                     }
                 }
             )
@@ -1658,10 +1681,10 @@ class frag_Setting : Fragment() {
         if (showProviderDestinationDialog) {
             AlertDialog(
                 onDismissRequest = { showProviderDestinationDialog = false },
-                title = { Text("Conectar proveedor") },
+                title = { Text(stringResource(R.string.settings_connect_provider_dialog)) },
                 text = {
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text("Selecciona cómo guardar el backup cifrado:")
+                        Text(stringResource(R.string.settings_provider_destination_prompt))
                         TextButton(
                             modifier = Modifier.fillMaxWidth(),
                             onClick = {
@@ -1669,7 +1692,7 @@ class frag_Setting : Fragment() {
                                 pickProviderFolderLauncher.launch(null)
                             }
                         ) {
-                            Text("Carpeta (almacenamiento local/Archivos)")
+                            Text(stringResource(R.string.settings_provider_folder_option))
                         }
                         TextButton(
                             modifier = Modifier.fillMaxWidth(),
@@ -1678,13 +1701,13 @@ class frag_Setting : Fragment() {
                                 createProviderBackupFileLauncher.launch(defaultBackupFileName)
                             }
                         ) {
-                            Text("Archivo en nube (Drive, Dropbox, OneDrive)")
+                            Text(stringResource(R.string.settings_provider_cloud_file_option))
                         }
                     }
                 },
                 confirmButton = {
                     TextButton(onClick = { showProviderDestinationDialog = false }) {
-                        Text("Cerrar")
+                        Text(stringResource(R.string.settings_close))
                     }
                 }
             )
@@ -1714,14 +1737,14 @@ class frag_Setting : Fragment() {
         if (showJournalMessageDialog) {
             AlertDialog(
                 onDismissRequest = { showJournalMessageDialog = false },
-                title = { Text("Texto del recordatorio") },
+                title = { Text(stringResource(R.string.settings_reminder_text_dialog)) },
                 text = {
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text("Si lo dejas vacío, se usará el texto por defecto.")
+                        Text(stringResource(R.string.settings_reminder_text_hint))
                         OutlinedTextField(
                             value = journalMessageInput,
                             onValueChange = { journalMessageInput = it },
-                            label = { Text("Texto opcional") },
+                            label = { Text(stringResource(R.string.settings_optional_text)) },
                             modifier = Modifier.fillMaxWidth(),
                             minLines = 2
                         )
@@ -1736,12 +1759,12 @@ class frag_Setting : Fragment() {
                         journalReminderCustomMessage = updated.customMessage
                         showJournalMessageDialog = false
                     }) {
-                        Text("Guardar")
+                        Text(stringResource(R.string.settings_save))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = { showJournalMessageDialog = false }) {
-                        Text("Cancelar")
+                        Text(stringResource(R.string.settings_cancel))
                     }
                 }
             )
@@ -1750,14 +1773,14 @@ class frag_Setting : Fragment() {
         if (showRestoreDialog) {
             AlertDialog(
                 onDismissRequest = { showRestoreDialog = false },
-                title = { Text("Restaurar base de datos") },
+                title = { Text(stringResource(R.string.settings_restore_database_dialog)) },
                 text = {
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text("Esta acción reemplaza tus datos actuales. Si continúas, selecciona un archivo de backup .nvbak.")
+                        Text(stringResource(R.string.settings_restore_database_warning))
                         OutlinedTextField(
                             value = restorePassphraseInput,
                             onValueChange = { restorePassphraseInput = it },
-                            label = { Text("Clave de cifrado") },
+                            label = { Text(stringResource(R.string.settings_encryption_key)) },
                             visualTransformation = PasswordVisualTransformation(),
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                             singleLine = true
@@ -1771,7 +1794,7 @@ class frag_Setting : Fragment() {
                         restorePassphraseInput = ""
                         pickBackupFileLauncher.launch(arrayOf("application/octet-stream", "application/zip", "*/*"))
                     }) {
-                        Text("Continuar")
+                        Text(stringResource(R.string.settings_continue))
                     }
                 },
                 dismissButton = {
@@ -1779,7 +1802,7 @@ class frag_Setting : Fragment() {
                         restorePassphraseInput = ""
                         showRestoreDialog = false
                     }) {
-                        Text("Cancelar")
+                        Text(stringResource(R.string.settings_cancel))
                     }
                 }
             )
@@ -1791,18 +1814,18 @@ class frag_Setting : Fragment() {
                 title = {
                     Text(
                         if (hasSavedPassphrase) {
-                            "Actualizar clave de cifrado"
+                            stringResource(R.string.settings_update_encryption_key_dialog)
                         } else {
-                            "Clave de cifrado de backups"
+                            stringResource(R.string.settings_backup_encryption_key_dialog)
                         }
                     )
                 },
                 text = {
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text("Usa una clave larga. La necesitarás para restaurar backups y recuperar Notas/Diario tras reinstalar.")
+                        Text(stringResource(R.string.settings_encryption_key_hint))
                         SwitchField(
-                            title = "Mostrar contraseña",
-                            description = "Visualiza u oculta los caracteres de la clave",
+                            title = stringResource(R.string.settings_show_password),
+                            description = stringResource(R.string.settings_show_password_description),
                             checked = showPassphrasePlainText,
                             onCheckedChange = { showPassphrasePlainText = it }
                         )
@@ -1810,7 +1833,7 @@ class frag_Setting : Fragment() {
                             OutlinedTextField(
                                 value = currentPassphraseInput,
                                 onValueChange = { currentPassphraseInput = it },
-                                label = { Text("Clave actual") },
+                                label = { Text(stringResource(R.string.settings_current_key)) },
                                 visualTransformation = if (showPassphrasePlainText) {
                                     androidx.compose.ui.text.input.VisualTransformation.None
                                 } else {
@@ -1823,7 +1846,7 @@ class frag_Setting : Fragment() {
                         OutlinedTextField(
                             value = passphraseInput,
                             onValueChange = { passphraseInput = it },
-                            label = { Text("Nueva clave") },
+                            label = { Text(stringResource(R.string.settings_new_key)) },
                             visualTransformation = if (showPassphrasePlainText) {
                                 androidx.compose.ui.text.input.VisualTransformation.None
                             } else {
@@ -1835,7 +1858,7 @@ class frag_Setting : Fragment() {
                         OutlinedTextField(
                             value = passphraseConfirmInput,
                             onValueChange = { passphraseConfirmInput = it },
-                            label = { Text("Confirmar clave") },
+                            label = { Text(stringResource(R.string.settings_confirm_key)) },
                             visualTransformation = if (showPassphrasePlainText) {
                                 androidx.compose.ui.text.input.VisualTransformation.None
                             } else {
@@ -1851,7 +1874,7 @@ class frag_Setting : Fragment() {
                         val pass = passphraseInput.trim()
                         val passConfirm = passphraseConfirmInput.trim()
                         if (pass != passConfirm) {
-                            Toast.makeText(context, "Las claves no coinciden", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, context.getString(R.string.settings_keys_do_not_match), Toast.LENGTH_LONG).show()
                             return@TextButton
                         }
                         val result = if (hasSavedPassphrase) {
@@ -1869,12 +1892,12 @@ class frag_Setting : Fragment() {
                             passphraseInput = ""
                             passphraseConfirmInput = ""
                             showPassphrasePlainText = false
-                            Toast.makeText(context, "Clave guardada", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, context.getString(R.string.settings_key_saved), Toast.LENGTH_SHORT).show()
                         }.onFailure { error ->
-                            Toast.makeText(context, error.message ?: "No se pudo guardar la clave", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, error.message ?: context.getString(R.string.settings_key_save_error), Toast.LENGTH_LONG).show()
                         }
                     }) {
-                        Text("Guardar")
+                        Text(stringResource(R.string.settings_save))
                     }
                 },
                 dismissButton = {
@@ -1885,7 +1908,7 @@ class frag_Setting : Fragment() {
                         showPassphrasePlainText = false
                         showPassphraseDialog = false
                     }) {
-                        Text("Cancelar")
+                        Text(stringResource(R.string.settings_cancel))
                     }
                 }
             )
@@ -1894,14 +1917,14 @@ class frag_Setting : Fragment() {
         if (showDeletePassphraseDialog) {
             AlertDialog(
                 onDismissRequest = { showDeletePassphraseDialog = false },
-                title = { Text("Eliminar clave de cifrado") },
+                title = { Text(stringResource(R.string.settings_delete_encryption_key_dialog)) },
                 text = {
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text("Para eliminar la clave guardada, confirma la clave actual.")
+                        Text(stringResource(R.string.settings_delete_encryption_key_hint))
                         OutlinedTextField(
                             value = deleteCurrentPassphraseInput,
                             onValueChange = { deleteCurrentPassphraseInput = it },
-                            label = { Text("Clave actual") },
+                            label = { Text(stringResource(R.string.settings_current_key)) },
                             visualTransformation = PasswordVisualTransformation(),
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                             singleLine = true
@@ -1915,22 +1938,22 @@ class frag_Setting : Fragment() {
                                 settingsUiRefreshTick++
                                 deleteCurrentPassphraseInput = ""
                                 showDeletePassphraseDialog = false
-                                Toast.makeText(context, "Clave eliminada", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, context.getString(R.string.settings_key_deleted), Toast.LENGTH_SHORT).show()
                             }
                             .onFailure { error ->
                                 Toast.makeText(
                                     context,
-                                    error.message ?: "No se pudo eliminar la clave",
+                                    error.message ?: context.getString(R.string.settings_key_delete_error),
                                     Toast.LENGTH_LONG
                                 ).show()
                             }
-                    }) { Text("Eliminar") }
+                    }) { Text(stringResource(R.string.settings_delete)) }
                 },
                 dismissButton = {
                     TextButton(onClick = {
                         deleteCurrentPassphraseInput = ""
                         showDeletePassphraseDialog = false
-                    }) { Text("Cancelar") }
+                    }) { Text(stringResource(R.string.settings_cancel)) }
                 }
             )
         }
@@ -1938,10 +1961,10 @@ class frag_Setting : Fragment() {
         if (!recoveredPassphraseMessage.isNullOrBlank()) {
             AlertDialog(
                 onDismissRequest = { recoveredPassphraseMessage = null },
-                title = { Text("Contraseña de cifrado") },
+                title = { Text(stringResource(R.string.settings_encryption_password_dialog)) },
                 text = {
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text("Autenticación biométrica exitosa. Esta es tu contraseña:")
+                        Text(stringResource(R.string.settings_biometric_recovery_success))
                         Text(
                             text = recoveredPassphraseMessage.orEmpty(),
                             style = MaterialTheme.typography.titleMedium,
@@ -1951,7 +1974,7 @@ class frag_Setting : Fragment() {
                 },
                 confirmButton = {
                     TextButton(onClick = { recoveredPassphraseMessage = null }) {
-                        Text("Cerrar")
+                        Text(stringResource(R.string.settings_close))
                     }
                 }
             )
@@ -1960,18 +1983,18 @@ class frag_Setting : Fragment() {
         if (showRecoveryGuideDialog) {
             AlertDialog(
                 onDismissRequest = { showRecoveryGuideDialog = false },
-                title = { Text("Guía de recuperación de clave") },
+                title = { Text(stringResource(R.string.settings_recovery_guide_dialog)) },
                 text = {
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text("1. Usa 'Recuperar contraseña con biometría'.")
-                        Text("2. Autentícate con la biometría configurada en el dispositivo.")
-                        Text("3. Si la autenticación es correcta, la app mostrará la contraseña de cifrado.")
-                        Text("4. No compartas ni captures la contraseña cuando se muestre en pantalla.")
+                        Text(stringResource(R.string.settings_recovery_guide_step_1))
+                        Text(stringResource(R.string.settings_recovery_guide_step_2))
+                        Text(stringResource(R.string.settings_recovery_guide_step_3))
+                        Text(stringResource(R.string.settings_recovery_guide_step_4))
                     }
                 },
                 confirmButton = {
                     TextButton(onClick = { showRecoveryGuideDialog = false }) {
-                        Text("Entendido")
+                        Text(stringResource(R.string.settings_understood))
                     }
                 }
             )
@@ -1998,63 +2021,63 @@ class frag_Setting : Fragment() {
                 color = MaterialTheme.colorScheme.onSurface
             )
             Text(
-                text = if (selected) "Seleccionado" else "",
+                text = if (selected) stringResource(R.string.settings_selected) else "",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.primary
             )
         }
     }
 
-    private fun CloudBackupManager.ProviderDestinationKind.toUiLabel(): String {
+    private fun CloudBackupManager.ProviderDestinationKind.toUiLabel(context: android.content.Context): String {
         return when (this) {
-            CloudBackupManager.ProviderDestinationKind.TREE -> "Carpeta"
-            CloudBackupManager.ProviderDestinationKind.DOCUMENT -> "Archivo"
+            CloudBackupManager.ProviderDestinationKind.TREE -> context.getString(R.string.settings_destination_folder)
+            CloudBackupManager.ProviderDestinationKind.DOCUMENT -> context.getString(R.string.settings_destination_file)
         }
     }
 
     private fun buildExportSummary(countsByType: Map<String, Int>): String {
         val total = countsByType.values.sum()
         return buildString {
-            appendLine("Exportación completada")
-            appendLine("Total exportado: $total")
+            appendLine(getString(R.string.settings_export_complete))
+            appendLine(getString(R.string.settings_total_exported, total))
             appendMigrationCounts(countsByType)
         }.trim()
     }
 
     private fun buildPreviewSummary(preview: ImportPreview): String {
         return buildString {
-            appendLine("Vista previa lista")
-            appendLine("Total detectado: ${preview.records.size}")
+            appendLine(getString(R.string.settings_preview_ready))
+            appendLine(getString(R.string.settings_total_detected, preview.records.size))
             appendMigrationCounts(preview.countsByType)
-            if (preview.conflicts.isNotEmpty()) appendLine("Conflictos/duplicados: ${preview.conflicts.size}")
-            if (preview.errors.isNotEmpty()) appendLine("Errores: ${preview.errors.size}")
+            if (preview.conflicts.isNotEmpty()) appendLine(getString(R.string.settings_conflicts_count, preview.conflicts.size))
+            if (preview.errors.isNotEmpty()) appendLine(getString(R.string.settings_errors_count, preview.errors.size))
         }.trim()
     }
 
     private fun buildImportSummary(summary: com.ypg.neville.model.migration.MigrationSummary): String {
         return buildString {
-            appendLine("Importación completada")
-            appendLine("Insertados: ${summary.inserted}")
-            appendLine("Actualizados: ${summary.updated}")
-            appendLine("Omitidos: ${summary.skipped}")
-            appendLine("Conflictos: ${summary.conflicts}")
-            appendLine("Errores: ${summary.errors}")
+            appendLine(getString(R.string.settings_import_complete))
+            appendLine(getString(R.string.settings_inserted_count, summary.inserted))
+            appendLine(getString(R.string.settings_updated_count, summary.updated))
+            appendLine(getString(R.string.settings_skipped_count, summary.skipped))
+            appendLine(getString(R.string.settings_conflicts_count, summary.conflicts))
+            appendLine(getString(R.string.settings_errors_count, summary.errors))
         }.trim()
     }
 
     private fun StringBuilder.appendMigrationCounts(countsByType: Map<String, Int>) {
         if (countsByType.isEmpty()) {
-            appendLine("Sin elementos")
+            appendLine(getString(R.string.settings_no_items))
             return
         }
-        appendLine("Por tipo:")
+        appendLine(getString(R.string.settings_by_type))
         countsByType.toSortedMap().forEach { (type, count) ->
             appendLine("- ${migrationTypeLabel(type)}: $count")
         }
     }
 
     private fun migrationCountsInline(countsByType: Map<String, Int>): String {
-        if (countsByType.isEmpty()) return "sin elementos"
+        if (countsByType.isEmpty()) return getString(R.string.settings_no_items_lowercase)
         return countsByType.toSortedMap()
             .map { (type, count) -> "${migrationTypeLabel(type, count)}: $count" }
             .joinToString("; ")
@@ -2066,8 +2089,11 @@ class frag_Setting : Fragment() {
             .eachCount()
             .toSortedMap()
             .map { (type, count) ->
-                val verb = if (count == 1) "se omitirá" else "se omitirán"
-                "- ${migrationTypeLabel(type, count)}: $count existentes; $verb"
+                getString(
+                    if (count == 1) R.string.settings_existing_item_skipped_singular else R.string.settings_existing_item_skipped_plural,
+                    migrationTypeLabel(type, count),
+                    count
+                )
             }
     }
 
@@ -2078,15 +2104,15 @@ class frag_Setting : Fragment() {
     private fun migrationTypeLabel(type: String, count: Int): String {
         val singular = count == 1
         return when (type) {
-            "note" -> if (singular) "Nota" else "Notas"
-            "diary_entry" -> if (singular) "Entrada de Diario" else "Entradas de Diario"
-            "agenda_entry" -> if (singular) "Entrada de Agenda" else "Entradas de Agenda"
-            "goal" -> if (singular) "Meta" else "Metas"
-            "archived_goal" -> if (singular) "Meta archivada" else "Metas archivadas"
-            "personal_phrase" -> if (singular) "Frase personal" else "Frases personales"
-            "personal_reflection" -> if (singular) "Reflexión personal" else "Reflexiones personales"
-            "day_ritual_archive" -> if (singular) "Ritual del día archivado" else "Rituales del día archivados"
-            "calm_personal_phrase" -> if (singular) "Frase personal de Espacio Calma" else "Frases personales de Espacio Calma"
+            "note" -> getString(if (singular) R.string.settings_type_note else R.string.settings_type_notes)
+            "diary_entry" -> getString(if (singular) R.string.settings_type_diary_entry else R.string.settings_type_diary_entries)
+            "agenda_entry" -> getString(if (singular) R.string.settings_type_agenda_entry else R.string.settings_type_agenda_entries)
+            "goal" -> getString(if (singular) R.string.settings_type_goal else R.string.settings_type_goals)
+            "archived_goal" -> getString(if (singular) R.string.settings_type_archived_goal else R.string.settings_type_archived_goals)
+            "personal_phrase" -> getString(if (singular) R.string.settings_type_personal_quote else R.string.settings_type_personal_quotes)
+            "personal_reflection" -> getString(if (singular) R.string.settings_type_personal_reflection else R.string.settings_type_personal_reflections)
+            "day_ritual_archive" -> getString(if (singular) R.string.settings_type_archived_ritual else R.string.settings_type_archived_rituals)
+            "calm_personal_phrase" -> getString(if (singular) R.string.settings_type_calm_quote else R.string.settings_type_calm_quotes)
             else -> type
         }
     }
@@ -2271,11 +2297,11 @@ class frag_Setting : Fragment() {
         HorizontalDivider(modifier = Modifier.padding(vertical = padding))
     }
 
-    private fun CloudBackupManager.BackupFrequency.toUiLabel(): String {
+    private fun CloudBackupManager.BackupFrequency.toUiLabel(context: android.content.Context): String {
         return when (this) {
-            CloudBackupManager.BackupFrequency.MANUAL -> "Manual (sin ejecución automática)"
-            CloudBackupManager.BackupFrequency.DAILY -> "Diario"
-            CloudBackupManager.BackupFrequency.WEEKLY -> "Semanal"
+            CloudBackupManager.BackupFrequency.MANUAL -> context.getString(R.string.settings_frequency_manual_description)
+            CloudBackupManager.BackupFrequency.DAILY -> context.getString(R.string.settings_frequency_daily)
+            CloudBackupManager.BackupFrequency.WEEKLY -> context.getString(R.string.settings_frequency_weekly)
         }
     }
 
@@ -2296,7 +2322,7 @@ class frag_Setting : Fragment() {
                             .onFailure { error ->
                                 Toast.makeText(
                                     requireContext(),
-                                    error.message ?: "No se pudo recuperar la clave",
+                                    error.message ?: getString(R.string.settings_key_recovery_error),
                                     Toast.LENGTH_LONG
                                 ).show()
                             }
@@ -2309,9 +2335,9 @@ class frag_Setting : Fragment() {
             )
 
             val promptInfo = BiometricPrompt.PromptInfo.Builder()
-                .setTitle("Recuperación de clave")
-                .setSubtitle("Autentícate para ver tu contraseña de cifrado")
-                .setNegativeButtonText("Cancelar")
+                .setTitle(getString(R.string.settings_key_recovery_title))
+                .setSubtitle(getString(R.string.settings_key_recovery_authentication))
+                .setNegativeButtonText(getString(R.string.settings_cancel))
                 .setAllowedAuthenticators(
                     BiometricManager.Authenticators.BIOMETRIC_STRONG or
                         BiometricManager.Authenticators.BIOMETRIC_WEAK
@@ -2322,7 +2348,7 @@ class frag_Setting : Fragment() {
         }.onFailure { error ->
             Toast.makeText(
                 requireContext(),
-                error.message ?: "No se pudo iniciar autenticación biométrica",
+                error.message ?: getString(R.string.settings_biometric_start_error),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -2337,7 +2363,7 @@ class frag_Setting : Fragment() {
         if (canAuth != BiometricManager.BIOMETRIC_SUCCESS) {
             Toast.makeText(
                 context,
-                "No hay biometría disponible/configurada en este dispositivo",
+                getString(R.string.settings_biometric_unavailable),
                 Toast.LENGTH_LONG
             ).show()
             return
@@ -2360,9 +2386,9 @@ class frag_Setting : Fragment() {
             )
 
             val promptInfo = BiometricPrompt.PromptInfo.Builder()
-                .setTitle("Desactivar bloqueo de Notas")
-                .setSubtitle("Autentícate para desactivar la protección biométrica")
-                .setNegativeButtonText("Cancelar")
+                .setTitle(getString(R.string.settings_disable_notes_lock_title))
+                .setSubtitle(getString(R.string.settings_disable_notes_lock_authentication))
+                .setNegativeButtonText(getString(R.string.settings_cancel))
                 .setAllowedAuthenticators(
                     BiometricManager.Authenticators.BIOMETRIC_STRONG or
                         BiometricManager.Authenticators.BIOMETRIC_WEAK
@@ -2373,7 +2399,7 @@ class frag_Setting : Fragment() {
         }.onFailure { error ->
             Toast.makeText(
                 requireContext(),
-                error.message ?: "No se pudo iniciar autenticación biométrica",
+                error.message ?: getString(R.string.settings_biometric_start_error),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -2392,7 +2418,7 @@ class frag_Setting : Fragment() {
         if (canAuth != BiometricManager.BIOMETRIC_SUCCESS) {
             Toast.makeText(
                 context,
-                "Configura biometría o bloqueo de pantalla para usar la migración",
+                getString(R.string.settings_migration_authentication_required),
                 Toast.LENGTH_LONG
             ).show()
             return
@@ -2424,7 +2450,7 @@ class frag_Setting : Fragment() {
         }.onFailure { error ->
             Toast.makeText(
                 requireContext(),
-                error.message ?: "No se pudo iniciar la autenticación",
+                error.message ?: getString(R.string.settings_authentication_start_error),
                 Toast.LENGTH_LONG
             ).show()
         }

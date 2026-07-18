@@ -3,6 +3,7 @@ package com.ypg.neville.model.metas
 import android.content.Context
 import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryEventLogger
 import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryEventType
+import com.ypg.neville.localization.GoalContentLocalization
 import com.ypg.neville.model.db.room.ArchivedGoalEntity
 import com.ypg.neville.model.db.room.ArchivedUnitEntity
 import com.ypg.neville.model.db.room.GoalEntity
@@ -663,9 +664,13 @@ class MetasRepository(
 
         return grouped.entries.sortedBy { it.key }.map { entry ->
             val programas = entry.value.sorted().mapNotNull { file ->
+                val fileBaseName = file.removeSuffix(".json")
                 val json = context.assets.open("metas/programasPreestablecidos/$file")
                     .bufferedReader().use { it.readText() }
-                runCatching { parsePrograma(JSONObject(json), file.removeSuffix(".json")) }.getOrNull()
+                runCatching {
+                    val fallback = parsePrograma(JSONObject(json), fileBaseName)
+                    GoalContentLocalization.localizedProgram(context, fileBaseName, fallback)
+                }.getOrNull()
             }
             entry.key to programas
         }
@@ -677,7 +682,7 @@ class MetasRepository(
         val arr = JSONArray(json)
         return (0 until arr.length()).map { idx ->
             val item = arr.getJSONObject(idx)
-            applyHabitScheduleMetadata(HabitPreset(
+            val fallback = applyHabitScheduleMetadata(HabitPreset(
                 title = item.optString("title"),
                 description = item.optString("description"),
                 noUnidades = item.optInt("noUnidades", 21),
@@ -687,6 +692,11 @@ class MetasRepository(
                 dayPeriod = GoalDayPeriod.fromRaw(item.optString("dayPeriod")),
                 customUnitLabel = item.optString("customUnitLabel")
             ))
+            GoalContentLocalization.localizedHabit(
+                context = context,
+                spanishTitle = item.optString("title"),
+                fallback = fallback
+            )
         }.sortedBy { it.title.lowercase() }
     }
 

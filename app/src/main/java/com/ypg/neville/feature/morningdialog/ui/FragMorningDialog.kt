@@ -23,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.res.stringResource
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -128,7 +129,7 @@ class FragMorningDialog : Fragment() {
             val session = repository.getSession(sessionId)
             if (session == null) {
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(requireContext(), "No se encontró el ritual para exportar.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.ritual_not_found), Toast.LENGTH_SHORT).show()
                 }
                 return@launch
             }
@@ -204,8 +205,8 @@ class FragMorningDialog : Fragment() {
             withContext(Dispatchers.Main) {
                 Toast.makeText(
                     requireContext(),
-                    if (wasUpdated) "Entrada de Diario Actualizada"
-                    else "Entrada de Diario Creada",
+                    if (wasUpdated) getString(R.string.ritual_diary_updated)
+                    else getString(R.string.ritual_diary_created),
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -221,7 +222,7 @@ class FragMorningDialog : Fragment() {
                 db.morningDialogDao().deleteById(sessionId)
             }
             withContext(Dispatchers.Main) {
-                Toast.makeText(requireContext(), "Ritual eliminado del historial.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.ritual_deleted), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -295,14 +296,14 @@ private fun MorningDialogRoot(
                 title = {
                     Text(
                         when {
-                            route.startsWith("morning_note") -> "Nota"
-                            route == MorningDialogRoutes.FLOW -> "Diálogo guiado"
-                            route == MorningDialogRoutes.HISTORY -> "Historial"
-                            route == MorningDialogRoutes.SETTINGS -> "Ajustes"
-                            route == MorningDialogRoutes.EVENING -> "Cierre consciente"
-                            route == MorningDialogRoutes.SUMMARY -> "Resumen"
-                            route == MorningDialogRoutes.MY_DAY -> "Mi día"
-                            else -> "Ritual Matutino"
+                            route.startsWith("morning_note") -> stringResource(R.string.ritual_note)
+                            route == MorningDialogRoutes.FLOW -> stringResource(R.string.ritual_guided_dialog)
+                            route == MorningDialogRoutes.HISTORY -> stringResource(R.string.ritual_history)
+                            route == MorningDialogRoutes.SETTINGS -> stringResource(R.string.ritual_settings)
+                            route == MorningDialogRoutes.EVENING -> stringResource(R.string.ritual_evening)
+                            route == MorningDialogRoutes.SUMMARY -> stringResource(R.string.ritual_summary)
+                            route == MorningDialogRoutes.MY_DAY -> stringResource(R.string.ritual_my_day)
+                            else -> stringResource(R.string.ritual_title)
                         }
                     )
                 },

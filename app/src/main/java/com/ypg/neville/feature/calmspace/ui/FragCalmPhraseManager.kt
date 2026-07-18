@@ -41,11 +41,13 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.ypg.neville.R
 import com.ypg.neville.feature.calmspace.data.CalmPersonalPhraseEntity
 import com.ypg.neville.feature.calmspace.data.CalmPersonalPhraseRepository
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
@@ -101,7 +103,7 @@ class FragCalmPhraseManager : Fragment() {
         fun addPhrase(raw: String) {
             val normalized = raw.trim()
             if (normalized.isBlank()) {
-                Toast.makeText(context, "Escribe una frase válida", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.calm_enter_valid_phrase), Toast.LENGTH_SHORT).show()
                 return
             }
             dbExecutor.execute {
@@ -112,9 +114,9 @@ class FragCalmPhraseManager : Fragment() {
                         reloadSignal++
                     }.onFailure { error ->
                         val message = if (error is SQLiteConstraintException) {
-                            "Esa frase ya existe"
+                            context.getString(R.string.calm_phrase_exists)
                         } else {
-                            error.message ?: "No se pudo guardar la frase"
+                            context.getString(R.string.calm_phrase_save_error)
                         }
                         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                     }
@@ -125,7 +127,7 @@ class FragCalmPhraseManager : Fragment() {
         fun updatePhrase(target: CalmPersonalPhraseEntity, raw: String) {
             val normalized = raw.trim()
             if (normalized.isBlank()) {
-                Toast.makeText(context, "La frase no puede estar vacía", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.calm_phrase_empty), Toast.LENGTH_SHORT).show()
                 return
             }
             dbExecutor.execute {
@@ -136,9 +138,9 @@ class FragCalmPhraseManager : Fragment() {
                         reloadSignal++
                     }.onFailure { error ->
                         val message = if (error is SQLiteConstraintException) {
-                            "Esa frase ya existe"
+                            context.getString(R.string.calm_phrase_exists)
                         } else {
-                            error.message ?: "No se pudo actualizar"
+                            context.getString(R.string.calm_phrase_update_error)
                         }
                         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                     }
@@ -176,13 +178,13 @@ class FragCalmPhraseManager : Fragment() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Frases Personales de Calma",
+                    text = stringResource(R.string.calm_phrases_manager_title),
                     style = MaterialTheme.typography.headlineSmall,
                     color = Color.White,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "Cerrar",
+                    text = stringResource(R.string.common_close),
                     color = Color.White,
                     modifier = Modifier
                         .clickable { findNavController().popBackStack() }
@@ -191,7 +193,7 @@ class FragCalmPhraseManager : Fragment() {
             }
 
             Text(
-                text = "Crea, edita y elimina frases que podrán aparecer en las partículas de Espacio Calma.",
+                text = stringResource(R.string.calm_phrases_manager_intro),
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.White.copy(alpha = 0.9f),
                 modifier = Modifier.padding(top = 6.dp, bottom = 12.dp)
@@ -207,8 +209,8 @@ class FragCalmPhraseManager : Fragment() {
                         value = draft,
                         onValueChange = { draft = it },
                         modifier = Modifier.fillMaxWidth(),
-                        label = { Text("Nueva frase") },
-                        placeholder = { Text("Ej: Respiro y vuelvo a mi centro.") },
+                        label = { Text(stringResource(R.string.calm_new_phrase)) },
+                        placeholder = { Text(stringResource(R.string.calm_phrase_example)) },
                         singleLine = false,
                         maxLines = 3
                     )
@@ -217,7 +219,7 @@ class FragCalmPhraseManager : Fragment() {
                         onClick = { addPhrase(draft) },
                         modifier = Modifier.align(Alignment.End)
                     ) {
-                        Text("Agregar")
+                        Text(stringResource(R.string.calm_add))
                     }
                 }
             }
@@ -230,7 +232,7 @@ class FragCalmPhraseManager : Fragment() {
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "Aún no tienes frases personales.",
+                        text = stringResource(R.string.calm_no_personal_phrases),
                         color = Color.White.copy(alpha = 0.85f)
                     )
                 }
@@ -259,10 +261,10 @@ class FragCalmPhraseManager : Fragment() {
                                     horizontalArrangement = Arrangement.End
                                 ) {
                                     TextButton(onClick = { editTarget = phraseItem }) {
-                                        Text("Editar")
+                                        Text(stringResource(R.string.common_edit))
                                     }
                                     TextButton(onClick = { deleteTarget = phraseItem }) {
-                                        Text("Eliminar")
+                                        Text(stringResource(R.string.common_delete))
                                     }
                                 }
                             }
@@ -276,7 +278,7 @@ class FragCalmPhraseManager : Fragment() {
             var editDraft by remember(target.id) { mutableStateOf(target.phrase) }
             AlertDialog(
                 onDismissRequest = { editTarget = null },
-                title = { Text("Editar frase") },
+                title = { Text(stringResource(R.string.calm_edit_phrase)) },
                 text = {
                     OutlinedTextField(
                         value = editDraft,
@@ -287,12 +289,12 @@ class FragCalmPhraseManager : Fragment() {
                 },
                 confirmButton = {
                     TextButton(onClick = { updatePhrase(target, editDraft) }) {
-                        Text("Guardar")
+                        Text(stringResource(R.string.common_save))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = { editTarget = null }) {
-                        Text("Cancelar")
+                        Text(stringResource(R.string.common_cancel))
                     }
                 }
             )
@@ -301,20 +303,19 @@ class FragCalmPhraseManager : Fragment() {
         deleteTarget?.let { target ->
             AlertDialog(
                 onDismissRequest = { deleteTarget = null },
-                title = { Text("Eliminar frase") },
-                text = { Text("¿Seguro que deseas eliminar esta frase personal?") },
+                title = { Text(stringResource(R.string.calm_delete_phrase)) },
+                text = { Text(stringResource(R.string.calm_delete_phrase_question)) },
                 confirmButton = {
                     TextButton(onClick = { deletePhrase(target) }) {
-                        Text("Eliminar")
+                        Text(stringResource(R.string.common_delete))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = { deleteTarget = null }) {
-                        Text("Cancelar")
+                        Text(stringResource(R.string.common_cancel))
                     }
                 }
             )
         }
     }
 }
-

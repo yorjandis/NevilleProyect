@@ -37,6 +37,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -84,7 +86,7 @@ fun DiarioStatsScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Estadísticas del Diario",
+                    text = stringResource(R.string.diary_stats_title),
                     color = Color.White,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
@@ -93,12 +95,12 @@ fun DiarioStatsScreen(
                 TextButton(onClick = onRefresh) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_refress),
-                        contentDescription = "Recargar",
+                        contentDescription = stringResource(R.string.common_refresh),
                         tint = Color.White
                     )
                 }
                 TextButton(onClick = onClose) {
-                    Text("Cerrar", color = Color.White)
+                    Text(stringResource(R.string.common_close), color = Color.White)
                 }
             }
 
@@ -128,7 +130,7 @@ fun DiarioStatsScreen(
             title = { Text(info.title) },
             text = { Text(info.message) },
             confirmButton = {
-                TextButton(onClick = { infoItem = null }) { Text("Cerrar") }
+                TextButton(onClick = { infoItem = null }) { Text(stringResource(R.string.common_close)) }
             }
         )
     }
@@ -191,7 +193,7 @@ private data class DiarioStatsSnapshot(
         }
 
         private fun calculateWeekdayCounts(entries: List<DiarioEntity>): List<WeekdayCount> {
-            val labels = listOf("D", "L", "M", "X", "J", "V", "S")
+            val labels = List(7) { it.toString() }
             val counts = IntArray(7)
             val cal = Calendar.getInstance()
             entries.forEach { e ->
@@ -285,9 +287,10 @@ private data class DiarioInfoItem(
 
 @Composable
 private fun DiarioHeadlineCards(stats: DiarioStatsSnapshot, onInfo: (DiarioInfoItem) -> Unit) {
+    val context = LocalContext.current
     Column(modifier = Modifier.padding(horizontal = 14.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Text(
-            text = "Tu ritmo de escritura",
+            text = stringResource(R.string.diary_stats_writing_rhythm),
             color = Color.White,
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp
@@ -295,42 +298,42 @@ private fun DiarioHeadlineCards(stats: DiarioStatsSnapshot, onInfo: (DiarioInfoI
 
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             DiarioMetricCard(
-                title = "Entradas",
+                title = stringResource(R.string.diary_stats_entries),
                 value = stats.totalEntries.toString(),
-                subtitle = "Total",
+                subtitle = stringResource(R.string.diary_stats_total),
                 modifier = Modifier.weight(1f),
                 onInfo = {
-                    onInfo(DiarioInfoItem("Entradas Totales", "Cantidad total de entradas registradas en el Diario desde el inicio."))
+                    onInfo(DiarioInfoItem(context.getString(R.string.diary_stats_total_entries_info_title), context.getString(R.string.diary_stats_total_entries_info)))
                 }
             )
             DiarioMetricCard(
-                title = "Favoritas",
+                title = stringResource(R.string.diary_favorites),
                 value = stats.favoritesCount.toString(),
-                subtitle = "Guardadas",
+                subtitle = stringResource(R.string.diary_stats_saved),
                 modifier = Modifier.weight(1f),
                 onInfo = {
-                    onInfo(DiarioInfoItem("Entradas Favoritas", "Número de entradas marcadas como favoritas para acceso rápido."))
+                    onInfo(DiarioInfoItem(context.getString(R.string.diary_stats_favorite_entries_info_title), context.getString(R.string.diary_stats_favorite_entries_info)))
                 }
             )
         }
 
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             DiarioMetricCard(
-                title = "Racha actual",
+                title = stringResource(R.string.diary_stats_current_streak),
                 value = stats.currentStreak.toString(),
-                subtitle = "días",
+                subtitle = stringResource(R.string.diary_stats_days),
                 modifier = Modifier.weight(1f),
                 onInfo = {
-                    onInfo(DiarioInfoItem("Racha Actual", "Días consecutivos recientes con al menos una entrada creada por día."))
+                    onInfo(DiarioInfoItem(context.getString(R.string.diary_stats_current_streak_info_title), context.getString(R.string.diary_stats_current_streak_info)))
                 }
             )
             DiarioMetricCard(
-                title = "Mejor racha",
+                title = stringResource(R.string.diary_stats_best_streak),
                 value = stats.longestStreak.toString(),
-                subtitle = "días",
+                subtitle = stringResource(R.string.diary_stats_days),
                 modifier = Modifier.weight(1f),
                 onInfo = {
-                    onInfo(DiarioInfoItem("Mejor Racha", "Mayor número histórico de días consecutivos con actividad en el Diario."))
+                    onInfo(DiarioInfoItem(context.getString(R.string.diary_stats_best_streak_info_title), context.getString(R.string.diary_stats_best_streak_info)))
                 }
             )
         }
@@ -338,21 +341,21 @@ private fun DiarioHeadlineCards(stats: DiarioStatsSnapshot, onInfo: (DiarioInfoI
         val formatter = remember { DecimalFormat("0.0") }
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             DiarioMetricCard(
-                title = "Promedio",
+                title = stringResource(R.string.diary_stats_average),
                 value = formatter.format(stats.weeklyAverage),
-                subtitle = "por semana",
+                subtitle = stringResource(R.string.diary_stats_per_week),
                 modifier = Modifier.weight(1f),
                 onInfo = {
-                    onInfo(DiarioInfoItem("Promedio Semanal", "Promedio de entradas creadas por semana durante el período de datos disponible."))
+                    onInfo(DiarioInfoItem(context.getString(R.string.diary_stats_weekly_average_info_title), context.getString(R.string.diary_stats_weekly_average_info)))
                 }
             )
             DiarioMetricCard(
-                title = "Promedio",
+                title = stringResource(R.string.diary_stats_average),
                 value = formatter.format(stats.monthlyAverage),
-                subtitle = "por mes",
+                subtitle = stringResource(R.string.diary_stats_per_month),
                 modifier = Modifier.weight(1f),
                 onInfo = {
-                    onInfo(DiarioInfoItem("Promedio Mensual", "Promedio de entradas creadas por mes considerando todo el historial del Diario."))
+                    onInfo(DiarioInfoItem(context.getString(R.string.diary_stats_monthly_average_info_title), context.getString(R.string.diary_stats_monthly_average_info)))
                 }
             )
         }
@@ -379,7 +382,7 @@ private fun DiarioMetricCard(
             Box(modifier = Modifier.weight(1f))
             Icon(
                 painter = painterResource(id = R.drawable.ic_help),
-                contentDescription = "Info",
+                contentDescription = stringResource(R.string.common_information),
                 tint = Color.White.copy(alpha = 0.9f),
                 modifier = Modifier.size(16.dp).clickable(onClick = onInfo)
             )
@@ -391,7 +394,9 @@ private fun DiarioMetricCard(
 
 @Composable
 private fun DiarioWeeklyBarChart(stats: DiarioStatsSnapshot, onInfo: (DiarioInfoItem) -> Unit) {
+    val context = LocalContext.current
     val maxCount = max(1, stats.weekdayCounts.maxOfOrNull { it.count } ?: 1)
+    val weekdayLabels = statsWeekdayLabels()
     Column(
         modifier = Modifier
             .padding(horizontal = 14.dp)
@@ -401,17 +406,17 @@ private fun DiarioWeeklyBarChart(stats: DiarioStatsSnapshot, onInfo: (DiarioInfo
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text("Frecuencia semanal", color = Color.White, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.diary_stats_weekly_frequency), color = Color.White, fontWeight = FontWeight.Bold)
             Box(modifier = Modifier.weight(1f))
             Icon(
                 painter = painterResource(id = R.drawable.ic_help),
-                contentDescription = "Info",
+                contentDescription = stringResource(R.string.common_information),
                 tint = Color.White.copy(alpha = 0.9f),
                 modifier = Modifier.size(18.dp).clickable {
                     onInfo(
                         DiarioInfoItem(
-                            "Frecuencia Semanal",
-                            "Cuenta cuántas entradas fueron creadas en cada día de la semana usando la fecha de creación."
+                            context.getString(R.string.diary_stats_weekly_frequency_info_title),
+                            context.getString(R.string.diary_stats_weekly_frequency_info)
                         )
                     )
                 }
@@ -419,7 +424,7 @@ private fun DiarioWeeklyBarChart(stats: DiarioStatsSnapshot, onInfo: (DiarioInfo
         }
 
         Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.fillMaxWidth()) {
-            stats.weekdayCounts.forEach { item ->
+            stats.weekdayCounts.forEachIndexed { index, item ->
                 Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.weight(1f)) {
                     Box(contentAlignment = Alignment.BottomCenter) {
                         Box(
@@ -439,7 +444,7 @@ private fun DiarioWeeklyBarChart(stats: DiarioStatsSnapshot, onInfo: (DiarioInfo
                                 )
                         )
                     }
-                    Text(item.dayLabel, color = Color.White, fontSize = 12.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 6.dp))
+                    Text(weekdayLabels[index], color = Color.White, fontSize = 12.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 6.dp))
                     Text(item.count.toString(), color = Color.White.copy(alpha = 0.85f), fontSize = 10.sp)
                 }
             }
@@ -449,6 +454,7 @@ private fun DiarioWeeklyBarChart(stats: DiarioStatsSnapshot, onInfo: (DiarioInfo
 
 @Composable
 private fun DiarioMoodRingsSection(stats: DiarioStatsSnapshot, onInfo: (DiarioInfoItem) -> Unit) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .padding(horizontal = 14.dp)
@@ -458,17 +464,17 @@ private fun DiarioMoodRingsSection(stats: DiarioStatsSnapshot, onInfo: (DiarioIn
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text("Sentimientos predominantes", color = Color.White, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.diary_stats_dominant_emotions), color = Color.White, fontWeight = FontWeight.Bold)
             Box(modifier = Modifier.weight(1f))
             Icon(
                 painter = painterResource(id = R.drawable.ic_help),
-                contentDescription = "Info",
+                contentDescription = stringResource(R.string.common_information),
                 tint = Color.White.copy(alpha = 0.9f),
                 modifier = Modifier.size(18.dp).clickable {
                     onInfo(
                         DiarioInfoItem(
-                            "Sentimientos Predominantes",
-                            "Ordena las emociones por frecuencia y visualiza las 3 más frecuentes con su peso relativo en el Diario."
+                            context.getString(R.string.diary_stats_dominant_emotions_info_title),
+                            context.getString(R.string.diary_stats_dominant_emotions_info)
                         )
                     )
                 }
@@ -476,7 +482,7 @@ private fun DiarioMoodRingsSection(stats: DiarioStatsSnapshot, onInfo: (DiarioIn
         }
 
         if (stats.topEmotions.isEmpty()) {
-            Text("Aún no hay datos emocionales suficientes.", color = Color.White.copy(alpha = 0.75f), fontSize = 13.sp)
+            Text(stringResource(R.string.diary_stats_not_enough_emotion_data), color = Color.White.copy(alpha = 0.75f), fontSize = 13.sp)
         } else {
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
                 stats.topEmotions.take(3).forEachIndexed { idx, emotion ->
@@ -488,14 +494,14 @@ private fun DiarioMoodRingsSection(stats: DiarioStatsSnapshot, onInfo: (DiarioIn
                             else -> Color(0xFF26C6DA)
                         },
                         emoji = emotion.emoji,
-                        title = emotion.name,
+                        title = localizedStatsEmotionName(emotion.emotion),
                         value = emotion.count,
                         modifier = Modifier.weight(1f),
                         onInfo = {
                             onInfo(
                                 DiarioInfoItem(
-                                    "Anillo de Emoción",
-                                    "Cada anillo representa el porcentaje de una emoción sobre el total de entradas registradas."
+                                    context.getString(R.string.diary_stats_emotion_ring_info_title),
+                                    context.getString(R.string.diary_stats_emotion_ring_info)
                                 )
                             )
                         }
@@ -520,7 +526,7 @@ private fun DiarioRingMetric(
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_help),
-                contentDescription = "Info",
+                contentDescription = stringResource(R.string.common_information),
                 tint = Color.White.copy(alpha = 0.9f),
                 modifier = Modifier.size(14.dp).clickable(onClick = onInfo)
             )
@@ -551,6 +557,7 @@ private fun DiarioRingMetric(
 
 @Composable
 private fun DiarioDotTrendSection(stats: DiarioStatsSnapshot, onInfo: (DiarioInfoItem) -> Unit) {
+    val context = LocalContext.current
     var selectedDays by remember { mutableStateOf(30) }
     val dayOptions = listOf(7, 15, 30, 45, 60, 90)
     val points = remember(stats, selectedDays) { stats.dayPoints(selectedDays) }
@@ -567,24 +574,24 @@ private fun DiarioDotTrendSection(stats: DiarioStatsSnapshot, onInfo: (DiarioInf
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text("Actividad de los últimos $selectedDays días", color = Color.White, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.diary_stats_recent_activity, selectedDays), color = Color.White, fontWeight = FontWeight.Bold)
             Box(modifier = Modifier.weight(1f))
             Icon(
                 painter = painterResource(id = R.drawable.ic_help),
-                contentDescription = "Info",
+                contentDescription = stringResource(R.string.common_information),
                 tint = Color.White.copy(alpha = 0.9f),
                 modifier = Modifier.size(18.dp).clickable {
                     onInfo(
                         DiarioInfoItem(
-                            "Actividad de los últimos $selectedDays Días",
-                            "Cada punto representa un día. Puedes cambiar el rango a 7, 15, 30, 45, 60 o 90 días para analizar tu ritmo de escritura."
+                            context.getString(R.string.diary_stats_recent_activity_info_title, selectedDays),
+                            context.getString(R.string.diary_stats_recent_activity_info)
                         )
                     )
                 }
             )
         }
 
-        Text("Visualización por puntos al estilo Fitness", color = Color.White.copy(alpha = 0.75f), fontSize = 12.sp)
+        Text(stringResource(R.string.diary_stats_fitness_dots), color = Color.White.copy(alpha = 0.75f), fontSize = 12.sp)
 
         Row(
             modifier = Modifier.horizontalScroll(rememberScrollState()),
@@ -593,7 +600,7 @@ private fun DiarioDotTrendSection(stats: DiarioStatsSnapshot, onInfo: (DiarioInf
             dayOptions.forEach { days ->
                 val selected = selectedDays == days
                 Text(
-                    text = "${days}d",
+                    text = stringResource(R.string.diary_stats_days_short, days),
                     color = if (selected) Color.Black else Color.White,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.SemiBold,
@@ -666,4 +673,30 @@ private fun startOfDay(timeMillis: Long): Long {
     cal.set(Calendar.SECOND, 0)
     cal.set(Calendar.MILLISECOND, 0)
     return cal.timeInMillis
+}
+
+@Composable
+private fun statsWeekdayLabels(): List<String> = listOf(
+    stringResource(R.string.diary_stats_weekday_sun),
+    stringResource(R.string.diary_stats_weekday_mon),
+    stringResource(R.string.diary_stats_weekday_tue),
+    stringResource(R.string.diary_stats_weekday_wed),
+    stringResource(R.string.diary_stats_weekday_thu),
+    stringResource(R.string.diary_stats_weekday_fri),
+    stringResource(R.string.diary_stats_weekday_sat)
+)
+
+@Composable
+private fun localizedStatsEmotionName(emotion: String): String = when (emotion.lowercase(Locale.getDefault())) {
+    "feliz" -> stringResource(R.string.diary_emotion_happy)
+    "triste" -> stringResource(R.string.diary_emotion_sad)
+    "enfadado" -> stringResource(R.string.diary_emotion_angry)
+    "desanimado" -> stringResource(R.string.diary_emotion_discouraged)
+    "sorpresa" -> stringResource(R.string.diary_emotion_surprised)
+    "distraido" -> stringResource(R.string.diary_emotion_distracted)
+    "enamorado" -> stringResource(R.string.diary_emotion_loving)
+    "enfermo" -> stringResource(R.string.diary_emotion_unwell)
+    "pensativo" -> stringResource(R.string.diary_emotion_thoughtful)
+    "festivo" -> stringResource(R.string.diary_emotion_celebratory)
+    else -> stringResource(R.string.diary_emotion_neutral)
 }

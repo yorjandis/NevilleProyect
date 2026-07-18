@@ -45,7 +45,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -54,13 +56,13 @@ import com.ypg.neville.MainActivity
 import com.ypg.neville.R
 import com.ypg.neville.feature.weeklysummary.data.WeeklySummaryEntity
 import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryRepository
-import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryTime
 import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryViewData
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.concurrent.Executors
 import kotlin.math.max
 
@@ -150,7 +152,7 @@ class FragWeeklySummary : Fragment() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Resumen Semanal",
+                        text = stringResource(R.string.weekly_summary_title),
                         color = Color.White,
                         fontSize = 28.sp,
                         fontWeight = FontWeight.Bold,
@@ -159,7 +161,7 @@ class FragWeeklySummary : Fragment() {
                     TextButton(onClick = { reload() }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_refress),
-                            contentDescription = "Recargar",
+                            contentDescription = stringResource(R.string.common_refresh),
                             tint = Color.White
                         )
                     }
@@ -173,14 +175,14 @@ class FragWeeklySummary : Fragment() {
                 ) {
                     AssistChip(
                         onClick = { tab = "resumen" },
-                        label = { Text("Resumen") },
+                        label = { Text(stringResource(R.string.weekly_summary_tab_summary)) },
                         colors = AssistChipDefaults.assistChipColors(
                             containerColor = if (tab == "resumen") Color(0xFFE6EEF8) else Color.White.copy(alpha = 0.75f)
                         )
                     )
                     AssistChip(
                         onClick = { tab = "historial" },
-                        label = { Text("Historial") },
+                        label = { Text(stringResource(R.string.weekly_summary_tab_history)) },
                         colors = AssistChipDefaults.assistChipColors(
                             containerColor = if (tab == "historial") Color(0xFFE6EEF8) else Color.White.copy(alpha = 0.75f)
                         )
@@ -231,9 +233,8 @@ private fun WeeklySummaryTab(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         item {
-            val nextText = "Los resúmenes se generan automáticamente cada lunes a las 03:00"
             Text(
-                text = nextText,
+                text = stringResource(R.string.weekly_summary_generation_notice),
                 color = Color.White,
                 fontSize = 18.sp,
                 modifier = Modifier.padding(horizontal = 8.dp)
@@ -252,7 +253,8 @@ private fun WeeklySummaryTab(
                             val start = Instant.ofEpochMilli(summary.weekStartMillis)
                                 .atZone(ZoneId.systemDefault())
                                 .toLocalDate()
-                            Text(start.toString())
+                            val locale = LocalConfiguration.current.locales[0]
+                            Text(start.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale)))
                         },
                         colors = AssistChipDefaults.assistChipColors(containerColor = Color.White)
                     )
@@ -263,7 +265,7 @@ private fun WeeklySummaryTab(
         if (data == null) {
             item {
                 Text(
-                    text = "Todavía no hay semanas cerradas con datos para mostrar.",
+                    text = stringResource(R.string.weekly_summary_empty),
                     color = Color.White,
                     fontSize = 20.sp,
                     modifier = Modifier.padding(12.dp)
@@ -289,27 +291,27 @@ private fun WeeklySummaryTab(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = section.title,
+                            text = localizedWeeklySectionTitle(section.key, section.title),
                             fontSize = 24.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.weight(1f)
                         )
                         IconButton(onClick = { onMoveSection(section.key, true) }) {
-                            Icon(painter = painterResource(id = R.drawable.ic_arriba), contentDescription = "Subir")
+                            Icon(painter = painterResource(id = R.drawable.ic_arriba), contentDescription = stringResource(R.string.weekly_summary_move_up))
                         }
                         IconButton(onClick = { onMoveSection(section.key, false) }) {
-                            Icon(painter = painterResource(id = R.drawable.ic_abajo), contentDescription = "Bajar")
+                            Icon(painter = painterResource(id = R.drawable.ic_abajo), contentDescription = stringResource(R.string.weekly_summary_move_down))
                         }
                     }
 
-                    section.metrics.forEach { metric ->
+                    section.metrics.forEachIndexed { index, metric ->
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(vertical = 4.dp),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text(text = metric.first, fontSize = 20.sp)
+                            Text(text = localizedWeeklyMetricLabel(section.key, index, metric.first), fontSize = 20.sp)
                             Text(text = metric.second.toString(), fontSize = 22.sp, fontWeight = FontWeight.Bold)
                         }
                     }
@@ -322,7 +324,11 @@ private fun WeeklySummaryTab(
 @Composable
 private fun WeeklySummaryHeader(entity: WeeklySummaryEntity) {
     val zone = ZoneId.systemDefault()
-    val label = WeeklySummaryTime.weekLabel(entity.weekStartMillis, entity.weekEndMillis, zone)
+    val locale = LocalConfiguration.current.locales[0]
+    val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale)
+    val start = Instant.ofEpochMilli(entity.weekStartMillis).atZone(zone).toLocalDate()
+    val end = Instant.ofEpochMilli(entity.weekEndMillis - 1L).atZone(zone).toLocalDate()
+    val label = "${start.format(formatter)} – ${end.format(formatter)}"
 
     Column(
         modifier = Modifier
@@ -330,7 +336,7 @@ private fun WeeklySummaryHeader(entity: WeeklySummaryEntity) {
             .background(Color.White.copy(alpha = 0.92f), RoundedCornerShape(16.dp))
             .padding(12.dp)
     ) {
-        Text(text = "Semana", fontSize = 20.sp, color = Color(0xFF264E77))
+        Text(text = stringResource(R.string.weekly_summary_week), fontSize = 20.sp, color = Color(0xFF264E77))
         Text(text = label, fontSize = 24.sp, fontWeight = FontWeight.Bold)
     }
 }
@@ -343,10 +349,10 @@ private fun WeeklySummaryCharts(entity: WeeklySummaryEntity) {
     val deleted = entity.notesDeleted + entity.journalDeleted + entity.remindersDeleted + entity.voiceDeleted + entity.personalPhrasesDeleted
 
     val bars = listOf(
-        "Creado" to created,
-        "Modificado" to modified,
-        "Eliminado" to deleted,
-        "Uso" to (
+        stringResource(R.string.weekly_summary_created) to created,
+        stringResource(R.string.weekly_summary_modified) to modified,
+        stringResource(R.string.weekly_summary_deleted) to deleted,
+        stringResource(R.string.weekly_summary_usage) to (
             entity.conferencesRead +
                 entity.emotionalAnchorsUsed +
                 entity.encyclopediaAccessed +
@@ -364,7 +370,7 @@ private fun WeeklySummaryCharts(entity: WeeklySummaryEntity) {
             .background(Color.White.copy(alpha = 0.92f), RoundedCornerShape(16.dp))
             .padding(12.dp)
     ) {
-        Text("Visión General", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+        Text(stringResource(R.string.weekly_summary_overview), fontSize = 24.sp, fontWeight = FontWeight.Bold)
 
         bars.forEachIndexed { index, bar ->
             val fraction = bar.second.toFloat() / maxValue.toFloat()
@@ -451,7 +457,9 @@ private fun WeeklyHistoryTab(
     onNextMonth: () -> Unit,
     onSelectSummary: (WeeklySummaryEntity) -> Unit
 ) {
-    val formatter = DateTimeFormatter.ofPattern("MMMM yyyy")
+    val locale = LocalConfiguration.current.locales[0]
+    val formatter = DateTimeFormatter.ofPattern("MMMM yyyy", locale)
+    val dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale)
     val weekStarts = WeeklySummaryRepository.weekStartsForMonth(monthCursor.withDayOfMonth(1), zoneId)
     val summaryByWeek = summaries.associateBy { it.weekStartMillis }
 
@@ -482,7 +490,7 @@ private fun WeeklyHistoryTab(
 
         item {
             Text(
-                text = "Calendario semanal del mes",
+                text = stringResource(R.string.weekly_summary_month_calendar),
                 color = Color.White,
                 fontSize = 19.sp,
                 modifier = Modifier.padding(horizontal = 6.dp)
@@ -502,9 +510,9 @@ private fun WeeklyHistoryTab(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(modifier = Modifier.weight(1f)) {
-                    Text("Semana de $monday", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
+                    Text(stringResource(R.string.weekly_summary_week_of, monday.format(dateFormatter)), fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
                     Text(
-                        text = if (summary != null) "Resumen disponible" else "Sin resumen generado",
+                        text = if (summary != null) stringResource(R.string.weekly_summary_available) else stringResource(R.string.weekly_summary_unavailable),
                         color = if (summary != null) Color(0xFF0A7C2F) else Color(0xFF6B7280),
                         fontSize = 17.sp
                     )
@@ -532,11 +540,77 @@ private fun WeeklyHistoryTab(
                 if (summary != null) {
                     AssistChip(
                         onClick = { onSelectSummary(summary) },
-                        label = { Text("Abrir") },
+                        label = { Text(stringResource(R.string.weekly_summary_open)) },
                         colors = AssistChipDefaults.assistChipColors(containerColor = Color(0xFFDDEBFF))
                     )
                 }
             }
         }
     }
+}
+
+@Composable
+private fun localizedWeeklySectionTitle(key: String, fallback: String): String = when (key) {
+    WeeklySummaryRepository.SECTION_NOTES -> stringResource(R.string.weekly_section_notes)
+    WeeklySummaryRepository.SECTION_JOURNAL -> stringResource(R.string.weekly_section_journal)
+    WeeklySummaryRepository.SECTION_CONFERENCES -> stringResource(R.string.weekly_section_conferences)
+    WeeklySummaryRepository.SECTION_GOALS -> stringResource(R.string.weekly_section_goals)
+    WeeklySummaryRepository.SECTION_REMINDERS -> stringResource(R.string.weekly_section_reminders)
+    WeeklySummaryRepository.SECTION_VOICE -> stringResource(R.string.weekly_section_voice)
+    WeeklySummaryRepository.SECTION_ANCHORS -> stringResource(R.string.weekly_section_anchors)
+    WeeklySummaryRepository.SECTION_MORNING -> stringResource(R.string.weekly_section_morning)
+    WeeklySummaryRepository.SECTION_EVENING -> stringResource(R.string.weekly_section_evening)
+    WeeklySummaryRepository.SECTION_CARDIO_COHERENCE -> stringResource(R.string.weekly_section_cardio_coherence)
+    WeeklySummaryRepository.SECTION_PHRASES -> stringResource(R.string.weekly_section_phrases)
+    WeeklySummaryRepository.SECTION_ENCYCLOPEDIA -> stringResource(R.string.weekly_section_encyclopedia)
+    else -> fallback
+}
+
+@Composable
+private fun localizedWeeklyMetricLabel(sectionKey: String, index: Int, fallback: String): String {
+    val resourceId = when (sectionKey) {
+        WeeklySummaryRepository.SECTION_NOTES,
+        WeeklySummaryRepository.SECTION_JOURNAL,
+        WeeklySummaryRepository.SECTION_PHRASES -> listOf(
+            R.string.weekly_metric_created_feminine,
+            R.string.weekly_metric_modified_feminine,
+            R.string.weekly_metric_deleted_feminine
+        ).getOrNull(index)
+        WeeklySummaryRepository.SECTION_CONFERENCES -> R.string.weekly_metric_read
+        WeeklySummaryRepository.SECTION_GOALS -> listOf(
+            R.string.weekly_metric_created_feminine,
+            R.string.weekly_metric_completed_feminine,
+            R.string.weekly_metric_in_progress
+        ).getOrNull(index)
+        WeeklySummaryRepository.SECTION_REMINDERS -> listOf(
+            R.string.weekly_metric_created_masculine,
+            R.string.weekly_metric_modified_masculine,
+            R.string.weekly_metric_deleted_masculine
+        ).getOrNull(index)
+        WeeklySummaryRepository.SECTION_VOICE -> listOf(
+            R.string.weekly_metric_created_feminine,
+            R.string.weekly_metric_deleted_feminine
+        ).getOrNull(index)
+        WeeklySummaryRepository.SECTION_ANCHORS -> listOf(
+            R.string.weekly_metric_created_feminine,
+            R.string.weekly_metric_used_feminine
+        ).getOrNull(index)
+        WeeklySummaryRepository.SECTION_MORNING -> R.string.weekly_metric_completed_masculine
+        WeeklySummaryRepository.SECTION_EVENING -> listOf(
+            R.string.weekly_metric_closures_completed,
+            R.string.weekly_metric_ritual_cycles,
+            R.string.weekly_metric_average_energy,
+            R.string.weekly_metric_average_coherence,
+            R.string.weekly_metric_presence_returns,
+            R.string.weekly_metric_goal_units
+        ).getOrNull(index)
+        WeeklySummaryRepository.SECTION_CARDIO_COHERENCE -> listOf(
+            R.string.weekly_metric_sessions,
+            R.string.weekly_metric_minutes,
+            R.string.weekly_metric_net_improvement
+        ).getOrNull(index)
+        WeeklySummaryRepository.SECTION_ENCYCLOPEDIA -> R.string.weekly_metric_articles_accessed
+        else -> null
+    }
+    return resourceId?.let { stringResource(it) } ?: fallback
 }

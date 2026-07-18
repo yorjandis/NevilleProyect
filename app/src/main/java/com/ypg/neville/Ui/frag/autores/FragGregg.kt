@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,7 +50,7 @@ class FragGregg : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 com.ypg.neville.ui.theme.NevilleTheme {
-                    val author = getString(R.string.gregg_braden)
+                    val authorDisplayName = stringResource(R.string.gregg_braden)
                     val authorAssetsFolder = "autores/greggBraden"
                     val context = requireContext()
                     val subscriptionState by SubscriptionManager.uiState.collectAsState()
@@ -61,9 +62,9 @@ class FragGregg : Fragment() {
                     val teachingSummaryAssetPath = remember { loadAuthorTeachingSummaryAssetPath(context, authorAssetsFolder) }
                     val cards = remember { greggResourceCards() }
                     val placeholder = if (hasPremium) {
-                        getString(R.string.author_quote_placeholder, author)
+                        stringResource(R.string.author_quote_placeholder, authorDisplayName)
                     } else {
-                        getString(R.string.author_quote_premium_placeholder, author)
+                        stringResource(R.string.author_quote_premium_placeholder, authorDisplayName)
                     }
                     var quoteFilter by remember {
                         mutableStateOf(
@@ -77,7 +78,7 @@ class FragGregg : Fragment() {
                         if (hasPremium) {
                             utilsDB.getRandomFraseByAutor(
                                 context = context,
-                                autor = author,
+                                autor = AUTHOR_DATABASE_NAME,
                                 onlyFav = quoteFilter.onlyFavorites,
                                 onlyWithNotes = quoteFilter.onlyWithNotes
                             )
@@ -98,7 +99,7 @@ class FragGregg : Fragment() {
                     if (!hasPremium && quote != placeholder) quote = placeholder
                     if (!hasPremium && quoteFavState.isNotEmpty()) quoteFavState = ""
                     AuthorPlaceholderScreen(
-                        authorName = author,
+                        authorName = authorDisplayName,
                         imageRes = R.drawable.gregg,
                         quote = quote,
                         quoteFilter = quoteFilter,
@@ -106,7 +107,7 @@ class FragGregg : Fragment() {
                             if (hasPremium) {
                                 val nextQuoteItem = utilsDB.getRandomFraseByAutor(
                                     context = context,
-                                    autor = author,
+                                    autor = AUTHOR_DATABASE_NAME,
                                     onlyFav = quoteFilter.onlyFavorites,
                                     onlyWithNotes = quoteFilter.onlyWithNotes
                                 )
@@ -121,7 +122,17 @@ class FragGregg : Fragment() {
                                 putBoolean(filterNotesKey, newFilter.onlyWithNotes)
                             }
                         },
-                        favoriteOptionLabel = if (!hasPremium) null else if (quoteFavState == "1") "Quitar de Favoritas" else "Agregar a Favoritas",
+                        favoriteOptionLabel = if (!hasPremium) {
+                            null
+                        } else {
+                            stringResource(
+                                if (quoteFavState == "1") {
+                                    R.string.author_remove_from_favorites
+                                } else {
+                                    R.string.author_add_to_favorites
+                                }
+                            )
+                        },
                         onToggleFavorito = if (!hasPremium) {
                             null
                         } else {
@@ -172,24 +183,24 @@ class FragGregg : Fragment() {
     private fun greggResourceCards(): List<AccessCardPlaceholder> {
         return listOf(
             AccessCardPlaceholder(
-                title = "La Matriz Divina",
-                primaryButton = "Resumen",
+                title = getString(R.string.author_title_divine_matrix),
+                primaryButton = getString(R.string.author_summary),
                 primaryAssetPath = "autores/greggBraden/libros/LaMatrizDivina/resumen_libro_lamatrizdivina.txt",
-                secondaryButton = "Plan",
+                secondaryButton = getString(R.string.author_plan),
                 secondaryAssetPath = "autores/greggBraden/libros/LaMatrizDivina/plan_libro_lamatrizdivina.txt"
             ),
             AccessCardPlaceholder(
-                title = "Puramente Humanos",
-                primaryButton = "Resumen",
+                title = getString(R.string.author_title_purely_human),
+                primaryButton = getString(R.string.author_summary),
                 primaryAssetPath = "autores/greggBraden/libros/PuramenteHumanos/resumen_libro_puramente_humanos.txt",
-                secondaryButton = "Plan",
+                secondaryButton = getString(R.string.author_plan),
                 secondaryAssetPath = "autores/greggBraden/libros/PuramenteHumanos/plan_libro_puramente_humanos.txt"
             ),
             AccessCardPlaceholder(
-                title = "Resiliencia Desde El Corazon",
-                primaryButton = "Resumen",
+                title = getString(R.string.author_title_resilience_from_the_heart),
+                primaryButton = getString(R.string.author_summary),
                 primaryAssetPath = "autores/greggBraden/libros/ResilienciaDesdeElCorazon/resumen_libro_resiliencia_desde_corazon.txt",
-                secondaryButton = "Plan",
+                secondaryButton = getString(R.string.author_plan),
                 secondaryAssetPath = "autores/greggBraden/libros/ResilienciaDesdeElCorazon/plan_libro_resiliencia_desde_corazon.txt"
             )
         )
@@ -214,7 +225,7 @@ class FragGregg : Fragment() {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "Recursos",
+                text = stringResource(R.string.author_resources_section_title),
                 color = titleColor,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
@@ -222,7 +233,7 @@ class FragGregg : Fragment() {
 
             if (!hasPremium) {
                 Text(
-                    text = "Disponible en la Versión Extendida",
+                    text = stringResource(R.string.author_extended_version_available),
                     color = bodyColor,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Medium
@@ -232,7 +243,7 @@ class FragGregg : Fragment() {
 
         if (cards.isEmpty()) {
             Text(
-                text = "No hay recursos disponibles",
+                text = stringResource(R.string.author_no_resources),
                 color = bodyColor,
                 fontSize = 14.sp,
                 modifier = Modifier
@@ -291,5 +302,9 @@ class FragGregg : Fragment() {
                 }
             }
         }
+    }
+
+    private companion object {
+        const val AUTHOR_DATABASE_NAME = "Gregg Braden"
     }
 }

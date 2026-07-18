@@ -99,6 +99,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -113,6 +114,7 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
+import com.ypg.neville.localization.HomePhraseLocalization
 import com.ypg.neville.model.db.DatabaseHelper
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
 import com.ypg.neville.model.db.utilsDB
@@ -168,7 +170,7 @@ class FragHome : Fragment() {
                 }
             }.getOrNull()
         }
-        var phrase by remember { mutableStateOf(alternativePhraseForNow()) }
+        var phrase by remember { mutableStateOf(alternativePhraseForNow(context)) }
         var accessIds by remember {
             mutableStateOf(
                 normalizeAlternativeAccessIds(
@@ -242,7 +244,7 @@ class FragHome : Fragment() {
                 if (mandalaBitmap != null) {
                     Image(
                         bitmap = mandalaBitmap,
-                        contentDescription = "Mándala Home",
+                        contentDescription = stringResource(R.string.home_mandala_description),
                         modifier = Modifier
                             .size(HOME_ALTERNATIVE_TOP_IMAGE_SIZE_DP.dp)
                             .clip(RoundedCornerShape(HOME_ALTERNATIVE_TOP_IMAGE_CORNER_DP.dp)),
@@ -251,7 +253,7 @@ class FragHome : Fragment() {
                 } else {
                     Image(
                         painter = painterResource(id = R.drawable.logo_home2),
-                        contentDescription = "Logo Home",
+                        contentDescription = stringResource(R.string.home_logo_description),
                         modifier = Modifier
                             .size(HOME_ALTERNATIVE_TOP_IMAGE_SIZE_DP.dp)
                             .clip(RoundedCornerShape(HOME_ALTERNATIVE_TOP_IMAGE_CORNER_DP.dp)),
@@ -266,7 +268,7 @@ class FragHome : Fragment() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .combinedClickable(
-                            onClick = { phrase = alternativePhraseForNow() },
+                            onClick = { phrase = alternativePhraseForNow(context) },
                             onLongClick = { showEditor = true }
                         ),
                     textAlign = TextAlign.Center,
@@ -324,8 +326,8 @@ class FragHome : Fragment() {
                 ) {
                     AlternativeProgressCard(
                         modifier = Modifier.weight(1f),
-                        title = "Presencia",
-                        value = "$presenceCount eventos",
+                        title = stringResource(R.string.home_access_presence),
+                        value = stringResource(R.string.home_presence_events, presenceCount),
                         icon = Icons.Rounded.Favorite,
                         progress = (presenceCount.toFloat() / presenceProgressTotal.toFloat()).coerceIn(0f, 1f),
                         colors = listOf(Color(0xFFFFEEA8), Color(0xFFFFB738), Color(0xFFF46F10)),
@@ -333,8 +335,8 @@ class FragHome : Fragment() {
                     )
                     AlternativeProgressCard(
                         modifier = Modifier.weight(1f),
-                        title = "Metas",
-                        value = "$activeGoalsCount activas",
+                        title = stringResource(R.string.home_access_goals),
+                        value = stringResource(R.string.home_active_goals, activeGoalsCount),
                         icon = Icons.Rounded.Checklist,
                         progress = (activeGoalsCount.toFloat() / goalsProgressTotal.toFloat()).coerceIn(0f, 1f),
                         colors = listOf(Color(0xFFC2FFC7), Color(0xFF61D67A), Color(0xFF1A9443)),
@@ -342,8 +344,8 @@ class FragHome : Fragment() {
                     )
                     AlternativeProgressCard(
                         modifier = Modifier.weight(1f),
-                        title = "Diario",
-                        value = "$diaryCount hoy",
+                        title = stringResource(R.string.home_access_diary),
+                        value = stringResource(R.string.home_diary_today, diaryCount),
                         icon = Icons.Rounded.MenuBook,
                         progress = (diaryCount.toFloat() / diaryProgressTotal.toFloat()).coerceIn(0f, 1f),
                         colors = listOf(Color(0xFFBCFFF5), Color(0xFF4DD2C7), Color(0xFF007F94)),
@@ -404,6 +406,7 @@ class FragHome : Fragment() {
         onClick: () -> Unit,
         onLongClick: () -> Unit
     ) {
+        val accessTitle = alternativeAccessTitle(access)
         Box {
             Column(
                 modifier = Modifier
@@ -420,13 +423,13 @@ class FragHome : Fragment() {
             ) {
                 Icon(
                     imageVector = access.icon,
-                    contentDescription = access.title,
+                    contentDescription = accessTitle,
                     tint = theme.cardForeground,
                     modifier = Modifier.size(HOME_ALTERNATIVE_CARD_ICON_SIZE_DP.dp)
                 )
                 Spacer(modifier = Modifier.height(HOME_ALTERNATIVE_CARD_ICON_TEXT_SPACING_DP.dp))
                 Text(
-                    text = access.title,
+                    text = accessTitle,
                     maxLines = 1,
                     fontSize = HOME_ALTERNATIVE_CARD_TEXT_SIZE_SP.sp,
                     fontWeight = FontWeight.Bold,
@@ -540,12 +543,12 @@ class FragHome : Fragment() {
         AlertDialog(
             onDismissRequest = onDismiss,
             confirmButton = {
-                Button(onClick = onDismiss) { Text("OK") }
+                Button(onClick = onDismiss) { Text(stringResource(R.string.ok)) }
             },
             dismissButton = {
-                TextButton(onClick = onReset) { Text("Restablecer") }
+                TextButton(onClick = onReset) { Text(stringResource(R.string.home_reset)) }
             },
-            title = { Text("Accesos") },
+            title = { Text(stringResource(R.string.home_shortcuts_title)) },
             text = {
                 Column(
                     modifier = Modifier
@@ -555,6 +558,7 @@ class FragHome : Fragment() {
                 ) {
                     accessIds.forEachIndexed { index, id ->
                         val access = HomeAlternativeAccess.entries.firstOrNull { it.id == id } ?: return@forEachIndexed
+                        val accessTitle = alternativeAccessTitle(access)
                         val selectedGradient = homeAlternativeGradientForId(accessGradientIds.getOrNull(index), access)
                         var accessExpanded by remember(id, index) { mutableStateOf(false) }
                         var gradientExpanded by remember(id, selectedGradient.id, index) { mutableStateOf(false) }
@@ -563,8 +567,8 @@ class FragHome : Fragment() {
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
-                            Icon(access.icon, contentDescription = access.title, tint = theme.primaryText, modifier = Modifier.size(20.dp))
-                            Text(access.title, modifier = Modifier.weight(1f), color = theme.primaryText, maxLines = 1)
+                            Icon(access.icon, contentDescription = accessTitle, tint = theme.primaryText, modifier = Modifier.size(20.dp))
+                            Text(accessTitle, modifier = Modifier.weight(1f), color = theme.primaryText, maxLines = 1)
                             Box {
                                 Surface(
                                     modifier = Modifier
@@ -585,7 +589,7 @@ class FragHome : Fragment() {
                                 DropdownMenu(expanded = gradientExpanded, onDismissRequest = { gradientExpanded = false }) {
                                     HomeAlternativeGradient.entries.forEach { gradient ->
                                         DropdownMenuItem(
-                                            text = { Text(gradient.title) },
+                                            text = { Text(alternativeGradientTitle(gradient)) },
                                             leadingIcon = {
                                                 Box(
                                                     modifier = Modifier
@@ -626,7 +630,7 @@ class FragHome : Fragment() {
                                     onChange(nextAccessIds, nextGradientIds)
                                 }
                             }) {
-                                Icon(Icons.Rounded.ArrowUpward, contentDescription = "Subir", modifier = Modifier.size(18.dp))
+                                Icon(Icons.Rounded.ArrowUpward, contentDescription = stringResource(R.string.home_move_up), modifier = Modifier.size(18.dp))
                             }
                             IconButton(onClick = {
                                 if (index < accessIds.lastIndex) {
@@ -643,16 +647,16 @@ class FragHome : Fragment() {
                                     onChange(nextAccessIds, nextGradientIds)
                                 }
                             }) {
-                                Icon(Icons.Rounded.ArrowDownward, contentDescription = "Bajar", modifier = Modifier.size(18.dp))
+                                Icon(Icons.Rounded.ArrowDownward, contentDescription = stringResource(R.string.home_move_down), modifier = Modifier.size(18.dp))
                             }
                             Box {
                                 IconButton(onClick = { accessExpanded = true }) {
-                                    Icon(Icons.Rounded.KeyboardArrowDown, contentDescription = "Cambiar", modifier = Modifier.size(20.dp))
+                                    Icon(Icons.Rounded.KeyboardArrowDown, contentDescription = stringResource(R.string.home_change_shortcut), modifier = Modifier.size(20.dp))
                                 }
                                 DropdownMenu(expanded = accessExpanded, onDismissRequest = { accessExpanded = false }) {
                                     HomeAlternativeAccess.entries.forEach { candidate ->
                                         DropdownMenuItem(
-                                            text = { Text(candidate.title) },
+                                            text = { Text(alternativeAccessTitle(candidate)) },
                                             leadingIcon = { Icon(candidate.icon, contentDescription = null) },
                                             onClick = {
                                                 accessExpanded = false
@@ -764,6 +768,65 @@ class FragHome : Fragment() {
         AutorGregg("autor_gregg", "Gregg", Icons.Rounded.GraphicEq, HomeAlternativeGradient.Gregg, R.id.frag_gregg)
     }
 
+    @Composable
+    private fun alternativeAccessTitle(access: HomeAlternativeAccess): String = stringResource(
+        when (access) {
+            HomeAlternativeAccess.Calma -> R.string.home_access_calm
+            HomeAlternativeAccess.Agenda -> R.string.home_access_agenda
+            HomeAlternativeAccess.Presencia -> R.string.home_access_presence
+            HomeAlternativeAccess.Metas -> R.string.home_access_goals
+            HomeAlternativeAccess.Diario -> R.string.home_access_diary
+            HomeAlternativeAccess.Lienzo -> R.string.home_access_canvas
+            HomeAlternativeAccess.Recordatorios -> R.string.home_access_reminders
+            HomeAlternativeAccess.Ritual -> R.string.home_access_ritual
+            HomeAlternativeAccess.MiDia -> R.string.home_access_my_day
+            HomeAlternativeAccess.Resumen -> R.string.home_access_summary
+            HomeAlternativeAccess.Voces -> R.string.home_access_voice
+            HomeAlternativeAccess.Anclas -> R.string.home_access_anchors
+            HomeAlternativeAccess.Cardio -> R.string.home_access_coherence
+            HomeAlternativeAccess.CentroSanador -> R.string.healing_center_title
+            HomeAlternativeAccess.Notas -> R.string.home_access_notes
+            HomeAlternativeAccess.Frases -> R.string.home_access_quotes
+            HomeAlternativeAccess.Enciclopedia -> R.string.home_access_encyclopedia
+            HomeAlternativeAccess.Reflexiones -> R.string.home_access_reflections
+            HomeAlternativeAccess.Evidencia -> R.string.home_access_evidence
+            HomeAlternativeAccess.Ayudas -> R.string.home_access_help
+            HomeAlternativeAccess.AutorNeville -> R.string.neville_goddard
+            HomeAlternativeAccess.AutorJoe -> R.string.joe_dispenza
+            HomeAlternativeAccess.AutorBruce -> R.string.bruce_lipton
+            HomeAlternativeAccess.AutorGregg -> R.string.gregg_braden
+        }
+    )
+
+    @Composable
+    private fun alternativeGradientTitle(gradient: HomeAlternativeGradient): String = stringResource(
+        when (gradient) {
+            HomeAlternativeGradient.Ocean -> R.string.home_gradient_ocean
+            HomeAlternativeGradient.Sunrise -> R.string.home_gradient_sunrise
+            HomeAlternativeGradient.Mint -> R.string.home_gradient_mint
+            HomeAlternativeGradient.Growth -> R.string.home_gradient_growth
+            HomeAlternativeGradient.Journal -> R.string.home_gradient_journal
+            HomeAlternativeGradient.VioletInk -> R.string.home_gradient_violet_ink
+            HomeAlternativeGradient.Flame -> R.string.home_gradient_flame
+            HomeAlternativeGradient.Ritual -> R.string.home_gradient_ritual
+            HomeAlternativeGradient.Summary -> R.string.home_gradient_summary
+            HomeAlternativeGradient.Voice -> R.string.home_gradient_voice
+            HomeAlternativeGradient.Anchor -> R.string.home_gradient_anchor
+            HomeAlternativeGradient.Coherence -> R.string.home_gradient_coherence
+            HomeAlternativeGradient.Notes -> R.string.home_gradient_notes
+            HomeAlternativeGradient.Phrase -> R.string.home_gradient_quotes
+            HomeAlternativeGradient.Encyclopedia -> R.string.home_gradient_encyclopedia
+            HomeAlternativeGradient.Reflection -> R.string.home_gradient_reflection
+            HomeAlternativeGradient.Evidence -> R.string.home_gradient_evidence
+            HomeAlternativeGradient.Help -> R.string.home_gradient_help
+            HomeAlternativeGradient.Neville -> R.string.home_gradient_neville
+            HomeAlternativeGradient.Joe -> R.string.home_gradient_joe
+            HomeAlternativeGradient.Bruce -> R.string.home_gradient_bruce
+            HomeAlternativeGradient.Gregg -> R.string.home_gradient_gregg
+            HomeAlternativeGradient.Healing -> R.string.home_gradient_healing
+        }
+    )
+
     private fun normalizeAlternativeAccessIds(stored: String): List<String> {
         val available = HomeAlternativeAccess.entries.map { it.id }
         val decoded = stored.split(",")
@@ -826,14 +889,14 @@ class FragHome : Fragment() {
         return HomeAlternativeGradient.entries.firstOrNull { it.id == gradientId } ?: access.defaultGradient
     }
 
-    private fun alternativePhraseForNow(): String {
+    private fun alternativePhraseForNow(context: android.content.Context): String {
         val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
         val phrases = when (hour) {
             in 5..11 -> HOME_ALTERNATIVE_MORNING_PHRASES
             in 12..19 -> HOME_ALTERNATIVE_AFTERNOON_PHRASES
             else -> HOME_ALTERNATIVE_NIGHT_PHRASES
         }
-        return phrases.random()
+        return HomePhraseLocalization.localized(context, phrases.random())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -1014,7 +1077,7 @@ class FragHome : Fragment() {
                         if (mandalaBitmap != null) {
                             Image(
                                 bitmap = mandalaBitmap,
-                                contentDescription = "Mándala Home",
+                                contentDescription = stringResource(R.string.home_mandala_description),
                                 modifier = Modifier
                                     .size(110.dp)
                                     .clip(RoundedCornerShape(20.dp)),
@@ -1023,7 +1086,7 @@ class FragHome : Fragment() {
                         } else {
                             Image(
                                 painter = painterResource(id = R.drawable.logo_home2),
-                                contentDescription = "Logo Home",
+                                contentDescription = stringResource(R.string.home_logo_description),
                                 modifier = Modifier
                                     .size(110.dp)
                                     .clip(RoundedCornerShape(20.dp)),
@@ -1093,7 +1156,10 @@ class FragHome : Fragment() {
                         FraseOptionsMenu(
                             expanded = showFraseMenu,
                             onDismiss = { showFraseMenu = false },
-                            favoriteOptionLabel = if (favState == "1") "Quitar de Favoritas" else "Agregar a Favoritas",
+                            favoriteOptionLabel = stringResource(
+                                if (favState == "1") R.string.phrases_remove_favorite
+                                else R.string.phrases_add_favorite
+                            ),
                             onToggleFavorito = {
                                 if (idFrase > 0) {
                                     val result = utilsDB.UpdateFavorito(
@@ -1111,9 +1177,9 @@ class FragHome : Fragment() {
                             onConvertirNota = {
                                 val result = FraseContextActions.convertirFraseEnNota(activityContext, frase)
                                 if (result.ok) {
-                                    Toast.makeText(activityContext, "Nota creada: ${result.titulo}", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(activityContext, getString(R.string.phrases_note_created, result.titulo), Toast.LENGTH_SHORT).show()
                                 } else {
-                                    Toast.makeText(activityContext, "No se pudo crear la nota", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(activityContext, getString(R.string.phrases_note_creation_failed), Toast.LENGTH_SHORT).show()
                                 }
                             },
                             onCargarLienzo = {
@@ -1192,7 +1258,7 @@ class FragHome : Fragment() {
                             ) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_toolbar_favorite),
-                                    contentDescription = "Favorito",
+                                    contentDescription = stringResource(R.string.phrases_favorite_description),
                                     tint = if (favState == "1") colorResource(id = R.color.fav_active) else colorResource(id = R.color.fav_inactive)
                                 )
                             }
@@ -1314,13 +1380,13 @@ class FragHome : Fragment() {
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_calendar_toggle),
-                        contentDescription = "Ritual del día",
+                        contentDescription = stringResource(R.string.home_nav_daily_ritual),
                         tint = Color.Black,
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Ritual",
+                        text = stringResource(R.string.home_access_ritual),
                         color = Color.Black,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold
@@ -1334,7 +1400,7 @@ class FragHome : Fragment() {
                 modifier = Modifier.align(Alignment.BottomEnd)
             ) {
                 DropdownMenuItem(
-                    text = { Text("Ocultar hoy") },
+                    text = { Text(stringResource(R.string.home_hide_today)) },
                     onClick = {
                         showMenu = false
                         onHideToday()
@@ -1361,9 +1427,9 @@ class FragHome : Fragment() {
                     .padding(horizontal = 16.dp, vertical = 11.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(Icons.Rounded.Timeline, contentDescription = "Mi día", tint = Color.Black, modifier = Modifier.size(18.dp))
+                Icon(Icons.Rounded.Timeline, contentDescription = stringResource(R.string.home_access_my_day), tint = Color.Black, modifier = Modifier.size(18.dp))
                 Spacer(Modifier.width(8.dp))
-                Text("Mi día", color = Color.Black, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                Text(stringResource(R.string.home_access_my_day), color = Color.Black, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
             }
         }
     }
@@ -1404,13 +1470,13 @@ class FragHome : Fragment() {
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_calendar_toggle),
-                        contentDescription = "Agenda",
+                        contentDescription = stringResource(R.string.home_access_agenda),
                         tint = Color.Black,
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Agenda",
+                        text = stringResource(R.string.home_access_agenda),
                         color = Color.Black,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold
@@ -1448,9 +1514,9 @@ class FragHome : Fragment() {
                         text = {
                             Text(
                                 if (showIndicator) {
-                                    "Ocultar indicador hoy"
+                                    stringResource(R.string.home_hide_indicator_today)
                                 } else {
-                                    "Mostrar indicador hoy"
+                                    stringResource(R.string.home_show_indicator_today)
                                 }
                             )
                         },
@@ -1461,7 +1527,7 @@ class FragHome : Fragment() {
                     )
                 }
                 DropdownMenuItem(
-                    text = { Text("Ocultar permanentemente") },
+                    text = { Text(stringResource(R.string.home_hide_permanently)) },
                     onClick = {
                         showMenu = false
                         onHidePermanently()
@@ -1504,13 +1570,13 @@ class FragHome : Fragment() {
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_show),
-                        contentDescription = "Presencia",
+                        contentDescription = stringResource(R.string.home_access_presence),
                         tint = Color.Black,
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Presencia",
+                        text = stringResource(R.string.home_access_presence),
                         color = Color.Black,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold
@@ -1524,7 +1590,7 @@ class FragHome : Fragment() {
                 modifier = Modifier.align(Alignment.BottomEnd)
             ) {
                 DropdownMenuItem(
-                    text = { Text("Ocultar permanentemente") },
+                    text = { Text(stringResource(R.string.home_hide_permanently)) },
                     onClick = {
                         showMenu = false
                         onHidePermanently()
@@ -1588,7 +1654,7 @@ class FragHome : Fragment() {
                 } else {
                     Toast.makeText(
                         requireContext(),
-                        "Debe cargar al menos una conferencia en Texto",
+                        getString(R.string.home_load_conference_first),
                         Toast.LENGTH_SHORT
                     ).show()
                     frag_listado.elementLoaded = "autores/neville/conf"
@@ -1617,9 +1683,9 @@ class FragHome : Fragment() {
             Toast.makeText(
                 requireContext(),
                 if (hasAnyFilter) {
-                    "No hay frase para mostrar con el filtro actual"
+                    getString(R.string.home_no_quote_for_filter)
                 } else {
-                    "No hay categorías activas. Activa al menos una en Ajustes"
+                    getString(R.string.home_no_active_quote_categories)
                 },
                 Toast.LENGTH_SHORT
             ).show()
@@ -1642,7 +1708,7 @@ class FragHome : Fragment() {
         } else {
             Toast.makeText(
                 requireContext(),
-                "No hay Conferencia favorita para mostrar. Cargando Conferencias inbuilt",
+                getString(R.string.home_no_favorite_conference),
                 Toast.LENGTH_SHORT
             ).show()
             prefs.edit { putString("list_start_load", "Conf_azar") }
@@ -1791,7 +1857,7 @@ class FragHome : Fragment() {
             "La tarde aún tiene espacio para crear",
             "Tu siguiente elección también cuenta",
             "Vuelve al momento presente",
-            "Has una pausa, respira y continúa",
+            "Haz una pausa, respira y continúa",
             "Regresa a tu centro",
             "Mantén viva tu intención",
             "Elige calma otra vez",
@@ -1856,7 +1922,7 @@ class FragHome : Fragment() {
             "Recupera e integra las experiencias del día",
             "Bendice este día",
             "Descansa en la certeza de tu poder creativo",
-            "No dejes psar este día sin bendecirte",
+            "No dejes pasar este día sin bendecirte",
             "Agradece, todo está en su justo lugar"
         )
     }

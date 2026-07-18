@@ -50,6 +50,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -156,19 +157,18 @@ class FragEmotionalAnchorsList : Fragment() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Anclas Emocionales",
+                        text = stringResource(R.string.anchors_title),
                         style = MaterialTheme.typography.headlineMedium,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
                     )
                     TextButton(onClick = { showHelpDialog = true }) {
-                        Text("Ayuda", color = Color(0xFF455A64))
+                        Text(stringResource(R.string.anchors_help), color = Color(0xFF455A64))
                     }
                 }
 
                 Text(
-                    text = "Entrena tu cerebro y respuesta emocional lanzando repetidamente un ancla en momentos positivos. " +
-                            "Luego, en momentos de estres,  utiliza el ancla para afrontar la situación.",
+                    text = stringResource(R.string.anchors_intro),
                     style = MaterialTheme.typography.titleMedium,
                     color = Color(0xFF000000),
                     modifier = Modifier.padding(top = 4.dp, bottom = 10.dp)
@@ -225,8 +225,8 @@ class FragEmotionalAnchorsList : Fragment() {
         deleteTarget?.let { target ->
             AlertDialog(
                 onDismissRequest = { deleteTarget = null },
-                title = { Text("Eliminar ancla") },
-                text = { Text("¿Seguro que deseas eliminar esta Ancla Emocional? Esta acción no se puede deshacer.") },
+                title = { Text(stringResource(R.string.anchors_delete_title)) },
+                text = { Text(stringResource(R.string.anchors_delete_message)) },
                 confirmButton = {
                     TextButton(
                         onClick = {
@@ -239,12 +239,12 @@ class FragEmotionalAnchorsList : Fragment() {
                             }
                         }
                     ) {
-                        Text("Eliminar")
+                        Text(stringResource(R.string.common_delete))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = { deleteTarget = null }) {
-                        Text("Cancelar")
+                        Text(stringResource(R.string.common_cancel))
                     }
                 }
             )
@@ -279,7 +279,7 @@ class FragEmotionalAnchorsList : Fragment() {
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         Text(
-                            text = "¿Qué son las Anclas Emocionales?",
+                            text = stringResource(R.string.anchors_help_title),
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold
                         )
@@ -291,32 +291,7 @@ class FragEmotionalAnchorsList : Fragment() {
                                 .verticalScroll(rememberScrollState())
                         ) {
                             Text(
-                                "Un ancla emocional es una técnica psicológica que consiste en asociar un estímulo concreto (una palabra, imagen, sonido o gesto) con un estado emocional positivo, para poder activarlo voluntariamente cuando lo necesites, especialmente en situaciones de estrés.\n\n" +
-                                    "🔹 ¿Cómo funciona?\n\n" +
-                                    "El cerebro aprende por asociación. Si repites varias veces una combinación específica mientras estás en calma o motivado, ese “paquete” se convierte en un acceso rápido a ese estado emocional.\n\n" +
-                                    "🔹 Componentes de un ancla emocional\n\n" +
-                                    "Una ancla efectiva suele combinar varios elementos:\n" +
-                                    "• Frase: corta y potente (ej. “Estoy en control”)\n" +
-                                    "• Respiración: patrón consciente (ej. inhalar 4 segundos, exhalar 6)\n" +
-                                    "• Imagen mental: recuerdo o visualización positiva\n" +
-                                    "• Audio: música o sonido breve que refuerce la emoción\n\n" +
-                                    "🔹 Cómo crearla (ejemplo práctico)\n" +
-                                    "1. Ponte en un estado emocional positivo (tranquilidad, confianza, foco).\n" +
-                                    "2. Repite una frase como: “Todo fluye”.\n" +
-                                    "3. Respira de forma lenta y profunda (4–6).\n" +
-                                    "4. Visualiza un momento donde te sentías seguro o exitoso.\n" +
-                                    "5. Añade un audio breve (puede ser una canción o tono específico).\n" +
-                                    "6. Repite este proceso varias veces para reforzar la asociación.\n\n" +
-                                    "🔹 Cómo usarla\n\n" +
-                                    "Cuando estés en una situación de estrés:\n" +
-                                    "• Activa la frase\n" +
-                                    "• Respira igual que entrenaste\n" +
-                                    "• Evoca la imagen\n" +
-                                    "• (Opcional) reproduce el audio\n\n" +
-                                    "👉 Esto ayuda a “resetear” tu estado emocional y recuperar control rápidamente.\n\n" +
-                                    "🔹 Clave importante\n\n" +
-                                    "La efectividad depende de la repetición y consistencia. Cuanto más practiques " +
-                                        "el ancla en momentos positivos, más potente será en momentos difíciles.",
+                                stringResource(R.string.anchors_help_body),
                                 style = MaterialTheme.typography.titleMedium,
                                 color = Color.Black,
                                 fontWeight = FontWeight.Bold
@@ -328,7 +303,7 @@ class FragEmotionalAnchorsList : Fragment() {
                             horizontalArrangement = Arrangement.End
                         ) {
                             TextButton(onClick = { showHelpDialog = false }) {
-                                Text("Entendido", color = Color.Black, fontWeight = FontWeight.Bold)
+                                Text(stringResource(R.string.anchors_understood), color = Color.Black, fontWeight = FontWeight.Bold)
                             }
                         }
                     }
@@ -368,13 +343,13 @@ class FragEmotionalAnchorsList : Fragment() {
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_anchor_edit),
-                            contentDescription = "Editar ancla",
+                            contentDescription = stringResource(R.string.anchors_edit_content_description),
                             tint = Color(0xFF546E7A)
                         )
                     }
                 }
                 Text(
-                    text = "${anchor.breathingTechniqueName} · ${anchor.breathingTechniquePattern}",
+                    text = "${localizedBreathingName(anchor.breathingTechniqueId, anchor.breathingTechniqueName)} · ${localizedBreathingPattern(anchor.breathingTechniqueId, anchor.breathingTechniquePattern)}",
                     style = MaterialTheme.typography.titleMedium,
                     color = Color(0xFFFFC107),
                     fontWeight = FontWeight.ExtraBold,
@@ -382,7 +357,7 @@ class FragEmotionalAnchorsList : Fragment() {
                 )
                 if (isBreathingGuideVisible) {
                     Text(
-                        text = anchor.breathingTechniqueGuide,
+                        text = localizedBreathingGuide(anchor.breathingTechniqueId, anchor.breathingTechniqueGuide),
                         style = MaterialTheme.typography.titleMedium,
                         color = Color(0xFFFFEB3B),
                         fontWeight = FontWeight.Bold
@@ -392,7 +367,7 @@ class FragEmotionalAnchorsList : Fragment() {
                 if (bitmap != null) {
                     Image(
                         bitmap = bitmap,
-                        contentDescription = "Imagen ancla",
+                        contentDescription = stringResource(R.string.anchors_image_content_description),
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(120.dp)
@@ -409,7 +384,7 @@ class FragEmotionalAnchorsList : Fragment() {
                             .clickable(onClick = onLaunch)
                             .padding(8.dp)
                     ) {
-                        Text("Imagen no disponible", style = MaterialTheme.typography.bodySmall)
+                        Text(stringResource(R.string.anchors_image_unavailable), style = MaterialTheme.typography.bodySmall)
                     }
                 }
 
@@ -418,7 +393,7 @@ class FragEmotionalAnchorsList : Fragment() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Audio: ${formatClock(anchor.audioDurationMs)} · ${formatDate(anchor.createdAt)}",
+                        text = stringResource(R.string.anchors_audio_info, formatClock(anchor.audioDurationMs), formatDate(anchor.createdAt)),
                         style = MaterialTheme.typography.bodySmall,
                         color = Color(0xFFFF9800),
                         modifier = Modifier.weight(1f)
@@ -430,7 +405,7 @@ class FragEmotionalAnchorsList : Fragment() {
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_anchor_delete),
-                            contentDescription = "Eliminar ancla",
+                            contentDescription = stringResource(R.string.anchors_delete_content_description),
                             tint = Color.White.copy(alpha = 0.78f)
                         )
                     }
@@ -443,7 +418,7 @@ class FragEmotionalAnchorsList : Fragment() {
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_anchor_play),
-                            contentDescription = "Lanzar ancla",
+                            contentDescription = stringResource(R.string.anchors_launch_content_description),
                             tint = Color(0xFFE7FC31).copy(alpha = 0.8f)
                         )
                     }

@@ -39,6 +39,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
@@ -63,8 +64,8 @@ object UiModalWindows {
     fun Add_New_frase(pcontext: Context, contentValues: ContentValues?) {
         val compose = ComposeView(pcontext)
         val alertDialog = AlertDialog.Builder(pcontext, androidx.appcompat.R.style.Theme_AppCompat_Dialog_Alert)
-            .setTitle("Adicionar una nueva frase")
-            .setMessage("Adicione sus propias frases a la biblioteca")
+            .setTitle(pcontext.getString(R.string.shared_dialog_new_quote_title))
+            .setMessage(pcontext.getString(R.string.shared_dialog_new_quote_message))
             .setIcon(R.drawable.neville)
             .setCancelable(false)
             .setView(compose)
@@ -87,7 +88,7 @@ object UiModalWindows {
                     OutlinedTextField(
                         value = frase,
                         onValueChange = { frase = it },
-                        label = { Text("Frase") },
+                        label = { Text(stringResource(R.string.phrases_quote_field)) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(168.dp)
@@ -97,45 +98,45 @@ object UiModalWindows {
                     OutlinedTextField(
                         value = autor,
                         onValueChange = { autor = it },
-                        label = { Text("Autor") },
+                        label = { Text(stringResource(R.string.phrases_author_field)) },
                         shape = RoundedCornerShape(14.dp)
                     )
                     OutlinedTextField(
                         value = fuente,
                         onValueChange = { fuente = it },
-                        label = { Text("Fuente") },
+                        label = { Text(stringResource(R.string.phrases_source_field)) },
                         shape = RoundedCornerShape(14.dp)
                     )
 
                     Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
-                        Text("Guardar", modifier = Modifier.clickable {
+                        Text(stringResource(R.string.common_save), modifier = Modifier.clickable {
                             if (frase.trim().isNotEmpty()) {
                                 val res = utilsDB.insertNewFrase(pcontext, frase, autor, fuente, "0")
                                 if (res < 0) {
-                                    Toast.makeText(pcontext, "Error al adicionar la frases", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(pcontext, pcontext.getString(R.string.shared_dialog_quote_add_error), Toast.LENGTH_SHORT).show()
                                 } else {
-                                    Toast.makeText(pcontext, "Frase adicionada con éxito", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(pcontext, pcontext.getString(R.string.shared_dialog_quote_added), Toast.LENGTH_SHORT).show()
                                     frase = ""
                                     autor = ""
                                     fuente = ""
                                 }
                             } else {
-                                Toast.makeText(pcontext, "Debe establecer el texto de la frase", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(pcontext, pcontext.getString(R.string.shared_dialog_quote_required), Toast.LENGTH_SHORT).show()
                             }
                         })
-                        Text("Compartir", modifier = Modifier.clickable {
+                        Text(stringResource(R.string.common_share), modifier = Modifier.clickable {
                             if (frase.trim().isNotEmpty()) {
                                 QRManager.ShowQRDialog(
                                     pcontext,
                                     "f::$frase:: $autor:: $fuente",
-                                    "Compartir Frase",
-                                    "Puede utilizar el lector QR para importar frases"
+                                    pcontext.getString(R.string.shared_dialog_share_quote),
+                                    pcontext.getString(R.string.shared_dialog_qr_quote_hint)
                                 )
                             } else {
-                                Toast.makeText(pcontext, "Debe establecer el texto de la frase", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(pcontext, pcontext.getString(R.string.shared_dialog_quote_required), Toast.LENGTH_SHORT).show()
                             }
                         })
-                        Text("Cerrar", modifier = Modifier.clickable { alertDialog.dismiss() })
+                        Text(stringResource(R.string.common_close), modifier = Modifier.clickable { alertDialog.dismiss() })
                     }
                 }
             }
@@ -149,7 +150,7 @@ object UiModalWindows {
     fun ApunteManager(context: Context, titleInDB: String, contentValues: ContentValues?, isUpdate: Boolean) {
         val compose = ComposeView(context)
         val alertDialog = AlertDialog.Builder(context, androidx.appcompat.R.style.Theme_AppCompat_Dialog_Alert)
-            .setTitle("Apuntes Personales")
+            .setTitle(context.getString(R.string.shared_dialog_personal_notes))
             .setView(compose)
             .create()
 
@@ -165,52 +166,52 @@ object UiModalWindows {
                         value = titulo,
                         onValueChange = { if (!isUpdate) titulo = it },
                         enabled = !isUpdate,
-                        label = { Text("Título") },
+                        label = { Text(stringResource(R.string.common_title)) },
                         shape = RoundedCornerShape(14.dp)
                     )
                     OutlinedTextField(
                         value = nota,
                         onValueChange = { nota = it },
-                        label = { Text("Nota") },
+                        label = { Text(stringResource(R.string.common_note)) },
                         shape = RoundedCornerShape(14.dp)
                     )
 
                     Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
-                        Text("Guardar", modifier = Modifier.clickable {
+                        Text(stringResource(R.string.common_save), modifier = Modifier.clickable {
                             if (titulo.trim().isEmpty() || nota.trim().isEmpty()) {
-                                Toast.makeText(context, "Debe establecer un título y una nota", Toast.LENGTH_LONG).show()
+                                Toast.makeText(context, context.getString(R.string.shared_dialog_title_note_required), Toast.LENGTH_LONG).show()
                             } else {
                                 if (isUpdate) {
                                     if (utilsDB.updateApunte(context, titulo.trim(), nota.trim())) {
-                                        Toast.makeText(context, "El apunte ha sido actualizado", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, context.getString(R.string.shared_dialog_note_updated), Toast.LENGTH_SHORT).show()
                                     } else {
-                                        Toast.makeText(context, "Error al adicionar the apunte", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, context.getString(R.string.shared_dialog_note_add_error), Toast.LENGTH_SHORT).show()
                                     }
                                 } else {
                                     val res = utilsDB.insertNewApunte(context, titulo, nota)
                                     if (res < 0) {
-                                        Toast.makeText(context, "Error al adicionar el apunte", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, context.getString(R.string.shared_dialog_note_add_error), Toast.LENGTH_SHORT).show()
                                     } else {
-                                        Toast.makeText(context, "El apunte fue adicionado!", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, context.getString(R.string.shared_dialog_note_added), Toast.LENGTH_SHORT).show()
                                     }
                                 }
                             }
                         })
 
-                        Text("Compartir", modifier = Modifier.clickable {
+                        Text(stringResource(R.string.common_share), modifier = Modifier.clickable {
                             if (titulo.trim().isNotEmpty() && nota.trim().isNotEmpty()) {
                                 QRManager.ShowQRDialog(
                                     context,
                                     "a::$titulo::$nota",
-                                    "Compartir Apunte",
-                                    "Puede utilizar el lector QR para importar apuntes"
+                                    context.getString(R.string.shared_dialog_share_personal_note),
+                                    context.getString(R.string.shared_dialog_qr_personal_note_hint)
                                 )
                             } else {
-                                Toast.makeText(context, "Debe establecer un título y una nota", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, context.getString(R.string.shared_dialog_title_note_required), Toast.LENGTH_SHORT).show()
                             }
                         })
 
-                        Text("Cerrar", modifier = Modifier.clickable { alertDialog.dismiss() })
+                        Text(stringResource(R.string.common_close), modifier = Modifier.clickable { alertDialog.dismiss() })
                     }
                 }
             }
@@ -223,7 +224,7 @@ object UiModalWindows {
     fun NotaManager(context: Context, nota: String, tableName: String, clumn_id: String, valor_id: String) {
         val compose = ComposeView(context)
         val alertDialog = AlertDialog.Builder(context, androidx.appcompat.R.style.Theme_AppCompat_Dialog_Alert)
-            .setTitle("Nota asociada")
+            .setTitle(context.getString(R.string.shared_dialog_associated_note))
             .setView(compose)
             .create()
 
@@ -242,7 +243,7 @@ object UiModalWindows {
                     OutlinedTextField(
                         value = notaTexto,
                         onValueChange = { notaTexto = it },
-                        label = { Text("Nota") },
+                        label = { Text(stringResource(R.string.common_note)) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .heightIn(min = 220.dp)
@@ -250,32 +251,39 @@ object UiModalWindows {
                         shape = RoundedCornerShape(14.dp)
                     )
                     Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
-                        Text("Guardar", modifier = Modifier.clickable {
+                        Text(stringResource(R.string.common_save), modifier = Modifier.clickable {
                             if (utilsDB.updateNota(context, tableName, clumn_id, valor_id, notaTexto.trim())) {
-                                Toast.makeText(context, "La nota fué actualizada", Toast.LENGTH_LONG).show()
+                                Toast.makeText(context, context.getString(R.string.shared_dialog_associated_note_updated), Toast.LENGTH_LONG).show()
                             } else {
-                                Toast.makeText(context, "Error al actualizar la nota", Toast.LENGTH_LONG).show()
+                                Toast.makeText(context, context.getString(R.string.shared_dialog_associated_note_update_error), Toast.LENGTH_LONG).show()
                             }
                         })
-                        Text("Compartir", modifier = Modifier.clickable {
+                        Text(stringResource(R.string.common_share), modifier = Modifier.clickable {
                             if (notaTexto.trim().isEmpty()) {
-                                Toast.makeText(context, "Debe haber una nota para compartir", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, context.getString(R.string.shared_dialog_note_share_required), Toast.LENGTH_SHORT).show()
                             } else {
                                 val intent = Intent(Intent.ACTION_SEND).apply {
                                     type = "text/plain"
                                     putExtra(Intent.EXTRA_TEXT, notaTexto.trim())
                                 }
-                                context.startActivity(Intent.createChooser(intent, "Compartir nota"))
+                                context.startActivity(
+                                    Intent.createChooser(intent, context.getString(R.string.shared_dialog_share_note))
+                                )
                             }
                         })
-                        Text("Generar QR", modifier = Modifier.clickable {
+                        Text(stringResource(R.string.shared_dialog_generate_qr), modifier = Modifier.clickable {
                             if (notaTexto.trim().isEmpty()) {
-                                Toast.makeText(context, "Debe haber una nota para generar el QR", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, context.getString(R.string.shared_dialog_note_qr_required), Toast.LENGTH_SHORT).show()
                             } else {
-                                QRManager.ShowQRDialog(context, notaTexto.trim(), "Compartir texto", null)
+                                QRManager.ShowQRDialog(
+                                    context,
+                                    notaTexto.trim(),
+                                    context.getString(R.string.shared_dialog_share_text),
+                                    null
+                                )
                             }
                         })
-                        Text("Cerrar", modifier = Modifier.clickable { alertDialog.dismiss() })
+                        Text(stringResource(R.string.common_close), modifier = Modifier.clickable { alertDialog.dismiss() })
                     }
                 }
             }
@@ -353,7 +361,7 @@ object UiModalWindows {
                                         containerColor = MaterialTheme.colorScheme.secondaryContainer
                                     )
                                 ) {
-                                    Text("No volver a mostrar")
+                                    Text(stringResource(R.string.shared_dialog_dont_show_again))
                                 }
                             }
                             Spacer(modifier = Modifier.padding(horizontal = 4.dp))
@@ -361,7 +369,7 @@ object UiModalWindows {
                                 onClick = { alertDialog.dismiss() },
                                 colors = ButtonDefaults.buttonColors(containerColor = accentColor)
                             ) {
-                                Text("Cerrar", color = Color.White)
+                                Text(stringResource(R.string.common_close), color = Color.White)
                             }
                         }
                     }

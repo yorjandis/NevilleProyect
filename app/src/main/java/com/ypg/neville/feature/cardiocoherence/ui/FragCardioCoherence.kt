@@ -108,6 +108,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -124,7 +126,9 @@ import com.ypg.neville.feature.cardiocoherence.data.CardioCoherencePreferences
 import com.ypg.neville.feature.cardiocoherence.data.CardioCoherenceRepository
 import com.ypg.neville.feature.cardiocoherence.domain.BreathingRhythmOption
 import com.ypg.neville.feature.cardiocoherence.domain.InitialEmotionalState
+import com.ypg.neville.feature.cardiocoherence.domain.ElevatedEmotion
 import com.ypg.neville.feature.cardiocoherence.domain.MeditationPhase
+import com.ypg.neville.feature.cardiocoherence.domain.MeditationPhaseKind
 import com.ypg.neville.feature.cardiocoherence.domain.PostSessionEmotion
 import com.ypg.neville.feature.cardiocoherence.domain.SessionDurationOption
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
@@ -289,7 +293,7 @@ private fun CardioCoherenceMainContent(
             containerColor = Color.Transparent,
             topBar = {
                 CenterAlignedTopAppBar(
-                    title = { Text("Coherencia Cardio-Cerebral") },
+                    title = { Text(stringResource(R.string.coherence_title)) },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = Color.Transparent,
                         titleContentColor = BackgroundTextColor,
@@ -298,7 +302,7 @@ private fun CardioCoherenceMainContent(
                     ),
                     navigationIcon = {
                         IconButton(onClick = onClose) {
-                            Icon(Icons.Rounded.Close, contentDescription = "Cerrar")
+                            Icon(Icons.Rounded.Close, contentDescription = stringResource(R.string.common_close))
                         }
                     },
                     actions = {
@@ -320,16 +324,16 @@ private fun CardioCoherenceMainContent(
                                     Icons.AutoMirrored.Rounded.VolumeOff
                                 },
                                 contentDescription = if (isBackgroundMusicEnabled) {
-                                    "Desactivar música"
+                                    stringResource(R.string.coherence_disable_music)
                                 } else {
-                                    "Activar música"
+                                    stringResource(R.string.coherence_enable_music)
                                 }
                             )
                         }
                         IconButton(onClick = { showStats = true }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_item),
-                                contentDescription = "Estadísticas"
+                                contentDescription = stringResource(R.string.coherence_statistics)
                             )
                         }
                     }
@@ -408,7 +412,11 @@ private fun CardioCoherenceWelcomeScreen(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val scope = rememberCoroutineScope()
-    val welcomeTexts = remember { cardioCoherenceWelcomeTexts() }
+    val welcomeTitle = stringResource(R.string.coherence_title)
+    val welcomePhrasePool = stringArrayResource(R.array.coherence_welcome_phrases)
+    val welcomeTexts = remember(welcomeTitle, welcomePhrasePool.contentHashCode()) {
+        listOf(welcomeTitle) + welcomePhrasePool.toList().chunked(3).random(Random.Default)
+    }
     var currentTextIndex by remember { mutableStateOf(-1) }
     var isFinishing by remember { mutableStateOf(false) }
     var player by remember { mutableStateOf<MediaPlayer?>(null) }
@@ -596,7 +604,7 @@ private fun CardioCoherenceWelcomeScreen(
                     shape = CircleShape
                 )
         ) {
-            Text("Saltar", color = Color.White.copy(alpha = 0.90f))
+            Text(stringResource(R.string.coherence_skip), color = Color.White.copy(alpha = 0.90f))
         }
 
         IconButton(
@@ -607,7 +615,7 @@ private fun CardioCoherenceWelcomeScreen(
         ) {
             Icon(
                 imageVector = Icons.Rounded.Close,
-                contentDescription = "Cerrar",
+                contentDescription = stringResource(R.string.common_close),
                 tint = Color.White.copy(alpha = 0.90f)
             )
         }
@@ -680,13 +688,13 @@ private fun SetupScreen(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Text(
-                text = "Respira en ritmo, atiende al corazón y eleva tu estado interno.",
+                text = stringResource(R.string.coherence_setup_intro),
                 style = MaterialTheme.typography.titleSmall,
                 color = BackgroundTextColor.copy(alpha = 0.92f)
             )
 
             CalmPanel {
-                SectionTitle("Estado emocional actual")
+                SectionTitle(stringResource(R.string.coherence_current_emotional_state))
                 Spacer(modifier = Modifier.height(8.dp))
                 EmotionalStateDropdown(
                     selected = state.selectedState,
@@ -695,7 +703,7 @@ private fun SetupScreen(
             }
 
             CalmPanel {
-                SectionTitle("Tiempo disponible")
+                SectionTitle(stringResource(R.string.coherence_available_time))
                 Spacer(modifier = Modifier.height(8.dp))
                 DurationDropdown(
                     selected = state.durationOption,
@@ -708,7 +716,7 @@ private fun SetupScreen(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    SectionTitle("Ritmo respiratorio")
+                    SectionTitle(stringResource(R.string.coherence_breathing_rhythm))
                     Spacer(modifier = Modifier.weight(1f))
                     IconButton(
                         onClick = { showRhythmInfo = true },
@@ -716,7 +724,7 @@ private fun SetupScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.Info,
-                            contentDescription = "Información sobre ritmo respiratorio",
+                            contentDescription = stringResource(R.string.coherence_breathing_rhythm_info),
                             tint = TextPrimary.copy(alpha = 0.62f),
                             modifier = Modifier.size(18.dp)
                         )
@@ -730,7 +738,7 @@ private fun SetupScreen(
             }
 
             CalmPanel {
-                SectionTitle("Intención")
+                SectionTitle(stringResource(R.string.coherence_intention))
                 OutlinedTextField(
                     value = state.intention,
                     onValueChange = onIntention,
@@ -738,7 +746,7 @@ private fun SetupScreen(
                     minLines = 2,
                     maxLines = 3,
                     textStyle = MaterialTheme.typography.bodyLarge.copy(color = TextPrimary),
-                    placeholder = { Text("Opcional", color = TextPrimary.copy(alpha = 0.55f)) },
+                    placeholder = { Text(stringResource(R.string.coherence_optional), color = TextPrimary.copy(alpha = 0.55f)) },
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedTextColor = TextPrimary,
                         unfocusedTextColor = TextPrimary,
@@ -755,7 +763,7 @@ private fun SetupScreen(
 
             CalmPanel {
                 ScoreSelector(
-                    title = "Estrés / calma antes",
+                    title = stringResource(R.string.coherence_before_score),
                     value = state.beforeScore,
                     onValueChange = onBeforeScore
                 )
@@ -775,7 +783,7 @@ private fun SetupScreen(
         ) {
             Icon(Icons.Rounded.PlayArrow, contentDescription = null)
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Iniciar sesión", fontWeight = FontWeight.Medium)
+            Text(stringResource(R.string.coherence_start_session), fontWeight = FontWeight.Medium)
         }
 
         if (showRhythmInfo) {
@@ -802,9 +810,16 @@ private fun SessionScreen(
     val vibrator = remember(context) { context.cardioCoherenceVibrator() }
     val totalProgress = if (state.totalSeconds == 0) 0f else state.elapsedSeconds / state.totalSeconds.toFloat()
     val phaseProgress = if (phase.durationSeconds == 0) 0f else state.currentPhaseElapsedSeconds / phase.durationSeconds.toFloat()
-    val currentGuidance = phase.currentGuidanceText(phaseProgress)
-    val sessionPhrases = remember(context) {
-        CardioCoherencePreferences.loadSessionPhrases(context)
+    val currentGuidance = localizedPhaseGuidance(phase, phaseProgress)
+    val localizedDefaultPhrases = stringArrayResource(R.array.coherence_session_phrases).toList()
+    val sessionPhrases = remember(context, localizedDefaultPhrases) {
+        CardioCoherencePreferences.loadSessionPhrases(context).mapIndexed { index, phrase ->
+            if (phrase == CardioCoherencePreferences.defaultSessionPhrases.getOrNull(index)) {
+                localizedDefaultPhrases.getOrElse(index) { phrase }
+            } else {
+                phrase
+            }
+        }
     }
     val phraseIndex = (state.currentPhaseIndex * 2) + if (phaseProgress < 0.5f) 0 else 1
 
@@ -850,7 +865,7 @@ private fun SessionScreen(
 
         SessionBreathingPhrase(
             phrase = sessionPhrases.getOrElse(phraseIndex) {
-                CardioCoherencePreferences.defaultSessionPhrases[phraseIndex.coerceIn(0, 7)]
+                localizedDefaultPhrases[phraseIndex.coerceIn(0, 7)]
             },
             phraseId = phraseIndex,
             phase = phase,
@@ -870,9 +885,9 @@ private fun SessionScreen(
         SessionInfoPanel {
             Crossfade(
                 targetState = SessionGuidanceDisplay(
-                    title = phase.title,
+                    title = localizedPhaseTitle(phase.kind),
                     guidance = currentGuidance,
-                    emotionPrompt = phase.emotionCue?.prompt
+                    emotionPrompt = localizedEmotionPrompt(phase)
                 ),
                 animationSpec = tween(durationMillis = SESSION_PHASE_CROSSFADE_MILLIS),
                 label = "session-phase-guidance-crossfade"
@@ -907,7 +922,7 @@ private fun SessionScreen(
                     contentDescription = null
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(if (state.isPaused) "Reanudar" else "Pausar", fontWeight = FontWeight.Medium)
+                Text(if (state.isPaused) stringResource(R.string.coherence_resume) else stringResource(R.string.coherence_pause), fontWeight = FontWeight.Medium)
             }
             Button(
                 onClick = onFinish,
@@ -917,7 +932,7 @@ private fun SessionScreen(
             ) {
                 Icon(Icons.Rounded.Stop, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Finalizar", fontWeight = FontWeight.Medium)
+                Text(stringResource(R.string.coherence_finish), fontWeight = FontWeight.Medium)
             }
         }
     }
@@ -999,7 +1014,7 @@ private fun EvaluationScreen(
     ) {
         CalmPanel {
             Text(
-                text = "Evaluación final",
+                text = stringResource(R.string.coherence_final_evaluation),
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
@@ -1007,31 +1022,31 @@ private fun EvaluationScreen(
             )
             Spacer(modifier = Modifier.height(14.dp))
             ScoreSelector(
-                title = "Calma / coherencia percibida",
+                title = stringResource(R.string.coherence_perceived_calm),
                 value = state.afterScore,
                 onValueChange = onAfterScore
             )
             Spacer(modifier = Modifier.height(10.dp))
             ScoreSelector(
-                title = "Claridad mental",
+                title = stringResource(R.string.coherence_mental_clarity),
                 value = state.mentalClarityScore,
                 onValueChange = onMentalClarityScore
             )
             Spacer(modifier = Modifier.height(10.dp))
             ScoreSelector(
-                title = "Conexión con el corazón",
+                title = stringResource(R.string.coherence_heart_connection),
                 value = state.heartConnectionScore,
                 onValueChange = onHeartConnectionScore
             )
             Spacer(modifier = Modifier.height(12.dp))
-            SectionTitle("Emoción predominante después")
+            SectionTitle(stringResource(R.string.coherence_predominant_emotion_after))
             Spacer(modifier = Modifier.height(8.dp))
             PostSessionEmotionDropdown(
                 selected = state.predominantEmotion,
                 onSelected = onPredominantEmotion
             )
             Spacer(modifier = Modifier.height(12.dp))
-            SectionTitle("Palabra de cierre")
+            SectionTitle(stringResource(R.string.coherence_closing_word))
             Spacer(modifier = Modifier.height(8.dp))
             OutlinedTextField(
                 value = state.closingWord,
@@ -1039,7 +1054,7 @@ private fun EvaluationScreen(
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 textStyle = MaterialTheme.typography.bodyLarge.copy(color = TextPrimary),
-                placeholder = { Text("Ej. paz, confianza, gratitud", color = TextPrimary.copy(alpha = 0.55f)) },
+                placeholder = { Text(stringResource(R.string.coherence_closing_word_example), color = TextPrimary.copy(alpha = 0.55f)) },
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = TextPrimary,
                     unfocusedTextColor = TextPrimary,
@@ -1065,7 +1080,7 @@ private fun EvaluationScreen(
                 Icon(Icons.Rounded.Check, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = if (state.isSaving) "Guardando..." else "Guardar resultado",
+                    text = if (state.isSaving) stringResource(R.string.coherence_saving) else stringResource(R.string.coherence_save_session),
                     fontWeight = FontWeight.Medium
                 )
             }
@@ -1079,10 +1094,13 @@ private fun SummaryScreen(
     onRestart: () -> Unit,
     onClose: () -> Unit
 ) {
-    val completed = state.session?.phases
-        ?.filter { phase -> phase.kind in completedKinds(state) }
-        ?.joinToString(", ") { it.title }
-        .orEmpty()
+    val completedKinds = completedKinds(state)
+    val completed = buildList {
+        if (MeditationPhaseKind.REGULATION in completedKinds) add(stringResource(R.string.coherence_phase_regulation))
+        if (MeditationPhaseKind.HEART_CONNECTION in completedKinds) add(stringResource(R.string.coherence_phase_heart))
+        if (MeditationPhaseKind.EMOTIONAL_ACTIVATION in completedKinds) add(stringResource(R.string.coherence_phase_emotion))
+        if (MeditationPhaseKind.INTEGRATION in completedKinds) add(stringResource(R.string.coherence_phase_integration))
+    }.joinToString(", ")
 
     Column(
         modifier = Modifier
@@ -1093,7 +1111,7 @@ private fun SummaryScreen(
     ) {
         CalmPanel {
             Text(
-                text = "Sesión registrada",
+                text = stringResource(R.string.coherence_session_recorded),
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
@@ -1101,14 +1119,24 @@ private fun SummaryScreen(
             )
             Spacer(modifier = Modifier.height(10.dp))
             Text(
-                text = "Antes ${state.session?.userState?.beforeScore ?: state.beforeScore}/10 · Después ${state.afterScore}/10",
+                text = stringResource(
+                    R.string.coherence_before_after,
+                    state.session?.userState?.beforeScore ?: state.beforeScore,
+                    state.afterScore
+                ),
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Claridad ${state.mentalClarityScore}/10 · Corazón ${state.heartConnectionScore}/10 · ${state.predominantEmotion.emoji} ${state.predominantEmotion.label}",
+                text = stringResource(
+                    R.string.coherence_summary_scores,
+                    state.mentalClarityScore,
+                    state.heartConnectionScore,
+                    state.predominantEmotion.emoji,
+                    localizedPostSessionEmotion(state.predominantEmotion)
+                ),
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center,
                 color = TextPrimary.copy(alpha = 0.78f),
@@ -1117,7 +1145,7 @@ private fun SummaryScreen(
             if (state.closingWord.isNotBlank()) {
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
-                    text = "Palabra: ${state.closingWord.trim()}",
+                    text = stringResource(R.string.coherence_summary_word, state.closingWord.trim()),
                     style = MaterialTheme.typography.bodyMedium,
                     textAlign = TextAlign.Center,
                     color = TextPrimary.copy(alpha = 0.78f),
@@ -1126,8 +1154,8 @@ private fun SummaryScreen(
             }
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = if (completed.isBlank()) "Fases iniciadas: preparación de coherencia"
-                else "Fases completadas: $completed",
+                text = if (completed.isBlank()) stringResource(R.string.coherence_phases_started)
+                else stringResource(R.string.coherence_phases_completed, completed),
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center,
                 color = TextPrimary.copy(alpha = 0.78f),
@@ -1145,7 +1173,7 @@ private fun SummaryScreen(
                 ) {
                     Icon(Icons.Rounded.Replay, contentDescription = null)
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Nueva", fontWeight = FontWeight.Medium)
+                    Text(stringResource(R.string.coherence_new_session), fontWeight = FontWeight.Medium)
                 }
                 Button(
                     onClick = onClose,
@@ -1155,7 +1183,7 @@ private fun SummaryScreen(
                     shape = CircleShape,
                     colors = softButtonColors()
                 ) {
-                    Text("Cerrar", fontWeight = FontWeight.Medium)
+                    Text(stringResource(R.string.common_close), fontWeight = FontWeight.Medium)
                 }
             }
         }
@@ -1288,20 +1316,23 @@ private fun BreathingCue(
     preparing: Boolean,
     preparationRemainingSeconds: Int
 ) {
-    var breathLabel by remember(phase.kind) { mutableStateOf("Inhala") }
+    val inhaleLabel = stringResource(R.string.coherence_inhale)
+    val exhaleLabel = stringResource(R.string.coherence_exhale)
+    val prepareLabel = stringResource(R.string.coherence_prepare)
+    var breathLabel by remember(phase.kind, inhaleLabel) { mutableStateOf(inhaleLabel) }
 
     LaunchedEffect(phase.kind, paused, preparing) {
         if (preparing) {
-            breathLabel = "Prepárate"
+            breathLabel = prepareLabel
             return@LaunchedEffect
         }
         while (isActive) {
             if (paused) {
                 delay(180)
             } else {
-                breathLabel = "Inhala"
+                breathLabel = inhaleLabel
                 delay(phase.breathingPattern.inhaleMillis.toLong() + BREATHING_HAPTIC_TOP_PAUSE_MILLIS)
-                breathLabel = "Exhala"
+                breathLabel = exhaleLabel
                 delay(phase.breathingPattern.exhaleMillis.toLong() + BREATHING_HAPTIC_TOP_PAUSE_MILLIS)
             }
         }
@@ -1326,9 +1357,9 @@ private fun BreathingCue(
         }
         Text(
             text = if (preparing) {
-                "La respiración empieza en $preparationRemainingSeconds"
+                stringResource(R.string.coherence_breathing_starts_in, preparationRemainingSeconds)
             } else {
-                phase.breathingPattern.displayLabel
+                localizedBreathingRhythm(phase.breathingPattern.inhaleMillis, phase.breathingPattern.exhaleMillis)
             },
             style = MaterialTheme.typography.bodySmall,
             textAlign = TextAlign.Center,
@@ -1349,27 +1380,25 @@ private fun BreathingRhythmInfoDialog(
         textContentColor = TextPrimary,
         title = {
             Text(
-                text = "Ritmo respiratorio",
+                text = stringResource(R.string.coherence_breathing_rhythm),
                 fontWeight = FontWeight.Bold
             )
         },
         text = {
             Text(
-                text = "Estos patrones lentos acercan la respiración a unas 4.5-6 respiraciones por minuto. " +
-                    "En entrenamiento HRV se usan para favorecer oscilaciones amplias del ritmo cardíaco, " +
-                    "estimular el baro reflejo y facilitar un estado de regulación.",
+                text = stringResource(R.string.coherence_rhythm_dialog_body),
                 style = MaterialTheme.typography.bodyMedium,
                 color = TextPrimary
             )
         },
         confirmButton = {
             TextButton(onClick = onOpenStudy) {
-                Text("Ver estudio", color = AccentIndigo, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.coherence_view_study), color = AccentIndigo, fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cerrar", color = TextPrimary)
+                Text(stringResource(R.string.common_close), color = TextPrimary)
             }
         },
         shape = RoundedCornerShape(16.dp)
@@ -1388,7 +1417,7 @@ private fun EmotionalStateDropdown(
         onExpandedChange = { expanded = !expanded }
     ) {
         OutlinedTextField(
-            value = "${selected.emoji}  ${selected.label}",
+            value = "${selected.emoji}  ${localizedInitialState(selected)}",
             onValueChange = {},
             readOnly = true,
             singleLine = true,
@@ -1413,7 +1442,7 @@ private fun EmotionalStateDropdown(
                 DropdownMenuItem(
                     text = {
                         Text(
-                            text = "${item.emoji}  ${item.label}",
+                            text = "${item.emoji}  ${localizedInitialState(item)}",
                             color = TextPrimary,
                             style = MaterialTheme.typography.bodyLarge
                         )
@@ -1440,7 +1469,7 @@ private fun DurationDropdown(
         onExpandedChange = { expanded = !expanded }
     ) {
         OutlinedTextField(
-            value = "${selected.minutes} minutos",
+            value = stringResource(R.string.coherence_minutes_value, selected.minutes),
             onValueChange = {},
             readOnly = true,
             singleLine = true,
@@ -1465,7 +1494,7 @@ private fun DurationDropdown(
                 DropdownMenuItem(
                     text = {
                         Text(
-                            text = "${item.minutes} minutos",
+                            text = stringResource(R.string.coherence_minutes_value, item.minutes),
                             color = TextPrimary,
                             style = MaterialTheme.typography.bodyLarge
                         )
@@ -1492,7 +1521,7 @@ private fun BreathingRhythmDropdown(
         onExpandedChange = { expanded = !expanded }
     ) {
         OutlinedTextField(
-            value = selected.label,
+            value = localizedBreathingRhythm(selected.inhaleMillis, selected.exhaleMillis),
             onValueChange = {},
             readOnly = true,
             singleLine = true,
@@ -1517,7 +1546,7 @@ private fun BreathingRhythmDropdown(
                 DropdownMenuItem(
                     text = {
                         Text(
-                            text = item.label,
+                            text = localizedBreathingRhythm(item.inhaleMillis, item.exhaleMillis),
                             color = TextPrimary,
                             style = MaterialTheme.typography.bodyLarge
                         )
@@ -1544,7 +1573,7 @@ private fun PostSessionEmotionDropdown(
         onExpandedChange = { expanded = !expanded }
     ) {
         OutlinedTextField(
-            value = "${selected.emoji}  ${selected.label}",
+            value = "${selected.emoji}  ${localizedPostSessionEmotion(selected)}",
             onValueChange = {},
             readOnly = true,
             singleLine = true,
@@ -1569,7 +1598,7 @@ private fun PostSessionEmotionDropdown(
                 DropdownMenuItem(
                     text = {
                         Text(
-                            text = "${item.emoji}  ${item.label}",
+                            text = "${item.emoji}  ${localizedPostSessionEmotion(item)}",
                             color = TextPrimary,
                             style = MaterialTheme.typography.bodyLarge
                         )
@@ -1813,12 +1842,110 @@ private fun Context.loadCardioCoherenceBackgroundBitmap(assetPath: String) = run
     }
 }.getOrNull()
 
-private fun MeditationPhase.currentGuidanceText(phaseProgress: Float): String {
-    return attentionCues
-        .filter { phaseProgress >= it.startFraction }
-        .maxByOrNull { it.startFraction }
-        ?.text
-        ?: guidance
+@Composable
+private fun localizedPhaseTitle(kind: MeditationPhaseKind): String = stringResource(
+    when (kind) {
+        MeditationPhaseKind.REGULATION -> R.string.coherence_phase_regulation
+        MeditationPhaseKind.HEART_CONNECTION -> R.string.coherence_phase_heart
+        MeditationPhaseKind.EMOTIONAL_ACTIVATION -> R.string.coherence_phase_emotion
+        MeditationPhaseKind.INTEGRATION -> R.string.coherence_phase_integration
+    }
+)
+
+@Composable
+private fun localizedPhaseGuidance(phase: MeditationPhase, phaseProgress: Float): String {
+    val resourceId = when (phase.kind) {
+        MeditationPhaseKind.REGULATION -> when {
+            phaseProgress >= 0.80f -> R.string.coherence_attention_abdomen
+            phaseProgress >= 0.60f -> R.string.coherence_attention_chest
+            phaseProgress >= 0.40f -> R.string.coherence_attention_weight
+            phaseProgress >= 0.20f -> R.string.coherence_attention_shoulders
+            phaseProgress >= 0.00f -> R.string.coherence_attention_jaw
+            else -> R.string.coherence_guidance_regulation
+        }
+        MeditationPhaseKind.HEART_CONNECTION -> R.string.coherence_guidance_heart
+        MeditationPhaseKind.EMOTIONAL_ACTIVATION -> when (phase.emotionCue?.emotion) {
+            ElevatedEmotion.GRATITUDE -> R.string.coherence_guidance_gratitude
+            ElevatedEmotion.LOVE -> R.string.coherence_guidance_love
+            ElevatedEmotion.PEACE -> R.string.coherence_guidance_peace
+            ElevatedEmotion.JOY -> R.string.coherence_guidance_joy
+            null -> R.string.coherence_phase_emotion
+        }
+        MeditationPhaseKind.INTEGRATION -> R.string.coherence_guidance_integration
+    }
+    return stringResource(resourceId)
+}
+
+@Composable
+private fun localizedEmotionPrompt(phase: MeditationPhase): String? {
+    val cue = phase.emotionCue ?: return null
+    if (phase.kind == MeditationPhaseKind.INTEGRATION) {
+        return phase.emotionCue.prompt.substringAfterLast(": ", missingDelimiterValue = "")
+            .takeIf { it.isNotBlank() }
+            ?.let { stringResource(R.string.coherence_integration_intention, it) }
+    }
+    val emotion = localizedElevatedEmotion(cue.emotion)
+    val intention = phase.emotionCue.prompt.substringAfterLast(": ", missingDelimiterValue = "")
+        .takeIf { phase.emotionCue.prompt.contains("intención:") && it.isNotBlank() }
+    return if (intention == null) {
+        stringResource(R.string.coherence_emotion_prompt, emotion)
+    } else {
+        stringResource(R.string.coherence_emotion_prompt_intention, emotion, intention)
+    }
+}
+
+@Composable
+private fun localizedInitialState(state: InitialEmotionalState): String = stringResource(
+    when (state) {
+        InitialEmotionalState.STRESS -> R.string.coherence_state_stress
+        InitialEmotionalState.ANXIETY -> R.string.coherence_state_anxiety
+        InitialEmotionalState.OVERWHELMED -> R.string.coherence_state_overwhelmed
+        InitialEmotionalState.SAD -> R.string.coherence_state_sad
+        InitialEmotionalState.TIRED -> R.string.coherence_state_tired
+        InitialEmotionalState.NEUTRAL -> R.string.coherence_state_neutral
+        InitialEmotionalState.CALM -> R.string.coherence_state_calm
+        InitialEmotionalState.GOOD -> R.string.coherence_state_good
+        InitialEmotionalState.GRATEFUL -> R.string.coherence_state_grateful
+        InitialEmotionalState.ENERGETIC -> R.string.coherence_state_energetic
+    }
+)
+
+@Composable
+private fun localizedElevatedEmotion(emotion: ElevatedEmotion): String = stringResource(
+    when (emotion) {
+        ElevatedEmotion.GRATITUDE -> R.string.coherence_emotion_gratitude
+        ElevatedEmotion.LOVE -> R.string.coherence_emotion_love
+        ElevatedEmotion.PEACE -> R.string.coherence_emotion_peace
+        ElevatedEmotion.JOY -> R.string.coherence_emotion_joy
+    }
+)
+
+@Composable
+private fun localizedPostSessionEmotion(emotion: PostSessionEmotion): String = stringResource(
+    when (emotion) {
+        PostSessionEmotion.CALM -> R.string.coherence_emotion_calm
+        PostSessionEmotion.GRATITUDE -> R.string.coherence_emotion_gratitude
+        PostSessionEmotion.LOVE -> R.string.coherence_emotion_love
+        PostSessionEmotion.PEACE -> R.string.coherence_emotion_peace
+        PostSessionEmotion.JOY -> R.string.coherence_emotion_joy
+        PostSessionEmotion.CLARITY -> R.string.coherence_emotion_clarity
+        PostSessionEmotion.HOPE -> R.string.coherence_emotion_hope
+        PostSessionEmotion.NEUTRAL -> R.string.coherence_emotion_neutral
+    }
+)
+
+@Composable
+private fun localizedBreathingRhythm(inhaleMillis: Int, exhaleMillis: Int): String {
+    fun secondsLabel(millis: Int): String = if (millis % 1000 == 0) {
+        (millis / 1000).toString()
+    } else {
+        java.text.DecimalFormat("0.#").format(millis / 1000.0)
+    }
+    return stringResource(
+        R.string.coherence_rhythm_value,
+        secondsLabel(inhaleMillis),
+        secondsLabel(exhaleMillis)
+    )
 }
 
 private fun String.isSupportedCardioBackgroundImage(): Boolean {
@@ -1868,16 +1995,6 @@ private fun Context.createCardioCoherenceMainMusicPlayer(): MediaPlayer? {
     }.getOrNull()
 }
 
-private fun cardioCoherenceWelcomeTexts(): List<String> {
-    val trio = CARDIO_WELCOME_PHRASE_TRIOS.random(Random.Default)
-    return listOf(
-        "Bienvenido a Coherencia\nCardio - Cerebral",
-        trio.first,
-        trio.second,
-        trio.third
-    )
-}
-
 private val TextPrimary = Color(0xFFF0EDF6)
 private val TextSecondary = Color(0xFFC8C1D2)
 private val BackgroundTextColor = Color.White
@@ -1924,53 +2041,6 @@ private const val CARDIO_WELCOME_FINAL_FADE_MILLIS = 1_200L
 private const val CARDIO_WELCOME_SKIP_FADE_MILLIS = 350L
 private const val CARDIO_WELCOME_TO_MAIN_CROSSFADE_MILLIS = 1_400
 private val CARDIO_WELCOME_TEXT_DURATIONS_MILLIS = listOf(6_000L, 8_800L, 6_500L, 7_000L)
-private val CARDIO_WELCOME_PHRASE_TRIOS = listOf(
-    Triple(
-        "La coherencia es el lenguaje secreto\nentre tu corazón y tu mente",
-        "Todo lo que necesitas\nya habita en tu interior",
-        "Entra a tu espacio sagrado y que la magia ocurra"
-    ),
-    Triple(
-        "Cuando entras en coherencia,\ntu biología recuerda su perfección",
-        "Hoy eliges elevar tu estado\ny transformar tu realidad",
-        "Deja que el misterio te envuelva\ny revele su verdad"
-    ),
-    Triple(
-        "Tu corazón sabe el camino,\ntu mente aprende a seguirlo",
-        "Eres más poderoso de lo que recuerdas",
-        "Respira y cruza el umbral\ndonde tu esencia se revela"
-    ),
-    Triple(
-        "Aquí comienza la alineación\nentre lo que sientes y lo que eres",
-        "Tu corazón sabe el camino\na tu estado de perfección",
-        "Vamos a hacer que la magia ocurra"
-    ),
-    Triple(
-        "Cada latido es una puerta\nhacia tu equilibrio natural",
-        "Estás recordando quién eres\nmás allá del pensamiento",
-        "Entrégate al ritmo interno\ny deja que te guíe"
-    ),
-    Triple(
-        "Cuando mente y corazón se encuentran,\nnace un nuevo estado de ser",
-        "Hoy creas desde la coherencia,\nno desde la reacción",
-        "Confía en lo que emerge\nsin necesidad de entenderlo"
-    ),
-    Triple(
-        "Tu corazón marca el ritmo\nde tu verdad más profunda",
-        "Hoy eliges responder desde la calma\ny no desde el impulso",
-        "Deja que esa calma\nse convierta en claridad"
-    ),
-    Triple(
-        "Tu campo energético responde\na lo que sientes ahora",
-        "Hoy eliges sentir elevación,\napertura y posibilidad",
-        "Deja que esa frecuencia\ncree tu realidad"
-    ),
-    Triple(
-        "En este instante,\ntodo se reorganiza a tu favor",
-        "Eres el observador y el creador\nde tu experiencia",
-        "Permite que la transformación\nocurra sin resistencia"
-    )
-)
 private val CARDIO_BACKGROUND_SUPPORTED_EXTENSIONS = setOf(
     "jpg",
     "jpeg",

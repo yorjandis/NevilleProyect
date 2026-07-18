@@ -43,11 +43,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ypg.neville.R
 import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.model.utils.FraseContextActions
 import com.ypg.neville.model.utils.UiModalWindows
@@ -134,7 +136,7 @@ fun AuthorPlaceholderScreen(
                             contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 6.dp, vertical = 0.dp)
                         ) {
                             Text(
-                                text = "Biografía",
+                                text = stringResource(R.string.author_biography),
                                 color = Color.White,
                                 maxLines = 1,
                                 style = MaterialTheme.typography.bodyMedium
@@ -151,7 +153,7 @@ fun AuthorPlaceholderScreen(
                             contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 6.dp, vertical = 0.dp)
                         ) {
                             Text(
-                                text = "Resum. Enseñanza",
+                                text = stringResource(R.string.author_teaching_summary),
                                 color = Color.White,
                                 maxLines = 1,
                                 style = MaterialTheme.typography.labelSmall
@@ -175,7 +177,7 @@ fun AuthorPlaceholderScreen(
                     ) {
                         Icon(
                             painter = painterResource(id = android.R.drawable.ic_menu_sort_by_size),
-                            contentDescription = "Filtrar frases",
+                            contentDescription = stringResource(R.string.author_filter_quotes),
                             tint = bodyColor.copy(alpha = 0.68f),
                             modifier = Modifier.size(18.dp)
                         )
@@ -185,11 +187,16 @@ fun AuthorPlaceholderScreen(
                         expanded = showFilterMenu,
                         onDismissRequest = { showFilterMenu = false }
                     ) {
-
-                        Text(" Filtrar frases:")
+                        Text(
+                            text = stringResource(R.string.author_filter_quotes_title),
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
+                        )
                         val isAllSelected = !quoteFilter.onlyFavorites && !quoteFilter.onlyWithNotes
                         DropdownMenuItem(
-                            text = { Text(if (isAllSelected) "✓ Todas" else "Todas") },
+                            text = {
+                                val label = stringResource(R.string.author_filter_all)
+                                Text(if (isAllSelected) "✓ $label" else label)
+                            },
                             onClick = {
                                 onQuoteFilterChange(AuthorQuoteFilter())
                                 onQuoteClick()
@@ -197,7 +204,10 @@ fun AuthorPlaceholderScreen(
                             }
                         )
                         DropdownMenuItem(
-                            text = { Text(if (quoteFilter.onlyFavorites) "✓ Favoritas" else "Favoritas") },
+                            text = {
+                                val label = stringResource(R.string.author_filter_favorites)
+                                Text(if (quoteFilter.onlyFavorites) "✓ $label" else label)
+                            },
                             onClick = {
                                 onQuoteFilterChange(
                                     quoteFilter.copy(onlyFavorites = !quoteFilter.onlyFavorites)
@@ -207,7 +217,10 @@ fun AuthorPlaceholderScreen(
                             }
                         )
                         DropdownMenuItem(
-                            text = { Text(if (quoteFilter.onlyWithNotes) "✓ Con notas" else "Con notas") },
+                            text = {
+                                val label = stringResource(R.string.author_filter_with_notes)
+                                Text(if (quoteFilter.onlyWithNotes) "✓ $label" else label)
+                            },
                             onClick = {
                                 onQuoteFilterChange(
                                     quoteFilter.copy(onlyWithNotes = !quoteFilter.onlyWithNotes)
@@ -267,9 +280,17 @@ fun AuthorPlaceholderScreen(
                 onConvertirNota = {
                     val result = FraseContextActions.convertirFraseEnNota(context, quote)
                     if (result.ok) {
-                        Toast.makeText(context, "Nota creada: ${result.titulo}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.author_note_created, result.titulo),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     } else {
-                        Toast.makeText(context, "No se pudo crear la nota", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            R.string.author_note_creation_failed,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 },
                 onCargarLienzo = {

@@ -29,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -52,7 +53,7 @@ class FragBruceLipton : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 com.ypg.neville.ui.theme.NevilleTheme {
-                    val author = getString(R.string.bruce_lipton)
+                    val authorDisplayName = stringResource(R.string.bruce_lipton)
                     val authorAssetsFolder = "autores/bruceLipton"
                     val context = requireContext()
                     val subscriptionState by SubscriptionManager.uiState.collectAsState()
@@ -64,9 +65,9 @@ class FragBruceLipton : Fragment() {
                     val teachingSummaryAssetPath = remember { loadAuthorTeachingSummaryAssetPath(context, authorAssetsFolder) }
                     val cards = remember { bruceResourceCards() }
                     val placeholder = if (hasPremium) {
-                        getString(R.string.author_quote_placeholder, author)
+                        stringResource(R.string.author_quote_placeholder, authorDisplayName)
                     } else {
-                        getString(R.string.author_quote_premium_placeholder, author)
+                        stringResource(R.string.author_quote_premium_placeholder, authorDisplayName)
                     }
                     var quoteFilter by remember {
                         mutableStateOf(
@@ -80,7 +81,7 @@ class FragBruceLipton : Fragment() {
                         if (hasPremium) {
                             utilsDB.getRandomFraseByAutor(
                                 context = context,
-                                autor = author,
+                                autor = AUTHOR_DATABASE_NAME,
                                 onlyFav = quoteFilter.onlyFavorites,
                                 onlyWithNotes = quoteFilter.onlyWithNotes
                             )
@@ -101,7 +102,7 @@ class FragBruceLipton : Fragment() {
                     if (!hasPremium && quote != placeholder) quote = placeholder
                     if (!hasPremium && quoteFavState.isNotEmpty()) quoteFavState = ""
                     AuthorPlaceholderScreen(
-                        authorName = author,
+                        authorName = authorDisplayName,
                         imageRes = R.drawable.bruce,
                         quote = quote,
                         quoteFilter = quoteFilter,
@@ -109,7 +110,7 @@ class FragBruceLipton : Fragment() {
                             if (hasPremium) {
                                 val nextQuoteItem = utilsDB.getRandomFraseByAutor(
                                     context = context,
-                                    autor = author,
+                                    autor = AUTHOR_DATABASE_NAME,
                                     onlyFav = quoteFilter.onlyFavorites,
                                     onlyWithNotes = quoteFilter.onlyWithNotes
                                 )
@@ -124,7 +125,17 @@ class FragBruceLipton : Fragment() {
                                 putBoolean(filterNotesKey, newFilter.onlyWithNotes)
                             }
                         },
-                        favoriteOptionLabel = if (!hasPremium) null else if (quoteFavState == "1") "Quitar de Favoritas" else "Agregar a Favoritas",
+                        favoriteOptionLabel = if (!hasPremium) {
+                            null
+                        } else {
+                            stringResource(
+                                if (quoteFavState == "1") {
+                                    R.string.author_remove_from_favorites
+                                } else {
+                                    R.string.author_add_to_favorites
+                                }
+                            )
+                        },
                         onToggleFavorito = if (!hasPremium) {
                             null
                         } else {
@@ -175,21 +186,21 @@ class FragBruceLipton : Fragment() {
     private fun bruceResourceCards(): List<AccessCardPlaceholder> {
         val evolutionMenu = (1..13).map { chapter ->
             AccessCardMenuItem(
-                title = "Capítulo $chapter",
+                title = getString(R.string.author_chapter_format, chapter),
                 assetPath = "autores/bruceLipton/materialBruce/serieEvolucionInterior/bruce_evolucion_interior_${chapter}.txt"
             )
         }
         return listOf(
             AccessCardPlaceholder(
-                title = "La Biologia De La Creencia",
-                primaryButton = "Resumen",
+                title = getString(R.string.author_title_biology_belief),
+                primaryButton = getString(R.string.author_summary),
                 primaryAssetPath = "autores/bruceLipton/libros/LaBiologiaDeLaCreencia/resumen_libro_biologiacreencia.txt",
-                secondaryButton = "Plan",
+                secondaryButton = getString(R.string.author_plan),
                 secondaryAssetPath = "autores/bruceLipton/libros/LaBiologiaDeLaCreencia/plan_libro_biologiacreencia.txt"
             ),
             AccessCardPlaceholder(
-                title = "Resumen Serie Evolución Interior",
-                primaryButton = "Capítulos",
+                title = getString(R.string.author_title_inner_evolution_summary),
+                primaryButton = getString(R.string.author_chapters),
                 primaryAssetPath = evolutionMenu.first().assetPath,
                 menuItems = evolutionMenu
             )
@@ -215,7 +226,7 @@ class FragBruceLipton : Fragment() {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "Recursos",
+                text = stringResource(R.string.author_resources_section_title),
                 color = titleColor,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
@@ -223,7 +234,7 @@ class FragBruceLipton : Fragment() {
 
             if (!hasPremium) {
                 Text(
-                    text = "Disponible en la Versión Extendida",
+                    text = stringResource(R.string.author_extended_version_available),
                     color = bodyColor,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Medium
@@ -233,7 +244,7 @@ class FragBruceLipton : Fragment() {
 
         if (cards.isEmpty()) {
             Text(
-                text = "No hay recursos disponibles",
+                text = stringResource(R.string.author_no_resources),
                 color = bodyColor,
                 fontSize = 14.sp,
                 modifier = Modifier
@@ -243,12 +254,12 @@ class FragBruceLipton : Fragment() {
             return
         }
 
-        val evolutionCards = cards.filter { it.title.contains("Evolución Interior", ignoreCase = true) }
-        val bookCards = cards.filterNot { it.title.contains("Evolución Interior", ignoreCase = true) }
+        val evolutionCards = cards.filter { it.menuItems.isNotEmpty() }
+        val bookCards = cards.filter { it.menuItems.isEmpty() }
 
         if (bookCards.isNotEmpty()) {
             Text(
-                text = "Resumen de Libro",
+                text = stringResource(R.string.author_book_summary),
                 color = bodyColor,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
@@ -267,7 +278,7 @@ class FragBruceLipton : Fragment() {
 
         if (evolutionCards.isNotEmpty()) {
             Text(
-                text = "Resumen Evolución Interior",
+                text = stringResource(R.string.author_inner_evolution_summary_section),
                 color = bodyColor,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
@@ -366,5 +377,9 @@ class FragBruceLipton : Fragment() {
                 }
             }
         }
+    }
+
+    private companion object {
+        const val AUTHOR_DATABASE_NAME = "Bruce Lipton"
     }
 }

@@ -20,10 +20,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
 import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.MainActivity
+import com.ypg.neville.R
 
 object ColorPickerManager {
 
@@ -66,15 +68,15 @@ object ColorPickerManager {
                             .background(Color(selected.intValue), RoundedCornerShape(10.dp))
                     )
 
-                    ChannelSlider("Rojo", red.floatValue) {
+                    ChannelSlider(stringResource(R.string.global_color_red), red.floatValue) {
                         red.floatValue = it
                         recomputeColor()
                     }
-                    ChannelSlider("Verde", green.floatValue) {
+                    ChannelSlider(stringResource(R.string.global_color_green), green.floatValue) {
                         green.floatValue = it
                         recomputeColor()
                     }
-                    ChannelSlider("Azul", blue.floatValue) {
+                    ChannelSlider(stringResource(R.string.global_color_blue), blue.floatValue) {
                         blue.floatValue = it
                         recomputeColor()
                     }
@@ -88,7 +90,7 @@ object ColorPickerManager {
                         }
                         alertDialog.dismiss()
                     }) {
-                        Text("Aplicar")
+                        Text(stringResource(R.string.global_apply))
                     }
                 }
             }

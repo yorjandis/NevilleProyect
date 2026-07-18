@@ -29,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -52,7 +53,7 @@ class FragJoeDispenza : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 com.ypg.neville.ui.theme.NevilleTheme {
-                    val author = getString(R.string.joe_dispenza)
+                    val authorDisplayName = stringResource(R.string.joe_dispenza)
                     val authorAssetsFolder = "autores/joeDispenza"
                     val context = requireContext()
                     val subscriptionState by SubscriptionManager.uiState.collectAsState()
@@ -64,9 +65,9 @@ class FragJoeDispenza : Fragment() {
                     val teachingSummaryAssetPath = remember { loadAuthorTeachingSummaryAssetPath(context, authorAssetsFolder) }
                     val cards = remember { joeResourceCards() }
                     val placeholder = if (hasPremium) {
-                        getString(R.string.author_quote_placeholder, author)
+                        stringResource(R.string.author_quote_placeholder, authorDisplayName)
                     } else {
-                        getString(R.string.author_quote_premium_placeholder, author)
+                        stringResource(R.string.author_quote_premium_placeholder, authorDisplayName)
                     }
                     var quoteFilter by remember {
                         mutableStateOf(
@@ -80,7 +81,7 @@ class FragJoeDispenza : Fragment() {
                         if (hasPremium) {
                             utilsDB.getRandomFraseByAutor(
                                 context = context,
-                                autor = author,
+                                autor = AUTHOR_DATABASE_NAME,
                                 onlyFav = quoteFilter.onlyFavorites,
                                 onlyWithNotes = quoteFilter.onlyWithNotes
                             )
@@ -101,7 +102,7 @@ class FragJoeDispenza : Fragment() {
                     if (!hasPremium && quote != placeholder) quote = placeholder
                     if (!hasPremium && quoteFavState.isNotEmpty()) quoteFavState = ""
                     AuthorPlaceholderScreen(
-                        authorName = author,
+                        authorName = authorDisplayName,
                         imageRes = R.drawable.jd,
                         quote = quote,
                         quoteFilter = quoteFilter,
@@ -109,7 +110,7 @@ class FragJoeDispenza : Fragment() {
                             if (hasPremium) {
                                 val nextQuoteItem = utilsDB.getRandomFraseByAutor(
                                     context = context,
-                                    autor = author,
+                                    autor = AUTHOR_DATABASE_NAME,
                                     onlyFav = quoteFilter.onlyFavorites,
                                     onlyWithNotes = quoteFilter.onlyWithNotes
                                 )
@@ -124,7 +125,17 @@ class FragJoeDispenza : Fragment() {
                                 putBoolean(filterNotesKey, newFilter.onlyWithNotes)
                             }
                         },
-                        favoriteOptionLabel = if (!hasPremium) null else if (quoteFavState == "1") "Quitar de Favoritas" else "Agregar a Favoritas",
+                        favoriteOptionLabel = if (!hasPremium) {
+                            null
+                        } else {
+                            stringResource(
+                                if (quoteFavState == "1") {
+                                    R.string.author_remove_from_favorites
+                                } else {
+                                    R.string.author_add_to_favorites
+                                }
+                            )
+                        },
                         onToggleFavorito = if (!hasPremium) {
                             null
                         } else {
@@ -175,42 +186,42 @@ class FragJoeDispenza : Fragment() {
     private fun joeResourceCards(): List<AccessCardPlaceholder> {
         val formulaMenu = (1..12).map { episode ->
             AccessCardMenuItem(
-                title = "Episodio $episode",
+                title = getString(R.string.author_episode_format, episode),
                 assetPath = "autores/joeDispenza/Serie_La_Formula/episodio_${episode}_resumen.txt"
             )
         }
         return listOf(
             AccessCardPlaceholder(
-                title = "Desarrolla Tu Cerebro",
-                primaryButton = "Resumen",
+                title = getString(R.string.author_title_evolve_your_brain),
+                primaryButton = getString(R.string.author_summary),
                 primaryAssetPath = "autores/joeDispenza/libros/DesarrollaTuCerebro/resumen_libro_desarrollatucerebro.txt",
-                secondaryButton = "Plan",
+                secondaryButton = getString(R.string.author_plan),
                 secondaryAssetPath = "autores/joeDispenza/libros/DesarrollaTuCerebro/plan_libro_desarrollatucerebro.txt"
             ),
             AccessCardPlaceholder(
-                title = "Deja De Ser Tu",
-                primaryButton = "Resumen",
+                title = getString(R.string.author_title_breaking_habit),
+                primaryButton = getString(R.string.author_summary),
                 primaryAssetPath = "autores/joeDispenza/libros/dejaDeSerTu/resumen_libro_dejadesertu.txt",
-                secondaryButton = "Plan",
+                secondaryButton = getString(R.string.author_plan),
                 secondaryAssetPath = "autores/joeDispenza/libros/dejaDeSerTu/plan_libro_dejadesertu.txt"
             ),
             AccessCardPlaceholder(
-                title = "El Placebo Eres Tu",
-                primaryButton = "Resumen",
+                title = getString(R.string.author_title_you_are_placebo),
+                primaryButton = getString(R.string.author_summary),
                 primaryAssetPath = "autores/joeDispenza/libros/elPlaceboEresTu/resumen_libro_elplaceboerestu.txt",
-                secondaryButton = "Plan",
+                secondaryButton = getString(R.string.author_plan),
                 secondaryAssetPath = "autores/joeDispenza/libros/elPlaceboEresTu/plan_libro_elplaceboerestu.txt"
             ),
             AccessCardPlaceholder(
-                title = "Supernatural",
-                primaryButton = "Resumen",
+                title = getString(R.string.author_title_becoming_supernatural),
+                primaryButton = getString(R.string.author_summary),
                 primaryAssetPath = "autores/joeDispenza/libros/supernatural/resumen_libro_supernatural.txt",
-                secondaryButton = "Plan",
+                secondaryButton = getString(R.string.author_plan),
                 secondaryAssetPath = "autores/joeDispenza/libros/supernatural/plan_libro_supernatural.txt"
             ),
             AccessCardPlaceholder(
-                title = "Resumen Serie La Formula",
-                primaryButton = "Episodios",
+                title = getString(R.string.author_title_formula_series_summary),
+                primaryButton = getString(R.string.author_episodes),
                 primaryAssetPath = formulaMenu.first().assetPath,
                 menuItems = formulaMenu
             )
@@ -237,7 +248,7 @@ class FragJoeDispenza : Fragment() {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "Recursos",
+                text = stringResource(R.string.author_resources_section_title),
                 color = titleColor,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
@@ -245,7 +256,7 @@ class FragJoeDispenza : Fragment() {
 
             if (!hasPremium) {
                 Text(
-                    text = "Disponible en la Versión Extendida",
+                    text = stringResource(R.string.author_extended_version_available),
                     color = bodyColor,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Medium
@@ -255,7 +266,7 @@ class FragJoeDispenza : Fragment() {
 
         if (cards.isEmpty()) {
             Text(
-                text = "No hay recursos disponibles",
+                text = stringResource(R.string.author_no_resources),
                 color = bodyColor,
                 fontSize = 14.sp,
                 modifier = Modifier
@@ -265,12 +276,12 @@ class FragJoeDispenza : Fragment() {
             return
         }
 
-        val seriesCards = cards.filter { it.title.contains("Serie La Formula", ignoreCase = true) }
-        val bookCards = cards.filterNot { it.title.contains("Serie La Formula", ignoreCase = true) }
+        val seriesCards = cards.filter { it.menuItems.isNotEmpty() }
+        val bookCards = cards.filter { it.menuItems.isEmpty() }
 
         if (bookCards.isNotEmpty()) {
             Text(
-                text = "Resumen de Libros",
+                text = stringResource(R.string.author_book_summaries),
                 color = bodyColor,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
@@ -289,7 +300,7 @@ class FragJoeDispenza : Fragment() {
 
         if (seriesCards.isNotEmpty()) {
             Text(
-                text = "Resumen: Serie La Fórmula",
+                text = stringResource(R.string.author_formula_series_summary_section),
                 color = bodyColor,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
@@ -388,5 +399,9 @@ class FragJoeDispenza : Fragment() {
                 }
             }
         }
+    }
+
+    private companion object {
+        const val AUTHOR_DATABASE_NAME = "Joe Dispenza"
     }
 }
