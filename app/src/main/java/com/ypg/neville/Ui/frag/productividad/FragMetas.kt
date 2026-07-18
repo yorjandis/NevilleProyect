@@ -58,6 +58,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -71,13 +72,15 @@ import com.ypg.neville.model.db.room.GoalUnitEntity
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
 import com.ypg.neville.model.metas.ArchivedGoalCardState
 import com.ypg.neville.model.metas.GoalCardState
+import com.ypg.neville.model.metas.GoalCompletionBasis
+import com.ypg.neville.model.metas.GoalDayPeriod
+import com.ypg.neville.model.metas.GoalScheduleType
 import com.ypg.neville.model.metas.HabitPreset
 import com.ypg.neville.model.metas.MetasRepository
 import com.ypg.neville.model.metas.ProgramaPreestablecido
 import com.ypg.neville.model.metas.TimeUnitType
 import com.ypg.neville.model.metas.UnitStatus
 import com.ypg.neville.model.metas.UnitInfo
-import com.ypg.neville.ui.theme.ContextMenuShape
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -341,6 +344,7 @@ class FragMetas : Fragment() {
         var expandNotes by remember(state.goal.id) { mutableStateOf(false) }
         var showEditGoal by remember(state.goal.id) { mutableStateOf(false) }
         var showDeleteConfirm by remember(state.goal.id) { mutableStateOf(false) }
+        var showReactivateConfirm by remember(state.goal.id) { mutableStateOf(false) }
         var noteText by remember(state.goal.id, state.goal.descriptionText) { mutableStateOf(state.goal.descriptionText) }
         var notifyOnUnitAvailable by remember(state.goal.id, state.goal.notifyOnUnitAvailable) {
             mutableStateOf(state.goal.notifyOnUnitAvailable)
@@ -389,6 +393,12 @@ class FragMetas : Fragment() {
                     fontWeight = FontWeight.Bold,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
+                )
+
+                Text(
+                    text = "🗓 ${state.planSummary}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color(0xFF4D3A2A)
                 )
 
                 if (state.isCompleted && state.goal.isStarted) {
@@ -463,6 +473,9 @@ class FragMetas : Fragment() {
                     }
 
                     if (state.isCompleted && state.goal.isStarted) {
+                        TextButton(onClick = { showReactivateConfirm = true }) {
+                            Text("Reactivar")
+                        }
                         TextButton(onClick = {
                             dbExecutor.execute {
                                 repository.archiveGoal(state.goal.id)
@@ -569,15 +582,34 @@ class FragMetas : Fragment() {
             )
         }
 
+
+        if (showReactivateConfirm) {
+            ConfirmDialog(
+                title = "Reactivar Meta",
+                message = "La ejecución terminada se conservará en el historial y se creará una nueva Meta activa sin iniciar.",
+                confirmText = "Reactivar",
+                onDismiss = { showReactivateConfirm = false },
+                onConfirm = {
+                    showReactivateConfirm = false
+                    dbExecutor.execute {
+                        repository.reactivateCompletedGoal(state.goal.id)
+                        activity?.runOnUiThread { onChanged() }
+                    }
+                }
+            )
+        }
+
         if (showEditGoal) {
             EditGoalDialog(
                 initialTitle = state.goal.title,
                 initialDescription = state.goal.descriptionText,
+                initialUnitLabel = state.goal.customUnitLabel,
+                initialDayPeriod = state.dayPeriod,
                 onDismiss = { showEditGoal = false },
-                onSave = { title, desc ->
+                onSave = { title, desc, unitLabel, period ->
                     showEditGoal = false
                     dbExecutor.execute {
-                        repository.updateGoal(state.goal.id, title, desc)
+                        repository.updateGoal(state.goal.id, title, desc, unitLabel, period)
                         activity?.runOnUiThread { onChanged() }
                     }
                 }
@@ -796,19 +828,38 @@ class FragMetas : Fragment() {
                         }
                         .padding(8.dp)
                 ) {
-                    Text(
-                        unit.name,
-                        color = Color.Black,
-                        fontWeight = FontWeight.Bold,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
+                    Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.Top) {
+                        Text(
+                            unit.name.ifBlank { "Unidad ${unit.unitIndex}" },
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.weight(1f)
+                        )
+                        if (unit.note.isNotBlank()) {
+                            Text("N", color = Color(0xFF16813B), fontWeight = FontWeight.Bold)
+                        }
+                    }
                     val emoji = when (status) {
                         UnitStatus.COMPLETED -> "🟢"
                         UnitStatus.LOST -> "🟠"
                         UnitStatus.PENDING -> if (locked) "⚪" else "🟢"
                     }
                     Text(emoji, color = Color.Black)
+                    if (state.scheduleType == GoalScheduleType.SPECIFIC_DATES ||
+                        state.scheduleType == GoalScheduleType.WEEKLY ||
+                        state.dayPeriod != GoalDayPeriod.ANYTIME
+                    ) {
+                        unit.startDate?.let {
+                            Text(
+                                formatUnitSchedule(it, state.scheduleType, state.dayPeriod),
+                                color = Color.DarkGray,
+                                style = MaterialTheme.typography.labelSmall,
+                                maxLines = 2
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -880,11 +931,15 @@ class FragMetas : Fragment() {
     private fun EditGoalDialog(
         initialTitle: String,
         initialDescription: String,
+        initialUnitLabel: String,
+        initialDayPeriod: GoalDayPeriod,
         onDismiss: () -> Unit,
-        onSave: (String, String) -> Unit
+        onSave: (String, String, String, GoalDayPeriod) -> Unit
     ) {
         var title by remember(initialTitle) { mutableStateOf(initialTitle) }
         var desc by remember(initialDescription) { mutableStateOf(initialDescription) }
+        var unitLabel by remember(initialUnitLabel) { mutableStateOf(initialUnitLabel) }
+        var dayPeriod by remember(initialDayPeriod) { mutableStateOf(initialDayPeriod) }
 
         Dialog(onDismissRequest = onDismiss) {
             Surface(shape = RoundedCornerShape(16.dp)) {
@@ -906,9 +961,21 @@ class FragMetas : Fragment() {
                         modifier = Modifier.height(120.dp),
                         shape = RoundedCornerShape(14.dp)
                     )
+                    OutlinedTextField(
+                        value = unitLabel,
+                        onValueChange = { unitLabel = it },
+                        label = { Text("Nombre de la unidad (opcional)") },
+                        shape = RoundedCornerShape(14.dp)
+                    )
+                    ConfigSelector(
+                        label = "Momento del día",
+                        options = GoalDayPeriod.entries.map { it to it.label },
+                        selected = dayPeriod,
+                        onSelected = { dayPeriod = it }
+                    )
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         TextButton(onClick = onDismiss) { Text("Cancelar") }
-                        Button(onClick = { onSave(title, desc) }) { Text("Actualizar") }
+                        Button(onClick = { onSave(title, desc, unitLabel, dayPeriod) }) { Text("Actualizar") }
                     }
                 }
             }
@@ -991,11 +1058,20 @@ class FragMetas : Fragment() {
         var amountText by remember { mutableStateOf("21") }
         var frequencyText by remember { mutableStateOf("1") }
         var selectedUnit by remember { mutableStateOf(TimeUnitType.DIAS) }
+        var executionTargetText by remember { mutableStateOf("1") }
+        var customUnitLabel by remember { mutableStateOf("") }
+        var completionBasis by remember { mutableStateOf(GoalCompletionBasis.EXECUTIONS) }
+        var durationValueText by remember { mutableStateOf("30") }
+        var durationUnit by remember { mutableStateOf(TimeUnitType.DIAS) }
+        var scheduleType by remember { mutableStateOf(GoalScheduleType.INTERVAL) }
+        var weeklyDaysText by remember { mutableStateOf("3") }
+        var dayPeriod by remember { mutableStateOf(GoalDayPeriod.ANYTIME) }
+        var showDescription by remember { mutableStateOf(false) }
+        val specificDates = remember { mutableStateListOf<Long>() }
         var notifyOnUnitAvailable by remember { mutableStateOf(false) }
         var habitTitleFilter by remember { mutableStateOf("") }
         var habitContentFilter by remember { mutableStateOf("") }
 
-        var showUnitMenu by remember { mutableStateOf(false) }
         var previewPrograma by remember { mutableStateOf<ProgramaPreestablecido?>(null) }
 
         val habits = remember { mutableStateListOf<HabitPreset>() }
@@ -1014,6 +1090,17 @@ class FragMetas : Fragment() {
             focusedBorderColor = Color.Black,
             unfocusedBorderColor = Color.Black,
             cursorColor = Color.Black
+        )
+        val darkFieldColors = OutlinedTextFieldDefaults.colors(
+            focusedTextColor = Color.White,
+            unfocusedTextColor = Color.White,
+            focusedLabelColor = Color.Black,
+            unfocusedLabelColor = Color.Black,
+            focusedPlaceholderColor = Color.White.copy(alpha = 0.7f),
+            unfocusedPlaceholderColor = Color.White.copy(alpha = 0.7f),
+            focusedContainerColor = Color.Black.copy(alpha = 0.7f),
+            unfocusedContainerColor = Color.Black.copy(alpha = 0.7f),
+            cursorColor = Color.White
         )
         var selectedProgramaGroup by remember { mutableStateOf<String?>(null) }
         val filteredHabits = habits.filter { habit ->
@@ -1035,6 +1122,20 @@ class FragMetas : Fragment() {
             }
         }
 
+        LaunchedEffect(amountText, scheduleType) {
+            if (scheduleType == GoalScheduleType.SPECIFIC_DATES) {
+                val amount = (amountText.toIntOrNull() ?: 1).coerceIn(1, 365)
+                while (specificDates.size < amount) {
+                    val base = specificDates.lastOrNull() ?: System.currentTimeMillis()
+                    specificDates.add(java.util.Calendar.getInstance().apply {
+                        timeInMillis = base
+                        add(java.util.Calendar.DAY_OF_MONTH, 1)
+                    }.timeInMillis)
+                }
+                while (specificDates.size > amount) specificDates.removeAt(specificDates.lastIndex)
+            }
+        }
+
         Dialog(
             onDismissRequest = onDismiss,
             properties = DialogProperties(usePlatformDefaultWidth = false)
@@ -1050,11 +1151,11 @@ class FragMetas : Fragment() {
                     modifier = Modifier
                         .background(
                             brush = Brush.verticalGradient(
-                                colors = listOf(
-                                    Color(0xFFD7EAF7),
-                                    Color(0xFF82B6D9),
-                                    Color(0xFF285F8F)
-                                )
+                                colors = if (selectedTab == 0) {
+                                    listOf(Color(0xFFD1F0C7), Color(0xFFBAE5B0), Color(0xFFE0F7D6))
+                                } else {
+                                    listOf(Color(0xFF59636F), Color(0xFF303943), Color(0xFF171C22))
+                                }
                             ),
                             shape = RoundedCornerShape(18.dp)
                         )
@@ -1100,98 +1201,202 @@ class FragMetas : Fragment() {
 
                     when (selectedTab) {
                         0 -> {
-                            OutlinedTextField(
-                                value = title,
-                                onValueChange = { title = it },
-                                modifier = Modifier.fillMaxWidth(),
-                                label = { Text("Título") },
-                                shape = RoundedCornerShape(14.dp),
-                                colors = fieldColors
-                            )
-                            Spacer(modifier = Modifier.height(8.dp))
-
-                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Column(
+                                modifier = Modifier
+                                    .height(500.dp)
+                                    .verticalScroll(rememberScrollState()),
+                                verticalArrangement = Arrangement.spacedBy(10.dp)
+                            ) {
+                                Text("Título de la Meta", fontWeight = FontWeight.Bold, color = Color.Black)
                                 OutlinedTextField(
-                                    value = amountText,
-                                    onValueChange = { amountText = it.filter { c -> c.isDigit() } },
-                                    modifier = Modifier.weight(1f),
-                                    label = { Text("Unidades") },
+                                    value = title,
+                                    onValueChange = { title = it },
+                                    modifier = Modifier.fillMaxWidth(),
+                                    placeholder = { Text("Ej. Meditar todos los días") },
                                     shape = RoundedCornerShape(14.dp),
-                                    colors = fieldColors
+                                    colors = darkFieldColors
                                 )
-                                OutlinedTextField(
-                                    value = frequencyText,
-                                    onValueChange = { frequencyText = it.filter { c -> c.isDigit() } },
-                                    modifier = Modifier.weight(1f),
-                                    label = { Text("Frecuencia") },
-                                    shape = RoundedCornerShape(14.dp),
-                                    colors = fieldColors
-                                )
-                            }
 
-                            Spacer(modifier = Modifier.height(8.dp))
-
-                            Box {
-                                Button(onClick = { showUnitMenu = true }) {
-                                    Text("Tipo: ${selectedUnit.raw}")
+                                Text("Objetivo por ejecución", fontWeight = FontWeight.Bold, color = Color.Black)
+                                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                    OutlinedTextField(
+                                        value = executionTargetText,
+                                        onValueChange = { executionTargetText = it.filter { c -> c.isDigit() || c == '.' || c == ',' } },
+                                        modifier = Modifier.width(92.dp),
+                                        label = { Text("Cantidad") },
+                                        colors = fieldColors,
+                                        singleLine = true
+                                    )
+                                    OutlinedTextField(
+                                        value = customUnitLabel,
+                                        onValueChange = { customUnitLabel = it },
+                                        modifier = Modifier.weight(1f),
+                                        label = { Text("minutos, páginas, km…") },
+                                        colors = fieldColors,
+                                        singleLine = true
+                                    )
                                 }
-                                DropdownMenu(
-                                    expanded = showUnitMenu,
-                                    onDismissRequest = { showUnitMenu = false },
-                                    shape = ContextMenuShape
-                                ) {
-                                    TimeUnitType.entries.forEach { unit ->
-                                        DropdownMenuItem(
-                                            text = { Text(unit.raw) },
-                                            onClick = {
-                                                selectedUnit = unit
-                                                showUnitMenu = false
-                                            }
+                                Text("Ejemplos: 10 minutos, 3 páginas o 5 km cada vez.", style = MaterialTheme.typography.bodySmall, color = Color.DarkGray)
+
+                                ConfigSelector(
+                                    label = "La meta termina por",
+                                    options = GoalCompletionBasis.entries.map { it to it.label },
+                                    selected = completionBasis,
+                                    onSelected = {
+                                        completionBasis = it
+                                        if (it == GoalCompletionBasis.DURATION && scheduleType == GoalScheduleType.SPECIFIC_DATES) {
+                                            scheduleType = GoalScheduleType.INTERVAL
+                                        }
+                                    }
+                                )
+
+                                if (completionBasis == GoalCompletionBasis.EXECUTIONS) {
+                                    OutlinedTextField(
+                                        value = amountText,
+                                        onValueChange = { amountText = it.filter(Char::isDigit) },
+                                        modifier = Modifier.fillMaxWidth(),
+                                        label = { Text("Cantidad total de ejecuciones") },
+                                        colors = fieldColors,
+                                        singleLine = true
+                                    )
+                                } else {
+                                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                        OutlinedTextField(
+                                            value = durationValueText,
+                                            onValueChange = { durationValueText = it.filter(Char::isDigit) },
+                                            modifier = Modifier.width(110.dp),
+                                            label = { Text("Duración") },
+                                            colors = fieldColors,
+                                            singleLine = true
+                                        )
+                                        ConfigSelector(
+                                            label = "Unidad",
+                                            options = listOf(TimeUnitType.DIAS, TimeUnitType.SEMANAS, TimeUnitType.MESES, TimeUnitType.ANIOS).map { it to it.descriptionFor(2) },
+                                            selected = durationUnit,
+                                            onSelected = { durationUnit = it },
+                                            modifier = Modifier.weight(1f)
                                         )
                                     }
                                 }
-                            }
 
-                            Spacer(modifier = Modifier.height(8.dp))
-
-                            OutlinedTextField(
-                                value = description,
-                                onValueChange = { description = it },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(120.dp),
-                                label = { Text("Descripción") },
-                                shape = RoundedCornerShape(14.dp),
-                                colors = fieldColors
-                            )
-
-                            Spacer(modifier = Modifier.height(8.dp))
-
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    text = "Notificar unidades listas para fichar",
-                                    color = Color(0xFFCDDC39),
-                                    modifier = Modifier.weight(1f),
-                                    fontWeight = FontWeight.Bold,
-                                    maxLines = 2,
-                                    overflow = TextOverflow.Ellipsis
+                                ConfigSelector(
+                                    label = "Programación",
+                                    options = GoalScheduleType.entries
+                                        .filter { completionBasis == GoalCompletionBasis.EXECUTIONS || it != GoalScheduleType.SPECIFIC_DATES }
+                                        .map { it to it.label },
+                                    selected = scheduleType,
+                                    onSelected = { scheduleType = it }
                                 )
-                                Switch(
-                                    checked = notifyOnUnitAvailable,
-                                    onCheckedChange = { notifyOnUnitAvailable = it }
+
+                                when (scheduleType) {
+                                    GoalScheduleType.INTERVAL -> Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                        OutlinedTextField(
+                                            value = frequencyText,
+                                            onValueChange = { frequencyText = it.filter(Char::isDigit) },
+                                            modifier = Modifier.width(90.dp),
+                                            label = { Text("Cada") },
+                                            colors = fieldColors,
+                                            singleLine = true
+                                        )
+                                        ConfigSelector(
+                                            label = "Unidad de tiempo",
+                                            options = TimeUnitType.entries.map { it to it.descriptionFor(2) },
+                                            selected = selectedUnit,
+                                            onSelected = { selectedUnit = it },
+                                            modifier = Modifier.weight(1f)
+                                        )
+                                    }
+                                    GoalScheduleType.WEEKLY -> OutlinedTextField(
+                                        value = weeklyDaysText,
+                                        onValueChange = { weeklyDaysText = it.filter(Char::isDigit) },
+                                        modifier = Modifier.fillMaxWidth(),
+                                        label = { Text("Días por semana (1–7)") },
+                                        colors = fieldColors,
+                                        singleLine = true
+                                    )
+                                    GoalScheduleType.SPECIFIC_DATES -> {
+                                        Text("Fecha de cada ejecución", fontWeight = FontWeight.Bold, color = Color.Black)
+                                        specificDates.forEachIndexed { index, date ->
+                                            val context = LocalContext.current
+                                            Button(onClick = {
+                                                val calendar = java.util.Calendar.getInstance().apply { timeInMillis = date }
+                                                android.app.DatePickerDialog(
+                                                    context,
+                                                    { _, year, month, day ->
+                                                        specificDates[index] = java.util.Calendar.getInstance().apply {
+                                                            set(year, month, day, 0, 0, 0)
+                                                            set(java.util.Calendar.MILLISECOND, 0)
+                                                        }.timeInMillis
+                                                    },
+                                                    calendar.get(java.util.Calendar.YEAR),
+                                                    calendar.get(java.util.Calendar.MONTH),
+                                                    calendar.get(java.util.Calendar.DAY_OF_MONTH)
+                                                ).show()
+                                            }) {
+                                                Text("Ejecución ${index + 1}: ${formatDateOnly(date)}")
+                                            }
+                                        }
+                                    }
+                                }
+
+                                ConfigSelector(
+                                    label = "Momento del día",
+                                    options = GoalDayPeriod.entries.map { it to it.label },
+                                    selected = dayPeriod,
+                                    onSelected = { dayPeriod = it }
                                 )
+
+                                Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                                    Text("Notificar cuando haya una ejecución disponible", color = Color.Black, modifier = Modifier.weight(1f), fontWeight = FontWeight.SemiBold)
+                                    Switch(checked = notifyOnUnitAvailable, onCheckedChange = { notifyOnUnitAvailable = it })
+                                }
+
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(Color.White.copy(alpha = 0.68f), RoundedCornerShape(14.dp))
+                                        .padding(12.dp),
+                                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                                ) {
+                                    Text(
+                                        text = "Resumen",
+                                        style = MaterialTheme.typography.titleMedium,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.Black
+                                    )
+                                    Text(
+                                        text = buildGoalCreationSummary(
+                                            title,
+                                            executionTargetText,
+                                            customUnitLabel,
+                                            completionBasis,
+                                            amountText,
+                                            durationValueText,
+                                            durationUnit,
+                                            scheduleType,
+                                            frequencyText,
+                                            selectedUnit,
+                                            weeklyDaysText,
+                                            dayPeriod
+                                        ),
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = Color.Black
+                                    )
+                                }
+
+                                TextButton(onClick = { showDescription = !showDescription }) {
+                                    Text(if (showDescription) "Descripción ▲" else "Descripción ▼", color = Color.Black, fontWeight = FontWeight.Bold)
+                                }
+                                if (showDescription) {
+                                    OutlinedTextField(
+                                        value = description,
+                                        onValueChange = { description = it },
+                                        modifier = Modifier.fillMaxWidth().height(130.dp),
+                                        label = { Text("Descripción") },
+                                        colors = darkFieldColors
+                                    )
+                                }
                             }
-
-                            Spacer(modifier = Modifier.height(8.dp))
-
-                            Text(
-                                text = "Resumen: Meta a completar en ${amountText.ifBlank { "0" }} ${if (amountText == "1") "unidad" else "unidades"}. " +
-                                    "Cada unidad deberá realizarse cada ${frequencyText.ifBlank { "1" }} ${selectedUnit.descriptionFor(frequencyText.toIntOrNull() ?: 1)}",
-                                style = MaterialTheme.typography.titleMedium
-                            )
                         }
 
                         1 -> {
@@ -1230,6 +1435,11 @@ class FragMetas : Fragment() {
                                         Column(modifier = Modifier.padding(10.dp)) {
                                             Text(habit.title, fontWeight = FontWeight.Bold)
                                             Text(habit.description, maxLines = 4, overflow = TextOverflow.Ellipsis)
+                                            Text(
+                                                habitScheduleSummary(habit),
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = habitCardContentColor.copy(alpha = 0.75f)
+                                            )
                                             Row(modifier = Modifier.fillMaxWidth()) {
                                                 Spacer(modifier = Modifier.weight(1f))
                                                 Button(onClick = {
@@ -1238,6 +1448,12 @@ class FragMetas : Fragment() {
                                                     amountText = habit.noUnidades.toString()
                                                     frequencyText = habit.noFrecuencias.toString()
                                                     selectedUnit = TimeUnitType.DIAS
+                                                    scheduleType = habit.scheduleType
+                                                    weeklyDaysText = habit.weeklyDaysPerWeek.toString()
+                                                    dayPeriod = habit.dayPeriod
+                                                    customUnitLabel = habit.customUnitLabel
+                                                    executionTargetText = "1"
+                                                    completionBasis = GoalCompletionBasis.EXECUTIONS
                                                     notifyOnUnitAvailable = false
                                                     selectedTab = 0
                                                 }) {
@@ -1315,6 +1531,11 @@ class FragMetas : Fragment() {
                                             Column(modifier = Modifier.padding(10.dp)) {
                                                 Text(programa.title, fontWeight = FontWeight.Bold)
                                                 Text(programa.description, maxLines = 4, overflow = TextOverflow.Ellipsis)
+                                                Text(
+                                                    programScheduleSummary(programa),
+                                                    style = MaterialTheme.typography.bodySmall,
+                                                    color = programCardContentColor.copy(alpha = 0.75f)
+                                                )
                                                 Row(
                                                     modifier = Modifier.fillMaxWidth(),
                                                     verticalAlignment = Alignment.CenterVertically
@@ -1364,12 +1585,25 @@ class FragMetas : Fragment() {
                                             unitType = selectedUnit,
                                             frequency = frequencyText.toIntOrNull() ?: 1,
                                             unitsInfo = emptyList<UnitInfo>(),
-                                            notifyOnUnitAvailable = notifyOnUnitAvailable
+                                            notifyOnUnitAvailable = notifyOnUnitAvailable,
+                                            scheduleType = scheduleType,
+                                            weeklyDaysPerWeek = weeklyDaysText.toIntOrNull() ?: 3,
+                                            dayPeriod = dayPeriod,
+                                            customUnitLabel = customUnitLabel,
+                                            executionTargetValue = executionTargetText.replace(',', '.').toDoubleOrNull() ?: 0.0,
+                                            completionBasis = completionBasis,
+                                            durationValue = durationValueText.toIntOrNull() ?: 30,
+                                            durationUnit = durationUnit,
+                                            specificDates = specificDates.toList()
                                         )
                                         activity?.runOnUiThread { onCreated() }
                                     }
                                 },
-                                enabled = title.trim().isNotEmpty() && (amountText.toIntOrNull() ?: 0) > 0
+                                enabled = title.trim().isNotEmpty() &&
+                                    (amountText.toIntOrNull() ?: 0) > 0 &&
+                                    (executionTargetText.replace(',', '.').toDoubleOrNull() ?: 0.0) > 0 &&
+                                    (completionBasis != GoalCompletionBasis.DURATION || (durationValueText.toIntOrNull() ?: 0) > 0) &&
+                                    (scheduleType != GoalScheduleType.SPECIFIC_DATES || specificDates.size == (amountText.toIntOrNull() ?: 0))
                             ) {
                                 Text("Crear Meta", color = Color.Black)
                             }
@@ -1427,6 +1661,7 @@ class FragMetas : Fragment() {
                     Text("Título: ${programa.title}", fontWeight = FontWeight.Bold, color = Color.Black)
                     Text("Detalles: ${programa.detalles.ifBlank { "Sin detalles" }}", color = Color.Black)
                     Text("Descripción: ${programa.description.ifBlank { "Sin descripción" }}", color = Color.Black)
+                    Text("Programación: ${programScheduleSummary(programa)}", color = Color.Black, fontWeight = FontWeight.SemiBold)
 
                     HorizontalDivider()
                     Text("Unidades", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
@@ -1535,6 +1770,108 @@ class FragMetas : Fragment() {
             fontWeight = FontWeight.Bold
         )
     }
+
+    @Composable
+    private fun <T> ConfigSelector(
+        label: String,
+        options: List<Pair<T, String>>,
+        selected: T,
+        onSelected: (T) -> Unit,
+        modifier: Modifier = Modifier
+    ) {
+        var expanded by remember { mutableStateOf(false) }
+        val selectedLabel = options.firstOrNull { it.first == selected }?.second.orEmpty()
+        Box(modifier = modifier) {
+            Button(onClick = { expanded = true }, modifier = Modifier.fillMaxWidth()) {
+                Text("$label: $selectedLabel", maxLines = 2, overflow = TextOverflow.Ellipsis)
+            }
+            DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                options.forEach { (value, text) ->
+                    DropdownMenuItem(
+                        text = { Text(text) },
+                        onClick = {
+                            onSelected(value)
+                            expanded = false
+                        }
+                    )
+                }
+            }
+        }
+    }
+
+    private fun buildGoalCreationSummary(
+        title: String,
+        targetText: String,
+        unitLabel: String,
+        completionBasis: GoalCompletionBasis,
+        amountText: String,
+        durationText: String,
+        durationUnit: TimeUnitType,
+        scheduleType: GoalScheduleType,
+        frequencyText: String,
+        intervalUnit: TimeUnitType,
+        weeklyDaysText: String,
+        dayPeriod: GoalDayPeriod
+    ): String {
+        val target = targetText.replace(',', '.').toDoubleOrNull() ?: 0.0
+        val number = if (target % 1.0 == 0.0) target.toInt().toString() else targetText
+        val action = when {
+            unitLabel.isNotBlank() && target == 1.0 -> "realizar ${unitLabel.trim()}"
+            unitLabel.isNotBlank() -> "realizar $number ${unitLabel.trim()}"
+            target == 1.0 -> "realizar una ejecución"
+            else -> "realizar $number en cada ejecución"
+        }
+        val frequency = (frequencyText.toIntOrNull() ?: 1).coerceAtLeast(1)
+        val cadence = when (scheduleType) {
+            GoalScheduleType.INTERVAL -> "una vez cada ${if (frequency == 1) "" else "$frequency "}${intervalUnit.descriptionFor(frequency)}"
+            GoalScheduleType.WEEKLY -> "${(weeklyDaysText.toIntOrNull() ?: 3).coerceIn(1, 7)} ${if ((weeklyDaysText.toIntOrNull() ?: 3) == 1) "día" else "días"} por semana"
+            GoalScheduleType.SPECIFIC_DATES -> "en las ${(amountText.toIntOrNull() ?: 0)} fechas elegidas"
+        }
+        val period = if (dayPeriod == GoalDayPeriod.ANYTIME) "" else ", ${dayPeriod.label.lowercase()}"
+        val ending = if (completionBasis == GoalCompletionBasis.EXECUTIONS) {
+            val amount = amountText.toIntOrNull() ?: 0
+            "La meta terminará cuando completes $amount ${if (amount == 1) "ejecución" else "ejecuciones"}"
+        } else {
+            val duration = (durationText.toIntOrNull() ?: 0).coerceAtLeast(0)
+            "La meta permanecerá activa durante $duration ${durationUnit.descriptionFor(duration)}"
+        }
+        val goalName = title.trim().ifBlank { "Esta meta" }
+        val subject = if (title.isBlank()) goalName else "La meta «$goalName»"
+        return "$subject consiste en $action, $cadence$period. $ending."
+    }
+
+    private fun habitScheduleSummary(habit: HabitPreset): String {
+        val cadence = when (habit.scheduleType) {
+            GoalScheduleType.INTERVAL -> "Cada ${if (habit.noFrecuencias == 1) "" else "${habit.noFrecuencias} "}${TimeUnitType.DIAS.descriptionFor(habit.noFrecuencias)}"
+            GoalScheduleType.WEEKLY -> "${habit.weeklyDaysPerWeek.coerceIn(1, 7)} días por semana"
+            GoalScheduleType.SPECIFIC_DATES -> "Fechas específicas"
+        }
+        return if (habit.dayPeriod == GoalDayPeriod.ANYTIME) cadence else "$cadence · ${habit.dayPeriod.label}"
+    }
+
+    private fun programScheduleSummary(program: ProgramaPreestablecido): String {
+        val unit = TimeUnitType.fromRaw(program.tipoUnidad)
+        val cadence = when (program.scheduleType) {
+            GoalScheduleType.INTERVAL -> "Cada ${if (program.frecuencia == 1) "" else "${program.frecuencia} "}${unit.descriptionFor(program.frecuencia)}"
+            GoalScheduleType.WEEKLY -> "${program.weeklyDaysPerWeek.coerceIn(1, 7)} días por semana"
+            GoalScheduleType.SPECIFIC_DATES -> "Fechas específicas"
+        }
+        return if (program.dayPeriod == GoalDayPeriod.ANYTIME) cadence else "$cadence · ${program.dayPeriod.label}"
+    }
+
+    private fun formatUnitSchedule(epoch: Long, schedule: GoalScheduleType, period: GoalDayPeriod): String {
+        val pattern = if (schedule == GoalScheduleType.SPECIFIC_DATES || schedule == GoalScheduleType.WEEKLY) {
+            "EEE, d MMM yyyy"
+        } else if (period != GoalDayPeriod.ANYTIME) {
+            "EEE HH:mm"
+        } else {
+            "dd/MM/yyyy HH:mm"
+        }
+        return SimpleDateFormat(pattern, Locale.getDefault()).format(Date(epoch))
+    }
+
+    private fun formatDateOnly(epoch: Long): String =
+        SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(epoch))
 
     private fun readableProgramaGroup(raw: String): String {
         return raw.removePrefix("prog_")

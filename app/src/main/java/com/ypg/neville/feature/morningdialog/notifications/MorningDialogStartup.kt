@@ -21,6 +21,11 @@ object MorningDialogStartup {
             } else {
                 scheduler.cancel()
             }
+            if (settings.eveningReminderEnabled) {
+                scheduler.scheduleEveningDaily(settings.eveningReminderHour, settings.eveningReminderMinute)
+            } else {
+                scheduler.cancelEvening()
+            }
         }
     }
 }

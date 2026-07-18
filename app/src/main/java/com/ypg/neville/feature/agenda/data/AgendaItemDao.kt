@@ -17,6 +17,13 @@ interface AgendaItemDao {
     fun findById(id: String): AgendaItemEntity?
 
     @Query(
+        "SELECT * FROM agenda_items " +
+            "WHERE activityDateMillis >= :startInclusive AND activityDateMillis < :endExclusive " +
+            "ORDER BY activityTimeMillis ASC"
+    )
+    suspend fun loadBetween(startInclusive: Long, endExclusive: Long): List<AgendaItemEntity>
+
+    @Query(
         "SELECT COUNT(*) FROM agenda_items " +
             "WHERE activityDateMillis >= :startInclusive AND activityDateMillis < :endExclusive"
     )

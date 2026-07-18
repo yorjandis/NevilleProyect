@@ -466,5 +466,53 @@
     "description": "Practicar yoga diariamente para flexibilidad y relajación",
     "noUnidades": 21,
     "noFrecuencias": 1
+  },
+  {
+    "title": "Caminar Por La Mañana",
+    "description": "Caminar 20-30 minutos por la mañana para activar cuerpo y mente",
+    "noUnidades": 21,
+    "noFrecuencias": 1,
+    "scheduleType": "weekly",
+    "weeklyDaysPerWeek": 3,
+    "dayPeriod": "morning",
+    "customUnitLabel": "caminatas"
+  },
+  {
+    "title": "Ayuno Intermitente",
+    "description": "Aplicar ayuno intermitente según horario personal. La consolidación estable de este hábito requiere repetición prolongada: 30-60 días.",
+    "noUnidades": 45,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Neuroplasticidad Ejercicio",
+    "description": "Realizar ejercicios para estimular la neuroplasticidad. La consolidación estable de este hábito requiere repetición prolongada: 60-90 días.",
+    "noUnidades": 90,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Visualizar Deseos",
+    "description": "Visualizar deseos cumplidos diariamente",
+    "noUnidades": 60,
+    "noFrecuencias": 1,
+    "dayPeriod": "night",
+    "customUnitLabel": "sesiones"
+  },
+  {
+    "title": "Meditacion Diaria",
+    "description": "Practicar meditación diaria según enseñanzas de Joe Dispenza",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Beber Agua Al Despertar",
+    "description": "Beber agua al despertar para rehidratar el cuerpo",
+    "noUnidades": 21,
+    "noFrecuencias": 1
+  },
+  {
+    "title": "Musica Para Relajación",
+    "description": "Escuchar música para relajación y calma mental",
+    "noUnidades": 21,
+    "noFrecuencias": 1
   }
 ]

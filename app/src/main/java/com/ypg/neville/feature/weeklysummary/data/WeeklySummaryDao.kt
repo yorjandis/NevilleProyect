@@ -52,6 +52,46 @@ interface WeeklySummaryDao {
     fun countMorningRitualsCompleted(startMillis: Long, endMillis: Long): Int
 
     @Query(
+        "SELECT COUNT(*) FROM evening_ritual_reviews " +
+            "WHERE sessionDateEpochDay >= :startEpochDay AND sessionDateEpochDay < :endEpochDay"
+    )
+    fun countEveningRitualsCompleted(startEpochDay: Long, endEpochDay: Long): Int
+
+    @Query(
+        "SELECT COUNT(*) FROM evening_ritual_reviews AS evening " +
+            "INNER JOIN morning_dialog_sessions AS morning " +
+            "ON morning.sessionDateEpochDay = evening.sessionDateEpochDay " +
+            "WHERE morning.completed = 1 " +
+            "AND evening.sessionDateEpochDay >= :startEpochDay " +
+            "AND evening.sessionDateEpochDay < :endEpochDay"
+    )
+    fun countCompletedRitualCycles(startEpochDay: Long, endEpochDay: Long): Int
+
+    @Query(
+        "SELECT COALESCE(CAST(ROUND(AVG(energy)) AS INTEGER), 0) FROM evening_ritual_reviews " +
+            "WHERE sessionDateEpochDay >= :startEpochDay AND sessionDateEpochDay < :endEpochDay"
+    )
+    fun averageEveningEnergy(startEpochDay: Long, endEpochDay: Long): Int
+
+    @Query(
+        "SELECT COALESCE(CAST(ROUND(AVG(identityAlignment)) AS INTEGER), 0) FROM evening_ritual_reviews " +
+            "WHERE sessionDateEpochDay >= :startEpochDay AND sessionDateEpochDay < :endEpochDay"
+    )
+    fun averageEveningIdentityAlignment(startEpochDay: Long, endEpochDay: Long): Int
+
+    @Query(
+        "SELECT COALESCE(SUM(presenceReturns), 0) FROM evening_ritual_reviews " +
+            "WHERE sessionDateEpochDay >= :startEpochDay AND sessionDateEpochDay < :endEpochDay"
+    )
+    fun sumEveningPresenceReturns(startEpochDay: Long, endEpochDay: Long): Int
+
+    @Query(
+        "SELECT COALESCE(SUM(goalUnitsCompletedCount), 0) FROM evening_ritual_reviews " +
+            "WHERE sessionDateEpochDay >= :startEpochDay AND sessionDateEpochDay < :endEpochDay"
+    )
+    fun sumEveningGoalUnitsCompleted(startEpochDay: Long, endEpochDay: Long): Int
+
+    @Query(
         "SELECT COUNT(*) FROM cardio_coherence_records " +
             "WHERE dateEpochMillis >= :startMillis AND dateEpochMillis < :endMillis"
     )
@@ -74,6 +114,9 @@ interface WeeklySummaryDao {
 
     @Query("SELECT MIN(dateEpochMillis) FROM cardio_coherence_records")
     fun minCardioCoherenceRecordTimestamp(): Long?
+
+    @Query("SELECT MIN(sessionDateEpochDay) FROM evening_ritual_reviews")
+    fun minEveningReviewEpochDay(): Long?
 
     @Query("SELECT MAX(weekEndMillis) FROM weekly_summaries")
     fun maxSummaryWeekEnd(): Long?

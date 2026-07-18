@@ -306,6 +306,14 @@ class NevilleMigrationRoomBridge(
             .put("totalUnits", totalUnits)
             .put("unitType", unitType)
             .put("frequency", frequency)
+            .put("scheduleType", scheduleType)
+            .put("weeklyDaysPerWeek", weeklyDaysPerWeek)
+            .put("dayPeriod", dayPeriod)
+            .put("customUnitLabel", customUnitLabel)
+            .put("executionTargetValue", executionTargetValue)
+            .put("completionBasis", completionBasis)
+            .put("durationValue", durationValue)
+            .put("durationUnit", durationUnit)
             .put("isStarted", isStarted)
             .put("startDate", startDate)
             .put("notifyOnUnitAvailable", notifyOnUnitAvailable)
@@ -329,6 +337,14 @@ class NevilleMigrationRoomBridge(
             .put("totalUnits", totalUnits)
             .put("unitType", unitType)
             .put("frequency", frequency)
+            .put("scheduleType", scheduleType)
+            .put("weeklyDaysPerWeek", weeklyDaysPerWeek)
+            .put("dayPeriod", dayPeriod)
+            .put("customUnitLabel", customUnitLabel)
+            .put("executionTargetValue", executionTargetValue)
+            .put("completionBasis", completionBasis)
+            .put("durationValue", durationValue)
+            .put("durationUnit", durationUnit)
             .put("completionDate", completionDate)
             .put("status", "archived")
             .put("units", JSONArray().also { array -> units.forEach { array.put(it.toJson()) } })
@@ -455,6 +471,14 @@ class NevilleMigrationRoomBridge(
             totalUnits = payload.optInt("totalUnits", 0),
             unitType = payload.optString("unitType", ""),
             frequency = payload.optInt("frequency", 0),
+            scheduleType = payload.optString("scheduleType", "interval"),
+            weeklyDaysPerWeek = payload.optInt("weeklyDaysPerWeek", 3),
+            dayPeriod = payload.optString("dayPeriod", "anytime"),
+            customUnitLabel = payload.optString("customUnitLabel", ""),
+            executionTargetValue = payload.optDouble("executionTargetValue", 1.0),
+            completionBasis = payload.optString("completionBasis", "executions"),
+            durationValue = payload.optInt("durationValue", 0),
+            durationUnit = payload.optString("durationUnit", "dias"),
             isStarted = payload.optBoolean("isStarted", false),
             startDate = payload.optNullableLong("startDate"),
             notifyOnUnitAvailable = payload.optBoolean("notifyOnUnitAvailable", false),
@@ -490,6 +514,14 @@ class NevilleMigrationRoomBridge(
             totalUnits = payload.optInt("totalUnits", 0),
             unitType = payload.optString("unitType", ""),
             frequency = payload.optInt("frequency", 0),
+            scheduleType = payload.optString("scheduleType", "interval"),
+            weeklyDaysPerWeek = payload.optInt("weeklyDaysPerWeek", 3),
+            dayPeriod = payload.optString("dayPeriod", "anytime"),
+            customUnitLabel = payload.optString("customUnitLabel", ""),
+            executionTargetValue = payload.optDouble("executionTargetValue", 1.0),
+            completionBasis = payload.optString("completionBasis", "executions"),
+            durationValue = payload.optInt("durationValue", 0),
+            durationUnit = payload.optString("durationUnit", "dias"),
             completionDate = payload.optLong("completionDate", MigrationFormat.isoToMillis(updatedAt))
         )
     }

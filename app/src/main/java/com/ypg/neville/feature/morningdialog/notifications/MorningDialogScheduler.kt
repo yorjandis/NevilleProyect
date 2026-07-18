@@ -43,6 +43,18 @@ class MorningDialogScheduler(
         alarmManager.cancel(alarmPendingIntent())
     }
 
+    fun scheduleEveningDaily(hour: Int, minute: Int) {
+        val alarmManager = appContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val pendingIntent = eveningPendingIntent()
+        alarmManager.cancel(pendingIntent)
+        setAlarm(alarmManager, computeNextTrigger(hour, minute), pendingIntent)
+    }
+
+    fun cancelEvening() {
+        val alarmManager = appContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.cancel(eveningPendingIntent())
+    }
+
     fun scheduleSessionDayReminders(sessionId: Long, timesInMinutes: List<Int>) {
         cancelSessionDayReminders(sessionId)
         val today = LocalDate.now(ZoneId.systemDefault())
@@ -91,6 +103,18 @@ class MorningDialogScheduler(
         return PendingIntent.getBroadcast(
             appContext,
             buildRequestCodeForDayReminder(sessionId, reminderIndex),
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+    }
+
+    private fun eveningPendingIntent(): PendingIntent {
+        val intent = Intent(appContext, MorningDialogAlarmReceiver::class.java).apply {
+            action = MorningDialogNotificationConfig.ACTION_EVENING_FIRE
+        }
+        return PendingIntent.getBroadcast(
+            appContext,
+            MorningDialogNotificationConfig.REQUEST_CODE_EVENING,
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )

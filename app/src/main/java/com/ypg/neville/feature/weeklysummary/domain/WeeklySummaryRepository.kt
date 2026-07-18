@@ -17,14 +17,17 @@ class WeeklySummaryRepository(
         ensureSectionOrderSeeded()
 
         val lastClosedBoundary = WeeklySummaryTime.previousMondayBoundary(nowMillis, zoneId)
+        dao.getAllSummariesDesc()
+            .filter { it.weekEndMillis <= lastClosedBoundary }
+            .forEach { stored ->
+                dao.upsertSummary(buildSummary(stored.weekStartMillis, stored.weekEndMillis))
+            }
         val firstBoundaryToGenerate = computeFirstBoundaryToGenerate(lastClosedBoundary, zoneId)
 
         var boundary = firstBoundaryToGenerate
         while (boundary <= lastClosedBoundary) {
             val weekStart = boundary - WEEK_MS
-            if (dao.getSummaryByWeekStart(weekStart) == null) {
-                dao.upsertSummary(buildSummary(weekStart, boundary))
-            }
+            dao.upsertSummary(buildSummary(weekStart, boundary))
             boundary += WEEK_MS
         }
 
@@ -123,6 +126,18 @@ class WeeklySummaryRepository(
                 title = "Ritual Matutino",
                 metrics = listOf("Completados" to summary.morningRitualsCompleted)
             ),
+            SECTION_EVENING to WeeklySummarySectionData(
+                key = SECTION_EVENING,
+                title = "Ritual de Cierre",
+                metrics = listOf(
+                    "Cierres completados" to summary.eveningRitualsCompleted,
+                    "Ciclos mañana → cierre" to summary.ritualCyclesCompleted,
+                    "Energía media (de 5)" to summary.eveningAverageEnergy,
+                    "Coherencia media (de 5)" to summary.eveningAverageIdentityAlignment,
+                    "Regresos al presente" to summary.eveningPresenceReturns,
+                    "Unidades de metas" to summary.eveningGoalUnitsCompleted
+                )
+            ),
             SECTION_CARDIO_COHERENCE to WeeklySummarySectionData(
                 key = SECTION_CARDIO_COHERENCE,
                 title = "Coherencia Cardio-Cerebral",
@@ -180,7 +195,10 @@ class WeeklySummaryRepository(
 
         val minEventTs = listOfNotNull(
             dao.minEventTimestamp(),
-            dao.minCardioCoherenceRecordTimestamp()
+            dao.minCardioCoherenceRecordTimestamp(),
+            dao.minEveningReviewEpochDay()?.let { epochDay ->
+                LocalDate.ofEpochDay(epochDay).atStartOfDay(zoneId).toInstant().toEpochMilli()
+            }
         ).minOrNull()
         if (minEventTs == null) {
             return lastClosedBoundary + WEEK_MS
@@ -191,6 +209,9 @@ class WeeklySummaryRepository(
     }
 
     private fun buildSummary(weekStartMillis: Long, weekEndMillis: Long): WeeklySummaryEntity {
+        val zoneId = ZoneId.systemDefault()
+        val startEpochDay = Instant.ofEpochMilli(weekStartMillis).atZone(zoneId).toLocalDate().toEpochDay()
+        val endEpochDay = Instant.ofEpochMilli(weekEndMillis).atZone(zoneId).toLocalDate().toEpochDay()
         return WeeklySummaryEntity(
             weekStartMillis = weekStartMillis,
             weekEndMillis = weekEndMillis,
@@ -212,6 +233,12 @@ class WeeklySummaryRepository(
             emotionalAnchorsCreated = dao.countEvents(WeeklySummaryEventType.ANCHORS_CREATED, weekStartMillis, weekEndMillis),
             emotionalAnchorsUsed = dao.countEvents(WeeklySummaryEventType.ANCHORS_USED, weekStartMillis, weekEndMillis),
             morningRitualsCompleted = dao.countMorningRitualsCompleted(weekStartMillis, weekEndMillis),
+            eveningRitualsCompleted = dao.countEveningRitualsCompleted(startEpochDay, endEpochDay),
+            ritualCyclesCompleted = dao.countCompletedRitualCycles(startEpochDay, endEpochDay),
+            eveningAverageEnergy = dao.averageEveningEnergy(startEpochDay, endEpochDay),
+            eveningAverageIdentityAlignment = dao.averageEveningIdentityAlignment(startEpochDay, endEpochDay),
+            eveningPresenceReturns = dao.sumEveningPresenceReturns(startEpochDay, endEpochDay),
+            eveningGoalUnitsCompleted = dao.sumEveningGoalUnitsCompleted(startEpochDay, endEpochDay),
             cardioCoherenceSessions = dao.countCardioCoherenceSessions(weekStartMillis, weekEndMillis),
             cardioCoherenceMinutes = dao.sumCardioCoherenceMinutes(weekStartMillis, weekEndMillis),
             cardioCoherenceScoreDelta = dao.sumCardioCoherenceScoreDelta(weekStartMillis, weekEndMillis),
@@ -234,6 +261,7 @@ class WeeklySummaryRepository(
         const val SECTION_VOICE = "voice"
         const val SECTION_ANCHORS = "anchors"
         const val SECTION_MORNING = "morning"
+        const val SECTION_EVENING = "evening"
         const val SECTION_CARDIO_COHERENCE = "cardio_coherence"
         const val SECTION_PHRASES = "phrases"
         const val SECTION_ENCYCLOPEDIA = "encyclopedia"
@@ -247,6 +275,7 @@ class WeeklySummaryRepository(
             SECTION_VOICE,
             SECTION_ANCHORS,
             SECTION_MORNING,
+            SECTION_EVENING,
             SECTION_CARDIO_COHERENCE,
             SECTION_PHRASES,
             SECTION_ENCYCLOPEDIA

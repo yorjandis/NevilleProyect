@@ -5,6 +5,10 @@
   "noUnidades": 7,
   "tipoUnidad": "dias",
   "frecuencia": 1,
+  "scheduleType": "weekly",
+  "weeklyDaysPerWeek": 7,
+  "dayPeriod": "anytime",
+  "customUnitLabel": "días",
   "unidadesinfo": [
     {
       "name": "Lunes",

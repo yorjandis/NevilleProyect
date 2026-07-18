@@ -106,6 +106,7 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                                     "calma" -> host?.openDestinationAsSheet(R.id.frag_calm_space)
                                     "cardio" -> host?.openDestinationAsSheet(R.id.frag_cardio_coherence)
                                     "presencia" -> host?.openDestinationAsSheet(R.id.frag_presence)
+                                    "centro_sanador" -> host?.openDestinationAsSheet(R.id.frag_healing_center)
                                     "ajustes" -> host?.openDestinationAsSheet(R.id.fragSetting)
                                     "premium" -> host?.showSubscriptionPaywall()
                                 }
@@ -397,6 +398,16 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                                     )
                                 },
                                 onClick = { showProductividad = false; onNavigate("presencia") }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Centro Sanador") },
+                                leadingIcon = {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_ayuda),
+                                        contentDescription = "Centro Sanador"
+                                    )
+                                },
+                                onClick = { showProductividad = false; onNavigate("centro_sanador") }
                             )
                         }
                     }

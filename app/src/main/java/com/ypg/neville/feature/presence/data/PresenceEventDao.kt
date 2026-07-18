@@ -14,6 +14,13 @@ interface PresenceEventDao {
     @Query("SELECT COUNT(*) FROM presence_events WHERE eventType = :type AND createdAtMillis >= :startMillis AND createdAtMillis < :endMillis")
     suspend fun countByTypeBetween(type: String, startMillis: Long, endMillis: Long): Int
 
+    @Query(
+        "SELECT COUNT(*) FROM presence_events " +
+            "WHERE moodId IN ('pilotoAutomatico', 'distraido') " +
+            "AND createdAtMillis >= :startMillis AND createdAtMillis < :endMillis"
+    )
+    suspend fun countAutomaticPilotBetween(startMillis: Long, endMillis: Long): Int
+
     @Query("SELECT COUNT(*) FROM presence_events WHERE moodId = :moodId AND dayStartMillis >= :startMillis")
     suspend fun countMoodSince(moodId: String, startMillis: Long): Int
 

@@ -10,9 +10,15 @@ private fun HomePreview() {
     com.ypg.neville.ui.theme.NevilleTheme {
         MorningDialogHomeScreen(
             todayCompleted = false,
+            todayReviewCompleted = false,
+            todayReviewNeedsUpdate = false,
             onStartFlow = {},
             onOpenHistory = {},
-            onOpenSettings = {}
+            onOpenSettings = {},
+            onOpenEvening = {},
+            onUpdateEvening = {},
+            onOpenSummary = {},
+            onOpenMyDay = {}
         )
     }
 }
@@ -23,7 +29,7 @@ private fun SettingsPreview() {
     com.ypg.neville.ui.theme.NevilleTheme {
         MorningDialogSettingsScreen(
             settings = MorningDialogSettings(enabled = true, hour = 7, minute = 30),
-            onSaveSettings = { _, _, _ -> }
+            onSaveSettings = { _, _, _, _, _, _, _ -> }
         )
     }
 }

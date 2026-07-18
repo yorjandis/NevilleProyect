@@ -97,6 +97,38 @@ class MorningDialogNotificationHelper(
         )
     }
 
+    fun showEveningRitualNotification() {
+        ensureChannel()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            ContextCompat.checkSelfPermission(appContext, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
+        ) return
+
+        val openIntent = Intent(appContext, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            putExtra(MainActivity.EXTRA_OPEN_MY_DAY, true)
+        }
+        val pendingIntent = PendingIntent.getActivity(
+            appContext,
+            "evening_ritual_open".hashCode(),
+            openIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        val text = "Una pausa para integrar el día y preparar mañana."
+        val notification = NotificationCompat.Builder(appContext, MorningDialogNotificationConfig.CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_notification_neville)
+            .setContentTitle("Cierra tu día con conciencia")
+            .setContentText(text)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(text))
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setAutoCancel(true)
+            .setContentIntent(pendingIntent)
+            .build()
+        NotificationManagerCompat.from(appContext).notify(
+            MorningDialogNotificationConfig.NOTIFICATION_ID_EVENING,
+            notification
+        )
+    }
+
     private fun ensureChannel() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
         val manager = appContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

@@ -6,6 +6,9 @@ object MorningDialogRoutes {
     const val HISTORY = "morning_history"
     const val NOTE = "morning_note/{sessionId}"
     const val SETTINGS = "morning_settings"
+    const val EVENING = "evening_review"
+    const val SUMMARY = "ritual_summary"
+    const val MY_DAY = "ritual_my_day"
 
     fun note(sessionId: Long): String = "morning_note/$sessionId"
 }

@@ -16,6 +16,8 @@ import com.ypg.neville.feature.emotionalanchors.data.EmotionalAnchorDao
 import com.ypg.neville.feature.emotionalanchors.data.EmotionalAnchorEntity
 import com.ypg.neville.feature.morningdialog.data.MorningDialogDao
 import com.ypg.neville.feature.morningdialog.data.MorningDialogSessionEntity
+import com.ypg.neville.feature.morningdialog.data.EveningReviewDao
+import com.ypg.neville.feature.morningdialog.data.EveningReviewEntity
 import com.ypg.neville.feature.morningdialog.data.RitualDiaryExportDao
 import com.ypg.neville.feature.morningdialog.data.RitualDiaryExportEntity
 import com.ypg.neville.feature.presence.data.PresenceEventDao
@@ -53,9 +55,10 @@ import com.ypg.neville.model.security.PostQuantumAesTextCrypto
         CalmPersonalPhraseEntity::class,
         MeditationSessionRecordEntity::class,
         AgendaItemEntity::class,
-        PresenceEventEntity::class
+        PresenceEventEntity::class,
+        EveningReviewEntity::class
     ],
-    version = 26,
+    version = 29,
     exportSchema = false
 )
 abstract class NevilleRoomDatabase : RoomDatabase() {
@@ -80,6 +83,7 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
     abstract fun meditationSessionRecordDao(): MeditationSessionRecordDao
     abstract fun agendaItemDao(): AgendaItemDao
     abstract fun presenceEventDao(): PresenceEventDao
+    abstract fun eveningReviewDao(): EveningReviewDao
 
     companion object {
         @Volatile
@@ -632,6 +636,66 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_26_27 = object : Migration(26, 27) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `evening_ritual_reviews` (" +
+                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`sessionDateEpochDay` INTEGER NOT NULL, " +
+                        "`completedAtEpochMillis` INTEGER NOT NULL, " +
+                        "`energy` INTEGER NOT NULL, " +
+                        "`predominantEmotionId` TEXT NOT NULL, " +
+                        "`whatWentWell` TEXT NOT NULL, " +
+                        "`learning` TEXT NOT NULL, " +
+                        "`autopilotMoment` TEXT NOT NULL, " +
+                        "`gratitude` TEXT NOT NULL, " +
+                        "`tomorrowPreparation` TEXT NOT NULL, " +
+                        "`identityAlignment` INTEGER NOT NULL, " +
+                        "`suggestion` TEXT NOT NULL, " +
+                        "`agendaCompletedCount` INTEGER NOT NULL, " +
+                        "`agendaTotalCount` INTEGER NOT NULL, " +
+                        "`goalUnitsCompletedCount` INTEGER NOT NULL, " +
+                        "`presenceReturns` INTEGER NOT NULL, " +
+                        "`automaticPilotEvents` INTEGER NOT NULL, " +
+                        "`coherenceSessionsCount` INTEGER NOT NULL, " +
+                        "`journalEntryRequested` INTEGER NOT NULL, " +
+                        "`journalEntryCreated` INTEGER NOT NULL, " +
+                        "`journalEntryId` INTEGER)"
+                )
+                db.execSQL(
+                    "CREATE UNIQUE INDEX IF NOT EXISTS `index_evening_ritual_reviews_sessionDateEpochDay` " +
+                        "ON `evening_ritual_reviews` (`sessionDateEpochDay`)"
+                )
+            }
+        }
+
+        private val MIGRATION_27_28 = object : Migration(27, 28) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE `weekly_summaries` ADD COLUMN `eveningRitualsCompleted` INTEGER NOT NULL DEFAULT 0")
+                db.execSQL("ALTER TABLE `weekly_summaries` ADD COLUMN `ritualCyclesCompleted` INTEGER NOT NULL DEFAULT 0")
+                db.execSQL("ALTER TABLE `weekly_summaries` ADD COLUMN `eveningAverageEnergy` INTEGER NOT NULL DEFAULT 0")
+                db.execSQL("ALTER TABLE `weekly_summaries` ADD COLUMN `eveningAverageIdentityAlignment` INTEGER NOT NULL DEFAULT 0")
+                db.execSQL("ALTER TABLE `weekly_summaries` ADD COLUMN `eveningPresenceReturns` INTEGER NOT NULL DEFAULT 0")
+                db.execSQL("ALTER TABLE `weekly_summaries` ADD COLUMN `eveningGoalUnitsCompleted` INTEGER NOT NULL DEFAULT 0")
+                db.execSQL("ALTER TABLE `evening_ritual_reviews` ADD COLUMN `dayContextFingerprint` TEXT NOT NULL DEFAULT ''")
+            }
+        }
+
+        private val MIGRATION_28_29 = object : Migration(28, 29) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                listOf("goals", "archived_goals").forEach { table ->
+                    db.execSQL("ALTER TABLE `$table` ADD COLUMN `scheduleType` TEXT NOT NULL DEFAULT 'interval'")
+                    db.execSQL("ALTER TABLE `$table` ADD COLUMN `weeklyDaysPerWeek` INTEGER NOT NULL DEFAULT 3")
+                    db.execSQL("ALTER TABLE `$table` ADD COLUMN `dayPeriod` TEXT NOT NULL DEFAULT 'anytime'")
+                    db.execSQL("ALTER TABLE `$table` ADD COLUMN `customUnitLabel` TEXT NOT NULL DEFAULT ''")
+                    db.execSQL("ALTER TABLE `$table` ADD COLUMN `executionTargetValue` REAL NOT NULL DEFAULT 1.0")
+                    db.execSQL("ALTER TABLE `$table` ADD COLUMN `completionBasis` TEXT NOT NULL DEFAULT 'executions'")
+                    db.execSQL("ALTER TABLE `$table` ADD COLUMN `durationValue` INTEGER NOT NULL DEFAULT 0")
+                    db.execSQL("ALTER TABLE `$table` ADD COLUMN `durationUnit` TEXT NOT NULL DEFAULT 'dias'")
+                }
+            }
+        }
+
         private val ENCRYPT_PERSONAL_TEXT_ON_OPEN = object : Callback() {
             override fun onOpen(db: SupportSQLiteDatabase) {
                 PostQuantumAesTextCrypto.syncRecoveryKeyFromDatabase(db)
@@ -748,7 +812,10 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
                         MIGRATION_22_23,
                         MIGRATION_23_24,
                         MIGRATION_24_25,
-                        MIGRATION_25_26
+                        MIGRATION_25_26,
+                        MIGRATION_26_27,
+                        MIGRATION_27_28,
+                        MIGRATION_28_29
                     )
                     .addCallback(ENCRYPT_PERSONAL_TEXT_ON_OPEN)
                     .allowMainThreadQueries()

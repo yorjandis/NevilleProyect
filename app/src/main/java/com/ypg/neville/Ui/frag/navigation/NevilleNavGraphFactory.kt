@@ -16,7 +16,9 @@ import com.ypg.neville.feature.calmspace.ui.FragCalmSpace
 import com.ypg.neville.feature.emotionalanchors.ui.FragEmotionalAnchorRun
 import com.ypg.neville.feature.emotionalanchors.ui.FragEmotionalAnchors
 import com.ypg.neville.feature.emotionalanchors.ui.FragEmotionalAnchorsList
+import com.ypg.neville.feature.healingcenter.ui.FragHealingCenter
 import com.ypg.neville.feature.morningdialog.ui.FragMorningDialog
+import com.ypg.neville.feature.morningdialog.ui.FragMyDay
 import com.ypg.neville.feature.presence.ui.FragPresence
 import com.ypg.neville.feature.voice.ui.FragVoiceRecordings
 import com.ypg.neville.feature.weeklysummary.ui.FragWeeklySummary
@@ -57,6 +59,7 @@ fun buildNevilleNavGraph(navController: NavController, startDestination: Int): N
     addFragmentDestination(R.id.frag_reminders, FragReminders::class.java.name)
     addFragmentDestination(R.id.frag_agenda, FragAgenda::class.java.name)
     addFragmentDestination(R.id.frag_morning_dialog, FragMorningDialog::class.java.name)
+    addFragmentDestination(R.id.frag_my_day, FragMyDay::class.java.name)
     addFragmentDestination(R.id.frag_voice_recordings, FragVoiceRecordings::class.java.name)
     addFragmentDestination(R.id.frag_emotional_anchors, FragEmotionalAnchorsList::class.java.name)
     addFragmentDestination(
@@ -89,6 +92,7 @@ fun buildNevilleNavGraph(navController: NavController, startDestination: Int): N
     addFragmentDestination(R.id.frag_calm_music_manager, FragCalmMusicManager::class.java.name)
     addFragmentDestination(R.id.frag_cardio_coherence, FragCardioCoherence::class.java.name)
     addFragmentDestination(R.id.frag_presence, FragPresence::class.java.name)
+    addFragmentDestination(R.id.frag_healing_center, FragHealingCenter::class.java.name)
 
     graph.setStartDestination(startDestination)
     return graph

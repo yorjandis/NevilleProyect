@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ypg.neville.R
 import com.ypg.neville.feature.morningdialog.domain.MorningDialogSession
+import com.ypg.neville.feature.morningdialog.domain.EveningReview
 import com.ypg.neville.feature.morningdialog.ui.components.MorningDialogStyles
 import java.time.Instant
 import java.time.LocalDate
@@ -56,7 +57,134 @@ private val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd M
 private val monthFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMMM yyyy", Locale.forLanguageTag("es-ES"))
 
 @Composable
+private fun EveningHistoryList(reviews: List<EveningReview>, onDeleteReview: (Long) -> Unit) {
+    var expandedId by remember { mutableStateOf<Long?>(null) }
+    var pendingDelete by remember { mutableStateOf<Long?>(null) }
+
+    if (reviews.isEmpty()) {
+        Column(
+            Modifier.fillMaxSize().padding(24.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("Aún no hay cierres guardados.", color = Color.White, style = MaterialTheme.typography.titleMedium)
+            Text("Cuando cierres un día, su aprendizaje aparecerá aquí.", color = Color.White.copy(alpha = 0.72f), textAlign = TextAlign.Center)
+        }
+        return
+    }
+
+    LazyColumn(
+        modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        items(reviews, key = { "evening_${it.id}" }) { review ->
+            val expanded = expandedId == review.id
+            Card(
+                modifier = Modifier.fillMaxWidth().clickable { expandedId = if (expanded) null else review.id },
+                colors = CardDefaults.cardColors(containerColor = MorningDialogStyles.ritualCardColor),
+                shape = RoundedCornerShape(18.dp)
+            ) {
+                Column(Modifier.fillMaxWidth().padding(14.dp), verticalArrangement = Arrangement.spacedBy(7.dp)) {
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                        Column(Modifier.weight(1f)) {
+                            Text(
+                                LocalDate.ofEpochDay(review.sessionDateEpochDay).format(dateFormatter),
+                                color = MorningDialogStyles.ritualCardText,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Text("Cierre consciente", color = MorningDialogStyles.ritualCardText.copy(alpha = 0.68f))
+                        }
+                        TextButton(onClick = { pendingDelete = review.id }) { Text("Eliminar") }
+                    }
+                    if (expanded) {
+                        EveningHistoryValue("Energía", "${review.energy}/5")
+                        EveningHistoryValue("Emoción predominante", com.ypg.neville.feature.morningdialog.domain.EveningRitualRepository.emotionTitle(review.predominantEmotionId))
+                        EveningHistoryValue("Lo que salió bien", review.whatWentWell)
+                        EveningHistoryValue("Aprendizaje", review.learning)
+                        EveningHistoryValue("Piloto automático", review.autopilotMoment)
+                        EveningHistoryValue("Gratitud", review.gratitude)
+                        EveningHistoryValue("Preparado para mañana", review.tomorrowPreparation)
+                        EveningHistoryValue("Coherencia", "${review.identityAlignment}/5")
+                        EveningHistoryValue("Huella", "Agenda ${review.agendaCompletedCount}/${review.agendaTotalCount} · Metas ${review.goalUnitsCompletedCount} · Presencia ${review.presenceReturns}")
+                        EveningHistoryValue("Mejora para mañana", review.suggestion)
+                    } else {
+                        Text(
+                            "Energía ${review.energy}/5 · ${com.ypg.neville.feature.morningdialog.domain.EveningRitualRepository.emotionTitle(review.predominantEmotionId)}\n${review.learning.ifBlank { review.suggestion }}",
+                            color = MorningDialogStyles.ritualCardText,
+                            maxLines = 3,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    pendingDelete?.let { id ->
+        AlertDialog(
+            onDismissRequest = { pendingDelete = null },
+            title = { Text("Eliminar cierre") },
+            text = { Text("¿Seguro que deseas eliminar este cierre del historial?") },
+            confirmButton = {
+                TextButton(onClick = { pendingDelete = null; onDeleteReview(id) }) { Text("Eliminar") }
+            },
+            dismissButton = { TextButton(onClick = { pendingDelete = null }) { Text("Cancelar") } }
+        )
+    }
+}
+
+@Composable
+private fun EveningHistoryValue(title: String, value: String) {
+    Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+        Text(title, color = MorningDialogStyles.ritualCardText, fontWeight = FontWeight.SemiBold)
+        Text(value.ifBlank { "Sin respuesta" }, color = MorningDialogStyles.ritualCardText.copy(alpha = 0.78f))
+    }
+}
+
+@Composable
 fun MorningDialogHistoryScreen(
+    sessions: List<MorningDialogSession>,
+    reviews: List<EveningReview>,
+    onNoteClick: (Long) -> Unit,
+    onExportClick: (Long) -> Unit,
+    onDeleteClick: (Long) -> Unit,
+    onDeleteReview: (Long) -> Unit
+) {
+    var kind by remember { mutableStateOf(HistoryKind.Morning) }
+    Column(Modifier.fillMaxSize().background(MorningDialogStyles.backgroundBrush)) {
+        Row(
+            Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            HistoryKind.entries.forEach { item ->
+                TextButton(
+                    onClick = { kind = item },
+                    modifier = Modifier.weight(1f).background(
+                        if (kind == item) MorningDialogStyles.ritualCardColor else Color.White.copy(alpha = 0.14f),
+                        RoundedCornerShape(14.dp)
+                    )
+                ) {
+                    Text(item.title, color = if (kind == item) MorningDialogStyles.ritualCardText else Color.White)
+                }
+            }
+        }
+        Box(Modifier.weight(1f)) {
+            if (kind == HistoryKind.Morning) {
+                MorningHistoryList(sessions, onNoteClick, onExportClick, onDeleteClick)
+            } else {
+                EveningHistoryList(reviews, onDeleteReview)
+            }
+        }
+    }
+}
+
+private enum class HistoryKind(val title: String) {
+    Morning("Ritual Matutino"),
+    Evening("Cierre Consciente")
+}
+
+@Composable
+private fun MorningHistoryList(
     sessions: List<MorningDialogSession>,
     onNoteClick: (Long) -> Unit,
     onExportClick: (Long) -> Unit,

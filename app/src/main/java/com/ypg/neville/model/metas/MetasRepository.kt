@@ -43,13 +43,39 @@ class MetasRepository(
         unitType: TimeUnitType,
         frequency: Int,
         unitsInfo: List<UnitInfo> = emptyList(),
-        notifyOnUnitAvailable: Boolean = false
+        notifyOnUnitAvailable: Boolean = false,
+        scheduleType: GoalScheduleType = GoalScheduleType.INTERVAL,
+        weeklyDaysPerWeek: Int = 3,
+        dayPeriod: GoalDayPeriod = GoalDayPeriod.ANYTIME,
+        customUnitLabel: String = "",
+        executionTargetValue: Double = 1.0,
+        completionBasis: GoalCompletionBasis = GoalCompletionBasis.EXECUTIONS,
+        durationValue: Int = 30,
+        durationUnit: TimeUnitType = TimeUnitType.DIAS,
+        specificDates: List<Long> = emptyList()
     ) {
         val cleanTitle = title.trim()
         if (cleanTitle.isEmpty() || totalUnits <= 0) return
 
         val goalId = UUID.randomUUID().toString()
         val safeFrequency = frequency.coerceAtLeast(1)
+        val safeExecutionTarget = executionTargetValue.takeIf { it > 0 } ?: 1.0
+        val storedUnitType = when (scheduleType) {
+            GoalScheduleType.INTERVAL -> unitType
+            GoalScheduleType.WEEKLY -> TimeUnitType.SEMANAS
+            GoalScheduleType.SPECIFIC_DATES -> TimeUnitType.DIAS
+        }
+        val plannedTotal = if (completionBasis == GoalCompletionBasis.DURATION) {
+            plannedUnitCount(
+                referenceDate = System.currentTimeMillis(),
+                durationValue = durationValue,
+                durationUnit = durationUnit,
+                scheduleType = scheduleType,
+                intervalUnit = unitType,
+                frequency = safeFrequency,
+                weeklyDays = weeklyDaysPerWeek
+            )
+        } else totalUnits
 
         db.runInTransaction {
             goalDao.insert(
@@ -57,9 +83,17 @@ class MetasRepository(
                     id = goalId,
                     title = cleanTitle,
                     descriptionText = description,
-                    totalUnits = totalUnits,
-                    unitType = unitType.raw,
+                    totalUnits = plannedTotal,
+                    unitType = storedUnitType.raw,
                     frequency = safeFrequency,
+                    scheduleType = scheduleType.raw,
+                    weeklyDaysPerWeek = weeklyDaysPerWeek.coerceIn(1, 7),
+                    dayPeriod = dayPeriod.raw,
+                    customUnitLabel = customUnitLabel.trim(),
+                    executionTargetValue = safeExecutionTarget,
+                    completionBasis = completionBasis.raw,
+                    durationValue = durationValue.coerceAtLeast(1),
+                    durationUnit = durationUnit.raw,
                     isStarted = false,
                     startDate = null,
                     notifyOnUnitAvailable = notifyOnUnitAvailable,
@@ -67,19 +101,21 @@ class MetasRepository(
                 )
             )
 
-            val units = (1..totalUnits).map { idx ->
+            val units = (1..plannedTotal).map { idx ->
                 val info = unitsInfo.getOrNull(idx - 1)
+                val scheduledDate = specificDates.getOrNull(idx - 1)
+                val window = scheduledDate?.let { applyDayPeriodWindow(startOfDay(it), dayPeriod) }
                 GoalUnitEntity(
                     id = UUID.randomUUID().toString(),
                     goalId = goalId,
                     unitIndex = idx,
                     status = UnitStatus.PENDING.raw,
-                    unitType = unitType.raw,
-                    name = info?.name ?: "Unidad $idx",
+                    unitType = storedUnitType.raw,
+                    name = info?.name ?: defaultUnitName(idx, safeExecutionTarget, customUnitLabel),
                     info = info?.info ?: "",
                     note = "",
-                    startDate = null,
-                    endDate = null,
+                    startDate = window?.first,
+                    endDate = window?.second,
                     completedDate = null
                 )
             }
@@ -96,7 +132,11 @@ class MetasRepository(
             unitType = TimeUnitType.fromRaw(programa.tipoUnidad),
             frequency = programa.frecuencia,
             unitsInfo = programa.unidadesinfo,
-            notifyOnUnitAvailable = false
+            notifyOnUnitAvailable = false,
+            scheduleType = programa.scheduleType,
+            weeklyDaysPerWeek = programa.weeklyDaysPerWeek,
+            dayPeriod = programa.dayPeriod,
+            customUnitLabel = programa.customUnitLabel
         )
     }
 
@@ -108,14 +148,33 @@ class MetasRepository(
             if (goal.isStarted) return@runInTransaction
 
             val unitType = TimeUnitType.fromRaw(goal.unitType)
-            val baseStart = alignedStart(now, unitType)
+            val scheduleType = GoalScheduleType.fromRaw(goal.scheduleType)
+            val dayPeriod = GoalDayPeriod.fromRaw(goal.dayPeriod)
+            val scheduleReference = nextScheduleReference(now, dayPeriod)
+            val baseStart = alignedStart(scheduleReference, unitType)
             val safeFreq = goal.frequency.coerceAtLeast(1)
             val currentUnits = unitDao.getByGoalId(goalId)
 
             val rescheduled = currentUnits.map { unit ->
                 val indexOffset = (unit.unitIndex - 1).coerceAtLeast(0)
-                val start = addTime(baseStart, unitType, indexOffset * safeFreq)
-                val end = addTime(start, unitType, safeFreq)
+                val (start, end) = when (scheduleType) {
+                    GoalScheduleType.SPECIFIC_DATES -> {
+                        val savedStart = unit.startDate ?: addTime(baseStart, TimeUnitType.DIAS, indexOffset)
+                        applyDayPeriodWindow(startOfDay(savedStart), dayPeriod)
+                    }
+                    GoalScheduleType.WEEKLY -> {
+                        val weeklyDays = goal.weeklyDaysPerWeek.coerceIn(1, 7)
+                        val weekOffset = indexOffset / weeklyDays
+                        val dayOffset = indexOffset % weeklyDays
+                        val day = addTime(addTime(startOfDay(scheduleReference), TimeUnitType.SEMANAS, weekOffset), TimeUnitType.DIAS, dayOffset)
+                        applyDayPeriodWindow(day, dayPeriod)
+                    }
+                    GoalScheduleType.INTERVAL -> {
+                        val rawStart = addTime(baseStart, unitType, indexOffset * safeFreq)
+                        val rawEnd = addTime(rawStart, unitType, safeFreq)
+                        applyDayPeriodWindow(rawStart, dayPeriod, rawEnd)
+                    }
+                }
                 unit.copy(
                     startDate = start,
                     endDate = end,
@@ -124,7 +183,12 @@ class MetasRepository(
                 )
             }.toMutableList()
 
-            if (rescheduled.isNotEmpty()) {
+            if (rescheduled.isNotEmpty() &&
+                scheduleType == GoalScheduleType.INTERVAL &&
+                GoalCompletionBasis.fromRaw(goal.completionBasis) == GoalCompletionBasis.EXECUTIONS &&
+                dayPeriod == GoalDayPeriod.ANYTIME &&
+                unitType != TimeUnitType.SEMANAS
+            ) {
                 val first = rescheduled[0]
                 rescheduled[0] = first.copy(
                     status = UnitStatus.COMPLETED.raw,
@@ -201,9 +265,46 @@ class MetasRepository(
         return changed
     }
 
-    fun updateGoal(goalId: String, title: String, description: String) {
-        val goal = goalDao.getById(goalId) ?: return
-        goalDao.update(goal.copy(title = title.trim(), descriptionText = description))
+    fun updateGoal(
+        goalId: String,
+        title: String,
+        description: String,
+        customUnitLabel: String,
+        dayPeriod: GoalDayPeriod
+    ) {
+        db.runInTransaction {
+            val goal = goalDao.getById(goalId) ?: return@runInTransaction
+            val oldLabel = goal.customUnitLabel.trim()
+            val newLabel = customUnitLabel.trim()
+            val schedule = GoalScheduleType.fromRaw(goal.scheduleType)
+            val unitType = TimeUnitType.fromRaw(goal.unitType)
+            val updatedUnits = unitDao.getByGoalId(goalId).map { unit ->
+                val oldDefault = if (oldLabel.isBlank()) "Unidad ${unit.unitIndex}" else "${oldLabel.replaceFirstChar { it.uppercase() }} ${unit.unitIndex}"
+                val updatedName = if (unit.name == oldDefault || unit.name == "Unidad ${unit.unitIndex}" || unit.name == "Unit ${unit.unitIndex}") {
+                    defaultUnitName(unit.unitIndex, goal.executionTargetValue, newLabel)
+                } else unit.name
+                if (UnitStatus.fromRaw(unit.status) != UnitStatus.PENDING || unit.startDate == null) {
+                    unit.copy(name = updatedName)
+                } else {
+                    val base = if (schedule == GoalScheduleType.INTERVAL) alignedStart(unit.startDate, unitType) else startOfDay(unit.startDate)
+                    val defaultEnd = if (schedule == GoalScheduleType.INTERVAL) {
+                        addTime(base, unitType, goal.frequency.coerceAtLeast(1))
+                    } else addTime(base, TimeUnitType.DIAS, 1)
+                    val window = applyDayPeriodWindow(base, dayPeriod, defaultEnd)
+                    unit.copy(name = updatedName, startDate = window.first, endDate = window.second)
+                }
+            }
+            goalDao.update(
+                goal.copy(
+                    title = title.trim(),
+                    descriptionText = description,
+                    customUnitLabel = newLabel,
+                    dayPeriod = dayPeriod.raw
+                )
+            )
+            unitDao.updateAll(updatedUnits)
+        }
+        GoalUnitNotificationScheduler.schedule(context, db, goalId)
     }
 
     fun updateGoalDescription(goalId: String, description: String) {
@@ -259,6 +360,14 @@ class MetasRepository(
                     totalUnits = goal.totalUnits,
                     unitType = goal.unitType,
                     frequency = goal.frequency,
+                    scheduleType = goal.scheduleType,
+                    weeklyDaysPerWeek = goal.weeklyDaysPerWeek,
+                    dayPeriod = goal.dayPeriod,
+                    customUnitLabel = goal.customUnitLabel,
+                    executionTargetValue = goal.executionTargetValue,
+                    completionBasis = goal.completionBasis,
+                    durationValue = goal.durationValue,
+                    durationUnit = goal.durationUnit,
                     completionDate = now
                 )
             )
@@ -301,6 +410,14 @@ class MetasRepository(
                     totalUnits = archived.totalUnits,
                     unitType = archived.unitType,
                     frequency = archived.frequency,
+                    scheduleType = archived.scheduleType,
+                    weeklyDaysPerWeek = archived.weeklyDaysPerWeek,
+                    dayPeriod = archived.dayPeriod,
+                    customUnitLabel = archived.customUnitLabel,
+                    executionTargetValue = archived.executionTargetValue,
+                    completionBasis = archived.completionBasis,
+                    durationValue = archived.durationValue,
+                    durationUnit = archived.durationUnit,
                     isStarted = false,
                     startDate = System.currentTimeMillis(),
                     notifyOnUnitAvailable = false,
@@ -308,6 +425,7 @@ class MetasRepository(
                 )
             )
 
+            val keepSpecificDates = GoalScheduleType.fromRaw(archived.scheduleType) == GoalScheduleType.SPECIFIC_DATES
             val newUnits = archivedUnits.map { old ->
                 GoalUnitEntity(
                     id = UUID.randomUUID().toString(),
@@ -318,8 +436,8 @@ class MetasRepository(
                     name = old.name.ifBlank { "Unidad ${old.unitIndex}" },
                     info = old.info,
                     note = "",
-                    startDate = null,
-                    endDate = null,
+                    startDate = if (keepSpecificDates) old.startDate else null,
+                    endDate = if (keepSpecificDates) old.endDate else null,
                     completedDate = null
                 )
             }
@@ -327,6 +445,11 @@ class MetasRepository(
             restored = true
         }
         return restored
+    }
+
+    fun reactivateCompletedGoal(goalId: String): Boolean {
+        val archived = archiveGoal(goalId)
+        return archived && restoreArchivedGoal(goalId)
     }
 
     fun timeUntilNextUnit(state: GoalCardState, now: Long = System.currentTimeMillis()): String? {
@@ -357,6 +480,13 @@ class MetasRepository(
                 val h = if (hours > 0) "${hours}hr y " else ""
                 val m = if (minutes > 0) "${minutes}min" else ""
                 "Próxima unidad en $h$m".trim()
+            }
+
+            TimeUnitType.SEMANAS -> {
+                val totalHours = kotlin.math.ceil((start - now) / 3_600_000.0).toLong().coerceAtLeast(0)
+                val days = totalHours / 24
+                val hours = totalHours % 24
+                "Próxima unidad en ${days}d ${hours}h"
             }
 
             TimeUnitType.MESES -> {
@@ -407,9 +537,7 @@ class MetasRepository(
 
     fun nextExpirationDate(state: GoalCardState, now: Long = System.currentTimeMillis()): Long? {
         val unit = nextPendingUnit(state, now) ?: return null
-        val start = unit.startDate ?: return null
-        val step = state.goal.frequency.coerceAtLeast(1)
-        return addTime(start, state.unitType, step)
+        return unit.endDate
     }
 
     fun updateGoalUnitNotifications(goalId: String, enabled: Boolean) {
@@ -484,6 +612,14 @@ class MetasRepository(
                 cal.set(Calendar.MILLISECOND, 0)
             }
 
+            TimeUnitType.SEMANAS -> {
+                cal.set(Calendar.DAY_OF_WEEK, cal.firstDayOfWeek)
+                cal.set(Calendar.HOUR_OF_DAY, 0)
+                cal.set(Calendar.MINUTE, 0)
+                cal.set(Calendar.SECOND, 0)
+                cal.set(Calendar.MILLISECOND, 0)
+            }
+
             TimeUnitType.MESES -> {
                 cal.set(Calendar.DAY_OF_MONTH, 1)
                 cal.set(Calendar.HOUR_OF_DAY, 0)
@@ -509,6 +645,7 @@ class MetasRepository(
             TimeUnitType.MINUTOS -> cal.add(Calendar.MINUTE, value)
             TimeUnitType.HORAS -> cal.add(Calendar.HOUR_OF_DAY, value)
             TimeUnitType.DIAS -> cal.add(Calendar.DAY_OF_MONTH, value)
+            TimeUnitType.SEMANAS -> cal.add(Calendar.WEEK_OF_YEAR, value)
             TimeUnitType.MESES -> cal.add(Calendar.MONTH, value)
             TimeUnitType.ANIOS -> cal.add(Calendar.YEAR, value)
         }
@@ -540,12 +677,16 @@ class MetasRepository(
         val arr = JSONArray(json)
         return (0 until arr.length()).map { idx ->
             val item = arr.getJSONObject(idx)
-            HabitPreset(
+            applyHabitScheduleMetadata(HabitPreset(
                 title = item.optString("title"),
                 description = item.optString("description"),
                 noUnidades = item.optInt("noUnidades", 21),
-                noFrecuencias = item.optInt("noFrecuencias", 1)
-            )
+                noFrecuencias = item.optInt("noFrecuencias", 1),
+                scheduleType = GoalScheduleType.fromRaw(item.optString("scheduleType")),
+                weeklyDaysPerWeek = item.optInt("weeklyDaysPerWeek", 3),
+                dayPeriod = GoalDayPeriod.fromRaw(item.optString("dayPeriod")),
+                customUnitLabel = item.optString("customUnitLabel")
+            ))
         }.sortedBy { it.title.lowercase() }
     }
 
@@ -565,7 +706,109 @@ class MetasRepository(
             unidadesinfo = list,
             noUnidades = obj.optInt("noUnidades", list.size.coerceAtLeast(21)),
             tipoUnidad = obj.optString("tipoUnidad", TimeUnitType.DIAS.raw),
-            frecuencia = obj.optInt("frecuencia", 1)
+            frecuencia = obj.optInt("frecuencia", 1),
+            scheduleType = GoalScheduleType.fromRaw(obj.optString("scheduleType")),
+            weeklyDaysPerWeek = obj.optInt("weeklyDaysPerWeek", 3),
+            dayPeriod = GoalDayPeriod.fromRaw(obj.optString("dayPeriod")),
+            customUnitLabel = obj.optString("customUnitLabel")
         )
+    }
+
+    private fun applyHabitScheduleMetadata(preset: HabitPreset): HabitPreset {
+        if (preset.scheduleType != GoalScheduleType.INTERVAL ||
+            preset.dayPeriod != GoalDayPeriod.ANYTIME ||
+            preset.customUnitLabel.isNotBlank()
+        ) return preset
+
+        return when (preset.title) {
+            "Cena Temprana" -> preset.copy(dayPeriod = GoalDayPeriod.AFTERNOON, customUnitLabel = "cenas tempranas")
+            "Exposicion Luz Matutina" -> preset.copy(dayPeriod = GoalDayPeriod.MORNING, customUnitLabel = "sesiones")
+            "Entrenamiento En Zona2" -> preset.copy(scheduleType = GoalScheduleType.WEEKLY, weeklyDaysPerWeek = 3, customUnitLabel = "sesiones")
+            "Detox Digital Nocturno" -> preset.copy(dayPeriod = GoalDayPeriod.NIGHT, customUnitLabel = "noches")
+            "Espacios Ordenados Diarios" -> preset.copy(dayPeriod = GoalDayPeriod.NIGHT, customUnitLabel = "noches")
+            "Hidratacion Diaria" -> preset.copy(customUnitLabel = "días hidratados")
+            "Estiramientos Matutinos" -> preset.copy(dayPeriod = GoalDayPeriod.MORNING, customUnitLabel = "sesiones")
+            "Dormir8Horas" -> preset.copy(dayPeriod = GoalDayPeriod.NIGHT, customUnitLabel = "noches")
+            "Yoga Diario", "Meditacion Corta" -> preset.copy(customUnitLabel = "sesiones")
+            "Sauna Semanal" -> preset.copy(scheduleType = GoalScheduleType.WEEKLY, weeklyDaysPerWeek = 1, customUnitLabel = "sesiones")
+            "Ejercicio De Fuerza" -> preset.copy(scheduleType = GoalScheduleType.WEEKLY, weeklyDaysPerWeek = 3, customUnitLabel = "entrenamientos")
+            "Lectura Diaria" -> preset.copy(customUnitLabel = "páginas")
+            "Diario Gratitud" -> preset.copy(dayPeriod = GoalDayPeriod.NIGHT, customUnitLabel = "entradas")
+            "Reescribir El Pasado" -> preset.copy(dayPeriod = GoalDayPeriod.NIGHT, customUnitLabel = "revisiones")
+            "Imaginacion Creativa Diaria", "Meditacion Imaginativa" -> preset.copy(dayPeriod = GoalDayPeriod.NIGHT, customUnitLabel = "sesiones")
+            "Revisar Sueños" -> preset.copy(dayPeriod = GoalDayPeriod.MORNING, customUnitLabel = "registros")
+            "Revisar Metas Semanal" -> preset.copy(scheduleType = GoalScheduleType.WEEKLY, weeklyDaysPerWeek = 1, customUnitLabel = "revisiones")
+            "Dormir Sin Pantallas" -> preset.copy(dayPeriod = GoalDayPeriod.NIGHT, customUnitLabel = "noches")
+            "Reflexion Antes Dormir" -> preset.copy(dayPeriod = GoalDayPeriod.NIGHT, customUnitLabel = "reflexiones")
+            "Yoga Antes Dormir" -> preset.copy(dayPeriod = GoalDayPeriod.NIGHT, customUnitLabel = "sesiones")
+            "Planificacion Diaria" -> preset.copy(dayPeriod = GoalDayPeriod.MORNING, customUnitLabel = "planificaciones")
+            else -> preset
+        }
+    }
+
+    private fun defaultUnitName(index: Int, targetValue: Double, customLabel: String): String {
+        val label = customLabel.trim()
+        val number = if (targetValue % 1.0 == 0.0) targetValue.toInt().toString() else "%.2f".format(targetValue).trimEnd('0').trimEnd('.')
+        return when {
+            targetValue == 1.0 && label.isBlank() -> "Unidad $index"
+            targetValue == 1.0 -> "${label.replaceFirstChar { it.uppercase() }} $index"
+            label.isBlank() -> "$number · $index"
+            else -> "$number $label · $index"
+        }
+    }
+
+    private fun plannedUnitCount(
+        referenceDate: Long,
+        durationValue: Int,
+        durationUnit: TimeUnitType,
+        scheduleType: GoalScheduleType,
+        intervalUnit: TimeUnitType,
+        frequency: Int,
+        weeklyDays: Int
+    ): Int {
+        val end = addTime(referenceDate, durationUnit, durationValue.coerceAtLeast(1))
+        if (scheduleType == GoalScheduleType.WEEKLY) {
+            val days = ((startOfDay(end) - startOfDay(referenceDate)) / 86_400_000L).toInt().coerceAtLeast(1)
+            val safeDays = weeklyDays.coerceIn(1, 7)
+            return ((days / 7) * safeDays + minOf(days % 7, safeDays)).coerceIn(1, 5_000)
+        }
+        var count = 0
+        var cursor = referenceDate
+        while (cursor < end && count < 5_000) {
+            count++
+            val next = addTime(cursor, intervalUnit, frequency.coerceAtLeast(1))
+            if (next <= cursor) break
+            cursor = next
+        }
+        return count.coerceAtLeast(1)
+    }
+
+    private fun startOfDay(epoch: Long): Long = Calendar.getInstance().apply {
+        timeInMillis = epoch
+        set(Calendar.HOUR_OF_DAY, 0)
+        set(Calendar.MINUTE, 0)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
+    }.timeInMillis
+
+    private fun nextScheduleReference(now: Long, period: GoalDayPeriod): Long {
+        if (period == GoalDayPeriod.ANYTIME) return now
+        val (_, end) = applyDayPeriodWindow(startOfDay(now), period)
+        return if (now > end) addTime(now, TimeUnitType.DIAS, 1) else now
+    }
+
+    private fun applyDayPeriodWindow(
+        start: Long,
+        period: GoalDayPeriod,
+        defaultEnd: Long = addTime(startOfDay(start), TimeUnitType.DIAS, 1)
+    ): Pair<Long, Long> {
+        if (period == GoalDayPeriod.ANYTIME) return start to defaultEnd
+        val day = startOfDay(start)
+        return when (period) {
+            GoalDayPeriod.ANYTIME -> start to defaultEnd
+            GoalDayPeriod.MORNING -> addTime(day, TimeUnitType.HORAS, 5) to addTime(day, TimeUnitType.HORAS, 12)
+            GoalDayPeriod.AFTERNOON -> addTime(day, TimeUnitType.HORAS, 12) to addTime(day, TimeUnitType.HORAS, 20)
+            GoalDayPeriod.NIGHT -> addTime(day, TimeUnitType.HORAS, 20) to addTime(day, TimeUnitType.HORAS, 29)
+        }
     }
 }

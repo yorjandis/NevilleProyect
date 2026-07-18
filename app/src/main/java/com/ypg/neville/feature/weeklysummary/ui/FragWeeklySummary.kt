@@ -351,6 +351,7 @@ private fun WeeklySummaryCharts(entity: WeeklySummaryEntity) {
                 entity.emotionalAnchorsUsed +
                 entity.encyclopediaAccessed +
                 entity.morningRitualsCompleted +
+                entity.eveningRitualsCompleted +
                 entity.cardioCoherenceSessions
             )
     )

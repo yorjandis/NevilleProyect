@@ -371,6 +371,7 @@ class MainActivity : AppCompatActivity() {
                     destinationId == R.id.frag_reminders ||
                     destinationId == R.id.frag_agenda ||
                     destinationId == R.id.frag_morning_dialog ||
+                    destinationId == R.id.frag_my_day ||
                     destinationId == R.id.frag_weekly_summary ||
                     destinationId == R.id.frag_voice_recordings ||
                     destinationId == R.id.frag_calm_space ||
@@ -416,6 +417,15 @@ class MainActivity : AppCompatActivity() {
         if (incomingIntent?.getBooleanExtra(EXTRA_OPEN_METAS, false) == true) {
             bottomActive.value = "metas"
             openDestinationAsSheet(R.id.frag_metas)
+            return
+        }
+        if (incomingIntent?.getBooleanExtra(EXTRA_OPEN_MY_DAY, false) == true) {
+            if (!SubscriptionManager.hasActiveSubscriptionNow()) {
+                showSubscriptionPaywall()
+                return
+            }
+            bottomActive.value = "my_day"
+            openDestinationAsSheetInternal(R.id.frag_my_day)
             return
         }
         if (incomingIntent?.getBooleanExtra(EXTRA_OPEN_MORNING_DIALOG, false) == true) {
@@ -602,6 +612,7 @@ class MainActivity : AppCompatActivity() {
         const val EXTRA_OPEN_DIARIO = "extra_open_diario"
         const val EXTRA_OPEN_MORNING_DIALOG = "extra_open_morning_dialog"
         const val EXTRA_OPEN_MORNING_DIALOG_DETAIL_ID = "extra_open_morning_dialog_detail_id"
+        const val EXTRA_OPEN_MY_DAY = "extra_open_my_day"
         private var currentActivityRef: WeakReference<MainActivity>? = null
 
         @JvmStatic

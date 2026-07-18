@@ -14,6 +14,20 @@ class MorningDialogAlarmReceiver : BroadcastReceiver() {
         val appContext = context.applicationContext
         val notificationHelper = MorningDialogNotificationHelper(appContext)
 
+        if (action == MorningDialogNotificationConfig.ACTION_EVENING_FIRE) {
+            val settings = runBlocking { MorningDialogSettingsDataStore(appContext).getSettings() }
+            if (!settings.eveningReminderEnabled) {
+                MorningDialogScheduler(appContext).cancelEvening()
+                return
+            }
+            notificationHelper.showEveningRitualNotification()
+            MorningDialogScheduler(appContext).scheduleEveningDaily(
+                settings.eveningReminderHour,
+                settings.eveningReminderMinute
+            )
+            return
+        }
+
         if (action == MorningDialogNotificationConfig.ACTION_DAY_REMINDER_FIRE) {
             val sessionId = intent.getLongExtra(MorningDialogScheduler.EXTRA_SESSION_ID, -1L)
             if (sessionId > 0L) {

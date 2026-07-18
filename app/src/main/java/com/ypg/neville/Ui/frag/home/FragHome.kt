@@ -47,6 +47,7 @@ import androidx.compose.material.icons.rounded.EditNote
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.GraphicEq
 import androidx.compose.material.icons.rounded.HelpOutline
+import androidx.compose.material.icons.rounded.HealthAndSafety
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.MenuBook
 import androidx.compose.material.icons.rounded.Mic
@@ -56,6 +57,7 @@ import androidx.compose.material.icons.rounded.Psychology
 import androidx.compose.material.icons.rounded.Science
 import androidx.compose.material.icons.rounded.SelfImprovement
 import androidx.compose.material.icons.rounded.Spa
+import androidx.compose.material.icons.rounded.Timeline
 import androidx.compose.material.icons.rounded.WbSunny
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -723,7 +725,8 @@ class FragHome : Fragment() {
         Neville("neville", "Neville", listOf(Color(0xFF8D6E63), Color(0xFFFF9800))),
         Joe("joe", "JD", listOf(Color(0xFF4DB6AC), Color(0xFF1976D2))),
         Bruce("bruce", "Bruce", listOf(Color(0xFF4CAF50), Color(0xFFFFD54F))),
-        Gregg("gregg", "Gregg", listOf(Color(0xFF2196F3), Color(0xFF8E44AD)))
+        Gregg("gregg", "Gregg", listOf(Color(0xFF2196F3), Color(0xFF8E44AD))),
+        Healing("healing", "Sanador", listOf(Color(0xFF00BCD4), Color(0xFF3F51B5)))
     }
 
     private enum class HomeAlternativeAccess(
@@ -743,10 +746,12 @@ class FragHome : Fragment() {
         Lienzo("lienzo", "Lienzo", Icons.Rounded.EditNote, HomeAlternativeGradient.VioletInk, R.id.frag_lienzo, requiresPremium = true),
         Recordatorios("recordatorios", "Recordatorios", Icons.Rounded.Notifications, HomeAlternativeGradient.Flame, R.id.frag_reminders, requiresPremium = true),
         Ritual("ritual", "Ritual", Icons.Rounded.WbSunny, HomeAlternativeGradient.Ritual, R.id.frag_morning_dialog, requiresPremium = true),
+        MiDia("mi_dia", "Mi día", Icons.Rounded.Timeline, HomeAlternativeGradient.Summary, R.id.frag_my_day, requiresPremium = true),
         Resumen("resumen", "Resumen", Icons.Rounded.GraphicEq, HomeAlternativeGradient.Summary, R.id.frag_weekly_summary, requiresPremium = true),
         Voces("voces", "Voces", Icons.Rounded.Mic, HomeAlternativeGradient.Voice, R.id.frag_voice_recordings, requiresPremium = true),
         Anclas("anclas", "Anclas", Icons.Rounded.Favorite, HomeAlternativeGradient.Anchor, R.id.frag_emotional_anchors, requiresPremium = true),
         Cardio("cardio", "Coherencia", Icons.Rounded.Favorite, HomeAlternativeGradient.Coherence, R.id.frag_cardio_coherence, requiresPremium = true),
+        CentroSanador("centro_sanador", "Sanador", Icons.Rounded.HealthAndSafety, HomeAlternativeGradient.Healing, R.id.frag_healing_center),
         Notas("notas", "Notas", Icons.Rounded.EditNote, HomeAlternativeGradient.Notes, R.id.frag_notas),
         Frases("frases", "Frases", Icons.Rounded.Favorite, HomeAlternativeGradient.Phrase, R.id.frag_listado_frases),
         Enciclopedia("enciclopedia", "Enciclopedia", Icons.Rounded.MenuBook, HomeAlternativeGradient.Encyclopedia, R.id.frag_listado, "enciclopedia"),
@@ -767,6 +772,12 @@ class FragHome : Fragment() {
         val result = mutableListOf<String>()
         decoded.forEach { id ->
             if (id !in result) result.add(id)
+        }
+        val previousDefaults = listOf(
+            "calma", "agenda", "presencia", "metas", "diario", "lienzo", "recordatorios", "ritual", "cardio"
+        )
+        if (result == previousDefaults) {
+            result[result.indexOf("lienzo")] = "mi_dia"
         }
         (HOME_ALTERNATIVE_DEFAULT_ACCESS_IDS + available).forEach { id ->
             if (result.size < HOME_ALTERNATIVE_GRID_SIZE && id !in result) result.add(id)
@@ -881,6 +892,7 @@ class FragHome : Fragment() {
         var showPresenceShortcut by remember {
             mutableStateOf(prefs.getBoolean(PREF_KEY_PRESENCE_HOME_BUTTON_ENABLED, true))
         }
+        val showMyDayShortcut = true
         var isPlayStoreUpdateAvailable by remember { mutableStateOf(false) }
         var agendaIndicatorHiddenDay by remember {
             mutableLongStateOf(prefs.getLong(PREF_KEY_AGENDA_INDICATOR_HIDDEN_DAY, -1L))
@@ -1189,7 +1201,7 @@ class FragHome : Fragment() {
                     }
                 }
 
-                if (showAgendaShortcut || showRitualShortcut || showPresenceShortcut) {
+                if (showAgendaShortcut || showRitualShortcut || showPresenceShortcut || showMyDayShortcut) {
                     Row(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
@@ -1245,6 +1257,9 @@ class FragHome : Fragment() {
                                     prefs.edit { putLong(PREF_KEY_RITUAL_BUTTON_HIDDEN_DAY, todayEpochDay) }
                                 }
                             )
+                        }
+                        MyDayShortcutButton {
+                            MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_my_day)
                         }
                     }
                 }
@@ -1325,6 +1340,30 @@ class FragHome : Fragment() {
                         onHideToday()
                     }
                 )
+            }
+        }
+    }
+
+    @Composable
+    private fun MyDayShortcutButton(onOpenMyDay: () -> Unit) {
+        Surface(
+            shape = RoundedCornerShape(26.dp),
+            modifier = Modifier.shadow(14.dp, RoundedCornerShape(26.dp)),
+            color = Color.Transparent
+        ) {
+            Row(
+                modifier = Modifier
+                    .clickable(onClick = onOpenMyDay)
+                    .background(
+                        Brush.horizontalGradient(listOf(Color(0xFFE8DFFF), Color(0xFFBFADEB))),
+                        RoundedCornerShape(26.dp)
+                    )
+                    .padding(horizontal = 16.dp, vertical = 11.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(Icons.Rounded.Timeline, contentDescription = "Mi día", tint = Color.Black, modifier = Modifier.size(18.dp))
+                Spacer(Modifier.width(8.dp))
+                Text("Mi día", color = Color.Black, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
             }
         }
     }
@@ -1688,7 +1727,7 @@ class FragHome : Fragment() {
             "presencia",
             "metas",
             "diario",
-            "lienzo",
+            "mi_dia",
             "recordatorios",
             "ritual",
             "cardio"

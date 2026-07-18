@@ -19,4 +19,11 @@ interface MeditationSessionRecordDao {
 
     @Query("SELECT * FROM cardio_coherence_records ORDER BY dateEpochMillis DESC LIMIT 1")
     suspend fun latest(): MeditationSessionRecordEntity?
+
+    @Query(
+        "SELECT * FROM cardio_coherence_records " +
+            "WHERE dateEpochMillis >= :startInclusive AND dateEpochMillis < :endExclusive " +
+            "ORDER BY dateEpochMillis ASC"
+    )
+    suspend fun getBetween(startInclusive: Long, endExclusive: Long): List<MeditationSessionRecordEntity>
 }

@@ -52,7 +52,15 @@ class MorningDialogHubViewModel(
         initialValue = MorningDialogHubUiState()
     )
 
-    fun applySettings(enabled: Boolean, hour: Int, minute: Int) {
+    fun applySettings(
+        enabled: Boolean,
+        hour: Int,
+        minute: Int,
+        eveningEnabled: Boolean,
+        eveningHour: Int,
+        eveningMinute: Int,
+        protectClosingReflections: Boolean
+    ) {
         viewModelScope.launch {
             settingsDataStore.setTime(hour, minute)
             settingsDataStore.setEnabled(enabled)
@@ -60,6 +68,13 @@ class MorningDialogHubViewModel(
                 scheduler.scheduleDaily(hour, minute)
             } else {
                 scheduler.cancel()
+            }
+            settingsDataStore.setEveningReminder(eveningEnabled, eveningHour, eveningMinute)
+            settingsDataStore.setClosingReflectionsProtection(protectClosingReflections)
+            if (eveningEnabled) {
+                scheduler.scheduleEveningDaily(eveningHour, eveningMinute)
+            } else {
+                scheduler.cancelEvening()
             }
         }
     }

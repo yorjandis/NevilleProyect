@@ -7,6 +7,11 @@ import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
+data class CompletedGoalUnitRow(
+    val goalTitle: String,
+    val unitName: String
+)
+
 @Dao
 interface GoalUnitDao {
     @Query("SELECT * FROM goal_units WHERE goalId = :goalId ORDER BY unitIndex ASC")
@@ -14,6 +19,18 @@ interface GoalUnitDao {
 
     @Query("SELECT * FROM goal_units WHERE id = :id LIMIT 1")
     fun getById(id: String): GoalUnitEntity?
+
+    @Query(
+        """
+        SELECT goals.title AS goalTitle, goal_units.name AS unitName
+        FROM goal_units
+        INNER JOIN goals ON goals.id = goal_units.goalId
+        WHERE goal_units.completedDate >= :startInclusive
+            AND goal_units.completedDate < :endExclusive
+        ORDER BY goal_units.completedDate ASC
+        """
+    )
+    suspend fun getCompletedBetween(startInclusive: Long, endExclusive: Long): List<CompletedGoalUnitRow>
 
     @Query(
         """

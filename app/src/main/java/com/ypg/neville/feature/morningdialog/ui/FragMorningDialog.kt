@@ -34,17 +34,26 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.ypg.neville.feature.morningdialog.data.MorningDialogSettingsDataStore
 import com.ypg.neville.feature.morningdialog.data.RoomMorningDialogRepository
+import com.ypg.neville.feature.morningdialog.domain.EveningRitualRepository
+import com.ypg.neville.feature.morningdialog.domain.hasChangedContext
 import com.ypg.neville.feature.morningdialog.ui.navigation.MorningDialogRoutes
 import com.ypg.neville.feature.morningdialog.ui.screens.MorningDialogFlowScreen
 import com.ypg.neville.feature.morningdialog.ui.screens.MorningDialogHistoryScreen
 import com.ypg.neville.feature.morningdialog.ui.screens.MorningDialogHomeScreen
 import com.ypg.neville.feature.morningdialog.ui.screens.MorningDialogNoteScreen
 import com.ypg.neville.feature.morningdialog.ui.screens.MorningDialogSettingsScreen
+import com.ypg.neville.feature.morningdialog.ui.screens.EveningReviewScreen
+import com.ypg.neville.feature.morningdialog.ui.screens.MyDayScreen
+import com.ypg.neville.feature.morningdialog.ui.screens.RitualSummaryScreen
+import com.ypg.neville.feature.morningdialog.ui.screens.RitualPrivacyUnlockScreen
 import com.ypg.neville.feature.morningdialog.ui.viewmodel.MorningDialogFlowViewModel
 import com.ypg.neville.feature.morningdialog.ui.viewmodel.MorningDialogHubViewModel
+import com.ypg.neville.feature.morningdialog.ui.viewmodel.RitualCycleViewModel
 import com.ypg.neville.feature.morningdialog.notifications.MorningDialogScheduler
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
 import com.ypg.neville.model.db.room.DiarioRepository
+import com.ypg.neville.MainActivity
+import com.ypg.neville.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -57,6 +66,10 @@ class FragMorningDialog : Fragment() {
     private val repository by lazy {
         val db = NevilleRoomDatabase.getInstance(requireContext().applicationContext)
         RoomMorningDialogRepository(db.morningDialogDao())
+    }
+
+    private val eveningRepository by lazy {
+        EveningRitualRepository(NevilleRoomDatabase.getInstance(requireContext().applicationContext))
     }
 
     private val settingsStore by lazy {
@@ -75,6 +88,10 @@ class FragMorningDialog : Fragment() {
         MorningDialogFlowViewModel.Factory(repository)
     }
 
+    private val cycleViewModel: RitualCycleViewModel by viewModels {
+        RitualCycleViewModel.Factory(eveningRepository, repository)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -87,6 +104,7 @@ class FragMorningDialog : Fragment() {
                     MorningDialogRoot(
                         hubViewModel = hubViewModel,
                         flowViewModel = flowViewModel,
+                        cycleViewModel = cycleViewModel,
                         startInFlow = arguments?.getBoolean(ARG_START_FLOW, false) == true,
                         initialOpenSessionId = arguments?.getLong(ARG_OPEN_SESSION_ID, -1L) ?: -1L,
                         scheduler = scheduler,
@@ -214,6 +232,7 @@ class FragMorningDialog : Fragment() {
 private fun MorningDialogRoot(
     hubViewModel: MorningDialogHubViewModel,
     flowViewModel: MorningDialogFlowViewModel,
+    cycleViewModel: RitualCycleViewModel,
     startInFlow: Boolean,
     initialOpenSessionId: Long,
     scheduler: MorningDialogScheduler,
@@ -225,8 +244,12 @@ private fun MorningDialogRoot(
     val hubState by hubViewModel.uiState.collectAsState()
     val flowState by flowViewModel.uiState.collectAsState()
     val selectedSession by hubViewModel.selectedSession.collectAsState()
+    val reviews by cycleViewModel.reviews.collectAsState()
+    val dayState by cycleViewModel.dayState.collectAsState()
     val backStackEntry by navController.currentBackStackEntryAsState()
     var startNavigationHandled by remember { mutableStateOf(false) }
+    var privateReflectionsUnlocked by remember { mutableStateOf(false) }
+    var forceEveningEditing by remember { mutableStateOf(false) }
 
     LaunchedEffect(startInFlow) {
         if (startInFlow && !startNavigationHandled) {
@@ -252,6 +275,18 @@ private fun MorningDialogRoot(
     }
 
     val route = backStackEntry?.destination?.route.orEmpty()
+    val todayEpochDay = java.time.LocalDate.now().toEpochDay()
+    val todayReview = reviews.firstOrNull { it.sessionDateEpochDay == todayEpochDay }
+    val todayReviewNeedsUpdate = todayReview != null &&
+        !dayState.loading &&
+        dayState.epochDay == todayEpochDay &&
+        todayReview.hasChangedContext(dayState.snapshot)
+
+    LaunchedEffect(route) {
+        if (route == MorningDialogRoutes.HOME) {
+            cycleViewModel.loadDay(todayEpochDay)
+        }
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -264,6 +299,9 @@ private fun MorningDialogRoot(
                             route == MorningDialogRoutes.FLOW -> "Diálogo guiado"
                             route == MorningDialogRoutes.HISTORY -> "Historial"
                             route == MorningDialogRoutes.SETTINGS -> "Ajustes"
+                            route == MorningDialogRoutes.EVENING -> "Cierre consciente"
+                            route == MorningDialogRoutes.SUMMARY -> "Resumen"
+                            route == MorningDialogRoutes.MY_DAY -> "Mi día"
                             else -> "Ritual Matutino"
                         }
                     )
@@ -289,13 +327,30 @@ private fun MorningDialogRoot(
             composable(MorningDialogRoutes.HOME) {
                 MorningDialogHomeScreen(
                     todayCompleted = hubState.todayCompleted,
+                    todayReviewCompleted = todayReview != null,
+                    todayReviewNeedsUpdate = todayReviewNeedsUpdate,
                     onStartFlow = {
                         flowViewModel.clearCompletionFlag()
                         flowViewModel.setStep(1)
                         navController.navigate(MorningDialogRoutes.FLOW)
                     },
                     onOpenHistory = { navController.navigate(MorningDialogRoutes.HISTORY) },
-                    onOpenSettings = { navController.navigate(MorningDialogRoutes.SETTINGS) }
+                    onOpenSettings = { navController.navigate(MorningDialogRoutes.SETTINGS) },
+                    onOpenEvening = {
+                        forceEveningEditing = false
+                        cycleViewModel.loadDay(todayEpochDay)
+                        navController.navigate(MorningDialogRoutes.EVENING)
+                    },
+                    onUpdateEvening = {
+                        forceEveningEditing = true
+                        cycleViewModel.loadDay(todayEpochDay)
+                        navController.navigate(MorningDialogRoutes.EVENING)
+                    },
+                    onOpenSummary = { navController.navigate(MorningDialogRoutes.SUMMARY) },
+                    onOpenMyDay = {
+                        cycleViewModel.loadDay(todayEpochDay)
+                        navController.navigate(MorningDialogRoutes.MY_DAY)
+                    }
                 )
             }
 
@@ -344,6 +399,7 @@ private fun MorningDialogRoot(
             composable(MorningDialogRoutes.HISTORY) {
                 MorningDialogHistoryScreen(
                     sessions = hubState.sessions,
+                    reviews = reviews,
                     onNoteClick = { sessionId ->
                         navController.navigate(MorningDialogRoutes.note(sessionId))
                     },
@@ -352,7 +408,8 @@ private fun MorningDialogRoot(
                     },
                     onDeleteClick = { sessionId ->
                         onDeleteSession(sessionId)
-                    }
+                    },
+                    onDeleteReview = cycleViewModel::deleteReview
                 )
             }
 
@@ -377,10 +434,69 @@ private fun MorningDialogRoot(
             composable(MorningDialogRoutes.SETTINGS) {
                 MorningDialogSettingsScreen(
                     settings = hubState.settings,
-                    onSaveSettings = { enabled, hour, minute ->
-                        hubViewModel.applySettings(enabled, hour, minute)
+                    onSaveSettings = { enabled, hour, minute, eveningEnabled, eveningHour, eveningMinute, protectClosingReflections ->
+                        hubViewModel.applySettings(
+                            enabled,
+                            hour,
+                            minute,
+                            eveningEnabled,
+                            eveningHour,
+                            eveningMinute,
+                            protectClosingReflections
+                        )
                     }
                 )
+            }
+
+            composable(MorningDialogRoutes.EVENING) {
+                if (hubState.settings.protectClosingReflections && !privateReflectionsUnlocked) {
+                    RitualPrivacyUnlockScreen { privateReflectionsUnlocked = true }
+                } else {
+                    EveningReviewScreen(
+                        state = dayState,
+                        weeklyClosures = reviews.count {
+                            it.sessionDateEpochDay in (dayState.epochDay - 6)..dayState.epochDay
+                        },
+                        onDateChange = cycleViewModel::loadDay,
+                        onSave = { cycleViewModel.saveReview(it) },
+                        onOpenDiary = {
+                            MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_diario)
+                        },
+                        forceEditing = forceEveningEditing
+                    )
+                }
+            }
+
+            composable(MorningDialogRoutes.SUMMARY) {
+                RitualSummaryScreen(hubState.sessions, reviews)
+            }
+
+            composable(MorningDialogRoutes.MY_DAY) {
+                if (hubState.settings.protectClosingReflections && !privateReflectionsUnlocked) {
+                    RitualPrivacyUnlockScreen { privateReflectionsUnlocked = true }
+                } else {
+                    MyDayScreen(
+                        state = dayState,
+                        onDateChange = cycleViewModel::loadDay,
+                        onOpenMorning = {
+                            if (dayState.morningSession == null && dayState.epochDay == java.time.LocalDate.now().toEpochDay()) {
+                                flowViewModel.clearCompletionFlag()
+                                flowViewModel.setStep(1)
+                                navController.navigate(MorningDialogRoutes.FLOW)
+                            } else {
+                                navController.navigate(MorningDialogRoutes.HISTORY)
+                            }
+                        },
+                        onOpenAgenda = { MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_agenda) },
+                        onOpenGoals = { MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_metas) },
+                        onOpenPresence = { MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_presence) },
+                        onOpenCoherence = { MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_cardio_coherence) },
+                        onOpenReview = {
+                            forceEveningEditing = false
+                            navController.navigate(MorningDialogRoutes.EVENING)
+                        }
+                    )
+                }
             }
         }
     }

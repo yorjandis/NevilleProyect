@@ -5,6 +5,10 @@
   "noUnidades": 7,
   "tipoUnidad": "dias",
   "frecuencia": 1,
+  "scheduleType": "interval",
+  "weeklyDaysPerWeek": 1,
+  "dayPeriod": "anytime",
+  "customUnitLabel": "días",
   "unidadesinfo": [
     {
       "name": "Día 1",
