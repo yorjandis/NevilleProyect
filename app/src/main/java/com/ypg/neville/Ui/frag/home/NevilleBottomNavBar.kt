@@ -12,17 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.BookmarkAdded
 import androidx.compose.material3.Icon
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,7 +24,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ypg.neville.R
-import com.ypg.neville.ui.theme.ContextMenuShape
 
 @Composable
 fun NevilleBottomNavBar(
@@ -43,6 +33,7 @@ fun NevilleBottomNavBar(
     onNotas: () -> Unit,
     onHome: () -> Unit,
     onDiario: () -> Unit,
+    onChat: () -> Unit,
     onLienzo: () -> Unit,
     onMetas: () -> Unit,
     onRecordatorios: () -> Unit,
@@ -55,7 +46,6 @@ fun NevilleBottomNavBar(
     onCardio: () -> Unit,
     onPresence: () -> Unit
 ) {
-    var showProductivityMenu by remember { mutableStateOf(false) }
     val barShape = RoundedCornerShape(30.dp)
     Box(
         modifier = Modifier
@@ -138,178 +128,14 @@ fun NevilleBottomNavBar(
                 onClick = onDiario,
                 modifier = Modifier.weight(1f)
             )
-            Box(modifier = Modifier.weight(1f)) {
-                BottomNavButton(
-                    activeId = if (activeId in setOf("lienzo", "metas", "recordatorios", "agenda", "morning_dialog", "weekly_summary", "voces", "anclas", "calma", "cardio", "presence")) "productividad" else activeId,
-                    id = "productividad",
-                    icon = R.drawable.ic_icon_drawer,
-                    contentDescription = stringResource(R.string.home_menu_productivity),
-                    onClick = { showProductivityMenu = true },
-                    modifier = Modifier.fillMaxWidth()
-                )
-                DropdownMenu(
-                    expanded = showProductivityMenu,
-                    onDismissRequest = { showProductivityMenu = false },
-                    shape = ContextMenuShape
-                ) {
-                    DropdownMenuItem(
-                        text = { Text(stringResource(R.string.home_nav_diary)) },
-                        leadingIcon = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_diario_pen_book),
-                                contentDescription = stringResource(R.string.home_nav_diary)
-                            )
-                        },
-                        onClick = {
-                            showProductivityMenu = false
-                            onDiario()
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text(stringResource(R.string.home_nav_canvas)) },
-                        leadingIcon = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_edit_note),
-                                contentDescription = stringResource(R.string.home_nav_canvas)
-                            )
-                        },
-                        onClick = {
-                            showProductivityMenu = false
-                            onLienzo()
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text(stringResource(R.string.home_nav_goals)) },
-                        leadingIcon = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_arriba),
-                                contentDescription = stringResource(R.string.home_nav_goals)
-                            )
-                        },
-                        onClick = {
-                            showProductivityMenu = false
-                            onMetas()
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text(stringResource(R.string.home_nav_agenda)) },
-                        leadingIcon = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_calendar_toggle),
-                                contentDescription = stringResource(R.string.home_nav_agenda)
-                            )
-                        },
-                        onClick = {
-                            showProductivityMenu = false
-                            onAgenda()
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text(stringResource(R.string.home_nav_reminders)) },
-                        leadingIcon = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_calendar_toggle),
-                                contentDescription = stringResource(R.string.home_nav_reminders)
-                            )
-                        },
-                        onClick = {
-                            showProductivityMenu = false
-                            onRecordatorios()
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text(stringResource(R.string.home_nav_daily_ritual)) },
-                        leadingIcon = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_calendar_toggle),
-                                contentDescription = stringResource(R.string.home_nav_daily_ritual)
-                            )
-                        },
-                        onClick = {
-                            showProductivityMenu = false
-                            onRitual()
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text(stringResource(R.string.weekly_summary_title)) },
-                        leadingIcon = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_item),
-                                contentDescription = stringResource(R.string.weekly_summary_title)
-                            )
-                        },
-                        onClick = {
-                            showProductivityMenu = false
-                            onResumenSemanal()
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text(stringResource(R.string.voice_notes_title)) },
-                        leadingIcon = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_audio),
-                                contentDescription = stringResource(R.string.voice_notes_title)
-                            )
-                        },
-                        onClick = {
-                            showProductivityMenu = false
-                            onVoces()
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text(stringResource(R.string.anchors_title)) },
-                        leadingIcon = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_tips),
-                                contentDescription = stringResource(R.string.anchors_title)
-                            )
-                        },
-                        onClick = {
-                            showProductivityMenu = false
-                            onAnclas()
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text(stringResource(R.string.calm_title)) },
-                        leadingIcon = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_show),
-                                contentDescription = stringResource(R.string.calm_title)
-                            )
-                        },
-                        onClick = {
-                            showProductivityMenu = false
-                            onCalma()
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text(stringResource(R.string.coherence_title)) },
-                        leadingIcon = {
-                            Icon(
-                                imageVector = Icons.Rounded.BookmarkAdded,
-                                contentDescription = stringResource(R.string.coherence_title)
-                            )
-                        },
-                        onClick = {
-                            showProductivityMenu = false
-                            onCardio()
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text(stringResource(R.string.presence_title)) },
-                        leadingIcon = {
-                            Icon(
-                                imageVector = Icons.Rounded.BookmarkAdded,
-                                contentDescription = stringResource(R.string.presence_title)
-                            )
-                        },
-                        onClick = {
-                            showProductivityMenu = false
-                            onPresence()
-                        }
-                    )
-                }
-            }
+            BottomNavButton(
+                activeId = activeId,
+                id = "chat",
+                icon = R.drawable.ic_nav_chat,
+                contentDescription = stringResource(R.string.nav_chat),
+                onClick = onChat,
+                modifier = Modifier.weight(1f)
+            )
         }
     }
 }

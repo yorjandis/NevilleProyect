@@ -8,6 +8,9 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.ypg.neville.feature.agenda.data.AgendaItemDao
 import com.ypg.neville.feature.agenda.data.AgendaItemEntity
+import com.ypg.neville.feature.ai.data.AiChatDao
+import com.ypg.neville.feature.ai.data.AiConversationEntity
+import com.ypg.neville.feature.ai.data.AiMessageEntity
 import com.ypg.neville.feature.cardiocoherence.data.MeditationSessionRecordDao
 import com.ypg.neville.feature.cardiocoherence.data.MeditationSessionRecordEntity
 import com.ypg.neville.feature.calmspace.data.CalmPersonalPhraseDao
@@ -56,9 +59,11 @@ import com.ypg.neville.model.security.PostQuantumAesTextCrypto
         MeditationSessionRecordEntity::class,
         AgendaItemEntity::class,
         PresenceEventEntity::class,
-        EveningReviewEntity::class
+        EveningReviewEntity::class,
+        AiConversationEntity::class,
+        AiMessageEntity::class
     ],
-    version = 29,
+    version = 30,
     exportSchema = false
 )
 abstract class NevilleRoomDatabase : RoomDatabase() {
@@ -84,6 +89,7 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
     abstract fun agendaItemDao(): AgendaItemDao
     abstract fun presenceEventDao(): PresenceEventDao
     abstract fun eveningReviewDao(): EveningReviewDao
+    abstract fun aiChatDao(): AiChatDao
 
     companion object {
         @Volatile
@@ -696,6 +702,51 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_29_30 = object : Migration(29, 30) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `ai_conversations` (" +
+                        "`id` TEXT NOT NULL, " +
+                        "`title` TEXT NOT NULL, " +
+                        "`authorId` TEXT NOT NULL, " +
+                        "`createdAt` INTEGER NOT NULL, " +
+                        "`updatedAt` INTEGER NOT NULL, " +
+                        "`summary` TEXT, " +
+                        "`promptVersion` INTEGER NOT NULL, " +
+                        "`usesPersonalVoice` INTEGER NOT NULL, " +
+                        "`modelIdentifier` TEXT NOT NULL, " +
+                        "PRIMARY KEY(`id`))"
+                )
+                db.execSQL(
+                    "CREATE INDEX IF NOT EXISTS `index_ai_conversations_updatedAt` " +
+                        "ON `ai_conversations` (`updatedAt`)"
+                )
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `ai_messages` (" +
+                        "`id` TEXT NOT NULL, " +
+                        "`conversationId` TEXT NOT NULL, " +
+                        "`text` TEXT NOT NULL, " +
+                        "`role` TEXT NOT NULL, " +
+                        "`createdAt` INTEGER NOT NULL, " +
+                        "`sequence` INTEGER NOT NULL, " +
+                        "`status` TEXT NOT NULL, " +
+                        "`errorDescription` TEXT, " +
+                        "`modelIdentifier` TEXT NOT NULL, " +
+                        "PRIMARY KEY(`id`), " +
+                        "FOREIGN KEY(`conversationId`) REFERENCES `ai_conversations`(`id`) " +
+                        "ON UPDATE NO ACTION ON DELETE CASCADE)"
+                )
+                db.execSQL(
+                    "CREATE INDEX IF NOT EXISTS `index_ai_messages_conversationId` " +
+                        "ON `ai_messages` (`conversationId`)"
+                )
+                db.execSQL(
+                    "CREATE INDEX IF NOT EXISTS `index_ai_messages_conversationId_sequence` " +
+                        "ON `ai_messages` (`conversationId`, `sequence`)"
+                )
+            }
+        }
+
         private val ENCRYPT_PERSONAL_TEXT_ON_OPEN = object : Callback() {
             override fun onOpen(db: SupportSQLiteDatabase) {
                 PostQuantumAesTextCrypto.syncRecoveryKeyFromDatabase(db)
@@ -815,7 +866,8 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
                         MIGRATION_25_26,
                         MIGRATION_26_27,
                         MIGRATION_27_28,
-                        MIGRATION_28_29
+                        MIGRATION_28_29,
+                        MIGRATION_29_30
                     )
                     .addCallback(ENCRYPT_PERSONAL_TEXT_ON_OPEN)
                     .allowMainThreadQueries()

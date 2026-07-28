@@ -296,6 +296,10 @@ class MainActivity : AppCompatActivity() {
                 bottomActive.value = "diario"
                 openDestinationAsSheet(R.id.frag_diario)
             },
+            onChat = {
+                bottomActive.value = "chat"
+                openDestinationAsSheet(R.id.frag_ai_chat)
+            },
             onLienzo = {
                 bottomActive.value = "lienzo"
                 openDestinationAsSheet(R.id.frag_lienzo)
@@ -379,7 +383,9 @@ class MainActivity : AppCompatActivity() {
                     destinationId == R.id.frag_presence ||
                     destinationId == R.id.frag_emotional_anchors ||
                     destinationId == R.id.frag_emotional_anchor_create ||
-                    destinationId == R.id.frag_emotional_anchor_run
+                    destinationId == R.id.frag_emotional_anchor_run ||
+                    destinationId == R.id.frag_ai_chat ||
+                    destinationId == R.id.frag_ai_text_tool
                 ) &&
             !SubscriptionManager.hasActiveSubscriptionNow()
         ) {
@@ -417,6 +423,11 @@ class MainActivity : AppCompatActivity() {
         if (incomingIntent?.getBooleanExtra(EXTRA_OPEN_METAS, false) == true) {
             bottomActive.value = "metas"
             openDestinationAsSheet(R.id.frag_metas)
+            return
+        }
+        if (incomingIntent?.getBooleanExtra(EXTRA_OPEN_WEEKLY_SUMMARY, false) == true) {
+            bottomActive.value = "weekly_summary"
+            openDestinationAsSheet(R.id.frag_weekly_summary)
             return
         }
         if (incomingIntent?.getBooleanExtra(EXTRA_OPEN_MY_DAY, false) == true) {
@@ -613,6 +624,7 @@ class MainActivity : AppCompatActivity() {
         const val EXTRA_OPEN_MORNING_DIALOG = "extra_open_morning_dialog"
         const val EXTRA_OPEN_MORNING_DIALOG_DETAIL_ID = "extra_open_morning_dialog_detail_id"
         const val EXTRA_OPEN_MY_DAY = "extra_open_my_day"
+        const val EXTRA_OPEN_WEEKLY_SUMMARY = "extra_open_weekly_summary"
         private var currentActivityRef: WeakReference<MainActivity>? = null
 
         @JvmStatic

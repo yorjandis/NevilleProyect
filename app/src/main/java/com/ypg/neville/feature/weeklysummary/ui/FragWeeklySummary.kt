@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -29,6 +30,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material.icons.automirrored.rounded.ShowChart
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -52,6 +54,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
 import com.ypg.neville.feature.weeklysummary.data.WeeklySummaryEntity
@@ -107,6 +111,7 @@ class FragWeeklySummary : Fragment() {
         var tab by remember { mutableStateOf("resumen") }
         var monthCursor by remember { mutableStateOf(LocalDate.now()) }
         var sectionOrderTick by remember { mutableStateOf(0) }
+        var showStats by remember { mutableStateOf(false) }
 
         fun reload() {
             dbExecutor.execute {
@@ -130,18 +135,27 @@ class FragWeeklySummary : Fragment() {
 
         val zone = ZoneId.systemDefault()
         val selectedViewData = selected?.let { repository.toViewData(it) }
+        BackHandler(enabled = showStats) {
+            showStats = false
+        }
 
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(
-                    Brush.linearGradient(
-                        colors = listOf(
-                            Color(0xFF1D2549),
-                            Color(0xFF6951A8),
-                            Color(0xFFA974D6)
+                    if (showStats) {
+                        Brush.linearGradient(
+                            colors = listOf(Color(0xFFF7F7FA), Color(0xFFF7F7FA))
                         )
-                    )
+                    } else {
+                        Brush.linearGradient(
+                            colors = listOf(
+                                Color(0xFF1D2549),
+                                Color(0xFF6951A8),
+                                Color(0xFFA974D6)
+                            )
+                        )
+                    }
                 )
         ) {
             Column(modifier = Modifier.fillMaxSize()) {
@@ -151,68 +165,93 @@ class FragWeeklySummary : Fragment() {
                         .padding(horizontal = 12.dp, vertical = 10.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    if (showStats) {
+                        IconButton(onClick = { showStats = false }) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                contentDescription = stringResource(R.string.list_back),
+                                tint = Color(0xFF202124)
+                            )
+                        }
+                    }
                     Text(
-                        text = stringResource(R.string.weekly_summary_title),
-                        color = Color.White,
-                        fontSize = 28.sp,
+                        text = stringResource(
+                            if (showStats) R.string.weekly_stats_navigation_title
+                            else R.string.weekly_summary_title
+                        ),
+                        color = if (showStats) Color(0xFF202124) else Color.White,
+                        fontSize = if (showStats) 22.sp else 28.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.weight(1f)
                     )
-                    TextButton(onClick = { reload() }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_refress),
-                            contentDescription = stringResource(R.string.common_refresh),
-                            tint = Color.White
-                        )
+                    if (!showStats) {
+                        IconButton(onClick = { showStats = true }) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Rounded.ShowChart,
+                                contentDescription = stringResource(R.string.weekly_stats_navigation_title),
+                                tint = Color.White
+                            )
+                        }
+                        TextButton(onClick = { reload() }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_refress),
+                                contentDescription = stringResource(R.string.common_refresh),
+                                tint = Color.White
+                            )
+                        }
                     }
                 }
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 12.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    AssistChip(
-                        onClick = { tab = "resumen" },
-                        label = { Text(stringResource(R.string.weekly_summary_tab_summary)) },
-                        colors = AssistChipDefaults.assistChipColors(
-                            containerColor = if (tab == "resumen") Color(0xFFE6EEF8) else Color.White.copy(alpha = 0.75f)
-                        )
-                    )
-                    AssistChip(
-                        onClick = { tab = "historial" },
-                        label = { Text(stringResource(R.string.weekly_summary_tab_history)) },
-                        colors = AssistChipDefaults.assistChipColors(
-                            containerColor = if (tab == "historial") Color(0xFFE6EEF8) else Color.White.copy(alpha = 0.75f)
-                        )
-                    )
-                }
-
-                if (tab == "resumen") {
-                    WeeklySummaryTab(
-                        data = selectedViewData,
-                        summaries = summaries,
-                        onSelect = { selected = it },
-                        onMoveSection = { key, moveUp ->
-                            dbExecutor.execute {
-                                repository.moveSection(key, moveUp)
-                                activity?.runOnUiThread { sectionOrderTick++ }
-                            }
-                        }
-                    )
+                if (showStats) {
+                    WeeklySummaryStatsView(summaries = summaries)
                 } else {
-                    WeeklyHistoryTab(
-                        monthCursor = monthCursor,
-                        summaries = summaries,
-                        zoneId = zone,
-                        onPrevMonth = { monthCursor = monthCursor.minusMonths(1) },
-                        onNextMonth = { monthCursor = monthCursor.plusMonths(1) },
-                        onSelectSummary = {
-                            selected = it
-                            tab = "resumen"
-                        }
-                    )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 12.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        AssistChip(
+                            onClick = { tab = "resumen" },
+                            label = { Text(stringResource(R.string.weekly_summary_tab_summary)) },
+                            colors = AssistChipDefaults.assistChipColors(
+                                containerColor = if (tab == "resumen") Color(0xFFE6EEF8) else Color.White.copy(alpha = 0.75f)
+                            )
+                        )
+                        AssistChip(
+                            onClick = { tab = "historial" },
+                            label = { Text(stringResource(R.string.weekly_summary_tab_history)) },
+                            colors = AssistChipDefaults.assistChipColors(
+                                containerColor = if (tab == "historial") Color(0xFFE6EEF8) else Color.White.copy(alpha = 0.75f)
+                            )
+                        )
+                    }
+
+                    if (tab == "resumen") {
+                        WeeklySummaryTab(
+                            data = selectedViewData,
+                            summaries = summaries,
+                            onSelect = { selected = it },
+                            onMoveSection = { key, moveUp ->
+                                dbExecutor.execute {
+                                    repository.moveSection(key, moveUp)
+                                    activity?.runOnUiThread { sectionOrderTick++ }
+                                }
+                            }
+                        )
+                    } else {
+                        WeeklyHistoryTab(
+                            monthCursor = monthCursor,
+                            summaries = summaries,
+                            zoneId = zone,
+                            onPrevMonth = { monthCursor = monthCursor.minusMonths(1) },
+                            onNextMonth = { monthCursor = monthCursor.plusMonths(1) },
+                            onSelectSummary = {
+                                selected = it
+                                tab = "resumen"
+                            }
+                        )
+                    }
                 }
             }
         }

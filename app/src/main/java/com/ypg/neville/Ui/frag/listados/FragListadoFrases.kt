@@ -55,6 +55,7 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.fragment.app.Fragment
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
+import com.ypg.neville.feature.ai.ui.AiNavigation
 import com.ypg.neville.model.db.room.FraseEntity
 import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.utils.FraseContextActions
@@ -303,6 +304,21 @@ class FragListadoFrases : Fragment() {
                                         },
                                         onCrearNuevaFrase = {
                                             showCreateDialog = true
+                                        },
+                                        onAiTextAction = { action, aiAuthor ->
+                                            AiNavigation.openTextTool(
+                                                context = context,
+                                                title = context.getString(
+                                                    R.string.ai_quote_by_author,
+                                                    item.autor
+                                                ),
+                                                text = item.frase,
+                                                action = action,
+                                                author = aiAuthor
+                                            )
+                                        },
+                                        onAiChat = {
+                                            AiNavigation.openChat(context, item.frase)
                                         }
                                     )
                                 }

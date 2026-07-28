@@ -114,6 +114,7 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
+import com.ypg.neville.feature.ai.ui.AiNavigation
 import com.ypg.neville.localization.HomePhraseLocalization
 import com.ypg.neville.model.db.DatabaseHelper
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
@@ -1198,6 +1199,18 @@ class FragHome : Fragment() {
                             },
                             onCrearNuevaFrase = {
                                 UiModalWindows.Add_New_frase(activityContext, null)
+                            },
+                            onAiTextAction = { action, aiAuthor ->
+                                AiNavigation.openTextTool(
+                                    context = activityContext,
+                                    title = activityContext.getString(R.string.ai_quote_by_author, autor),
+                                    text = frase,
+                                    action = action,
+                                    author = aiAuthor
+                                )
+                            },
+                            onAiChat = {
+                                AiNavigation.openChat(activityContext, frase)
                             }
                         )
                     }

@@ -1,6 +1,7 @@
 package com.ypg.neville.feature.weeklysummary.domain
 
 import android.content.Context
+import com.ypg.neville.feature.weeklysummary.worker.WeeklySummaryReminderScheduler
 import com.ypg.neville.feature.weeklysummary.worker.WeeklySummaryScheduler
 
 object WeeklySummaryBootstrap {
@@ -12,5 +13,6 @@ object WeeklySummaryBootstrap {
     fun initialize(context: Context) {
         appContext = context.applicationContext
         WeeklySummaryScheduler.sync(context.applicationContext)
+        WeeklySummaryReminderScheduler.sync(context.applicationContext)
     }
 }

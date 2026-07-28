@@ -6,6 +6,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.ypg.neville.R
+import com.ypg.neville.feature.ai.domain.AiAuthor
+import com.ypg.neville.feature.ai.domain.AiTextAction
+import com.ypg.neville.feature.ai.ui.AiActionsMenuItem
 import com.ypg.neville.ui.theme.ContextMenuShape
 
 @Composable
@@ -18,7 +21,9 @@ fun FraseOptionsMenu(
     onCargarLienzo: () -> Unit,
     onCompartirSistema: () -> Unit,
     onAbrirNotaFrase: () -> Unit,
-    onCrearNuevaFrase: () -> Unit
+    onCrearNuevaFrase: () -> Unit,
+    onAiTextAction: ((AiTextAction, AiAuthor) -> Unit)? = null,
+    onAiChat: (() -> Unit)? = null
 ) {
     DropdownMenu(
         expanded = expanded,
@@ -32,6 +37,13 @@ fun FraseOptionsMenu(
                     onDismiss()
                     onToggleFavorito()
                 }
+            )
+        }
+        if (onAiTextAction != null && onAiChat != null) {
+            AiActionsMenuItem(
+                onDismissParent = onDismiss,
+                onTextAction = onAiTextAction,
+                onChat = onAiChat
             )
         }
         DropdownMenuItem(

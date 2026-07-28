@@ -89,6 +89,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
+import com.ypg.neville.feature.ai.ui.AiActionsMenuItem
+import com.ypg.neville.feature.ai.ui.AiNavigation
 import com.ypg.neville.feature.calmspace.data.CalmPersonalPhraseEntity
 import com.ypg.neville.model.backup.BackupRestoreSignal
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
@@ -1757,6 +1759,13 @@ class FragNotas : Fragment() {
         var showContextMenu by remember(nota.id) { mutableStateOf(false) }
         var showCategoryMenu by remember(nota.id, nota.categoria) { mutableStateOf(false) }
         val checklistItems = remember(nota.checklistJson) { NotaChecklistCodec.decode(nota.checklistJson) }
+        val aiContent = remember(nota.titulo, nota.nota, nota.checklistJson) {
+            buildList {
+                add(nota.titulo)
+                if (nota.nota.isNotBlank()) add(nota.nota)
+                addAll(checklistItems.map { it.text }.filter { it.isNotBlank() })
+            }.joinToString("\n\n")
+        }
         val categoriaTexto = nombreCategoria(nota)
         val categoriaVisible = displayCategory(categoriaTexto)
         Column(
@@ -1921,6 +1930,21 @@ class FragNotas : Fragment() {
                             onDismissRequest = { showContextMenu = false },
                             shape = RoundedCornerShape(18.dp)
                         ) {
+                            AiActionsMenuItem(
+                                onDismissParent = { showContextMenu = false },
+                                onTextAction = { action, aiAuthor ->
+                                    AiNavigation.openTextTool(
+                                        context = requireContext(),
+                                        title = nota.titulo,
+                                        text = aiContent,
+                                        action = action,
+                                        author = aiAuthor
+                                    )
+                                },
+                                onChat = {
+                                    AiNavigation.openChat(requireContext(), aiContent)
+                                }
+                            )
                             DropdownMenuItem(
                                 text = { Text(stringResource(R.string.notes_change_category)) },
                                 onClick = {

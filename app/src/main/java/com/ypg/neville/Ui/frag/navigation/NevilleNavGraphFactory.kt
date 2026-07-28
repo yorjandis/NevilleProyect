@@ -7,6 +7,8 @@ import androidx.navigation.NavGraphNavigator
 import androidx.navigation.NavType
 import androidx.navigation.fragment.FragmentNavigator
 import com.ypg.neville.feature.agenda.ui.FragAgenda
+import com.ypg.neville.feature.ai.ui.FragAiChat
+import com.ypg.neville.feature.ai.ui.FragAiTextTool
 import com.ypg.neville.R
 import com.ypg.neville.feature.cardiocoherence.ui.FragCardioCoherence
 import com.ypg.neville.feature.calmspace.ui.FragCalmBackgroundsManager
@@ -93,6 +95,8 @@ fun buildNevilleNavGraph(navController: NavController, startDestination: Int): N
     addFragmentDestination(R.id.frag_cardio_coherence, FragCardioCoherence::class.java.name)
     addFragmentDestination(R.id.frag_presence, FragPresence::class.java.name)
     addFragmentDestination(R.id.frag_healing_center, FragHealingCenter::class.java.name)
+    addFragmentDestination(R.id.frag_ai_chat, FragAiChat::class.java.name)
+    addFragmentDestination(R.id.frag_ai_text_tool, FragAiTextTool::class.java.name)
 
     graph.setStartDestination(startDestination)
     return graph

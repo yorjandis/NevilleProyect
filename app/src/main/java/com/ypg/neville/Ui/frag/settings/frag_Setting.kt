@@ -1,8 +1,11 @@
 package com.ypg.neville.ui.frag
 
+import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +13,7 @@ import android.app.TimePickerDialog
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.biometric.BiometricManager
@@ -69,6 +73,9 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import com.ypg.neville.feature.presence.data.PresenceSettings
 import com.ypg.neville.feature.cardiocoherence.data.CardioCoherencePreferences
+import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryRepository
+import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryReviewDay
+import com.ypg.neville.feature.weeklysummary.domain.WeeklySummarySettings
 import androidx.lifecycle.lifecycleScope
 import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.MainActivity
@@ -86,6 +93,11 @@ import com.ypg.neville.model.utils.UiModalWindows
 import kotlinx.coroutines.launch
 
 class frag_Setting : Fragment() {
+
+    private sealed interface WeeklyCleanupResult {
+        data class Success(val deletedCount: Int) : WeeklyCleanupResult
+        data object Error : WeeklyCleanupResult
+    }
 
     private lateinit var pickProviderFolderLauncher: ActivityResultLauncher<Uri?>
     private lateinit var createProviderBackupFileLauncher: ActivityResultLauncher<String>
@@ -275,6 +287,7 @@ class frag_Setting : Fragment() {
         val coroutineScope = rememberCoroutineScope()
         val refreshTick = settingsUiRefreshTick
         val initialJournalConfig = remember { JournalDailyReminderManager.readConfig(context) }
+        val initialWeeklySummaryConfig = remember { WeeklySummarySettings.readConfig(context) }
 
         var temaNoche by remember { mutableStateOf(prefs.getBoolean("tema", true)) }
         var fuenteFrase by remember { mutableStateOf((prefs.getString("fuente_frase", "28")?.toIntOrNull() ?: 28).coerceIn(14, 40)) }
@@ -337,6 +350,13 @@ class frag_Setting : Fragment() {
         var journalReminderHour by remember { mutableStateOf(initialJournalConfig.hour) }
         var journalReminderMinute by remember { mutableStateOf(initialJournalConfig.minute) }
         var journalReminderCustomMessage by remember { mutableStateOf(initialJournalConfig.customMessage) }
+        var weeklyReviewDay by remember { mutableStateOf(initialWeeklySummaryConfig.day) }
+        var weeklyReviewNotificationsEnabled by remember {
+            mutableStateOf(initialWeeklySummaryConfig.notificationsEnabled)
+        }
+        var weeklyReviewRecordsToKeep by remember {
+            mutableStateOf(initialWeeklySummaryConfig.recordsToKeep)
+        }
 
         var showFrequencyDialog by remember { mutableStateOf(false) }
         var showProviderDestinationDialog by remember { mutableStateOf(false) }
@@ -360,6 +380,28 @@ class frag_Setting : Fragment() {
         var showPassphrasePlainText by remember { mutableStateOf(false) }
         var showMigrationExportDialog by remember { mutableStateOf(false) }
         var showMigrationImportDialog by remember { mutableStateOf(false) }
+        var showWeeklyReviewDayMenu by remember { mutableStateOf(false) }
+        var showWeeklyReviewCleanupConfirmation by remember { mutableStateOf(false) }
+        var weeklyReviewCleanupResult by remember {
+            mutableStateOf<WeeklyCleanupResult?>(null)
+        }
+        val weeklyNotificationPermissionDeniedMessage = stringResource(
+            R.string.weekly_settings_notification_permission_denied
+        )
+
+        val weeklyNotificationPermissionLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.RequestPermission()
+        ) { granted ->
+            val updated = WeeklySummarySettings.setNotificationsEnabled(context, granted)
+            weeklyReviewNotificationsEnabled = updated.notificationsEnabled
+            if (!granted) {
+                Toast.makeText(
+                    context,
+                    weeklyNotificationPermissionDeniedMessage,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
 
         val providerInfo = remember(refreshTick) { backupManager.getProviderInfo() }
         val backupFrequency = remember(refreshTick) { backupManager.getFrequency() }
@@ -905,6 +947,107 @@ class frag_Setting : Fragment() {
             }
 
             item {
+                val locale = LocalLocale.current.platformLocale
+                val selectedDayTitle = stringResource(weeklyReviewDay.titleRes)
+                SettingSection(
+                    title = stringResource(R.string.weekly_settings_title),
+                    subtitle = stringResource(R.string.weekly_settings_subtitle)
+                ) {
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        ActionField(
+                            title = stringResource(R.string.weekly_settings_review_day),
+                            description = selectedDayTitle
+                        ) {
+                            showWeeklyReviewDayMenu = true
+                        }
+                        DropdownMenu(
+                            expanded = showWeeklyReviewDayMenu,
+                            onDismissRequest = { showWeeklyReviewDayMenu = false }
+                        ) {
+                            WeeklySummaryReviewDay.entries.forEach { day ->
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(
+                                            text = if (day == weeklyReviewDay) {
+                                                "✓ ${stringResource(day.titleRes)}"
+                                            } else {
+                                                stringResource(day.titleRes)
+                                            }
+                                        )
+                                    },
+                                    onClick = {
+                                        val updated = WeeklySummarySettings.setReviewDay(context, day)
+                                        weeklyReviewDay = updated.day
+                                        showWeeklyReviewDayMenu = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+
+                    FieldDivider()
+                    SwitchField(
+                        title = stringResource(R.string.weekly_settings_reminder_at_six),
+                        description = stringResource(
+                            R.string.weekly_settings_availability,
+                            selectedDayTitle.lowercase(locale)
+                        ),
+                        checked = weeklyReviewNotificationsEnabled
+                    ) { enabled ->
+                        if (
+                            enabled &&
+                            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                            ContextCompat.checkSelfPermission(
+                                context,
+                                Manifest.permission.POST_NOTIFICATIONS
+                            ) != PackageManager.PERMISSION_GRANTED
+                        ) {
+                            weeklyNotificationPermissionLauncher.launch(
+                                Manifest.permission.POST_NOTIFICATIONS
+                            )
+                        } else {
+                            val updated = WeeklySummarySettings.setNotificationsEnabled(
+                                context,
+                                enabled
+                            )
+                            weeklyReviewNotificationsEnabled = updated.notificationsEnabled
+                        }
+                    }
+
+                    FieldDivider()
+                    StepValueField(
+                        title = stringResource(
+                            R.string.weekly_settings_keep_records,
+                            weeklyReviewRecordsToKeep
+                        ),
+                        description = stringResource(
+                            R.string.weekly_settings_cleanup_description,
+                            weeklyReviewRecordsToKeep
+                        ),
+                        value = weeklyReviewRecordsToKeep,
+                        minValue = WeeklySummarySettings.MIN_RECORDS_TO_KEEP,
+                        maxValue = WeeklySummarySettings.MAX_RECORDS_TO_KEEP,
+                        step = WeeklySummarySettings.RECORD_STEP
+                    ) { value ->
+                        val updated = WeeklySummarySettings.setRecordsToKeep(context, value)
+                        weeklyReviewRecordsToKeep = updated.recordsToKeep
+                    }
+
+                    FieldDivider()
+                    TextButton(
+                        onClick = { showWeeklyReviewCleanupConfirmation = true },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            text = stringResource(R.string.weekly_settings_delete_old),
+                            color = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                }
+            }
+
+            item {
                 SettingSection(
                     title = stringResource(R.string.settings_notes_title),
                     subtitle = stringResource(R.string.settings_notes_subtitle)
@@ -1258,6 +1401,82 @@ class frag_Setting : Fragment() {
 
                 }
             }
+        }
+
+        if (showWeeklyReviewCleanupConfirmation) {
+            AlertDialog(
+                onDismissRequest = { showWeeklyReviewCleanupConfirmation = false },
+                title = {
+                    Text(stringResource(R.string.weekly_settings_delete_confirmation_title))
+                },
+                text = {
+                    Text(
+                        stringResource(
+                            R.string.weekly_settings_delete_confirmation_body,
+                            weeklyReviewRecordsToKeep
+                        )
+                    )
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            showWeeklyReviewCleanupConfirmation = false
+                            weeklyReviewCleanupResult = runCatching {
+                                WeeklySummaryRepository.createDefault()
+                                    .deleteOldSummaries(weeklyReviewRecordsToKeep)
+                            }.fold(
+                                onSuccess = { deletedCount ->
+                                    WeeklyCleanupResult.Success(deletedCount)
+                                },
+                                onFailure = { WeeklyCleanupResult.Error }
+                            )
+                        }
+                    ) {
+                        Text(
+                            text = stringResource(R.string.weekly_settings_delete_action),
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = { showWeeklyReviewCleanupConfirmation = false }
+                    ) {
+                        Text(stringResource(R.string.settings_cancel))
+                    }
+                }
+            )
+        }
+
+        weeklyReviewCleanupResult?.let { result ->
+            val message = when (result) {
+                is WeeklyCleanupResult.Success -> when (result.deletedCount) {
+                    0 -> stringResource(
+                        R.string.weekly_settings_prune_none,
+                        weeklyReviewRecordsToKeep
+                    )
+                    1 -> stringResource(
+                        R.string.weekly_settings_prune_one,
+                        weeklyReviewRecordsToKeep
+                    )
+                    else -> stringResource(
+                        R.string.weekly_settings_prune_many,
+                        result.deletedCount,
+                        weeklyReviewRecordsToKeep
+                    )
+                }
+                WeeklyCleanupResult.Error -> stringResource(R.string.weekly_settings_prune_error)
+            }
+            AlertDialog(
+                onDismissRequest = { weeklyReviewCleanupResult = null },
+                title = { Text(stringResource(R.string.weekly_settings_cleanup_result_title)) },
+                text = { Text(message) },
+                confirmButton = {
+                    TextButton(onClick = { weeklyReviewCleanupResult = null }) {
+                        Text(stringResource(R.string.settings_close))
+                    }
+                }
+            )
         }
 
         if (showMigrationExportDialog) {
@@ -2233,6 +2452,56 @@ class frag_Setting : Fragment() {
                 valueRange = range.first.toFloat()..range.last.toFloat(),
                 steps = (range.last - range.first - 1).coerceAtLeast(0)
             )
+        }
+    }
+
+    @Composable
+    private fun StepValueField(
+        title: String,
+        description: String,
+        value: Int,
+        minValue: Int,
+        maxValue: Int,
+        step: Int,
+        onValueChange: (Int) -> Unit
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                text = description,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                TextButton(
+                    enabled = value > minValue,
+                    onClick = { onValueChange((value - step).coerceAtLeast(minValue)) }
+                ) {
+                    Text("−", fontSize = 24.sp)
+                }
+                Text(
+                    text = value.toString(),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(horizontal = 12.dp)
+                )
+                TextButton(
+                    enabled = value < maxValue,
+                    onClick = { onValueChange((value + step).coerceAtMost(maxValue)) }
+                ) {
+                    Text("+", fontSize = 24.sp)
+                }
+            }
         }
     }
 

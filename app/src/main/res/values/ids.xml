@@ -33,4 +33,6 @@
     <item name="frag_cardio_coherence" type="id" />
     <item name="frag_presence" type="id" />
     <item name="frag_healing_center" type="id" />
+    <item name="frag_ai_chat" type="id" />
+    <item name="frag_ai_text_tool" type="id" />
 </resources>

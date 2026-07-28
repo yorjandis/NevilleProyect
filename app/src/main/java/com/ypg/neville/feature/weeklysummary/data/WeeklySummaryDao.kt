@@ -18,6 +18,14 @@ interface WeeklySummaryDao {
     @Query("SELECT * FROM weekly_summaries ORDER BY weekStartMillis DESC")
     fun getAllSummariesDesc(): List<WeeklySummaryEntity>
 
+    @Query(
+        "DELETE FROM weekly_summaries " +
+            "WHERE weekStartMillis NOT IN (" +
+            "SELECT weekStartMillis FROM weekly_summaries " +
+            "ORDER BY weekStartMillis DESC LIMIT :keepLatest)"
+    )
+    fun deleteSummariesOlderThanLatest(keepLatest: Int): Int
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun upsertSectionOrder(items: List<WeeklySummarySectionOrderEntity>)
 

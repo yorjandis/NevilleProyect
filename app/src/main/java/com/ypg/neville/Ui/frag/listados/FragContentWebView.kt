@@ -48,6 +48,9 @@ import com.ypg.neville.MainActivity
 import com.ypg.neville.R
 import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryEventLogger
 import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryEventType
+import com.ypg.neville.feature.ai.domain.AiAuthor
+import com.ypg.neville.feature.ai.domain.AiTextAction
+import com.ypg.neville.feature.ai.ui.AiNavigation
 import com.ypg.neville.model.db.DatabaseHelper
 import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.utils.FraseContextActions
@@ -69,8 +72,10 @@ class FragContentWebView : Fragment() {
     private var clipboardManager: ClipboardManager? = null
     private var clipboardListener: ClipboardManager.OnPrimaryClipChangedListener? = null
     private var currentContentForCopyDetection: String = ""
+    private var contentForAi by mutableStateOf("")
     private var copiedTextFromContent by mutableStateOf<String?>(null)
     private var showPasteMenu by mutableStateOf(false)
+    private var showAiMenu by mutableStateOf(false)
 
     override fun onCreateView(
         inflater: android.view.LayoutInflater,
@@ -118,13 +123,72 @@ class FragContentWebView : Fragment() {
 
                     )
 
+                    if (contentForAi.isNotBlank()) {
+                        Box(
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .padding(end = 12.dp, top = 12.dp)
+                        ) {
+                            AssistChip(
+                                onClick = {
+                                    if (SubscriptionManager.hasActiveSubscription(requireContext())) {
+                                        showAiMenu = true
+                                    } else {
+                                        MainActivity.currentInstance()?.showSubscriptionPaywall()
+                                    }
+                                },
+                                label = { Text(stringResource(R.string.ai_short_label), color = Color.Black) },
+                                colors = AssistChipDefaults.assistChipColors(
+                                    containerColor = Color(0xFFFFB45C).copy(alpha = 0.96f)
+                                ),
+                                modifier = Modifier.height(34.dp)
+                            )
+                            DropdownMenu(
+                                expanded = showAiMenu,
+                                onDismissRequest = { showAiMenu = false }
+                            ) {
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.ai_action_key_points)) },
+                                    onClick = {
+                                        showAiMenu = false
+                                        openAiTextTool(contentForAi, AiTextAction.KEY_POINTS)
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.ai_action_summary)) },
+                                    onClick = {
+                                        showAiMenu = false
+                                        openAiTextTool(contentForAi, AiTextAction.SUMMARY)
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.ai_action_practices)) },
+                                    onClick = {
+                                        showAiMenu = false
+                                        openAiTextTool(contentForAi, AiTextAction.PRACTICES)
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.ai_action_interpret)) },
+                                    onClick = {
+                                        showAiMenu = false
+                                        openAiTextTool(contentForAi, AiTextAction.INTERPRET)
+                                    }
+                                )
+                            }
+                        }
+                    }
+
                     val copiedText = copiedTextFromContent
                     if (!copiedText.isNullOrBlank()) {
                         val hasPremium = SubscriptionManager.hasActiveSubscription(requireContext())
                         Box(
                             modifier = Modifier
                                 .align(Alignment.TopEnd)
-                                .padding(end = 12.dp, top = 12.dp)
+                                .padding(
+                                    end = 12.dp,
+                                    top = if (contentForAi.isNotBlank()) 54.dp else 12.dp
+                                )
                         ) {
                             AssistChip(
                                 onClick = {
@@ -150,6 +214,27 @@ class FragContentWebView : Fragment() {
                                 expanded = hasPremium && showPasteMenu,
                                 onDismissRequest = { showPasteMenu = false }
                             ) {
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.ai_chat_with_ai)) },
+                                    onClick = {
+                                        showPasteMenu = false
+                                        openAiChat(copiedText)
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.ai_interpret_with_ai)) },
+                                    onClick = {
+                                        showPasteMenu = false
+                                        openAiTextTool(copiedText, AiTextAction.INTERPRET)
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.ai_create_practical_application)) },
+                                    onClick = {
+                                        showPasteMenu = false
+                                        openAiTextTool(copiedText, AiTextAction.CONCRETE_PRACTICE)
+                                    }
+                                )
                                 DropdownMenuItem(
                                     text = { Text(stringResource(R.string.reader_paste_notes)) },
                                     onClick = {
@@ -222,8 +307,10 @@ class FragContentWebView : Fragment() {
         super.onDestroyView()
         isPremiumPreviewMode = false
         currentContentForCopyDetection = ""
+        contentForAi = ""
         copiedTextFromContent = null
         showPasteMenu = false
+        showAiMenu = false
     }
 
     @Composable
@@ -320,6 +407,7 @@ class FragContentWebView : Fragment() {
         }
         LaunchedEffect(assetPath, contentForCopyDetection) {
             currentContentForCopyDetection = contentForCopyDetection
+            contentForAi = contentForCopyDetection
             updateCopiedTextState()
         }
 
@@ -600,6 +688,22 @@ class FragContentWebView : Fragment() {
             .replace("\\s+".toRegex(), " ")
             .trim()
             .lowercase(Locale.ROOT)
+    }
+
+    private fun openAiChat(text: String) {
+        AiNavigation.openChat(requireContext(), text)
+    }
+
+    private fun openAiTextTool(text: String, action: AiTextAction) {
+        AiNavigation.openTextTool(
+            context = requireContext(),
+            title = utilsFields.ID_Str_row_ofElementLoad.ifBlank {
+                getString(R.string.reader_default_resource)
+            },
+            text = text,
+            action = action,
+            author = AiAuthor.NEVILLE
+        )
     }
 
     companion object {

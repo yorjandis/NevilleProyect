@@ -42,6 +42,12 @@ class WeeklySummaryRepository(
         return dao.getAllSummariesDesc()
     }
 
+    fun deleteOldSummaries(keepLatest: Int): Int {
+        return dao.deleteSummariesOlderThanLatest(
+            WeeklySummarySettings.normalizedRecordsToKeep(keepLatest)
+        )
+    }
+
     fun getCurrentOrderedSectionKeys(): List<String> {
         val fromDb = dao.getSectionOrder().sortedBy { it.position }.map { it.sectionKey }
         if (fromDb.isEmpty()) return DEFAULT_SECTION_ORDER
