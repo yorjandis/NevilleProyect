@@ -1,0 +1,3950 @@
+id=nev_001
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,The present as the point of creation,Trust; faith and surrender
+contexto_ids=context:identidad%20y%20auto-concepto,context:el%20presente%20como%20punto%20de%20creaci%C3%B3n,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=If you assume your desire and live as if it were true, no power on earth can prevent it from becoming a fact.
+relacionadas=
+
+id=nev_002
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Consciousness / mind as the primary cause
+contexto_ids=context:identidad%20y%20auto-concepto,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=You don't attract what you want, you attract what you believe to be true.
+relacionadas=
+
+id=nev_003
+autor=nev
+nota=
+fuente=
+contexto=The present as the point of creation,Emotion or feeling as the activating force
+contexto_ids=context:el%20presente%20como%20punto%20de%20creaci%C3%B3n,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=To desire something is to feel that you don't have it now. You only manifest what you feel is true in the present
+relacionadas=
+
+id=nev_004
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,The present as the point of creation
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:el%20presente%20como%20punto%20de%20creaci%C3%B3n
+texto=You must feel that your desire is already a reality in your life. This is how you will manifest it
+relacionadas=
+
+id=nev_005
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=The world is a mirror always reflecting what you are doing inside of you
+relacionadas=
+
+id=nev_006
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Reprogramming the subconscious
+contexto_ids=context:identidad%20y%20auto-concepto,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=For prayers to be successful they must be affirmed and appropriate. Adopt the awareness of possessing what you ask for
+relacionadas=
+
+id=nev_007
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=The creative act is psychological, not physical
+relacionadas=
+
+id=nev_008
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Consciousness / mind as the primary cause
+contexto_ids=context:identidad%20y%20auto-concepto,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=I am always attracting into my world that which I am aware of being.
+relacionadas=
+
+id=nev_009
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Consciousness / mind as the primary cause
+contexto_ids=context:identidad%20y%20auto-concepto,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=The exterior only reflects the concept you have of yourself. If you don't like your world, you just have to change the concept of yourself
+relacionadas=
+
+id=nev_010
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=If you judge by appearances, you will continue to be enslaved by the evidence of your senses.
+relacionadas=
+
+id=nev_011
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Because life makes no mistakes and always gives to man what man first gives to himself.
+relacionadas=
+
+id=nev_012
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=If you changed your mood, your circumstances would change.
+relacionadas=
+
+id=nev_013
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Breaking mental and emotional habits
+contexto_ids=context:identidad%20y%20auto-concepto,context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales
+texto=Change your conception of yourself and you will automatically change the world in which you live. Don't try to change people; They are just messengers that tell you who you are. Reevaluate yourself and they will confirm the change
+relacionadas=
+
+id=nev_014
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=Love is our birthright. Don't go looking for what you already are
+relacionadas=
+
+id=nev_015
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Persistence and conscious repetition
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:persistencia%20y%20repetici%C3%B3n%20consciente
+texto=Feel a new mood rise within you. Keep it up and soon you will meet people who embody this new state
+relacionadas=
+
+id=nev_016
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Nobody wants to feel that they are the only one responsible for the conditions of their life, but there is no other cause
+relacionadas=
+
+id=nev_017
+autor=nev
+nota=
+fuente=
+contexto=Breaking mental and emotional habits,Mind-body unity
+contexto_ids=context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales,context:unidad%20mente-cuerpo
+texto=Thinking about past mistakes with feeling is getting infected again.
+relacionadas=
+
+id=nev_018
+autor=nev
+nota=
+fuente=
+contexto=Breaking mental and emotional habits,Identity and self-concept
+contexto_ids=context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales,context:identidad%20y%20auto-concepto
+texto=You rise to a higher level of consciousness by diverting your attention from your current limitations and thinking about what you desire to be.
+relacionadas=
+
+id=nev_019
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=The signs always follow. They never precede
+relacionadas=
+
+id=nev_020
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=The law operates by faith. If you believe, no effort is necessary to see the fulfillment of all your desires.
+relacionadas=
+
+id=nev_021
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Imagination and creative visualization
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=Assume the feeling of your desire fulfilled and observe the path that your attention follows. The manifestation will take place in proportion to the feeling of naturalness
+relacionadas=
+
+id=nev_022
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,The present as the point of creation
+contexto_ids=context:identidad%20y%20auto-concepto,context:el%20presente%20como%20punto%20de%20creaci%C3%B3n
+texto=You already are what you want to be and your refusal to believe is the only reason you don't see it.
+relacionadas=
+
+id=nev_023
+autor=nev
+nota=
+fuente=
+contexto=Persistence and conscious repetition,Imagination and creative visualization
+contexto_ids=context:persistencia%20y%20repetici%C3%B3n%20consciente,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=You must know what you want to change what you have. When you know what you want, embrace the feeling that you have it. Your reason and your senses will deny its existence. Persist and you will see your desire manifest
+relacionadas=
+
+id=nev_024
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Mind-body unity
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:unidad%20mente-cuerpo
+texto=Be careful with your mood and feelings, because there is an unbroken connection between your feelings and your visible world.
+relacionadas=
+
+id=nev_025
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=Just dare to assume that you are what you want to be and you will force everyone to play their part
+relacionadas=
+
+id=nev_026
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Emotion or feeling as the activating force
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=You must assume the feeling of the desire fulfilled until your assumption has all the sensory intensity of reality. You must imagine that you are already experiencing what you want
+relacionadas=
+
+id=nev_027
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Emotion or feeling as the activating force
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Everything you could need or want already exists and can be yours. Make your desires come true by imagining and feeling your desire fulfilled
+relacionadas=
+
+id=nev_028
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=Live your life with a sublime spirit of confidence and determination; ignore facts and appearances
+relacionadas=
+
+id=nev_029
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=An awake imagination works with a purpose. Create and preserve what is desirable, and transform or destroy what is undesirable.
+relacionadas=
+
+id=nev_030
+autor=nev
+nota=
+fuente=
+contexto=Breaking mental and emotional habits,Identity and self-concept
+contexto_ids=context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales,context:identidad%20y%20auto-concepto
+texto=You rise to a higher level of consciousness by shifting your attention away from your current limitations and onto what you desire to be.
+relacionadas=
+
+id=nev_031
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Identity and self-concept
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:identidad%20y%20auto-concepto
+texto=True prayer is the feeling of desire fulfilled. Feel that you are already what you want to be and your prayer will have been answered.
+relacionadas=
+
+id=nev_032
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=The world is a projection of your state of consciousness. Consciousness is the only substance and the only cause of the phenomena of life; Therefore, it is impossible for a change to occur until there is a change in consciousness
+relacionadas=
+
+id=nev_033
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=It is our internal conversations that create the events of tomorrow
+relacionadas=
+
+id=nev_034
+autor=nev
+nota=
+fuente=
+contexto=Persistence and conscious repetition,Identity and self-concept
+contexto_ids=context:persistencia%20y%20repetici%C3%B3n%20consciente,context:identidad%20y%20auto-concepto
+texto=Raising consciousness to the level of what is desired and staying there until it becomes your nature is the path of all apparent miracles.
+relacionadas=
+
+id=nev_035
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Prayer is the art of assuming the feeling of being and having what you want
+relacionadas=
+
+id=nev_036
+autor=nev
+nota=
+fuente=
+contexto=The present as the point of creation
+contexto_ids=context:el%20presente%20como%20punto%20de%20creaci%C3%B3n
+texto=You must be aware of being or having what you want before going to sleep.
+relacionadas=
+
+id=nev_037
+autor=nev
+nota=
+fuente=
+contexto=Breaking mental and emotional habits
+contexto_ids=context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales
+texto=Never go to sleep feeling discouraged or dissatisfied. Never sleep in the awareness of failure
+relacionadas=
+
+id=nev_038
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Consciousness / mind as the primary cause
+contexto_ids=context:identidad%20y%20auto-concepto,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Stop trying to change the world, as it is just a mirror. Man's attempt to change the world by force is as fruitless as breaking a mirror in the hope of changing his face. Leave the mirror and change your face. Leave the world alone and change your conceptions of yourself
+relacionadas=
+
+id=nev_039
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Therefore, if you think about difficulties, obstacles or delays, the subconscious, by its own non-selective nature, accepts that feeling of difficulties and obstacles as a requirement and creates them.
+relacionadas=
+
+id=nev_040
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=Your subconscious impressions determine the conditions of your world. Always accept as true what you feel is true
+relacionadas=
+
+id=nev_041
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Trust; faith and surrender
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=Feeling something intensely, and then resting with confidence that it is, causes the thing being felt to appear within your world.
+relacionadas=
+
+id=nev_042
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=The world is in every detail, the consciousness of man externalized
+relacionadas=
+
+id=nev_043
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=Others will see us only as we see ourselves. Change your self-concept and your world will reflect it.
+relacionadas=
+
+id=nev_044
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,The present as the point of creation
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:el%20presente%20como%20punto%20de%20creaci%C3%B3n
+texto=The moment we ASK for something to happen, we are telling the universe that it does not exist, we are accepting its non-existence and feeling its absence in our experience. Therefore, the result will be the absence of our request. Prayer is not “asking” it is FEELING that you already have it in your life
+relacionadas=
+
+id=nev_045
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=The world simply reflects the being you are assuming you are.
+relacionadas=
+
+id=nev_046
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=You always become what you pay attention to and accept in your life
+relacionadas=
+
+id=nev_047
+autor=nev
+nota=
+fuente=
+contexto=Breaking mental and emotional habits
+contexto_ids=context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales
+texto=Carefully select your thoughts and discard the unpleasant and negative ones. Allow only those that bring you happiness and good spirits.
+relacionadas=
+
+id=nev_048
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=Your internal talk is where your future is cultivated. Your internal conversations define the events and circumstances of your life
+relacionadas=
+
+id=nev_049
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=Don't blame anyone or anything on the outside for what you are confronting now in your life. They are just messengers that show the concept you have of yourself.
+relacionadas=
+
+id=nev_050
+autor=nev
+nota=
+fuente=
+contexto=Breaking mental and emotional habits,Reprogramming the subconscious
+contexto_ids=context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=Start now to observe all your negative and unpleasant thoughts and CHANGE THEM!. Because until you separate yourself from the state from which these thoughts flow, they will cause you to have the same experiences in life.
+relacionadas=
+
+id=nev_051
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Imagination and creative visualization
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=Man is inclined to believe that there are two powers, one of good and the other of evil. But there is only one power. The I Am in man is the only power. Consciousness is the only reality; and imagination is its operating power
+relacionadas=
+
+id=nev_052
+autor=nev
+nota=
+fuente=
+contexto=Breaking mental and emotional habits
+contexto_ids=context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales
+texto=If what you have imagined has not come to be, it is because you have not cut the ties that bind you to the level you are at now. You must break your mechanical reactions to life
+relacionadas=
+
+id=nev_053
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Reprogramming the subconscious
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=You do not need to do anything on the outside, because by your assumption your mind is being reorganized and what you confirm is externalized.
+relacionadas=
+
+id=nev_054
+autor=nev
+nota=
+fuente=
+contexto=Breaking mental and emotional habits
+contexto_ids=context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales
+texto=Begin now to observe your reactions to life and do not allow yourself to identify with any unpleasant state or thought. Sacrifice your small pains, your complaints and the belief in secondary causes
+relacionadas=
+
+id=nev_055
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Identity and self-concept
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:identidad%20y%20auto-concepto
+texto=The lack you see in others exists in you. You see the world through your own consciousness and what you experience is a reflection of your inner self.
+relacionadas=
+
+id=nev_056
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=What you are, that you can only see. Therefore, build a world as you would like it to be
+relacionadas=
+
+id=nev_057
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Every apparent secondary cause is a tyrant; and if you believe in any external power you are fighting a losing battle
+relacionadas=
+
+id=nev_058
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,The present as the point of creation
+contexto_ids=context:identidad%20y%20auto-concepto,context:el%20presente%20como%20punto%20de%20creaci%C3%B3n
+texto=The world you desire already exists and will be brought into your experience when you surround yourself with the true image of yourself as you would like to be.
+relacionadas=
+
+id=nev_059
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Turn towards yourself and affirming that your desire exists, feel yourself moving right in its center.
+relacionadas=
+
+id=nev_060
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=The reality you desire depends only on you and the intensity of your desire. Always look at the being, because your consciousness is the only cause of the phenomena of your individual life.
+relacionadas=
+
+id=nev_061
+autor=nev
+nota=
+fuente=
+contexto=Breaking mental and emotional habits
+contexto_ids=context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales
+texto=To eliminate an undesirable manifestation all that is required of you is to remove your attention from it. Your attention gives it the energy to sustain itself
+relacionadas=
+
+id=nev_062
+autor=nev
+nota=
+fuente=
+contexto=Breaking mental and emotional habits
+contexto_ids=context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales
+texto=The manifestation will remain in view as long as it has the strength with which the creator endowed it. Your attention is what gives that strength so that the manifestation is preserved.
+relacionadas=
+
+id=nev_063
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Elevating the state of consciousness to the very nature of what is desired, causes consciousness to bring it to visible manifestation.
+relacionadas=
+
+id=nev_064
+autor=nev
+nota=
+fuente=
+contexto=Breaking mental and emotional habits
+contexto_ids=context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales
+texto=If you are experiencing undesirable things, take your attention away from it and put it on what you want to be or have in your life.
+relacionadas=
+
+id=nev_065
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=The opinion you have of yourself determines what is being expressed in your life.
+relacionadas=
+
+id=nev_066
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=Praying is recognizing that it is what you want
+relacionadas=
+
+id=nev_067
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=We only receive or manifest what we are conscious of being. The concept we have of ourselves determines the circumstances of our lives
+relacionadas=
+
+id=nev_068
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=For our prayers to be effective, they must be more of a claim to what we are entitled to than a request.
+relacionadas=
+
+id=nev_069
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Trust; faith and surrender
+contexto_ids=context:identidad%20y%20auto-concepto,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=You have been told to “close the door and pray to your father in secret; and your father who sees in secret will reward you in public.” Closing the door means denying the evidence of your senses and claiming to have what you want to be or have.
+relacionadas=
+
+id=nev_070
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=It is important to know that we should not think about the way in which our desires will be fulfilled, we should only feel the fulfillment that already exists in our life. Then the signs of its manifestation will follow
+relacionadas=
+
+id=nev_071
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Achieve the state of consciousness first and the desired should appear as a symbol of that state
+relacionadas=
+
+id=nev_072
+autor=nev
+nota=
+fuente=
+contexto=Persistence and conscious repetition,Emotion or feeling as the activating force
+contexto_ids=context:persistencia%20y%20repetici%C3%B3n%20consciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=We must come to feel natural the feeling of the desire that we want to express. As soon as this naturalness is achieved, the manifestation begins
+relacionadas=
+
+id=nev_073
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Things exist to the extent that we are aware of being them.
+relacionadas=
+
+id=nev_074
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Identity and self-concept
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:identidad%20y%20auto-concepto
+texto=The desire must be fixed or united with consciousness for it to become a reality. Consciousness becomes the consciousness of being the thing desired and brings desire into visible manifestation.
+relacionadas=
+
+id=nev_075
+autor=nev
+nota=
+fuente=
+contexto=Breaking mental and emotional habits,Emotion or feeling as the activating force
+contexto_ids=context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=To dissolve a problem that is in the appearance of your life today, all you have to do is remove your attention from it. Regardless of what your five senses say, remove your awareness from the problem. Be indifferent, and begin to feel exactly as you would feel if the solution had already appeared
+relacionadas=
+
+id=nev_076
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Consciousness / mind as the primary cause
+contexto_ids=context:identidad%20y%20auto-concepto,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Claim that you are what you desire; claim it in consciousness, not with words. And consciousness will answer your claim.
+relacionadas=
+
+id=nev_077
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Unless what you seek is first established in your consciousness, your search will be in vain.
+relacionadas=
+
+id=nev_078
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Trust; faith and surrender
+contexto_ids=context:identidad%20y%20auto-concepto,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=Do not put your trust in men, because they only reflect the being that you are, and can only bring you what you have previously brought within yourself.
+relacionadas=
+
+id=nev_079
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Things are just shadows of what you are in your consciousness
+relacionadas=
+
+id=nev_080
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Identity and self-concept,Trust; faith and surrender
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:identidad%20y%20auto-concepto,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=Come on! wake up from your dream of being in prison. Realize that the land is yours. He is so caught up in the belief that he is a man that he has forgotten the glorious being that he is. Now with your memory restored DECREE that what you have not seen appears and it will appear. For all things are designed to respond to the voice of God, which is their own consciousness of being. The world is at your service!!!
+relacionadas=
+
+id=nev_081
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=I am the light of the world crystallized in the form of the conception of myself
+relacionadas=
+
+id=nev_082
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=Change the concept of yourself and automatically change the world you live in
+relacionadas=
+
+id=nev_083
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Breaking mental and emotional habits
+contexto_ids=context:identidad%20y%20auto-concepto,context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales
+texto=Don't try to change people, they are just messengers telling you who you are. Reevaluate yourself and they will confirm the change
+relacionadas=
+
+id=nev_084
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,The present as the point of creation
+contexto_ids=context:identidad%20y%20auto-concepto,context:el%20presente%20como%20punto%20de%20creaci%C3%B3n
+texto=Take your attention from your present concept of yourself and put it on your ideal. Declare yourself to be your ideal, not as something you will be later, but as something you are in the immediate present. Do this and your current world of limitations will disintegrate.
+relacionadas=
+
+id=nev_085
+autor=nev
+nota=
+fuente=
+contexto=Breaking mental and emotional habits
+contexto_ids=context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales
+texto=Don't fight your problem, your problem will only live as long as you are aware of it. Take your attention away from your problem and the multitude of reasons why you cannot achieve your ideal. Focus your attention completely on what you want
+relacionadas=
+
+id=nev_086
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=Unless I am conscious of being what I seek, I will not find it.
+relacionadas=
+
+id=nev_087
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Trust; faith and surrender
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=First acquire the state of awareness of the things and circumstances you seek and allow the symbols to manifest themselves.
+relacionadas=
+
+id=nev_088
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,The present as the point of creation
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:el%20presente%20como%20punto%20de%20creaci%C3%B3n
+texto=God, your consciousness, is the substance and fullness of everything. The will of God is the recognition of that which is, not of that which will be
+relacionadas=
+
+id=nev_089
+autor=nev
+nota=
+fuente=
+contexto=The present as the point of creation,Consciousness / mind as the primary cause
+contexto_ids=context:el%20presente%20como%20punto%20de%20creaci%C3%B3n,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Saying I'll be fine means I'm sick. Consciousness always expresses what is, not what will be. God continually expresses himself in the now
+relacionadas=
+
+id=nev_090
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Trust; faith and surrender
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=When you feel that you are what you want to be, just say: I am that! It's done, thank you father!
+relacionadas=
+
+id=nev_091
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Breaking mental and emotional habits
+contexto_ids=context:identidad%20y%20auto-concepto,context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales
+texto=Instead of fighting against the evidence of the senses, declare yourself to be that which you desire to be. As your attention is focused on this statement, the doors of the senses automatically close.
+relacionadas=
+
+id=nev_092
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Consciousness of a quality externalizes that quality
+relacionadas=
+
+id=nev_093
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=The moment the feeling about something feels natural, it begins to bear fruit in your world.
+relacionadas=
+
+id=nev_094
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Consciousness / mind as the primary cause
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Your consciousness or your I Am is the unlimited potential upon which impressions are made. Impressions are defined states pressed upon your I Am. Consciousness effortlessly expresses the impressions made about it
+relacionadas=
+
+id=nev_095
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Persistence and conscious repetition
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:persistencia%20y%20repetici%C3%B3n%20consciente
+texto=Only when you claim what you desire to be will you express those desires. Let desires become impressions in your consciousness. To do this, ask yourself how you would feel if said desire were already a reality and play with that feeling in your consciousness until it is your dominant state.
+relacionadas=
+
+id=nev_096
+autor=nev
+nota=
+fuente=
+contexto=The present as the point of creation,Emotion or feeling as the activating force
+contexto_ids=context:el%20presente%20como%20punto%20de%20creaci%C3%B3n,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=To express your desires you must recognize and feel their fulfillment in the present, as a quality that you have, not that you will have. Saying I will be or I will have is recognizing that you don't have it now and you only express what you feel in the present.
+relacionadas=
+
+id=nev_097
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,The present as the point of creation
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:el%20presente%20como%20punto%20de%20creaci%C3%B3n
+texto=Tomorrow's expressions are determined by today's impressions, in your consciousness. Remember, you don't express what you ask for because asking for something is acknowledging that you don't have it now. You express what you believe is true and reality now. Prayer is a claim to already have what you want, even though your current circumstances and your reason deny it.
+relacionadas=
+
+id=nev_098
+autor=nev
+nota=
+fuente=
+contexto=The present as the point of creation,Identity and self-concept
+contexto_ids=context:el%20presente%20como%20punto%20de%20creaci%C3%B3n,context:identidad%20y%20auto-concepto
+texto=To affirm that I will have it is to recognize and EXPRESS that I do not have it now. God, consciousness is expressed in the immediate present. We must express I AM this, feeling its reality and enjoying its fulfillment. In this way we will express our desire
+relacionadas=
+
+id=nev_099
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Trust; faith and surrender
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=A desire is an impulse seeking expression in your consciousness; it is God within you wanting to express Himself. Accept your desire as a present fact, despite the evidence of your senses and reason, and feel its fulfillment. If you do, you will have opened the door to its expression in your world.
+relacionadas=
+
+id=nev_100
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Consciousness / mind as the primary cause
+contexto_ids=context:identidad%20y%20auto-concepto,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=As you claim and feel that you are what you desire, you are crystallizing this liquid, formless light that you are, into the image and likeness of that which you are conscious of being.
+relacionadas=
+
+id=nev_101
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=We are to others only what we are to ourselves. As we reevaluate ourselves, others will see us that way.
+relacionadas=
+
+id=nev_102
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Man has worshiped the images of his creation for so long that it is difficult for him to divert his attention from secondary causes. It is necessary to take your attention away from everything on the outside and place it on the only power, your I Am.
+relacionadas=
+
+id=nev_103
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Identity and self-concept
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:identidad%20y%20auto-concepto
+texto=Do not look for the causes of your apparent experiences in the world of effects. The exterior faithfully reproduces the state of your consciousness or concept of yourself. Consciousness is the only substance and reality and is the cause of everything we experience in life. There is no other cause
+relacionadas=
+
+id=nev_104
+autor=nev
+nota=
+fuente=
+contexto=Breaking mental and emotional habits
+contexto_ids=context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales
+texto=Things and qualities disappear when you take your attention away from them. Your attention is what feeds and maintains everything on which it rests. Take your attention away from it and it fades away. This is the way to take away all the problems and unpleasant experiences, remove your attention from them and place it in your being, in your I am.
+relacionadas=
+
+id=nev_105
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=Stop waiting for the teacher to come; He is with you always. “I am with you always, to the end of the world” (Matthew 16:20)
+relacionadas=
+
+id=nev_106
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Consciousness is lord and master of all. You are the great magician, conjuring what you are conscious of being. God, your consciousness, calls things that are not as though they were, and the invisible is expressed.
+relacionadas=
+
+id=nev_107
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Emotion or feeling as the activating force
+contexto_ids=context:identidad%20y%20auto-concepto,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Claim to be what you want to be and you will be. The only power of expression is found in you, it is yourself. Take your attention away from anything on the outside and focus on your being, feeling yourself being what you want to be and you will have opened the door to its visible manifestation.
+relacionadas=
+
+id=nev_108
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Identity and self-concept,Emotion or feeling as the activating force
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:identidad%20y%20auto-concepto,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Your belief in teachers is a confession of your slavery. Only slaves have masters. The kingdom of heaven, your consciousness, is within you. You do not need anyone to express your desires. The power within you is the only power. Claim now to be what you desire, assume the feeling of your desire fulfilled, and you will express it without effort or help.
+relacionadas=
+
+id=nev_109
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=The creator is always greater than his creation, although both are one. “I and my Father are one, but my father is greater than I.” A creation is an extension of its creator, it is a limit to his unlimited power. In this aspect, the creation is lesser, but remains one with its creator because there is only one substance and power, the consciousness of being.
+relacionadas=
+
+id=nev_110
+autor=nev
+nota=
+fuente=
+contexto=Mind-body unity,Reprogramming the subconscious
+contexto_ids=context:unidad%20mente-cuerpo,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=Adam's story is your story. God put you in the garden to care for it and cultivate it. The garden is your consciousness of being and its expression, that is, the world you see around you. Cultivate only thoughts and feelings of love and always keep your garden beautiful
+relacionadas=
+
+id=nev_111
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=No man or manifestation comes to me unless my father brings him; and I and my father are one
+relacionadas=
+
+id=nev_112
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=The manifestation will remain in view only until it expends the force with which the conceiver, I am, originally endowed it. This strength is granted by the degree of feeling
+relacionadas=
+
+id=nev_113
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Before anything appears, God, I am, feels itself to be that which it desires; and then the felt thing appears
+relacionadas=
+
+id=nev_114
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Breaking mental and emotional habits
+contexto_ids=context:identidad%20y%20auto-concepto,context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales
+texto=Your world is your materialized consciousness. Don't waste time trying to change the exterior. Change the inside, change the concept of yourself, change your reactions to life and the outside will express itself accordingly.
+relacionadas=
+
+id=nev_115
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender,Identity and self-concept
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n,context:identidad%20y%20auto-concepto
+texto=All that is required of you is to believe. Believe that your desires are the clothes your savior wears. Your belief that you are now what you desire to be is proof of your acceptance of life's gifts.
+relacionadas=
+
+id=nev_116
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=Make the impossible possible, through your belief, and the impossible for others will materialize in your world.
+relacionadas=
+
+id=nev_117
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender,Emotion or feeling as the activating force
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Your desire is your savior coming to be with you. Magnify your savior through firm conviction and open the door to him. Establish a firm belief that your desire is already a reality in your world and you will have opened the door to its manifestation.
+relacionadas=
+
+id=nev_118
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=If I rise in consciousness to the naturalness of my desire I will automatically attract the manifestation to me. The feeling of naturalness is what attracts desire to its expression in the visible world
+relacionadas=
+
+id=nev_119
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Feeling rich, loved, secure, is asking for these qualities in His Name. “Whatever you ask in my name, I will do (John 14:13)”
+relacionadas=
+
+id=nev_120
+autor=nev
+nota=
+fuente=
+contexto=Breaking mental and emotional habits,Emotion or feeling as the activating force
+contexto_ids=context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Don't fight your problem. Your problem will only live as long as you are aware of it. Take your attention away from your problems and the multitude of reasons why you cannot achieve your ideal. Focus your attention completely on what you want, feel that it is a reality in your world and it will be expressed without delay.
+relacionadas=
+
+id=nev_121
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=It is your mood that decides your luck. It's not luck that decides your mood
+relacionadas=
+
+id=nev_122
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Emotion or feeling as the activating force
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Everything that appears on the outside is a slave to the power of your consciousness; and is quick to reflect your dominant mood
+relacionadas=
+
+id=nev_123
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=You will predict with certainty, because you know that certain events, being in harmony with your mood, must appear
+relacionadas=
+
+id=nev_124
+autor=nev
+nota=
+fuente=
+contexto=Persistence and conscious repetition,Emotion or feeling as the activating force
+contexto_ids=context:persistencia%20y%20repetici%C3%B3n%20consciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=To play the game of life, you must know what you want to replace what you have. When you know what you want, you must assume the feeling that you have it; although your reason and your senses will deny its existence. Persistence will make it solidify into facts and appear on the screen in space
+relacionadas=
+
+id=nev_125
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Your mood is expressed around you
+relacionadas=
+
+id=nev_126
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,The present as the point of creation
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:el%20presente%20como%20punto%20de%20creaci%C3%B3n
+texto=How would you feel if your desire were a reality now? What immense joy you must feel running through you. Enjoy this state of mind and, without realizing it, your world will begin to change to reflect your desire.
+relacionadas=
+
+id=nev_127
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Identity and self-concept
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:identidad%20y%20auto-concepto
+texto=God cannot be mocked, as you sow so you will reap. You can deceive others, but you cannot deceive yourself. What you see and experience outside is what you are inside of you
+relacionadas=
+
+id=nev_128
+autor=nev
+nota=
+fuente=
+contexto=The present as the point of creation,Persistence and conscious repetition
+contexto_ids=context:el%20presente%20como%20punto%20de%20creaci%C3%B3n,context:persistencia%20y%20repetici%C3%B3n%20consciente
+texto=All you have to do is stay at the end, from within
+relacionadas=
+
+id=nev_129
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=There is no one to blame but yourself. For all the things that have happened, are happening and will happen to you. Since nothing could enter your world unless you gave it your consent
+relacionadas=
+
+id=nev_130
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Reprogramming the subconscious
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=What is thought with feeling in any state is imprinted on the subconscious. The subconscious is the matrix of creation
+relacionadas=
+
+id=nev_131
+autor=nev
+nota=
+fuente=
+contexto=Mind-body unity,Breaking mental and emotional habits
+contexto_ids=context:unidad%20mente-cuerpo,context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales
+texto=Emotional disturbances, especially suppressed emotions, are the causes of all illnesses.
+relacionadas=
+
+id=nev_132
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Identity and self-concept
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:identidad%20y%20auto-concepto
+texto=Feeling the reality of the sought-after state and living and acting from that conviction is the way to all apparent miracles.
+relacionadas=
+
+id=nev_133
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=All creation occurs in the domain of the subconscious. You must acquire reflective control of the functioning of the subconscious, that is, control of your ideas and thoughts.
+relacionadas=
+
+id=nev_134
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=The subconscious does not care about the truth or falsehood of your feeling. Always accept as true what you feel is true
+relacionadas=
+
+id=nev_135
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Reprogramming the subconscious
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=Your feelings create the pattern from which your world is created and a change in feeling is a change in pattern. The subconscious never fails to express what is printed
+relacionadas=
+
+id=nev_136
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Reprogramming the subconscious
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=To imprint the subconscious with the desirable state, you must assume the feeling that would be yours if you had already realized your desire. The form of expression or the difficulties involved are not to be considered by you.
+relacionadas=
+
+id=nev_137
+autor=nev
+nota=
+fuente=
+contexto=Breaking mental and emotional habits,Consciousness / mind as the primary cause
+contexto_ids=context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=As soon as we manage to transform, the world will magically melt before our eyes and reform in harmony with what our transformation affirms.
+relacionadas=
+
+id=nev_138
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Persistence and conscious repetition,Emotion or feeling as the activating force
+contexto_ids=context:identidad%20y%20auto-concepto,context:persistencia%20y%20repetici%C3%B3n%20consciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Define your ideal and focus your attention on identifying with your ideal. Assume the feeling of being one. Then live and act based on this conviction. This assumption, although denied by the senses, if you persist in it, it will materialize in facts.
+relacionadas=
+
+id=nev_139
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,The present as the point of creation
+contexto_ids=context:identidad%20y%20auto-concepto,context:el%20presente%20como%20punto%20de%20creaci%C3%B3n
+texto=If you assume what you want to be, your desire is fulfilled and all desire is neutralized. You cannot continue wishing for what you have already achieved. Your desire is not something you work to fulfill, but rather it is recognizing something that you already possess.
+relacionadas=
+
+id=nev_140
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Trust; faith and surrender
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=He who conceives and his conception are one. Therefore, that which you conceive that you already are could never be so far or so close. Because closeness implies separation. If you can believe, to him who believes everything is possible
+relacionadas=
+
+id=nev_141
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=Others echo what we whisper secretly, in our inner conversations.
+relacionadas=
+
+id=nev_142
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Every thing and person in your world is your externalized self. Any request from another or event should not be ignored because it comes from yourself.
+relacionadas=
+
+id=nev_143
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=Whatever you desire in this world, believe that you have already received it and you will receive it.
+relacionadas=
+
+id=nev_144
+autor=nev
+nota=
+fuente=
+contexto=The present as the point of creation,Identity and self-concept
+contexto_ids=context:el%20presente%20como%20punto%20de%20creaci%C3%B3n,context:identidad%20y%20auto-concepto
+texto=To say I will be or I will have is to recognize and feel that now I am not or I do not have it. Consciousness continually expresses the present feeling. You must declare I AM that or I HAVE that which I want and desire. Although the evidence of the senses denies it
+relacionadas=
+
+id=nev_145
+autor=nev
+nota=
+fuente=
+contexto=Persistence and conscious repetition,Reprogramming the subconscious
+contexto_ids=context:persistencia%20y%20repetici%C3%B3n%20consciente,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=Feed the mind with premises, that is, assertions that presume to be true, because assumptions, even if they are unreal to the senses, if they persist in them until they have the sensation of reality, they will materialize into facts.
+relacionadas=
+
+id=nev_146
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=You always see yourself in front of others as a personification of the ideal that you inspired.
+relacionadas=
+
+id=nev_147
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Emotion or feeling as the activating force
+contexto_ids=context:identidad%20y%20auto-concepto,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Your desire is not something you work to achieve. It is recognizing something that you already possess. It is assuming the feeling of already being what you want to be. Believing and being are one
+relacionadas=
+
+id=nev_148
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Your world is nothing more than the projection of your state of consciousness. Consciousness is the only substance and the only cause of the phenomena of life. Therefore, it is impossible for there to be a change until there is a change in consciousness.
+relacionadas=
+
+id=nev_149
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,The present as the point of creation
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:el%20presente%20como%20punto%20de%20creaci%C3%B3n
+texto=Whatever is happening in your world now, although it may seem real and an unalterable fact, it is a reflection of the previous activity of your consciousness. Therefore, a change in consciousness will reflect that change in the future
+relacionadas=
+
+id=nev_150
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Breaking mental and emotional habits
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales
+texto=Man is pure consciousness without form and what he conceives himself to be is an illusion or reflection of the particular ideas that he holds as truth. These illusions exist only as long as man focuses his attention on them and gives them life.
+relacionadas=
+
+id=nev_151
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Breaking mental and emotional habits
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales
+texto=You cannot allow negative emotions to fill your mind without suffering the consequences of experiencing the state with which those emotions are attached.
+relacionadas=
+
+id=nev_152
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Feeling abundant produces riches in your life
+relacionadas=
+
+id=nev_153
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Trust; faith and surrender
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=It is God who weaves your every desire into cubic reality
+relacionadas=
+
+id=nev_154
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Imagination and creative visualization
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=Housed in man God is your wonderful human imagination. Do not get lost in the phenomena of life, nor give power to things. Turn towards yourself because there is the cause of everything you experience
+relacionadas=
+
+id=nev_155
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Identity and self-concept,Imagination and creative visualization
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:identidad%20y%20auto-concepto,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=The exterior is the reflection of your internal creative activity. Trying to change the exterior from the outside has no effect. You must change your concept of yourself and create in your imagination what you want to experience in your life.
+relacionadas=
+
+id=nev_156
+autor=nev
+nota=
+fuente=
+contexto=Breaking mental and emotional habits
+contexto_ids=context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales
+texto=The fall into division was a deliberate act for God's expansion into unity. There was no other way to expand your creative power than by falling into limitation and overcoming it.
+relacionadas=
+
+id=nev_157
+autor=nev
+nota=
+fuente=
+contexto=Persistence and conscious repetition,Identity and self-concept,Reprogramming the subconscious
+contexto_ids=context:persistencia%20y%20repetici%C3%B3n%20consciente,context:identidad%20y%20auto-concepto,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=Do you know what you would like to be? Dare to take it on! and for a week he affirms: I have assumed that I am who I want to be, I am still assuming that I am and I will continue to assume it until what I have assumed is objectively realized. Fall asleep assuming it is true and let that being in you give it life
+relacionadas=
+
+id=nev_158
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Consciousness / mind as the primary cause
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Your own wonderful human imagination is the real creative power of God within you. Your imagination is the power that can save you from any circumstance you now find yourself in. In the scriptures, the imagination is the Christ, your savior
+relacionadas=
+
+id=nev_159
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Consciousness / mind as the primary cause
+contexto_ids=context:identidad%20y%20auto-concepto,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Your present world reflects the sum total of what you believe to be true of yourself and others. What you imagine yourself to be today moves forward and will confront you in the future.
+relacionadas=
+
+id=nev_160
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Emotion or feeling as the activating force
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=The feeling of your desire fulfilled is using your imagination creatively to bring into your world what you want to experience.
+relacionadas=
+
+id=nev_161
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Mind-body unity
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:unidad%20mente-cuerpo
+texto=Your reactions, both positive and negative, are creators of future circumstances.
+relacionadas=
+
+id=nev_162
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender,Persistence and conscious repetition
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n,context:persistencia%20y%20repetici%C3%B3n%20consciente
+texto=Convince yourself that things are the way you want them to be. Fall asleep on that assumption as it is your act of faith. Tomorrow the world will begin to change to make room for your inauguration clothing
+relacionadas=
+
+id=nev_163
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=Simply be clear about what you want, liven up the scene and those who play their part will begin to move towards the fulfillment of your desire.
+relacionadas=
+
+id=nev_164
+autor=nev
+nota=
+fuente=
+contexto=Persistence and conscious repetition,Trust; faith and surrender
+contexto_ids=context:persistencia%20y%20repetici%C3%B3n%20consciente,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=You have the gift of possessing everything you imagine if you are faithful to what you have assumed.
+relacionadas=
+
+id=nev_165
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Consciousness / mind as the primary cause
+contexto_ids=context:identidad%20y%20auto-concepto,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=The power of the universe is within you. That power is Christ Jesus whose name is I Am. However, you will not know it unless you test it and experience it in your own experience.
+relacionadas=
+
+id=nev_166
+autor=nev
+nota=
+fuente=
+contexto=Persistence and conscious repetition,Trust; faith and surrender
+contexto_ids=context:persistencia%20y%20repetici%C3%B3n%20consciente,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=Imagination will not fail you if you persist in your assumption. Transcend the appearances of your senses and your reason, walk forward assuming that your desire is already a reality
+relacionadas=
+
+id=nev_167
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=At the current level, the sleeping man is always reflecting life without realizing that he is the cause of everything he observes.
+relacionadas=
+
+id=nev_168
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Imagination and creative visualization
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=Absolutely everything you see in your life and experience comes in response to your imaginary activity.
+relacionadas=
+
+id=nev_169
+autor=nev
+nota=
+fuente=
+contexto=Breaking mental and emotional habits,Imagination and creative visualization,Emotion or feeling as the activating force
+contexto_ids=context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=If you react based on the past, you continue in the same pattern. Liberation has to be done through the use of your conscious imagination. Imagine now the world you want to experience, feel it and live in its reality and everything around you will transform to express it.
+relacionadas=
+
+id=nev_170
+autor=nev
+nota=
+fuente=
+contexto=The present as the point of creation,Breaking mental and emotional habits
+contexto_ids=context:el%20presente%20como%20punto%20de%20creaci%C3%B3n,context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales
+texto=Every moment in time is your time to sow and reap. Don't wait for circumstances to change, change your attitude first
+relacionadas=
+
+id=nev_171
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Imagination and creative visualization
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=Our internal conversations are as creative as our deliberate imagination of the desire fulfilled. In fact, if they are of opposite nature they can nullify what we have imagined.
+relacionadas=
+
+id=nev_172
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender,Identity and self-concept
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n,context:identidad%20y%20auto-concepto
+texto=Don't worry about the horrors of the world; Just remember that everything is orderly and correct. Instead, fall in love with the I AM within you and change your world. God made it the way it is now and can change it, because your real self is a creator.
+relacionadas=
+
+id=nev_173
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Persistence and conscious repetition
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:persistencia%20y%20repetici%C3%B3n%20consciente
+texto=If you could actually feel yourself in the situation of your desire fulfilled and continue in it until you fall asleep: It's done! You will find yourself moving through a series of events that lead to the objective realization of this state.
+relacionadas=
+
+id=nev_174
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Consciousness / mind as the primary cause
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Do not be a simple reflector of life, reacting to external causes. Through the conscious use of your wonderful human imagination become an affecter of life
+relacionadas=
+
+id=nev_175
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Breaking mental and emotional habits
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales
+texto=The exterior in the realm of effect, the realm of the senses. Stop paying attention to the external. Turn within, to your supreme kingdom, kingdom of causes, kingdom of God in you. Your reactions to life are a sign of your slavery to the world of shadows.! You are or man! the affecter of life. The world is created around your consciousness and reflects the inner being
+relacionadas=
+
+id=nev_176
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Emotion or feeling as the activating force,Persistence and conscious repetition
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:persistencia%20y%20repetici%C3%B3n%20consciente
+texto=The secret lies in focusing your imagination on the FEELING of the desire fulfilled and STAYING there until you fall asleep. For in our ability to live in the sensation of desire fulfilled lies our ability to live the most abundant life.
+relacionadas=
+
+id=nev_177
+autor=nev
+nota=
+fuente=
+contexto=Persistence and conscious repetition,Emotion or feeling as the activating force
+contexto_ids=context:persistencia%20y%20repetici%C3%B3n%20consciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=At the same moment we give consent to our assumption, our reason and senses deny its reality. Rejoice in this resistance, for it will give you the strength to persist, and when your feeling of imagined reality is greater than your resistance to accepting it, you will have been blessed with your own gift.
+relacionadas=
+
+id=nev_178
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,The present as the point of creation
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:el%20presente%20como%20punto%20de%20creaci%C3%B3n
+texto=Imagination puts us internally in contact with the world of states. These states exist, they are present now, but they are mere possibilities when we think about them. But they become almighty real when we think from them and dwell in them.
+relacionadas=
+
+id=nev_179
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=If I made a vivid representation of the desired state and then entered into it, I would achieve it without a doubt.
+relacionadas=
+
+id=nev_180
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,The present as the point of creation
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:el%20presente%20como%20punto%20de%20creaci%C3%B3n
+texto=My imagination is my real self and where I go in my imagination and make it real, there I will go in the flesh too. When I fall asleep in that state, it's done
+relacionadas=
+
+id=nev_181
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Persistence and conscious repetition
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:persistencia%20y%20repetici%C3%B3n%20consciente
+texto=Whenever you do in your imagination what you would like to do in the external world, that is what you will do in the external world. The only requirement is to awaken your attention in a way and with such intensity that you become completely absorbed in the imagined state.
+relacionadas=
+
+id=nev_182
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Persistence and conscious repetition
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:persistencia%20y%20repetici%C3%B3n%20consciente
+texto=Persistent imagination, centered on the sensation of desire fulfilled, is the secret of all successful operations.
+relacionadas=
+
+id=nev_183
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=Every stage of man's progress is made by the conscious voluntary exercise of the imagination.
+relacionadas=
+
+id=nev_184
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Imagination and creative visualization
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=In your own womb you carry your heaven and your earth. And everything you contemplate, although it seems outside, is inside, in your imagination; of which this world of mortality is but a shadow
+relacionadas=
+
+id=nev_185
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Consciousness / mind as the primary cause
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Your imagination is the Creator
+relacionadas=
+
+id=nev_186
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender,Imagination and creative visualization
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=You sin against the Holy Spirit when you dare to put a limit on the power that brought you here; when you think something is impossible for your own wonderful human imagination
+relacionadas=
+
+id=nev_187
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Trust; faith and surrender
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=Don't think about the reasons why you can't have your desire. Just think and feel that you already have it. Dare to test this power within you because it will not fail you. You and God are the same, they only differ in the degree of intensity of imagination
+relacionadas=
+
+id=nev_188
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Emotion or feeling as the activating force
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=All you need to do is imagine and feel the fulfillment of your desire. Transcend external signs and your own human reason, they are only a reflection of your current state. Your desire is not contained in your current state, and therefore, it is denied by your senses and reason.
+relacionadas=
+
+id=nev_189
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Emotion or feeling as the activating force
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Imagination is spiritual sensation. When you imagine you must naturally feel the nature and content of your desire. If you do so, you set in motion the creative power of God in you and it must bring into visible manifestation what you experience in your imagination.
+relacionadas=
+
+id=nev_190
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Identity and self-concept
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:identidad%20y%20auto-concepto
+texto=You are the center of the world in which you live. An apparent other is just an extension of yourself. Your being is the one that plays the apparent roles on the outside
+relacionadas=
+
+id=nev_191
+autor=nev
+nota=
+fuente=
+contexto=Breaking mental and emotional habits,Reprogramming the subconscious
+contexto_ids=context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=Don't try to analyze your desires or blame yourself. Because the moment you do, you discover countless things that are unpleasant. And the moment they are thought, they are formed
+relacionadas=
+
+id=nev_192
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Breaking mental and emotional habits
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales
+texto=Worrying about what you could have done is wasting your creative power. Imagine and feel what you would like to experience
+relacionadas=
+
+id=nev_193
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Persistence and conscious repetition
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:persistencia%20y%20repetici%C3%B3n%20consciente
+texto=It doesn't matter what happens during the day. Review it and make it according to what you want it to be
+relacionadas=
+
+id=nev_194
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=God created everything that exists from the only substance available, himself. Everything you perceive is God in action
+relacionadas=
+
+id=nev_195
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Mind-body unity
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:unidad%20mente-cuerpo
+texto=The creation is finished and good. It is good because it exactly reflects its own nature. A positive feeling creates an experience of its own nature. A negative feeling creates an experience of its own nature
+relacionadas=
+
+id=nev_196
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Mind-body unity
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:unidad%20mente-cuerpo
+texto=Nature expresses the perfection of its creator. God's vehicle for the expression of his power is generic man. For that reason it is man who can modify nature. Without man, what we call imperfection could not exist.
+relacionadas=
+
+id=nev_197
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Mind-body unity
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:unidad%20mente-cuerpo
+texto=If you are experiencing scarcity, disharmony or illness it is because you have consciously or unconsciously brought these conditions into your life.
+relacionadas=
+
+id=nev_198
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Imagination and creative visualization
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=Thought, belief and imagination are what create our personal world. And they determine what we experience in life. We are constantly exercising these powers. Let's learn to use them wisely to produce a harmonious world.
+relacionadas=
+
+id=nev_199
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Emotion or feeling as the activating force,Imagination and creative visualization
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=What you think with feeling, what you believe to be true and what you imagine you are or have is the cause of everything in your personal world.
+relacionadas=
+
+id=nev_200
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=There is nothing and no one to change, only the ideas from which you think
+relacionadas=
+
+id=nev_201
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Imagination and creative visualization
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=Consciousness in the only substance and reality. It is the creative principle that brings to your experience the exact duplicate or reflection of what you imagine to be true.
+relacionadas=
+
+id=nev_202
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Imagination and creative visualization
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=The world we live in reflects everything we believe or imagine to be true; good, bad or indifferent
+relacionadas=
+
+id=nev_203
+autor=nev
+nota=
+fuente=
+contexto=The present as the point of creation,Emotion or feeling as the activating force
+contexto_ids=context:el%20presente%20como%20punto%20de%20creaci%C3%B3n,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Turn your future dream into a present fact, assuming the feeling of a desire fulfilled
+relacionadas=
+
+id=nev_204
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Emotion or feeling as the activating force
+contexto_ids=context:identidad%20y%20auto-concepto,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=When you walk feeling that you are what you want to be, you bring it into your visible reality
+relacionadas=
+
+id=nev_205
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Consciousness / mind as the primary cause
+contexto_ids=context:identidad%20y%20auto-concepto,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Let us make man in our image and have dominion over everything on this earth
+relacionadas=
+
+id=nev_206
+autor=nev
+nota=
+fuente=
+contexto=Persistence and conscious repetition
+contexto_ids=context:persistencia%20y%20repetici%C3%B3n%20consciente
+texto=It is difficult for the undisciplined mind to admit a state that is denied by the senses. Persist in your assumption and you will bring it to your visible reality
+relacionadas=
+
+id=nev_207
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Man only has one substance to create his world and it is himself
+relacionadas=
+
+id=nev_208
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=You are already what you contemplate and accept as truth. We become like that which we contemplate and accept
+relacionadas=
+
+id=nev_209
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=The truth depends on the intensity of the imagination, not on the facts
+relacionadas=
+
+id=nev_210
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Consciousness is everything that an individual thinks, desires and loves. Everything you believe and know as true
+relacionadas=
+
+id=nev_211
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=When you pray believe that you have received it and you have received it
+relacionadas=
+
+id=nev_212
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender,The present as the point of creation
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n,context:el%20presente%20como%20punto%20de%20creaci%C3%B3n
+texto=When we pray successfully we believe that we are already what we desire to be and therefore it is not possible to continue wishing it. Just give thanks
+relacionadas=
+
+id=nev_213
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Emotion or feeling as the activating force
+contexto_ids=context:identidad%20y%20auto-concepto,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=If I want security I must become aware and feel that I am safe. There is no other way
+relacionadas=
+
+id=nev_214
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=I must walk feeling that I am what I want to be
+relacionadas=
+
+id=nev_215
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=Isn't it wonderful! Thank you Father! I know you always hear me!
+relacionadas=
+
+id=nev_216
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Emotion or feeling as the activating force
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Induces a drowsy state. In that state it assumes the sensation of a desire fulfilled. Then repeat! Thank you, thank you, thank you! It's done!
+relacionadas=
+
+id=nev_217
+autor=nev
+nota=
+fuente=
+contexto=Breaking mental and emotional habits,Reprogramming the subconscious
+contexto_ids=context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=Refuse to enter into unpleasant conversations, whether internal or external. Refuse to hear anything that destroys. Start building within yourself a wonderful world where there is only room for love
+relacionadas=
+
+id=nev_218
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Emotion or feeling as the activating force
+contexto_ids=context:identidad%20y%20auto-concepto,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=We become the likeness of what we behold. That is the nature of love, as is the nature of hate
+relacionadas=
+
+id=nev_219
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Consciousness / mind as the primary cause
+contexto_ids=context:identidad%20y%20auto-concepto,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=I cannot change others unless I first change myself. To change a person I must first change the concept I have of that person.
+relacionadas=
+
+id=nev_220
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=There is no one to change but yourself. That self is your own consciousness
+relacionadas=
+
+id=nev_221
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=Your consciousness and the world you live in are determined by your self-concept.
+relacionadas=
+
+id=nev_222
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Awareness is everything. It is the only substance and reality and constitutes our own being
+relacionadas=
+
+id=nev_223
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Consciousness / mind as the primary cause
+contexto_ids=context:identidad%20y%20auto-concepto,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=I don't need to change anyone. I sanctify myself and by doing so I sanctify others.
+relacionadas=
+
+id=nev_224
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=For the pure all things are pure. There is nothing unclean in itself, but to him who judges something to be unclean, to him it is unclean.
+relacionadas=
+
+id=nev_225
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=There is nothing impure in itself, but the concept you have of yourself makes you see things as dirty or clean.
+relacionadas=
+
+id=nev_226
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=You always bear fruit in harmony with who you are. It is the concept you have of yourself that shapes the conditions and events that surround you.
+relacionadas=
+
+id=nev_227
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Identity and self-concept
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:identidad%20y%20auto-concepto
+texto=Any concept that is accepted as truth will be externalized in your external world
+relacionadas=
+
+id=nev_228
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Once a thought is accepted and charged with feeling, the internal power proceeds to externalize it.
+relacionadas=
+
+id=nev_229
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=It is an illusion that in addition to assuming the feeling of a desire fulfilled, you can do something to make it come true.
+relacionadas=
+
+id=nev_230
+autor=nev
+nota=
+fuente=
+contexto=The present as the point of creation
+contexto_ids=context:el%20presente%20como%20punto%20de%20creaci%C3%B3n
+texto=Thoughts do not retreat into the past, but move toward the future to confront us, so that we can see what we have planted.
+relacionadas=
+
+id=nev_231
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=The conscious is the realm of the effect, the subconscious is the realm of the cause.
+relacionadas=
+
+id=nev_232
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Emotion or feeling as the activating force
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Therefore, through his power to imagine and feel and his freedom to choose the idea he will entertain, man has control over his creation.
+relacionadas=
+
+id=nev_233
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Control of the subconscious, the matrix of creation, is achieved with control of your ideas and feelings
+relacionadas=
+
+id=nev_234
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender,Emotion or feeling as the activating force
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Prayer is the putting into practice of Faith. Faith is the conviction of what is expected and represents the feeling of being or having what one desires.
+relacionadas=
+
+id=nev_235
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Achieving the feeling of being or having what you imagined is the secret of creation
+relacionadas=
+
+id=nev_236
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=The feeling of fulfilled desire, if assumed and sustained, must objectify the state it represents.
+relacionadas=
+
+id=nev_237
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=“He called things not seen as though they were, and things not seen were seen” (Romans 4:17)
+relacionadas=
+
+id=nev_238
+autor=nev
+nota=
+fuente=
+contexto=Mind-body unity
+contexto_ids=context:unidad%20mente-cuerpo
+texto=If a physical fact can produce a psychological state, a psychological state can produce a physical fact
+relacionadas=
+
+id=nev_239
+autor=nev
+nota=
+fuente=
+contexto=Persistence and conscious repetition,Emotion or feeling as the activating force
+contexto_ids=context:persistencia%20y%20repetici%C3%B3n%20consciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Assume the feeling of your desire fulfilled and continue to feel that it is fulfilled until what you feel is brought into your visible experience.
+relacionadas=
+
+id=nev_240
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender,Imagination and creative visualization
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=“Whatever you desire, when you pray, believe that you have received it, and you will have it” (Mark 11:24)
+relacionadas=
+
+id=nev_241
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Reprogramming the subconscious
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=The subconscious is what man is. The conscious is what man knows
+relacionadas=
+
+id=nev_242
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Reprogramming the subconscious
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=The entirety of creation is dormant within the depths of man and is awakened to objective existence by his subconscious assumptions.
+relacionadas=
+
+id=nev_243
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=The conscious mind reasons inductively through observation, experience, and education. That is why he finds it difficult to believe what the five senses and inductive reason deny.
+relacionadas=
+
+id=nev_244
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Consciousness / mind as the primary cause
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=The subconscious reasons deductively and is never interested in the truth or falsity of the premise. It proceeds on the assumption of the premise and brings into objective existence results consistent with the premise
+relacionadas=
+
+id=nev_245
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=The secret of the Father is hidden in the subconscious, that is, the wonderful power that fits together all the necessary pieces to bring an assumption to fruition.
+relacionadas=
+
+id=nev_246
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender,Imagination and creative visualization
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=Prayer, or prayer, is the art of believing what the senses deny
+relacionadas=
+
+id=nev_247
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Reprogramming the subconscious
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=“Greater is he who is in you than he who is in the world” (1 John 4:4). It refers to the subconscious in man; the part of consciousness that brings our assumptions into visible existence. The “world” represents the conscious mind, which by nature is circumscribed or limited to the five senses and objective faculties.
+relacionadas=
+
+id=nev_248
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=The subjective mind is the diffuse consciousness that animates the world; It is the spirit that originated life. In every substance there is only one soul - the subjective mind. Through all creation runs this undivided subjective mind
+relacionadas=
+
+id=nev_249
+autor=nev
+nota=
+fuente=
+contexto=Mind-body unity,Emotion or feeling as the activating force
+contexto_ids=context:unidad%20mente-cuerpo,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Man transmits ideas to the subconscious through his feelings. The subconscious transmits ideas from mind to mind through telepathy
+relacionadas=
+
+id=nev_250
+autor=nev
+nota=
+fuente=
+contexto=Mind-body unity,Reprogramming the subconscious
+contexto_ids=context:unidad%20mente-cuerpo,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=Your unexpressed convictions about others are transmitted to them without their consent and if they are subconsciously accepted by them, they will influence their behavior. The only ideas that are subconsciously rejected are your ideas of them that they couldn't desire were true of anyone.
+relacionadas=
+
+id=nev_251
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Imagination and creative visualization
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=Assume the spirit of the desire fulfilled and by the universal law of reversibility you will realize your desire
+relacionadas=
+
+id=nev_252
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Trust; faith and surrender
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=Imagination and faith are the only faculties of the mind necessary to create objective conditions. It depends on your ability to feel and accept as truth what your objective senses deny.
+relacionadas=
+
+id=nev_253
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=You will decree a thing and it will be established in you
+relacionadas=
+
+id=nev_254
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Trust; faith and surrender
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=It is not a strong will that sends the subjective word on its mission so much as a clear thought and feeling of the truth of the affirmed state
+relacionadas=
+
+id=nev_255
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender,Consciousness / mind as the primary cause
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=When belief and will are in conflict, belief invariably wins. “Not by might, not by power, but by my spirit, said the Lord of Hosts.”
+relacionadas=
+
+id=nev_256
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=It's not what you want that you attract, you attract what you believe to be true
+relacionadas=
+
+id=nev_257
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Trust; faith and surrender
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=Imagination is the beginning of the growth of all forms, and faith is the substance of which they are formed.
+relacionadas=
+
+id=nev_258
+autor=nev
+nota=
+fuente=
+contexto=Mind-body unity,Consciousness / mind as the primary cause
+contexto_ids=context:unidad%20mente-cuerpo,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=The creative power is not in the spirit of things, be it a relic, holy place, medicine, spell or song, it is in the spirit with which they are accepted. The patient's mind accepts the suggestion of health conditioned on such objects or places and as soon as those conditions are met, he proceeds to realize health.
+relacionadas=
+
+id=nev_259
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender,Emotion or feeling as the activating force
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=The confident expectation of a state is the most powerful means of producing it.
+relacionadas=
+
+id=nev_260
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Imagination and creative visualization
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=All phenomena are formed from the same substance vibrating at different rates. Everything is consciousness modified by belief. In consciousness everything exists subjectively, and is awakened to its objective existence by belief.
+relacionadas=
+
+id=nev_261
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Reprogramming the subconscious
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=Prayers depend on your mental attitude for their success and not on the mental attitude of the subject to whom they are directed.
+relacionadas=
+
+id=nev_262
+autor=nev
+nota=
+fuente=
+contexto=Mind-body unity,Consciousness / mind as the primary cause,Reprogramming the subconscious
+contexto_ids=context:unidad%20mente-cuerpo,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=The subject has no power to resist your ideas controlled and directed towards him, unless the state affirmed by you as true is a state that he is incapable of desiring as true of another. In such case, it returns to you, the sender and it will be carried out on you
+relacionadas=
+
+id=nev_263
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Identity and self-concept
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:identidad%20y%20auto-concepto
+texto=Nothing happens to us that is not of our own nature
+relacionadas=
+
+id=nev_264
+autor=nev
+nota=
+fuente=
+contexto=Mind-body unity,Consciousness / mind as the primary cause
+contexto_ids=context:unidad%20mente-cuerpo,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=A person who directs a malicious thought at another will be harmed by its rebound if he fails to gain the other's subconscious acceptance. The state that you do not believe to be true of yourself and others cannot develop in you; That's the way to protect yourself. “Who is it that will hurt you, if you are followers of that which is good? (1 Peter 3:13)
+relacionadas=
+
+id=nev_265
+autor=nev
+nota=
+fuente=
+contexto=Mind-body unity,Reprogramming the subconscious
+contexto_ids=context:unidad%20mente-cuerpo,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=The only power to reject a subjective word is to be unable to desire a similar state in others. Giving presupposes the ability to receive. The possibility of imprinting an idea on the mind of another presupposes the ability to receive and accept a similar idea.
+relacionadas=
+
+id=nev_266
+autor=nev
+nota=
+fuente=
+contexto=Mind-body unity,Reprogramming the subconscious,Consciousness / mind as the primary cause
+contexto_ids=context:unidad%20mente-cuerpo,context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Never accept as truth about others what you would not want to be true about yourself. To awaken a state within another it must first be awakened within you. The state that you would transmit to another can be transmitted only if it is believed of you. That's why giving is receiving
+relacionadas=
+
+id=nev_267
+autor=nev
+nota=
+fuente=
+contexto=Mind-body unity,Identity and self-concept
+contexto_ids=context:unidad%20mente-cuerpo,context:identidad%20y%20auto-concepto
+texto=You can't give what you don't have and you only have what you believe. You are what you believe. “Give, and it will be given to you; good measure, pressed down, shaken together, and running over, will be given into your lap; for with the same measure with which you measure, it will be measured to you again.” (Luke 6:38)
+relacionadas=
+
+id=nev_268
+autor=nev
+nota=
+fuente=
+contexto=Mind-body unity,Consciousness / mind as the primary cause
+contexto_ids=context:unidad%20mente-cuerpo,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Giving is simply believing, because what you truly believe in others you awaken within them.
+relacionadas=
+
+id=nev_269
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Identity and self-concept
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:identidad%20y%20auto-concepto
+texto=“As a man thinks in his heart” – in the depths of his subconscious – “So is he” (Proverbs 23:7)
+relacionadas=
+
+id=nev_270
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Consciousness / mind as the primary cause
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Discard appearances and subjectively affirm as truth what you want to be true. This awakens in you the tone of the affirmed state which in turn realizes itself.
+relacionadas=
+
+id=nev_271
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Identity and self-concept
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:identidad%20y%20auto-concepto
+texto=The world is a mirror in which everyone sees themselves reflected. The objective world reflects the beliefs of the subjective mind
+relacionadas=
+
+id=nev_272
+autor=nev
+nota=
+fuente=
+contexto=Mind-body unity,Consciousness / mind as the primary cause
+contexto_ids=context:unidad%20mente-cuerpo,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=The subjective mind vibrates according to the modifications it experiences through the thought and feeling of the operator.
+relacionadas=
+
+id=nev_273
+autor=nev
+nota=
+fuente=
+contexto=Mind-body unity,Emotion or feeling as the activating force
+contexto_ids=context:unidad%20mente-cuerpo,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=The visible state created is the effect of subjective vibrations. A feeling is always accompanied by a vibration, that is, a change in expression or sensation in the operator.
+relacionadas=
+
+id=nev_274
+autor=nev
+nota=
+fuente=
+contexto=Persistence and conscious repetition,Emotion or feeling as the activating force
+contexto_ids=context:persistencia%20y%20repetici%C3%B3n%20consciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=The seemingly harmless habit of “talking to yourself” is the most fruitful form of prayer.
+relacionadas=
+
+id=nev_275
+autor=nev
+nota=
+fuente=
+contexto=Persistence and conscious repetition,Consciousness / mind as the primary cause
+contexto_ids=context:persistencia%20y%20repetici%C3%B3n%20consciente,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Unfortunately, man forgets his mental discussions, his daily mental conversations with others and is thus perplexed as he observes the conflicts and misfortunes in his life.
+relacionadas=
+
+id=nev_276
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Consciousness / mind as the primary cause
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Man creates himself from his own imagination
+relacionadas=
+
+id=nev_277
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Emotion or feeling as the activating force
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=If the desired state is for yourself, and you find it difficult to accept as true what your senses deny, call before your mind's eye the subjective image of a friend and make him affirm that you are what you desire to be.
+relacionadas=
+
+id=nev_278
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Trust; faith and surrender
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=Imagination is the beginning of creation. Tú imaginas lo que deseas, y entonces lo crees verdadero
+relacionadas=
+
+id=nev_279
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Imagination and creative visualization
+contexto_ids=context:identidad%20y%20auto-concepto,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=People are what you choose to make them; A man is according to the way you look at him. You must look at him with different eyes before he externalizes the change
+relacionadas=
+
+id=nev_280
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=Man can only see what is awake within him
+relacionadas=
+
+id=nev_281
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=The Holy Matrix is ​​the imagination of man
+relacionadas=
+
+id=nev_282
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Late I loved you, beauty so old and so new, late I loved you! And behold, you were within me, and I was outside; and on the outside I looked for you…” (Saint Augustine. Confessions, book X. Chapter 27)
+relacionadas=
+
+id=nev_283
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Emotion or feeling as the activating force
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=It is to your own consciousness that you must turn as the only reality. There and only there, you awaken what is asleep
+relacionadas=
+
+id=nev_284
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Emotion or feeling as the activating force
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=The creation is now finished. Every possible state already exists in your imagination. You call your creation to be by feeling the reality of the state
+relacionadas=
+
+id=nev_285
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=The conscious is personal and selective; The subconscious is impersonal and non-selective. The conscious is the realm of effect. The subconscious is the realm of the cause
+relacionadas=
+
+id=nev_286
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=The world and everything within it is the conditioned and objectified consciousness of man. Consciousness is the cause as well as the substance of the entire world
+relacionadas=
+
+id=nev_287
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Consciousness is the one and only reality, not figuratively but really
+relacionadas=
+
+id=nev_288
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=The subconscious does not generate ideas, but accepts as true those ideas that the subconscious mind accepts as true and in a way that only the subconscious knows, it objectifies the accepted ideas.
+relacionadas=
+
+id=nev_289
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Emotion or feeling as the activating force
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Therefore, through the power to imagine and feel and his freedom to choose the idea that he will entertain, man has control over his creation.
+relacionadas=
+
+id=nev_290
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Control of the subconscious is achieved through control of your ideas and feelings.
+relacionadas=
+
+id=nev_291
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Emotion or feeling as the activating force
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=The creative process begins with an idea and its cycle runs its course as a feeling and ends in a will to act.
+relacionadas=
+
+id=nev_292
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Feeling is the only way through which ideas are expressed to the subconscious.
+relacionadas=
+
+id=nev_293
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Reprogramming the subconscious
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=The man who does not control his feelings can easily imprint the subconscious with unwanted states. The subconscious expresses every idea that is impressed upon it through feeling.
+relacionadas=
+
+id=nev_294
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Reprogramming the subconscious
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=Never harbor an unwanted feeling or support any prejudice in any way. Don't focus on your imperfections or those of others. Because you will be imprinting the subconscious with these limitations
+relacionadas=
+
+id=nev_295
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Reprogramming the subconscious
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=What you don't want done to you, don't feel like it's done to you or to someone else. This is the complete law for a happy life
+relacionadas=
+
+id=nev_296
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Reprogramming the subconscious
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=Each feeling makes a subconscious impression that must be expressed, unless counteracted by a more powerful feeling of an opposite nature.
+relacionadas=
+
+id=nev_297
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Identity and self-concept
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:identidad%20y%20auto-concepto
+texto=The one who dominates two feelings is the one who expresses himself. I am healthy is a stronger feeling than I will be healthy. To feel that I will be is to confess that I am not. I am is stronger than I am not. What you feel you are always dominates what you feel you would like to be.
+relacionadas=
+
+id=nev_298
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Reprogramming the subconscious
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=Your desires are not accepted subconsciously until you assume the feeling of their reality, because only through this acceptance can the subconscious be expressed.
+relacionadas=
+
+id=nev_299
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender,Consciousness / mind as the primary cause
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Dare to believe in the reality of your assumption and watch the world play its part
+relacionadas=
+
+id=nev_300
+autor=nev
+nota=
+fuente=
+contexto=The present as the point of creation,Emotion or feeling as the activating force
+contexto_ids=context:el%20presente%20como%20punto%20de%20creaci%C3%B3n,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Do not waste a moment repenting, because thinking with feeling about past mistakes is reinfecting yourself. "Let the dead bury the dead"
+relacionadas=
+
+id=nev_301
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Trust; faith and surrender
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=Nothing prevents you from achieving your goal except your inability to feel that you already are what you want to be, or that you are in possession of the thing you seek.
+relacionadas=
+
+id=nev_302
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Reprogramming the subconscious
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=Your subconscious gives shape to your desires only when you feel your desire fulfilled.
+relacionadas=
+
+id=nev_303
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=The unconscious state of sleep is the normal state of the subconscious. The matrix of creation
+relacionadas=
+
+id=nev_304
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Emotion or feeling as the activating force,Trust; faith and surrender
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=The creative process is first imagining and then believing and feeling the imagined state. Always imagine and hope for the best. Stay on the lookout knowing that the state will come with complete security
+relacionadas=
+
+id=nev_305
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Consciousness / mind as the primary cause
+contexto_ids=context:identidad%20y%20auto-concepto,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Nations as well as people are what you believe them to be. No matter what the problem is, no matter where it is, no matter who it concerns, you have no one to change but yourself, and you have no opponent or helper in making the change within yourself.
+relacionadas=
+
+id=nev_306
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=You have nothing to do except convince yourself of the reality of the realized state. As soon as you manage to convince yourself of the reality of the desired state, the results follow to confirm your fixed belief.
+relacionadas=
+
+id=nev_307
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Imagination and creative visualization
+contexto_ids=context:identidad%20y%20auto-concepto,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=Never suggest to another the state you desire to see him express, but convince yourself that he is already what you desire him to be.
+relacionadas=
+
+id=nev_308
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Trust; faith and surrender
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=The fulfillment of your desire is achieved by assuming the feeling of the desire fulfilled. You cannot fail, unless you are not convinced of the reality of your desire
+relacionadas=
+
+id=nev_309
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,The present as the point of creation
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:el%20presente%20como%20punto%20de%20creaci%C3%B3n
+texto=The actions and events of the day are effects, not causes
+relacionadas=
+
+id=nev_310
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Consciousness / mind as the primary cause
+contexto_ids=context:identidad%20y%20auto-concepto,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Free will is just freedom of choice, freedom to choose the feeling of reality that you will express
+relacionadas=
+
+id=nev_311
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Reprogramming the subconscious
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=Man's actions are determined by his subconscious impressions. His illusion of free will, his belief in freedom of action, is only ignorance of the causes that make him act. He thinks he is free because he has forgotten the link between him and the event.
+relacionadas=
+
+id=nev_312
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Imagination and creative visualization
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=Get out of appearances and assume the feeling that would be yours if you were already what you want to be. Feeling a state produces that state
+relacionadas=
+
+id=nev_313
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=Acceptance of the end automatically gives the means of its realization
+relacionadas=
+
+id=nev_314
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,The present as the point of creation,Identity and self-concept
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:el%20presente%20como%20punto%20de%20creaci%C3%B3n,context:identidad%20y%20auto-concepto
+texto=You will wake up every day thinking that you are a free agent, without realizing that every action and event of the day will be predetermined by your concept of the self when you fell asleep. Your only freedom then is: freedom of reaction, you are free to choose how to feel and react to the drama of the day, but the drama - the actions, events and circumstances of the day - has already been determined.
+relacionadas=
+
+id=nev_315
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Reprogramming the subconscious
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=Each reaction makes a subconscious impression and, unless counteracted by an opposite and more dominant feeling, will be the cause of future action.
+relacionadas=
+
+id=nev_316
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Imagination and creative visualization
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=Ideas wrapped in feelings are creative actions. Use your divine right wisely
+relacionadas=
+
+id=nev_317
+autor=nev
+nota=
+fuente=
+contexto=Mind-body unity,Emotion or feeling as the activating force
+contexto_ids=context:unidad%20mente-cuerpo,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Falling asleep feeling satisfied and happy causes conditions and events to appear in your world shaping these mental attitudes.
+relacionadas=
+
+id=nev_318
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender,Emotion or feeling as the activating force
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=By capturing the feeling of the state you seek, you relieve yourself of all effort to make it a reality, since it already is.
+relacionadas=
+
+id=nev_319
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Identity and self-concept,Trust; faith and surrender
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:identidad%20y%20auto-concepto,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=Faith is feeling, “according to your faith (feeling) it will be done to you.” You never attract what you want, but you always attract what you are. That which you yourself feel that you are, that you are, and that which you are is given to you.
+relacionadas=
+
+id=nev_320
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Identity and self-concept
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:identidad%20y%20auto-concepto
+texto=Live in the feeling of being what you want to be and you will be
+relacionadas=
+
+id=nev_321
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Consciousness / mind as the primary cause
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Christ in us is our wonderful human imagination. “This is the mystery hidden for ages…” (Colossians 1:26-27). Then we realize that only when we live by imagination can we say that we are truly living.
+relacionadas=
+
+id=nev_322
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Identity and self-concept
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:identidad%20y%20auto-concepto
+texto=To sin means to miss the mark in our own lives, to fall short of the personal ideal, to fail to achieve the goal we aim for. Forgiveness of sins is the identification of man with his ideal or objective in life. This is the work of the awakened imagination
+relacionadas=
+
+id=nev_323
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=The battle that man fights is fought in his own imagination
+relacionadas=
+
+id=nev_324
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Trust; faith and surrender
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=Surrender to your own wonderful imagination and escape the prison of the senses
+relacionadas=
+
+id=nev_325
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,The present as the point of creation
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:el%20presente%20como%20punto%20de%20creaci%C3%B3n
+texto=We must take the day, not as it appears to be, but from the artist's vision, for the vision of the world made perfect is buried in all our minds-buried and waiting for us to review the day.
+relacionadas=
+
+id=nev_326
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Emotion or feeling as the activating force
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=He who discovers the secret of revision cannot be anything other than being guided by love. Your effectiveness increases with practice. Revision is the way by which everything right can be possible.
+relacionadas=
+
+id=nev_327
+autor=nev
+nota=
+fuente=
+contexto=Mind-body unity
+contexto_ids=context:unidad%20mente-cuerpo
+texto=“Do not resist evil” since all passionate conflicts result in an exchange of characteristics
+relacionadas=
+
+id=nev_328
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=“He who knows how to do good and does not do it, it is sin to him” (James 4:17)
+relacionadas=
+
+id=nev_329
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Emotion or feeling as the activating force,Consciousness / mind as the primary cause
+contexto_ids=context:identidad%20y%20auto-concepto,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=To know the truth, you must live the truth, and to live the truth, your inner actions must match the actions of your fulfilled desire. Expectation and desire must become one
+relacionadas=
+
+id=nev_330
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Your external world is just internal movement carried out
+relacionadas=
+
+id=nev_331
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Persistence and conscious repetition
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:persistencia%20y%20repetici%C3%B3n%20consciente
+texto=Always try to review your day, and do it according to how you desire it had been. It is the most powerful way to bring about the change you expect.
+relacionadas=
+
+id=nev_332
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Identity and self-concept
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:identidad%20y%20auto-concepto
+texto=“Let every man be fully persuaded in his own mind” (Romans 14:5)
+relacionadas=
+
+id=nev_333
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Imagination and creative visualization
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=Your inner speech is perpetually being written around you in events. Learn to relate these events to your internal speech and you will learn to teach yourself. By internal speech I mean those mental conversations that we have with ourselves.
+relacionadas=
+
+id=nev_334
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=To peacefully surrender to appearances and bow down to the evidence of facts is to confess that Christ has not been born in you.
+relacionadas=
+
+id=nev_335
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Imagination and creative visualization
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=… Addullad always emphasized the importance of the state from which man sees the world while falling asleep
+relacionadas=
+
+id=nev_336
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Consciousness / mind as the primary cause
+contexto_ids=context:identidad%20y%20auto-concepto,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Every conceivable state is waiting for us to choose and occupy it.
+relacionadas=
+
+id=nev_337
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=Determined imagination, thinking from the end, is the beginning of all miracles. Miracle is a term that refers to the power and function of the imagination.
+relacionadas=
+
+id=nev_338
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Emotion or feeling as the activating force
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Imagining oneself with a feeling of fulfilled desire is the means by which one enters a new state. This gives the state the quality of being
+relacionadas=
+
+id=nev_339
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Hermes tells us: "That which is, is manifested; that which has been or will be, is not manifested, that is dead; because the Soul, the eternal activity of God, animates all things."
+relacionadas=
+
+id=nev_340
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,The present as the point of creation
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:el%20presente%20como%20punto%20de%20creaci%C3%B3n
+texto=The future must become the present in the imagination of him who wisely and consciously creates circumstances
+relacionadas=
+
+id=nev_341
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=The imagination must focus on some state and see the world from that state. Thinking from the end is an intense perception of the world of fulfilled desire, living creatively
+relacionadas=
+
+id=nev_342
+autor=nev
+nota=
+fuente=
+contexto=Breaking mental and emotional habits,Consciousness / mind as the primary cause
+contexto_ids=context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Ignorance of the ability to think from the end is slavery. Passively surrendering to the evidence of the senses underestimates the capabilities of the Inner Being.
+relacionadas=
+
+id=nev_343
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=All life is the appeasement of hunger, and the infinite states of consciousness from which man can observe the world are only the means to satisfy that hunger.
+relacionadas=
+
+id=nev_344
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Identity and self-concept
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:identidad%20y%20auto-concepto
+texto=Desire is the primary impulse of the mental machinery. It's a blessing. It is a right and a natural craving which has a state of consciousness as its right and its natural satisfaction.
+relacionadas=
+
+id=nev_345
+autor=nev
+nota=
+fuente=
+contexto=Persistence and conscious repetition
+contexto_ids=context:persistencia%20y%20repetici%C3%B3n%20consciente
+texto=It is necessary to have a goal in life. Aimless, we wander
+relacionadas=
+
+id=nev_346
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=We must mentally move from thinking about the end to thinking from the end
+relacionadas=
+
+id=nev_347
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Breaking mental and emotional habits
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales
+texto=Through imagination man escapes the limitation of the senses and the slavery of reason. There is no stopping the man who can think from the end
+relacionadas=
+
+id=nev_348
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Consciousness / mind as the primary cause
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=The world is a manifestation of the mental activity that happens within it. So, the most important question is what do you want? If you can live in the end, the imagination will create the means necessary to realize it
+relacionadas=
+
+id=nev_349
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=The world and everything within it is the conditioned and objectified consciousness of man. Consciousness is the cause as well as the substance of the entire world
+relacionadas=
+
+id=nev_350
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Consciousness / mind as the primary cause
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=The conscious generates ideas and imprints these ideas on the subconscious. The subconscious receives ideas and gives them form and expression
+relacionadas=
+
+id=nev_351
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Consciousness / mind as the primary cause
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=The subconscious does not originate ideas but accepts as true those that the conscious mind feels to be true and in a way that only the subconscious knows it objectively accepts accepted ideas.
+relacionadas=
+
+id=nev_352
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Emotion or feeling as the activating force,Consciousness / mind as the primary cause
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Man has control over his creation through his power to imagine and feel and his freedom to choose the idea he will harbor.
+relacionadas=
+
+id=nev_353
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Control of the subconscious is achieved through control of your ideas and feelings.
+relacionadas=
+
+id=nev_354
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Ideas are imprinted on the subconscious through the medium of feeling. Once an idea is felt, it is recorded in the subconscious, which rushes to express its equivalent on the screen of space.
+relacionadas=
+
+id=nev_355
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=The man who does not control his feelings can easily imprint the subconscious with unwanted states.
+relacionadas=
+
+id=nev_356
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force,Trust; faith and surrender
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=Controlling feelings is very important for a full and happy life. Never harbor an unwanted feeling or support any prejudice in any way. Don't focus on your imperfections or those of others because you will express them in your life.
+relacionadas=
+
+id=nev_357
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Trust; faith and surrender
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=What you don't want done to you, don't feel like it's done to you or others. This is the complete law for a full and happy life
+relacionadas=
+
+id=nev_358
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Each feeling makes a subconscious impression that must be expressed, unless it is counteracted by a more powerful feeling of an opposite nature.
+relacionadas=
+
+id=nev_359
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=The one that dominates the two feelings is the one that is expressed: I am healthy, it is more powerful than I will be healthy. To feel that I will be is to confess that I am not. I am is stronger than I am not
+relacionadas=
+
+id=nev_360
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Identity and self-concept
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:identidad%20y%20auto-concepto
+texto=What you feel you are always dominates what you feel you would like to be. Therefore the desire must be felt as a state where it is already a reality
+relacionadas=
+
+id=nev_361
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Mind-body unity
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:unidad%20mente-cuerpo
+texto=Do not harbor the feeling of regret or failure, because frustration or detachment from your goal results in illness.
+relacionadas=
+
+id=nev_362
+autor=nev
+nota=
+fuente=
+contexto=Breaking mental and emotional habits
+contexto_ids=context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales
+texto=If you judge by appearances, you will remain enslaved by the evidence of your senses.
+relacionadas=
+
+id=nev_363
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Reprogramming the subconscious
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=All changes of expression are brought about through a change of feeling. A change of feeling is a change of destiny
+relacionadas=
+
+id=nev_364
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=All creation occurs in the domain of the subconscious. What you must acquire is control of your ideas and feelings
+relacionadas=
+
+id=nev_365
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=The impressions of your subconscious, through feeling, determine the conditions of your world
+relacionadas=
+
+id=nev_366
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=The subconscious does not care about the truth or falsehood of your feeling. Always accept as true what you feel is true
+relacionadas=
+
+id=nev_367
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Your feelings create the pattern from which your world is created and a change in feeling is a change in pattern.
+relacionadas=
+
+id=nev_368
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=The subconscious never fails to express what is impressed upon it through feeling.
+relacionadas=
+
+id=nev_369
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=The subconscious accepts the feeling impressed upon it as a fact existing within itself and immediately begins to produce in the external or objective world what exactly resembles that feeling.
+relacionadas=
+
+id=nev_370
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=The subconscious never modifies the beliefs that man accepts; expresses them in their last detail whether they are beneficial or not
+relacionadas=
+
+id=nev_371
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force,Imagination and creative visualization
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=To impress the subconscious with the desired state you must assume the feeling that would be yours if you had already realized your desire.
+relacionadas=
+
+id=nev_372
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=What is thought with feeling in any state is imprinted on the subconscious.
+relacionadas=
+
+id=nev_373
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=The subconscious expresses the idea in the image and likeness of the feeling it receives. Therefore, feeling a state of hopelessness or impossibility is imprinting the subconscious with the idea of ​​failing.
+relacionadas=
+
+id=nev_374
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Consciousness / mind as the primary cause
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=The conscious, objective mind, directs the subconscious or subjective mind through its ideas and feelings. “The husband leads the wife” Ephesians 5
+relacionadas=
+
+id=nev_375
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force,Imagination and creative visualization
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=By assuming the feeling that would be yours if you were already in possession of your goal, the subconscious is motivated to build exactly what resembles your assumption.
+relacionadas=
+
+id=nev_376
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force,Imagination and creative visualization
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=Your desires are not accepted subconsciously until you assume the feeling of their reality.
+relacionadas=
+
+id=nev_377
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Mind-body unity
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:unidad%20mente-cuerpo
+texto=The exterior reflects the interior. “As it is inside, so it is outside.” “A man cannot receive anything unless it is given to him from heaven” and “The kingdom of heaven is within you”
+relacionadas=
+
+id=nev_378
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Nothing comes from outside, all things come from within, from the subconscious. It is impossible for you to see anything other than the contents of your consciousness
+relacionadas=
+
+id=nev_379
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Your world in every detail is objectified consciousness
+relacionadas=
+
+id=nev_380
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Mind-body unity
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:unidad%20mente-cuerpo
+texto=Objective, visible states are witnesses to the impressions of the subconscious.
+relacionadas=
+
+id=nev_381
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=A change of impression, in the subconscious, results in a change of expression
+relacionadas=
+
+id=nev_382
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Trust; faith and surrender
+contexto_ids=context:identidad%20y%20auto-concepto,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=You are already who you desire to be, and your refusal to believe this is the only reason you do not see it.
+relacionadas=
+
+id=nev_383
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=Searching outside for what you do not feel you are is searching in vain, because we never find those we want; we find those who we are
+relacionadas=
+
+id=nev_384
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=You have and express only that which you are aware of being and possessing. “To those who have, it is given”
+relacionadas=
+
+id=nev_385
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Emotion or feeling as the activating force
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Denying the evidence of your physical senses and appropriating the feeling of fulfilled desire is the way to realize your desire.
+relacionadas=
+
+id=nev_386
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Imagination and creative visualization,Mind-body unity
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:unidad%20mente-cuerpo
+texto=In the state of dream and prayer, the conscious and the subconscious unite creatively. The masculine and feminine aspects of consciousness become one
+relacionadas=
+
+id=nev_387
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=The conditions and events of your life are the result of the molds of the impressions of your subconscious during sleep.
+relacionadas=
+
+id=nev_388
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=“As it is in heaven, so it is on earth.” As it is in the subconscious, so it is on earth
+relacionadas=
+
+id=nev_389
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Emotion or feeling as the activating force,Trust; faith and surrender
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=Nothing prevents you from realizing your desire except your inability to feel that you already are what you desire to be, or that you are in possession of the thing you seek.
+relacionadas=
+
+id=nev_390
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Your subconscious gives shape to your desire only when you feel your desire fulfilled.
+relacionadas=
+
+id=nev_391
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force,Imagination and creative visualization
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=You should always feel the desire as already fulfilled before going to sleep.
+relacionadas=
+
+id=nev_392
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Consciousness / mind as the primary cause
+contexto_ids=context:identidad%20y%20auto-concepto,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=You never bring from the depths of yourself what you desire; You always bring what you are, and you are what you feel you are as well as what you feel is true of others.
+relacionadas=
+
+id=nev_393
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Reprogramming the subconscious
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=You must be aware of being or having what you want to be or have before falling asleep.
+relacionadas=
+
+id=nev_394
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Consciousness / mind as the primary cause
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Your subconscious mind sees you exactly as you feel you are.
+relacionadas=
+
+id=nev_395
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Emotion or feeling as the activating force
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Feel what you would be like if you were in possession of your desire and relax peacefully into unconsciousness.
+relacionadas=
+
+id=nev_396
+autor=nev
+nota=
+fuente=
+contexto=Mind-body unity,Consciousness / mind as the primary cause
+contexto_ids=context:unidad%20mente-cuerpo,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=The dream hides the creative act, while the objective world reveals it
+relacionadas=
+
+id=nev_397
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Identity and self-concept
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:identidad%20y%20auto-concepto
+texto=In dreams, man imprints his conception of himself on the subconscious.
+relacionadas=
+
+id=nev_398
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Reprogramming the subconscious,Persistence and conscious repetition
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:reprogramaci%C3%B3n%20del%20subconsciente,context:persistencia%20y%20repetici%C3%B3n%20consciente
+texto=Night after night you should assume the feeling of being, having and witnessing that which you seek to be, possess and see manifested.
+relacionadas=
+
+id=nev_399
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Mind-body unity,Emotion or feeling as the activating force
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:unidad%20mente-cuerpo,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Never go to sleep feeling discouraged or dissatisfied. Never sleep with the awareness of insufficiency. Your subconscious sees you as you believe you are, and whether good, bad or indifferent, it will faithfully express your belief.
+relacionadas=
+
+id=nev_400
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Emotion or feeling as the activating force,Reprogramming the subconscious
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=Discard appearances and feel things as you want them to be. The feeling activates the creative power of the subconscious
+relacionadas=
+
+id=nev_401
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Breaking mental and emotional habits
+contexto_ids=context:identidad%20y%20auto-concepto,context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales
+texto=You are an eternal dreamer dreaming non-eternal dreams
+relacionadas=
+
+id=nev_402
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force,Imagination and creative visualization
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=Your desires take shape when you assume the feeling of their reality
+relacionadas=
+
+id=nev_403
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=All objective, visible states were first subjective, invisible states, and you made them visible by assuming the feeling of their reality.
+relacionadas=
+
+id=nev_404
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Emotion or feeling as the activating force
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=The creative process is first imagining and then believing and feeling the imagined state
+relacionadas=
+
+id=nev_405
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Mind-body unity
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:unidad%20mente-cuerpo
+texto=The world cannot change until you change your conception of it. “As inside, so outside”
+relacionadas=
+
+id=nev_406
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Reprogramming the subconscious
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=The actions and events of the day are effects, not causes. Free will is just freedom of choice. Choose the idea and feeling you want to express and your creative subconscious will faithfully reproduce it in your world.
+relacionadas=
+
+id=nev_407
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=It is your freedom to choose the type of feeling you want to assume; but the expression of that feeling is the secret of the subconscious
+relacionadas=
+
+id=nev_408
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=The subconscious only receives impressions through man's feelings.
+relacionadas=
+
+id=nev_409
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=Man's actions are determined by his subconscious impressions
+relacionadas=
+
+id=nev_410
+autor=nev
+nota=
+fuente=
+contexto=Breaking mental and emotional habits,Emotion or feeling as the activating force
+contexto_ids=context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Don't waste a moment regretting, because thinking about past mistakes is reinfecting yourself.
+relacionadas=
+
+id=nev_411
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Get out of appearances and assume the feeling that would be yours if you were already what you want to be.
+relacionadas=
+
+id=nev_412
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Feeling a state produces that state
+relacionadas=
+
+id=nev_413
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=Acceptance of the end automatically gives the means for its realization.
+relacionadas=
+
+id=nev_414
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Persistence and conscious repetition
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:persistencia%20y%20repetici%C3%B3n%20consciente
+texto=When you go to sleep, if you do not have a clear and defined feeling, the sum total of the reactions and feelings of the day will take you to sleep. During sleep you will be instructed in a way in which those feelings will be expressed tomorrow.
+relacionadas=
+
+id=nev_415
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Persistence and conscious repetition
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:persistencia%20y%20repetici%C3%B3n%20consciente
+texto=Unless you consciously and purposely define the mental attitude with which you go to sleep, you will unconsciously go to sleep in the mental attitude composed of all the feelings and reactions of the day.
+relacionadas=
+
+id=nev_416
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Each reaction makes a subconscious impression and, unless counteracted by an opposite and more dominant feeling, is the cause of future action.
+relacionadas=
+
+id=nev_417
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Consciousness / mind as the primary cause
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria
+texto=Ideas wrapped in feelings are creative actions. Use your divine right wisely
+relacionadas=
+
+id=nev_418
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Through your ability to think and feel you have dominion over all creation.
+relacionadas=
+
+id=nev_419
+autor=nev
+nota=
+fuente=
+contexto=Mind-body unity,Emotion or feeling as the activating force
+contexto_ids=context:unidad%20mente-cuerpo,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Falling asleep feeling satisfied and happy causes conditions and events to appear in your world confirming these mental attitudes.
+relacionadas=
+
+id=nev_420
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Emotion or feeling as the activating force,Mind-body unity
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:unidad%20mente-cuerpo
+texto=Every feeling is projected as a condition, action or object in space. Therefore, sleep with the feeling of a desire fulfilled. “As it is in consciousness, so it is on earth.”
+relacionadas=
+
+id=nev_421
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Reprogramming the subconscious,Emotion or feeling as the activating force
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:reprogramaci%C3%B3n%20del%20subconsciente,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Prayer is not about asking but about preparing to receive. It is placing yourself in a state of receptivity assuming the feeling of a fulfilled desire.
+relacionadas=
+
+id=nev_422
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender,Emotion or feeling as the activating force
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=“Whatever you desire, when you ask believing that you have received it, you will have it.”
+relacionadas=
+
+id=nev_423
+autor=nev
+nota=
+fuente=
+contexto=Reprogramming the subconscious,Imagination and creative visualization,Trust; faith and surrender
+contexto_ids=context:reprogramaci%C3%B3n%20del%20subconsciente,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=The moment you accept the desire as a fact realized, the subconscious finds the means for its realization.
+relacionadas=
+
+id=nev_424
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Trust; faith and surrender,Imagination and creative visualization
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:confianza%3B%20fe%20y%20rendici%C3%B3n,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=To pray effectively you must give in to the desire, that is, feel the desire fulfilled.
+relacionadas=
+
+id=nev_425
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Reprogramming the subconscious
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:reprogramaci%C3%B3n%20del%20subconsciente
+texto=Feelings are the causes of actions and circumstances in life
+relacionadas=
+
+id=nev_426
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Emotion or feeling as the activating force
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Prayer is the art of assuming the feeling of being and having what you want.
+relacionadas=
+
+id=nev_427
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=When your feeling is in conflict with your desire, feeling will win.
+relacionadas=
+
+id=nev_428
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Emotion or feeling as the activating force
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=In a relaxed state, the mind moves away from the objective world and easily feels the reality of the subjective state.
+relacionadas=
+
+id=nev_429
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,The present as the point of creation
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:el%20presente%20como%20punto%20de%20creaci%C3%B3n
+texto=To achieve manifestation, all that is necessary is to achieve a passive state, similar to the feeling before the dream, and feel the desire fulfilled.
+relacionadas=
+
+id=nev_430
+autor=nev
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Imagination and creative visualization,Emotion or feeling as the activating force
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=Everything you could ever need or want is already yours. You don't need an assistant to give it to you. Declare your desires a reality by imagining them and feeling them as already fulfilled
+relacionadas=
+
+id=nev_431
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=When the end is accepted, you become totally indifferent to possible failure, because acceptance of the end provides the means to achieve it.
+relacionadas=
+
+id=nev_432
+autor=nev
+nota=
+fuente=
+contexto=Trust; faith and surrender,Emotion or feeling as the activating force
+contexto_ids=context:confianza%3B%20fe%20y%20rendici%C3%B3n,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto="Not by will, nor by power, but by my Spirit, says the Lord of hosts." By capturing the feeling of the state you seek, you relieve yourself of all effort to make it a reality, since it already is.
+relacionadas=
+
+id=nev_433
+autor=nev
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Trust; faith and surrender
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:confianza%3B%20fe%20y%20rendici%C3%B3n
+texto=Faith is feeling. "According to your faith, be it done to you"
+relacionadas=
+
+id=nev_434
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=You never attract what you want, but you always attract what you are.
+relacionadas=
+
+id=nev_435
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept,Emotion or feeling as the activating force
+contexto_ids=context:identidad%20y%20auto-concepto,context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora
+texto=What you feel you are, that you are; and you are given what you are
+relacionadas=
+
+id=nev_436
+autor=nev
+nota=
+fuente=
+contexto=Imagination and creative visualization,Identity and self-concept
+contexto_ids=context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa,context:identidad%20y%20auto-concepto
+texto=Get away from appearances and assume the feeling you would have if you were already who you want to be.
+relacionadas=
+
+id=nev_437
+autor=nev
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=To reach a higher level of being, you must assume a higher concept of yourself.
+relacionadas=
+
+id=nev_438
+autor=nev
+nota=
+fuente=
+contexto=Persistence and conscious repetition,Identity and self-concept,Imagination and creative visualization
+contexto_ids=context:persistencia%20y%20repetici%C3%B3n%20consciente,context:identidad%20y%20auto-concepto,context:imaginaci%C3%B3n%20y%20visualizaci%C3%B3n%20creativa
+texto=Proclaim that you are what you want to be. Persist in that assumption. Continue to assume that role until what you have assumed is reflected in your world.
+relacionadas=
+
+id=nev_439
+autor=nev
+nota=
+fuente=
+contexto=Breaking mental and emotional habits
+contexto_ids=context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales
+texto=Only when one is willing to give up one's current limitations and identity can one become what one desires to be.
+relacionadas=

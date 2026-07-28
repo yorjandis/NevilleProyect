@@ -1,0 +1,1765 @@
+{
+  "schemaVersion": 2,
+  "contentVersion": "1.3.0",
+  "reviewedAt": "2026-07-13",
+  "disclaimer": "Contenido educativo de bienestar y autorregulación. No diagnostica ni sustituye la atención de profesionales sanitarios.",
+  "situations": [
+    {
+      "id": "sensacion-panico",
+      "title": "Siento que estoy entrando en pánico",
+      "subtitle": "Palpitaciones, respiración rápida, mareo o sensación de perder el control",
+      "symbol": "waveform.path.ecg",
+      "palette": "ocean",
+      "immediateExplanation": "El sistema de alarma del cuerpo puede haberse activado con mucha intensidad. Las sensaciones son reales, aunque por sí solas no permiten saber si se trata de pánico o de otro problema.",
+      "biologicalExplanation": "Tu cuerpo no está inventando estas sensaciones: está activando con mucha fuerza un sistema de protección. Cuando las redes cerebrales de alarma interpretan que hay peligro, el sistema nervioso simpático prepara músculos, corazón y pulmones para defenderte o escapar. Mensajeros como la adrenalina y la noradrenalina ayudan a que el corazón lata más rápido, aumentan la vigilancia y tensan el cuerpo. Es una respuesta útil ante una amenaza real, pero puede sentirse aterradora cuando se activa sin un peligro claro.\n\nSi empiezas a respirar muy rápido, eliminas más dióxido de carbono del habitual. Ese cambio puede contribuir al mareo, hormigueo, opresión o sensación de irrealidad; las sensaciones alimentan el miedo y el miedo acelera todavía más la respiración. Lo que piensas que está ocurriendo también influye en cómo el cerebro interpreta cada señal corporal, aunque eso no convierte los síntomas en imaginarios.\n\nOrientarte hacia datos seguros del presente y dejar que la exhalación sea suave aporta información nueva: «ahora mismo puedo detenerme y observar». Con práctica, el cerebro puede aprender que estas sensaciones intensas no siempre anuncian una catástrofe. Si son nuevas, diferentes o muy intensas, primero hay que descartar una causa médica.",
+      "reassurance": "No necesitas luchar contra cada sensación. Comprueba primero que estás a salvo y deja que el cuerpo reduzca la activación gradualmente.",
+      "searchTerms": ["ansiedad", "ataque", "ahogo", "palpitaciones", "mareo", "miedo", "crisis"],
+      "redFlags": [
+        "Es la primera vez que tienes dolor torácico intenso o síntomas que no reconoces.",
+        "Los síntomas comenzaron durante un esfuerzo físico o junto con una reacción alérgica."
+      ],
+      "whenToSeekHelp": [
+        "Si los episodios se repiten, condicionan tu vida o empiezas a evitar lugares por miedo.",
+        "Si no puedes distinguir estas sensaciones de un problema médico.",
+        "Si una técnica de respiración aumenta el mareo o la sensación de ahogo."
+      ],
+      "protocols": [
+        {
+          "id": "panico-exhalacion-suave",
+          "title": "Exhalación suave",
+          "summary": "Reduce el ritmo sin llenar los pulmones a la fuerza ni retener el aire.",
+          "symbol": "wind",
+          "kind": "breathing",
+          "evidence": "promising",
+          "caution": "No fuerces inspiraciones profundas. Si aparece más mareo, vuelve a respirar con normalidad y elige el anclaje sensorial.",
+          "steps": [
+            {"id":"pes-1","title":"Apóyate","instruction":"Siéntate o apóyate en una superficie estable. Afloja cualquier prenda que te oprima.","durationSeconds":8,"phase":"prepare","accessibilityCue":"Busca una posición estable."},
+            {"id":"pes-2","title":"Inhala suave","instruction":"Deja entrar el aire por la nariz, sin intentar llenar del todo los pulmones.","durationSeconds":4,"phase":"inhale","accessibilityCue":"Inhala suavemente."},
+            {"id":"pes-3","title":"Exhala lento","instruction":"Suelta el aire sin empujar, como si empañaras un cristal suavemente.","durationSeconds":6,"phase":"exhale","accessibilityCue":"Exhala lentamente."},
+            {"id":"pes-4","title":"Inhala suave","instruction":"Mantén los hombros sueltos y deja entrar el aire.","durationSeconds":4,"phase":"inhale","accessibilityCue":"Inhala suavemente."},
+            {"id":"pes-5","title":"Exhala lento","instruction":"Haz la salida un poco más larga, siempre cómoda.","durationSeconds":6,"phase":"exhale","accessibilityCue":"Exhala lentamente."},
+            {"id":"pes-6","title":"Inhala suave","instruction":"Observa el aire sin perseguir una respiración perfecta.","durationSeconds":4,"phase":"inhale","accessibilityCue":"Inhala suavemente."},
+            {"id":"pes-7","title":"Exhala lento","instruction":"Suelta el aire y permite que el abdomen se ablande.","durationSeconds":6,"phase":"exhale","accessibilityCue":"Exhala lentamente."},
+            {"id":"pes-8","title":"Vuelve al entorno","instruction":"Respira con normalidad y nombra mentalmente el lugar en el que estás.","durationSeconds":10,"phase":"finish","accessibilityCue":"Vuelve a respirar con normalidad."}
+          ]
+        },
+        {
+          "id": "panico-anclaje-sensorial",
+          "title": "Anclaje 5 · 4 · 3 · 2 · 1",
+          "summary": "Lleva la atención desde las sensaciones internas hacia información concreta del presente.",
+          "symbol": "hand.point.up.left.fill",
+          "kind": "grounding",
+          "evidence": "supported",
+          "caution": null,
+          "steps": [
+            {"id":"pas-1","title":"Mira alrededor","instruction":"Localiza cinco cosas que puedas ver. Descríbelas por su color o forma.","durationSeconds":25,"phase":"orient","accessibilityCue":"Localiza cinco cosas a tu alrededor."},
+            {"id":"pas-2","title":"Nota el contacto","instruction":"Reconoce cuatro sensaciones de tacto: pies, ropa, asiento o temperatura.","durationSeconds":20,"phase":"observe","accessibilityCue":"Reconoce cuatro sensaciones de tacto."},
+            {"id":"pas-3","title":"Escucha","instruction":"Distingue tres sonidos, cercanos o lejanos, sin juzgarlos.","durationSeconds":18,"phase":"orient","accessibilityCue":"Distingue tres sonidos."},
+            {"id":"pas-4","title":"Olor y sabor","instruction":"Identifica dos olores y una sensación de sabor. Si no aparecen, imagina dos olores familiares.","durationSeconds":18,"phase":"observe","accessibilityCue":"Identifica olores y una sensación de sabor."},
+            {"id":"pas-5","title":"Frase de orientación","instruction":"Di: estoy aquí, ahora mismo; puedo ocuparme solo del siguiente minuto.","durationSeconds":12,"phase":"finish","accessibilityCue":"Repite la frase de orientación."}
+          ]
+        },
+        {
+          "id": "panico-presion-alternada",
+          "title": "Golpeteo bilateral suave",
+          "summary": "Un ritmo táctil alterno para dar a la atención una referencia corporal estable.",
+          "symbol": "hands.and.sparkles.fill",
+          "kind": "grounding",
+          "evidence": "complementary",
+          "caution": "Usa una presión cómoda y omite cualquier zona dolorida o lesionada.",
+          "steps": [
+            {
+              "id": "ppa-1",
+              "title": "Cruza los brazos",
+              "instruction": "Apoya cada mano sobre el brazo contrario, entre el hombro y el codo, sin apretar.",
+              "durationSeconds": 12,
+              "phase": "prepare",
+              "accessibilityCue": "Cruza los brazos de forma cómoda."
+            },
+            {
+              "id": "ppa-2",
+              "title": "Alterna",
+              "instruction": "Da un toque suave con una mano y después con la otra, a un ritmo lento y predecible.",
+              "durationSeconds": 30,
+              "phase": "press",
+              "accessibilityCue": "Alterna toques suaves."
+            },
+            {
+              "id": "ppa-3",
+              "title": "Mira y nombra",
+              "instruction": "Mantén el ritmo mientras nombras tres objetos y el lugar en el que estás.",
+              "durationSeconds": 24,
+              "phase": "orient",
+              "accessibilityCue": "Nombra tres objetos del entorno."
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "panico-tip-frio",
+          "title": "Toca una superficie fresca",
+          "detail": "Una botella o una pieza de metal fresca, no helada, puede darte una señal sensorial concreta."
+        },
+        {
+          "id": "panico-tip-sabor",
+          "title": "Usa un sabor conocido",
+          "detail": "Un chicle o caramelo de menta puede llevar la atención al presente; evítalo si te cuesta tragar."
+        },
+        {
+          "id": "panico-tip-tarjeta",
+          "title": "Prepara una nota breve",
+          "detail": "Guarda una frase visible: «Compruebo seguridad, reduzco el ritmo y pido ayuda si algo cambia»."
+        }
+      ],
+      "sources": [
+        {"id":"nhs-panic","title":"Panic disorder: what to do during a panic attack","organization":"NHS","url":"https://www.nhs.uk/mental-health/conditions/panic-disorder/","note":"Orientación sanitaria sobre síntomas, autocuidado y búsqueda de ayuda."},
+        {"id":"breathwork-meta","title":"Effect of breathwork on stress and mental health","organization":"Scientific Reports / PubMed","url":"https://pubmed.ncbi.nlm.nih.gov/36624160/","note":"Metaanálisis de ensayos aleatorizados; resultados prometedores con cautela por calidad y heterogeneidad."}
+      ]
+    },
+    {
+      "id": "estres-laboral-agudo",
+      "title": "Estoy desbordado por el trabajo",
+      "subtitle": "Presión, bloqueo, demasiadas tareas o dificultad para pensar con claridad",
+      "symbol": "briefcase.fill",
+      "palette": "amber",
+      "immediateExplanation": "Bajo presión, la atención puede estrecharse y todo parece igual de urgente. La primera meta no es resolverlo todo, sino recuperar suficiente claridad para elegir una sola acción.",
+      "biologicalExplanation": "Cuando percibes demasiadas demandas y pocos recursos para responder, tu cerebro aumenta la prioridad de todo lo relacionado con plazos, errores y evaluación. Algunas amenazas laborales son sociales o anticipadas, pero aun así pueden activar sistemas corporales de estrés. El sistema simpático moviliza energía con rapidez y el eje hormonal del estrés puede sostener la respuesta durante más tiempo. Por eso puedes notar mandíbula y hombros tensos, respiración más alta, irritabilidad o la sensación de tener que hacerlo todo ya.\n\nEn ese estado, la atención se estrecha y la memoria de trabajo dispone de menos espacio. No es que hayas perdido capacidad: una parte de tus recursos está ocupada vigilando problemas, recordando pendientes y prediciendo consecuencias. Si este patrón se repite, el cuerpo puede empezar a anticipar activación ante señales como una notificación, un correo o el inicio de la jornada.\n\nUna pausa física y una sola prioridad no hacen desaparecer la carga real, pero reducen las señales simultáneas que tu cerebro debe procesar. Repetir límites, descansos y acciones concretas puede crear un patrón aprendido más flexible: detectar la exigencia, regularte y después responder, en lugar de permanecer continuamente en modo de urgencia.",
+      "reassurance": "Estar saturado no significa ser incapaz. Tu cerebro puede necesitar menos entradas y una prioridad concreta, no más presión.",
+      "searchTerms": ["trabajo", "estrés", "estres", "jefe", "tareas", "bloqueo", "productividad", "presión"],
+      "redFlags": [
+        "Estás conduciendo, usando maquinaria o realizando una tarea en la que perder la atención puede ser peligroso."
+      ],
+      "whenToSeekHelp": [
+        "Si el estrés persiste durante semanas, altera el sueño o provoca síntomas físicos frecuentes.",
+        "Si existe acoso, violencia, amenazas o un entorno laboral inseguro.",
+        "Si necesitas sustancias o conductas dañinas para poder continuar."
+      ],
+      "protocols": [
+        {
+          "id": "trabajo-pausa-tres",
+          "title": "Pausa 3 × 3",
+          "summary": "Tres minutos conceptuales: cuerpo, entorno y siguiente acción, condensados en una guía breve.",
+          "symbol": "pause.circle.fill",
+          "kind": "reflection",
+          "evidence": "supported",
+          "caution": null,
+          "steps": [
+            {"id":"tpt-1","title":"Cierra entradas","instruction":"Silencia notificaciones y aparta durante un momento lo que no sea imprescindible.","durationSeconds":15,"phase":"prepare","accessibilityCue":"Reduce las entradas durante un momento."},
+            {"id":"tpt-2","title":"Suelta tensión","instruction":"Baja los hombros, separa los dientes y apoya ambos pies.","durationSeconds":15,"phase":"move","accessibilityCue":"Suelta hombros y mandíbula."},
+            {"id":"tpt-3","title":"Mira el conjunto","instruction":"Nombra tres tareas pendientes sin intentar resolverlas todavía.","durationSeconds":20,"phase":"observe","accessibilityCue":"Nombra tres tareas pendientes."},
+            {"id":"tpt-4","title":"Elige una","instruction":"Escoge la acción más pequeña que reduzca riesgo o desbloquee a otras personas.","durationSeconds":25,"phase":"reflect","accessibilityCue":"Escoge una única acción pequeña."},
+            {"id":"tpt-5","title":"Define un límite","instruction":"Trabaja solo diez minutos en esa acción. El resto puede esperar hasta la siguiente decisión.","durationSeconds":15,"phase":"finish","accessibilityCue":"Define un bloque de diez minutos."}
+          ]
+        },
+        {
+          "id": "trabajo-descarga-muscular",
+          "title": "Descarga de tensión",
+          "summary": "Movimiento discreto para manos, hombros y mandíbula; puede hacerse sentado.",
+          "symbol": "figure.mind.and.body",
+          "kind": "muscleRelease",
+          "evidence": "supported",
+          "caution": "No contraigas una zona lesionada o dolorida.",
+          "steps": [
+            {"id":"tdm-1","title":"Manos","instruction":"Aprieta las manos con intensidad moderada y después ábrelas completamente.","durationSeconds":12,"phase":"move","accessibilityCue":"Aprieta y suelta las manos."},
+            {"id":"tdm-2","title":"Hombros","instruction":"Eleva los hombros hacia las orejas y déjalos caer al soltar el aire.","durationSeconds":12,"phase":"move","accessibilityCue":"Eleva y suelta los hombros."},
+            {"id":"tdm-3","title":"Mandíbula","instruction":"Separa ligeramente los molares y deja la lengua descansar.","durationSeconds":12,"phase":"observe","accessibilityCue":"Afloja la mandíbula."},
+            {"id":"tdm-4","title":"Vista","instruction":"Mira un punto lejano o el extremo más distante de la habitación.","durationSeconds":15,"phase":"orient","accessibilityCue":"Mira un punto lejano."},
+            {"id":"tdm-5","title":"Regresa","instruction":"Vuelve a la tarea elegida, manteniendo solo una ventana o documento principal.","durationSeconds":12,"phase":"finish","accessibilityCue":"Regresa a una sola tarea."}
+          ]
+        },
+        {
+          "id": "trabajo-reinicio-postural",
+          "title": "Reinicio postural suave",
+          "summary": "Movilidad pequeña para cuello, escápulas y mirada, sin crujidos ni manipulaciones.",
+          "symbol": "figure.stand",
+          "kind": "movement",
+          "evidence": "promising",
+          "caution": "No gires ni fuerces el cuello. Omite el movimiento si tienes lesión, dolor, hormigueo o vértigo.",
+          "steps": [
+            {
+              "id": "trp-1",
+              "title": "Busca apoyo",
+              "instruction": "Apoya ambos pies y deja que el respaldo sostenga parte de tu peso.",
+              "durationSeconds": 12,
+              "phase": "prepare",
+              "accessibilityCue": "Apoya los pies y la espalda."
+            },
+            {
+              "id": "trp-2",
+              "title": "Alarga sin forzar",
+              "instruction": "Imagina que la coronilla sube y lleva la barbilla apenas hacia atrás, sin mirar abajo.",
+              "durationSeconds": 12,
+              "phase": "move",
+              "accessibilityCue": "Alarga suavemente la nuca."
+            },
+            {
+              "id": "trp-3",
+              "title": "Escápulas y mirada",
+              "instruction": "Acerca y suelta los omóplatos; después mira un punto lejano y amplía la visión periférica.",
+              "durationSeconds": 30,
+              "phase": "move",
+              "accessibilityCue": "Mueve los omóplatos y mira lejos."
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "trabajo-tip-una-ventana",
+          "title": "Deja una sola ventana visible",
+          "detail": "Oculta diez minutos el correo, el chat y las pestañas ajenas a la siguiente acción."
+        },
+        {
+          "id": "trabajo-tip-aparcamiento",
+          "title": "Crea un aparcamiento en papel",
+          "detail": "Escribe cada pendiente intrusivo en una línea para no tener que recordarlo continuamente."
+        },
+        {
+          "id": "trabajo-tip-distancia",
+          "title": "Mira lejos brevemente",
+          "detail": "Cambia la mirada de la pantalla a un punto lejano y parpadea conscientemente varias veces."
+        }
+      ],
+      "sources": [
+        {"id":"who-stress","title":"Stress: questions and answers","organization":"Organización Mundial de la Salud","url":"https://www.who.int/news-room/questions-and-answers/item/stress","note":"Recomendaciones generales para manejar el estrés y buscar apoyo cuando cuesta afrontarlo."},
+        {"id":"who-matters","title":"Doing What Matters in Times of Stress","organization":"Organización Mundial de la Salud","url":"https://www.who.int/publications/i/item/9789240003927","note":"Guía práctica basada en evidencia y probada en distintos contextos."}
+      ]
+    },
+    {
+      "id": "desborde-emocional",
+      "title": "Tengo una emoción demasiado intensa",
+      "subtitle": "Tristeza, angustia o sobrecarga que ocupa toda la atención",
+      "symbol": "water.waves",
+      "palette": "violet",
+      "immediateExplanation": "Una emoción intensa puede ocupar gran parte de la atención y hacer difícil pensar con amplitud. Darle espacio no significa obedecerla ni resignarse a sentirla para siempre.",
+      "biologicalExplanation": "Una emoción intensa no vive solo «en la cabeza». Es un patrón coordinado entre cerebro y cuerpo que organiza la atención, recupera recuerdos relacionados, cambia sensaciones internas y te prepara para actuar. El pecho cerrado, el calor, el nudo del estómago o las ganas de llorar son parte de esa respuesta. Tu cerebro recibe esas señales corporales y las interpreta usando el contexto, tus experiencias previas y lo que esperas que vaya a ocurrir.\n\nCuando la activación sube mucho, la mente pierde amplitud temporalmente: cuesta mantener varias ideas, considerar matices o imaginar alternativas. La emoción parece ocupar toda la realidad porque los estímulos relacionados con ella reciben prioridad. Eso no significa que la emoción sea equivocada ni que debas obedecer cada impulso que trae.\n\nNombrar lo que notas y anclar una parte de la atención en el presente añade una pequeña distancia entre sentir y actuar. Al repetir esta secuencia, practicas una habilidad de regulación: el cuerpo puede estar activado y, al mismo tiempo, tú puedes elegir una conducta segura. La neuroplasticidad es gradual; no borra emociones, pero permite aprender maneras nuevas de relacionarte con ellas.",
+      "reassurance": "La emoción es una experiencia que está ocurriendo; no es toda tu identidad ni una orden que debas seguir.",
+      "searchTerms": ["emoción", "llorar", "tristeza", "angustia", "desbordado", "saturado", "soledad"],
+      "redFlags": [
+        "La emoción viene acompañada de deseo de desaparecer, hacerte daño o dejar de estar a salvo."
+      ],
+      "whenToSeekHelp": [
+        "Si la intensidad se mantiene durante días o interfiere de forma importante en tu vida.",
+        "Si aparecen pensamientos de autolesión, desesperanza intensa o aislamiento creciente.",
+        "Si la emoción está relacionada con violencia, abuso o una pérdida traumática."
+      ],
+      "protocols": [
+        {
+          "id": "emocion-anclaje-corporal",
+          "title": "Anclaje corporal",
+          "summary": "Usa presión segura y orientación para recuperar sensación de apoyo físico.",
+          "symbol": "figure.stand",
+          "kind": "grounding",
+          "evidence": "supported",
+          "caution": null,
+          "steps": [
+            {"id":"eac-1","title":"Pies","instruction":"Presiona ambos pies contra el suelo y nota dónde aparece la fuerza.","durationSeconds":15,"phase":"press","accessibilityCue":"Presiona los pies contra el suelo."},
+            {"id":"eac-2","title":"Manos","instruction":"Junta las palmas o sujeta suavemente tus antebrazos.","durationSeconds":15,"phase":"press","accessibilityCue":"Junta las palmas o sujeta tus antebrazos."},
+            {"id":"eac-3","title":"Nombra","instruction":"Completa la frase: ahora mismo noto… Usa una palabra sencilla, sin explicar por qué.","durationSeconds":20,"phase":"reflect","accessibilityCue":"Pon un nombre sencillo a lo que notas."},
+            {"id":"eac-4","title":"Haz espacio","instruction":"Localiza la emoción en el cuerpo y observa también una zona que se sienta neutral.","durationSeconds":25,"phase":"observe","accessibilityCue":"Observa una zona intensa y otra neutral."},
+            {"id":"eac-5","title":"Siguiente cuidado","instruction":"Elige agua, aire fresco, sentarte o contactar con alguien. Solo una opción.","durationSeconds":15,"phase":"finish","accessibilityCue":"Elige un siguiente gesto de cuidado."}
+          ]
+        },
+        {
+          "id": "emocion-zumbido-suave",
+          "title": "Sonido en la exhalación",
+          "summary": "Una vocalización cómoda que alarga la salida del aire sin afirmar efectos médicos específicos.",
+          "symbol": "waveform",
+          "kind": "vocalization",
+          "evidence": "experimental",
+          "caution": "Hazlo con volumen cómodo. Detente si genera mareo, dolor, falta de aire o incomodidad.",
+          "steps": [
+            {"id":"ezs-1","title":"Prepara la voz","instruction":"Afloja mandíbula y garganta. No necesitas producir un tono concreto.","durationSeconds":10,"phase":"prepare","accessibilityCue":"Afloja mandíbula y garganta."},
+            {"id":"ezs-2","title":"Inhala cómodo","instruction":"Deja entrar el aire sin elevar los hombros.","durationSeconds":4,"phase":"inhale","accessibilityCue":"Inhala cómodamente."},
+            {"id":"ezs-3","title":"Vocaliza","instruction":"Suelta el aire con un zumbido suave: mmm. Nota la vibración sin forzarla.","durationSeconds":7,"phase":"sound","accessibilityCue":"Exhala con un zumbido suave."},
+            {"id":"ezs-4","title":"Inhala cómodo","instruction":"Deja entrar de nuevo una cantidad de aire natural.","durationSeconds":4,"phase":"inhale","accessibilityCue":"Inhala cómodamente."},
+            {"id":"ezs-5","title":"Vocaliza","instruction":"Repite el sonido con el tono que resulte más fácil.","durationSeconds":7,"phase":"sound","accessibilityCue":"Exhala con un zumbido suave."},
+            {"id":"ezs-6","title":"Silencio","instruction":"Respira con normalidad y observa si ha cambiado alguna sensación.","durationSeconds":15,"phase":"finish","accessibilityCue":"Respira con normalidad y observa."}
+          ]
+        },
+        {
+          "id": "emocion-autoabrazo-alterno",
+          "title": "Autoabrazo alterno",
+          "summary": "Contención física opcional con presión cómoda y pequeños toques alternos.",
+          "symbol": "heart.circle.fill",
+          "kind": "grounding",
+          "evidence": "complementary",
+          "caution": "No lo uses si el contacto resulta activador; puedes apoyar las manos sobre una mesa.",
+          "steps": [
+            {
+              "id": "eaa-1",
+              "title": "Elige el contacto",
+              "instruction": "Cruza los brazos sobre el pecho o apoya una mano en cada antebrazo de la manera menos intensa.",
+              "durationSeconds": 12,
+              "phase": "prepare",
+              "accessibilityCue": "Elige un contacto cómodo."
+            },
+            {
+              "id": "eaa-2",
+              "title": "Alterna despacio",
+              "instruction": "Haz dos o tres toques suaves a un lado y después al otro, sin intentar eliminar la emoción.",
+              "durationSeconds": 30,
+              "phase": "press",
+              "accessibilityCue": "Alterna toques lentos."
+            },
+            {
+              "id": "eaa-3",
+              "title": "Pon un nombre",
+              "instruction": "Di: «Ahora hay una emoción intensa y puedo ocuparme del siguiente minuto».",
+              "durationSeconds": 15,
+              "phase": "finish",
+              "accessibilityCue": "Nombra la emoción sin juzgarte."
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "emocion-tip-menos-palabras",
+          "title": "Usa menos palabras",
+          "detail": "Reduce la explicación a tres datos: emoción, necesidad y siguiente acción segura."
+        },
+        {
+          "id": "emocion-tip-cambio-espacio",
+          "title": "Cambia de espacio",
+          "detail": "Pasar a otra habitación o pasillo puede interrumpir por un momento las asociaciones del lugar."
+        },
+        {
+          "id": "emocion-tip-agua",
+          "title": "Bebe agua lentamente",
+          "detail": "Haz tres sorbos pequeños atendiendo a temperatura, recorrido y pausa."
+        }
+      ],
+      "sources": [
+        {"id":"who-matters","title":"Doing What Matters in Times of Stress","organization":"Organización Mundial de la Salud","url":"https://www.who.int/publications/i/item/9789240003927","note":"Incluye grounding, hacer espacio a emociones y actuar según valores."},
+        {"id":"who-grounding","title":"Mental health support: dealing with stress","organization":"Organización Mundial de la Salud","url":"https://www.emro.who.int/mhps/dealing_with_stress.html","note":"Ejercicios breves de grounding y orientación corporal."}
+      ]
+    },
+    {
+      "id": "miedo-inmediato",
+      "title": "Tengo miedo y no sé qué hacer",
+      "subtitle": "Amenaza anticipada, inseguridad o necesidad de recuperar estabilidad",
+      "symbol": "shield.lefthalf.filled",
+      "palette": "forest",
+      "immediateExplanation": "El miedo prepara al organismo para protegerte. Antes de intentar convencerte de que todo está bien, conviene distinguir si existe un peligro real y qué parte pertenece a una predicción.",
+      "biologicalExplanation": "Tu sistema de protección está diseñado para reaccionar deprisa. Las redes que detectan amenaza prefieren una falsa alarma a ignorar un peligro real, de modo que pueden activar el cuerpo antes de que hayas analizado toda la situación. El sistema simpático acelera corazón y respiración, dirige la atención hacia posibles riesgos y prepara la lucha o la huida; otras respuestas protectoras pueden dejarte inmóvil o bloqueado.\n\nEl miedo también utiliza memoria y predicción. Si algo se parece a una experiencia difícil, el cerebro puede completar lo que falta con el desenlace que teme. Tus expectativas influyen en qué señales ves y en cómo interpretas las sensaciones del cuerpo, pero no determinan mágicamente la realidad. Por eso conviene separar «lo que está ocurriendo» de «lo que mi mente anticipa».\n\nMirar alrededor, comprobar seguridad y formular un plan concreto ofrece datos actuales al sistema nervioso. Cuando atraviesas de forma segura una situación manejable, el cerebro puede actualizar su predicción y aprender que existe más de una respuesta posible. Ese aprendizaje necesita repetición y debe hacerse gradualmente; si hay peligro real, protegerte y pedir ayuda sigue siendo la prioridad.",
+      "reassurance": "Puedes respetar la señal de miedo sin dejar que decida por completo el siguiente paso.",
+      "searchTerms": ["miedo", "temor", "inseguridad", "amenaza", "preocupación", "evitar"],
+      "redFlags": [
+        "Hay una persona violenta, una amenaza real o un lugar físicamente inseguro. En ese caso prioriza alejarte y pedir ayuda."
+      ],
+      "whenToSeekHelp": [
+        "Si el miedo está relacionado con violencia, control o amenazas de otra persona.",
+        "Si evitas cada vez más actividades o lugares importantes.",
+        "Si el miedo aparece sin causa clara de manera frecuente e intensa."
+      ],
+      "protocols": [
+        {
+          "id": "miedo-orientacion-plan",
+          "title": "Orientación y plan",
+          "summary": "Distingue hechos presentes de predicciones y decide una medida de seguridad proporcionada.",
+          "symbol": "map.fill",
+          "kind": "reflection",
+          "evidence": "supported",
+          "caution": "Si existe peligro real, no permanezcas haciendo el ejercicio: aléjate y contacta con emergencias o una persona segura.",
+          "steps": [
+            {"id":"mop-1","title":"Comprueba el presente","instruction":"Mira alrededor y pregunta: ¿hay peligro físico inmediato ahora mismo?","durationSeconds":15,"phase":"orient","accessibilityCue":"Comprueba si hay peligro físico inmediato."},
+            {"id":"mop-2","title":"Separa","instruction":"Nombra un hecho comprobable y una predicción que tu mente está haciendo.","durationSeconds":25,"phase":"reflect","accessibilityCue":"Separa un hecho de una predicción."},
+            {"id":"mop-3","title":"Protección proporcionada","instruction":"Elige una medida pequeña: obtener información, acercarte a alguien o preparar una salida.","durationSeconds":20,"phase":"reflect","accessibilityCue":"Elige una medida de protección proporcionada."},
+            {"id":"mop-4","title":"Recupera el cuerpo","instruction":"Apoya los pies, suelta los hombros y mira tres objetos estables.","durationSeconds":15,"phase":"orient","accessibilityCue":"Apoya los pies y mira tres objetos."},
+            {"id":"mop-5","title":"Actúa","instruction":"Realiza solo la medida elegida. Evalúa de nuevo después.","durationSeconds":10,"phase":"finish","accessibilityCue":"Realiza solo la medida elegida."}
+          ]
+        },
+        {
+          "id": "miedo-acupresion-suave",
+          "title": "Acupresión suave",
+          "summary": "Estimulación opcional del punto entre las cejas como gesto de atención corporal.",
+          "symbol": "hand.tap.fill",
+          "kind": "acupressure",
+          "evidence": "complementary",
+          "caution": "La evidencia es heterogénea y procede sobre todo de contextos clínicos concretos. No presiones piel lesionada, inflamada o dolorosa.",
+          "steps": [
+            {"id":"mas-1","title":"Localiza","instruction":"Coloca un dedo en el punto medio entre las cejas, sin acercarte a los ojos.","durationSeconds":10,"phase":"prepare","accessibilityCue":"Localiza suavemente el punto entre las cejas."},
+            {"id":"mas-2","title":"Presiona suave","instruction":"Aplica una presión cómoda y estable. No debe doler.","durationSeconds":25,"phase":"press","accessibilityCue":"Mantén una presión cómoda."},
+            {"id":"mas-3","title":"Suelta","instruction":"Retira el dedo despacio y observa la frente, la mandíbula y los hombros.","durationSeconds":15,"phase":"observe","accessibilityCue":"Suelta y observa la cara y los hombros."},
+            {"id":"mas-4","title":"Orienta","instruction":"Mira alrededor y decide si necesitas una acción de seguridad real o puedes continuar.","durationSeconds":20,"phase":"finish","accessibilityCue":"Orienta la vista y decide el siguiente paso."}
+          ]
+        },
+        {
+          "id": "miedo-empuje-estable",
+          "title": "Empuje contra una pared",
+          "summary": "Descarga parte de la preparación para actuar mediante una presión isométrica controlada.",
+          "symbol": "figure.strengthtraining.traditional",
+          "kind": "muscleRelease",
+          "evidence": "promising",
+          "caution": "No lo hagas en una superficie inestable ni con dolor o lesión en manos, hombros o espalda.",
+          "steps": [
+            {
+              "id": "mee-1",
+              "title": "Comprueba el apoyo",
+              "instruction": "Colócate frente a una pared firme, con los pies separados y sin bloquear las rodillas.",
+              "durationSeconds": 12,
+              "phase": "prepare",
+              "accessibilityCue": "Colócate ante una pared estable."
+            },
+            {
+              "id": "mee-2",
+              "title": "Presiona y suelta",
+              "instruction": "Empuja con intensidad moderada, respira y después reduce la fuerza poco a poco.",
+              "durationSeconds": 24,
+              "phase": "press",
+              "accessibilityCue": "Empuja y suelta gradualmente."
+            },
+            {
+              "id": "mee-3",
+              "title": "Elige seguridad",
+              "instruction": "Mira alrededor y decide una medida proporcionada: alejarte, pedir compañía o continuar.",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "Elige una medida de seguridad."
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "miedo-tip-espalda",
+          "title": "Busca respaldo físico",
+          "detail": "Apoya la espalda en una pared o respaldo firme para tener una referencia clara de límite."
+        },
+        {
+          "id": "miedo-tip-luz",
+          "title": "Aumenta la luz si puedes",
+          "detail": "En un lugar seguro, iluminar el entorno facilita comprobar detalles ocultos por la incertidumbre."
+        },
+        {
+          "id": "miedo-tip-voz",
+          "title": "Pon una voz conocida",
+          "detail": "Llama a alguien o reproduce un audio familiar mientras realizas el siguiente paso seguro."
+        }
+      ],
+      "sources": [
+        {"id":"who-matters","title":"Doing What Matters in Times of Stress","organization":"Organización Mundial de la Salud","url":"https://www.who.int/publications/i/item/9789240003927","note":"Habilidades prácticas para grounding y separación de pensamientos difíciles."},
+        {"id":"acupressure-meta","title":"Effects of Acupressure on Anxiety","organization":"Journal of Integrative and Complementary Medicine / PubMed","url":"https://pubmed.ncbi.nlm.nih.gov/35085025/","note":"Resultados favorables con heterogeneidad alta; las conclusiones requieren cautela."}
+      ]
+    },
+    {
+      "id": "dudas-rumiacion",
+      "title": "No puedo dejar de darle vueltas",
+      "subtitle": "Dudas, anticipación, comprobaciones o pensamientos repetitivos",
+      "symbol": "arrow.triangle.2.circlepath",
+      "palette": "slate",
+      "immediateExplanation": "Pensar más no siempre produce más certeza. Cuando la mente intenta eliminar toda incertidumbre, puede repetir la misma comprobación sin generar información nueva.",
+      "biologicalExplanation": "Tu mente está intentando conseguir certeza y protegerte de un error. Para hacerlo mantiene el problema activo, ensaya escenarios y vuelve a revisar los mismos datos. El inconveniente es que la memoria de trabajo tiene capacidad limitada: cuanto más espacio ocupa la duda, menos queda para observar información nueva, descansar o tomar una decisión sencilla. Por eso pensar durante más tiempo puede producir cansancio sin acercarte a una respuesta.\n\nComprobar, repasar o pedir tranquilidad suele reducir la ansiedad durante unos instantes. Ese alivio funciona como una recompensa y el cerebro aprende: «cuando aparece la duda, debo comprobar otra vez». El ciclo se fortalece aunque la intención sea sentirte seguro. Además, cuanto más buscas una certeza absoluta, más llamativas parecen las pequeñas excepciones.\n\nDecir «estoy teniendo el pensamiento de que…» no intenta volverlo falso; ayuda a reconocerlo como actividad mental, no como una orden. Volver después a una acción observable enseña otra ruta: puedo tolerar una parte de incertidumbre y seguir actuando. La repetición no elimina todas las dudas, pero puede debilitar el hábito de responder siempre con otra comprobación.",
+      "reassurance": "No necesitas resolver toda la incertidumbre para dar un paso razonable.",
+      "searchTerms": ["duda", "rumiar", "pensar", "decisión", "preocupación", "obsesión", "incertidumbre"],
+      "redFlags": [
+        "Los pensamientos te ordenan hacer daño, sientes que pierdes contacto con la realidad o no puedes mantenerte a salvo."
+      ],
+      "whenToSeekHelp": [
+        "Si los pensamientos consumen gran parte del día o generan comprobaciones difíciles de detener.",
+        "Si afectan el sueño, el trabajo o las relaciones de forma persistente.",
+        "Si aparecen experiencias perceptivas extrañas o pérdida de contacto con la realidad."
+      ],
+      "protocols": [
+        {
+          "id": "rumiacion-nombrar-volver",
+          "title": "Nombrar y volver",
+          "summary": "Crea distancia respecto al pensamiento y vuelve a una experiencia presente.",
+          "symbol": "text.bubble.fill",
+          "kind": "reflection",
+          "evidence": "supported",
+          "caution": null,
+          "steps": [
+            {"id":"rnv-1","title":"Detecta el bucle","instruction":"Di: noto que mi mente está intentando conseguir certeza.","durationSeconds":12,"phase":"reflect","accessibilityCue":"Reconoce que tu mente busca certeza."},
+            {"id":"rnv-2","title":"Ponle formato","instruction":"Reformula: estoy teniendo el pensamiento de que… y completa la frase.","durationSeconds":20,"phase":"reflect","accessibilityCue":"Di: estoy teniendo el pensamiento de que."},
+            {"id":"rnv-3","title":"Comprueba novedad","instruction":"Pregunta: ¿tengo información nueva o estoy repitiendo la misma búsqueda?","durationSeconds":18,"phase":"reflect","accessibilityCue":"Comprueba si existe información nueva."},
+            {"id":"rnv-4","title":"Vuelve al presente","instruction":"Nota tres puntos de contacto del cuerpo con el entorno.","durationSeconds":15,"phase":"observe","accessibilityCue":"Nota tres puntos de contacto."},
+            {"id":"rnv-5","title":"Elige una acción","instruction":"Haz durante dos minutos algo verificable y alineado con lo que te importa.","durationSeconds":15,"phase":"finish","accessibilityCue":"Elige una acción verificable de dos minutos."}
+          ]
+        },
+        {
+          "id": "rumiacion-decision-suficiente",
+          "title": "Decisión suficientemente buena",
+          "summary": "Reduce una decisión a criterios observables y un punto de revisión.",
+          "symbol": "checkmark.circle.fill",
+          "kind": "reflection",
+          "evidence": "supported",
+          "caution": "No uses esta guía para decisiones médicas, legales, financieras o de seguridad que requieran asesoramiento especializado.",
+          "steps": [
+            {"id":"rds-1","title":"Define","instruction":"Formula la decisión en una sola frase y elimina detalles secundarios.","durationSeconds":20,"phase":"reflect","accessibilityCue":"Formula la decisión en una frase."},
+            {"id":"rds-2","title":"Dos criterios","instruction":"Elige solo dos criterios importantes para valorar las opciones.","durationSeconds":20,"phase":"reflect","accessibilityCue":"Elige dos criterios importantes."},
+            {"id":"rds-3","title":"Opción reversible","instruction":"Si es posible, elige el paso más pequeño que puedas corregir después.","durationSeconds":20,"phase":"reflect","accessibilityCue":"Busca un paso pequeño y reversible."},
+            {"id":"rds-4","title":"Punto de revisión","instruction":"Decide cuándo revisarás el resultado. Hasta entonces, no reabras la decisión sin información nueva.","durationSeconds":20,"phase":"finish","accessibilityCue":"Fija un momento para revisar el resultado."}
+          ]
+        },
+        {
+          "id": "rumiacion-contenedor-escrito",
+          "title": "Contenedor escrito",
+          "summary": "Saca el bucle de la memoria y asígnale un momento concreto para revisarlo.",
+          "symbol": "note.text",
+          "kind": "reflection",
+          "evidence": "supported",
+          "caution": null,
+          "steps": [
+            {
+              "id": "rce-1",
+              "title": "Escribe el bucle",
+              "instruction": "Resume en una sola frase la pregunta que tu mente repite.",
+              "durationSeconds": 25,
+              "phase": "reflect",
+              "accessibilityCue": "Resume la preocupación en una frase."
+            },
+            {
+              "id": "rce-2",
+              "title": "Separa lo controlable",
+              "instruction": "Anota una acción que dependa de ti o escribe «ahora no hay acción».",
+              "durationSeconds": 25,
+              "phase": "reflect",
+              "accessibilityCue": "Identifica una acción controlable."
+            },
+            {
+              "id": "rce-3",
+              "title": "Pon una cita",
+              "instruction": "Elige una hora breve para revisarlo; hasta entonces, guarda la nota y cambia de tarea.",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "Programa un momento de revisión."
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "rumiacion-tip-voz",
+          "title": "Cambia la voz del pensamiento",
+          "detail": "Repítelo con voz de narrador o cantado; puede ayudarte a verlo como una frase, no como un hecho."
+        },
+        {
+          "id": "rumiacion-tip-manos",
+          "title": "Ocupa las manos",
+          "detail": "Doblar ropa, dibujar líneas o clasificar objetos ofrece una tarea repetitiva y concreta."
+        },
+        {
+          "id": "rumiacion-tip-pregunta",
+          "title": "Pregunta «¿hay algo que hacer hoy?»",
+          "detail": "Si no, anótalo; si sí, reduce la respuesta a una acción de menos de cinco minutos."
+        }
+      ],
+      "sources": [
+        {"id":"who-matters","title":"Doing What Matters in Times of Stress","organization":"Organización Mundial de la Salud","url":"https://www.who.int/publications/i/item/9789240003927","note":"Incluye técnicas de unhooking o separación respecto de pensamientos difíciles."},
+        {"id":"who-stress","title":"Stress: questions and answers","organization":"Organización Mundial de la Salud","url":"https://www.who.int/news-room/questions-and-answers/item/stress","note":"Recomendaciones de autocuidado y consulta cuando el estrés resulta difícil de manejar."}
+      ]
+    },
+    {
+      "id": "enfado-conflicto",
+      "title": "Estoy muy enfadado o en conflicto",
+      "subtitle": "Impulso de responder, discusión intensa o dificultad para frenar",
+      "symbol": "flame.fill",
+      "palette": "rose",
+      "immediateExplanation": "El enfado puede señalar un límite, una injusticia o una necesidad. Con activación alta, responder inmediatamente aumenta el riesgo de decir o hacer algo que complique el conflicto.",
+      "biologicalExplanation": "Tu cuerpo está activando su sistema nervioso simpático y preparándote para defenderte, poner un límite o apartar un obstáculo. Mensajeros como la adrenalina y la noradrenalina aumentan la vigilancia, aceleran el corazón y facilitan que los músculos se tensen. La respiración puede hacerse más rápida, las manos se cierran y la atención se dirige casi automáticamente hacia la provocación. No es una avería: es energía de protección, aunque actuar desde su punto máximo puede empeorar el conflicto.\n\nCon mucha activación, al cerebro le cuesta más frenar una respuesta ya preparada y considerar consecuencias a largo plazo. Las palabras ambiguas suenan más hostiles y resulta más fácil encontrar pruebas de que la otra persona está completamente equivocada. Una pausa no invalida el límite ni obliga a perdonar; simplemente evita que la fisiología decida por ti durante el pico.\n\nAl crear distancia, soltar objetos y moverte sin hacer daño, dejas de añadir señales de confrontación y das tiempo a que la activación disminuya. Practicar esta secuencia puede convertirla en una respuesta aprendida: notar el enfado, proteger la seguridad y elegir después cómo expresar la necesidad. Si existe violencia o temes perder el control, la prioridad es alejarte y pedir ayuda.",
+      "reassurance": "Pausar no invalida tu límite. Te ayuda a expresarlo con más control.",
+      "searchTerms": ["enfado", "ira", "rabia", "discusión", "conflicto", "pareja", "impulso"],
+      "redFlags": [
+        "Hay armas, violencia física, amenazas o temes perder el control y hacer daño. Aléjate y pide ayuda inmediata."
+      ],
+      "whenToSeekHelp": [
+        "Si hay violencia, amenazas, miedo o control dentro de la relación.",
+        "Si los estallidos se repiten o dañan relaciones importantes.",
+        "Si consumes alcohol u otras sustancias durante los conflictos."
+      ],
+      "protocols": [
+        {
+          "id": "conflicto-pausa-segura",
+          "title": "Pausa segura",
+          "summary": "Interrumpe la escalada sin abandonar el problema y prepara una respuesta posterior.",
+          "symbol": "hand.raised.fill",
+          "kind": "conflictPause",
+          "evidence": "supported",
+          "caution": "Si existe violencia o peligro, no anuncies una pausa si hacerlo aumenta el riesgo. Prioriza salir y pedir ayuda.",
+          "steps": [
+            {"id":"cps-1","title":"Detén la respuesta","instruction":"No envíes el mensaje ni continúes la discusión durante este minuto.","durationSeconds":12,"phase":"prepare","accessibilityCue":"Detén la respuesta durante un minuto."},
+            {"id":"cps-2","title":"Crea distancia","instruction":"Si es seguro, cambia de habitación o aparta la vista de la conversación.","durationSeconds":15,"phase":"move","accessibilityCue":"Crea una distancia segura."},
+            {"id":"cps-3","title":"Descarga sin daño","instruction":"Empuja las palmas entre sí o camina lentamente. No golpees objetos.","durationSeconds":20,"phase":"move","accessibilityCue":"Descarga tensión sin hacer daño."},
+            {"id":"cps-4","title":"Nombra el límite","instruction":"Completa: necesito que… Evita explicar las intenciones de la otra persona.","durationSeconds":20,"phase":"reflect","accessibilityCue":"Formula qué necesitas."},
+            {"id":"cps-5","title":"Acuerda volver","instruction":"Si es posible, di cuándo retomarás la conversación: necesito veinte minutos y vuelvo a las…","durationSeconds":18,"phase":"finish","accessibilityCue":"Acuerda un momento seguro para retomar."}
+          ]
+        },
+        {
+          "id": "conflicto-enfriamiento-fisico",
+          "title": "Enfriamiento físico",
+          "summary": "Reduce tensión motora antes de escribir, hablar o decidir.",
+          "symbol": "figure.walk",
+          "kind": "movement",
+          "evidence": "supported",
+          "caution": "Adapta el movimiento a tu movilidad y al entorno. No conduzcas mientras haces la guía.",
+          "steps": [
+            {"id":"cef-1","title":"Abre las manos","instruction":"Extiende los dedos y deja de sujetar el teléfono u otros objetos.","durationSeconds":12,"phase":"move","accessibilityCue":"Abre las manos y suelta objetos."},
+            {"id":"cef-2","title":"Camina despacio","instruction":"Da pasos lentos y nota el apoyo completo de cada pie.","durationSeconds":30,"phase":"move","accessibilityCue":"Camina lentamente si es seguro."},
+            {"id":"cef-3","title":"Suelta el aire","instruction":"Exhala de forma natural un poco más larga que la inhalación, sin contar ni forzar.","durationSeconds":20,"phase":"exhale","accessibilityCue":"Suelta el aire de forma cómoda."},
+            {"id":"cef-4","title":"Revisa intensidad","instruction":"Valora si puedes hablar sin insultar, amenazar ni elevar el conflicto. Si no, mantén la pausa.","durationSeconds":20,"phase":"reflect","accessibilityCue":"Comprueba si puedes hablar sin elevar el conflicto."},
+            {"id":"cef-5","title":"Decide","instruction":"Elige entre retomar con una petición concreta o prolongar la pausa de forma responsable.","durationSeconds":15,"phase":"finish","accessibilityCue":"Elige retomar con control o prolongar la pausa."}
+          ]
+        },
+        {
+          "id": "conflicto-torsion-toalla",
+          "title": "Tensión con una toalla",
+          "summary": "Canaliza energía muscular con un objeto blando antes de volver a hablar o escribir.",
+          "symbol": "hands.clap.fill",
+          "kind": "muscleRelease",
+          "evidence": "complementary",
+          "caution": "No uses objetos rígidos ni fuerza máxima. Omítelo si tienes lesión en manos, codos u hombros.",
+          "steps": [
+            {
+              "id": "ctt-1",
+              "title": "Toma una toalla",
+              "instruction": "Enrolla una toalla pequeña y sujétala con ambas manos, lejos de otras personas.",
+              "durationSeconds": 10,
+              "phase": "prepare",
+              "accessibilityCue": "Sujeta una toalla enrollada."
+            },
+            {
+              "id": "ctt-2",
+              "title": "Tensa y suelta",
+              "instruction": "Intenta girarla con fuerza moderada, respirando; después abre las manos y baja los hombros.",
+              "durationSeconds": 24,
+              "phase": "move",
+              "accessibilityCue": "Tensa y suelta la toalla."
+            },
+            {
+              "id": "ctt-3",
+              "title": "Decide el límite",
+              "instruction": "Elige entre pedir una pausa, escribir sin enviar o hablar con una frase breve.",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "Elige una respuesta segura."
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "conflicto-tip-borrador",
+          "title": "Escribe sin enviar",
+          "detail": "Redacta lo que querrías decir, quita el destinatario y espera antes de convertirlo en mensaje."
+        },
+        {
+          "id": "conflicto-tip-objeto-fresco",
+          "title": "Sostén algo fresco",
+          "detail": "Una botella fresca puede dar a las manos una tarea neutra mientras bajas volumen y velocidad."
+        },
+        {
+          "id": "conflicto-tip-posicion",
+          "title": "Cambia la posición",
+          "detail": "Si es seguro, deja de señalar, abre las manos y siéntate en ángulo en vez de frente a frente."
+        }
+      ],
+      "sources": [
+        {"id":"who-matters","title":"Doing What Matters in Times of Stress","organization":"Organización Mundial de la Salud","url":"https://www.who.int/publications/i/item/9789240003927","note":"Habilidades de grounding, espacio emocional, valores y acción consciente."},
+        {"id":"who-stress","title":"Stress: questions and answers","organization":"Organización Mundial de la Salud","url":"https://www.who.int/news-room/questions-and-answers/item/stress","note":"Orientación general sobre reacciones al estrés y búsqueda de apoyo."}
+      ]
+    },
+    {
+      "id": "no-puedo-dormir",
+      "title": "No puedo dormir por lo que ha ocurrido",
+      "subtitle": "La mente repasa el problema y el cuerpo sigue en alerta",
+      "symbol": "moon.stars.fill",
+      "palette": "violet",
+      "immediateExplanation": "Después de un día intenso, intentar obligarte a dormir puede aumentar la vigilancia. El objetivo inmediato no es conseguir sueño a la fuerza, sino crear condiciones de descanso y bajar la lucha con el insomnio.",
+      "biologicalExplanation": "El sueño depende de dos procesos que trabajan juntos: la presión de sueño que se acumula durante el tiempo despierto y el reloj circadiano que organiza cuándo tu organismo espera dormir. Aun cuando ambos están preparados, una alarma interna elevada puede mantenerte vigilante. Si el cerebro interpreta que todavía hay un problema que resolver, conserva activas la atención, la tensión muscular y parte de la respuesta de estrés.\n\nIntentar obligarte a dormir añade una tarea imposible de ejecutar a voluntad. Mirar la hora, calcular las horas restantes y comprobar si «ya está funcionando» enseñan al cerebro a relacionar la cama con evaluación y esfuerzo. Cada pensamiento sobre las consecuencias del día siguiente puede generar otra pequeña señal de alerta, aunque estés agotado.\n\nCambiar la meta de dormir por la de descansar reduce esa lucha. La luz baja, una actividad neutra y salir temporalmente de la cama cuando estás claramente despierto ayudan a reconstruir la asociación entre cama y somnolencia. El aprendizaje ocurre con repetición, no porque una sola noche salga perfecta. Si el insomnio persiste o aparece con otros síntomas importantes, necesita valoración profesional.",
+      "reassurance": "Una noche difícil resulta agotadora, pero no tienes que resolver toda tu vida ahora. Puedes dedicar este momento únicamente a descansar.",
+      "searchTerms": ["insomnio", "dormir", "noche", "rumiar", "desvelo", "preocupación", "cama"],
+      "redFlags": [
+        "Llevas varias noches casi sin dormir y notas energía inusual, pensamiento muy acelerado, confusión o conducta arriesgada.",
+        "La falta de sueño aparece con dolor intenso, dificultad respiratoria, abstinencia de sustancias o una reacción a medicación."
+      ],
+      "whenToSeekHelp": [
+        "Si el problema dura meses, se repite con frecuencia o afecta de forma importante a tu vida diaria.",
+        "Si roncas con pausas respiratorias, te duermes involuntariamente o conducir deja de ser seguro.",
+        "Si aparecen ideas de hacerte daño o sientes que no puedes mantenerte a salvo."
+      ],
+      "protocols": [
+        {
+          "id": "sueno-soltar-lucha",
+          "title": "Soltar la lucha con el sueño",
+          "summary": "Cambia el objetivo de dormir ya por el de descansar sin resolver problemas esta noche.",
+          "symbol": "bed.double.fill",
+          "kind": "reflection",
+          "evidence": "supported",
+          "caution": "No uses el teléfono para completar los pasos. Si necesitas levantarte, hazlo con luz tenue y evitando actividades estimulantes.",
+          "steps": [
+            {"id":"ssl-1","title":"Oculta la hora","instruction":"Aparta el reloj de la vista y deja de calcular cuánto sueño te queda.","durationSeconds":12,"phase":"prepare","accessibilityCue":"Deja de comprobar la hora."},
+            {"id":"ssl-2","title":"Cambia la meta","instruction":"Di en silencio: no tengo que dormirme ahora; solo voy a permitir que el cuerpo descanse.","durationSeconds":18,"phase":"reflect","accessibilityCue":"Permítete descansar sin forzar el sueño."},
+            {"id":"ssl-3","title":"Aparca el problema","instruction":"Resume la preocupación en una frase y decide un momento concreto de mañana para revisarla.","durationSeconds":25,"phase":"reflect","accessibilityCue":"Deja el problema para un momento concreto de mañana."},
+            {"id":"ssl-4","title":"Elige neutralidad","instruction":"Imagina una ruta conocida o enumera objetos de una categoría sin buscar hacerlo perfecto.","durationSeconds":45,"phase":"observe","accessibilityCue":"Lleva la atención a una tarea mental neutra."},
+            {"id":"ssl-5","title":"Reevalúa con calma","instruction":"Si sigues claramente despierto, sal de la cama un rato y haz algo tranquilo con luz baja; vuelve cuando aparezca somnolencia.","durationSeconds":20,"phase":"finish","accessibilityCue":"Si sigues despierto, elige una actividad tranquila fuera de la cama."}
+          ]
+        },
+        {
+          "id": "sueno-recorrido-corporal",
+          "title": "Recorrido corporal neutro",
+          "summary": "Observa zonas del cuerpo sin exigir que se relajen ni controlar la respiración.",
+          "symbol": "figure.mind.and.body",
+          "kind": "muscleRelease",
+          "evidence": "promising",
+          "caution": "Si prestar atención al cuerpo aumenta la angustia, abre los ojos y usa una técnica de orientación al entorno.",
+          "steps": [
+            {"id":"src-1","title":"Busca apoyo","instruction":"Nota dónde la cama sostiene la cabeza, la espalda y las piernas.","durationSeconds":18,"phase":"prepare","accessibilityCue":"Nota los puntos de apoyo de tu cuerpo."},
+            {"id":"src-2","title":"Rostro y mandíbula","instruction":"Observa la frente, los ojos y la mandíbula. No hace falta cambiar nada.","durationSeconds":25,"phase":"observe","accessibilityCue":"Observa el rostro sin intentar modificarlo."},
+            {"id":"src-3","title":"Hombros y manos","instruction":"Recorre hombros, brazos y manos; permite que pesen un poco más si resulta cómodo.","durationSeconds":25,"phase":"observe","accessibilityCue":"Observa hombros, brazos y manos."},
+            {"id":"src-4","title":"Tronco y piernas","instruction":"Lleva la atención al abdomen, la pelvis, las piernas y los pies, zona por zona.","durationSeconds":35,"phase":"observe","accessibilityCue":"Recorre el tronco, las piernas y los pies."},
+            {"id":"src-5","title":"Suelta la tarea","instruction":"Deja de recorrer el cuerpo. Permite que la respiración siga sola y vuelve a una postura cómoda.","durationSeconds":20,"phase":"finish","accessibilityCue":"Finaliza el recorrido y deja que la respiración siga sola."}
+          ]
+        },
+        {
+          "id": "sueno-barajado-mental",
+          "title": "Barajado mental",
+          "summary": "Genera imágenes neutras y desconectadas para apartarte de una historia que intenta resolverse.",
+          "symbol": "square.stack.3d.up.fill",
+          "kind": "reflection",
+          "evidence": "complementary",
+          "caution": "Si te frustra o activa imágenes desagradables, abandónalo y vuelve al recorrido corporal.",
+          "steps": [
+            {
+              "id": "sbm-1",
+              "title": "Elige una letra",
+              "instruction": "Escoge una letra sencilla, por ejemplo M, sin buscar una elección perfecta.",
+              "durationSeconds": 8,
+              "phase": "prepare",
+              "accessibilityCue": "Elige una letra."
+            },
+            {
+              "id": "sbm-2",
+              "title": "Imagina palabras",
+              "instruction": "Piensa en una palabra neutra con esa letra, imagínala y cambia a otra sin crear una historia.",
+              "durationSeconds": 45,
+              "phase": "reflect",
+              "accessibilityCue": "Imagina palabras neutras sin conectarlas."
+            },
+            {
+              "id": "sbm-3",
+              "title": "Déjalo incompleto",
+              "instruction": "Si pierdes el hilo, no lo recuperes; permite que la atención vague o cambia de letra.",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "Permite que quede incompleto."
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "sueno-tip-reloj",
+          "title": "Oculta la hora",
+          "detail": "Gira el reloj o el teléfono para no convertir cada despertar en un cálculo."
+        },
+        {
+          "id": "sueno-tip-temperatura",
+          "title": "Prueba un pequeño cambio térmico",
+          "detail": "Saca un pie de la manta, cambia de lado la almohada o ventila brevemente."
+        },
+        {
+          "id": "sueno-tip-audio",
+          "title": "Elige un audio conocido",
+          "detail": "Una voz familiar, con temporizador y volumen bajo, exige menos atención que contenido nuevo."
+        }
+      ],
+      "sources": [
+        {"id":"nhs-insomnia","title":"Insomnia","organization":"NHS","url":"https://www.nhs.uk/conditions/insomnia/","note":"Hábitos de sueño, control de estímulos y criterios para consultar."},
+        {"id":"who-matters","title":"Doing What Matters in Times of Stress","organization":"Organización Mundial de la Salud","url":"https://www.who.int/publications/i/item/9789240003927","note":"Habilidades de observación, grounding y espacio para experiencias difíciles."}
+      ]
+    },
+    {
+      "id": "ansiedad-social-inmediata",
+      "title": "Me bloquea una situación social",
+      "subtitle": "Una reunión, evento o conversación despierta miedo a ser juzgado",
+      "symbol": "person.2.fill",
+      "palette": "ocean",
+      "immediateExplanation": "La ansiedad social puede llevar la atención hacia dentro: cómo suena tu voz, dónde poner las manos o qué estarán pensando los demás. Ese autoexamen intensifica la sensación de estar bajo un foco.",
+      "biologicalExplanation": "Para el cerebro humano, pertenecer y ser aceptado tiene mucha importancia. Cuando anticipas una evaluación social, tu sistema de protección puede tratar una mirada, un silencio o la posibilidad de equivocarte como señales de amenaza. El sistema autónomo aumenta la activación: aparecen rubor, sudor, temblor, palpitaciones o mente en blanco. Son respuestas corporales reales, no pruebas de que estés haciendo el ridículo.\n\nLa atención suele girar hacia dentro para vigilar la voz, las manos o cada palabra. Ese autoexamen ocupa recursos que normalmente usarías para escuchar y responder, y hace que te sientas todavía más expuesto. Además, una mente preocupada por el rechazo tiende a completar gestos ambiguos con interpretaciones negativas. Las expectativas pueden cambiar tu experiencia, pero no te permiten saber lo que otra persona piensa.\n\nLlevar la atención al contenido de la conversación y elegir una acción social pequeña reduce la carga. Cada experiencia tolerable en la que participas con nervios y permaneces a salvo ofrece al cerebro información correctiva. Con práctica gradual puede aprender que la ansiedad es incómoda, pero no siempre necesita dirigir tu conducta.",
+      "reassurance": "Puedes participar con nervios. El éxito de este momento no consiste en parecer perfectamente tranquilo, sino en dar un paso manejable.",
+      "searchTerms": ["social", "vergüenza", "reunión", "gente", "hablar", "juicio", "evento", "timidez"],
+      "redFlags": [
+        "La situación incluye acoso, amenazas, discriminación o una persona que no respeta tus límites.",
+        "Tienes síntomas físicos nuevos o intensos que podrían requerir atención médica."
+      ],
+      "whenToSeekHelp": [
+        "Si evitas de forma persistente estudiar, trabajar, comer o relacionarte por miedo social.",
+        "Si recurres al alcohol u otras sustancias para poder afrontar encuentros.",
+        "Si la angustia es intensa, se mantiene durante meses o aparecen ideas de hacerte daño."
+      ],
+      "protocols": [
+        {
+          "id": "social-foco-externo",
+          "title": "Foco fuera de ti",
+          "summary": "Reduce el autoexamen llevando la atención a datos reales de la conversación.",
+          "symbol": "ear.fill",
+          "kind": "grounding",
+          "evidence": "supported",
+          "caution": "No uses la técnica para permanecer en una situación de acoso o peligro. Puedes marcharte y pedir apoyo.",
+          "steps": [
+            {"id":"sfe-1","title":"Apoya los pies","instruction":"Nota ambos pies y permite que la exhalación salga sin forzarla.","durationSeconds":15,"phase":"prepare","accessibilityCue":"Nota el apoyo de tus pies."},
+            {"id":"sfe-2","title":"Encuentra tres detalles","instruction":"Mira tres detalles neutrales del lugar: una forma, un color y una fuente de luz.","durationSeconds":20,"phase":"orient","accessibilityCue":"Localiza tres detalles neutrales del entorno."},
+            {"id":"sfe-3","title":"Escucha una frase","instruction":"Elige escuchar una frase completa de otra persona sin preparar todavía tu respuesta.","durationSeconds":25,"phase":"observe","accessibilityCue":"Escucha una frase completa."},
+            {"id":"sfe-4","title":"Haz una pregunta simple","instruction":"Usa una pregunta abierta y breve: ¿cómo ha ido?, ¿qué te parece?, ¿qué necesitas ahora? ","durationSeconds":20,"phase":"reflect","accessibilityCue":"Haz una pregunta breve y abierta."},
+            {"id":"sfe-5","title":"Vuelve al contenido","instruction":"Cuando notes autoexamen, nómbralo como atención hacia dentro y regresa a lo que la persona está diciendo.","durationSeconds":25,"phase":"finish","accessibilityCue":"Vuelve al contenido de la conversación."}
+          ]
+        },
+        {
+          "id": "social-primer-minuto",
+          "title": "Plan del primer minuto",
+          "summary": "Convierte el encuentro en tres acciones pequeñas que no dependen de sentirte seguro.",
+          "symbol": "list.number",
+          "kind": "reflection",
+          "evidence": "promising",
+          "caution": "Empieza por un reto tolerable. Exponerte de golpe a una situación abrumadora puede ser contraproducente.",
+          "steps": [
+            {"id":"spm-1","title":"Define lo mínimo","instruction":"Elige una meta pequeña: entrar, saludar o quedarte cinco minutos.","durationSeconds":20,"phase":"reflect","accessibilityCue":"Elige una meta social pequeña."},
+            {"id":"spm-2","title":"Prepara una apertura","instruction":"Decide una frase sencilla y natural para iniciar: hola, ¿cómo estás? o gracias por invitarme.","durationSeconds":20,"phase":"reflect","accessibilityCue":"Prepara una frase sencilla para empezar."},
+            {"id":"spm-3","title":"Prepara una salida","instruction":"Recuerda que puedes decir: voy a tomar aire un momento, ahora vuelvo.","durationSeconds":15,"phase":"prepare","accessibilityCue":"Ten preparada una pausa respetuosa."},
+            {"id":"spm-4","title":"Da solo el primer paso","instruction":"Haz la primera acción del plan sin evaluar todavía cómo irá todo el encuentro.","durationSeconds":30,"phase":"move","accessibilityCue":"Haz únicamente la primera acción."},
+            {"id":"spm-5","title":"Reconoce la acción","instruction":"Valora lo que hiciste, no si desaparecieron los nervios. Decide después el siguiente paso.","durationSeconds":20,"phase":"finish","accessibilityCue":"Reconoce la acción que has completado."}
+          ]
+        },
+        {
+          "id": "social-vocalizacion-calida",
+          "title": "Calentamiento de voz discreto",
+          "summary": "Afloja mandíbula y voz con un zumbido suave antes de entrar en la conversación.",
+          "symbol": "waveform",
+          "kind": "vocalization",
+          "evidence": "complementary",
+          "caution": "El sonido debe ser cómodo y bajo. Detente si irrita la garganta o produce mareo.",
+          "steps": [
+            {
+              "id": "svc-1",
+              "title": "Afloja la mandíbula",
+              "instruction": "Separa ligeramente los dientes y mueve la lengua con suavidad dentro de la boca.",
+              "durationSeconds": 12,
+              "phase": "prepare",
+              "accessibilityCue": "Afloja la mandíbula."
+            },
+            {
+              "id": "svc-2",
+              "title": "Zumbido corto",
+              "instruction": "Al soltar el aire, haz un «mmm» suave durante el tiempo que resulte natural.",
+              "durationSeconds": 15,
+              "phase": "sound",
+              "accessibilityCue": "Haz un zumbido suave."
+            },
+            {
+              "id": "svc-3",
+              "title": "Di una frase",
+              "instruction": "En voz baja, practica tu saludo o primera pregunta sin intentar que suene perfecto.",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "Practica una frase breve."
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "social-tip-objeto",
+          "title": "Sostén un objeto cotidiano",
+          "detail": "Un vaso, libreta o bolígrafo puede dar a las manos una posición natural."
+        },
+        {
+          "id": "social-tip-temprano",
+          "title": "Llega un poco antes",
+          "detail": "Entrar cuando el lugar está tranquilo puede facilitar orientarte antes de que aumente el ruido."
+        },
+        {
+          "id": "social-tip-salida",
+          "title": "Prepara una frase de salida",
+          "detail": "Saber que puedes decir «voy a tomar aire y vuelvo» reduce la sensación de estar atrapado."
+        }
+      ],
+      "sources": [
+        {"id":"nhs-social-anxiety","title":"Social anxiety (social phobia)","organization":"NHS","url":"https://www.nhs.uk/mental-health/conditions/social-anxiety/","note":"Autoayuda, atención al contenido de la conversación y división de retos en partes pequeñas."},
+        {"id":"who-matters","title":"Doing What Matters in Times of Stress","organization":"Organización Mundial de la Salud","url":"https://www.who.int/publications/i/item/9789240003927","note":"Grounding y acción guiada por valores aun con emociones difíciles."}
+      ]
+    },
+    {
+      "id": "duelo-oleada",
+      "title": "Me ha golpeado una oleada de duelo",
+      "subtitle": "Una pérdida o recuerdo trae tristeza, rabia, vacío o incredulidad",
+      "symbol": "heart.slash.fill",
+      "palette": "rose",
+      "immediateExplanation": "El duelo no sigue un orden fijo. Una canción, una fecha o un lugar pueden reactivar emociones intensas incluso después de un periodo de mayor calma.",
+      "biologicalExplanation": "Tu cerebro y tu cuerpo habían aprendido a contar con ese vínculo. La persona, relación o realidad perdida formaba parte de muchas predicciones cotidianas: a quién llamar, qué esperar al llegar a casa o cómo imaginar el futuro. Tras la pérdida, esos modelos no se actualizan de una vez. Una canción, un olor o una fecha pueden activar recuerdos y una respuesta de búsqueda antes de que hayas pensado conscientemente en ello.\n\nEl duelo implica sistemas de apego, atención, memoria, estrés y recompensa; por eso puede sentirse como tristeza, rabia, vacío, inquietud o incluso dolor físico. Las oleadas no siguen un calendario fijo y una reaparición intensa no significa que hayas retrocedido. Tu organismo está intentando integrar una realidad que importa profundamente.\n\nPermitir la emoción mientras mantienes un ancla en el presente evita sumar una segunda batalla contra lo que sientes. Los nuevos hábitos, apoyos y significados pueden ayudar al cerebro a construir una vida que incluya la pérdida sin borrar el vínculo ni los recuerdos. Este aprendizaje es gradual y no exige «cerrar» el duelo. Si el dolor amenaza tu seguridad o impide sostener necesidades básicas, mereces acompañamiento profesional.",
+      "reassurance": "No necesitas cerrar ni superar la pérdida durante este ejercicio. Ahora basta con atravesar esta oleada de una forma segura y acompañada.",
+      "searchTerms": ["duelo", "pérdida", "muerte", "ruptura", "tristeza", "ausencia", "llorar", "recuerdo"],
+      "redFlags": [
+        "Tienes pensamientos de suicidio, de hacerte daño o sientes que no puedes mantenerte a salvo.",
+        "La pérdida acaba de ocurrir en un contexto violento, traumático o con peligro todavía presente."
+      ],
+      "whenToSeekHelp": [
+        "Si la intensidad impide de forma persistente cuidar necesidades básicas o realizar la vida diaria.",
+        "Si tienes síntomas de estrés traumático, consumes sustancias para soportarlo o te aíslas por completo.",
+        "Si necesitas acompañamiento: no hace falta esperar a estar al límite para pedirlo."
+      ],
+      "protocols": [
+        {
+          "id": "duelo-hacer-espacio",
+          "title": "Hacer espacio a la oleada",
+          "summary": "Reconoce la emoción y mantén una parte de la atención anclada en el presente.",
+          "symbol": "water.waves",
+          "kind": "grounding",
+          "evidence": "supported",
+          "caution": "Si el recuerdo se vuelve insoportable, aparece desconexión intensa o pierdes orientación, detén el ejercicio y busca compañía o ayuda profesional.",
+          "steps": [
+            {"id":"dhe-1","title":"Nombra la oleada","instruction":"Completa: ahora mismo hay tristeza, rabia, miedo, vacío o la palabra que mejor encaje.","durationSeconds":20,"phase":"observe","accessibilityCue":"Pon un nombre sencillo a lo que sientes."},
+            {"id":"dhe-2","title":"Reconoce el vínculo","instruction":"Di en silencio: esto duele porque esta pérdida importa.","durationSeconds":18,"phase":"reflect","accessibilityCue":"Reconoce que el dolor está ligado a algo importante."},
+            {"id":"dhe-3","title":"Mantén un ancla","instruction":"Presiona suavemente los pies contra el suelo y mira un objeto estable del presente.","durationSeconds":25,"phase":"orient","accessibilityCue":"Usa los pies y un objeto como anclas al presente."},
+            {"id":"dhe-4","title":"Deja pasar un minuto","instruction":"Permite lágrimas o silencio sin analizar toda la historia. Observa cómo cambia la intensidad.","durationSeconds":45,"phase":"observe","accessibilityCue":"Deja que la emoción esté presente durante un momento."},
+            {"id":"dhe-5","title":"Elige cuidado básico","instruction":"Decide una acción pequeña: beber agua, comer algo, ducharte o sentarte junto a alguien.","durationSeconds":20,"phase":"finish","accessibilityCue":"Elige una acción básica de cuidado."}
+          ]
+        },
+        {
+          "id": "duelo-conexion-segura",
+          "title": "Conexión segura",
+          "summary": "Transforma el aislamiento inmediato en un contacto o gesto de recuerdo asumible.",
+          "symbol": "person.crop.circle.badge.plus",
+          "kind": "reflection",
+          "evidence": "promising",
+          "caution": "Elige a alguien que pueda escuchar sin presionarte. No tienes obligación de compartir detalles que quieras conservar en privado.",
+          "steps": [
+            {"id":"dcs-1","title":"Elige a una persona","instruction":"Piensa en alguien seguro que pueda acompañarte sin intentar arreglarlo todo.","durationSeconds":20,"phase":"reflect","accessibilityCue":"Piensa en una persona segura."},
+            {"id":"dcs-2","title":"Formula la petición","instruction":"Prepara un mensaje concreto: hoy me ha golpeado el duelo; ¿puedes escucharme diez minutos? ","durationSeconds":25,"phase":"reflect","accessibilityCue":"Prepara una petición concreta de compañía."},
+            {"id":"dcs-3","title":"Haz el contacto","instruction":"Envía el mensaje o realiza la llamada. Si no responde, prueba con otra persona o recurso de apoyo.","durationSeconds":30,"phase":"move","accessibilityCue":"Contacta con la persona elegida."},
+            {"id":"dcs-4","title":"Elige un recuerdo","instruction":"Si te ayuda, nombra un recuerdo, una cualidad o algo que esa relación dejó en ti.","durationSeconds":30,"phase":"reflect","accessibilityCue":"Elige un recuerdo o cualidad significativa."},
+            {"id":"dcs-5","title":"Cierra sin despedirte","instruction":"Guarda el recuerdo de la forma que prefieras y vuelve a la siguiente acción concreta de tu día.","durationSeconds":20,"phase":"finish","accessibilityCue":"Vuelve con calma a una acción concreta del presente."}
+          ]
+        },
+        {
+          "id": "duelo-balanceo-suave",
+          "title": "Balanceo con apoyo",
+          "summary": "Un movimiento rítmico pequeño que acompaña la oleada sin exigir que desaparezca.",
+          "symbol": "figure.mind.and.body",
+          "kind": "movement",
+          "evidence": "complementary",
+          "caution": "Hazlo sentado si hay riesgo de caída. Detente ante mareo, dolor o mayor desorientación.",
+          "steps": [
+            {
+              "id": "dbs-1",
+              "title": "Encuentra apoyo",
+              "instruction": "Siéntate con los pies firmes o permanece de pie junto a una superficie estable.",
+              "durationSeconds": 12,
+              "phase": "prepare",
+              "accessibilityCue": "Busca una posición estable."
+            },
+            {
+              "id": "dbs-2",
+              "title": "Balancea",
+              "instruction": "Desplaza el peso muy suavemente de un lado al otro, dentro de un recorrido pequeño.",
+              "durationSeconds": 30,
+              "phase": "move",
+              "accessibilityCue": "Balancéate suavemente."
+            },
+            {
+              "id": "dbs-3",
+              "title": "Conserva un vínculo",
+              "instruction": "Nombra a quién o qué echas de menos y una cosa concreta que necesitas ahora.",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "Nombra el vínculo y una necesidad."
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "duelo-tip-objeto",
+          "title": "Sostén un objeto con significado",
+          "detail": "Una fotografía u objeto puede dar al recuerdo un lugar concreto durante la oleada."
+        },
+        {
+          "id": "duelo-tip-calor",
+          "title": "Prepara algo tibio",
+          "detail": "Una bebida o manta templada puede acompañar el cuerpo; evita temperaturas que puedan quemar."
+        },
+        {
+          "id": "duelo-tip-permiso",
+          "title": "Reserva un intervalo breve",
+          "detail": "Si el momento lo permite, date diez minutos sin tareas y decide después el siguiente cuidado básico."
+        }
+      ],
+      "sources": [
+        {"id":"nhs-grief","title":"Grief after bereavement or loss","organization":"NHS","url":"https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/grief-bereavement-loss/","note":"Variabilidad del duelo, apoyo social, pequeñas metas y criterios para pedir ayuda."},
+        {"id":"who-matters","title":"Doing What Matters in Times of Stress","organization":"Organización Mundial de la Salud","url":"https://www.who.int/publications/i/item/9789240003927","note":"Hacer espacio a emociones difíciles, grounding y amabilidad."}
+      ]
+    },
+    {
+      "id": "mala-noticia-impacto",
+      "title": "Acabo de recibir una mala noticia",
+      "subtitle": "Hay shock, confusión o urgencia por reaccionar inmediatamente",
+      "symbol": "bolt.heart.fill",
+      "palette": "amber",
+      "immediateExplanation": "Tras una noticia impactante es común sentir irrealidad, temblor, bloqueo o necesidad de actuar ya. Durante los primeros minutos puede costar ordenar información y priorizar.",
+      "biologicalExplanation": "Una mala noticia rompe de golpe el modelo que tu mente tenía de los próximos minutos o del futuro. Ante ese cambio inesperado, el cerebro da máxima prioridad a la información y activa respuestas de estrés. La adrenalina y otros mensajeros aumentan la vigilancia, el corazón puede acelerarse y el cuerpo puede temblar. Algunas personas sienten urgencia por actuar; otras se quedan inmóviles, desconectadas o con sensación de irrealidad. Todas pueden ser respuestas iniciales al impacto.\n\nDurante el pico, la atención se estrecha y la memoria de trabajo retiene menos datos. Por eso quizá necesites escuchar varias veces una explicación o no recuerdes una parte de la conversación. La mente intenta completar los huecos rápidamente y puede saltar desde un hecho confirmado hasta el peor futuro imaginable.\n\nSentarte, ubicarte y contactar con alguien aporta señales de estabilidad y reduce decisiones. Separar hechos, preguntas y un único paso devuelve estructura a las redes ejecutivas sin pedirte comprenderlo todo. La presencia de una persona segura también puede ayudar a regular la activación. Si la noticia implica peligro actual o una emergencia médica, actuar y contactar con los servicios adecuados va antes que cualquier ejercicio.",
+      "reassurance": "No tienes que comprenderlo ni decidirlo todo ahora. Primero confirma seguridad, después separa hechos de incertidumbres y busca compañía.",
+      "searchTerms": ["noticia", "shock", "impacto", "diagnóstico", "despido", "accidente", "ruptura", "emergencia"],
+      "redFlags": [
+        "La noticia implica un peligro físico actual, una emergencia médica, violencia o una persona desaparecida.",
+        "Estás conduciendo, manejando maquinaria o en un lugar donde el shock puede ponerte en riesgo."
+      ],
+      "whenToSeekHelp": [
+        "Si no recuperas orientación, te desmayas, tienes dolor torácico o síntomas médicos intensos.",
+        "Si aparecen ideas de suicidio, de hacer daño o no puedes garantizar tu seguridad.",
+        "Si en los días siguientes persisten pesadillas, desconexión o incapacidad marcada para funcionar."
+      ],
+      "protocols": [
+        {
+          "id": "noticia-primeros-minutos",
+          "title": "Primeros minutos",
+          "summary": "Recupera seguridad física y apoyo antes de tomar decisiones importantes.",
+          "symbol": "shield.lefthalf.filled",
+          "kind": "grounding",
+          "evidence": "supported",
+          "caution": "Si existe una emergencia real, llama primero al servicio correspondiente. Esta guía no debe retrasar atención urgente.",
+          "steps": [
+            {"id":"npm-1","title":"Detente en un lugar seguro","instruction":"Siéntate o apóyate. Si conduces, estaciona de forma segura antes de continuar.","durationSeconds":15,"phase":"prepare","accessibilityCue":"Detente y busca una posición segura."},
+            {"id":"npm-2","title":"Ubícate","instruction":"Nombra dónde estás, qué día es y una cosa que sabes con certeza.","durationSeconds":20,"phase":"orient","accessibilityCue":"Di dónde estás y qué sabes con certeza."},
+            {"id":"npm-3","title":"Siente apoyo","instruction":"Nota la silla, la pared o el suelo sosteniendo tu peso. Deja salir el aire de forma cómoda.","durationSeconds":25,"phase":"observe","accessibilityCue":"Nota el soporte físico bajo tu cuerpo."},
+            {"id":"npm-4","title":"Contacta","instruction":"Avisa a una persona segura: he recibido una noticia difícil y necesito que estés conmigo.","durationSeconds":30,"phase":"move","accessibilityCue":"Contacta con una persona segura."},
+            {"id":"npm-5","title":"Pospón lo irreversible","instruction":"Salvo que la seguridad exija actuar, aplaza mensajes públicos, compras o decisiones irreversibles.","durationSeconds":20,"phase":"finish","accessibilityCue":"Aplaza decisiones irreversibles si no son urgentes."}
+          ]
+        },
+        {
+          "id": "noticia-hechos-siguiente",
+          "title": "Hechos, dudas y siguiente paso",
+          "summary": "Ordena la información sin intentar resolver de una vez todo el futuro.",
+          "symbol": "square.and.pencil",
+          "kind": "reflection",
+          "evidence": "promising",
+          "caution": "No uses esta clasificación para investigar compulsivamente. Si la información es médica, legal o de seguridad, confirma con el profesional correspondiente.",
+          "steps": [
+            {"id":"nhs-1","title":"Escribe los hechos","instruction":"Anota solo lo confirmado, con palabras sencillas y sin interpretaciones.","durationSeconds":30,"phase":"reflect","accessibilityCue":"Anota únicamente los hechos confirmados."},
+            {"id":"nhs-2","title":"Separa lo desconocido","instruction":"Haz una lista breve de preguntas. No las respondas con suposiciones.","durationSeconds":25,"phase":"reflect","accessibilityCue":"Separa las preguntas que aún no tienen respuesta."},
+            {"id":"nhs-3","title":"Identifica lo urgente","instruction":"Pregunta: ¿hay algo que deba hacerse hoy por seguridad o plazo real? ","durationSeconds":20,"phase":"reflect","accessibilityCue":"Identifica si existe una urgencia real."},
+            {"id":"nhs-4","title":"Elige una fuente","instruction":"Decide quién puede confirmar el siguiente dato: profesional, familiar responsable o servicio oficial.","durationSeconds":20,"phase":"reflect","accessibilityCue":"Elige una fuente fiable para confirmar información."},
+            {"id":"nhs-5","title":"Da un solo paso","instruction":"Realiza una llamada, toma una nota o pide una cita. Después vuelve a comprobar cómo estás.","durationSeconds":30,"phase":"finish","accessibilityCue":"Realiza únicamente el siguiente paso verificable."}
+          ]
+        },
+        {
+          "id": "noticia-estimulacion-alterna",
+          "title": "Contacto alterno y hechos",
+          "summary": "Combina toques suaves con una repetición breve de lo que sabes y lo que aún no sabes.",
+          "symbol": "hand.raised.fingers.spread.fill",
+          "kind": "grounding",
+          "evidence": "complementary",
+          "caution": "Omite el contacto si resulta activador o incómodo; puedes alternar la presión de los pies.",
+          "steps": [
+            {
+              "id": "nea-1",
+              "title": "Apoya o cruza",
+              "instruction": "Pon las manos sobre los muslos o cruza los brazos y apoya cada mano en el lado contrario.",
+              "durationSeconds": 12,
+              "phase": "prepare",
+              "accessibilityCue": "Apoya las manos cómodamente."
+            },
+            {
+              "id": "nea-2",
+              "title": "Alterna",
+              "instruction": "Da toques lentos de izquierda a derecha mientras repites solo el hecho confirmado.",
+              "durationSeconds": 30,
+              "phase": "press",
+              "accessibilityCue": "Alterna toques lentos."
+            },
+            {
+              "id": "nea-3",
+              "title": "Separa la duda",
+              "instruction": "Detén los toques y completa: «Todavía no sé…» y «Mi siguiente paso seguro es…».",
+              "durationSeconds": 24,
+              "phase": "finish",
+              "accessibilityCue": "Distingue la duda y el siguiente paso."
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "noticia-tip-frase",
+          "title": "Escribe la frase exacta",
+          "detail": "Anota qué te han comunicado sin interpretaciones para poder consultarlo cuando la memoria falle."
+        },
+        {
+          "id": "noticia-tip-bateria",
+          "title": "Carga el teléfono",
+          "detail": "Tener batería, agua y datos de contacto reduce problemas prácticos durante las siguientes horas."
+        },
+        {
+          "id": "noticia-tip-anuncio",
+          "title": "Retrasa anuncios amplios",
+          "detail": "Si puedes, informa primero a una persona de confianza y decide después a quién más contarlo."
+        }
+      ],
+      "sources": [
+        {"id":"who-stress","title":"Dealing with stress","organization":"Organización Mundial de la Salud","url":"https://www.emro.who.int/mhps/dealing_with_stress.html","note":"Grounding, orientación y respuesta práctica ante situaciones estresantes."},
+        {"id":"nhs-traumatic-events","title":"Bereavement and traumatic events","organization":"NHS","url":"https://www.nhs.uk/every-mind-matters/lifes-challenges/bereavement-and-traumatic-events/","note":"Reacciones ante acontecimientos traumáticos y búsqueda de ayuda."}
+      ]
+    },
+    {
+      "id": "sobrecarga-sensorial",
+      "title": "Todo el entorno me sobrecarga",
+      "subtitle": "Ruido, luces, gente o estímulos simultáneos se vuelven insoportables",
+      "symbol": "speaker.wave.3.fill",
+      "palette": "slate",
+      "immediateExplanation": "Cuando llegan demasiados estímulos a la vez puede resultar difícil filtrar qué merece atención. Irritabilidad, bloqueo o necesidad de escapar son señales para reducir carga y recuperar margen.",
+      "biologicalExplanation": "Tu cerebro recibe continuamente mucha más información sensorial de la que puede llevar a la conciencia. Normalmente filtra, agrupa y da prioridad a lo relevante. Cuando hay cansancio, estrés, dolor o una sensibilidad particular, ese filtrado puede requerir más esfuerzo. Luces, voces, movimiento y contacto compiten al mismo tiempo, y lo que antes era fondo pasa a sentirse intenso o invasivo.\n\nSi el cerebro interpreta que no puede organizar o escapar de esa carga, aumenta la respuesta autónoma: aparece irritabilidad, tensión, respiración rápida, bloqueo o una necesidad urgente de salir. No es falta de voluntad y el estímulo no tiene que ser peligroso para resultar físicamente abrumador. El sistema está señalando que ha superado su capacidad actual de procesamiento.\n\nReducir un canal —brillo, sonido o demanda social— disminuye información entrante y permite recuperar margen. Atender un solo sentido ayuda a ordenar la experiencia en lugar de combatirla toda a la vez. Con el tiempo puedes aprender a reconocer señales tempranas y ajustar el entorno antes del desborde. La adaptación del entorno es regulación, no fracaso; si la sensibilidad es súbita, dolorosa o frecuente, conviene valorar posibles causas médicas.",
+      "reassurance": "Apartarte, bajar luz o usar protección auditiva no es fracasar. Es ajustar el entorno para que tu sistema pueda recuperar capacidad.",
+      "searchTerms": ["ruido", "luces", "multitud", "sobrecarga", "sensorial", "agobio", "estímulos", "saturación"],
+      "redFlags": [
+        "La sensibilidad apareció de forma súbita con debilidad, dificultad para hablar, desorientación, dolor de cabeza extremo o pérdida de visión.",
+        "Estás en una multitud, carretera u otro lugar del que necesitas salir con ayuda para hacerlo con seguridad."
+      ],
+      "whenToSeekHelp": [
+        "Si estos episodios son nuevos, frecuentes o interfieren con estudio, trabajo, sueño o autocuidado.",
+        "Si sospechas migraña, efectos de medicación, pérdida auditiva u otra causa médica.",
+        "Si la sobrecarga lleva a autolesión, agresión o imposibilidad de mantenerte a salvo."
+      ],
+      "protocols": [
+        {
+          "id": "sensorial-reducir-entradas",
+          "title": "Reducir entradas",
+          "summary": "Disminuye de forma ordenada ruido, luz, contacto y demandas sociales.",
+          "symbol": "speaker.slash.fill",
+          "kind": "grounding",
+          "evidence": "promising",
+          "caution": "No cierres los ojos ni bloquees sonidos si necesitas vigilar tráfico, maquinaria u otras señales de seguridad.",
+          "steps": [
+            {"id":"sre-1","title":"Busca el borde","instruction":"Muévete hacia un lateral, una salida o un espacio más tranquilo sin correr.","durationSeconds":25,"phase":"move","accessibilityCue":"Ve hacia un lugar con menos estímulos."},
+            {"id":"sre-2","title":"Reduce un canal","instruction":"Baja el brillo, silencia una notificación o usa protección auditiva segura. Cambia solo una cosa.","durationSeconds":20,"phase":"prepare","accessibilityCue":"Reduce una fuente de estímulo."},
+            {"id":"sre-3","title":"Evita demandas nuevas","instruction":"Di si hace falta: necesito dos minutos en silencio y después respondo.","durationSeconds":15,"phase":"reflect","accessibilityCue":"Pide una pausa breve y concreta."},
+            {"id":"sre-4","title":"Encuentra estabilidad","instruction":"Mira una superficie lisa o un objeto inmóvil y nota el apoyo de tu espalda o tus pies.","durationSeconds":30,"phase":"orient","accessibilityCue":"Mira un objeto inmóvil y nota un punto de apoyo."},
+            {"id":"sre-5","title":"Decide el siguiente entorno","instruction":"Elige permanecer con ajustes, salir acompañado o volver cuando haya menos carga.","durationSeconds":20,"phase":"finish","accessibilityCue":"Elige el entorno más manejable para continuar."}
+          ]
+        },
+        {
+          "id": "sensorial-un-sentido",
+          "title": "Un sentido cada vez",
+          "summary": "Organiza la atención en una secuencia breve en lugar de procesarlo todo junto.",
+          "symbol": "scope",
+          "kind": "grounding",
+          "evidence": "supported",
+          "caution": "Omite cualquier sentido que resulte doloroso o aumente la activación. La meta es simplificar, no soportar más intensidad.",
+          "steps": [
+            {"id":"sus-1","title":"Solo tacto","instruction":"Nota una textura neutra en la ropa, la silla o un objeto que ya tengas.","durationSeconds":20,"phase":"observe","accessibilityCue":"Nota una sola textura neutra."},
+            {"id":"sus-2","title":"Solo vista","instruction":"Elige un objeto y sigue lentamente su contorno con la mirada.","durationSeconds":25,"phase":"orient","accessibilityCue":"Sigue el contorno de un objeto."},
+            {"id":"sus-3","title":"Solo sonido","instruction":"Identifica el sonido más constante o menos invasivo, sin buscar todos los demás.","durationSeconds":20,"phase":"observe","accessibilityCue":"Identifica un sonido constante y neutro."},
+            {"id":"sus-4","title":"Solo apoyo","instruction":"Presiona los pies contra el suelo durante unos segundos y después suelta.","durationSeconds":18,"phase":"move","accessibilityCue":"Presiona suavemente los pies contra el suelo y suelta."},
+            {"id":"sus-5","title":"Amplía poco a poco","instruction":"Mira alrededor y decide si puedes incorporar una tarea o si necesitas más tiempo con baja estimulación.","durationSeconds":20,"phase":"finish","accessibilityCue":"Comprueba si puedes ampliar la atención poco a poco."}
+          ]
+        },
+        {
+          "id": "sensorial-presion-propioceptiva",
+          "title": "Presión propioceptiva suave",
+          "summary": "Usa presión estable en palmas y pies para priorizar señales corporales simples.",
+          "symbol": "hand.raised.fill",
+          "kind": "grounding",
+          "evidence": "complementary",
+          "caution": "No presiones articulaciones doloridas ni uses fuerza que provoque entumecimiento.",
+          "steps": [
+            {
+              "id": "spp-1",
+              "title": "Reduce lo posible",
+              "instruction": "Baja luz o ruido y busca una postura con apoyo antes de añadir otra señal.",
+              "durationSeconds": 15,
+              "phase": "prepare",
+              "accessibilityCue": "Reduce una entrada del entorno."
+            },
+            {
+              "id": "spp-2",
+              "title": "Palmas y pies",
+              "instruction": "Junta las palmas con presión moderada mientras empujas los pies contra el suelo.",
+              "durationSeconds": 24,
+              "phase": "press",
+              "accessibilityCue": "Presiona palmas y pies."
+            },
+            {
+              "id": "spp-3",
+              "title": "Suelta por partes",
+              "instruction": "Suelta primero las manos y después los pies; conserva solo la entrada sensorial más tolerable.",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "Suelta y conserva una señal tolerable."
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "sensorial-tip-kit",
+          "title": "Prepara un pequeño kit",
+          "detail": "Tapones, gafas tintadas, gorra o una textura conocida pueden reducir entradas en lugares difíciles."
+        },
+        {
+          "id": "sensorial-tip-olor",
+          "title": "Usa un olor familiar con prudencia",
+          "detail": "Una tela con olor neutro y conocido puede servir de referencia; evítalo ante migraña, asma o sensibilidad."
+        },
+        {
+          "id": "sensorial-tip-mensaje",
+          "title": "Ten una frase preparada",
+          "detail": "«Necesito menos ruido y cinco minutos» permite pedir un ajuste sin tener que explicar demasiado."
+        }
+      ],
+      "sources": [
+        {"id":"who-stress-grounding","title":"Dealing with stress","organization":"Organización Mundial de la Salud","url":"https://www.emro.who.int/mhps/dealing_with_stress.html","note":"Grounding mediante orientación al entorno, movimiento y contacto físico seguro."},
+        {"id":"who-matters","title":"Doing What Matters in Times of Stress","organization":"Organización Mundial de la Salud","url":"https://www.who.int/publications/i/item/9789240003927","note":"Atención flexible y reconexión con el presente."}
+      ]
+    },
+    {
+      "id": "bloqueo-empezar",
+      "title": "Estoy bloqueado y no consigo empezar",
+      "subtitle": "Una tarea se siente demasiado grande, confusa o desagradable",
+      "symbol": "play.square.stack.fill",
+      "palette": "forest",
+      "immediateExplanation": "El bloqueo no siempre significa falta de interés o capacidad. Cuando una tarea parece ambigua, enorme o ligada al miedo a fallar, evitarla ofrece alivio inmediato y hace más difícil acercarse después.",
+      "biologicalExplanation": "Empezar una tarea exige varias operaciones: mantener el objetivo, decidir el primer movimiento, estimar esfuerzo e inhibir distracciones. Cuando el encargo es ambiguo, enorme o está unido al miedo a fallar, tu cerebro anticipa malestar y coste antes de que hayas comenzado. El estrés ocupa parte de los recursos ejecutivos, y el objetivo «terminarlo todo» no ofrece una acción física clara que poner en marcha.\n\nEvitar produce un alivio inmediato. Ese pequeño descanso funciona como aprendizaje: el cerebro registra que alejarse reduce la incomodidad y propone repetirlo la próxima vez. No es pereza ni una decisión totalmente consciente; es un ciclo de anticipación, evitación y recompensa a corto plazo que puede fortalecerse.\n\nConvertir el proyecto en «abrir el archivo» o «escribir un título» reduce incertidumbre y número de decisiones. La acción aporta evidencia nueva: empezar puede ser más pequeño de lo que mi predicción decía. Cada repetición ayuda a asociar la incomodidad inicial con un movimiento manejable, no con todo el esfuerzo futuro. La neuroplasticidad necesita práctica y condiciones realistas; si el bloqueo es generalizado o se acompaña de ánimo muy bajo, merece una valoración más amplia.",
+      "reassurance": "No necesitas terminar ni sentir motivación. Solo necesitas hacer visible y posible el primer movimiento.",
+      "searchTerms": ["procrastinar", "bloqueo", "empezar", "tarea", "trabajo", "estudiar", "motivación", "perfeccionismo"],
+      "redFlags": [
+        "El bloqueo aparece junto con confusión repentina, debilidad, dificultad para hablar u otros síntomas neurológicos nuevos.",
+        "No puedes cubrir necesidades básicas, levantarte de la cama o mantener tu seguridad."
+      ],
+      "whenToSeekHelp": [
+        "Si el bloqueo es generalizado, dura semanas o afecta de forma importante a trabajo, estudio, autocuidado o relaciones.",
+        "Si se acompaña de ánimo muy bajo, agotamiento extremo, ansiedad intensa o cambios importantes de sueño.",
+        "Si sospechas dificultades de atención, depresión u otra condición que necesite valoración profesional."
+      ],
+      "protocols": [
+        {
+          "id": "bloqueo-umbral-dos-minutos",
+          "title": "Umbral de dos minutos",
+          "summary": "Haz una versión tan pequeña que empezar no te comprometa a terminar.",
+          "symbol": "timer",
+          "kind": "movement",
+          "evidence": "promising",
+          "caution": "No uses productividad para ignorar hambre, dolor, enfermedad o agotamiento. Primero atiende las necesidades básicas.",
+          "steps": [
+            {"id":"bud-1","title":"Nombra el verbo","instruction":"Sustituye terminar el proyecto por un verbo físico: abrir, buscar, escribir, colocar o llamar.","durationSeconds":20,"phase":"reflect","accessibilityCue":"Convierte la tarea en un verbo físico."},
+            {"id":"bud-2","title":"Reduce el tamaño","instruction":"Elige una acción que pueda detenerse a los dos minutos: abrir el archivo o escribir un título.","durationSeconds":20,"phase":"reflect","accessibilityCue":"Elige una acción de menos de dos minutos."},
+            {"id":"bud-3","title":"Prepara solo lo necesario","instruction":"Retira un obstáculo y deja visible únicamente el material del primer paso.","durationSeconds":25,"phase":"prepare","accessibilityCue":"Prepara solo el material del primer paso."},
+            {"id":"bud-4","title":"Empieza sin negociar","instruction":"Haz la acción elegida. No decidas aún si continuarás ni evalúes la calidad.","durationSeconds":60,"phase":"move","accessibilityCue":"Realiza la acción pequeña sin evaluar el resultado."},
+            {"id":"bud-5","title":"Elige de nuevo","instruction":"Al terminar, decide conscientemente parar o repetir otro bloque pequeño. Ambas opciones son válidas.","durationSeconds":20,"phase":"finish","accessibilityCue":"Decide si paras o haces otro bloque pequeño."}
+          ]
+        },
+        {
+          "id": "bloqueo-siguiente-visible",
+          "title": "Siguiente acción visible",
+          "summary": "Aclara qué significa avanzar cuando el problema es la ambigüedad.",
+          "symbol": "arrow.right.circle.fill",
+          "kind": "reflection",
+          "evidence": "supported",
+          "caution": "Si otra persona controla el objetivo, confirma expectativas antes de invertir mucho trabajo en una suposición.",
+          "steps": [
+            {"id":"bsv-1","title":"Define el resultado","instruction":"Completa: cuando esta parte esté hecha, podré ver… Usa algo observable.","durationSeconds":25,"phase":"reflect","accessibilityCue":"Define un resultado que puedas observar."},
+            {"id":"bsv-2","title":"Detecta la incógnita","instruction":"Pregunta qué dato, decisión o material falta para dar el siguiente paso.","durationSeconds":20,"phase":"reflect","accessibilityCue":"Identifica la información que falta."},
+            {"id":"bsv-3","title":"Elige una fuente","instruction":"Decide dónde obtenerlo: una nota, documento, persona o prueba breve.","durationSeconds":20,"phase":"reflect","accessibilityCue":"Elige dónde conseguir la información."},
+            {"id":"bsv-4","title":"Formula una acción","instruction":"Escribe una instrucción que empiece por un verbo y no contenga luego, todo ni perfecto.","durationSeconds":25,"phase":"reflect","accessibilityCue":"Escribe una acción concreta y limitada."},
+            {"id":"bsv-5","title":"Déjala preparada","instruction":"Pon el archivo, objeto o mensaje en la posición exacta desde la que podrás continuar.","durationSeconds":25,"phase":"finish","accessibilityCue":"Deja preparado el punto de inicio."}
+          ]
+        },
+        {
+          "id": "bloqueo-marcha-cruzada",
+          "title": "Marcha cruzada lenta",
+          "summary": "Movimiento coordinado para salir de la inmovilidad y enlazar el cuerpo con una primera acción.",
+          "symbol": "figure.walk.motion",
+          "kind": "movement",
+          "evidence": "complementary",
+          "caution": "Hazlo sentado si tu equilibrio es inestable y omítelo si hay dolor o riesgo de caída.",
+          "steps": [
+            {
+              "id": "bmc-1",
+              "title": "Elige postura",
+              "instruction": "De pie con apoyo o sentado, deja delante de ti solo el material de la primera acción.",
+              "durationSeconds": 12,
+              "phase": "prepare",
+              "accessibilityCue": "Busca una postura estable."
+            },
+            {
+              "id": "bmc-2",
+              "title": "Alterna",
+              "instruction": "Eleva una rodilla y toca con la mano contraria; cambia de lado lentamente.",
+              "durationSeconds": 30,
+              "phase": "move",
+              "accessibilityCue": "Alterna mano y rodilla contrarias."
+            },
+            {
+              "id": "bmc-3",
+              "title": "Enlaza",
+              "instruction": "Al terminar, toca el objeto de trabajo y realiza una acción de menos de un minuto.",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "Empieza una acción mínima."
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "bloqueo-tip-zapatos",
+          "title": "Ponte los zapatos",
+          "detail": "Aunque no vayas a salir, este pequeño cambio puede funcionar como señal de comienzo."
+        },
+        {
+          "id": "bloqueo-tip-cuenta",
+          "title": "Cuenta 5 · 4 · 3 · 2 · 1",
+          "detail": "Al llegar a uno, mueve físicamente una sola pieza necesaria para empezar."
+        },
+        {
+          "id": "bloqueo-tip-feo",
+          "title": "Haz una primera versión deliberadamente imperfecta",
+          "detail": "Un título malo, una línea torpe o un boceto incompleto convierten la tarea en algo editable."
+        }
+      ],
+      "sources": [
+        {"id":"who-matters","title":"Doing What Matters in Times of Stress","organization":"Organización Mundial de la Salud","url":"https://www.who.int/publications/i/item/9789240003927","note":"Desenganche de pensamientos difíciles y acciones pequeñas guiadas por valores."},
+        {"id":"who-stress","title":"Stress: questions and answers","organization":"Organización Mundial de la Salud","url":"https://www.who.int/news-room/questions-and-answers/item/stress","note":"Efectos cotidianos del estrés y medidas prácticas de afrontamiento."}
+      ]
+    },
+    {
+      "id": "culpa-verguenza",
+      "title": "La culpa o la vergüenza me desbordan",
+      "subtitle": "Un error se convierte en un juicio contra toda tu persona",
+      "symbol": "person.crop.circle.badge.exclamationmark.fill",
+      "palette": "rose",
+      "immediateExplanation": "La culpa puede señalar que una conducta chocó con tus valores; la vergüenza suele ampliar el juicio desde hice algo mal hasta soy malo. Bajo mucha activación, esa diferencia se pierde y aparecen ocultación, ataque o castigo.",
+      "biologicalExplanation": "La culpa y la vergüenza están relacionadas, pero no hacen exactamente el mismo trabajo. La culpa suele señalar una conducta que chocó con tus valores: «hice algo que necesito revisar». La vergüenza amplía el mensaje hacia toda tu identidad: «hay algo malo en mí». Como la pertenencia y la aceptación son importantes, ambas pueden activar vigilancia, tensión, deseo de ocultarte o impulso de defenderte atacando.\n\nTu mente puede repasar el error para evitar repetirlo y recuperar seguridad social. Cuando ya no aparece información nueva, ese mecanismo se convierte en rumiación: mantiene la amenaza presente, pero no repara el daño. Las etiquetas globales también reducen opciones; si «soy imperdonable», parece que ninguna acción concreta puede cambiar nada.\n\nDescribir el hecho, reconocer el impacto y elegir una reparación transforma una alarma difusa en aprendizaje. Tratarte con humanidad no elimina la responsabilidad; ayuda a mantener suficiente regulación para asumirla sin destruirte. Repetir respuestas de honestidad, límite y reparación puede fortalecer una identidad basada en conductas elegidas, no en un único episodio. Si la culpa procede de abuso o te lleva a querer castigarte físicamente, busca apoyo seguro.",
+      "reassurance": "Asumir responsabilidad y tratarte con humanidad pueden coexistir. Castigarte no repara por sí solo el daño.",
+      "searchTerms": ["culpa", "vergüenza", "error", "fracaso", "arrepentimiento", "humillación", "perdón", "rumiar"],
+      "redFlags": [
+        "La culpa viene de abuso, manipulación, chantaje o de que alguien te responsabiliza por su violencia.",
+        "Sientes que mereces hacerte daño, desaparecer o recibir castigo físico."
+      ],
+      "whenToSeekHelp": [
+        "Si la culpa es persistente, desproporcionada o se relaciona con recuerdos traumáticos.",
+        "Si realizas comprobaciones, confesiones o peticiones de tranquilidad de forma compulsiva.",
+        "Si hay ideas de autolesión, suicidio o imposibilidad de mantenerte a salvo."
+      ],
+      "protocols": [
+        {
+          "id": "culpa-hechos-veredicto",
+          "title": "Hechos frente a veredicto",
+          "summary": "Distingue una conducta concreta de las etiquetas absolutas sobre quién eres.",
+          "symbol": "rectangle.split.2x1.fill",
+          "kind": "reflection",
+          "evidence": "supported",
+          "caution": "No minimices un daño real. El objetivo es describirlo con precisión para poder responder de forma responsable.",
+          "steps": [
+            {"id":"chv-1","title":"Escribe el hecho","instruction":"Describe qué hiciste o dejaste de hacer como lo registraría una cámara, sin adjetivos sobre tu identidad.","durationSeconds":30,"phase":"reflect","accessibilityCue":"Describe el hecho sin etiquetarte."},
+            {"id":"chv-2","title":"Detecta el veredicto","instruction":"Nombra la frase global que aparece: soy inútil, imperdonable o nunca cambiaré.","durationSeconds":20,"phase":"observe","accessibilityCue":"Identifica el juicio global sobre ti."},
+            {"id":"chv-3","title":"Añade contexto sin excusar","instruction":"Reconoce qué influyó y qué parte seguía bajo tu responsabilidad.","durationSeconds":30,"phase":"reflect","accessibilityCue":"Separa el contexto de tu responsabilidad."},
+            {"id":"chv-4","title":"Identifica el valor","instruction":"Pregunta qué valor fue vulnerado: honestidad, cuidado, respeto, compromiso u otro.","durationSeconds":20,"phase":"reflect","accessibilityCue":"Nombra el valor que quieres recuperar."},
+            {"id":"chv-5","title":"Cambia juicio por dirección","instruction":"Formula: hice esto, me importa este valor y mi siguiente acción responsable será…","durationSeconds":25,"phase":"finish","accessibilityCue":"Convierte el juicio en una dirección responsable."}
+          ]
+        },
+        {
+          "id": "culpa-reparacion-segura",
+          "title": "Reparación en tres movimientos",
+          "summary": "Prepara una disculpa o corrección centrada en el impacto y el cambio posible.",
+          "symbol": "wrench.and.screwdriver.fill",
+          "kind": "reflection",
+          "evidence": "promising",
+          "caution": "No contactes a una persona si existe una orden, un límite explícito o si hacerlo pondría a alguien en riesgo. Repara por otra vía apropiada.",
+          "steps": [
+            {"id":"crs-1","title":"Reconoce","instruction":"Di qué ocurrió sin si, pero ni una explicación que borre el impacto.","durationSeconds":25,"phase":"reflect","accessibilityCue":"Reconoce con claridad lo ocurrido."},
+            {"id":"crs-2","title":"Nombra el impacto","instruction":"Menciona el efecto que conoces. Si no lo sabes, no lo inventes y pregunta cuando sea apropiado.","durationSeconds":25,"phase":"reflect","accessibilityCue":"Nombra el impacto conocido sin suponer."},
+            {"id":"crs-3","title":"Propón reparación","instruction":"Elige una corrección concreta que respete lo que la otra persona necesita.","durationSeconds":25,"phase":"reflect","accessibilityCue":"Propón una reparación concreta y respetuosa."},
+            {"id":"crs-4","title":"Acepta el límite","instruction":"Recuerda que disculparte no obliga a que te perdonen, respondan o vuelvan a confiar de inmediato.","durationSeconds":20,"phase":"observe","accessibilityCue":"Acepta que no controlas la respuesta de la otra persona."},
+            {"id":"crs-5","title":"Cambia una condición","instruction":"Define qué harás diferente para reducir la probabilidad de repetirlo.","durationSeconds":25,"phase":"finish","accessibilityCue":"Decide un cambio concreto para el futuro."}
+          ]
+        },
+        {
+          "id": "culpa-gesto-autocompasion",
+          "title": "Gesto de autocompasión",
+          "summary": "Usa contacto y lenguaje cuidadoso para poder mirar el hecho sin convertirlo en condena.",
+          "symbol": "heart.text.clipboard.fill",
+          "kind": "reflection",
+          "evidence": "promising",
+          "caution": "Si el contacto corporal incomoda, apoya las manos en una mesa o sostén un objeto neutro.",
+          "steps": [
+            {
+              "id": "cga-1",
+              "title": "Elige un apoyo",
+              "instruction": "Pon una mano en el pecho, antebrazo o sobre una superficie firme.",
+              "durationSeconds": 12,
+              "phase": "prepare",
+              "accessibilityCue": "Elige un apoyo cómodo."
+            },
+            {
+              "id": "cga-2",
+              "title": "Habla como a otra persona",
+              "instruction": "Di qué ocurrió con palabras concretas y añade lo que dirías a alguien querido que quisiera repararlo.",
+              "durationSeconds": 30,
+              "phase": "reflect",
+              "accessibilityCue": "Usa una voz justa y cuidadosa."
+            },
+            {
+              "id": "cga-3",
+              "title": "Une cuidado y responsabilidad",
+              "instruction": "Completa: «Puedo tratarme con dignidad y mi siguiente reparación posible es…».",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "Elige una reparación posible."
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "culpa-tip-verbo",
+          "title": "Cambia «soy» por «hice»",
+          "detail": "Describir una conducta mantiene abierta la posibilidad de aprender, corregir o reparar."
+        },
+        {
+          "id": "culpa-tip-ritual",
+          "title": "Haz un pequeño cambio físico",
+          "detail": "Lavarte la cara, ordenar el lugar o cambiarte de ropa puede marcar el paso de castigarte a actuar."
+        },
+        {
+          "id": "culpa-tip-testigo",
+          "title": "Imagina un testigo justo",
+          "detail": "Pregunta qué diría alguien compasivo que también valorara la responsabilidad."
+        }
+      ],
+      "sources": [
+        {"id":"who-matters","title":"Doing What Matters in Times of Stress","organization":"Organización Mundial de la Salud","url":"https://www.who.int/publications/i/item/9789240003927","note":"Desenganche de pensamientos, amabilidad y acción guiada por valores."},
+        {"id":"who-stress-grounding","title":"Dealing with stress","organization":"Organización Mundial de la Salud","url":"https://www.emro.who.int/mhps/dealing_with_stress.html","note":"Nombrar pensamientos y sentimientos difíciles antes de elegir una respuesta."}
+      ]
+    },
+    {
+      "id": "soledad-desconexion",
+      "title": "Me siento muy solo o desconectado",
+      "subtitle": "Necesitas cercanía, pero contactar con alguien parece demasiado difícil",
+      "symbol": "person.crop.circle.dashed",
+      "palette": "violet",
+      "immediateExplanation": "La soledad es una experiencia de desconexión percibida; puede aparecer incluso rodeado de personas. A veces empuja a retirarse justo cuando una pequeña señal de contacto sería útil.",
+      "biologicalExplanation": "Los seres humanos regulamos parte de nuestra seguridad y bienestar en relación con otras personas. Una voz conocida, una respuesta atenta o compartir un espacio pueden actuar como señales de apoyo. Cuando percibes falta de conexión, el cerebro aumenta la vigilancia social: busca indicios de rechazo y puede interpretar un mensaje tardío o un gesto ambiguo de la forma más dolorosa. La soledad puede sentirse incluso en compañía porque depende de la conexión que necesitas, no solo del número de personas alrededor.\n\nEsa vigilancia puede empujarte a retirarte para evitar otro rechazo. El aislamiento reduce oportunidades de recibir señales distintas y confirma la sensación de estar solo. No es una contradicción voluntaria, sino un intento de protección que termina manteniendo el problema.\n\nUna microconexión segura aporta información nueva con poca exigencia. La conversación, la presencia compartida y las rutinas comunitarias pueden facilitar corregulación: cada persona sigue teniendo su propio sistema nervioso, pero el tono, la previsibilidad y la disponibilidad de otra ayudan a disminuir alerta. Repetir contactos suficientemente seguros permite reconstruir confianza gradualmente. No necesitas volver a una relación dañina para cubrir esta necesidad.",
+      "reassurance": "Necesitar conexión no es una debilidad. No tienes que mantener una conversación perfecta para crear un primer punto de contacto.",
+      "searchTerms": ["soledad", "solo", "aislamiento", "desconexión", "nadie", "compañía", "amistad", "contacto"],
+      "redFlags": [
+        "La soledad viene acompañada de ideas de suicidio, autolesión o la sensación de que nadie podrá detenerte.",
+        "Estás aislado por control, amenazas, violencia o porque otra persona impide que pidas ayuda."
+      ],
+      "whenToSeekHelp": [
+        "Si el aislamiento se prolonga, empeora tu salud o te impide realizar actividades básicas.",
+        "Si la ansiedad, depresión, duelo u otra dificultad hace imposible sostener vínculos.",
+        "Si necesitas apoyo urgente: usa los recursos de emergencia aunque te cueste explicar todo."
+      ],
+      "protocols": [
+        {
+          "id": "soledad-microconexion",
+          "title": "Microconexión",
+          "summary": "Reduce la barrera del contacto con una petición breve, específica y fácil de responder.",
+          "symbol": "message.fill",
+          "kind": "reflection",
+          "evidence": "promising",
+          "caution": "Contacta con personas seguras. Evita volver a vínculos abusivos solo para aliviar la soledad inmediata.",
+          "steps": [
+            {"id":"smc-1","title":"Elige seguridad, no perfección","instruction":"Piensa en una persona suficientemente segura, aunque no sea la persona ideal.","durationSeconds":20,"phase":"reflect","accessibilityCue":"Elige una persona suficientemente segura."},
+            {"id":"smc-2","title":"Reduce la petición","instruction":"Pide algo concreto: un audio, diez minutos de llamada, un paseo o tomar un café esta semana.","durationSeconds":25,"phase":"reflect","accessibilityCue":"Elige una forma concreta y pequeña de contacto."},
+            {"id":"smc-3","title":"Escribe sin justificarte","instruction":"Usa una frase simple: hoy me vendría bien compañía; ¿te va una llamada breve? ","durationSeconds":25,"phase":"reflect","accessibilityCue":"Escribe una petición sencilla de compañía."},
+            {"id":"smc-4","title":"Envía a una persona","instruction":"Envía el mensaje y deja el teléfono unos minutos. Un retraso no equivale a rechazo.","durationSeconds":20,"phase":"move","accessibilityCue":"Envía el mensaje y permite tiempo para responder."},
+            {"id":"smc-5","title":"Prepara una alternativa","instruction":"Si no está disponible, elige otra persona, lugar comunitario o línea de apoyo.","durationSeconds":20,"phase":"finish","accessibilityCue":"Ten una segunda opción de conexión."}
+          ]
+        },
+        {
+          "id": "soledad-presencia-compartida",
+          "title": "Presencia compartida",
+          "summary": "Acércate a un contexto humano seguro sin exigirte intimidad inmediata.",
+          "symbol": "person.3.fill",
+          "kind": "movement",
+          "evidence": "promising",
+          "caution": "Elige un espacio público y seguro. Si salir no es posible, usa una actividad comunitaria moderada en línea y protege tus datos personales.",
+          "steps": [
+            {"id":"spc-1","title":"Elige un lugar","instruction":"Piensa en una biblioteca, parque, cafetería, centro comunitario o zona común segura.","durationSeconds":20,"phase":"reflect","accessibilityCue":"Elige un lugar seguro con presencia de otras personas."},
+            {"id":"spc-2","title":"Define una estancia breve","instruction":"Decide estar diez o quince minutos, sin obligación de hablar con nadie.","durationSeconds":15,"phase":"prepare","accessibilityCue":"Define una estancia breve y sin exigencias."},
+            {"id":"spc-3","title":"Lleva una actividad simple","instruction":"Escoge caminar, leer, tomar algo o hacer una gestión pequeña.","durationSeconds":15,"phase":"prepare","accessibilityCue":"Elige una actividad sencilla para acompañar la salida."},
+            {"id":"spc-4","title":"Reconoce humanidad","instruction":"Observa discretamente señales de vida compartida: voces, pasos, rutinas o gestos cotidianos.","durationSeconds":40,"phase":"orient","accessibilityCue":"Observa señales neutrales de actividad humana."},
+            {"id":"spc-5","title":"Decide un próximo contacto","instruction":"Antes de irte, elige si volverás, saludarás la próxima vez o buscarás una actividad con continuidad.","durationSeconds":20,"phase":"finish","accessibilityCue":"Elige un próximo paso de conexión."}
+          ]
+        },
+        {
+          "id": "soledad-calor-y-voz",
+          "title": "Calor y voz humana",
+          "summary": "Combina una sensación térmica segura con una presencia audible para reducir el vacío inmediato.",
+          "symbol": "mug.fill",
+          "kind": "grounding",
+          "evidence": "complementary",
+          "caution": "Evita objetos muy calientes y no uses audio si aumenta la tristeza o la sobrecarga.",
+          "steps": [
+            {
+              "id": "scv-1",
+              "title": "Busca calor seguro",
+              "instruction": "Sostén una taza templada o envuélvete en una manta, comprobando que la temperatura sea cómoda.",
+              "durationSeconds": 15,
+              "phase": "prepare",
+              "accessibilityCue": "Busca una temperatura cómoda."
+            },
+            {
+              "id": "scv-2",
+              "title": "Añade una voz",
+              "instruction": "Reproduce una voz familiar, radio tranquila o mensaje de alguien seguro a volumen bajo.",
+              "durationSeconds": 30,
+              "phase": "observe",
+              "accessibilityCue": "Escucha una voz tranquila."
+            },
+            {
+              "id": "scv-3",
+              "title": "Haz un puente",
+              "instruction": "Envía un saludo breve o decide un lugar con presencia humana al que puedas acercarte.",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "Crea un puente pequeño hacia otra persona."
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "soledad-tip-fondo",
+          "title": "Usa compañía de fondo",
+          "detail": "Una radio, pódcast conocido o retransmisión tranquila puede hacer menos abrupto el silencio."
+        },
+        {
+          "id": "soledad-tip-tercer-lugar",
+          "title": "Acércate a un lugar compartido",
+          "detail": "Una biblioteca, cafetería o parque permite estar cerca de personas sin exigir conversación."
+        },
+        {
+          "id": "soledad-tip-minimo",
+          "title": "Envía una señal mínima",
+          "detail": "Un emoji, una foto o «¿tienes cinco minutos esta semana?» reduce la barrera de iniciar contacto."
+        }
+      ],
+      "sources": [
+        {"id":"who-social-connection","title":"From loneliness to social connection: charting a path to healthier societies","organization":"Organización Mundial de la Salud","url":"https://www.who.int/publications/i/item/9789240112360","note":"Importancia de la conexión social y respuestas para reducir aislamiento y soledad."},
+        {"id":"who-matters","title":"Doing What Matters in Times of Stress","organization":"Organización Mundial de la Salud","url":"https://www.who.int/publications/i/item/9789240003927","note":"Acciones pequeñas guiadas por valores y trato amable."}
+      ]
+    },
+    {
+      "id": "celos-inseguridad",
+      "title": "Los celos o la inseguridad están tomando el control",
+      "subtitle": "Una señal ambigua activa miedo, comparación y urgencia por comprobar",
+      "symbol": "heart.circle.fill",
+      "palette": "amber",
+      "immediateExplanation": "Los celos pueden mezclar miedo a perder un vínculo, comparación, enfado y deseo de certeza. La urgencia por revisar, acusar o exigir puede aliviar la duda unos segundos y aumentar el conflicto después.",
+      "biologicalExplanation": "Cuando un vínculo importante parece amenazado, tu sistema de apego y protección aumenta la vigilancia. La atención busca cambios en mensajes, gestos o disponibilidad, y el cuerpo puede activar tensión, calor, palpitaciones o urgencia por comprobar. La incertidumbre resulta especialmente incómoda porque el cerebro quiere predecir si conservará una relación que considera valiosa.\n\nCon mucha activación, los huecos se llenan rápidamente con historias construidas a partir de miedos y experiencias anteriores. Después aparece un sesgo de confirmación: las señales que encajan con la sospecha llaman más la atención que las que la contradicen. Esto no significa que los celos sean siempre infundados ni que debas ignorar una ruptura real de acuerdos; significa que emoción, dato e interpretación no son la misma cosa.\n\nDetener la comprobación permite que baje la urgencia y separar «vi esto» de «temo que signifique esto». Formular la necesidad —claridad, respeto, afecto o un límite— devuelve opciones a la conversación. Practicar esta secuencia enseña al cerebro que puede buscar seguridad mediante información y límites, no mediante control. Si hay violencia, vigilancia o miedo, la prioridad no es regular mejor los celos, sino proteger a las personas implicadas.",
+      "reassurance": "Una emoción intensa no demuestra que tu interpretación sea cierta ni te obliga a actuar. Puedes proteger tus límites sin controlar a otra persona.",
+      "searchTerms": ["celos", "pareja", "inseguridad", "comparación", "abandono", "desconfianza", "comprobar", "relación"],
+      "redFlags": [
+        "Hay violencia, amenazas, control coercitivo, seguimiento, miedo o destrucción de objetos.",
+        "Sientes impulso de agredir, perseguir, acceder a dispositivos ajenos o impedir que alguien se marche."
+      ],
+      "whenToSeekHelp": [
+        "Si los celos llevan a vigilancia, interrogatorios, aislamiento o conflictos repetidos.",
+        "Si existe una traición o problema real que necesita apoyo de pareja o asesoramiento individual.",
+        "Si temes hacer daño o recibirlo, aléjate y usa ayuda de emergencia o recursos de violencia de tu país."
+      ],
+      "protocols": [
+        {
+          "id": "celos-dato-historia-necesidad",
+          "title": "Dato, historia y necesidad",
+          "summary": "Separa lo que observaste de lo que tu mente predice antes de actuar.",
+          "symbol": "square.split.3x1.fill",
+          "kind": "reflection",
+          "evidence": "supported",
+          "caution": "Separar interpretaciones no significa ignorar hechos de engaño, abuso o incumplimiento de acuerdos. Busca información y límites seguros.",
+          "steps": [
+            {"id":"cdh-1","title":"Detén la comprobación","instruction":"Durante este ejercicio no revises mensajes, redes, ubicaciones ni dispositivos.","durationSeconds":15,"phase":"prepare","accessibilityCue":"Pausa cualquier comprobación."},
+            {"id":"cdh-2","title":"Escribe el dato","instruction":"Describe solo lo que viste u oíste, sin adivinar intención ni significado.","durationSeconds":25,"phase":"reflect","accessibilityCue":"Describe únicamente el dato observado."},
+            {"id":"cdh-3","title":"Nombra la historia","instruction":"Completa: mi mente está contando que… Incluye el peor desenlace que anticipa.","durationSeconds":25,"phase":"observe","accessibilityCue":"Nombra la interpretación como una historia de tu mente."},
+            {"id":"cdh-4","title":"Identifica la necesidad","instruction":"Pregunta si necesitas claridad, respeto, coherencia, afecto, un acuerdo o un límite.","durationSeconds":25,"phase":"reflect","accessibilityCue":"Identifica la necesidad que hay bajo los celos."},
+            {"id":"cdh-5","title":"Elige conducta compatible","instruction":"Decide una pregunta respetuosa, una pausa o un límite que no invada ni amenace.","durationSeconds":25,"phase":"finish","accessibilityCue":"Elige una conducta respetuosa y compatible con tus valores."}
+          ]
+        },
+        {
+          "id": "celos-conversacion-sin-acusar",
+          "title": "Conversación sin acusar",
+          "summary": "Prepara un mensaje sobre observación, emoción, necesidad y petición concreta.",
+          "symbol": "bubble.left.and.bubble.right.fill",
+          "kind": "conflictPause",
+          "evidence": "promising",
+          "caution": "No inicies la conversación si alguna persona está intoxicada, conduciendo, gritando o impidiendo salir. Espera o busca apoyo.",
+          "steps": [
+            {"id":"ccs-1","title":"Comprueba intensidad","instruction":"Si no puedes hablar sin insultar, amenazar o interrogar, toma primero una pausa más larga.","durationSeconds":20,"phase":"observe","accessibilityCue":"Comprueba si puedes hablar sin elevar el conflicto."},
+            {"id":"ccs-2","title":"Empieza por observación","instruction":"Formula: cuando ocurrió… y usa un hecho concreto, sin siempre ni nunca.","durationSeconds":25,"phase":"reflect","accessibilityCue":"Empieza con una observación concreta."},
+            {"id":"ccs-3","title":"Habla desde ti","instruction":"Añade: me sentí… Evita convertir la emoción en una acusación.","durationSeconds":20,"phase":"reflect","accessibilityCue":"Nombra tu emoción sin acusar."},
+            {"id":"ccs-4","title":"Haz una petición","instruction":"Pide una acción observable o una conversación: ¿podemos aclarar…? o ¿acordamos…? ","durationSeconds":25,"phase":"reflect","accessibilityCue":"Formula una petición clara y negociable."},
+            {"id":"ccs-5","title":"Deja espacio a respuesta","instruction":"Escucha la respuesta completa y recuerda que una petición puede negociarse o rechazarse.","durationSeconds":25,"phase":"finish","accessibilityCue":"Escucha y deja espacio para una respuesta real."}
+          ]
+        },
+        {
+          "id": "celos-masaje-manos",
+          "title": "Automasaje de manos",
+          "summary": "Da a las manos una tarea lenta mientras separas la urgencia de comprobar o acusar.",
+          "symbol": "hand.rays.fill",
+          "kind": "acupressure",
+          "evidence": "complementary",
+          "caution": "La presión debe ser agradable. Evita zonas inflamadas, lesionadas o con pérdida de sensibilidad.",
+          "steps": [
+            {
+              "id": "cmm-1",
+              "title": "Abre las manos",
+              "instruction": "Apoya los antebrazos y observa si estás agarrando el teléfono o tensando los dedos.",
+              "durationSeconds": 12,
+              "phase": "prepare",
+              "accessibilityCue": "Suelta lo que tengas en las manos."
+            },
+            {
+              "id": "cmm-2",
+              "title": "Masajea",
+              "instruction": "Con el pulgar, recorre lentamente la palma contraria y después cambia de mano.",
+              "durationSeconds": 30,
+              "phase": "press",
+              "accessibilityCue": "Masajea las palmas suavemente."
+            },
+            {
+              "id": "cmm-3",
+              "title": "Pospón la comprobación",
+              "instruction": "Deja el teléfono boca abajo y decide cuánto tiempo esperarás antes de preguntar o comprobar.",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "Elige un tiempo de espera."
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "celos-tip-telefono",
+          "title": "Aleja el teléfono",
+          "detail": "Déjalo fuera del alcance durante unos minutos para no convertir una emoción en vigilancia impulsiva."
+        },
+        {
+          "id": "celos-tip-alternativas",
+          "title": "Escribe tres explicaciones posibles",
+          "detail": "Incluye al menos una interpretación neutra de los mismos datos, aunque todavía no te convenza."
+        },
+        {
+          "id": "celos-tip-recordatorio",
+          "title": "Usa un objeto como recordatorio",
+          "detail": "Una pulsera o moneda puede significar: «primero pregunto; no adivino ni acuso»."
+        }
+      ],
+      "sources": [
+        {"id":"who-matters","title":"Doing What Matters in Times of Stress","organization":"Organización Mundial de la Salud","url":"https://www.who.int/publications/i/item/9789240003927","note":"Desenganche de historias mentales, grounding, valores y trato amable."},
+        {"id":"who-stress","title":"Stress: questions and answers","organization":"Organización Mundial de la Salud","url":"https://www.who.int/news-room/questions-and-answers/item/stress","note":"Reconocimiento del estrés y búsqueda de apoyo cuando interfiere en las relaciones."}
+      ]
+    },
+    {
+      "id": "impulso-lamentable",
+      "title": "Tengo un impulso que podría lamentar",
+      "subtitle": "Quieres enviar, comprar, consumir, romper o actuar sin pensar",
+      "symbol": "exclamationmark.arrow.triangle.2.circlepath",
+      "palette": "slate",
+      "immediateExplanation": "Un impulso intenso crea sensación de urgencia y estrecha las opciones a actuar o resistir. Entre ambas existe una tercera vía: retrasar, crear distancia y observar cómo cambia antes de decidir.",
+      "biologicalExplanation": "Un impulso es una preparación intensa para actuar, no una orden inevitable. Las redes de amenaza, emoción y recompensa pueden marcar una conducta como urgente y acercar toda tu atención a su alivio inmediato. Señales dopaminérgicas participan en la importancia y el aprendizaje asociados a ciertas opciones; no son un «químico del placer» que controle por sí solo tus decisiones. El contexto, los hábitos y las consecuencias aprendidas también influyen.\n\nCon estrés, intoxicación o falta de sueño, el control inhibitorio suele funcionar peor y cuesta mantener a la vez las consecuencias de hoy, mañana y el mes próximo. La mente reduce el mundo a «hacerlo o soportarlo», aunque existan más alternativas. La intensidad del impulso suele subir, fluctuar y bajar, pero no sigue un reloj exacto.\n\nDemorar y poner distancia física añaden fricción cuando pensar no basta. Ese tiempo permite que disminuya parte de la activación y que las redes ejecutivas vuelvan a representar consecuencias y opciones. Observar la sensación sin obedecerla practica un aprendizaje importante: puedo sentir urgencia y elegir seguridad. Si el impulso implica daño, sobredosis, armas o conducción peligrosa, no esperes a que pase solo; aléjate de los medios y activa ayuda inmediata.",
+      "reassurance": "Sentir un impulso no equivale a elegirlo. Puedes posponer la decisión y hacer que la opción segura sea la más fácil durante los próximos minutos.",
+      "searchTerms": ["impulso", "urgencia", "mensaje", "comprar", "consumir", "romper", "apostar", "arrepentir", "control"],
+      "redFlags": [
+        "El impulso implica suicidio, autolesión, sobredosis, agredir a alguien, usar un arma, conducir de forma peligrosa o provocar un incendio.",
+        "Ya has tomado una sustancia, iniciado una acción peligrosa o no confías en poder detenerte."
+      ],
+      "whenToSeekHelp": [
+        "Si existe cualquier riesgo inmediato, aléjate de los medios, busca a otra persona y contacta con emergencias o una línea de crisis de tu país.",
+        "Si los impulsos se repiten, generan deudas, consumo, lesiones o daño en relaciones.",
+        "Si aparecen con cambios extremos de ánimo, muy poco sueño o intoxicación."
+      ],
+      "protocols": [
+        {
+          "id": "impulso-demora-distancia",
+          "title": "Demora y distancia",
+          "summary": "Añade tiempo y obstáculos concretos entre el impulso y la acción.",
+          "symbol": "pause.circle.fill",
+          "kind": "conflictPause",
+          "evidence": "supported",
+          "caution": "No uses esta guía como única respuesta a impulsos de hacerte daño o dañar a alguien. En ese caso activa ayuda inmediata y no te quedes solo.",
+          "steps": [
+            {"id":"idd-1","title":"Declara una demora","instruction":"Di: no decidiré esto durante los próximos diez minutos. Posponer no significa negar para siempre.","durationSeconds":15,"phase":"prepare","accessibilityCue":"Aplaza la decisión durante diez minutos."},
+            {"id":"idd-2","title":"Crea distancia física","instruction":"Deja el objeto, dispositivo, tarjeta, sustancia o llaves fuera de alcance y cambia de espacio.","durationSeconds":30,"phase":"move","accessibilityCue":"Pon distancia entre tú y el medio de actuar."},
+            {"id":"idd-3","title":"Añade una barrera","instruction":"Cierra la aplicación, bloquea temporalmente la compra o entrega el medio a una persona segura.","durationSeconds":30,"phase":"move","accessibilityCue":"Añade una barrera práctica a la acción impulsiva."},
+            {"id":"idd-4","title":"Informa a alguien","instruction":"Di con claridad: tengo un impulso fuerte y necesito que te quedes conmigo mientras pasa el pico.","durationSeconds":25,"phase":"reflect","accessibilityCue":"Pide compañía mientras baja la urgencia."},
+            {"id":"idd-5","title":"Revisa consecuencias","instruction":"Cuando termine la demora, compara qué ocurre si actúas hoy, mañana y dentro de un mes. Si sigue siendo peligroso, mantén la barrera y busca ayuda.","durationSeconds":35,"phase":"finish","accessibilityCue":"Revisa consecuencias antes de volver a decidir."}
+          ]
+        },
+        {
+          "id": "impulso-observar-ola",
+          "title": "Observar la ola",
+          "summary": "Localiza la urgencia en el cuerpo y observa sus cambios sin obedecerla.",
+          "symbol": "water.waves",
+          "kind": "grounding",
+          "evidence": "promising",
+          "caution": "No cierres los ojos si necesitas vigilar tu seguridad. Si el impulso es peligroso o aumenta, abandona el ejercicio y contacta con ayuda inmediata.",
+          "steps": [
+            {"id":"ioo-1","title":"Puntúa la urgencia","instruction":"Valora su intensidad de cero a diez sin intentar obtener una cifra exacta.","durationSeconds":15,"phase":"observe","accessibilityCue":"Valora la intensidad aproximada del impulso."},
+            {"id":"ioo-2","title":"Localízala","instruction":"Nota dónde se manifiesta: manos, mandíbula, pecho, abdomen, piernas u otra zona.","durationSeconds":20,"phase":"observe","accessibilityCue":"Localiza las sensaciones del impulso en el cuerpo."},
+            {"id":"ioo-3","title":"Describe, no ordenes","instruction":"Usa palabras sensoriales como presión, calor, movimiento o tensión, sin decir tengo que.","durationSeconds":25,"phase":"observe","accessibilityCue":"Describe la sensación sin convertirla en una orden."},
+            {"id":"ioo-4","title":"Observa el cambio","instruction":"Durante un minuto, comprueba si la forma, ubicación o intensidad cambia, incluso un poco.","durationSeconds":60,"phase":"observe","accessibilityCue":"Observa cómo cambia la sensación durante un minuto."},
+            {"id":"ioo-5","title":"Elige la acción segura","instruction":"Vuelve a puntuar y realiza una alternativa incompatible con el impulso: alejarte, llamar, caminar acompañado o mantener la barrera.","durationSeconds":30,"phase":"finish","accessibilityCue":"Elige una acción segura incompatible con el impulso."}
+          ]
+        },
+        {
+          "id": "impulso-agua-fresca",
+          "title": "Agua fresca en rostro y manos",
+          "summary": "Un cambio sensorial breve para crear distancia antes de actuar, sin usar frío extremo.",
+          "symbol": "drop.fill",
+          "kind": "grounding",
+          "evidence": "promising",
+          "caution": "Usa agua fresca, no helada; no sumerjas la cara ni contengas el aire. Evítalo si el frío empeora una condición médica.",
+          "steps": [
+            {
+              "id": "iaf-1",
+              "title": "Crea distancia",
+              "instruction": "Deja el objeto, la aplicación o el lugar relacionado con el impulso y ve a un lavabo seguro.",
+              "durationSeconds": 12,
+              "phase": "prepare",
+              "accessibilityCue": "Aléjate del medio del impulso."
+            },
+            {
+              "id": "iaf-2",
+              "title": "Usa agua fresca",
+              "instruction": "Deja correr agua fresca sobre las manos y, si es cómodo, salpica suavemente las mejillas.",
+              "durationSeconds": 20,
+              "phase": "observe",
+              "accessibilityCue": "Nota agua fresca en manos y rostro."
+            },
+            {
+              "id": "iaf-3",
+              "title": "Mantén la barrera",
+              "instruction": "Sécate despacio y elige una acción incompatible: llamar, caminar acompañado o bloquear temporalmente el acceso.",
+              "durationSeconds": 25,
+              "phase": "finish",
+              "accessibilityCue": "Elige una acción segura incompatible."
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "impulso-tip-obstaculo",
+          "title": "Añade un obstáculo real",
+          "detail": "Entrega llaves o tarjetas, cierra la sesión o mueve el objeto a un lugar difícil de alcanzar."
+        },
+        {
+          "id": "impulso-tip-sabor",
+          "title": "Prueba un sabor intenso seguro",
+          "detail": "Menta o un alimento ácido pueden interrumpir el piloto automático; evita alergias y riesgos al tragar."
+        },
+        {
+          "id": "impulso-tip-clave",
+          "title": "Envía una palabra clave",
+          "detail": "Acuerda con alguien una palabra que signifique «necesito compañía sin explicar todo ahora»."
+        }
+      ],
+      "sources": [
+        {"id":"who-matters","title":"Doing What Matters in Times of Stress","organization":"Organización Mundial de la Salud","url":"https://www.who.int/publications/i/item/9789240003927","note":"Desenganche de pensamientos, grounding y elección de acciones guiadas por valores."},
+        {"id":"who-stress-grounding","title":"Dealing with stress","organization":"Organización Mundial de la Salud","url":"https://www.emro.who.int/mhps/dealing_with_stress.html","note":"Nombrar experiencias internas, reducir activación y reorientarse al entorno."}
+      ]
+    }
+  ]
+}

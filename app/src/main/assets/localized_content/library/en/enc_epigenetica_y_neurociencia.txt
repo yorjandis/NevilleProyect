@@ -1,0 +1,88 @@
+Epigenetics and neuroscience: how experience shapes the brain
+
+Introduction
+
+For much of the 20th century, biology was dominated by a powerful idea: DNA is a fixed program that almost immutably determines how we are and how we function. From this perspective, the brain—with its astonishing complexity—would largely be the result of a prewritten genetic script. However, in recent decades a field has emerged that has profoundly transformed this vision: epigenetics. From neuroscience, epigenetics offers a solid and nuanced explanation of how experiences, environment and lifestyle can lastingly influence the activity of our genes and, therefore, the functioning of the brain.
+
+This essay explores what epigenetics is from a neuroscientific perspective, how it acts at the molecular and cellular level, and why it is key to understanding phenomena such as learning, memory, stress, and vulnerability to mental disorders.
+
+
+🟢 What is epigenetics: an operational definition
+
+Epigenetics is defined as the set of biological mechanisms that regulate gene expression without modifying the DNA sequence. In other words, genes don't change, but the way they are activated or silenced does.
+
+A useful metaphor is to think of the genome as a recipe book. All cells in the body contain the same book, but not all read the same recipes. Epigenetics would be the system of bookmarks, sticky notes, and dividers that indicate which pages can be opened, which should be ignored, and how intensely each recipe should be “read.”
+
+From neuroscience, this regulation is crucial because neurons need to adjust their functioning very precisely and dynamically in response to experience.
+
+
+🟢 Main epigenetic mechanisms in the brain
+
+Although there are several epigenetic mechanisms, three are especially relevant in neuroscience:
+
+🔸1. DNA methylation
+
+It consists of the addition of methyl groups (–CH₃) to certain regions of DNA, generally in genes that you want to silence. When a gene is highly methylated, its expression is usually reduced.
+
+Practical example: Studies in animal models have shown that early stress can increase the methylation of genes related to glucocorticoid receptors in the hippocampus, a key region for stress regulation. This causes the individual to have an exaggerated response to stress throughout their life.
+
+🔸2. Histone modifications
+
+DNA is not loose in the cell, but coiled around proteins called histones. Chemical changes in these histones (such as acetylation or deacetylation) alter how accessible the DNA is to be read.
+    • Acetylated histones → more open DNA → greater gene expression.
+    • Deacetylated histones → more compact DNA → lower gene expression.
+
+In the brain, these modifications are essential for processes such as learning and the formation of memories.
+
+🔸3. non-coding RNA
+
+There are RNA molecules that do not produce proteins, but that regulate the expression of other genes. Some microRNAs can inhibit the translation of proteins necessary for certain synaptic changes.
+
+This mechanism adds an additional layer of fine control, especially important in neurons, where small molecular changes can have large functional effects.
+
+
+🟢 Epigenetics and neuronal plasticity
+
+One of the central concepts of modern neuroscience is neural plasticity: the brain's ability to change its structure and function in response to experience. Epigenetics is one of the molecular pillars of this plasticity.
+
+When we learn something new—for example, playing an instrument—specific patterns of genes are activated in certain neurons. These genes produce proteins that strengthen synapses, generate new connections or even promote the birth of new neurons in regions such as the hippocampus. The sustained activation of these genes depends, to a large extent, on epigenetic mechanisms.
+
+Without epigenetics, the brain would be unable to convert temporary experiences into lasting changes.
+
+
+🟢 Memory: from psychological memory to epigenetic change
+
+Memory is not only a psychological phenomenon, but also a biological one. For a memory to be consolidated, genes must be activated that produce structural and functional proteins in the neuron.
+
+Classic experiments in neuroscience have shown that inhibiting certain epigenetic enzymes blocks the formation of long-term memories, without affecting short-term memory. This indicates that epigenetics acts as a “molecular switch” that decides which experiences deserve to be stably stored.
+
+Thus, remembering is not simply “thinking again,” but reactivating a previously established epigenetic state.
+
+
+🟢 Epigenetics, development and early experience
+
+The developing brain is especially sensitive to cues from the environment. Nutrition, affection, stress and cognitive stimulation leave deep epigenetic traces.
+
+A well-documented example is the effect of maternal care early in life. In animal models, offspring that receive more contact and care present epigenetic patterns that favor better emotional regulation and less reactivity to stress in adulthood.
+
+These types of findings have changed the way we understand the relationship between biology and environment: it is not a dichotomy, but rather a constant interaction mediated by epigenetics.
+
+🟢 Implications for mental health
+
+From clinical neuroscience, epigenetics offers a promising framework for understanding disorders such as depression, anxiety, post-traumatic stress disorder or even neurodegenerative diseases.
+
+These disorders are not explained solely by “defective genes,” but by altered gene expression patterns in specific brain circuits. Factors such as chronic stress, social isolation or insufficient sleep can induce epigenetic changes that increase vulnerability to these conditions.
+
+At the same time, this perspective opens the door to more comprehensive therapeutic interventions, where psychotherapy, physical exercise, nutrition and certain drugs can be understood as epigenetic modulators.
+
+🟢 Epigenetics and personal responsibility: a balanced view
+
+It is important to clarify that epigenetics does not imply that we are completely malleable nor that everything depends on our individual decisions. There are clear biological limits and many factors are beyond personal control.
+
+However, from neuroscience, epigenetics introduces a powerful idea: the brain is a biological system open to experience, and part of that openness is inscribed at the molecular level.
+
+🟢 Conclusion
+
+Epigenetics has transformed neuroscience by showing that DNA is not a fixed destiny, but a dynamic potential. Through epigenetic mechanisms, experiences leave lasting imprints on the brain, influencing how we think, feel, and act.
+
+Understanding epigenetics from neuroscience not only enriches our scientific knowledge, but also redefines the relationship between biology, experience and mental health. In this sense, the brain is not only the product of our genes, but also of our lived history, written—at least in part—in epigenetic language.

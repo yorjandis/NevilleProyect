@@ -1,0 +1,109 @@
+Procedural memory is a type of long-term memory that, from neuroscience, is defined as the system responsible for learning, storing and executing motor and cognitive skills and habits automatically, without the need for conscious attention.
+
+It is the memory of “knowing how,” in contrast to declarative memory, which is “knowing what.”
+
+
+
+🟢 Main features
+    1. Implicit and unconscious
+You don't need to actively think about what you do. Execution happens fluidly and automatically.
+    2. It is acquired by repetition and practice
+The more you repeat an action, the more robust the neural imprint becomes.
+    3. Very resistant to forgetting
+Once consolidated, it can be maintained for years, even decades.
+    4. Difficult to verbalize
+You can do the action perfectly, but it is difficult for you to explain it step by step.
+
+
+
+🟢 Practical examples
+    • Learn to ride a bicycle
+Even if you go years without doing it, your body “remembers” how to maintain balance.
+    • Drive a car
+At first it requires conscious attention; Over time, many movements become automated.
+    • Play a musical instrument
+The fingers move alone without thinking about each note.
+    • Typing on the keyboard without looking
+You don't consciously know where each key is, but your hands do.
+    • Cognitive habits
+How to solve certain types of mathematical problems or playing patterns in chess.
+
+
+
+🟢 Neuroanatomical bases
+
+From neuroscience, procedural memory depends mainly on subcortical circuits, not the hippocampus.
+
+Key structures
+
+1. Basal ganglia
+    • Especially the striatum (putamen and caudate nucleus).
+    • They are essential for the selection and automation of motor sequences.
+    • Closely related to reinforcement learning (dopamine).
+
+👉 Therefore, in diseases like Parkinson's, procedural learning is altered.
+
+
+
+2. Cerebellum
+    • Adjusts precision, timing and coordination of movement.
+    • Allows you to correct errors and refine skills with practice.
+
+Example: progressively getting better at throwing a ball or playing a complex musical passage.
+
+
+
+3. Motor and premotor cortex
+    • They store already consolidated movement patterns.
+    • With practice, cortical activation becomes more efficient and focused.
+
+
+
+🟢 Neurotransmitters involved
+    • Dopamine
+It is key in procedural learning, especially in the reward and error signal.
+    • Glutamate
+Facilitates synaptic plasticity (LTP and LTD).
+
+
+
+🟢 How a procedural memory is formed (step by step)
+    1. Cognitive phase
+Requires conscious attention (many mistakes).
+    2. Associative phase
+Errors are reduced, patterns are refined.
+    3. Autonomous phase
+The execution is fast, stable and automatic.
+
+This model explains why at the beginning you “think too much” and then you just do.
+
+
+
+Difference with declarative memory
+Procedural memory:
+• Implicit
+• Automatic
+• Basal ganglia and cerebellum
+• Skills and habits
+
+Declarative memory:
+• Explicit
+• Conscious
+• Hippocampus
+• Facts and episodes
+
+An interesting fact:
+Patients with severe amnesia (hippocampal damage) can learn new procedural skills even if they do not remember practicing them.
+
+
+
+🟢 Practical applications
+    • Neurological rehabilitation
+    
+Use of repetition and automation to recover motor functions.
+    • Education and training
+    
+Distributed practice outperforms theoretical study for complex skills.
+    • Change of habits
+    
+Habits are better reprogrammed with repetition and reward than with willpower

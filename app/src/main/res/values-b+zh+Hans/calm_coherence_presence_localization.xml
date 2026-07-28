@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="calm_title">静心空间</string>
+  <string name="calm_background_content_description">静心背景</string>
+  <string name="calm_tap_sphere_hint">轻触一个光球，释放其中的语句。</string>
+  <string name="calm_particles">粒子</string>
+  <string name="calm_spheres">光球</string>
+  <string name="calm_fireflies">萤火虫</string>
+  <string name="calm_spheres_fireflies">光球 + 萤火虫</string>
+  <string name="calm_phrase_source">语句来源</string>
+  <string name="calm_included_phrases">内置语句</string>
+  <string name="calm_personal_phrases">个人语句</string>
+  <string name="calm_included_personal_phrases">内置 + 个人语句</string>
+  <string name="calm_manage_personal_phrases">管理个人语句</string>
+  <string name="calm_sphere_count">光球：%1$d</string>
+  <string name="calm_firefly_count">萤火虫：%1$d</string>
+  <string name="calm_release_speed">释放速度：%1$d</string>
+  <string name="calm_background_music">后台播放音乐</string>
+  <string name="calm_keep_screen_on">保持屏幕常亮</string>
+  <string name="calm_fixed_background">固定背景</string>
+  <string name="calm_no_background">无背景</string>
+  <string name="calm_random_masculine">随机选择</string>
+  <string name="calm_fixed_music">固定音乐</string>
+  <string name="calm_no_music">无音乐</string>
+  <string name="calm_random_feminine">随机选择</string>
+  <string name="calm_phrases_manager_title">个人静心语句</string>
+  <string name="calm_phrases_manager_intro">创建、编辑或删除可显示在静心空间粒子中的个人语句。</string>
+  <string name="calm_new_phrase">新语句</string>
+  <string name="calm_phrase_example">例如：我慢慢呼吸，回到自己的中心。</string>
+  <string name="calm_add">添加</string>
+  <string name="calm_no_personal_phrases">还没有个人语句。</string>
+  <string name="calm_edit_phrase">编辑语句</string>
+  <string name="calm_delete_phrase">删除语句</string>
+  <string name="calm_delete_phrase_question">确定要删除这条个人语句吗？</string>
+  <string name="calm_enter_valid_phrase">请输入有效的语句</string>
+  <string name="calm_phrase_empty">语句不能为空</string>
+  <string name="calm_phrase_exists">这条语句已存在</string>
+  <string name="calm_phrase_save_error">无法保存语句</string>
+  <string name="calm_phrase_update_error">无法更新语句</string>
+  <string name="calm_backgrounds_manager_title">静心空间背景</string>
+  <string name="calm_add_files">从文件添加</string>
+  <string name="calm_add_gallery">从相册添加</string>
+  <string name="calm_no_custom_images">还没有自定义图片</string>
+  <string name="calm_tap_thumbnail">轻触缩略图即可查看</string>
+  <string name="calm_preview_error">无法加载预览。</string>
+  <string name="calm_delete_image">删除图片</string>
+  <string name="calm_delete_file_question">要删除 %1$s 吗？</string>
+  <string name="calm_image_added">图片已添加</string>
+  <string name="calm_image_import_error">无法导入图片</string>
+  <string name="calm_music_manager_title">静心空间音乐</string>
+  <string name="calm_no_custom_music">还没有自定义音乐</string>
+  <string name="calm_playing">正在播放…</string>
+  <string name="calm_track_ready">可以播放</string>
+  <string name="calm_play_error">无法播放</string>
+  <string name="calm_stop">停止</string>
+  <string name="calm_play">播放</string>
+  <string name="calm_delete_audio">删除音频</string>
+  <string name="calm_music_added">音乐已添加</string>
+  <string name="calm_audio_import_error">无法导入音频</string>
+  <string name="coherence_title">心脑协调</string>
+  <string name="coherence_disable_music">关闭音乐</string>
+  <string name="coherence_enable_music">开启音乐</string>
+  <string name="coherence_statistics">统计数据</string>
+  <string name="coherence_skip">跳过</string>
+  <string name="coherence_setup_intro">跟随节奏呼吸，把注意力放在心口，提升内在状态。</string>
+  <string name="coherence_current_emotional_state">当前情绪状态</string>
+  <string name="coherence_available_time">可用时间</string>
+  <string name="coherence_breathing_rhythm">呼吸节奏</string>
+  <string name="coherence_breathing_rhythm_info">呼吸节奏说明</string>
+  <string name="coherence_intention">本次意图</string>
+  <string name="coherence_optional">可选</string>
+  <string name="coherence_before_score">练习前的压力 / 平静程度</string>
+  <string name="coherence_start_session">开始练习</string>
+  <string name="coherence_resume">继续</string>
+  <string name="coherence_pause">暂停</string>
+  <string name="coherence_finish">结束</string>
+  <string name="coherence_prepare">准备好</string>
+  <string name="coherence_inhale">吸气</string>
+  <string name="coherence_exhale">呼气</string>
+  <string name="coherence_breathing_starts_in">%1$d 秒后开始呼吸</string>
+  <string name="coherence_final_evaluation">练习后感受</string>
+  <string name="coherence_perceived_calm">感受到的平静 / 协调程度</string>
+  <string name="coherence_mental_clarity">思绪清晰度</string>
+  <string name="coherence_heart_connection">与内心的连接</string>
+  <string name="coherence_predominant_emotion_after">练习后的主要情绪</string>
+  <string name="coherence_closing_word">结束语</string>
+  <string name="coherence_closing_word_example">例如：平静、信任、感恩</string>
+  <string name="coherence_save_session">保存练习</string>
+  <string name="coherence_session_recorded">练习已保存</string>
+  <string name="coherence_before_after">练习前 %1$d/10 · 练习后 %2$d/10</string>
+  <string name="coherence_summary_scores">清晰度 %1$d/10 · 内心连接 %2$d/10 · %3$s %4$s</string>
+  <string name="coherence_summary_word">结束语：%1$s</string>
+  <string name="coherence_phases_started">已开始阶段：协调准备</string>
+  <string name="coherence_phases_completed">已完成阶段：%1$s</string>
+  <string name="coherence_new_session">再练一次</string>
+  <string name="coherence_rhythm_dialog_body">这些缓慢节奏会让呼吸频率接近每分钟 4.5–6 次。在心率变异性训练中，这类节奏有助于扩大心律波动、刺激压力感受反射，并帮助身心进入更稳定的调节状态。</string>
+  <string name="coherence_view_study">查看研究</string>
+  <string name="coherence_state_stress">压力</string>
+  <string name="coherence_state_anxiety">焦虑</string>
+  <string name="coherence_state_overwhelmed">不堪重负</string>
+  <string name="coherence_state_sad">低落</string>
+  <string name="coherence_state_tired">疲惫</string>
+  <string name="coherence_state_neutral">平稳</string>
+  <string name="coherence_state_calm">平静</string>
+  <string name="coherence_state_good">状态良好</string>
+  <string name="coherence_state_grateful">感恩</string>
+  <string name="coherence_state_energetic">精力充沛</string>
+  <string name="coherence_phase_regulation">身心调节</string>
+  <string name="coherence_phase_heart">连接内心</string>
+  <string name="coherence_phase_emotion">提升情绪</string>
+  <string name="coherence_phase_integration">整合</string>
+  <string name="coherence_guidance_regulation">缓慢呼吸。让身体放慢节奏，逐渐稳定下来。</string>
+  <string name="coherence_guidance_heart">把注意力带到胸口中央，想象气息从心口进出。</string>
+  <string name="coherence_guidance_gratitude">想起一件能让你真切感到感恩的小事，让这份感觉在胸口慢慢扩展。</string>
+  <string name="coherence_guidance_love">想起一个人、一个地方或一个唤起爱意的时刻，在这份感受中呼吸。</string>
+  <string name="coherence_guidance_peace">想象一个安宁的场景，让平静逐渐成为身体里的真实感受。</string>
+  <string name="coherence_guidance_joy">回想一个纯粹快乐的时刻，轻轻微笑，让身体重新认出这份喜悦。</string>
+  <string name="coherence_guidance_integration">安静地停留片刻。让这份协调感稳稳落下，让你的意图成为真实可感的体验。</string>
+  <string name="coherence_attention_jaw">放松下颌，让舌头自然休息，面部也慢慢柔和下来。</string>
+  <string name="coherence_attention_shoulders">放下肩膀，松开颈部和背部不必要的用力。</string>
+  <string name="coherence_attention_weight">感受身体的重量，让身下的支撑稳稳托住你。</string>
+  <string name="coherence_attention_chest">觉察胸口和胸骨，把平静、不用力的注意带到这里。</string>
+  <string name="coherence_attention_abdomen">放松腹部，让呼吸变得宽广、缓慢而舒适。</string>
+  <string name="coherence_emotion_gratitude">感恩</string>
+  <string name="coherence_emotion_love">爱</string>
+  <string name="coherence_emotion_peace">平静</string>
+  <string name="coherence_emotion_joy">喜悦</string>
+  <string name="coherence_emotion_calm">平静</string>
+  <string name="coherence_emotion_clarity">清晰</string>
+  <string name="coherence_emotion_hope">希望</string>
+  <string name="coherence_emotion_neutral">平稳</string>
+  <string name="coherence_emotion_prompt">%1$s：让这份情绪稳定、舒展而自然地存在。</string>
+  <string name="coherence_emotion_prompt_intention">%1$s：让这份情绪稳定、舒展而自然地存在，并把它带向你的意图：%2$s</string>
+  <string name="coherence_integration_intention">感受你的意图，仿佛它已经成为你的一部分：%1$s</string>
+  <string name="coherence_stats_title">协调练习统计</string>
+  <string name="coherence_your_practice">你的协调练习</string>
+  <string name="coherence_sessions">练习次数</string>
+  <string name="coherence_total">总计</string>
+  <string name="coherence_time">练习时长</string>
+  <string name="coherence_minutes">分钟</string>
+  <string name="coherence_current_streak">当前连续天数</string>
+  <string name="coherence_best_streak">最长连续天数</string>
+  <string name="coherence_days">天</string>
+  <string name="coherence_change">变化</string>
+  <string name="coherence_average">平均</string>
+  <string name="coherence_per_week">每周</string>
+  <string name="coherence_per_month">每月</string>
+  <string name="coherence_final_average">练习后平均值</string>
+  <string name="coherence_weekly_frequency">每周练习分布</string>
+  <string name="coherence_perceived_quality">主观感受</string>
+  <string name="coherence_label">协调感</string>
+  <string name="coherence_clarity">清晰度</string>
+  <string name="coherence_heart">内心连接</string>
+  <string name="coherence_predominant_emotions">主要情绪</string>
+  <string name="coherence_not_enough_emotion_data">目前还没有足够的情绪数据。</string>
+  <string name="coherence_last_days_activity">最近 %1$d 天的练习情况</string>
+  <string name="coherence_fitness_dots">以圆点查看每日练习</string>
+  <string name="coherence_info">说明</string>
+  <string name="coherence_info_total_sessions_title">练习总次数</string>
+  <string name="coherence_info_total_sessions">已记录的协调练习总次数。</string>
+  <string name="coherence_info_total_time_title">总练习时长</string>
+  <string name="coherence_info_total_time">心脑协调练习的累计分钟数。</string>
+  <string name="coherence_info_current_streak">最近连续进行过至少一次协调练习的天数。</string>
+  <string name="coherence_info_best_streak">历史上连续有练习记录的最长天数。</string>
+  <string name="coherence_info_average_change">每次练习前后评分差值的平均值。</string>
+  <string name="coherence_info_weekly_average">现有记录中平均每周完成的练习次数。</string>
+  <string name="coherence_info_monthly_average">全部记录中平均每月完成的练习次数。</string>
+  <string name="coherence_info_final_average">练习结束后主观平静或协调评分的平均值。</string>
+  <string name="coherence_info_weekly_frequency">显示一周中每天记录了多少次练习。</string>
+  <string name="coherence_info_perceived_quality">综合练习后的协调感、思绪清晰度与内心连接程度。</string>
+  <string name="coherence_info_perceived_coherence">每次练习结束时协调感评分的平均值。</string>
+  <string name="coherence_info_mental_clarity">每次练习后思绪清晰度的平均评分。</string>
+  <string name="coherence_info_heart_connection">练习结束时身体与情绪上内心连接感的平均评分。</string>
+  <string name="coherence_info_predominant_emotions">按出现次数排列练习后选择的情绪，并显示最常见的三项。</string>
+  <string name="coherence_info_emotion_ring">每个圆环表示该情绪占全部练习记录的比例。</string>
+  <string name="coherence_info_activity">每个圆点代表一天。可以切换时间范围，查看练习的持续情况。</string>
+  <string-array name="coherence_welcome_phrases">
+    <item>协调，是心与脑之间\n不言而喻的语言</item>
+    <item>你所需要的一切\n早已存在于内心</item>
+    <item>走进内在的宁静空间，让美好自然发生</item>
+    <item>当你进入协调状态，\n身体会记起原本的完整</item>
+    <item>今天，你选择提升状态，\n也选择改变自己的现实</item>
+    <item>让未知轻轻包围你，\n向你显露它的答案</item>
+    <item>心知道方向，\n头脑会慢慢学会跟随</item>
+    <item>你的力量，比自己记得的更强大</item>
+    <item>深呼吸，跨过那道门槛，\n让真实的自己浮现</item>
+    <item>从这里开始，\n让感受与你的存在彼此一致</item>
+    <item>每一次心跳，都是通往\n自然平衡的一扇门</item>
+    <item>你正在想起，\n思绪之外的自己是谁</item>
+    <item>心知道通往\n完整状态的方向</item><item>交给内在的节奏，\n让它带领你</item><item>当心与思绪相遇，\n新的存在状态便会出现</item>
+    <item>今天，你从协调中创造，\n而不是从反应中行动</item><item>相信正在浮现的一切，\n不必急着理解</item><item>心跳引领着\n你最深处的真实</item>
+    <item>今天，你选择从平静中回应，\n而不是被冲动带走</item><item>让这份平静\n逐渐化为清晰</item><item>你的能量会回应\n此刻真实的感受</item>
+    <item>今天，你选择提升、\n敞开与可能</item><item>让这份频率\n塑造你的现实</item><item>就在这一刻，\n一切都在向有利于你的方向重新排列</item>
+    <item>你既是观察者，\n也是自己体验的创造者</item><item>允许改变自然发生，\n不再抗拒</item><item>让美好自然发生</item>
+  </string-array>
+  <string name="presence_title">正念临在</string>
+  <string name="presence_short_title">临在</string>
+  <string name="presence_back_to_present">回到当下</string>
+  <string name="presence_today_count">今天你已经回到当下 %1$d 次。</string>
+  <string name="presence_milestone">做得很好，继续一次次回来。</string>
+  <string name="presence_here">我在这里</string>
+  <string name="presence_hide_mood">收起情绪状态</string>
+  <string name="presence_add_mood">记录情绪状态</string>
+  <string name="presence_mood">情绪状态</string>
+  <string name="presence_mood_future">此刻感受未来的自己</string>
+  <string name="presence_mood_autopilot">自动驾驶</string>
+  <string name="presence_mood_distracted">分心</string>
+  <string name="presence_mood_serene">安宁</string>
+  <string name="presence_mood_happy">愉快</string>
+  <string name="presence_mood_anxious">焦虑</string>
+  <string name="presence_mood_sad">难过</string>
+  <string name="presence_mood_angry">生气</string>
+  <string name="presence_mood_tired">疲惫</string>
+  <string name="presence_mood_grateful">感恩</string>
+  <string name="presence_show_all">全部显示</string>
+  <string name="presence_select_visible_cards">选择要显示的卡片</string>
+  <string name="presence_change_appearance">切换外观</string>
+  <string name="presence_reset_stats">重置统计数据</string>
+  <string name="presence_reset_title">重置临在统计</string>
+  <string name="presence_reset_message">此操作会清除全部临在记录，且无法撤销。</string>
+  <string name="presence_delete_history">清除全部记录</string>
+  <string name="presence_card_today">今天</string>
+  <string name="presence_card_streak">连续记录</string>
+  <string name="presence_card_weekly_average">每周平均</string>
+  <string name="presence_card_dominant_mood">主要情绪</string>
+  <string name="presence_card_practical">实用洞察</string>
+  <string name="presence_card_daily_events">每日事件</string>
+  <string name="presence_card_today_moments">今天的时刻</string>
+  <string name="presence_card_ratio">比例</string>
+  <string name="presence_card_moods">情绪状态</string>
+  <string name="presence_today_returns">今天回到当下</string>
+  <string name="presence_keep_going">继续保持！</string>
+  <string name="presence_return_when_notice">觉察到时，就回来</string>
+  <string name="presence_current_streak">当前连续天数</string>
+  <string name="presence_consecutive_days">连续天数</string>
+  <string name="presence_week_average">本周每日平均</string>
+  <string name="presence_returns">回到当下</string>
+  <string name="presence_dominant_mood">主要情绪状态</string>
+  <string name="presence_no_records">暂无记录</string>
+  <string name="presence_record_mood">记录一种状态</string>
+  <string name="presence_record_percentage">占记录的 %1$d%%</string>
+  <string name="presence_practical_data">实用洞察</string>
+  <string name="presence_best_day">最有临在感的一天</string>
+  <string name="presence_best_day_value">你最有觉察的一天是%1$s。</string>
+  <string name="presence_no_best_day">目前还没有特别突出的一天。</string>
+  <string name="presence_daily_average">每日平均</string>
+  <string name="presence_per_day">每天 %1$s 次</string>
+  <string name="presence_weekly_trend">每周趋势</string>
+  <string name="presence_no_trend">数据不足，暂时无法判断趋势。</string>
+  <string name="presence_new_activity">本周开始出现新的记录。</string>
+  <string name="presence_same_as_last_week">与上周持平。</string>
+  <string name="presence_trend_change">比上周%3$s %1$s%2$d%%</string>
+  <string name="presence_more">增加</string>
+  <string name="presence_less">减少</string>
+  <string name="presence_critical_window">容易进入自动驾驶的时段</string>
+  <string name="presence_critical_window_value">自动驾驶最集中在 %1$s 至 %2$s。</string>
+  <string name="presence_no_critical_window">目前未发现明显的集中时段。</string>
+  <string name="presence_contextual_suggestion">个性化建议</string>
+  <string name="presence_today_moments">今天回到当下的时刻</string>
+  <string name="presence_no_events_today">今天还没有记录临在时刻。</string>
+  <string name="presence_ratio_title">临在与无意识状态的比例</string>
+  <string name="presence_ratio_explanation">数值越高，表示在已记录的事件中，主动回到当下的次数越多。</string>
+  <string name="presence_moods_title">情绪状态</string>
+  <string name="presence_no_moods">还没有情绪状态记录。</string>
+  <string name="presence_days_format">%1$d 天</string>
+  <string name="presence_present">临在</string>
+  <string name="presence_autopilot">自动驾驶</string>
+  <string name="presence_info_body">这项练习结合了两个动作：从自动驾驶中醒来，并在此刻活出自己想要的状态。每一次轻触，都是对旧习惯的温柔打断，也是对自我身份的主动选择。</string>
+  <string name="presence_suggestion_no_data">这个时间范围内的记录还不够。今天主动回到当下一两次，就能开始看见有用的规律。</string>
+  <string name="presence_suggestion_few_days">有记录的天数较少。可以在上午中段和傍晚各安排一次短暂停顿，逐渐看清自己的模式。</string>
+  <string name="presence_suggestion_no_presence">目前只记录到了自动驾驶时刻。选择一个容易记住的时间，例如午饭前，主动记录一次回到当下。</string>
+  <string name="presence_suggestion_window">自动驾驶最集中在 %1$s 至 %2$s。试着在这个时段开始前做一次 30 秒的停顿。</string>
+  <string name="presence_suggestion_more_autopilot">这个时间范围内，自动驾驶多于临在。选择一个每天都会发生的过渡时刻，借此回到身体。</string>
+  <string name="presence_suggestion_no_autopilot">这个时间范围里只记录了临在，没有记录自动驾驶。也可以记下分心时刻，让建议更准确。</string>
+  <string name="presence_suggestion_balanced">你的记录较为平衡。选择每天一个固定时段，在那里重复一次正念停顿，让它慢慢成为习惯。</string>
+  <string-array name="coherence_session_phrases">
+    <item>我放下用力，让身体慢慢平静下来。</item>
+    <item>每一次呼吸，都带我回到平衡。</item>
+    <item>我把注意带到内心安宁的空间。</item>
+    <item>我的心与思绪开始同频呼吸。</item>
+    <item>我选择感受感恩、敞开与信任。</item>
+    <item>我让这份提升后的情绪充满全身。</item>
+    <item>这份协调感温柔地融入我的内在。</item>
+    <item>我安住当下，也把这份状态带在身边。</item>
+  </string-array>
+  <string name="presence_back">返回</string>
+  <string name="presence_days_short">%1$d 天</string>
+  <string name="coherence_saving">正在保存…</string>
+  <string name="coherence_minutes_value">%1$d 分钟</string>
+  <string name="coherence_rhythm_value">吸气 %1$s 秒 / 呼气 %2$s 秒</string>
+  <string name="coherence_card_weekly_average_title">每周平均</string>
+  <string name="coherence_card_monthly_average_title">每月平均</string>
+  <string name="coherence_days_short">%1$d 天</string>
+</resources>

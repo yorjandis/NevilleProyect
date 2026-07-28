@@ -1,0 +1,428 @@
+{
+  "CaminarPorLaMañana": {
+    "title": "晨间散步",
+    "description": "早起散步 20-30 分钟，唤醒身心",
+    "customUnitLabel": "次"
+  },
+  "HidratacionDiaria": {
+    "title": "每日补水",
+    "description": "每天饮用至少 2 升水",
+    "customUnitLabel": "补水达标天数"
+  },
+  "RespiracionProfunda": {
+    "title": "深呼吸练习",
+    "description": "每天多次进行深呼吸，以减轻压力并增加氧气摄入",
+    "customUnitLabel": ""
+  },
+  "EstiramientosMatutinos": {
+    "title": "晨间拉伸",
+    "description": "醒来后做拉伸运动，改善活动度和血液循环",
+    "customUnitLabel": "组"
+  },
+  "Dormir8Horas": {
+    "title": "每晚睡足 8 小时",
+    "description": "每晚保证 8 小时睡眠，有利于身心恢复",
+    "customUnitLabel": "晚"
+  },
+  "ComerVerdurasDiarias": {
+    "title": "每日摄入蔬菜",
+    "description": "在每顿正餐中加入蔬菜，保持均衡营养",
+    "customUnitLabel": ""
+  },
+  "EvitarAzucarProcesada": {
+    "title": "避免精制糖",
+    "description": "减少精制糖和加工糖的摄入",
+    "customUnitLabel": ""
+  },
+  "SuplementosVitaminicos": {
+    "title": "维生素补充剂",
+    "description": "根据需要和医嘱服用维生素补充剂",
+    "customUnitLabel": ""
+  },
+  "YogaDiario": {
+    "title": "每日瑜伽",
+    "description": "坚持日常瑜伽练习，增强柔韧性和放松感",
+    "customUnitLabel": "次"
+  },
+  "MeditacionCorta": {
+    "title": "短时冥想",
+    "description": "每天进行 5-10 分钟的简短冥想",
+    "customUnitLabel": "次"
+  },
+  "AyunoIntermitente": {
+    "title": "间歇性禁食",
+    "description": "根据个人时间表进行间歇性禁食\n注意：神经科学证据表明，要稳定巩固此习惯的突触连接，需要长期重复：30-60 天",
+    "customUnitLabel": ""
+  },
+  "SaunaSemanal": {
+    "title": "每周泡桑拿",
+    "description": "每周至少去一次桑拿，帮助排毒和放松\n注意：神经科学证据表明，要稳定巩固此习惯的突触连接，需要长期重复：30-60 天",
+    "customUnitLabel": "次"
+  },
+  "EjercicioDeFuerza": {
+    "title": "力量训练",
+    "description": "每周进行 2-3 次力量训练\n注意：神经科学证据表明，要稳定巩固此习惯的突触连接，需要长期重复：30-60 天",
+    "customUnitLabel": "次"
+  },
+  "ExposicionSolSegura": {
+    "title": "安全日晒",
+    "description": "进行安全的日光照射，以获取维生素 D",
+    "customUnitLabel": ""
+  },
+  "PaseosAlAireLibre": {
+    "title": "户外散步",
+    "description": "每天到户外散步，促进氧气摄入和心理健康",
+    "customUnitLabel": ""
+  },
+  "MasajesRelajantes": {
+    "title": "放松按摩",
+    "description": "定期接受放松按摩",
+    "customUnitLabel": ""
+  },
+  "LecturaDiaria": {
+    "title": "每日阅读",
+    "description": "每天阅读，激发心智和知识",
+    "customUnitLabel": "页"
+  },
+  "ReduccionEstrés": {
+    "title": "减压练习",
+    "description": "每天进行放松练习\n注意：神经科学证据表明，要稳定巩固此习惯的突触连接，需要长期重复：30-60 天\n改变情绪模式不只是重复一个行为，而是改变自动化的解读方式",
+    "customUnitLabel": ""
+  },
+  "ConectarConNaturaleza": {
+    "title": "亲近自然",
+    "description": "在自然环境中度过时间，达到身心平衡",
+    "customUnitLabel": ""
+  },
+  "DiarioGratitud": {
+    "title": "感恩日记",
+    "description": "每天在感恩日记中记录",
+    "customUnitLabel": "条"
+  },
+  "NeuroplasticidadEjercicio": {
+    "title": "神经可塑性训练",
+    "description": "进行锻炼以刺激神经可塑性\n注意：神经科学证据表明，要稳定巩固此习惯的突触连接，需要长期重复：60-90 天",
+    "customUnitLabel": ""
+  },
+  "AprenderAlgoNuevo": {
+    "title": "学习新知",
+    "description": "每周学习新事物来挑战心智\n注意：神经科学证据表明，要稳定巩固此习惯的突触连接，需要长期重复：60-90 天",
+    "customUnitLabel": ""
+  },
+  "PracticarMindfulness": {
+    "title": "正念练习",
+    "description": "每天练习正念，以提高专注力和平静感",
+    "customUnitLabel": ""
+  },
+  "VisualizacionCreativa": {
+    "title": "创造性想象",
+    "description": "定期进行创造性想象训练",
+    "customUnitLabel": ""
+  },
+  "DiarioDePensamientos": {
+    "title": "思绪日记",
+    "description": "书写想法和反思，以达到心智清晰",
+    "customUnitLabel": ""
+  },
+  "MusicaParaCerebro": {
+    "title": "助脑音乐",
+    "description": "聆听能刺激大脑的音乐",
+    "customUnitLabel": ""
+  },
+  "LimitarRedesSociales": {
+    "title": "限制社交媒体",
+    "description": "限制在社交媒体上花费的时间，以提高专注力",
+    "customUnitLabel": ""
+  },
+  "ConcentracionPomodoro": {
+    "title": "番茄工作法专注",
+    "description": "使用番茄工作法提升专注力",
+    "customUnitLabel": ""
+  },
+  "RespiracionCoherenciaCardiaca": {
+    "title": "心率协调呼吸",
+    "description": "练习呼吸以达到心率协调状态",
+    "customUnitLabel": ""
+  },
+  "DesafioMentalDiario": {
+    "title": "每日心智挑战",
+    "description": "完成一项每日心智挑战",
+    "customUnitLabel": ""
+  },
+  "VisualizarDeseos": {
+    "title": "想象愿望成真",
+    "description": "每天描绘已实现的愿望",
+    "customUnitLabel": "次"
+  },
+  "SentirElDeseoComoRealidad": {
+    "title": "感受愿望已经实现",
+    "description": "想象并感受一个愿望仿佛已经成真。在心智中体验已实现愿望的满足感",
+    "customUnitLabel": ""
+  },
+  "ReescribirElPasado": {
+    "title": "重塑过往",
+    "description": "重写限制性的记忆以实现个人蜕变\n注意：神经科学证据表明，要稳定巩固此习惯的突触连接，需要长期重复：60-90 天",
+    "customUnitLabel": "次"
+  },
+  "ImaginacionCreativaDiaria": {
+    "title": "每日创造性想象",
+    "description": "每天锻炼创造性想象力",
+    "customUnitLabel": "次"
+  },
+  "EstadoDeGracias": {
+    "title": "感恩心境",
+    "description": "保持持续的感恩状态",
+    "customUnitLabel": ""
+  },
+  "ActuarComoSi": {
+    "title": "如若已成",
+    "description": "像目标已经实现了一样去行动",
+    "customUnitLabel": ""
+  },
+  "AfirmacionesDiarias": {
+    "title": "每日肯定语",
+    "description": "每天重复积极的肯定语句",
+    "customUnitLabel": ""
+  },
+  "MeditacionImaginativa": {
+    "title": "意象冥想",
+    "description": "专注于创造性想象力的冥想练习",
+    "customUnitLabel": "次"
+  },
+  "RevisarSueños": {
+    "title": "梦境回顾",
+    "description": "每天回顾和反思自己的梦境",
+    "customUnitLabel": "记录"
+  },
+  "ConectarConSubconsciente": {
+    "title": "连接潜意识",
+    "description": "与潜意识连接，实现个人蜕变",
+    "customUnitLabel": ""
+  },
+  "MeditacionDiaria": {
+    "title": "每日冥想",
+    "description": "根据 Joe Dispenza 的教导进行日常冥想练习",
+    "customUnitLabel": ""
+  },
+  "CambioDeCreencias": {
+    "title": "信念重塑",
+    "description": "转变限制性信念，提升个人生活质量\n注意：神经科学证据表明，此习惯的稳定突触巩固需要长时间重复：60-90天",
+    "customUnitLabel": ""
+  },
+  "RomperHabitosLimitantes": {
+    "title": "打破限制性习惯",
+    "description": "打破阻碍个人成长的坏习惯\n注意：神经科学证据表明，此习惯的稳定突触巩固需要长时间重复：60-90天",
+    "customUnitLabel": ""
+  },
+  "EmocionesPositivasDiarias": {
+    "title": "每日积极情绪",
+    "description": "培养日常的积极情绪\n注意：神经科学证据表明，此习惯的稳定突触巩固需要长时间重复：30-60天\n改变情绪模式不只是重复一个行为，而是改变自动化的解读方式",
+    "customUnitLabel": ""
+  },
+  "CrearNuevaRealidad": {
+    "title": "创造新现实",
+    "description": "通过日常练习创造新的个人现实\n注意：神经科学证据表明，此习惯的稳定突触巩固需要长时间重复：60-90天",
+    "customUnitLabel": ""
+  },
+  "CoherenciaCorazonCerebro": {
+    "title": "心脑合一",
+    "description": "练习心与脑的协调一致性\n注意：神经科学证据表明，此习惯的稳定突触巩固需要长时间重复：30-60天",
+    "customUnitLabel": ""
+  },
+  "TransformacionMental": {
+    "title": "心智蜕变",
+    "description": "通过冥想和练习进行每日心智转化\n注意：神经科学证据表明，此习惯的稳定突触巩固需要长时间重复：60-90天",
+    "customUnitLabel": ""
+  },
+  "RespiracionPotente": {
+    "title": "深层呼吸法",
+    "description": "进行深呼吸以产生能量和专注力\n注意：神经科学证据表明，此习惯的稳定突触巩固需要长时间重复：30-60天",
+    "customUnitLabel": ""
+  },
+  "PracticaDeVision": {
+    "title": "愿景实践",
+    "description": "每日进行个人愿景和目标练习",
+    "customUnitLabel": ""
+  },
+  "LiberacionEmocional": {
+    "title": "情绪释放",
+    "description": "每日的情绪释放，促进心理健康\n注意：神经科学证据表明，此习惯的稳定突触巩固需要长时间重复：60-90天",
+    "customUnitLabel": ""
+  },
+  "BeberAguaAlDespertar": {
+    "title": "醒来喝水",
+    "description": "起床后喝水，为身体补水",
+    "customUnitLabel": ""
+  },
+  "CaminataDespuesComida": {
+    "title": "餐后散步",
+    "description": "每顿饭后散步，改善消化功能",
+    "customUnitLabel": ""
+  },
+  "DiarioDeExito": {
+    "title": "成功日记",
+    "description": "记录每日的成就和成功时刻",
+    "customUnitLabel": ""
+  },
+  "RevisarMetasSemanal": {
+    "title": "周目标回顾",
+    "description": "每周回顾一次目标进展情况",
+    "customUnitLabel": "次"
+  },
+  "DormirSinPantallas": {
+    "title": "睡前远离屏幕",
+    "description": "睡前避免使用电子屏幕，改善睡眠质量",
+    "customUnitLabel": "晚"
+  },
+  "ComerFrutasDiarias": {
+    "title": "每日吃水果",
+    "description": "在饮食中加入水果",
+    "customUnitLabel": ""
+  },
+  "PriorizarProteinas": {
+    "title": "优先摄取蛋白质",
+    "description": "在正餐中优先选择优质蛋白质",
+    "customUnitLabel": ""
+  },
+  "EvitarCafeNoche": {
+    "title": "夜间戒咖啡因",
+    "description": "避免在晚上摄入咖啡因",
+    "customUnitLabel": ""
+  },
+  "PausasActivasTrabajo": {
+    "title": "工作间歇活动",
+    "description": "工作时定时进行活动休息，保持身体灵活",
+    "customUnitLabel": ""
+  },
+  "ReflexionAntesDormir": {
+    "title": "睡前反思",
+    "description": "睡前回顾一天的经历和感受",
+    "customUnitLabel": "次"
+  },
+  "MeditacionCaminando": {
+    "title": "行禅冥想",
+    "description": "练习行走时的冥想",
+    "customUnitLabel": ""
+  },
+  "PracticarBondad": {
+    "title": "实践善行",
+    "description": "每天做一些善举",
+    "customUnitLabel": ""
+  },
+  "ContactoSocial": {
+    "title": "社交联结",
+    "description": "保持定期的社交联系，维护情绪健康",
+    "customUnitLabel": ""
+  },
+  "RespiracionProfundaTrabajo": {
+    "title": "工作深呼吸",
+    "description": "在工作压力时刻练习深呼吸",
+    "customUnitLabel": ""
+  },
+  "YogaAntesDormir": {
+    "title": "睡前瑜伽",
+    "description": "睡前做瑜伽，帮助放松身心",
+    "customUnitLabel": "次"
+  },
+  "PlanificacionDiaria": {
+    "title": "每日规划",
+    "description": "规划当天的任务和目标",
+    "customUnitLabel": "份"
+  },
+  "EvaluacionEmociones": {
+    "title": "情绪评估",
+    "description": "每日评估情绪，提升自我觉察\n注意：神经科学证据表明，要巩固此习惯的稳定突触连接，需要长时间重复：30-60天\n改变情绪模式不只是重复一个行为，而是改变自动化的认知解读。",
+    "customUnitLabel": ""
+  },
+  "PrácticaDePerdón": {
+    "title": "宽恕练习",
+    "description": "练习原谅自己和他人\n注意：神经科学证据表明，要巩固此习惯的稳定突触连接，需要长时间重复：30-60天\n改变情绪模式不只是重复一个行为，而是改变自动化的认知解读。",
+    "customUnitLabel": ""
+  },
+  "VisualizarExitoLaboral": {
+    "title": "可视化职业成功",
+    "description": "可视化工作和事业上的成功",
+    "customUnitLabel": ""
+  },
+  "MusicaParaRelajación": {
+    "title": "放松音乐",
+    "description": "听舒缓的音乐，让心神平静",
+    "customUnitLabel": ""
+  },
+  "ExposiciónAlFrioControlada": {
+    "title": "受控冷暴露",
+    "description": "进行渐进式冷淋浴或短暂浸泡。\n益处：温和激活交感神经系统，增强代谢韧性。",
+    "customUnitLabel": ""
+  },
+  "CenaTemprana": {
+    "title": "提早吃晚餐",
+    "description": "睡前 2-3 小时进餐。\n益处：改善夜间血糖和深度睡眠",
+    "customUnitLabel": "次早吃晚餐"
+  },
+  "DiaSinUltraprocesados": {
+    "title": "无超加工食品日",
+    "description": "每周或每日进行一次完全“干净”的饮食日",
+    "customUnitLabel": ""
+  },
+  "ControlGlucosaPostComida": {
+    "title": "餐后血糖管理",
+    "description": "每顿正餐后散步 10–15 分钟",
+    "customUnitLabel": ""
+  },
+  "TiempoSinEstimulos": {
+    "title": "无刺激时间",
+    "description": "30–60 分钟不看手机、不听音乐、不接收任何信息输入。训练对无聊的耐受力。提升基础多巴胺水平。",
+    "customUnitLabel": ""
+  },
+  "ExposicionLuzMatutina": {
+    "title": "晨光照射",
+    "description": "早晨接受 10–20 分钟日光照射。校准昼夜节律",
+    "customUnitLabel": "次"
+  },
+  "SilencioConsciente": {
+    "title": "正念静默",
+    "description": "每天进行 5–10 分钟的完全静默。调节神经系统",
+    "customUnitLabel": ""
+  },
+  "TrabajoDeMovilidadProfunda": {
+    "title": "深度活动度训练",
+    "description": "髋部、肩部、脊柱的活动度练习",
+    "customUnitLabel": ""
+  },
+  "EntrenamientoEnZona2": {
+    "title": "Zone 2 训练",
+    "description": "每周进行 3–4 次低强度有氧运动。逐步提升线粒体功能",
+    "customUnitLabel": "次"
+  },
+  "EquilibrioYPropiocepcion": {
+    "title": "平衡与本体感觉",
+    "description": "单腿训练，增强稳定性。预防未来跌倒",
+    "customUnitLabel": ""
+  },
+  "DetoxDigitalNocturno": {
+    "title": "夜间数字排毒",
+    "description": "睡前 90 分钟不看屏幕。比“无屏睡眠”更结构化。",
+    "customUnitLabel": "晚"
+  },
+  "ConsumoInformativoLimitado": {
+    "title": "限制信息摄入",
+    "description": "将新闻/社交媒体的查看时间限定在固定时段。调节多巴胺水平",
+    "customUnitLabel": ""
+  },
+  "PracticarIncomodidadVoluntaria": {
+    "title": "刻意体验不适感",
+    "description": "每天做一件让自己感到不舒服的事。例如：进行一次艰难的谈话、用更冷的水洗澡、在无干扰下深度工作。这能增强心理韧性。",
+    "customUnitLabel": ""
+  },
+  "EspaciosOrdenadosDiarios": {
+    "title": "每日整理空间",
+    "description": "睡前进行基础的整理。例如：不让床铺凌乱，不将手机或电子设备随意放置在视线范围内。这能增强身心觉知。",
+    "customUnitLabel": "晚"
+  },
+  "CaminarDescalzoSobreTierra_Hierba": {
+    "title": "赤足接地（土地/草地）",
+    "description": "在自然环境中赤脚行走",
+    "customUnitLabel": ""
+  }
+}
+

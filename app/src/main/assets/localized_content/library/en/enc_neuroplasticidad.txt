@@ -1,0 +1,170 @@
+From neuroscience, brain plasticity (or neuroplasticity) is the brain's ability to change its structure and functioning throughout life in response to experience, learning, the environment, damage, or mental and physical training.
+
+For many years it was thought that the brain was rigid and that, once an adult, it could hardly change. Today we know that this is false: the brain is dynamic and moldable until the last day of life.
+
+
+
+What exactly changes in the brain?
+
+Plasticity does not mean that new neurons appear en masse (although it does occur in specific regions such as the hippocampus), but it mainly implies:
+
+🟢 1. Changes in synaptic connections
+    • Synapses (connections between neurons) are strengthened, weakened, created or eliminated.
+    • Connections that are used a lot are strengthened (“neurons that fire together, wire together”).
+
+📌 Example
+When you learn to program in a new language or play an instrument, everything is difficult at first. With practice, specific neural networks become more efficient and faster.
+
+
+
+🟢 2. Reorganization of brain areas
+    • Functions can be moved or redistributed to other areas of the brain.
+    • This is key after brain injuries.
+
+📌 Example
+In people who lose sight, visual areas of the brain can reorganize to process sound or touch more accurately.
+
+
+
+🟢 3. Chemical and functional changes
+    • Levels of neurotransmitters such as dopamine, glutamate or GABA are adjusted.
+    • It changes the way neurons fire, not just their structure.
+
+📌 Example
+Regular meditation reduces amygdala reactivity (intense emotions) and strengthens emotional regulation circuits.
+
+
+
+🟢 Types of brain plasticity
+
+🔸 Structural plasticity
+
+Physical changes in neuronal connections.
+
+📌 Example: learning a complex skill (chess, advanced mathematics, systematic trading).
+
+
+
+🔸 Functional plasticity
+
+Ability of the brain to reassign functions.
+
+📌 Example: partial language recovery after a stroke.
+
+
+
+🔸Experience-dependent plasticity
+
+The brain adapts specifically to what you do repeatedly.
+
+📌 Example: a musician has more developed auditory areas.
+
+
+
+🟢 How can we take advantage of brain plasticity?
+
+Here's the most interesting part: plasticity can be trained intentionally.
+
+
+
+🔸 1. Deep and active learning
+
+It is not enough to consume information; The brain changes when:
+    • Practices
+    • You are wrong
+    • Adjust
+    • You repeat carefully
+
+📌 Practical example
+Instead of reading about SwiftUI:
+    • Build a small project
+    • Break something
+    • Fix it
+That generates much more robust neural networks.
+
+
+
+🔸 2. Spaced repetition (not mass repetition)
+
+The brain learns best when:
+    • Practices
+    • You rest
+    • You practice again
+
+📌 Example
+20 minutes a day for 10 days produces more plasticity than 3 hours straight in a single day.
+
+
+
+🔸 3. Sleep well (absolute key)
+
+During sleep:
+    • Memories are consolidated
+    • Relevant synapses are reinforced
+    • Useless connections are eliminated
+
+📌 Example
+Poor sleep causes what was learned that day to be largely “lost” at the synaptic level.
+
+
+
+🔸 4. Physical exercise
+
+Especially aerobic exercise:
+    • Increases BDNF (brain-derived neurotrophic factor)
+    • Promotes neuronal growth and survival
+
+📌 Example
+Walking briskly for 30–40 minutes improves learning ability and memory in the following hours.
+
+
+
+🔸 5. Attention and emotion
+
+The brain changes more when there is:
+    • Focused attention
+    • Emotional relevance
+
+📌 Example
+You learn better about something that matters to you (investment, health, life purpose) than neutral information.
+
+
+
+🔸 6. Get out of the cognitive comfort zone
+
+Plasticity is activated when there is a challenge, not when everything is automatic.
+
+📌 Example
+If you always operate the market in the same way, the brain stagnates. Analyzing errors, changing time frames or studying trading psychology reactivates plasticity.
+
+
+
+🔸 7. Emotional regulation and stress
+    • Chronic stress reduces plasticity (especially in the hippocampus).
+    • Moderate and controlled stress stimulates it.
+
+📌 Example
+Exposing yourself to gradual challenges (presentations, complex decisions) without saturating yourself strengthens executive control networks.
+
+A key principle to remember everything
+
+The brain changes based on what you do repeatedly with attention.
+
+Not according to what you want, nor what you know you should do, but what you practice consistently.
+
+
+
+🟢 Quick summary
+    • Brain plasticity is the brain's ability to adapt and remodel itself.
+    • It is active throughout life.
+    • It is enhanced with:
+    • Active learning
+    • Spaced repetition
+    • Sleep
+    • Exercise
+    • Attention and emotion
+    • Cognitive challenges
+    • Blocks with:
+    • Chronic stress
+    • Lack of sleep
+    • Excessive automation

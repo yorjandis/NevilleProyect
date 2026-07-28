@@ -1,0 +1,52 @@
+Storage of emotions
+
+Emotions are not stored as separate “files” in a single location in the brain; rather, they are patterns of activation and connection between various brain regions that include sensory, cognitive, and physiological aspects.
+
+
+
+🟢 Key structures involved in emotional storage
+    1. Amygdala
+    • It is the central region for detecting and encoding emotions, especially fear and anxiety.
+    • It works like a “sentinel”: when it perceives emotionally significant stimuli, it activates bodily responses and reinforces the memory of that experience.
+    • Practical example: If a person has a traumatic experience with a dog, the amygdala encodes the fear and “connects” with memories of the situation to alert the brain in the future.
+    2. Hippocampus
+    • It is responsible for declarative memory (facts and events) and contextualizes the emotion within a situation.
+    • This means that you not only remember the fear, but you remember where, when and how it occurred.
+    • Example: You remember that your fear of dogs occurred in a specific park during your childhood.
+    3. Prefrontal cortex (PFC)
+    • Modulates emotions: regulates their intensity and links them with rational processes.
+    • The dorsolateral PFC participates in planning and cognitive control over emotions; the ventromedial connects more with courage and motivation.
+    • Example: When you see a dog now, the FPC helps evaluate that “not all dogs are dangerous” and can reduce the fear reaction.
+    4. Insula
+    • Processes emotions related to internal sensations, such as disgust or pain.
+    • Participate in the perception of your own body state during an emotion (heartbeat, sweat, tension).
+    5. Striatum and nucleus accumbens
+    • Associated with pleasure and reward.
+    • They memorize positive emotions and reinforce rewarding behaviors.
+
+
+
+🟢 How emotion is stored
+    • Associative and synaptic memory:
+Emotion is stored through changes in the strength of synapses (synaptic plasticity) between neurons in these regions.
+    • LTP (long-term potentiation) and LTD (long-term depression) are the basic mechanisms.
+    • Example: The amygdala makes stronger connections with the hippocampus and sensory cortex after an intense emotional event, making it easier for us to remember the context and sensation of that emotion.
+    • Distributed neural networks:
+There is no specific “fear file” or “joy file”; rather, each emotion is a pattern of activation of several networks including bodily sensations, memory, attention, and judgment.
+    • Implicit vs explicit memory:
+    • Implicit: automatic emotional memories (fears, anxieties) that can be activated without awareness.
+    • Explicit: conscious memories of the emotional situation.
+
+
+
+🟢 Integrative practical example
+
+Imagine someone experiences a fall while riding a bicycle as a child:
+    1. The amygdala detects fear and sends signals to the autonomic system (increased heart rate).
+    2. The hippocampus encodes “I fell on that slope” with details of the environment.
+    3. The prefrontal cortex may try to rationalize: “I can ride carefully.”
+    4. Over time, experience is stored as a pattern of connection between these areas.
+    5. The next time you see a similar slope, the network automatically reactivates, eliciting fear (implicit) and remembering the context (explicit).
+
+
+In short: emotions are stored as patterns of synaptic connections and activation of distributed neural networks, not as static memories. The intensity, duration, and context of the emotion depend on how much the amygdala, hippocampus, and prefrontal cortex reinforce these connections.

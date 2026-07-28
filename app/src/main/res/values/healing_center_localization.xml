@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="healing_center_title">Centro Sanador</string>
+    <string name="healing_check_title">Comprobación</string>
+    <string name="healing_back">Atrás</string>
+    <string name="healing_close">Cerrar</string>
+    <string name="healing_add_favorite">Añadir a favoritos</string>
+    <string name="healing_remove_favorite">Quitar de favoritos</string>
+    <string name="healing_favorite">Favorito</string>
+    <string name="healing_open_urgent_help">Abrir ayuda urgente</string>
+    <string name="healing_urgent_help">Ayuda urgente</string>
+
+    <string name="healing_home_support_title">Apoyo para este momento</string>
+    <string name="healing_home_support_subtitle">No necesitas describirlo perfectamente.</string>
+    <string name="healing_home_intro">Elige la experiencia que más se parece a lo que estás viviendo. Primero comprobaremos la seguridad y después te guiaremos paso a paso.</string>
+    <string name="healing_home_emergency_question">¿Podría ser una emergencia?</string>
+    <string name="healing_home_emergency_detail">Comprueba señales de alarma y recursos de tu país</string>
+    <string name="healing_guide_not_diagnosis">- Una guía, no un diagnóstico -</string>
+    <string name="healing_search_hint">¿Qué sientes ahora?</string>
+    <string name="healing_clear_search">Borrar búsqueda</string>
+    <string name="healing_what_is_happening">¿Qué está ocurriendo?</string>
+    <string name="healing_results">Resultados</string>
+    <string name="healing_no_matches">Sin coincidencias</string>
+    <string name="healing_search_suggestion">Prueba con palabras como miedo, trabajo, dudas, enfado o ansiedad.</string>
+    <string name="healing_premium_guides">Guías prácticas premium</string>
+    <string name="healing_premium_explanation">La ayuda de emergencia queda siempre abierta. Las situaciones guiadas, técnicas y explicaciones del Centro Sanador forman parte del contenido premium.</string>
+    <string name="healing_unlock">Desbloquear Centro Sanador</string>
+    <string name="healing_unavailable">Centro no disponible</string>
+    <string name="healing_load_error">No se pudo cargar el catálogo de apoyo.</string>
+
+    <string name="healing_essential_now">Lo esencial ahora</string>
+    <string name="healing_choose_practical_help">Elige una ayuda práctica</string>
+    <string name="healing_small_resources">Pequeños recursos que puedes probar</string>
+    <string name="healing_small_resources_hint">Toca para ver ideas sencillas y complementarias</string>
+    <string name="healing_hide_tips">Ocultar consejos</string>
+    <string name="healing_complementary_resources_note">Son recursos complementarios y de bajo riesgo que algunas personas encuentran útiles. Su efecto es personal y algunos tienen evidencia limitada: conserva solo los que te resulten útiles y no aumenten el malestar.</string>
+    <string name="healing_practical_tip_warning">No pruebes nada que cause dolor, mareo, adormecimiento o mayor malestar. No realices ajustes ni giros bruscos del cuello o la columna.</string>
+    <string name="healing_what_may_be_happening">Qué puede estar ocurriendo</string>
+    <string name="healing_body_mind_explanation_hint">Toca para entender qué sucede en tu cuerpo y tu mente</string>
+    <string name="healing_hide_explanation">Ocultar explicación</string>
+    <string name="healing_body_learns">Tu organismo también aprende</string>
+    <string name="healing_neuroplasticity_note">Mente, cuerpo y entorno se influyen mutuamente. La práctica repetida puede enseñarle a tu sistema nervioso respuestas nuevas mediante el aprendizaje y la neuroplasticidad. Esto no significa que un pensamiento aislado controle tus genes, garantice una curación o te haga responsable de sentirte así.</string>
+    <string name="healing_when_to_seek_help">Cuándo pedir ayuda</string>
+    <string name="healing_warning_signs_hint">Toca para ver señales de alerta y recursos urgentes</string>
+    <string name="healing_hide_warning_signs">Ocultar señales de alerta</string>
+    <string name="healing_view_local_urgent_help">Ver ayuda urgente de mi país</string>
+    <string name="healing_sources_and_evidence">Fuentes y evidencia</string>
+    <string name="healing_sources_hint">Toca para consultar las referencias</string>
+    <string name="healing_hide_sources">Ocultar fuentes</string>
+    <string name="healing_open_source">Abrir fuente</string>
+    <string name="healing_content_reviewed">Contenido %1$s · revisado %2$s</string>
+    <string name="healing_collapse">Contraer</string>
+    <string name="healing_expand">Desplegar</string>
+    <string name="healing_informational_disclaimer">Esta guía ofrece apoyo educativo y de bienestar. Las técnicas y consejos pueden tener niveles de evidencia distintos. No diagnostica, no sustituye la atención sanitaria y no garantiza que una propuesta funcione en todos los casos.</string>
+    <string name="healing_stop_instruction">Detén cualquier ejercicio si aumenta el malestar, aparece dolor, mareo intenso o dificultad para respirar. Respira con normalidad y busca ayuda si lo necesitas.</string>
+    <string name="healing_evidence_supported">Apoyo sólido</string>
+    <string name="healing_evidence_promising">Evidencia prometedora</string>
+    <string name="healing_evidence_complementary">Técnica complementaria</string>
+    <string name="healing_evidence_experimental">Evidencia limitada</string>
+    <string name="healing_duration_seconds">%1$d s</string>
+    <string name="healing_duration_minutes">%1$d min</string>
+    <string name="healing_duration_minutes_seconds">%1$d min %2$d s</string>
+
+    <string name="healing_before_starting">Antes de comenzar</string>
+    <string name="healing_safety_intro">Esta comprobación evita tratar automáticamente como emocional algo que podría necesitar ayuda urgente.</string>
+    <string name="healing_seek_immediate_help">Busca ayuda inmediata si…</string>
+    <string name="healing_unsure_need_help">Sí, no estoy seguro o necesito ayuda</string>
+    <string name="healing_safety_confirmation">He leído las señales y ninguna está presente. Puedo detenerme en cualquier momento.</string>
+    <string name="healing_start_guide">Comenzar guía</string>
+    <string-array name="healing_urgent_signals">
+        <item>Hay peligro inmediato o sientes que podrías hacerte daño o dañar a otra persona.</item>
+        <item>Tienes dolor o presión intensa o nueva en el pecho, te has desmayado o te cuesta mucho respirar.</item>
+        <item>Notas debilidad repentina, confusión intensa, dificultad para hablar o un síntoma neurológico nuevo.</item>
+        <item>Has tomado una sobredosis, una sustancia peligrosa o has sufrido una lesión importante.</item>
+        <item>No puedes mantenerte a salvo o no estás seguro de que esto sea solo una reacción emocional.</item>
+    </string-array>
+
+    <string name="healing_step_progress">Paso %1$d de %2$d</string>
+    <string name="healing_previous_step">Paso anterior</string>
+    <string name="healing_continue">Continuar</string>
+    <string name="healing_pause">Pausa</string>
+    <string name="healing_next_step">Siguiente paso</string>
+    <string name="healing_feedback_helped">Me ayudó</string>
+    <string name="healing_feedback_somewhat">Algo</string>
+    <string name="healing_feedback_not_helped">No</string>
+    <string name="healing_guide_completed">Guía completada</string>
+    <string name="healing_completion_note">Respira con normalidad y observa el momento sin exigir un resultado concreto.</string>
+    <string name="healing_feedback_question">¿Cómo te ha resultado?</string>
+    <string name="healing_feedback_privacy">La respuesta no se guarda. Solo te ayuda a decidir el siguiente paso.</string>
+    <string name="healing_feedback_not_helped_advice">Prueba una técnica de otra familia o busca apoyo humano. No es necesario repetir un ejercicio que no te ayuda.</string>
+    <string name="healing_feedback_helped_advice">Puedes volver a esta técnica desde tus favoritos cuando la necesites.</string>
+    <string name="healing_exit_guide">Salir de la guía</string>
+    <string name="healing_need_urgent_help">Necesito ayuda urgente</string>
+
+    <string name="healing_immediate_danger_notice">Si existe peligro inmediato, no continúes con un ejercicio de autorregulación. Llama a emergencias o pide a otra persona que lo haga.</string>
+    <string name="healing_check_signals">Comprueba estas señales</string>
+    <string name="healing_country_or_region">País o región</string>
+    <string name="healing_change_country">Cambiar país</string>
+    <string name="healing_help">Ayuda</string>
+    <string name="healing_local_help_fallback">Consulta el número local de emergencias o utiliza el directorio internacional para encontrar ayuda verificada en tu país.</string>
+    <string name="healing_contacts_for">Contactos para %1$s</string>
+    <string name="healing_more_countries">Más países</string>
+    <string name="healing_services_change_notice">Los servicios pueden cambiar. Comprueba siempre el país, el propósito y la fuente antes de llamar.</string>
+    <string name="healing_call_number">Llamar al %1$s</string>
+    <string name="healing_official_source">Consultar fuente oficial</string>
+    <string name="healing_international_directory">Directorio internacional de líneas de ayuda</string>
+    <string name="healing_emergencies">Emergencias</string>
+    <string name="healing_emergency_detail">Para peligro inmediato o una emergencia médica.</string>
+    <string name="healing_region_unverified">No tenemos verificado un número único para esta región. Usa el número local de emergencias o consulta el directorio internacional.</string>
+    <string name="healing_region_detection_note">La región se obtiene de los ajustes del dispositivo, no de tu ubicación. Compruébala antes de llamar.</string>
+    <string name="healing_contact_spain_024">Atención a la conducta suicida, gratuita, confidencial y disponible 24/7.</string>
+    <string name="healing_contact_call_text_crisis">Llama o envía un mensaje de texto para apoyo en crisis 24/7.</string>
+    <string name="healing_contact_samaritans">Apoyo emocional gratuito y confidencial, disponible 24/7.</string>
+    <string name="healing_contact_lifeline_au">Apoyo en crisis y prevención del suicidio, disponible 24/7.</string>
+    <string name="healing_contact_nz_1737">Llama o envía un mensaje de texto para hablar con una persona capacitada.</string>
+    <string name="healing_contact_mexico">Orientación profesional en salud mental, gratuita y disponible 24/7.</string>
+</resources>

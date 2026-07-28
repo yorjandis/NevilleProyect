@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="global_color_red">Rojo</string>
+    <string name="global_color_green">Verde</string>
+    <string name="global_color_blue">Azul</string>
+    <string name="global_apply">Aplicar</string>
+    <string name="global_qr_text_too_long">El texto supera el límite permitido para un código QR</string>
+    <string name="global_qr_description">Código QR</string>
+    <string name="global_share_text">Compartir texto</string>
+    <string name="global_offline_content">Este contenido no está disponible sin conexión</string>
+    <string name="global_update_channel">Actualizaciones de la aplicación</string>
+    <string name="global_update_action">Actualizar</string>
+    <string name="global_reminders_channel">Recordatorios</string>
+    <string name="global_reminders_channel_description">Notificaciones de recordatorios</string>
+    <string name="global_journal_reminder_title">Recordatorio del Diario</string>
+    <string name="global_journal_default_message">Recuerda anotar en el Diario tu experiencia del día.</string>
+    <string name="global_open_journal">Abrir Diario</string>
+    <string name="global_disable">Desactivar</string>
+    <string name="global_stop">Detener</string>
+    <string name="global_no_description">Sin descripción.</string>
+    <string name="global_goal_unit_available">Unidad «%1$s» lista para fichar.\n%2$s</string>
+    <string name="global_open_goals">Abrir Metas</string>
+    <string name="global_goals_channel">Metas</string>
+    <string name="global_goals_channel_description">Avisos de unidades disponibles para fichar</string>
+    <string name="global_ritual_channel">Ritual diario</string>
+    <string name="global_ritual_channel_description">Recordatorios diarios para vivir el día con intención</string>
+    <string name="global_ritual_morning_title">Empieza el día con intención</string>
+    <string name="global_ritual_morning_text">Define cómo quieres pensar, actuar y responder hoy.</string>
+    <string name="global_ritual_day_title">Recordatorio de tu ritual</string>
+    <string name="global_ritual_day_text">Vuelve a la intención consciente que elegiste para hoy.</string>
+    <string name="global_ritual_evening_title">Cierra el día con conciencia</string>
+    <string name="global_ritual_evening_text">Haz una pausa para integrar el día y preparar el de mañana.</string>
+    <string name="global_repo_error">Se produjo un error. Código: 001</string>
+    <string name="global_repo_quotes_added">Frases nuevas añadidas: %1$d</string>
+    <string name="global_repo_quotes_failed">Frases que no se pudieron añadir: %1$d</string>
+    <string name="global_repo_no_connection">No se pudieron importar las frases porque no hay conexión a Internet</string>
+    <string name="global_default_quote_title">Frase</string>
+</resources>

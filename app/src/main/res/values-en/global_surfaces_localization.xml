@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="global_color_red">Red</string>
+    <string name="global_color_green">Green</string>
+    <string name="global_color_blue">Blue</string>
+    <string name="global_apply">Apply</string>
+    <string name="global_qr_text_too_long">The text is too long for a QR code</string>
+    <string name="global_qr_description">QR code</string>
+    <string name="global_share_text">Share text</string>
+    <string name="global_offline_content">This content isn’t available offline</string>
+    <string name="global_update_channel">App updates</string>
+    <string name="global_update_action">Update</string>
+    <string name="global_reminders_channel">Reminders</string>
+    <string name="global_reminders_channel_description">Reminder notifications</string>
+    <string name="global_journal_reminder_title">Journal reminder</string>
+    <string name="global_journal_default_message">Remember to record today’s experience in your Journal.</string>
+    <string name="global_open_journal">Open Journal</string>
+    <string name="global_disable">Disable</string>
+    <string name="global_stop">Stop</string>
+    <string name="global_no_description">No description.</string>
+    <string name="global_goal_unit_available">“%1$s” is ready to check in.\n%2$s</string>
+    <string name="global_open_goals">Open Goals</string>
+    <string name="global_goals_channel">Goals</string>
+    <string name="global_goals_channel_description">Notifications when goal units are ready to check in</string>
+    <string name="global_ritual_channel">Daily ritual</string>
+    <string name="global_ritual_channel_description">Daily reminders for living with intention</string>
+    <string name="global_ritual_morning_title">Start the day with intention</string>
+    <string name="global_ritual_morning_text">Choose how you want to think, act, and respond today.</string>
+    <string name="global_ritual_day_title">Your ritual reminder</string>
+    <string name="global_ritual_day_text">Return to the conscious intention you chose for today.</string>
+    <string name="global_ritual_evening_title">Close your day mindfully</string>
+    <string name="global_ritual_evening_text">Pause to integrate the day and prepare for tomorrow.</string>
+    <string name="global_repo_error">An error occurred. Code: 001</string>
+    <string name="global_repo_quotes_added">New quotes added: %1$d</string>
+    <string name="global_repo_quotes_failed">Quotes that couldn’t be added: %1$d</string>
+    <string name="global_repo_no_connection">Quotes couldn’t be imported because there is no Internet connection</string>
+    <string name="global_default_quote_title">Quote</string>
+</resources>

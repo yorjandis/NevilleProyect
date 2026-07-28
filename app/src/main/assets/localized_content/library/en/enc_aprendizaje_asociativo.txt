@@ -1,0 +1,107 @@
+Associative learning, from neuroscience, is the process by which the brain relates two or more stimuli, or a stimulus with an action and its consequence, and modifies its neuronal activity so that this relationship is stored and can influence future behavior.
+
+In other words: the brain learns what things go together and what predicts what.
+
+
+
+🟢 Neuroscientific definition
+
+At the brain level, associative learning involves plastic changes in synapses (synaptic plasticity), where the repeated and coordinated activation of neurons strengthens or weakens specific connections.
+The key idea is Hebb's principle:
+
+“Neurons that fire together, wire together.”
+
+
+
+🟢 Main types of associative learning
+
+🔸1. Classical conditioning (Pavlovian)
+
+You learn to associate two stimuli.
+
+classic example
+    • Neutral stimulus: sound of a bell
+    • Unconditioned stimulus: food
+    • Answer: salivation
+
+After repeated associations:
+    • Bell → salivation
+
+What happens in the brain
+    • The amygdala and cerebellum play a key role.
+    • Connections between sensory areas (hearing) and autonomic circuits (salivation) are reinforced.
+    • The neutral stimulus begins to activate the same neural networks as the biologically relevant stimulus.
+
+everyday example
+    • Feeling anxious when you hear the sound of a work email.
+    • Smell a perfume and immediately remember a person.
+
+
+
+🔸2. Operant (instrumental) conditioning
+
+You learn to associate a behavior with a consequence.
+
+Example
+    • Action: study
+    • Consequence: good grade
+    • Result: increased study behavior
+
+Neuroscience behind
+    • Key circuit: dopaminergic system (ventral tegmental area → nucleus accumbens).
+    • Dopamine acts as a prediction error signal:
+    • More reward than expected → increases dopamine.
+    • Less reward → decreases.
+
+This adjusts the probability of repeating the behavior.
+
+Practical example
+    • Check your cell phone and receive a rewarding message → reinforcement of the habit.
+    • Trading: a profitable operation reinforces a strategy (even if it was random).
+
+
+
+🟢 Fundamental neural mechanisms
+
+Synaptic plasticity
+    • Long-term potentiation (LTP): strengthening of synapses.
+    • Long-term depression (LTD): weakening of synapses.
+
+These modifications occur mainly in:
+    • Hippocampus (associative and spatial memory)
+    • Amygdala (emotional associations)
+    • Basal ganglia (habits and reward learning)
+
+
+
+🟢 Role of neurotransmitters
+    • Glutamate: learning and plasticity (NMDA and AMPA receptors).
+    • Dopamine: reinforcement, motivation and reward learning.
+    • Norepinephrine: relevance and attention.
+    • Acetylcholine: attention-dependent learning.
+
+
+
+🟢 Examples applied to daily life
+
+Food
+    • Associate ultra-processed foods with immediate pleasure (dopamine).
+    • Learning to associate natural food with long-term well-being requires retraining associations.
+
+Emotions
+    • A repeated negative experience can associate a place or person with fear.
+    • Neurobiological basis of phobias and anxiety disorders.
+
+Learning and study
+    • Always studying in the same environment can create contextual associations.
+    • Associating learning with positive emotions improves memory consolidation.
+
+
+
+🟢 Summary:
+
+From neuroscience, associative learning is:
+    • A process of physical change in the brain.
+    • Based on synaptic plasticity.
+    • Guided by prediction, reward and emotion.
+    • Fundamental for survival, habits and decision making

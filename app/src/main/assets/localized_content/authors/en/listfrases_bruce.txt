@@ -1,0 +1,692 @@
+id=bruce_001
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Your biology responds to what you believe, not what is real.
+relacionadas=
+
+id=bruce_002
+autor=bruceL
+nota=
+fuente=Lipton, Bruce H. (2007), La biología de la creencia: la liberación del poder de la conciencia, la materia y los milagros. Madrid: Ediciones Palmyra. ISBN 9788496665187
+contexto=
+contexto_ids=
+texto=It takes more than “positive thoughts” to stay in control of your body and your life. It is important for your health and well-being that you change your way of thinking and focus on vital and positive thoughts.
+relacionadas=
+
+id=bruce_003
+autor=bruceL
+nota=
+fuente=Lipton, Bruce H. (2007), La biología de la creencia: la liberación del poder de la conciencia, la materia y los milagros. Madrid: Ediciones Palmyra. ISBN 9788496665187
+contexto=
+contexto_ids=
+texto=The conscious mind is the creative one, the one that can conjure up "positive thoughts." By contrast, the subconscious mind is strictly mechanical; it repeats the same responses to life signals over and over.
+relacionadas=
+
+id=bruce_004
+autor=bruceL
+nota=
+fuente=Lipton, Bruce H. (2007), La biología de la creencia: la liberación del poder de la conciencia, la materia y los milagros. Madrid: Ediciones Palmyra. ISBN 9788496665187
+contexto=
+contexto_ids=
+texto=The mind (energy) and body (matter) are related in a similar way, although Western medicine has tried hard to separate them for hundreds of years.
+relacionadas=
+
+id=bruce_005
+autor=bruceL
+nota=
+fuente=Lipton, Bruce H. (2007), La biología de la creencia: la liberación del poder de la conciencia, la materia y los milagros. Madrid: Ediciones Palmyra. ISBN 9788496665187
+contexto=
+contexto_ids=
+texto=Pharmaceutical companies offer this “education” [referring to doctors] to persuade doctors to “advise” the use of their products.
+relacionadas=
+
+id=bruce_006
+autor=bruceL
+nota=
+fuente=Lipton, Bruce H. (2007), La biología de la creencia: la liberación del poder de la conciencia, la materia y los milagros. Madrid: Ediciones Palmyra. ISBN 9788496665187
+contexto=
+contexto_ids=
+texto=There are hundreds and hundreds of scientific studies published in the last fifty years that provide consistent evidence that the "invisible forces" of the electromagnetic spectrum profoundly affect each and every facet of biological regulation.
+relacionadas=
+
+id=bruce_007
+autor=bruceL
+nota=
+fuente=Lipton, Bruce H. (2007), La biología de la creencia: la liberación del poder de la conciencia, la materia y los milagros. Madrid: Ediciones Palmyra. ISBN 9788496665187
+contexto=
+contexto_ids=
+texto=However, due to Newtonian materialist prejudices, mainstream researchers have completely ignored the role that energy plays in health and disease.
+relacionadas=
+
+id=bruce_008
+autor=bruceL
+nota=
+fuente=Lipton, Bruce H. (2007), La biología de la creencia: la liberación del poder de la conciencia, la materia y los milagros. Madrid: Ediciones Palmyra. ISBN 9788496665187
+contexto=
+contexto_ids=
+texto=Physicists abandoned their faith in the Newtonian material universe because they came to realize that the universe is not made up of matter suspended in space, but of energy.
+relacionadas=
+
+id=bruce_009
+autor=bruceL
+nota=
+fuente=Lipton, Bruce H. (2007), La biología de la creencia: la liberación del poder de la conciencia, la materia y los milagros. Madrid: Ediciones Palmyra. ISBN 9788496665187
+contexto=
+contexto_ids=
+texto=DNA does not control biology, and the nucleus is not the brain of the cell. Just like you and me, cells adapt to the place they live. In other words: it is the environment
+relacionadas=
+
+id=bruce_010
+autor=bruceL
+nota=
+fuente=Lipton, Bruce H. (2007), La biología de la creencia: la liberación del poder de la conciencia, la materia y los milagros. Madrid: Ediciones Palmyra. ISBN 9788496665187
+contexto=
+contexto_ids=
+texto=There you are, holding this physical book in your hands. and yet, if you were to magnify the size of the book material with an atomic microscope, you would see that you are not holding anything
+relacionadas=
+
+id=bruce_011
+autor=bruceL
+nota=
+fuente=Lipton, Bruce H. (2007), La biología de la creencia: la liberación del poder de la conciencia, la materia y los milagros. Madrid: Ediciones Palmyra. ISBN 9788496665187
+contexto=
+contexto_ids=
+texto=As in isolated cells, the character of our existence is determined not by our genes, but by our response to the environmental signals that drive life.
+relacionadas=
+
+id=bruce_012
+autor=bruceL
+nota=
+fuente=Lipton, Bruce H. (2007), La biología de la creencia: la liberación del poder de la conciencia, la materia y los milagros. Madrid: Ediciones Palmyra. ISBN 9788496665187
+contexto=
+contexto_ids=
+texto=The life experiences of parents shape the genetic character of their children
+relacionadas=
+
+id=bruce_013
+autor=bruceL
+nota=
+fuente=Lipton, Bruce H. (2007), La biología de la creencia: la liberación del poder de la conciencia, la materia y los milagros. Madrid: Ediciones Palmyra. ISBN 9788496665187
+contexto=
+contexto_ids=
+texto=The continuous shape change of proteins, which can occur thousands of times in a second, is the movement that drives the life of organisms
+relacionadas=
+
+id=bruce_014
+autor=bruceL
+nota=
+fuente=Conferencia: tres amigos Gregg, Joe Dispenza y Bruce Lipton, TCCHE.org, 2017
+contexto=
+contexto_ids=
+texto=You were born in Heaven. Here you have come to create, to experiment. You are living the program life. If you don't like the program, the new biology says you can rewrite it
+relacionadas=
+
+id=bruce_015
+autor=bruceL
+nota=
+fuente=Conferencia: tres amigos Gregg, Joe Dispenza y Bruce Lipton, TCCHE.org, 2017
+contexto=
+contexto_ids=
+texto=We have our existence and source beyond the physical body. The body is just a biological antenna that tunes into the presence that we are and emits from the Quantum Field or mind of God.
+relacionadas=
+
+id=bruce_016
+autor=bruceL
+nota=Resume su crítica al determinismo genético y su énfasis en la epigenética
+fuente=Libro La Biología de la Creencia
+contexto=
+contexto_ids=
+texto=We are not victims of our genes
+relacionadas=
+
+id=bruce_017
+autor=bruceL
+nota=Idea central de La biología de la creencia
+fuente=Libro La Biología de la Creencia
+contexto=
+contexto_ids=
+texto=The environment controls the behavior of genes, not the other way around
+relacionadas=
+
+id=bruce_018
+autor=bruceL
+nota=
+fuente=Libro La Biología de la Creencia
+contexto=
+contexto_ids=
+texto=Connection and calm, the vitamins of the soul and the cell
+relacionadas=
+
+id=bruce_019
+autor=bruceL
+nota=Subraya cómo la percepción modifica la respuesta celular.
+fuente=Libro La Biología de la Creencia
+contexto=
+contexto_ids=
+texto=Beliefs act as a filter between the outside world and our biology.
+relacionadas=
+
+id=bruce_020
+autor=bruceL
+nota=Conecta mente, emociones y fisiología.
+fuente=Libro La Biología de la Creencia
+contexto=
+contexto_ids=
+texto=Changing perception can change the body's response
+relacionadas=
+
+id=bruce_021
+autor=bruceL
+nota=Uno de sus aportes más disruptivos desde la biología celular.
+fuente=Libro La Biología de la Creencia
+contexto=
+contexto_ids=
+texto=Cells are not controlled by the nucleus, but by the membrane
+relacionadas=
+
+id=bruce_022
+autor=bruceL
+nota=Clave para entender por qué los hábitos y programas aprendidos dominan nuestra conducta.
+fuente=Libro La Biología de la Creencia
+contexto=
+contexto_ids=
+texto=The subconscious mind is millions of times more powerful than the conscious mind
+relacionadas=
+
+id=bruce_023
+autor=bruceL
+nota=Relación directa entre entorno emocional y enfermedad.
+fuente=Libro La Biología de la Creencia
+contexto=
+contexto_ids=
+texto=Stress is one of the biggest inhibitors of growth and health
+relacionadas=
+
+id=bruce_024
+autor=bruceL
+nota=Explicación biológica del impacto del miedo crónico.
+fuente=Libro La Biología de la Creencia
+contexto=
+contexto_ids=
+texto=When you live in survival mode, you sacrifice growth and repair
+relacionadas=
+
+id=bruce_025
+autor=bruceL
+nota=Una de sus dicotomías más citadas, tanto a nivel celular como humano.
+fuente=
+contexto=
+contexto_ids=
+texto=Love promotes growth; fear activates protection
+relacionadas=
+
+id=bruce_026
+autor=bruceL
+nota=Su intento de tender puentes entre ciencia y conciencia.
+fuente=
+contexto=
+contexto_ids=
+texto=Modern biology confirms what spiritual traditions have said for centuries
+relacionadas=
+
+id=bruce_027
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=A cell in a toxic environment behaves defensively, even if its DNA is perfect. Likewise, a person in a toxic emotional environment can become ill even if they have “ideal” genetics.
+relacionadas=
+
+id=bruce_028
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Genes are possibilities, not sentences. Gene expression depends on context, not just DNA
+relacionadas=
+
+id=bruce_029
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The cell responds to information from the environment before its inheritance
+relacionadas=
+
+id=bruce_030
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Epigenetics demonstrates that life is a constant dialogue between the organism and its environment
+relacionadas=
+
+id=bruce_031
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=DNA does not activate itself; wait for instructions from the environment
+relacionadas=
+
+id=bruce_032
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Changing the cellular environment changes biological fate
+relacionadas=
+
+id=bruce_033
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Perception is a biological regulator as real as a molecule
+relacionadas=
+
+id=bruce_034
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Chronic stress keeps the body in survival mode, not healing mode
+relacionadas=
+
+id=bruce_035
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=A mind in constant survival mode steals resources from the immune system
+relacionadas=
+
+id=bruce_036
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Prolonged fear alters the body's internal chemistry
+relacionadas=
+
+id=bruce_037
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The response to the environment is more determining than the environment itself
+relacionadas=
+
+id=bruce_038
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The body does not distinguish between a real threat and an imagined one
+relacionadas=
+
+id=bruce_039
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The biology of stress is incompatible with the biology of growth
+relacionadas=
+
+id=bruce_040
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Longevity is a byproduct of a coherent internal environment
+relacionadas=
+
+id=bruce_041
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Cells live longer when the environment favors repair and not defense
+relacionadas=
+
+id=bruce_042
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Accelerated aging is a sign of adaptation to a hostile environment
+relacionadas=
+
+id=bruce_043
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=An organism that feels safe invests energy in regenerating itself
+relacionadas=
+
+id=bruce_044
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The quality of the internal environment determines the rate of cellular wear and tear.
+relacionadas=
+
+id=bruce_045
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The subconscious directs biology when the conscious mind is distracted
+relacionadas=
+
+id=bruce_046
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Most of our biological responses are learned habits
+relacionadas=
+
+id=bruce_047
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Reprogramming the mind is intervening directly in the physiology
+relacionadas=
+
+id=bruce_048
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Beliefs not only influence what we think, they influence how we function.
+relacionadas=
+
+id=bruce_049
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Biology follows programs (learned habits, behaviors, and patterns), and programs can be changed
+relacionadas=
+
+id=bruce_050
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Love creates coherence; consistency creates health
+relacionadas=
+
+id=bruce_051
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=A stable emotional environment allows cells to thrive
+relacionadas=
+
+id=bruce_052
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The connection reduces the danger signal in the body
+relacionadas=
+
+id=bruce_053
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Feeling safe is a biological condition, not just a psychological one
+relacionadas=
+
+id=bruce_054
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=When you change the way you perceive your life, you change the biology with which you live it
+relacionadas=
+
+id=bruce_055
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every choice is a switch for your biology
+relacionadas=
+
+id=bruce_056
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=We do not inherit destiny, we inherit potential
+relacionadas=
+
+id=bruce_057
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Fear ages; calm regenerates
+relacionadas=
+
+id=bruce_058
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Your biology reflects your perception of the world
+relacionadas=
+
+id=bruce_060
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Prolonged tension steals the energy of life
+relacionadas=
+
+id=bruce_061
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=A restless mind keeps the body on guard
+relacionadas=
+
+id=bruce_062
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Living longer is not prolonging time, but taking care of the internal environment
+relacionadas=
+
+id=bruce_063
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Regeneration arises where there is security and coherence
+relacionadas=
+
+id=bruce_064
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every moment of tranquility is a vote for your health
+relacionadas=
+
+id=bruce_065
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Aging is avoidable; aging is an adaptation to the environment
+relacionadas=
+
+id=bruce_066
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=What you believe determines what your body can be
+relacionadas=
+
+id=bruce_067
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Reprogramming the mind is rewriting biology
+relacionadas=
+
+id=bruce_068
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Your internal habits are more powerful than your genetics
+relacionadas=
+
+id=bruce_069
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Love is not just a feeling; It's cellular medicine
+relacionadas=
+
+id=bruce_070
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Inner coherence is the best environment for health
+relacionadas=
+
+id=bruce_071
+autor=bruceL
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Feeling safe is the first step towards longevity
+relacionadas=
+
+id=bruce_072
+autor=bruceL
+nota=
+fuente=Serie: Evolución Interior. Por Bruce Lipton. Gaia.com
+contexto=
+contexto_ids=
+texto=You can completely change your life by changing your consciousness. That is the basis of epigenetics.
+relacionadas=
+
+id=bruce_073
+autor=bruceL
+nota=
+fuente=Serie: Evolución Interior. Por Bruce Lipton. Gaia.com
+contexto=
+contexto_ids=
+texto=Spontaneous remissions occur as a result of a radical change in our consciousness and our way of thinking and feeling.
+relacionadas=
+
+id=bruce_074
+autor=bruceL
+nota=
+fuente=Serie: Evolución Interior. Por Bruce Lipton. Gaia.com
+contexto=
+contexto_ids=
+texto=Genes are only blueprints for making proteins. Their expression depends on interactions with the environment. There is no gene that causes cancer, but some genes are correlated with certain pathologies and only respond to interactions with the individual's external and internal environment.
+relacionadas=
+
+id=bruce_075
+autor=bruceL
+nota=
+fuente=Serie: Evolución Interior. Por Bruce Lipton. Gaia.com
+contexto=
+contexto_ids=
+texto=According to quantum physics: The mind, consciousness and energy fields are what shape our experiences
+relacionadas=
+
+id=bruce_076
+autor=bruceL
+nota=
+fuente=Serie: Evolución Interior. Por Bruce Lipton. Gaia.com
+contexto=
+contexto_ids=
+texto=It is not genes that control cellular functions; it is the SIGNALS FROM THE ENVIRONMENT, captured by the cell membrane, that modulate gene expression, which in turn produces the proteins responsible for the cell's structure and function. Genes are simply templates for making proteins. Therefore, if we change these signals, our biology will change. Our environment determines our biology.
+relacionadas=
+
+id=bruce_077
+autor=bruceL
+nota=
+fuente=Serie: Evolución Interior. Por Bruce Lipton. Gaia.com
+contexto=
+contexto_ids=
+texto=The function of the mind is to create coherence between your beliefs (subconscious programs) and your reality. If your beliefs are mostly negative then your mental state will reflect this in your daily experience. On the contrary, if your beliefs are positive and empowering, your mind will create positive and great life experiences, consistent with those beliefs. Consequently, thoughts can improve your health or promote illness depending on your belief system.
+relacionadas=
+
+id=bruce_078
+autor=bruceL
+nota=
+fuente=Serie: Evolución Interior. Por Bruce Lipton. Gaia.com
+contexto=
+contexto_ids=
+texto=Epigenetics does not modify the gene, it only changes the reading it makes of that gene. Therefore, epigenetics dictates the way the gene is expressed and can give rise to many variations (proteins) from the same gene. Epigenetics represents the environmental signals, both internal and external to the organism, that act on cells and regulate gene expression.
+relacionadas=

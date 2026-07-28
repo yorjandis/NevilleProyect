@@ -1,0 +1,428 @@
+{
+  "CaminarPorLaMañana": {
+    "title": "Morning Walk",
+    "description": "Walk for 20-30 minutes in the morning to activate body and mind",
+    "customUnitLabel": "walks"
+  },
+  "HidratacionDiaria": {
+    "title": "Daily Hydration",
+    "description": "Drink at least 2 liters of water daily",
+    "customUnitLabel": "days hydrated"
+  },
+  "RespiracionProfunda": {
+    "title": "Deep Breathing",
+    "description": "Practice deep breathing several times a day to reduce stress and increase oxygenation",
+    "customUnitLabel": ""
+  },
+  "EstiramientosMatutinos": {
+    "title": "Morning Stretches",
+    "description": "Perform stretches upon waking to improve mobility and circulation",
+    "customUnitLabel": "sessions"
+  },
+  "Dormir8Horas": {
+    "title": "Sleep 8 Hours",
+    "description": "Sleep 8 hours each night to support physical and mental recovery",
+    "customUnitLabel": "nights"
+  },
+  "ComerVerdurasDiarias": {
+    "title": "Daily Vegetables",
+    "description": "Include vegetables in all main meals for a balanced diet",
+    "customUnitLabel": ""
+  },
+  "EvitarAzucarProcesada": {
+    "title": "Avoid Processed Sugar",
+    "description": "Reduce the consumption of refined and processed sugars",
+    "customUnitLabel": ""
+  },
+  "SuplementosVitaminicos": {
+    "title": "Vitamin Supplements",
+    "description": "Take vitamin supplements as needed and per medical recommendations",
+    "customUnitLabel": ""
+  },
+  "YogaDiario": {
+    "title": "Daily Yoga",
+    "description": "Practice yoga daily for flexibility and relaxation",
+    "customUnitLabel": "sessions"
+  },
+  "MeditacionCorta": {
+    "title": "Short Meditation",
+    "description": "Perform short meditations of 5-10 minutes daily",
+    "customUnitLabel": "sessions"
+  },
+  "AyunoIntermitente": {
+    "title": "Intermittent Fasting",
+    "description": "Practice intermittent fasting according to your personal schedule \n Note: Neuroscience evidence indicates that stable synaptic consolidation for this habit requires prolonged repetition: 30-60 days",
+    "customUnitLabel": ""
+  },
+  "SaunaSemanal": {
+    "title": "Weekly Sauna",
+    "description": "Attend the sauna at least once a week for detoxification and relaxation \n Note: Neuroscience evidence indicates that stable synaptic consolidation for this habit requires prolonged repetition: 30-60 days",
+    "customUnitLabel": "sessions"
+  },
+  "EjercicioDeFuerza": {
+    "title": "Strength Training",
+    "description": "Perform strength exercises 2-3 times per week \n Note: Neuroscience evidence indicates that stable synaptic consolidation for this habit requires prolonged repetition: 30-60 days",
+    "customUnitLabel": "workouts"
+  },
+  "ExposicionSolSegura": {
+    "title": "Safe Sun Exposure",
+    "description": "Expose yourself to the sun safely to obtain Vitamin D",
+    "customUnitLabel": ""
+  },
+  "PaseosAlAireLibre": {
+    "title": "Outdoor Walks",
+    "description": "Take daily walks outdoors for oxygenation and mental well-being",
+    "customUnitLabel": ""
+  },
+  "MasajesRelajantes": {
+    "title": "Relaxing Massages",
+    "description": "Receive relaxing massages regularly",
+    "customUnitLabel": ""
+  },
+  "LecturaDiaria": {
+    "title": "Daily Reading",
+    "description": "Read daily to stimulate the mind and knowledge",
+    "customUnitLabel": "pages"
+  },
+  "ReduccionEstrés": {
+    "title": "Stress Reduction",
+    "description": "Perform practices to reduce stress daily \n Note: Neuroscience evidence indicates that stable synaptic consolidation for this habit requires prolonged repetition: 30-60 days\nChanging emotional patterns is not just repeating an action, but changing automatic interpretation",
+    "customUnitLabel": ""
+  },
+  "ConectarConNaturaleza": {
+    "title": "Connect with Nature",
+    "description": "Spend time in nature for mental and physical balance",
+    "customUnitLabel": ""
+  },
+  "DiarioGratitud": {
+    "title": "Gratitude Journal",
+    "description": "Write daily in a gratitude journal",
+    "customUnitLabel": "entries"
+  },
+  "NeuroplasticidadEjercicio": {
+    "title": "Neuroplasticity Exercise",
+    "description": "Perform exercises to stimulate neuroplasticity \n Note: Neuroscience evidence indicates that stable synaptic consolidation for this habit requires prolonged repetition: 60-90 days",
+    "customUnitLabel": ""
+  },
+  "AprenderAlgoNuevo": {
+    "title": "Learn Something New",
+    "description": "Learn something new weekly to challenge the mind \n Note: Neuroscience evidence indicates that stable synaptic consolidation for this habit requires prolonged repetition: 60-90 days",
+    "customUnitLabel": ""
+  },
+  "PracticarMindfulness": {
+    "title": "Practice Mindfulness",
+    "description": "Practice mindfulness daily for focus and calm",
+    "customUnitLabel": ""
+  },
+  "VisualizacionCreativa": {
+    "title": "Creative Visualization",
+    "description": "Exercise creative visualization regularly",
+    "customUnitLabel": ""
+  },
+  "DiarioDePensamientos": {
+    "title": "Thought Journal",
+    "description": "Write down thoughts and reflections for mental clarity",
+    "customUnitLabel": ""
+  },
+  "MusicaParaCerebro": {
+    "title": "Brain-Boosting Music",
+    "description": "Listen to music that stimulates the brain",
+    "customUnitLabel": ""
+  },
+  "LimitarRedesSociales": {
+    "title": "Limit Social Media",
+    "description": "Limit time on social media to improve focus",
+    "customUnitLabel": ""
+  },
+  "ConcentracionPomodoro": {
+    "title": "Pomodoro Focus",
+    "description": "Use the Pomodoro technique to improve concentration",
+    "customUnitLabel": ""
+  },
+  "RespiracionCoherenciaCardiaca": {
+    "title": "Heart Coherence Breathing",
+    "description": "Practice breathing for heart rate variability (HRV) coherence",
+    "customUnitLabel": ""
+  },
+  "DesafioMentalDiario": {
+    "title": "Daily Mental Challenge",
+    "description": "Complete a daily mental challenge",
+    "customUnitLabel": ""
+  },
+  "VisualizarDeseos": {
+    "title": "Visualize Desires",
+    "description": "Visualize fulfilled desires daily",
+    "customUnitLabel": "sessions"
+  },
+  "SentirElDeseoComoRealidad": {
+    "title": "Feel Desire as Reality",
+    "description": "Imagine and feel a desire as if it were already real. Mentally experience the satisfaction of the fulfilled desire.",
+    "customUnitLabel": ""
+  },
+  "ReescribirElPasado": {
+    "title": "Rewrite the Past",
+    "description": "Rewrite limiting memories for personal transformation \n Note: Neuroscience evidence indicates that stable synaptic consolidation for this habit requires prolonged repetition: 60-90 days",
+    "customUnitLabel": "revisions"
+  },
+  "ImaginacionCreativaDiaria": {
+    "title": "Daily Creative Imagination",
+    "description": "Exercise creative imagination daily",
+    "customUnitLabel": "sessions"
+  },
+  "EstadoDeGracias": {
+    "title": "State of Gratitude",
+    "description": "Maintain a constant state of gratitude",
+    "customUnitLabel": ""
+  },
+  "ActuarComoSi": {
+    "title": "Act As If",
+    "description": "Act as if the goal has already been achieved",
+    "customUnitLabel": ""
+  },
+  "AfirmacionesDiarias": {
+    "title": "Daily Affirmations",
+    "description": "Repeat positive affirmations daily",
+    "customUnitLabel": ""
+  },
+  "MeditacionImaginativa": {
+    "title": "Imaginative Meditation",
+    "description": "Meditation focused on creative imagination",
+    "customUnitLabel": "sessions"
+  },
+  "RevisarSueños": {
+    "title": "Review Dreams",
+    "description": "Review and reflect on dreams every day",
+    "customUnitLabel": "logs"
+  },
+  "ConectarConSubconsciente": {
+    "title": "Connect with Subconscious",
+    "description": "Connect with the subconscious for personal transformation",
+    "customUnitLabel": ""
+  },
+  "MeditacionDiaria": {
+    "title": "Daily Meditation",
+    "description": "Practice daily meditation based on Joe Dispenza's teachings",
+    "customUnitLabel": ""
+  },
+  "CambioDeCreencias": {
+    "title": "Shift Beliefs",
+    "description": "Transform limiting beliefs to improve personal life \n Note: Neuroscience evidence indicates that stable synaptic consolidation for this habit requires prolonged repetition: 60-90 days",
+    "customUnitLabel": ""
+  },
+  "RomperHabitosLimitantes": {
+    "title": "Break Limiting Habits",
+    "description": "Break habits that hinder personal growth \n Note: Neuroscience evidence indicates that stable synaptic consolidation for this habit requires prolonged repetition: 60-90 days",
+    "customUnitLabel": ""
+  },
+  "EmocionesPositivasDiarias": {
+    "title": "Daily Positive Emotions",
+    "description": "Cultivate positive emotions daily \n Note: Neuroscience evidence indicates that stable synaptic consolidation for this habit requires prolonged repetition: 30-60 days\nChanging emotional patterns is not just repeating an action, but changing automatic interpretation",
+    "customUnitLabel": ""
+  },
+  "CrearNuevaRealidad": {
+    "title": "Create New Reality",
+    "description": "Create a new personal reality through daily practices \n Note: Neuroscience evidence indicates that stable synaptic consolidation for this habit requires prolonged repetition: 60-90 days",
+    "customUnitLabel": ""
+  },
+  "CoherenciaCorazonCerebro": {
+    "title": "Heart-Brain Coherence",
+    "description": "Practice coherence between heart and brain \n Note: Neuroscience evidence indicates that stable synaptic consolidation for this habit requires prolonged repetition: 30-60 days",
+    "customUnitLabel": ""
+  },
+  "TransformacionMental": {
+    "title": "Mental Transformation",
+    "description": "Daily mental transformation through meditation and exercises \n Note: Neuroscience evidence indicates that stable synaptic consolidation for this habit requires prolonged repetition: 60-90 days",
+    "customUnitLabel": ""
+  },
+  "RespiracionPotente": {
+    "title": "Powerful Breathing",
+    "description": "Deep breathing to generate energy and focus \n Note: Neuroscience evidence indicates that stable synaptic consolidation for this habit requires prolonged repetition: 30-60 days",
+    "customUnitLabel": ""
+  },
+  "PracticaDeVision": {
+    "title": "Vision Practice",
+    "description": "Daily practice of personal vision and goals",
+    "customUnitLabel": ""
+  },
+  "LiberacionEmocional": {
+    "title": "Emotional Release",
+    "description": "Daily emotional release for mental well-being \n Note: Neuroscience evidence indicates that stable synaptic consolidation for this habit requires prolonged repetition: 60-90 days",
+    "customUnitLabel": ""
+  },
+  "BeberAguaAlDespertar": {
+    "title": "Water Upon Waking",
+    "description": "Drink water upon waking to rehydrate the body",
+    "customUnitLabel": ""
+  },
+  "CaminataDespuesComida": {
+    "title": "Post-Meal Walk",
+    "description": "Walk after each meal to improve digestion",
+    "customUnitLabel": ""
+  },
+  "DiarioDeExito": {
+    "title": "Success Journal",
+    "description": "Record daily achievements and successes",
+    "customUnitLabel": ""
+  },
+  "RevisarMetasSemanal": {
+    "title": "Weekly Goal Review",
+    "description": "Review goal progress weekly",
+    "customUnitLabel": "reviews"
+  },
+  "DormirSinPantallas": {
+    "title": "Sleep Without Screens",
+    "description": "Avoid screens before bed to improve sleep quality",
+    "customUnitLabel": "nights"
+  },
+  "ComerFrutasDiarias": {
+    "title": "Daily Fruit Intake",
+    "description": "Include fruit in your diet daily",
+    "customUnitLabel": ""
+  },
+  "PriorizarProteinas": {
+    "title": "Prioritize Protein",
+    "description": "Prioritize protein in main meals",
+    "customUnitLabel": ""
+  },
+  "EvitarCafeNoche": {
+    "title": "Avoid Night Caffeine",
+    "description": "Avoid consuming caffeine in the evening",
+    "customUnitLabel": ""
+  },
+  "PausasActivasTrabajo": {
+    "title": "Active Work Breaks",
+    "description": "Take active breaks during work for mobility",
+    "customUnitLabel": ""
+  },
+  "ReflexionAntesDormir": {
+    "title": "Pre-Sleep Reflection",
+    "description": "Reflect on the day before going to sleep",
+    "customUnitLabel": "reflections"
+  },
+  "MeditacionCaminando": {
+    "title": "Walking Meditation",
+    "description": "Practice meditation while walking",
+    "customUnitLabel": ""
+  },
+  "PracticarBondad": {
+    "title": "Practice Kindness",
+    "description": "Perform acts of kindness daily",
+    "customUnitLabel": ""
+  },
+  "ContactoSocial": {
+    "title": "Social Connection",
+    "description": "Maintain regular social contact for emotional well-being",
+    "customUnitLabel": ""
+  },
+  "RespiracionProfundaTrabajo": {
+    "title": "Workplace Deep Breathing",
+    "description": "Practice deep breathing during moments of work stress",
+    "customUnitLabel": ""
+  },
+  "YogaAntesDormir": {
+    "title": "Pre-Sleep Yoga",
+    "description": "Practice yoga before bed for relaxation",
+    "customUnitLabel": "sessions"
+  },
+  "PlanificacionDiaria": {
+    "title": "Daily Planning",
+    "description": "Plan daily tasks and objectives",
+    "customUnitLabel": "plans"
+  },
+  "EvaluacionEmociones": {
+    "title": "Emotion Assessment",
+    "description": "Evaluate emotions daily for self-awareness \n Note: Neuroscience evidence indicates that stable synaptic consolidation for this habit requires prolonged repetition: 30-60 days\nChanging emotional patterns is not just repeating an action, but changing automatic interpretation",
+    "customUnitLabel": ""
+  },
+  "PrácticaDePerdón": {
+    "title": "Practice of Forgiveness",
+    "description": "Practice forgiving yourself and others \n Note: Neuroscience evidence indicates that stable synaptic consolidation for this habit requires prolonged repetition: 30-60 days\nChanging emotional patterns is not just repeating an action, but changing automatic interpretation",
+    "customUnitLabel": ""
+  },
+  "VisualizarExitoLaboral": {
+    "title": "Visualize Career Success",
+    "description": "Visualize professional and career success",
+    "customUnitLabel": ""
+  },
+  "MusicaParaRelajación": {
+    "title": "Relaxation Music",
+    "description": "Listen to music for relaxation and mental calm",
+    "customUnitLabel": ""
+  },
+  "ExposiciónAlFrioControlada": {
+    "title": "Controlled Cold Exposure",
+    "description": "Progressive cold shower or brief immersion. \n Benefit: controlled sympathetic activation, metabolic resilience.",
+    "customUnitLabel": ""
+  },
+  "CenaTemprana": {
+    "title": "Early Dinner",
+    "description": "Eat dinner 2–3h before bed. \n Benefit: improves overnight glucose and deep sleep",
+    "customUnitLabel": "early dinners"
+  },
+  "DiaSinUltraprocesados": {
+    "title": "Ultra-Processed-Food-Free Day",
+    "description": "1 completely clean day, weekly or daily",
+    "customUnitLabel": ""
+  },
+  "ControlGlucosaPostComida": {
+    "title": "Post-Meal Glucose Control",
+    "description": "Walk 10–15 min after main meals",
+    "customUnitLabel": ""
+  },
+  "TiempoSinEstimulos": {
+    "title": "Stimulus-Free Time",
+    "description": "30–60 min without phone, music, or inputs. Train boredom tolerance. Improves baseline dopamine.",
+    "customUnitLabel": ""
+  },
+  "ExposicionLuzMatutina": {
+    "title": "Morning Light Exposure",
+    "description": "10–20 min of sunlight in the first hour. Circadian synchronization",
+    "customUnitLabel": "sessions"
+  },
+  "SilencioConsciente": {
+    "title": "Conscious Silence",
+    "description": "5–10 min daily of total silence. Nervous system regulation",
+    "customUnitLabel": ""
+  },
+  "TrabajoDeMovilidadProfunda": {
+    "title": "Deep Mobility Work",
+    "description": "Hip, shoulder, and spine mobility",
+    "customUnitLabel": ""
+  },
+  "EntrenamientoEnZona2": {
+    "title": "Zone 2 Training",
+    "description": "Steady cardio 3–4 times per week. Progressive mitochondrial adaptation",
+    "customUnitLabel": "sessions"
+  },
+  "EquilibrioYPropiocepcion": {
+    "title": "Balance and Proprioception",
+    "description": "Single-leg exercises, stability. Prevention of future falls",
+    "customUnitLabel": ""
+  },
+  "DetoxDigitalNocturno": {
+    "title": "Nightly Digital Detox",
+    "description": "No screens 90 min before bed. Similar to Sleep Without Screens but more structured.",
+    "customUnitLabel": "nights"
+  },
+  "ConsumoInformativoLimitado": {
+    "title": "Limited Information Intake",
+    "description": "Limit news/social media to a fixed window. Dopaminergic regulation",
+    "customUnitLabel": ""
+  },
+  "PracticarIncomodidadVoluntaria": {
+    "title": "Practice Voluntary Discomfort",
+    "description": "Do something uncomfortable every day. Examples: A difficult conversation, showering with colder water, deep work without distraction. This strengthens psychological resilience.",
+    "customUnitLabel": ""
+  },
+  "EspaciosOrdenadosDiarios": {
+    "title": "Daily Organized Spaces",
+    "description": "Minimum order before bed. Examples: Do not leave items messy on the bed, do not leave phones or electronic devices in sight. This strengthens body and mental awareness.",
+    "customUnitLabel": "nights"
+  },
+  "CaminarDescalzoSobreTierra_Hierba": {
+    "title": "Barefoot Grounding (Earth/Grass)",
+    "description": "Walk barefoot in nature",
+    "customUnitLabel": ""
+  }
+}
+

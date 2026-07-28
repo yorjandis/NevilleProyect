@@ -1,0 +1,3229 @@
+{
+  "schemaVersion": 2,
+  "contentVersion": "1.3.0",
+  "reviewedAt": "2026-07-13",
+  "disclaimer": "关于身心健康和自我调节的教育内容。不诊断或替代专业医疗人员的护理。",
+  "situations": [
+    {
+      "id": "sensacion-panico",
+      "title": "我感觉自己快要恐慌了",
+      "subtitle": "心悸、呼吸急促、头晕，或感觉即将失去控制",
+      "symbol": "waveform.path.ecg",
+      "palette": "ocean",
+      "immediateExplanation": "身体警报系统可能已经非常强烈地被激活。虽然感觉是真实的，但它们本身无法确定是否是恐慌还是其他问题。",
+      "biologicalExplanation": "你的身体并没有制造这些感觉：它正在非常强劲地激活一个保护系统。当大脑警报网络判断有危险时，交感神经系统会准备肌肉、心脏和肺部来保护你或逃跑。肾上腺素和去甲肾上腺素等信使有助于心脏跳动更快，提高警觉性并使身体紧张。这是对真实威胁的有用反应，但在没有明确危险的情况下激活时，可能会感到可怕。\n\n如果你开始呼吸得非常快，你就会排出比平时更多的二氧化碳。这种变化可能会导致头晕、刺痛、压迫感或不真实的感觉；这些感觉会助长恐惧，而恐惧会进一步加快你的呼吸。你认为正在发生的事情也会影响大脑如何解释每个身体信号，尽管这并不意味着症状是虚构的。\n\n引导你关注当下安全的感受，让呼吸变得柔和，这会带来新的信息：“我现在可以停下来观察”。通过练习，大脑可以学习，这些强烈的感觉并不总是预示着灾难。如果它们是新的、不同的或非常强烈的，首先要排除医疗原因。",
+      "reassurance": "不需要与每种感觉作斗争。首先确认安全，然后让身体逐渐减少活动。",
+      "searchTerms": [
+        "焦虑",
+        "攻击",
+        "淹死",
+        "心悸",
+        "头晕",
+        "恐惧",
+        "危机"
+      ],
+      "redFlags": [
+        "这是你第一次感到剧烈胸痛或出现不认识的症状。",
+        "症状始于体力活动或过敏反应。"
+      ],
+      "whenToSeekHelp": [
+        "如果事件频繁发生，影响你的生活或开始避免某些地点，因为害怕。",
+        "如果你无法区分这些感觉是否为医疗问题。",
+        "如果呼吸技巧让你感到恶心或喘不过气来，请离开。"
+      ],
+      "protocols": [
+        {
+          "id": "panico-exhalacion-suave",
+          "title": "温和呼气",
+          "summary": "放慢呼吸节奏，不要强行吸满肺部，也不要屏息。",
+          "symbol": "wind",
+          "kind": "breathing",
+          "evidence": "promising",
+          "caution": "不要强迫深呼吸。如果出现更多头晕，请正常呼吸并选择感官支点。",
+          "steps": [
+            {
+              "id": "pes-1",
+              "title": "靠着。",
+              "instruction": "坐在或靠在稳定的表面上。放松任何压迫你的衣物。",
+              "durationSeconds": 8,
+              "phase": "prepare",
+              "accessibilityCue": "寻找一个稳定的位置。"
+            },
+            {
+              "id": "pes-2",
+              "title": "舒适地吸气",
+              "instruction": "通过鼻子呼吸空气，不要试图完全填满肺部。",
+              "durationSeconds": 4,
+              "phase": "inhale",
+              "accessibilityCue": "舒适地缓慢吸气。"
+            },
+            {
+              "id": "pes-3",
+              "title": "自然呼气",
+              "instruction": "舒适地呼出空气，就像轻轻擦拭玻璃一样",
+              "durationSeconds": 6,
+              "phase": "exhale",
+              "accessibilityCue": "自然呼气"
+            },
+            {
+              "id": "pes-4",
+              "title": "舒适地吸气",
+              "instruction": "保持肩膀放松，让空气进入。",
+              "durationSeconds": 4,
+              "phase": "inhale",
+              "accessibilityCue": "舒适地缓慢吸气。"
+            },
+            {
+              "id": "pes-5",
+              "title": "自然呼气",
+              "instruction": "延长离开的时间，始终舒适",
+              "durationSeconds": 6,
+              "phase": "exhale",
+              "accessibilityCue": "自然呼气"
+            },
+            {
+              "id": "pes-6",
+              "title": "舒适地吸气",
+              "instruction": "观察空气，而不追求完美呼吸。",
+              "durationSeconds": 4,
+              "phase": "inhale",
+              "accessibilityCue": "舒适地缓慢吸气。"
+            },
+            {
+              "id": "pes-7",
+              "title": "自然呼气",
+              "instruction": "舒适地呼出空气，让腹部放松",
+              "durationSeconds": 6,
+              "phase": "exhale",
+              "accessibilityCue": "自然呼气"
+            },
+            {
+              "id": "pes-8",
+              "title": "回到环境中",
+              "instruction": "恢复自然呼吸，并在心里说出自己所在的地方。",
+              "durationSeconds": 10,
+              "phase": "finish",
+              "accessibilityCue": "他再次正常呼吸。"
+            }
+          ]
+        },
+        {
+          "id": "panico-anclaje-sensorial",
+          "title": "5 · 4 · 3 · 2 · 1 感官落地练习",
+          "summary": "将注意力从身体内部的感受，转向当下具体可见、可感的信息。",
+          "symbol": "hand.point.up.left.fill",
+          "kind": "grounding",
+          "evidence": "supported",
+          "caution": null,
+          "steps": [
+            {
+              "id": "pas-1",
+              "title": "环顾四周",
+              "instruction": "找到五件你能看到的物品。描述它们的颜色或形状。",
+              "durationSeconds": 25,
+              "phase": "orient",
+              "accessibilityCue": "找到你周围五件东西。"
+            },
+            {
+              "id": "pas-2",
+              "title": "注意接触",
+              "instruction": "承认四种触觉感受：脚、衣服、座位或温度。",
+              "durationSeconds": 20,
+              "phase": "observe",
+              "accessibilityCue": "承认四种触觉感受。"
+            },
+            {
+              "id": "pas-3",
+              "title": "倾听",
+              "instruction": "区分三个声音，靠近或远处的，不要判断。",
+              "durationSeconds": 18,
+              "phase": "orient",
+              "accessibilityCue": "区分三个声音。"
+            },
+            {
+              "id": "pas-4",
+              "title": "闻觉和味觉。",
+              "instruction": "识别两个气味和一种味道的感觉。如果未出现，想象两个熟悉的气味",
+              "durationSeconds": 18,
+              "phase": "observe",
+              "accessibilityCue": "识别气味和味觉感受。"
+            },
+            {
+              "id": "pas-5",
+              "title": "指导句子",
+              "instruction": "说：我现在在这里，现在，我会专注于下一分钟。",
+              "durationSeconds": 12,
+              "phase": "finish",
+              "accessibilityCue": "重复引导句子。"
+            }
+          ]
+        },
+        {
+          "id": "panico-presion-alternada",
+          "title": "轻柔交替拍打",
+          "summary": "用左右交替的触觉节奏，为注意力提供稳定的身体参照。",
+          "symbol": "hands.and.sparkles.fill",
+          "kind": "grounding",
+          "evidence": "complementary",
+          "caution": "使用舒适的压力，并忽略任何疼痛或受伤的区域。",
+          "steps": [
+            {
+              "id": "ppa-1",
+              "title": "交叉双臂",
+              "instruction": "支撑每只手在对侧的肘部，在肩膀和肘之间，不用力。",
+              "durationSeconds": 12,
+              "phase": "prepare",
+              "accessibilityCue": "交叉双臂，保持舒适。"
+            },
+            {
+              "id": "ppa-2",
+              "title": "交替",
+              "instruction": "用一只手轻轻触摸，然后另一只手，以缓慢且可预测的速度。",
+              "durationSeconds": 30,
+              "phase": "press",
+              "accessibilityCue": "交替缓慢的触摸"
+            },
+            {
+              "id": "ppa-3",
+              "title": "观察并说出",
+              "instruction": "保持节奏，同时说出三件物品及其所在位置。",
+              "durationSeconds": 24,
+              "phase": "orient",
+              "accessibilityCue": "命名你周围的三件物体。"
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "panico-tip-frio",
+          "title": "触摸一个新鲜的表面。",
+          "detail": "一个新鲜的、没有冰冻的瓶子或金属制品可以给你一个具体的感官信号。"
+        },
+        {
+          "id": "panico-tip-sabor",
+          "title": "使用一种已知的味道",
+          "detail": "薄荷口香糖或糖果可以将注意力集中在当下；如果你很难吞咽，请避免使用。"
+        },
+        {
+          "id": "panico-tip-tarjeta",
+          "title": "准备一个简短的笔记",
+          "detail": "保存一个可见的句子： '检查安全，降低节奏，如果发生变化，请寻求帮助'"
+        }
+      ],
+      "sources": [
+        {
+          "id": "nhs-panic",
+          "title": "焦虑症：在焦虑发作期间要做什么",
+          "organization": "英国国家医疗服务体系（NHS）",
+          "url": "https://www.nhs.uk/mental-health/conditions/panic-disorder/",
+          "note": "关于症状、自我照顾和寻求帮助的健康指导。"
+        },
+        {
+          "id": "breathwork-meta",
+          "title": "呼吸练习对压力和心理健康的影响",
+          "organization": "《科学报告》/ PubMed",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36624160/",
+          "note": "随机对照试验的荟萃分析；结果较为积极，但仍需谨慎看待研究质量和差异性。"
+        }
+      ]
+    },
+    {
+      "id": "estres-laboral-agudo",
+      "title": "工作让我不堪重负",
+      "subtitle": "压力重重、思路卡住、任务太多，或难以清晰思考",
+      "symbol": "briefcase.fill",
+      "palette": "amber",
+      "immediateExplanation": "在压力下，注意力可能会收紧，一切都看起来一样紧急。第一目标不是解决所有问题，而是恢复足够的清晰度来选择一个行动。",
+      "biologicalExplanation": "当你感受到太多需求而资源不足时，你的大脑会将所有与期限、错误和评估相关的任务优先级提升。一些工作压力可能是社交或预期的，但即使如此，它们也能激活身体的压力系统。交感神经迅速调动能量，而激素压力系统可以维持反应时间更长。因此，你可能会注意到下巴和肩膀紧绷、呼吸加快、易怒或感到必须立即完成所有任务。",
+      "reassurance": "饱和并不意味着无能。你的大脑可能需要更少的输入和明确的优先级，而不是更多的压力。",
+      "searchTerms": [
+        "工作",
+        "压力",
+        "压力",
+        "老板",
+        "任务",
+        "封锁",
+        "生产力",
+        "压力"
+      ],
+      "redFlags": [
+        "你正在驾驶、操作机械或进行一项任务时，失去注意力可能危險"
+      ],
+      "whenToSeekHelp": [
+        "如果压力持续几周，会影响睡眠或导致频繁的身体症状。",
+        "如果存在欺凌、暴力、威胁或不安全的工作环境。",
+        "如果你需要有害物质或行为来继续下去。"
+      ],
+      "protocols": [
+        {
+          "id": "trabajo-pausa-tres",
+          "title": "3 × 3 暂停",
+          "summary": "用一段简短引导依次关注身体、环境和下一步行动。",
+          "symbol": "pause.circle.fill",
+          "kind": "reflection",
+          "evidence": "supported",
+          "caution": null,
+          "steps": [
+            {
+              "id": "tpt-1",
+              "title": "关闭入口",
+              "instruction": "静音通知并暂时放下不必要的物品。",
+              "durationSeconds": 15,
+              "phase": "prepare",
+              "accessibilityCue": "减少输入，并在一段时间内减少。"
+            },
+            {
+              "id": "tpt-2",
+              "title": "放松紧张。",
+              "instruction": "放松肩膀，分离牙齿并支持双脚。",
+              "durationSeconds": 15,
+              "phase": "move",
+              "accessibilityCue": "放松肩膀和下巴"
+            },
+            {
+              "id": "tpt-3",
+              "title": "查看集合",
+              "instruction": "命名你尚未解决的三件任务。",
+              "durationSeconds": 20,
+              "phase": "observe",
+              "accessibilityCue": "命名你尚未解决的三件任务。"
+            },
+            {
+              "id": "tpt-4",
+              "title": "选择一个",
+              "instruction": "选择最小的行动来降低风险或帮助其他人。",
+              "durationSeconds": 25,
+              "phase": "reflect",
+              "accessibilityCue": "选择一个简单的行动。"
+            },
+            {
+              "id": "tpt-5",
+              "title": "定义一个限制",
+              "instruction": "专注于这项动作十分钟，其余时间可以等到下一次决定。",
+              "durationSeconds": 15,
+              "phase": "finish",
+              "accessibilityCue": "定义一个十分钟的间隔"
+            }
+          ]
+        },
+        {
+          "id": "trabajo-descarga-muscular",
+          "title": "释放紧张",
+          "summary": "通过坐着也能完成的小幅动作，放松双手、肩膀和下巴。",
+          "symbol": "figure.mind.and.body",
+          "kind": "muscleRelease",
+          "evidence": "supported",
+          "caution": "不要收缩受损或疼痛的区域。",
+          "steps": [
+            {
+              "id": "tdm-1",
+              "title": "双手",
+              "instruction": "用力握拳，然后完全放松。",
+              "durationSeconds": 12,
+              "phase": "move",
+              "accessibilityCue": "用力握拳，然后放松。"
+            },
+            {
+              "id": "tdm-2",
+              "title": "肩膀",
+              "instruction": "抬起肩膀，让它们随着放松而落下。",
+              "durationSeconds": 12,
+              "phase": "move",
+              "accessibilityCue": "抬起肩膀，让它们随着放松而落下。"
+            },
+            {
+              "id": "tdm-3",
+              "title": "下巴。",
+              "instruction": "轻轻分离磨牙，并让舌头休息。",
+              "durationSeconds": 12,
+              "phase": "observe",
+              "accessibilityCue": "放松下巴。"
+            },
+            {
+              "id": "tdm-4",
+              "title": "视图",
+              "instruction": "观察远处的点或房间的最远角落。",
+              "durationSeconds": 15,
+              "phase": "orient",
+              "accessibilityCue": "观察远处的点。"
+            },
+            {
+              "id": "tdm-5",
+              "title": "返回",
+              "instruction": "返回所选任务，只保留一个主窗口或文档。",
+              "durationSeconds": 12,
+              "phase": "finish",
+              "accessibilityCue": "回到单一任务。"
+            }
+          ]
+        },
+        {
+          "id": "trabajo-reinicio-postural",
+          "title": "温和调整姿势",
+          "summary": "小幅活动颈部、肩胛和视线，不做突然扭动或关节操控。",
+          "symbol": "figure.stand",
+          "kind": "movement",
+          "evidence": "promising",
+          "caution": "不要扭曲或强迫颈部。如果存在受伤、疼痛、刺痛或头晕，请避免运动。",
+          "steps": [
+            {
+              "id": "trp-1",
+              "title": "寻找支持",
+              "instruction": "支撑双脚，让背部支撑一部分你的体重。",
+              "durationSeconds": 12,
+              "phase": "prepare",
+              "accessibilityCue": "支持脚和背部。"
+            },
+            {
+              "id": "trp-2",
+              "title": "缓慢伸展",
+              "instruction": "想象头部抬起，下巴轻轻向后移动，不看下巴。",
+              "durationSeconds": 12,
+              "phase": "move",
+              "accessibilityCue": "缓慢伸展颈部。"
+            },
+            {
+              "id": "trp-3",
+              "title": "逃避和眼神",
+              "instruction": "靠近并放下肩膀；然后向远处看并扩大视野。",
+              "durationSeconds": 30,
+              "phase": "move",
+              "accessibilityCue": "移动肩膀并远眺。"
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "trabajo-tip-una-ventana",
+          "title": "只显示一个窗口",
+          "detail": "隐藏10分钟外面的邮件、聊天窗口和无关的窗口。"
+        },
+        {
+          "id": "trabajo-tip-aparcamiento",
+          "title": "在纸上创建一个停车场",
+          "detail": "写下每个干扰你的事情，以便不再不断提醒自己。"
+        },
+        {
+          "id": "trabajo-tip-distancia",
+          "title": "短暂地远眺",
+          "detail": "改变屏幕上的目光，并意识形态地闭上眼睛多次。"
+        }
+      ],
+      "sources": [
+        {
+          "id": "who-stress",
+          "title": "压力：问题解答",
+          "organization": "世界卫生组织",
+          "url": "https://www.who.int/news-room/questions-and-answers/item/stress",
+          "note": "提供一般压力管理建议，并在处理困难时寻求支持。"
+        },
+        {
+          "id": "who-matters",
+          "title": "压力时期，做重要的事",
+          "organization": "世界卫生组织",
+          "url": "https://www.who.int/publications/i/item/9789240003927",
+          "note": "基于证据和经过不同环境验证的实践指导"
+        }
+      ]
+    },
+    {
+      "id": "desborde-emocional",
+      "title": "情绪强烈得让我难以承受",
+      "subtitle": "悲伤、痛苦或强烈情绪占据了全部注意力",
+      "symbol": "water.waves",
+      "palette": "violet",
+      "immediateExplanation": "强烈的情绪会占据大部分注意力，让人难以宽广思考，给予空间并不意味着服从它，也不意味着永远屈服于它的感觉。",
+      "biologicalExplanation": "强烈的情绪不会“仅仅存在于脑海中”。这是一种大脑和身体之间的协调模式，它组织注意力，恢复相关记忆，改变内部感觉，并为你做好行动的准备。封闭的胸口、热度、胃部痉挛或想要哭泣的冲动都是这种反应的一部分。你的大脑接收这些身体信号，并使用上下文、你以前的经验以及你期望发生的事情来解释它们。\n\n当激活度上升过高时，大脑会暂时失去时间宽度：很难保持多个想法，考虑细微差别或想象替代方案。情绪似乎占据了整个现实，因为与之相关的刺激被优先考虑。这并不意味着情绪是错误的，也不意味着你必须服从它带来的每一个冲动。\n\n说出你注意到的东西，并把注意力固定在当下，会增加感觉和行动之间的距离。重复这个序列，你正在练习一种调节技能：身体可以被激活，同时你可以选择一种安全的行为。神经可塑性是渐进的；它不会抹去情绪，而是允许你学习与它们建立新的联系方式。",
+      "reassurance": "情感是一种正在发生的过程；它不是你全部的身份或你必须遵循的命令。",
+      "searchTerms": [
+        "情绪",
+        "哭泣",
+        "悲伤",
+        "痛苦",
+        "溢位的",
+        "饱和的",
+        "孤独"
+      ],
+      "redFlags": [
+        "情感伴随着想要消失、伤害自己或离开安全感。"
+      ],
+      "whenToSeekHelp": [
+        "如果强度持续几天或严重影响你的日常生活。",
+        "如果出现自我伤害想法、极度绝望或日益增加的孤立。",
+        "如果情感与暴力、虐待或创伤性损失有关。"
+      ],
+      "protocols": [
+        {
+          "id": "emocion-anclaje-corporal",
+          "title": "身体落地练习",
+          "summary": "通过安全的按压和环境定向，重新感受身体获得支撑。",
+          "symbol": "figure.stand",
+          "kind": "grounding",
+          "evidence": "supported",
+          "caution": null,
+          "steps": [
+            {
+              "id": "eac-1",
+              "title": "脚",
+              "instruction": "将双脚放在地面上，并注意力量在哪里",
+              "durationSeconds": 15,
+              "phase": "press",
+              "accessibilityCue": "将双脚放在地面上"
+            },
+            {
+              "id": "eac-2",
+              "title": "双手",
+              "instruction": "将双手按在一起或轻柔地握住前臂。",
+              "durationSeconds": 15,
+              "phase": "press",
+              "accessibilityCue": "将双手按在一起或轻柔地握住前臂。"
+            },
+            {
+              "id": "eac-3",
+              "title": "命名",
+              "instruction": "完成句子：现在我正在感受……使用简单的一词，无需解释原因。",
+              "durationSeconds": 20,
+              "phase": "reflect",
+              "accessibilityCue": "请求一个简单的名字来描述你所注意到的事物"
+            },
+            {
+              "id": "eac-4",
+              "title": "为空间留出",
+              "instruction": "找到身体中的情感，并观察一个感觉中性的地方。",
+              "durationSeconds": 25,
+              "phase": "observe",
+              "accessibilityCue": "观察一个强烈的区域和一个中性的区域。"
+            },
+            {
+              "id": "eac-5",
+              "title": "下一步的护理",
+              "instruction": "选择水、新鲜空气、坐下或与他人接触。只有一个选择。",
+              "durationSeconds": 15,
+              "phase": "finish",
+              "accessibilityCue": "选择下一步的护理动作。"
+            }
+          ]
+        },
+        {
+          "id": "emocion-zumbido-suave",
+          "title": "呼气发声",
+          "summary": "在舒适范围内发声，让呼气自然延长；不宣称具有特定医疗效果。",
+          "symbol": "waveform",
+          "kind": "vocalization",
+          "evidence": "experimental",
+          "caution": "以舒适的音量进行。如果引起呕吐、疼痛、呼吸困难或不舒服，停止",
+          "steps": [
+            {
+              "id": "ezs-1",
+              "title": "准备声音",
+              "instruction": "放松下巴和喉咙。不需要发出特定音调。",
+              "durationSeconds": 10,
+              "phase": "prepare",
+              "accessibilityCue": "放松下巴和喉咙。"
+            },
+            {
+              "id": "ezs-2",
+              "title": "舒适地吸气",
+              "instruction": "通过呼吸空气而不抬起肩膀",
+              "durationSeconds": 4,
+              "phase": "inhale",
+              "accessibilityCue": "舒适地吸气。"
+            },
+            {
+              "id": "ezs-3",
+              "title": "发声",
+              "instruction": "轻轻嗡嗡呼出空气：哇。注意没有强迫地感受到的震动",
+              "durationSeconds": 7,
+              "phase": "sound",
+              "accessibilityCue": "自然呼气"
+            },
+            {
+              "id": "ezs-4",
+              "title": "舒适地吸气",
+              "instruction": "重新引入自然空气",
+              "durationSeconds": 4,
+              "phase": "inhale",
+              "accessibilityCue": "舒适地吸气。"
+            },
+            {
+              "id": "ezs-5",
+              "title": "发声",
+              "instruction": "重复最容易听到的音调",
+              "durationSeconds": 7,
+              "phase": "sound",
+              "accessibilityCue": "自然呼气"
+            },
+            {
+              "id": "ezs-6",
+              "title": "静音",
+              "instruction": "正常呼吸并观察是否有任何感觉变化。",
+              "durationSeconds": 15,
+              "phase": "finish",
+              "accessibilityCue": "正常呼吸并观察。"
+            }
+          ]
+        },
+        {
+          "id": "emocion-autoabrazo-alterno",
+          "title": "交替自我拥抱",
+          "summary": "可选择用舒适的力度抱住自己，并左右交替轻拍。",
+          "symbol": "heart.circle.fill",
+          "kind": "grounding",
+          "evidence": "complementary",
+          "caution": "不要使用该接触方式，如果接触会激活；你可以将双手放在桌子上。",
+          "steps": [
+            {
+              "id": "eaa-1",
+              "title": "选择联系方式",
+              "instruction": "交叉双臂，放在胸口或在每个前臂上放一只手，保持最轻的力度。",
+              "durationSeconds": 12,
+              "phase": "prepare",
+              "accessibilityCue": "选择舒适的联系方式。"
+            },
+            {
+              "id": "eaa-2",
+              "title": "缓慢交替",
+              "instruction": "轻柔地对一侧或另一侧进行两或三次拍打，不要试图消除情绪",
+              "durationSeconds": 30,
+              "phase": "press",
+              "accessibilityCue": "交替缓慢的触摸"
+            },
+            {
+              "id": "eaa-3",
+              "title": "请求一个名字",
+              "instruction": "说：现在有一种强烈的情绪，我会专注于下一分钟。",
+              "durationSeconds": 15,
+              "phase": "finish",
+              "accessibilityCue": "命名情感，不要对自己进行评判。"
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "emocion-tip-menos-palabras",
+          "title": "用更少的语言",
+          "detail": "减少解释到三个数据：情感、需求和安全的下一步。"
+        },
+        {
+          "id": "emocion-tip-cambio-espacio",
+          "title": "改变空间",
+          "detail": "转到另一个房间或走廊可以暂时中断地方的联想。"
+        },
+        {
+          "id": "emocion-tip-agua",
+          "title": "慢慢喝水",
+          "detail": "在注意温度、路线和暂停时，进行三小口吸气"
+        }
+      ],
+      "sources": [
+        {
+          "id": "who-matters",
+          "title": "压力时期，做重要的事",
+          "organization": "世界卫生组织",
+          "url": "https://www.who.int/publications/i/item/9789240003927",
+          "note": "包括地面接触、情感空间和价值观行动。"
+        },
+        {
+          "id": "who-grounding",
+          "title": "心理健康支持：应对压力",
+          "organization": "世界卫生组织",
+          "url": "https://www.emro.who.int/mhps/dealing_with_stress.html",
+          "note": "短暂的地面和身体引导练习。"
+        }
+      ]
+    },
+    {
+      "id": "miedo-inmediato",
+      "title": "我很害怕，不知道该怎么办",
+      "subtitle": "预感到威胁、感到不安，或需要重新获得安全感",
+      "symbol": "shield.lefthalf.filled",
+      "palette": "forest",
+      "immediateExplanation": "恐惧会让你准备好保护自己。在你试图说一切都好之前，最好区分是否存在真正的危险，以及哪些属于预测。",
+      "biologicalExplanation": "你的保护系统旨在快速反应。检测到威胁的网络更倾向于发出虚假警报，而不是忽视真正的危险，这样它们就可以在你分析完整个情况之前激活你的身体。顺从系统会加速你的心跳和呼吸，将注意力集中在潜在的风险上，并准备战斗或逃跑；其他保护性反应可能会让你动弹不得或被锁定。\n\n恐惧也利用记忆和预测。如果某件事与困难的经历相似，大脑可能会用它所害怕的结局来完成缺少的部分。你的预期会影响你看到什么信号以及如何解释身体的感觉，但它们不会神奇地决定现实。这就是为什么最好将“正在发生的事情”与“我的大脑预期的”区分开来。\n\n环顾四周，检查安全情况并制定具体计划，可以向神经系统提供当前数据。当你安全地度过一个可控的情况时，大脑可以更新其预测，并学习可能有多种答案。这种学习需要重复，并且必须逐步进行；如果存在真正的危险，保护自己并寻求帮助仍然是首要任务。",
+      "reassurance": "你可以尊重恐惧信号，但不要让它完全决定下一步。",
+      "searchTerms": [
+        "恐惧",
+        "恐惧",
+        "不安全感",
+        "威胁",
+        "担忧",
+        "避免"
+      ],
+      "redFlags": [
+        "有暴力的人、真实威胁或物理上不安全的地点。在这种情况下，优先考虑远离并寻求帮助"
+      ],
+      "whenToSeekHelp": [
+        "如果恐惧与他人的暴力、控制或威胁有关。",
+        "如果你越来越避免重要活动或地点。",
+        "如果恐惧频繁且无明显原因出现，且强度高。"
+      ],
+      "protocols": [
+        {
+          "id": "miedo-orientacion-plan",
+          "title": "确认当下并制定计划",
+          "summary": "分清眼前事实与头脑预测，再选择与风险相称的安全措施。",
+          "symbol": "map.fill",
+          "kind": "reflection",
+          "evidence": "supported",
+          "caution": "如果存在真实危险，请立即停止锻炼：远离并联系当地紧急服务或安全的人。",
+          "steps": [
+            {
+              "id": "mop-1",
+              "title": "检查现在",
+              "instruction": "环顾四周，询问：现在是否存在立即的身体危险？",
+              "durationSeconds": 15,
+              "phase": "orient",
+              "accessibilityCue": "检查是否有立即的身体危险。"
+            },
+            {
+              "id": "mop-2",
+              "title": "分离",
+              "instruction": "命名一件可验证的事实以及你的脑海中正在做出的预测。",
+              "durationSeconds": 25,
+              "phase": "reflect",
+              "accessibilityCue": "分离事实与预测。"
+            },
+            {
+              "id": "mop-3",
+              "title": "提供保护",
+              "instruction": "选择一种小措施：获取信息、接近他人或准备外出。",
+              "durationSeconds": 20,
+              "phase": "reflect",
+              "accessibilityCue": "选择一种提供保护的措施。"
+            },
+            {
+              "id": "mop-4",
+              "title": "恢复身体",
+              "instruction": "支持脚，放松肩膀并观察三个稳定物体。",
+              "durationSeconds": 15,
+              "phase": "orient",
+              "accessibilityCue": "支持脚并观察三个物体。"
+            },
+            {
+              "id": "mop-5",
+              "title": "行动",
+              "instruction": "只执行选择的措施。评估后再评估。",
+              "durationSeconds": 10,
+              "phase": "finish",
+              "accessibilityCue": "只执行选择的措施。"
+            }
+          ]
+        },
+        {
+          "id": "miedo-acupresion-suave",
+          "title": "轻柔按压眉心",
+          "summary": "可选择轻柔按压双眉之间的位置，把它作为将注意力带回身体的小动作。",
+          "symbol": "hand.tap.fill",
+          "kind": "acupressure",
+          "evidence": "complementary",
+          "caution": "证据多样且主要来自具体的临床背景。不要对受伤、发炎或疼痛的皮肤施加压力。",
+          "steps": [
+            {
+              "id": "mas-1",
+              "title": "找到",
+              "instruction": "将手指放在额头的中点，不靠近眼睛。",
+              "durationSeconds": 10,
+              "phase": "prepare",
+              "accessibilityCue": "轻轻找到眉心之间的点。"
+            },
+            {
+              "id": "mas-2",
+              "title": "轻轻",
+              "instruction": "应用一种舒适且稳定的压力。它不应该疼痛。",
+              "durationSeconds": 25,
+              "phase": "press",
+              "accessibilityCue": "保持舒适的压力。"
+            },
+            {
+              "id": "mas-3",
+              "title": "放松",
+              "instruction": "慢慢移除手指，观察额头、下巴和肩膀。",
+              "durationSeconds": 15,
+              "phase": "observe",
+              "accessibilityCue": "放松并观察脸和肩膀。"
+            },
+            {
+              "id": "mas-4",
+              "title": "引导",
+              "instruction": "环顾四周，决定是否需要真正的安全行动，或者继续。",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "引导视线并决定下一步。"
+            }
+          ]
+        },
+        {
+          "id": "miedo-empuje-estable",
+          "title": "推墙练习",
+          "summary": "通过可控的等长用力，释放身体准备行动时积聚的一部分力量。",
+          "symbol": "figure.strengthtraining.traditional",
+          "kind": "muscleRelease",
+          "evidence": "promising",
+          "caution": "不要在不稳定的表面或手、肩膀或背部有疼痛或受伤的情况下进行。",
+          "steps": [
+            {
+              "id": "mee-1",
+              "title": "检查支持",
+              "instruction": "站在一个坚固的墙上，双脚分开，不阻碍膝盖。",
+              "durationSeconds": 12,
+              "phase": "prepare",
+              "accessibilityCue": "站在一个稳定的墙上。"
+            },
+            {
+              "id": "mee-2",
+              "title": "轻轻地压和松开",
+              "instruction": "以中等强度推动，呼吸并逐渐减少力度。",
+              "durationSeconds": 24,
+              "phase": "press",
+              "accessibilityCue": "以逐渐放缓的方式推动和释放。"
+            },
+            {
+              "id": "mee-3",
+              "title": "选择安全",
+              "instruction": "环顾四周，决定采取适当措施：远离、寻求陪伴或继续。",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "选择一种安全措施。"
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "miedo-tip-espalda",
+          "title": "寻找身体支持",
+          "detail": "让背部靠在墙面或结实的靠背上，获得清晰的身体支撑感。"
+        },
+        {
+          "id": "miedo-tip-luz",
+          "title": "如果可以，增加光线。",
+          "detail": "在一个安全的地方，照明环境有助于检查因不确定性而隐藏的细节。"
+        },
+        {
+          "id": "miedo-tip-voz",
+          "title": "请求一个熟悉的声音",
+          "detail": "联系他人或播放熟悉的音频，同时进行下一步安全步骤。"
+        }
+      ],
+      "sources": [
+        {
+          "id": "who-matters",
+          "title": "压力时期，做重要的事",
+          "organization": "世界卫生组织",
+          "url": "https://www.who.int/publications/i/item/9789240003927",
+          "note": "实践技能用于安抚和分离困难想法"
+        },
+        {
+          "id": "acupressure-meta",
+          "title": "针灸对焦虑的影响",
+          "organization": "《整合与补充医学杂志》/ PubMed",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35085025/",
+          "note": "高异质性结果良好；结论需要谨慎。"
+        }
+      ]
+    },
+    {
+      "id": "dudas-rumiacion",
+      "title": "我怎么也停不下思绪",
+      "subtitle": "疑虑、预想、反复确认或重复思考",
+      "symbol": "arrow.triangle.2.circlepath",
+      "palette": "slate",
+      "immediateExplanation": "思考更多并不总是带来更多确定性。当思维试图消除所有不确定性时，它可能会重复相同的检查，而不产生新的信息。",
+      "biologicalExplanation": "你的大脑正在努力获得确定性，并保护你免受错误的影响。为了做到这一点，它保持问题处于活跃状态，尝试各种情况，并再次检查相同的数据。缺点是工作内存容量有限：疑问占据的空间越大，就越少空间来观察新信息，休息或做出简单的决定。这就是为什么思考更长时间可能会导致疲劳，而没有接近一个答案。\n\n检查、回顾或寻求平静通常会在短时间内减少焦虑。这种缓解作用就像一种奖励，大脑会学习：“当出现怀疑时，我必须再次检查”。即使意图是让你感到安全，这个循环也会加强。此外，你越是寻求绝对的确定性，那么微小的例外就越显得引人注目。\n\n说“我正在有这样的想法……”并不试图让它变得虚假；它有助于认识到它是一种精神活动，而不是命令。之后回到可观察到的行动，可以学习另一种路线：我可以忍受一部分的不确定性并继续行动。重复不会消除所有的怀疑，但它可以削弱总是用另一种检查来回应的习惯。",
+      "reassurance": "不需要解决所有不确定性，才能做出合理的决定。",
+      "searchTerms": [
+        "怀疑",
+        "冥想",
+        "思考",
+        "决定",
+        "担忧",
+        "痴迷",
+        "不确定性"
+      ],
+      "redFlags": [
+        "你的想法让你感到伤害，你感觉失去联系现实或无法保持安全。"
+      ],
+      "whenToSeekHelp": [
+        "如果想法占据了大量时间或导致难以停止的检查。",
+        "如果影响睡眠、工作或关系，并且持续存在。",
+        "如果出现感知异常或与现实失去联系。"
+      ],
+      "protocols": [
+        {
+          "id": "rumiacion-nombrar-volver",
+          "title": "标记思绪，再回到当下",
+          "summary": "与念头拉开一点距离，再把注意力带回当下体验。",
+          "symbol": "text.bubble.fill",
+          "kind": "reflection",
+          "evidence": "supported",
+          "caution": null,
+          "steps": [
+            {
+              "id": "rnv-1",
+              "title": "检测循环",
+              "instruction": "说：我注意到我的思维试图寻找确定性。",
+              "durationSeconds": 12,
+              "phase": "reflect",
+              "accessibilityCue": "承认你的思维正在寻求确定性。"
+            },
+            {
+              "id": "rnv-2",
+              "title": "请求格式",
+              "instruction": "重新表达：我正在思考……并完成句子。",
+              "durationSeconds": 20,
+              "phase": "reflect",
+              "accessibilityCue": "说：我正在思考什么。"
+            },
+            {
+              "id": "rnv-3",
+              "title": "检查新颖",
+              "instruction": "询问：是否有新的信息或我正在重复相同的搜索？",
+              "durationSeconds": 18,
+              "phase": "reflect",
+              "accessibilityCue": "检查是否有新的信息。"
+            },
+            {
+              "id": "rnv-4",
+              "title": "回到现在",
+              "instruction": "注意身体与环境的三个接触点。",
+              "durationSeconds": 15,
+              "phase": "observe",
+              "accessibilityCue": "注意三个接触点。"
+            },
+            {
+              "id": "rnv-5",
+              "title": "选择一个动作",
+              "instruction": "在两分钟内做一件可验证且与你关心的事",
+              "durationSeconds": 15,
+              "phase": "finish",
+              "accessibilityCue": "选择一个可验证的两个分钟动作。"
+            }
+          ]
+        },
+        {
+          "id": "rumiacion-decision-suficiente",
+          "title": "做一个“足够好”的决定",
+          "summary": "将决定缩小为可观察的标准，并设定一个复查节点。",
+          "symbol": "checkmark.circle.fill",
+          "kind": "reflection",
+          "evidence": "supported",
+          "caution": "不要使用这个指南来做出涉及医学、法律、财务或安全问题的决定，这些决定需要专业咨询。",
+          "steps": [
+            {
+              "id": "rds-1",
+              "title": "定义",
+              "instruction": "用一句句子表达决定，并删除次要细节",
+              "durationSeconds": 20,
+              "phase": "reflect",
+              "accessibilityCue": "用一句句子表达决定"
+            },
+            {
+              "id": "rds-2",
+              "title": "两个标准",
+              "instruction": "选择仅两个重要的标准来评估选择。",
+              "durationSeconds": 20,
+              "phase": "reflect",
+              "accessibilityCue": "选择两个重要的标准。"
+            },
+            {
+              "id": "rds-3",
+              "title": "可逆选项。",
+              "instruction": "如果条件允许，请选择你能纠正的最小的步骤。",
+              "durationSeconds": 20,
+              "phase": "reflect",
+              "accessibilityCue": "寻找一个小步和可逆的步骤。"
+            },
+            {
+              "id": "rds-4",
+              "title": "检查点",
+              "instruction": "决定何时查看结果。在此之前，不要重新审视决定，除非有新的信息。",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "设定一个时间来检查结果。"
+            }
+          ]
+        },
+        {
+          "id": "rumiacion-contenedor-escrito",
+          "title": "写下来，暂时放下",
+          "summary": "把反复盘旋的念头从脑中写下来，并安排一个明确的时间再处理。",
+          "symbol": "note.text",
+          "kind": "reflection",
+          "evidence": "supported",
+          "caution": null,
+          "steps": [
+            {
+              "id": "rce-1",
+              "title": "写下循环",
+              "instruction": "简要概括你重复的想法。",
+              "durationSeconds": 25,
+              "phase": "reflect",
+              "accessibilityCue": "简要概括你的担忧。"
+            },
+            {
+              "id": "rce-2",
+              "title": "分离可控的部分",
+              "instruction": "记录一个依赖于你自己的行动，或写“现在没有行动”。",
+              "durationSeconds": 25,
+              "phase": "reflect",
+              "accessibilityCue": "识别一个可控的行为。"
+            },
+            {
+              "id": "rce-3",
+              "title": "请求一个约会",
+              "instruction": "选择一个短暂的时间来查看它；在此期间，保存笔记并切换任务。",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "安排一个检查时刻。"
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "rumiacion-tip-voz",
+          "title": "改变思维的声音",
+          "detail": "用叙述者的声音或唱歌来重复；这可能帮助你将它视为句子，而不是事实。"
+        },
+        {
+          "id": "rumiacion-tip-manos",
+          "title": "使用双手。",
+          "detail": "折叠衣服、画线或分类物品提供重复且具体的任务。"
+        },
+        {
+          "id": "rumiacion-tip-pregunta",
+          "title": "询问 '今天有什么事情可以做吗？'",
+          "detail": "如果你没有，记录下来；如果你有，减少反应时间到五分钟以内。"
+        }
+      ],
+      "sources": [
+        {
+          "id": "who-matters",
+          "title": "压力时期，做重要的事",
+          "organization": "世界卫生组织",
+          "url": "https://www.who.int/publications/i/item/9789240003927",
+          "note": "包括解脱技术或与困难想法的分离。"
+        },
+        {
+          "id": "who-stress",
+          "title": "压力：问题解答",
+          "organization": "世界卫生组织",
+          "url": "https://www.who.int/news-room/questions-and-answers/item/stress",
+          "note": "提供自我照顾建议，并在压力难以管理时咨询。"
+        }
+      ]
+    },
+    {
+      "id": "enfado-conflicto",
+      "title": "我很生气，或正陷在冲突中",
+      "subtitle": "想立刻回应、争执激烈，或难以让自己停下来",
+      "symbol": "flame.fill",
+      "palette": "rose",
+      "immediateExplanation": "愤怒可能表明一个界限、不公或需求。高激活状态下，立即回应会增加说或做让你复杂化冲突的机会。",
+      "biologicalExplanation": "你的身体正在激活你的交感神经系统，并为你准备好自我防御、设定界限或排除障碍。肾上腺素和去甲肾上腺素等信使会增加警觉性，加速心跳，并使肌肉紧张。呼吸可能会加快，手会收紧，注意力几乎会自动转向挑衅。这不是故障：这是保护能量，尽管从它的最高点行动可能会加剧冲突。\n\n大脑在高度激活状态下，更难抑制已准备好的反应，更难考虑长期后果。含糊不清的话语听起来更具攻击性，更容易找到证据证明对方完全错了。暂停并不等于取消限制，也不意味着必须原谅；它只是避免生理反应在高潮时自行决定。\n\n通过创造距离、释放物体并不造成伤害地移动，你停止添加对抗信号，并让激活程度下降。练习这个序列可以使它成为一种习得的反应：注意愤怒、保护安全，然后选择如何表达需求。如果存在暴力或你担心失去控制，优先考虑远离并寻求帮助。",
+      "reassurance": "暂停不等于放弃你的界限。它帮助你以更控制的方式表达它。",
+      "searchTerms": [
+        "愤怒",
+        "愤怒",
+        "愤怒",
+        "讨论",
+        "冲突",
+        "伴侣",
+        "推动"
+      ],
+      "redFlags": [
+        "有武器、身体暴力、威胁或担心失去控制并造成伤害。远离并立即寻求帮助"
+      ],
+      "whenToSeekHelp": [
+        "如果存在暴力、威胁、恐惧或控制在关系中的情况。",
+        "如果爆发频繁或损害重要关系。",
+        "如果在冲突期间摄入酒精或其他物质。"
+      ],
+      "protocols": [
+        {
+          "id": "conflicto-pausa-segura",
+          "title": "安全暂停",
+          "summary": "在不回避问题的前提下阻止冲突升级，并为稍后的回应做好准备。",
+          "symbol": "hand.raised.fill",
+          "kind": "conflictPause",
+          "evidence": "supported",
+          "caution": "如果存在暴力或危险，请不要宣布暂停，因为这样会增加风险。优先离开并寻求帮助。",
+          "steps": [
+            {
+              "id": "cps-1",
+              "title": "停止回应",
+              "instruction": "不要发送消息或继续讨论，在这个分钟内。",
+              "durationSeconds": 12,
+              "phase": "prepare",
+              "accessibilityCue": "停止回应一分钟。"
+            },
+            {
+              "id": "cps-2",
+              "title": "创造距离",
+              "instruction": "如果安全，请换房间或将视线从对话中移开。",
+              "durationSeconds": 15,
+              "phase": "move",
+              "accessibilityCue": "创建安全距离。"
+            },
+            {
+              "id": "cps-3",
+              "title": "释放无害",
+              "instruction": "将手掌相互推动或缓慢步行。不要击打物体。",
+              "durationSeconds": 20,
+              "phase": "move",
+              "accessibilityCue": "释放紧张而不伤害"
+            },
+            {
+              "id": "cps-4",
+              "title": "命名界限",
+              "instruction": "完成：我需要……避免解释对方的意图。",
+              "durationSeconds": 20,
+              "phase": "reflect",
+              "accessibilityCue": "表达你需要什么"
+            },
+            {
+              "id": "cps-5",
+              "title": "达成重返",
+              "instruction": "如果条件允许，请告诉我何时可以继续对话：我需要二十分钟，然后我会回到…",
+              "durationSeconds": 18,
+              "phase": "finish",
+              "accessibilityCue": "达成一个安全的时间点来重新开始。"
+            }
+          ]
+        },
+        {
+          "id": "conflicto-enfriamiento-fisico",
+          "title": "身体降温",
+          "summary": "在写、说或做决定前，先降低身体的动作紧张。",
+          "symbol": "figure.walk",
+          "kind": "movement",
+          "evidence": "supported",
+          "caution": "根据你的移动能力和环境调整动作。不要驾驶时进行指导。",
+          "steps": [
+            {
+              "id": "cef-1",
+              "title": "打开双手",
+              "instruction": "伸展手指，放下手机和其他物体。",
+              "durationSeconds": 12,
+              "phase": "move",
+              "accessibilityCue": "打开双手并放下物品。"
+            },
+            {
+              "id": "cef-2",
+              "title": "慢慢走",
+              "instruction": "缓慢迈步并注意每一步的支撑。",
+              "durationSeconds": 30,
+              "phase": "move",
+              "accessibilityCue": "如果安全，慢慢走。"
+            },
+            {
+              "id": "cef-3",
+              "title": "呼出空气",
+              "instruction": "自然呼气，比吸气略长一些，不要计数或强迫",
+              "durationSeconds": 20,
+              "phase": "exhale",
+              "accessibilityCue": "舒适地呼出空气"
+            },
+            {
+              "id": "cef-4",
+              "title": "检查强度",
+              "instruction": "评估一下你是否可以不侮辱、威胁或升级冲突地说话。如果不能，请保持沉默。",
+              "durationSeconds": 20,
+              "phase": "reflect",
+              "accessibilityCue": "检查是否可以说话而不加剧冲突。"
+            },
+            {
+              "id": "cef-5",
+              "title": "决定",
+              "instruction": "选择用具体的请求重新开始或负责地延长暂停。",
+              "durationSeconds": 15,
+              "phase": "finish",
+              "accessibilityCue": "选择重新开始或延长暂停。"
+            }
+          ]
+        },
+        {
+          "id": "conflicto-torsion-toalla",
+          "title": "毛巾用力练习",
+          "summary": "通过柔软的毛巾释放肌肉力量，再回到交谈或书写。",
+          "symbol": "hands.clap.fill",
+          "kind": "muscleRelease",
+          "evidence": "complementary",
+          "caution": "不要使用硬物或最大力量。如果你有手、肘或肩部受伤，请忽略它。",
+          "steps": [
+            {
+              "id": "ctt-1",
+              "title": "拿起毛巾。",
+              "instruction": "将一个小毛巾卷起来并用双手握住，远离其他人。",
+              "durationSeconds": 10,
+              "phase": "prepare",
+              "accessibilityCue": "握住卷好的毛巾。"
+            },
+            {
+              "id": "ctt-2",
+              "title": "紧张和放松。",
+              "instruction": "尝试以中等力度旋转，并呼吸；然后打开双手并放下肩膀。",
+              "durationSeconds": 24,
+              "phase": "move",
+              "accessibilityCue": "紧张和放松毛巾。"
+            },
+            {
+              "id": "ctt-3",
+              "title": "决定界限",
+              "instruction": "选择请求暂停、写作不发送或用一句简短的话语与他人交流。",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "选择一个安全的回应。"
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "conflicto-tip-borrador",
+          "title": "写下不发送",
+          "detail": "写下你想要说的话，删除收件人并等待，然后将其转换为消息。"
+        },
+        {
+          "id": "conflicto-tip-objeto-fresco",
+          "title": "保持新鲜的东西",
+          "detail": "一瓶新鲜的可以让双手在降低音量和速度的同时完成一项中性任务。"
+        },
+        {
+          "id": "conflicto-tip-posicion",
+          "title": "改变位置",
+          "detail": "如果安全，请停止指责，打开双手并坐在倾斜的姿势，而不是面对面。"
+        }
+      ],
+      "sources": [
+        {
+          "id": "who-matters",
+          "title": "压力时期，做重要的事",
+          "organization": "世界卫生组织",
+          "url": "https://www.who.int/publications/i/item/9789240003927",
+          "note": "安抚技能、情感空间、价值观和意识行动"
+        },
+        {
+          "id": "who-stress",
+          "title": "压力：问题解答",
+          "organization": "世界卫生组织",
+          "url": "https://www.who.int/news-room/questions-and-answers/item/stress",
+          "note": "关于压力反应和寻求支持的总体指导。"
+        }
+      ]
+    },
+    {
+      "id": "no-puedo-dormir",
+      "title": "因为发生的事，我睡不着",
+      "subtitle": "大脑反复回想问题，身体仍处于警觉状态",
+      "symbol": "moon.stars.fill",
+      "palette": "violet",
+      "immediateExplanation": "在一天结束后，强迫自己睡觉可能会增加警觉。目标不是强迫自己入睡，而是创造休息条件并降低与失眠的斗争。",
+      "biologicalExplanation": "抬起肩膀，让它们随着放松而落下。",
+      "reassurance": "一个艰难的夜晚会让人疲惫不堪，但你现在不必解决你一生的所有问题，你可以只专注于休息。",
+      "searchTerms": [
+        "失眠",
+        "睡觉",
+        "夜晚",
+        "冥想",
+        "不眠",
+        "担忧",
+        "床"
+      ],
+      "redFlags": [
+        "连续几晚几乎没有睡觉，并注意到异常的能量、加速的思维、困惑或冒险行为。",
+        "睡眠不足会导致剧烈疼痛、呼吸困难、药物戒断或药物反应。"
+      ],
+      "whenToSeekHelp": [
+        "如果问题持续几个月，频繁发生或对日常生活产生重大影响。",
+        "如果你打鼾、呼吸间隔延长、驾驶变得不安全。",
+        "如果出现伤害自己的想法或感到无法保持安全。"
+      ],
+      "protocols": [
+        {
+          "id": "sueno-soltar-lucha",
+          "title": "放下与睡眠的对抗",
+          "summary": "把“现在必须睡着”改为“今晚先休息，不解决问题”。",
+          "symbol": "bed.double.fill",
+          "kind": "reflection",
+          "evidence": "supported",
+          "caution": "不要使用电话来完成步骤。如果你需要起床，请使用柔和的光线，并避免刺激活动。",
+          "steps": [
+            {
+              "id": "ssl-1",
+              "title": "隐藏时间。",
+              "instruction": "将闹钟从视线中移开，停止计算剩余的睡眠时间。",
+              "durationSeconds": 12,
+              "phase": "prepare",
+              "accessibilityCue": "停止查看时间"
+            },
+            {
+              "id": "ssl-2",
+              "title": "改变目标",
+              "instruction": "低声说：现在我不需要睡觉；我会让身体休息一下。",
+              "durationSeconds": 18,
+              "phase": "reflect",
+              "accessibilityCue": "允许你休息，不用强迫自己入睡"
+            },
+            {
+              "id": "ssl-3",
+              "title": "将问题置于一边",
+              "instruction": "简要概括你的担忧，并决定明天的一个具体时间查看。",
+              "durationSeconds": 25,
+              "phase": "reflect",
+              "accessibilityCue": "将问题留给明天的某个特定时刻"
+            },
+            {
+              "id": "ssl-4",
+              "title": "选择中立",
+              "instruction": "想象熟悉的路径或列举类别中的物品，无需完美。",
+              "durationSeconds": 45,
+              "phase": "observe",
+              "accessibilityCue": "专注于一个无害的思维任务。"
+            },
+            {
+              "id": "ssl-5",
+              "title": "冷静重新评估。",
+              "instruction": "如果你保持清醒，请离开床一会，做一些安静的活动，然后回到清醒状态。",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "如果你保持清醒，选择一个安静的活动，离开床。"
+            }
+          ]
+        },
+        {
+          "id": "sueno-recorrido-corporal",
+          "title": "中性身体扫描",
+          "summary": "观察身体各部位，不要求它们放松，也不控制呼吸。",
+          "symbol": "figure.mind.and.body",
+          "kind": "muscleRelease",
+          "evidence": "promising",
+          "caution": "如果你关注身体会增加痛苦，请闭上眼睛并使用环境引导技术。",
+          "steps": [
+            {
+              "id": "src-1",
+              "title": "寻找支持",
+              "instruction": "注意床支撑头部、背部和腿部的位置。",
+              "durationSeconds": 18,
+              "phase": "prepare",
+              "accessibilityCue": "注意身体的支撑点。"
+            },
+            {
+              "id": "src-2",
+              "title": "脸和下巴",
+              "instruction": "观察额头、眼睛和下巴。不需要改变任何东西。",
+              "durationSeconds": 25,
+              "phase": "observe",
+              "accessibilityCue": "观察面部，而不试图改变它。"
+            },
+            {
+              "id": "src-3",
+              "title": "肩膀和手",
+              "instruction": "沿着肩膀、臂和手走；如果感到舒适，可以稍微放轻松。",
+              "durationSeconds": 25,
+              "phase": "observe",
+              "accessibilityCue": "观察肩膀、手臂和手。"
+            },
+            {
+              "id": "src-4",
+              "title": "躯干和腿部。",
+              "instruction": "专注于腹部、盆腔、腿部和脚部，逐个部位。",
+              "durationSeconds": 35,
+              "phase": "observe",
+              "accessibilityCue": "沿着躯干、腿和脚走。"
+            },
+            {
+              "id": "src-5",
+              "title": "放下任务",
+              "instruction": "停止巡视身体。允许呼吸自然继续，并回到舒适的姿势。",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "结束行程，让呼吸自然继续。"
+            }
+          ]
+        },
+        {
+          "id": "sueno-barajado-mental",
+          "title": "随机意象",
+          "summary": "生成中性、彼此无关的画面，让注意力暂时离开反复求解的故事。",
+          "symbol": "square.stack.3d.up.fill",
+          "kind": "reflection",
+          "evidence": "complementary",
+          "caution": "如果你感到沮丧或激活了不愉快的图像，请离开并回到身体的旅程。",
+          "steps": [
+            {
+              "id": "sbm-1",
+              "title": "选择一个字母。",
+              "instruction": "选择一个简单的字母，例如M，不要寻找完美选择。",
+              "durationSeconds": 8,
+              "phase": "prepare",
+              "accessibilityCue": "选择一个字母。"
+            },
+            {
+              "id": "sbm-2",
+              "title": "想象词语",
+              "instruction": "想想一个带有该字母的中立词，想象它，然后换一个词，不要编造故事",
+              "durationSeconds": 45,
+              "phase": "reflect",
+              "accessibilityCue": "想象中立词语，不连接。"
+            },
+            {
+              "id": "sbm-3",
+              "title": "让它不完整",
+              "instruction": "如果你注意力分散，不要重新集中；允许注意力随意移动或改变方向。",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "允许它不完整"
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "sueno-tip-reloj",
+          "title": "隐藏时间。",
+          "detail": "将闹钟或手机旋转，避免将每个醒来都视为计算"
+        },
+        {
+          "id": "sueno-tip-temperatura",
+          "title": "尝试一个小温度变化",
+          "detail": "从被窝中抽出一只脚，改变枕头的位置或短暂通风。"
+        },
+        {
+          "id": "sueno-tip-audio",
+          "title": "选择熟悉的音频",
+          "detail": "熟悉的声音，带有计时器和低音量，比新的内容需要更少的关注。"
+        }
+      ],
+      "sources": [
+        {
+          "id": "nhs-insomnia",
+          "title": "失眠",
+          "organization": "英国国家医疗服务体系（NHS）",
+          "url": "https://www.nhs.uk/conditions/insomnia/",
+          "note": "睡眠习惯、刺激控制和咨询标准"
+        },
+        {
+          "id": "who-matters",
+          "title": "压力时期，做重要的事",
+          "organization": "世界卫生组织",
+          "url": "https://www.who.int/publications/i/item/9789240003927",
+          "note": "观察技能、安抚技能和应对困难体验的空间"
+        }
+      ]
+    },
+    {
+      "id": "ansiedad-social-inmediata",
+      "title": "社交场合让我僵住",
+      "subtitle": "会议、活动或交谈让我害怕被人评判",
+      "symbol": "person.2.fill",
+      "palette": "ocean",
+      "immediateExplanation": "社交焦虑可能导致注意力转向内向：你的声音听起来像什么，你把手放在哪里，或者别人会怎么想。这种自我检查会加剧你感到被聚焦的感觉。",
+      "biologicalExplanation": "对于人类大脑来说，归属感和被接受是非常重要的。当你预期社交评估时，你的保护系统可能会将目光、沉默或犯错的可能性视为威胁信号。自主神经系统会增加激活：出现红脸、出汗、颤抖、心跳加速或思维空白。这些都是真实的身体反应，不是证明你做错了。",
+      "reassurance": "你可以带着紧张感参与。在这个时刻的成功不在于看起来完美平静，而在于迈出一个可控的步骤。",
+      "searchTerms": [
+        "社会的",
+        "羞耻",
+        "会议",
+        "人们",
+        "说话",
+        "审判",
+        "事件",
+        "害羞"
+      ],
+      "redFlags": [
+        "情况包括欺凌、威胁、歧视或不尊重你的界限的人。",
+        "你有新的或强烈的身体症状，可能需要医疗关注。"
+      ],
+      "whenToSeekHelp": [
+        "如果你坚持避免学习、工作、吃饭或与他人交往，因为害怕社交。",
+        "如果你依赖酒精或其他物质来应对社交情况。",
+        "如果痛苦非常强烈，持续几个月或出现自残的想法。"
+      ],
+      "protocols": [
+        {
+          "id": "social-foco-externo",
+          "title": "把注意力放到外界",
+          "summary": "减少对自己的反复审视，关注对话中真实发生的信息。",
+          "symbol": "ear.fill",
+          "kind": "grounding",
+          "evidence": "supported",
+          "caution": "不要使用这个技术来保持在欺凌或危险状态中。你可以离开并寻求支持。",
+          "steps": [
+            {
+              "id": "sfe-1",
+              "title": "支撑脚部。",
+              "instruction": "注意双脚，并允许呼吸自然。",
+              "durationSeconds": 15,
+              "phase": "prepare",
+              "accessibilityCue": "注意脚的支持。"
+            },
+            {
+              "id": "sfe-2",
+              "title": "找到三个细节。",
+              "instruction": "观察周围三个中立细节：形状、颜色和光源。",
+              "durationSeconds": 20,
+              "phase": "orient",
+              "accessibilityCue": "找到环境中的三个无害细节。"
+            },
+            {
+              "id": "sfe-3",
+              "title": "倾听一句",
+              "instruction": "选择听另一个人完整地说一句话，不用准备你的回答。",
+              "durationSeconds": 25,
+              "phase": "observe",
+              "accessibilityCue": "倾听完整的句子。"
+            },
+            {
+              "id": "sfe-4",
+              "title": "提出简单的问题",
+              "instruction": "使用一个开放式简短的问题：进展如何？，你觉得怎么样？，你现在需要什么？",
+              "durationSeconds": 20,
+              "phase": "reflect",
+              "accessibilityCue": "提出简短开放式的问题"
+            },
+            {
+              "id": "sfe-5",
+              "title": "返回内容",
+              "instruction": "当你注意自我检查时，将其视为对内关注，然后回到对方正在说的话。",
+              "durationSeconds": 25,
+              "phase": "finish",
+              "accessibilityCue": "返回对话内容。"
+            }
+          ]
+        },
+        {
+          "id": "social-primer-minuto",
+          "title": "第一分钟计划",
+          "summary": "把这次接触拆成三个小动作，不必等到完全有安全感才开始。",
+          "symbol": "list.number",
+          "kind": "reflection",
+          "evidence": "promising",
+          "caution": "选择一个可接受的挑战。突然暴露在过于压抑的环境中可能有害。",
+          "steps": [
+            {
+              "id": "spm-1",
+              "title": "定义最低限度",
+              "instruction": "选择一个小目标：进入、打招呼或停留五分钟。",
+              "durationSeconds": 20,
+              "phase": "reflect",
+              "accessibilityCue": "选择一个社交小目标。"
+            },
+            {
+              "id": "spm-2",
+              "title": "准备一个开场",
+              "instruction": "决定一个简单自然的开场语：你好，你怎么样？或谢谢邀请。",
+              "durationSeconds": 20,
+              "phase": "reflect",
+              "accessibilityCue": "准备一个简单的开始语"
+            },
+            {
+              "id": "spm-3",
+              "title": "准备一个结束语",
+              "instruction": "记住，你可以说：我会吸一口气，然后再回来。",
+              "durationSeconds": 15,
+              "phase": "prepare",
+              "accessibilityCue": "准备一个尊重的暂停。"
+            },
+            {
+              "id": "spm-4",
+              "title": "迈出第一步",
+              "instruction": "执行计划的第一步，尚未评估整个会面的进展",
+              "durationSeconds": 30,
+              "phase": "move",
+              "accessibilityCue": "仅执行第一步"
+            },
+            {
+              "id": "spm-5",
+              "title": "承认行动",
+              "instruction": "珍惜你所做的一切，而不是说紧张感消失了。之后再决定下一步。",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "承认你已经完成的行动。"
+            }
+          ]
+        },
+        {
+          "id": "social-vocalizacion-calida",
+          "title": "轻柔热嗓",
+          "summary": "在进入对话前，用轻轻的哼鸣放松下巴和声音。",
+          "symbol": "waveform",
+          "kind": "vocalization",
+          "evidence": "complementary",
+          "caution": "声音应该舒适且低沉。如果你感到喉咙不适或头晕，请停止。",
+          "steps": [
+            {
+              "id": "svc-1",
+              "title": "放松下巴",
+              "instruction": "轻轻分离牙齿，并用柔和的方式将舌头放在嘴里。",
+              "durationSeconds": 12,
+              "phase": "prepare",
+              "accessibilityCue": "放松下巴。"
+            },
+            {
+              "id": "svc-2",
+              "title": "短暂的嗡嗡声",
+              "instruction": "释放空气时，在自然时长内轻声哼哼。",
+              "durationSeconds": 15,
+              "phase": "sound",
+              "accessibilityCue": "进行轻柔的嗡嗡声"
+            },
+            {
+              "id": "svc-3",
+              "title": "说一句。",
+              "instruction": "低声练习你的打招呼或第一句问题，不要试图完美发音。",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "练习一句简短的句子"
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "social-tip-objeto",
+          "title": "保持日常物体",
+          "detail": "一杯水、笔记本或钢笔可以让手处于自然位置。"
+        },
+        {
+          "id": "social-tip-temprano",
+          "title": "提前到达。",
+          "detail": "进入时，如果环境安静，可以更容易地找到方向，直到噪音增加。"
+        },
+        {
+          "id": "social-tip-salida",
+          "title": "准备一个结束语",
+          "detail": "知道你可以说“我要去呼吸一下，然后回来”可以减少被困的感觉。"
+        }
+      ],
+      "sources": [
+        {
+          "id": "nhs-social-anxiety",
+          "title": "社交焦虑（社交恐惧症）",
+          "organization": "英国国家医疗服务体系（NHS）",
+          "url": "https://www.nhs.uk/mental-health/conditions/social-anxiety/",
+          "note": "自我帮助，关注对话内容，将挑战分解成小部分。"
+        },
+        {
+          "id": "who-matters",
+          "title": "压力时期，做重要的事",
+          "organization": "世界卫生组织",
+          "url": "https://www.who.int/publications/i/item/9789240003927",
+          "note": "在面对困难情绪时，通过价值观引导和行动"
+        }
+      ]
+    },
+    {
+      "id": "duelo-oleada",
+      "title": "一阵哀伤突然袭来",
+      "subtitle": "失去的人或一段回忆带来悲伤、愤怒、空虚或难以置信",
+      "symbol": "heart.slash.fill",
+      "palette": "rose",
+      "immediateExplanation": "悲痛没有固定的顺序。一首歌、一个日期或一个地点可能会在更平静时期重新激活强烈的情感。",
+      "biologicalExplanation": "你的大脑和身体已经学会了依靠这种联系。失去的人、关系或现实是许多日常预测的一部分：给谁打电话，回家后会期待什么，或者如何想象未来。在失去之后，这些模式不会一下子更新。一首歌、一种气味或一个日期可以在你有意识地思考之前激活记忆和搜索反应。\n\n悲痛涉及到依恋、注意力、记忆、压力和奖励系统；这就是为什么它可能让人感到悲伤、愤怒、空虚、不安甚至身体疼痛。波浪并不遵循固定的日历，强烈的复现并不意味着你已经退缩了。你的身体正在努力整合一个深具意义的现实。\n\n允许情绪波动，同时保持对现实的牵引，可以避免对自己的感受进行第二次抗争。新的习惯、支持和意义可以帮助大脑构建一个包括失去在内的生活，而不需要抹去联系或记忆。这种学习是渐进的，不需要“关闭”悲伤。如果痛苦威胁到你的安全或阻止你满足基本需求，你需要专业支持。",
+      "reassurance": "不需要关闭或克服损失，现在只需安全地穿越这一波，并获得陪伴。",
+      "searchTerms": [
+        "哀悼",
+        "损失",
+        "死亡",
+        "破裂",
+        "悲伤",
+        "缺席",
+        "哭泣",
+        "回忆"
+      ],
+      "redFlags": [
+        "你有自杀的想法、伤害自己的想法或感觉自己无法保持安全。",
+        "失去刚刚发生在一个暴力、创伤性或仍存在危险的环境中。"
+      ],
+      "whenToSeekHelp": [
+        "如果强度持续阻碍你持续照顾基本需求或进行日常生活。",
+        "如果你有创伤性应激症状，请使用药物来缓解或完全隔离。",
+        "如果你需要陪伴：不需要等到你达到极限才请求。"
+      ],
+      "protocols": [
+        {
+          "id": "duelo-hacer-espacio",
+          "title": "给这阵情绪留出空间",
+          "summary": "承认这份情绪，同时让一部分注意力留在当下。",
+          "symbol": "water.waves",
+          "kind": "grounding",
+          "evidence": "supported",
+          "caution": "如果回忆变得难以忍受，出现强烈的脱节或失去方向，请停止锻炼并寻求陪伴或专业帮助。",
+          "steps": [
+            {
+              "id": "dhe-1",
+              "title": "命名波浪",
+              "instruction": "完成：现在我感到悲伤、愤怒、恐惧、空虚或最合适的词语。",
+              "durationSeconds": 20,
+              "phase": "observe",
+              "accessibilityCue": "请求一个简单的名字来描述你所感受到的事物"
+            },
+            {
+              "id": "dhe-2",
+              "title": "承认联系",
+              "instruction": "低声说：这次失去对我来说很重要。",
+              "durationSeconds": 18,
+              "phase": "reflect",
+              "accessibilityCue": "承认疼痛与重要事物有关。"
+            },
+            {
+              "id": "dhe-3",
+              "title": "保持一个支点",
+              "instruction": "轻轻地将双脚放在地面上，并看着当前的一个稳定物体",
+              "durationSeconds": 25,
+              "phase": "orient",
+              "accessibilityCue": "用脚和一个物体作为现在存在的锚。"
+            },
+            {
+              "id": "dhe-4",
+              "title": "让一分钟过去",
+              "instruction": "允许泪水或沉默，而不需要分析整个故事。观察感觉如何变化。",
+              "durationSeconds": 45,
+              "phase": "observe",
+              "accessibilityCue": "让情感在某个时刻存在"
+            },
+            {
+              "id": "dhe-5",
+              "title": "选择基本护理",
+              "instruction": "决定一个小的行动：喝水、吃东西、洗澡或与他人坐下。",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "选择一个基本的护理动作。"
+            }
+          ]
+        },
+        {
+          "id": "duelo-conexion-segura",
+          "title": "安全连接",
+          "summary": "把眼前的孤立转化为一次可以承受的联系，或一个纪念动作。",
+          "symbol": "person.crop.circle.badge.plus",
+          "kind": "reflection",
+          "evidence": "promising",
+          "caution": "选择一个能安静倾听的人。无需分享你想要私密保存的细节。",
+          "steps": [
+            {
+              "id": "dcs-1",
+              "title": "选择一个人",
+              "instruction": "想想一个可以陪伴你的人，但不要试图解决所有问题",
+              "durationSeconds": 20,
+              "phase": "reflect",
+              "accessibilityCue": "想想一个安全的人"
+            },
+            {
+              "id": "dcs-2",
+              "title": "表达请求",
+              "instruction": "准备一个具体的消息：今天我受到了打击，你可以在十分钟内倾听我吗？",
+              "durationSeconds": 25,
+              "phase": "reflect",
+              "accessibilityCue": "准备一个具体的陪伴请求"
+            },
+            {
+              "id": "dcs-3",
+              "title": "进行接触",
+              "instruction": "发送消息或进行电话。如果未响应，尝试与另一个人或支持资源联系。",
+              "durationSeconds": 30,
+              "phase": "move",
+              "accessibilityCue": "联系选择的人。"
+            },
+            {
+              "id": "dcs-4",
+              "title": "选择一个回忆",
+              "instruction": "如果你需要帮助，请提及一个回忆、一种品质或这段关系对你留下的影响。",
+              "durationSeconds": 30,
+              "phase": "reflect",
+              "accessibilityCue": "选择一个有意义的回忆或品质。"
+            },
+            {
+              "id": "dcs-5",
+              "title": "关闭而不告别",
+              "instruction": "根据你喜欢的方式保存记忆，然后回到你一天的具体行动",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "平静地回到当前的一个具体行动中。"
+            }
+          ]
+        },
+        {
+          "id": "duelo-balanceo-suave",
+          "title": "有支撑的轻柔摇摆",
+          "summary": "用小幅、有节奏的摇摆陪伴这阵情绪，不强求它立刻消失。",
+          "symbol": "figure.mind.and.body",
+          "kind": "movement",
+          "evidence": "complementary",
+          "caution": "如果存在跌倒风险，坐着进行。如果引起呕吐、疼痛或更大困惑，停止",
+          "steps": [
+            {
+              "id": "dbs-1",
+              "title": "寻找支持。",
+              "instruction": "坐在稳固的脚下或站立在稳定的表面上。",
+              "durationSeconds": 12,
+              "phase": "prepare",
+              "accessibilityCue": "寻找一个稳定的位置。"
+            },
+            {
+              "id": "dbs-2",
+              "title": "平衡",
+              "instruction": "轻轻地将体重从一边移动到另一边，在小范围内移动",
+              "durationSeconds": 30,
+              "phase": "move",
+              "accessibilityCue": "轻轻平衡。"
+            },
+            {
+              "id": "dbs-3",
+              "title": "保持联系",
+              "instruction": "命名你或什么东西所怀念的人，以及你现在需要的一件具体的事情。",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "命名联系和一个需求。"
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "duelo-tip-objeto",
+          "title": "保持具有意义的物体",
+          "detail": "一张照片或一个物体可以在浪潮中为记忆赋予一个具体的地点。"
+        },
+        {
+          "id": "duelo-tip-calor",
+          "title": "准备一些温暖的东西",
+          "detail": "一杯温热的饮料或毯子可以陪伴身体；避免可能烧伤的温度。"
+        },
+        {
+          "id": "duelo-tip-permiso",
+          "title": "预留短暂间隔",
+          "detail": "如果条件允许，请休息十分钟，然后决定下一个基本护理。"
+        }
+      ],
+      "sources": [
+        {
+          "id": "nhs-grief",
+          "title": "失去亲人或失去后感到悲伤",
+          "organization": "英国国家医疗服务体系（NHS）",
+          "url": "https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/grief-bereavement-loss/",
+          "note": "悲痛的变异性、社会支持、小目标和寻求帮助的标准。"
+        },
+        {
+          "id": "who-matters",
+          "title": "压力时期，做重要的事",
+          "organization": "世界卫生组织",
+          "url": "https://www.who.int/publications/i/item/9789240003927",
+          "note": "为困难情绪留出空间，安抚和友善"
+        }
+      ]
+    },
+    {
+      "id": "mala-noticia-impacto",
+      "title": "我刚收到一个坏消息",
+      "subtitle": "感到震惊、混乱，或急于立刻做出反应",
+      "symbol": "bolt.heart.fill",
+      "palette": "amber",
+      "immediateExplanation": "在接收到震撼性新闻后，感到虚幻、颤抖、阻塞或立即行动的渴望是很常见的。在最初的几分钟内，可能需要花费时间整理信息并优先级排序。",
+      "biologicalExplanation": "一个坏消息突然打破了你的大脑对未来几分钟或未来的想法。面对这种意想不到的变化，大脑会将信息放在最优先的位置，并激活应激反应。肾上腺素和其他信使会增加警觉性，心脏可能会加速跳动，身体可能会颤抖。有些人会感到急于采取行动；有些人会变得僵硬、失去联系或感到不真实。这些都可能是对冲击的初步反应。\n\n在峰值期，注意力会变得更专注，工作记忆会保留更少的信息，因此你可能需要反复听解释，或者你可能记不住对话中的一部分内容。你的大脑会试图快速填补空白，可能会从已知的事实跳到你能想象的最糟糕的未来。\n\n坐下来，定位自己，联系某人，都会带来稳定信号，减少决策。将事实、问题和一个单一的步骤分开，可以为执行网络带来结构，而无需你理解一切。一个安全的人的存在也可以帮助调节激活。如果新闻涉及当前的危险或医疗紧急情况，采取行动并联系适当的服务比任何练习都重要。",
+      "reassurance": "你不需要现在理解或决定一切。首先确认安全，然后将事实与不确定性区分开来，并寻求陪伴。",
+      "searchTerms": [
+        "新闻",
+        "冲击",
+        "影响",
+        "诊断",
+        "解雇",
+        "事故",
+        "破裂",
+        "紧急情况"
+      ],
+      "redFlags": [
+        "新闻涉及当前的身体危险、医疗紧急情况、暴力或失踪人员。",
+        "你正在驾驶、操作机械或在一个可能让你处于危险状态的地方"
+      ],
+      "whenToSeekHelp": [
+        "如果你无法恢复方向感，会昏倒、胸痛或出现严重的医学症状。",
+        "如果出现自杀想法、伤害自己的想法或无法保证自己的安全。",
+        "如果在后续几天中持续出现噩梦、脱节或无法正常运作。"
+      ],
+      "protocols": [
+        {
+          "id": "noticia-primeros-minutos",
+          "title": "最初几分钟",
+          "summary": "在做重要决定之前，先恢复身体安全感并获得支持。",
+          "symbol": "shield.lefthalf.filled",
+          "kind": "grounding",
+          "evidence": "supported",
+          "caution": "如果存在真实紧急情况，请首先拨打相关服务。本指南不应延迟紧急处理。",
+          "steps": [
+            {
+              "id": "npm-1",
+              "title": "在安全的地方停下来",
+              "instruction": "坐在或靠在。如果你驾驶，请在继续之前安全停车。",
+              "durationSeconds": 15,
+              "phase": "prepare",
+              "accessibilityCue": "停下来并寻找一个安全的位置。"
+            },
+            {
+              "id": "npm-2",
+              "title": "定位你",
+              "instruction": "命名你所在的地方，今天是什么日子，以及你知道的一件事情。",
+              "durationSeconds": 20,
+              "phase": "orient",
+              "accessibilityCue": "说出你的位置和你确切知道的事情。"
+            },
+            {
+              "id": "npm-3",
+              "title": "感受支持",
+              "instruction": "注意支撑你体重的地方，如椅子、墙壁或地面。舒适地释放空气。",
+              "durationSeconds": 25,
+              "phase": "observe",
+              "accessibilityCue": "注意身体下方的支撑。"
+            },
+            {
+              "id": "npm-4",
+              "title": "联系",
+              "instruction": "通知一个安全的人：我收到了一个艰难的消息，需要你陪我。",
+              "durationSeconds": 30,
+              "phase": "move",
+              "accessibilityCue": "联系安全的人。"
+            },
+            {
+              "id": "npm-5",
+              "title": "推迟不可逆转的事情",
+              "instruction": "除非安全要求采取行动，否则推迟公共消息、购物或不可逆的决定。",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "推迟不紧急的决定"
+            }
+          ]
+        },
+        {
+          "id": "noticia-hechos-siguiente",
+          "title": "事实、疑问与下一步",
+          "summary": "整理信息，不必一次解决整个未来。",
+          "symbol": "square.and.pencil",
+          "kind": "reflection",
+          "evidence": "promising",
+          "caution": "不要使用这个分类来进行过度研究。如果信息涉及医学、法律或安全问题，请与相关专业人士确认。",
+          "steps": [
+            {
+              "id": "nhs-1",
+              "title": "写下事实",
+              "instruction": "仅记录已确认的信息，使用简单明了的语言，不进行解释。",
+              "durationSeconds": 30,
+              "phase": "reflect",
+              "accessibilityCue": "仅记录已确认的事实。"
+            },
+            {
+              "id": "nhs-2",
+              "title": "分离未知的部分",
+              "instruction": "进行简短的提问列表。不要根据假设回答",
+              "durationSeconds": 25,
+              "phase": "reflect",
+              "accessibilityCue": "分离尚未有答案的问题。"
+            },
+            {
+              "id": "nhs-3",
+              "title": "识别紧急情况。",
+              "instruction": "询问：今天有什么事情需要做以确保安全或截止日期？",
+              "durationSeconds": 20,
+              "phase": "reflect",
+              "accessibilityCue": "识别是否存在真正的紧急情况。"
+            },
+            {
+              "id": "nhs-4",
+              "title": "选择一个来源。",
+              "instruction": "决定谁可以确认下一个事实：专业人士、负责的家人或官方服务。",
+              "durationSeconds": 20,
+              "phase": "reflect",
+              "accessibilityCue": "选择一个可靠的来源来确认信息。"
+            },
+            {
+              "id": "nhs-5",
+              "title": "迈出单一步",
+              "instruction": "打电话、记下笔记或请求预约。然后再次检查自己的状态。",
+              "durationSeconds": 30,
+              "phase": "finish",
+              "accessibilityCue": "仅执行可验证的下一步。"
+            }
+          ]
+        },
+        {
+          "id": "noticia-estimulacion-alterna",
+          "title": "交替触碰与事实",
+          "summary": "轻柔交替触碰身体，同时简短重复已知和未知的信息。",
+          "symbol": "hand.raised.fingers.spread.fill",
+          "kind": "grounding",
+          "evidence": "complementary",
+          "caution": "忽略接触，如果它会激活或感到不舒服；你可以交替脚的压力。",
+          "steps": [
+            {
+              "id": "nea-1",
+              "title": "支持或交叉。",
+              "instruction": "将双手放在膝盖上或交叉双臂，将每只手放在相反的一侧",
+              "durationSeconds": 12,
+              "phase": "prepare",
+              "accessibilityCue": "支撑双手舒适地。"
+            },
+            {
+              "id": "nea-2",
+              "title": "交替",
+              "instruction": "从左到右缓慢触摸，同时重复确认的事实。",
+              "durationSeconds": 30,
+              "phase": "press",
+              "accessibilityCue": "交替缓慢的触摸"
+            },
+            {
+              "id": "nea-3",
+              "title": "分离怀疑",
+              "instruction": "停止触摸并完成：'我还不知道…'和'我的下一个安全步骤是…'",
+              "durationSeconds": 24,
+              "phase": "finish",
+              "accessibilityCue": "区分怀疑和下一步。"
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "noticia-tip-frase",
+          "title": "写下准确的句子",
+          "detail": "记录你所接收的信息，不进行解释，以便在记忆丧失时参考。"
+        },
+        {
+          "id": "noticia-tip-bateria",
+          "title": "充电手机",
+          "detail": "拥有电池、水和联系方式可以减少在接下来几个小时中的实际问题。"
+        },
+        {
+          "id": "noticia-tip-anuncio",
+          "title": "推迟广泛广告",
+          "detail": "如果你可以，请首先告知信任的人，然后决定向谁更多人分享。"
+        }
+      ],
+      "sources": [
+        {
+          "id": "who-stress",
+          "title": "处理压力",
+          "organization": "世界卫生组织",
+          "url": "https://www.emro.who.int/mhps/dealing_with_stress.html",
+          "note": "面对压力时，通过引导和实际反应"
+        },
+        {
+          "id": "nhs-traumatic-events",
+          "title": "丧偶和创伤性事件",
+          "organization": "英国国家医疗服务体系（NHS）",
+          "url": "https://www.nhs.uk/every-mind-matters/lifes-challenges/bereavement-and-traumatic-events/",
+          "note": "应对创伤事件的反响和寻求帮助。"
+        }
+      ]
+    },
+    {
+      "id": "sobrecarga-sensorial",
+      "title": "周围的一切让我不堪重负",
+      "subtitle": "噪音、光线、人群或同时出现的刺激变得难以忍受",
+      "symbol": "speaker.wave.3.fill",
+      "palette": "slate",
+      "immediateExplanation": "当同时出现过多刺激时，可能很难过滤哪些值得关注。易怒、阻塞或逃跑的需求是减少负担并恢复空间的信号。",
+      "biologicalExplanation": "你的大脑不断接收比它能带入意识的感官信息更多。它通常会过滤、归类和优先考虑相关信息。当感到疲劳、压力、疼痛或特别敏感时，这种过滤可能需要更多的努力。灯光、声音、运动和接触同时竞争，以前是背景的东西变得强烈或侵入性。\n\n如果大脑认为它无法组织或逃离这种负担，它会增加自主反应：出现易怒、紧张、快速呼吸、堵塞或急切地需要离开。这不是意志力不足，刺激并不一定需要危险才能导致身体上不堪重负。系统正在表明它已经超过了当前的处理能力。\n\n减少一个渠道——亮度、声音或社会需求——减少输入的信息，并允许恢复空间。关注一个方向有助于整理体验，而不是同时对抗所有体验。随着时间的推移，你可以学会识别早期信号，并在溢位之前调整环境。环境适应是调节，而不是失败；如果敏感度突然、疼痛或频繁，最好评估潜在的医疗原因。",
+      "reassurance": "离开、降低灯光或使用耳塞不是失败。这是调整环境，以便你的系统能够恢复能力。",
+      "searchTerms": [
+        "噪音",
+        "灯光",
+        "人群",
+        "超载",
+        "感官的",
+        "压抑",
+        "刺激",
+        "饱和度"
+      ],
+      "redFlags": [
+        "敏感性突然出现，伴随虚弱、说话困难、困惑、头痛严重或视力丧失。",
+        "你在一个人群、道路或其他需要帮助离开的地方"
+      ],
+      "whenToSeekHelp": [
+        "如果这些事件是新的，频繁发生或干扰学习、工作、睡眠或自我照顾。",
+        "如果你怀疑头痛、药物副作用、听力损失或其他医学原因。",
+        "如果过度负担导致自残、攻击或无法保持安全。"
+      ],
+      "protocols": [
+        {
+          "id": "sensorial-reducir-entradas",
+          "title": "减少感官输入",
+          "summary": "有序减少噪音、光线、身体接触和社交要求。",
+          "symbol": "speaker.slash.fill",
+          "kind": "grounding",
+          "evidence": "promising",
+          "caution": "不要闭上眼睛或屏蔽声音，如果需要监控交通、机械或其他安全信号。",
+          "steps": [
+            {
+              "id": "sre-1",
+              "title": "寻找边缘",
+              "instruction": "向一边、出口或一个更安静的空间移动，不要奔跑。",
+              "durationSeconds": 25,
+              "phase": "move",
+              "accessibilityCue": "去一个刺激较少的场所。"
+            },
+            {
+              "id": "sre-2",
+              "title": "减少一个渠道",
+              "instruction": "降低亮度，关闭通知或使用安全耳机。只改变一个东西。",
+              "durationSeconds": 20,
+              "phase": "prepare",
+              "accessibilityCue": "减少一个刺激源。"
+            },
+            {
+              "id": "sre-3",
+              "title": "避免新的请求",
+              "instruction": "说出是否需要：我需要两分钟的安静时间，然后我会回答。",
+              "durationSeconds": 15,
+              "phase": "reflect",
+              "accessibilityCue": "请求短暂且具体的休息"
+            },
+            {
+              "id": "sre-4",
+              "title": "寻找稳定。",
+              "instruction": "观察一个光滑的表面或静止物体，并注意背部或脚的支撑。",
+              "durationSeconds": 30,
+              "phase": "orient",
+              "accessibilityCue": "观察一个静止物体，并注意支撑点。"
+            },
+            {
+              "id": "sre-5",
+              "title": "决定下一个环境",
+              "instruction": "选择保持调整、与他人同行或等到压力减轻。",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "选择最容易管理的环境继续。"
+            }
+          ]
+        },
+        {
+          "id": "sensorial-un-sentido",
+          "title": "一次只关注一种感官",
+          "summary": "按简短顺序分配注意力，不必同时处理所有刺激。",
+          "symbol": "scope",
+          "kind": "grounding",
+          "evidence": "supported",
+          "caution": "忽略任何会导致疼痛或增加激活的感觉。目标是简化，而不是承受更多强度。",
+          "steps": [
+            {
+              "id": "sus-1",
+              "title": "仅触觉",
+              "instruction": "注意一种中性纹理，可以在衣服、椅子或你已经有的物体上找到。",
+              "durationSeconds": 20,
+              "phase": "observe",
+              "accessibilityCue": "注意一种中性纹理。"
+            },
+            {
+              "id": "sus-2",
+              "title": "仅视觉",
+              "instruction": "选择一个物体，并慢慢用眼睛沿着它的轮廓移动。",
+              "durationSeconds": 25,
+              "phase": "orient",
+              "accessibilityCue": "跟随一个物体的外形"
+            },
+            {
+              "id": "sus-3",
+              "title": "仅声音",
+              "instruction": "识别最持久或最不刺耳的声音，无需寻找所有其他声音",
+              "durationSeconds": 20,
+              "phase": "observe",
+              "accessibilityCue": "识别一个持续且中立的声音。"
+            },
+            {
+              "id": "sus-4",
+              "title": "仅支持",
+              "instruction": "将双脚放在地面上，保持几秒钟，然后松开",
+              "durationSeconds": 18,
+              "phase": "move",
+              "accessibilityCue": "轻轻地将双脚放在地面上，然后松开"
+            },
+            {
+              "id": "sus-5",
+              "title": "逐步扩大",
+              "instruction": "环顾四周，决定是否可以完成一项任务，或者是否需要更多低刺激时间。",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "检查是否可以逐步扩大注意力。"
+            }
+          ]
+        },
+        {
+          "id": "sensorial-presion-propioceptiva",
+          "title": "温和的本体感觉按压",
+          "summary": "稳定按压手掌和双脚，让简单的身体信号获得优先关注。",
+          "symbol": "hand.raised.fill",
+          "kind": "grounding",
+          "evidence": "complementary",
+          "caution": "不要压迫疼痛的关节或使用会导致麻木的力量。",
+          "steps": [
+            {
+              "id": "spp-1",
+              "title": "尽可能减少",
+              "instruction": "降低光线或声音并寻找一个有支撑的姿势，然后添加另一个信号。",
+              "durationSeconds": 15,
+              "phase": "prepare",
+              "accessibilityCue": "减少环境输入。"
+            },
+            {
+              "id": "spp-2",
+              "title": "手掌和脚掌",
+              "instruction": "将双手按中等压力压在一起，同时将脚按在地面上。",
+              "durationSeconds": 24,
+              "phase": "press",
+              "accessibilityCue": "将掌心和脚放在一起"
+            },
+            {
+              "id": "spp-3",
+              "title": "逐步放下。",
+              "instruction": "先放下双手，再放下脚，只保留最可接受的感官输入。",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "放松并保留可接受的信号。"
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "sensorial-tip-kit",
+          "title": "准备一个小工具包",
+          "detail": "耳塞、染色的眼镜、帽子或熟悉的纹理可以减少在困难的地方的输入。"
+        },
+        {
+          "id": "sensorial-tip-olor",
+          "title": "谨慎使用熟悉的气味",
+          "detail": "一种带有中性且已知的气味的织物可以作为参考；在偏头痛、哮喘或敏感的情况下，请避免使用它。"
+        },
+        {
+          "id": "sensorial-tip-mensaje",
+          "title": "准备一个句子。",
+          "detail": "“我需要更少的噪音和五分钟”允许你要求调整，而无需解释太多。"
+        }
+      ],
+      "sources": [
+        {
+          "id": "who-stress-grounding",
+          "title": "处理压力",
+          "organization": "世界卫生组织",
+          "url": "https://www.emro.who.int/mhps/dealing_with_stress.html",
+          "note": "通过环境引导、运动和安全接触进行安抚"
+        },
+        {
+          "id": "who-matters",
+          "title": "压力时期，做重要的事",
+          "organization": "世界卫生组织",
+          "url": "https://www.who.int/publications/i/item/9789240003927",
+          "note": "灵活的注意力和与现实的重新连接。"
+        }
+      ]
+    },
+    {
+      "id": "bloqueo-empezar",
+      "title": "我卡住了，无法开始",
+      "subtitle": "一项任务显得太大、太混乱或让人抗拒",
+      "symbol": "play.square.stack.fill",
+      "palette": "forest",
+      "immediateExplanation": "阻塞并不总是意味着缺乏兴趣或能力。当任务看起来模糊、巨大或与害怕失败有关时，避免它会立即缓解压力，并使接近它变得更加困难。",
+      "biologicalExplanation": "开始一项任务需要进行多种操作：保持目标、决定第一个动作、估计努力和抑制干扰。当任务模糊、巨大或与失败恐惧有关时，你的大脑会预先预测不适和成本，甚至在你开始之前。压力会占用部分执行资源，而“完成所有任务”的目标没有明确的物理行动可以实施。",
+      "reassurance": "不需要结束或感到动力。只需让第一步变得可行和可视。",
+      "searchTerms": [
+        "拖延",
+        "封锁",
+        "开始",
+        "任务",
+        "工作",
+        "学习",
+        "动机",
+        "完美主义"
+      ],
+      "redFlags": [
+        "阻塞出现在困惑突然、虚弱、说话困难或其他新的神经系统症状的同时。",
+        "你不能满足基本需求，起床或保持安全。"
+      ],
+      "whenToSeekHelp": [
+        "如果封锁范围广泛，持续几周或对工作、学习、自我照顾或关系产生重大影响。",
+        "如果你伴随极度低落情绪、极端疲劳、强烈焦虑或睡眠模式变化。",
+        "如果你怀疑注意力困难、抑郁或其他需要专业评估的状况。"
+      ],
+      "protocols": [
+        {
+          "id": "bloqueo-umbral-dos-minutos",
+          "title": "两分钟起步",
+          "summary": "把任务缩小到足以开始，而不意味着必须完成。",
+          "symbol": "timer",
+          "kind": "movement",
+          "evidence": "promising",
+          "caution": "不要使用生产力来忽视饥饿、疼痛、疾病或疲劳。首先满足基本需求。",
+          "steps": [
+            {
+              "id": "bud-1",
+              "title": "命名动词",
+              "instruction": "将完成项目转换为一个身体动作：打开、寻找、写下、放置或打电话。",
+              "durationSeconds": 20,
+              "phase": "reflect",
+              "accessibilityCue": "将任务转化为身体动作。"
+            },
+            {
+              "id": "bud-2",
+              "title": "减少大小",
+              "instruction": "选择一个可以在两分钟内停止的动作：打开文件或写标题。",
+              "durationSeconds": 20,
+              "phase": "reflect",
+              "accessibilityCue": "选择一个需要不到两分钟的动作。"
+            },
+            {
+              "id": "bud-3",
+              "title": "准备仅必要的",
+              "instruction": "移除障碍物，只留下第一步的材料。",
+              "durationSeconds": 25,
+              "phase": "prepare",
+              "accessibilityCue": "准备仅第一步所需的内容"
+            },
+            {
+              "id": "bud-4",
+              "title": "开始时无需进行谈判。",
+              "instruction": "执行选择的行动。尚未决定是否继续或评估质量",
+              "durationSeconds": 60,
+              "phase": "move",
+              "accessibilityCue": "执行小动作，无需评估结果。"
+            },
+            {
+              "id": "bud-5",
+              "title": "选择重新",
+              "instruction": "结束时，自觉决定是否停止或重复一个小块。两种选择都是有效的。",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "决定是否休息或进行一个小块工作。"
+            }
+          ]
+        },
+        {
+          "id": "bloqueo-siguiente-visible",
+          "title": "看得见的下一步",
+          "summary": "当问题在于模糊时，明确怎样才算向前迈出一步。",
+          "symbol": "arrow.right.circle.fill",
+          "kind": "reflection",
+          "evidence": "supported",
+          "caution": "如果你别人控制目标，请确认期望之前投入大量时间进行假设。",
+          "steps": [
+            {
+              "id": "bsv-1",
+              "title": "定义结果",
+              "instruction": "完成：当这段话完成时，我会看到……使用可观察的事物。",
+              "durationSeconds": 25,
+              "phase": "reflect",
+              "accessibilityCue": "定义一个你可以观察到的结果"
+            },
+            {
+              "id": "bsv-2",
+              "title": "检测未知",
+              "instruction": "询问缺少什么数据、决定或材料才能迈出下一步",
+              "durationSeconds": 20,
+              "phase": "reflect",
+              "accessibilityCue": "识别缺少的信息"
+            },
+            {
+              "id": "bsv-3",
+              "title": "选择一个来源。",
+              "instruction": "决定获取信息的来源：一则简短的笔记、文件、个人或短时间的证据。",
+              "durationSeconds": 20,
+              "phase": "reflect",
+              "accessibilityCue": "选择获取信息的方法。"
+            },
+            {
+              "id": "bsv-4",
+              "title": "表达一个行动",
+              "instruction": "写下一个开始时使用动词的指令，然后不包含所有或完美",
+              "durationSeconds": 25,
+              "phase": "reflect",
+              "accessibilityCue": "写下一个具体的、有限的行动。"
+            },
+            {
+              "id": "bsv-5",
+              "title": "让它准备好",
+              "instruction": "将文件、物体或消息放在你可以继续的地方",
+              "durationSeconds": 25,
+              "phase": "finish",
+              "accessibilityCue": "准备好开始点"
+            }
+          ]
+        },
+        {
+          "id": "bloqueo-marcha-cruzada",
+          "title": "缓慢交叉踏步",
+          "summary": "通过协调动作摆脱僵住状态，并把身体与第一个行动连接起来。",
+          "symbol": "figure.walk.motion",
+          "kind": "movement",
+          "evidence": "complementary",
+          "caution": "如果你的平衡不稳，坐着进行，如果疼痛或跌倒风险存在，则忽略",
+          "steps": [
+            {
+              "id": "bmc-1",
+              "title": "选择姿势",
+              "instruction": "站立或坐下，将第一步的行动材料放在面前。",
+              "durationSeconds": 12,
+              "phase": "prepare",
+              "accessibilityCue": "寻找一个稳定的姿势。"
+            },
+            {
+              "id": "bmc-2",
+              "title": "交替",
+              "instruction": "抬起一只腿，用对方的手触碰；慢慢换侧。",
+              "durationSeconds": 30,
+              "phase": "move",
+              "accessibilityCue": "交替一只手和另一只腿"
+            },
+            {
+              "id": "bmc-3",
+              "title": "建立联系。",
+              "instruction": "结束时，触摸工作物品并进行小于一分钟的动作。",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "选择一个最小化的行动。"
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "bloqueo-tip-zapatos",
+          "title": "穿上鞋子",
+          "detail": "虽然你不会出门，但这种小的改变可以作为开始的信号。"
+        },
+        {
+          "id": "bloqueo-tip-cuenta",
+          "title": "数到5、4、3、2、1",
+          "detail": "到达一个位置后，物理上移动一个必要的部件来开始。"
+        },
+        {
+          "id": "bloqueo-tip-feo",
+          "title": "先完成一份有意简化的初稿",
+          "detail": "一个糟糕的标题、一个笨拙的句子或一个不完整的草图将任务变成可以编辑的东西。"
+        }
+      ],
+      "sources": [
+        {
+          "id": "who-matters",
+          "title": "压力时期，做重要的事",
+          "organization": "世界卫生组织",
+          "url": "https://www.who.int/publications/i/item/9789240003927",
+          "note": "摆脱困难的想法和受价值观引导的小动作"
+        },
+        {
+          "id": "who-stress",
+          "title": "压力：问题解答",
+          "organization": "世界卫生组织",
+          "url": "https://www.who.int/news-room/questions-and-answers/item/stress",
+          "note": "日常压力的影响和实际应对措施。"
+        }
+      ]
+    },
+    {
+      "id": "culpa-verguenza",
+      "title": "内疚或羞耻让我喘不过气",
+      "subtitle": "一次错误变成对整个人的否定",
+      "symbol": "person.crop.circle.badge.exclamationmark.fill",
+      "palette": "rose",
+      "immediateExplanation": "自责可能表明行为与你的价值观相冲突；羞愧通常将判断从“做错了事”扩展到“我是坏人”。在过度激活的情况下，这种差异消失，出现隐瞒、攻击或惩罚。",
+      "biologicalExplanation": "自责和羞愧相关，但它们不是完全相同的。自责通常表明行为与你的价值观相冲突：“我做了需要检查的事情”。羞愧扩大了信息范围到你的整个身份：“我有错”。因为归属感和接受都很重要，两者都可能激活警觉、紧张感、隐瞒欲望或攻击性防御。你的思维可能会回顾错误以避免重复，并恢复社交安全感。当新的信息不再出现时，这种机制会变成自我反省：保持威胁存在，但无法修复损害。全球标签也会减少选择；如果“我无法原谅自己”，似乎没有任何具体的行动可以改变情况。",
+      "reassurance": "承担责任并对待自己充满同情心是可以共存的。惩罚自己无法修复伤害。",
+      "searchTerms": [
+        "罪过",
+        "羞耻",
+        "错误",
+        "失败",
+        "悔恨",
+        "羞辱",
+        "原谅",
+        "冥想"
+      ],
+      "redFlags": [
+        "自责源于虐待、操纵、威胁或有人将责任归咎于你因为他们的暴力。",
+        "你觉得自己应该伤害自己、消失或遭受身体虐待。"
+      ],
+      "whenToSeekHelp": [
+        "如果愧疚持续，过分或与创伤性回忆有关。",
+        "如果你反复进行检查、坦白，或不断向他人寻求安心。",
+        "如果有自残、自杀或无法保持安全的思想。"
+      ],
+      "protocols": [
+        {
+          "id": "culpa-hechos-veredicto",
+          "title": "事实与判决",
+          "summary": "区分具体行为和对“你是谁”的绝对化标签。",
+          "symbol": "rectangle.split.2x1.fill",
+          "kind": "reflection",
+          "evidence": "supported",
+          "caution": "不要低估真正的伤害。目标是准确描述它，以便做出负责任的回应。",
+          "steps": [
+            {
+              "id": "chv-1",
+              "title": "写下事实",
+              "instruction": "描述你做或不做的事情，就像摄像头会记录的那样，不使用关于你的身份的形容词",
+              "durationSeconds": 30,
+              "phase": "reflect",
+              "accessibilityCue": "描述事实而不贴标签"
+            },
+            {
+              "id": "chv-2",
+              "title": "检测判决",
+              "instruction": "命名出现的一句话：我是无能为力、无法原谅或永远不会改变。",
+              "durationSeconds": 20,
+              "phase": "observe",
+              "accessibilityCue": "识别对你整体判断的看法"
+            },
+            {
+              "id": "chv-3",
+              "title": "添加背景信息而不为借口",
+              "instruction": "承认影响了什么，以及哪些方面仍属于你的责任。",
+              "durationSeconds": 30,
+              "phase": "reflect",
+              "accessibilityCue": "分离责任的背景。"
+            },
+            {
+              "id": "chv-4",
+              "title": "识别价值",
+              "instruction": "询问被侵犯的价值：诚实、照顾、尊重、承诺或其他",
+              "durationSeconds": 20,
+              "phase": "reflect",
+              "accessibilityCue": "命名你想要恢复的价值。"
+            },
+            {
+              "id": "chv-5",
+              "title": "改变判断为方向",
+              "instruction": "表达：我做了这件事，我关心这个值，我的下一个负责任的行动将是……",
+              "durationSeconds": 25,
+              "phase": "finish",
+              "accessibilityCue": "将判断转化为负责任的方向。"
+            }
+          ]
+        },
+        {
+          "id": "culpa-reparacion-segura",
+          "title": "三步修复",
+          "summary": "准备一次以影响和可行改变为重点的道歉或纠正。",
+          "symbol": "wrench.and.screwdriver.fill",
+          "kind": "reflection",
+          "evidence": "promising",
+          "caution": "不要与一个人接触，如果存在命令、明确限制或这样做会危及他人。通过其他适当方式解决。",
+          "steps": [
+            {
+              "id": "crs-1",
+              "title": "承认",
+              "instruction": "说出发生了什么，但不要用如果或任何解释来抹去影响。",
+              "durationSeconds": 25,
+              "phase": "reflect",
+              "accessibilityCue": "清晰地承认发生了什么。"
+            },
+            {
+              "id": "crs-2",
+              "title": "命名影响",
+              "instruction": "提及你所知道的效果。如果你不了解，不要编造，并在适当的时候询问。",
+              "durationSeconds": 25,
+              "phase": "reflect",
+              "accessibilityCue": "命名已知的影响，而不必假设。"
+            },
+            {
+              "id": "crs-3",
+              "title": "提出修复建议",
+              "instruction": "选择一种具体且符合他人需求的纠正方式。",
+              "durationSeconds": 25,
+              "phase": "reflect",
+              "accessibilityCue": "提出一个具体且尊重的修复建议。"
+            },
+            {
+              "id": "crs-4",
+              "title": "接受界限",
+              "instruction": "记住，道歉并不意味着别人会立即原谅你、回应你或重新信任你。",
+              "durationSeconds": 20,
+              "phase": "observe",
+              "accessibilityCue": "接受你无法控制他人的反应。"
+            },
+            {
+              "id": "crs-5",
+              "title": "改变一个条件",
+              "instruction": "定义你将如何不同步以降低重复的可能性。",
+              "durationSeconds": 25,
+              "phase": "finish",
+              "accessibilityCue": "决定一个具体的未来变化。"
+            }
+          ]
+        },
+        {
+          "id": "culpa-gesto-autocompasion",
+          "title": "自我关怀动作",
+          "summary": "用温和的触碰和语言看待这件事，而不把它变成自我谴责。",
+          "symbol": "heart.text.clipboard.fill",
+          "kind": "reflection",
+          "evidence": "promising",
+          "caution": "如果身体接触让你感到不舒服，请将手放在桌子上或握住一个中立物体。",
+          "steps": [
+            {
+              "id": "cga-1",
+              "title": "选择支持",
+              "instruction": "请求将一只手放在胸口、前臂或坚硬的表面上",
+              "durationSeconds": 12,
+              "phase": "prepare",
+              "accessibilityCue": "选择舒适的支持。"
+            },
+            {
+              "id": "cga-2",
+              "title": "与他人说话",
+              "instruction": "说出具体发生了什么，并告诉你，如果你能修复它，你会怎么说给爱的人听。",
+              "durationSeconds": 30,
+              "phase": "reflect",
+              "accessibilityCue": "用一种公正而细致的声音。"
+            },
+            {
+              "id": "cga-3",
+              "title": "结合了关心和责任",
+              "instruction": "完成：‘我能以尊严对待自己，我的下一个可能的修复是……’。",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "选择一个可行的修复方案。"
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "culpa-tip-verbo",
+          "title": "改变“我是”为“做了”",
+          "detail": "描述行为保持学习、纠正或修复的可能性打开"
+        },
+        {
+          "id": "culpa-tip-ritual",
+          "title": "进行一个小动作",
+          "detail": "洗脸、整理房间或换衣服可能让你从惩罚到行动。"
+        },
+        {
+          "id": "culpa-tip-testigo",
+          "title": "想象一个证人。",
+          "detail": "询问一个同情的人会说什么，他们也会重视责任"
+        }
+      ],
+      "sources": [
+        {
+          "id": "who-matters",
+          "title": "压力时期，做重要的事",
+          "organization": "世界卫生组织",
+          "url": "https://www.who.int/publications/i/item/9789240003927",
+          "note": "摆脱想法、友善对待和受价值观引导的小动作"
+        },
+        {
+          "id": "who-stress-grounding",
+          "title": "处理压力",
+          "organization": "世界卫生组织",
+          "url": "https://www.emro.who.int/mhps/dealing_with_stress.html",
+          "note": "命名困难的想法和感受，在选择回应之前。"
+        }
+      ]
+    },
+    {
+      "id": "soledad-desconexion",
+      "title": "我感到非常孤独，像与人失去了联系",
+      "subtitle": "渴望有人靠近，却觉得主动联系太困难",
+      "symbol": "person.crop.circle.dashed",
+      "palette": "violet",
+      "immediateExplanation": "孤独是一种感知到的断开，即使周围有他人，也可能出现。",
+      "biologicalExplanation": "人类调节部分的安全感和福祉与他人相关。熟悉的声音、关注的回应或共享空间可以作为支持信号。当感知到缺乏连接时，大脑会增加社交警觉：寻找拒绝迹象，可能将迟到的信息或模糊的动作解读为最痛苦的方式。孤独即使在陪伴中也可能存在，因为它取决于你需要的连接，而不是周围的人数。",
+      "reassurance": "需要联系不是弱点。不需要保持完美的对话来建立初步接触。",
+      "searchTerms": [
+        "孤独",
+        "只有",
+        "隔离",
+        "断开连接",
+        "没有人",
+        "公司",
+        "友谊",
+        "联系"
+      ],
+      "redFlags": [
+        "孤独伴随着自杀想法、自我伤害或觉得没有人能阻止你。",
+        "你因为控制、威胁、暴力或因为其他人阻止你请求帮助而感到孤立"
+      ],
+      "whenToSeekHelp": [
+        "如果隔离时间过长，会影响你的健康或阻止你完成基本活动。",
+        "如果焦虑、抑郁、悲痛或其他困难使维持联系变得不可能。",
+        "如果你需要紧急支持，请使用紧急资源，即使解释起来费力。"
+      ],
+      "protocols": [
+        {
+          "id": "soledad-microconexion",
+          "title": "微小连接",
+          "summary": "用简短、具体、容易回答的请求，降低主动联系的门槛。",
+          "symbol": "message.fill",
+          "kind": "reflection",
+          "evidence": "promising",
+          "caution": "联系安全的人。避免仅为了缓解即时孤独而重新建立有害的关系。",
+          "steps": [
+            {
+              "id": "smc-1",
+              "title": "选择安全，而不是完美",
+              "instruction": "想想一个足够安全的，即使不是理想的人",
+              "durationSeconds": 20,
+              "phase": "reflect",
+              "accessibilityCue": "选择一个足够安全的个人。"
+            },
+            {
+              "id": "smc-2",
+              "title": "减少请求",
+              "instruction": "请求具体的东西：一个音频，十分钟的通话，一个散步，或者本周喝一杯咖啡",
+              "durationSeconds": 25,
+              "phase": "reflect",
+              "accessibilityCue": "选择一种具体且小巧的接触方式。"
+            },
+            {
+              "id": "smc-3",
+              "title": "写下不解释",
+              "instruction": "用一句简单的句子：今天我需要陪伴；你接个简短的电话可以吗？",
+              "durationSeconds": 25,
+              "phase": "reflect",
+              "accessibilityCue": "写下一个简单的陪伴请求。"
+            },
+            {
+              "id": "smc-4",
+              "title": "将一个人发送到。",
+              "instruction": "发送消息并让电话静置几分钟。延迟不等于拒绝。",
+              "durationSeconds": 20,
+              "phase": "move",
+              "accessibilityCue": "发送消息并允许时间进行回复。"
+            },
+            {
+              "id": "smc-5",
+              "title": "准备一个替代方案",
+              "instruction": "如果无法找到，请选择其他支持者、社区地点或支持线。",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "准备一个连接的第二个选择。"
+            }
+          ]
+        },
+        {
+          "id": "soledad-presencia-compartida",
+          "title": "与人共处",
+          "summary": "靠近一个安全的有人环境，不要求立刻建立亲密关系。",
+          "symbol": "person.3.fill",
+          "kind": "movement",
+          "evidence": "promising",
+          "caution": "选择一个公共且安全的空间。如果外出不方便，使用在线进行中等强度社区活动，并保护个人数据。",
+          "steps": [
+            {
+              "id": "spc-1",
+              "title": "选择一个地点",
+              "instruction": "想想一个安全的图书馆、公园、咖啡馆、社区中心或公共区域",
+              "durationSeconds": 20,
+              "phase": "reflect",
+              "accessibilityCue": "选择一个安全且有他人存在的地点。"
+            },
+            {
+              "id": "spc-2",
+              "title": "定义一个短暂的停留",
+              "instruction": "决定待十分钟或十五分钟，无需与任何人说话。",
+              "durationSeconds": 15,
+              "phase": "prepare",
+              "accessibilityCue": "定义一个短暂且无要求的停留"
+            },
+            {
+              "id": "spc-3",
+              "title": "进行简单活动。",
+              "instruction": "选择步行、阅读、喝点东西或做一些小管理。",
+              "durationSeconds": 15,
+              "phase": "prepare",
+              "accessibilityCue": "选择一个简单的活动来陪伴外出。"
+            },
+            {
+              "id": "spc-4",
+              "title": "承认人性",
+              "instruction": "观察共享生命迹象：声音、脚步、日常习惯或动作。",
+              "durationSeconds": 40,
+              "phase": "orient",
+              "accessibilityCue": "观察人类活动中的中性信号。"
+            },
+            {
+              "id": "spc-5",
+              "title": "决定下一个联系",
+              "instruction": "离开之前，决定是否重返、打招呼或寻找持续的活动。",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "选择下一步的连接步骤。"
+            }
+          ]
+        },
+        {
+          "id": "soledad-calor-y-voz",
+          "title": "温暖与人声",
+          "summary": "把安全的温热感和可听见的人声结合起来，缓解眼前的空虚感。",
+          "symbol": "mug.fill",
+          "kind": "grounding",
+          "evidence": "complementary",
+          "caution": "避免非常热的物体，不要使用音频，如果它增加悲伤或过载",
+          "steps": [
+            {
+              "id": "scv-1",
+              "title": "寻找安全的热度",
+              "instruction": "保持温暖的杯子或用毛巾包裹，检查温度是否舒适",
+              "durationSeconds": 15,
+              "phase": "prepare",
+              "accessibilityCue": "寻找一个舒适的温度。"
+            },
+            {
+              "id": "scv-2",
+              "title": "添加一个声音",
+              "instruction": "播放熟悉的声音、安静的广播或安全的某人的消息，音量低。",
+              "durationSeconds": 30,
+              "phase": "observe",
+              "accessibilityCue": "倾听一个安静的声音。"
+            },
+            {
+              "id": "scv-3",
+              "title": "进行桥梁",
+              "instruction": "发送一个简短的打招呼或决定一个有人类存在的地方，你可以靠近。",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "在另一个人身上创建一个小桥梁。"
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "soledad-tip-fondo",
+          "title": "使用背景公司",
+          "detail": "一个广播、一个知名的播客或安静的转播可以让沉默变得不那么突然。"
+        },
+        {
+          "id": "soledad-tip-tercer-lugar",
+          "title": "靠近一个共享的地方",
+          "detail": "图书馆、咖啡馆或公园允许人们靠近他人，无需进行交谈。"
+        },
+        {
+          "id": "soledad-tip-minimo",
+          "title": "输入最小信号",
+          "detail": "一个表情符号、一张照片或“你这周有五分钟时间吗？”可以降低开始联系的障碍。"
+        }
+      ],
+      "sources": [
+        {
+          "id": "who-social-connection",
+          "title": "从孤独走向社交连接：走向更健康的社会",
+          "organization": "世界卫生组织",
+          "url": "https://www.who.int/publications/i/item/9789240112360",
+          "note": "社交连接的重要性以及应对孤立和孤独的回应。"
+        },
+        {
+          "id": "who-matters",
+          "title": "压力时期，做重要的事",
+          "organization": "世界卫生组织",
+          "url": "https://www.who.int/publications/i/item/9789240003927",
+          "note": "小动作，遵循价值观和友善对待。"
+        }
+      ]
+    },
+    {
+      "id": "celos-inseguridad",
+      "title": "嫉妒或不安正在控制我",
+      "subtitle": "一个含糊的信号触发恐惧、比较和反复确认的冲动",
+      "symbol": "heart.circle.fill",
+      "palette": "amber",
+      "immediateExplanation": "自卑感可能导致对失去联系的恐惧、比较、愤怒和渴望确定性。检查、指责或要求可能缓解怀疑几秒钟，但会增加冲突。",
+      "biologicalExplanation": "当一个重要联系似乎受到威胁时，你的归属感和保护系统会加强警觉。注意力会关注消息、肢体语言或可用性变化，身体可能会激活紧张、热度、心跳加速或急迫感，以便确认。不确定性尤其令人不舒服，因为大脑希望预测是否能维持一个它认为有价值的关系。",
+      "reassurance": "强烈的情绪并不证明你的解释是正确的，也不迫使你采取行动。你可以保护自己的界限，而不必控制别人。",
+      "searchTerms": [
+        "嫉妒",
+        "伴侣",
+        "不安全感",
+        "比较",
+        "放弃",
+        "不信任",
+        "检查",
+        "关系"
+      ],
+      "redFlags": [
+        "有暴力、威胁、强制控制、跟踪、恐惧或破坏物品",
+        "你感到想要攻击、追赶、使用他人的设备或阻止别人离开。"
+      ],
+      "whenToSeekHelp": [
+        "如果嫉妒导致监视、质问、隔离或反复冲突。",
+        "如果存在真实背叛或需要伴侣或个人咨询的支持。",
+        "如果你害怕伤害自己或他人，请远离并寻求紧急援助或你所在国家的暴力资源。"
+      ],
+      "protocols": [
+        {
+          "id": "celos-dato-historia-necesidad",
+          "title": "事实、故事与需要",
+          "summary": "行动前，先分开你观察到的事实和头脑预测的故事。",
+          "symbol": "square.split.3x1.fill",
+          "kind": "reflection",
+          "evidence": "supported",
+          "caution": "分离解释不意味着忽视欺骗、虐待或违反协议的事实。寻找安全的信息和界限。",
+          "steps": [
+            {
+              "id": "cdh-1",
+              "title": "停止检查",
+              "instruction": "在这个练习中，不要查看消息、社交媒体、位置或设备。",
+              "durationSeconds": 15,
+              "phase": "prepare",
+              "accessibilityCue": "暂停任何检查。"
+            },
+            {
+              "id": "cdh-2",
+              "title": "写下数据",
+              "instruction": "描述你看到或听到的内容，不猜测意图或含义",
+              "durationSeconds": 25,
+              "phase": "reflect",
+              "accessibilityCue": "仅描述观察到的数据"
+            },
+            {
+              "id": "cdh-3",
+              "title": "命名故事",
+              "instruction": "完成：我的思维正在告诉我……包括你预期的最坏结局。",
+              "durationSeconds": 25,
+              "phase": "observe",
+              "accessibilityCue": "命名你的故事，就像是你脑海中的一段故事。"
+            },
+            {
+              "id": "cdh-4",
+              "title": "识别需求",
+              "instruction": "询问你是否需要清晰、尊重、一致性、情感、达成一致或设定界限",
+              "durationSeconds": 25,
+              "phase": "reflect",
+              "accessibilityCue": "识别潜在的嫉妒。"
+            },
+            {
+              "id": "cdh-5",
+              "title": "选择可行的行为",
+              "instruction": "决定一个尊重的询问、暂停或一个不侵犯或威胁的界限。",
+              "durationSeconds": 25,
+              "phase": "finish",
+              "accessibilityCue": "选择一种尊重你的价值观且与他人互补的行为。"
+            }
+          ]
+        },
+        {
+          "id": "celos-conversacion-sin-acusar",
+          "title": "不指责的对话",
+          "summary": "准备一段包含观察、感受、需要和具体请求的话。",
+          "symbol": "bubble.left.and.bubble.right.fill",
+          "kind": "conflictPause",
+          "evidence": "promising",
+          "caution": "不要开始对话，如果有人醉酒、驾驶、大声吼叫或阻止你离开。等待或寻求支持。",
+          "steps": [
+            {
+              "id": "ccs-1",
+              "title": "检查强度",
+              "instruction": "如果你无法说话而没有侮辱、威胁或询问，请先休息一下。",
+              "durationSeconds": 20,
+              "phase": "observe",
+              "accessibilityCue": "检查是否可以说话而不加剧冲突。"
+            },
+            {
+              "id": "ccs-2",
+              "title": "开始时选择观察。",
+              "instruction": "表达：发生什么……并使用一个具体的事实，不要总是或永远",
+              "durationSeconds": 25,
+              "phase": "reflect",
+              "accessibilityCue": "开始时选择一个具体观察。"
+            },
+            {
+              "id": "ccs-3",
+              "title": "从你自己开始说话",
+              "instruction": "添加：我感到……避免将情感转化为指责。",
+              "durationSeconds": 20,
+              "phase": "reflect",
+              "accessibilityCue": "命名你所怀念的情感，不要指责。"
+            },
+            {
+              "id": "ccs-4",
+              "title": "提出请求",
+              "instruction": "请求可观察的行为或对话：我们可以澄清吗？或者我们达成一致吗？",
+              "durationSeconds": 25,
+              "phase": "reflect",
+              "accessibilityCue": "表达一个明确且可谈判的请求"
+            },
+            {
+              "id": "ccs-5",
+              "title": "留出空间给回应",
+              "instruction": "倾听完整的反馈，记住请求可以进行谈判或被拒绝。",
+              "durationSeconds": 25,
+              "phase": "finish",
+              "accessibilityCue": "倾听并留出空间给真实的反馈。"
+            }
+          ]
+        },
+        {
+          "id": "celos-masaje-manos",
+          "title": "手部自我按摩",
+          "summary": "让双手慢下来做一件事，同时与反复确认或指责的冲动拉开距离。",
+          "symbol": "hand.rays.fill",
+          "kind": "acupressure",
+          "evidence": "complementary",
+          "caution": "压力应舒适。避免发炎、受伤或失去感觉的地方。",
+          "steps": [
+            {
+              "id": "cmm-1",
+              "title": "打开双手",
+              "instruction": "支撑前臂，观察是否握住手机或紧张手指。",
+              "durationSeconds": 12,
+              "phase": "prepare",
+              "accessibilityCue": "放下手中的一切。"
+            },
+            {
+              "id": "cmm-2",
+              "title": "按摩",
+              "instruction": "用拇指慢慢沿着对手的掌心走动，然后换手。",
+              "durationSeconds": 30,
+              "phase": "press",
+              "accessibilityCue": "轻轻按摩掌心。"
+            },
+            {
+              "id": "cmm-3",
+              "title": "推迟检查",
+              "instruction": "将电话放在下面的位置，并决定你多久会等待询问或查看。",
+              "durationSeconds": 20,
+              "phase": "finish",
+              "accessibilityCue": "选择等待时间。"
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "celos-tip-telefono",
+          "title": "远离手机",
+          "detail": "让它远离你的视线几分钟，以免将情绪转化为过度警觉。"
+        },
+        {
+          "id": "celos-tip-alternativas",
+          "title": "写下三个可能的解释",
+          "detail": "包括至少一个中立的数据解释，即使尚未完全认同。"
+        },
+        {
+          "id": "celos-tip-recordatorio",
+          "title": "使用一个物体作为提醒",
+          "detail": "手镯或硬币可能意味着：“我先问；我不猜也不指责”。"
+        }
+      ],
+      "sources": [
+        {
+          "id": "who-matters",
+          "title": "压力时期，做重要的事",
+          "organization": "世界卫生组织",
+          "url": "https://www.who.int/publications/i/item/9789240003927",
+          "note": "摆脱精神故事、地面感、价值观和友善对待"
+        },
+        {
+          "id": "who-stress",
+          "title": "压力：问题解答",
+          "organization": "世界卫生组织",
+          "url": "https://www.who.int/news-room/questions-and-answers/item/stress",
+          "note": "承认压力并寻求支持，当它干扰关系时。"
+        }
+      ]
+    },
+    {
+      "id": "impulso-lamentable",
+      "title": "我有一股可能会后悔的冲动",
+      "subtitle": "想立刻发消息、购物、使用某种物质、破坏东西，或不经思考就行动",
+      "symbol": "exclamationmark.arrow.triangle.2.circlepath",
+      "palette": "slate",
+      "immediateExplanation": "强烈的冲动会产生紧迫感，并缩小行动或抵抗的选择。两者之间存在第三条途径：延迟，创造距离，并在决定之前观察其变化。",
+      "biologicalExplanation": "冲动是一种为行动做出的强烈准备，而不是不可避免的命令。威胁、情绪和奖励网络可以将行为标记为紧急，并把你所有的注意力都集中在立即获得解脱上。多巴胺信号参与了与某些选择相关的重要性和学习；它们不是一个可以单独控制你的决定的“快乐化学物质”。背景、习惯和学习的后果也起着影响。\n\n在压力、中毒或睡眠不足的情况下，抑制性控制通常效果较差，并很难同时保持今天、明天和下个月的后果。大脑将世界简化为“要么做，要么忍受”，尽管有更多选择。冲动的强度通常会上升、波动和下降，但并不遵循一个准确的时间表。\n\n拖延和增加物理距离会增加摩擦，当思考不足时。这段时间允许部分激活减少，执行网络再次代表后果和选择。观察感觉而不服从它练习了一种重要的学习：我可以感受到紧迫感并选择安全。如果冲动涉及伤害、过量服用、武器或危险驾驶，不要等它自行过去；远离媒体并立即激活帮助。",
+      "reassurance": "感受到冲动并不意味着选择它。你可以推迟决定，让安全的选择更容易在未来几分钟内实现。",
+      "searchTerms": [
+        "推动",
+        "紧急情况",
+        "信息",
+        "购买",
+        "消费",
+        "打破",
+        "下注",
+        "后悔",
+        "控制"
+      ],
+      "redFlags": [
+        "冲动涉及自杀、自我伤害、过量使用药物、攻击他人、使用武器、危险驾驶或引发火灾。",
+        "你已经服用了一种物质，开始了一项危险的行为，或者你不相信自己能停止。"
+      ],
+      "whenToSeekHelp": [
+        "如果存在任何即时风险，请远离媒体，寻求他人帮助并联系当地紧急服务或危机热线。",
+        "如果冲动频繁发生，导致债务、消费、受伤或损害关系。",
+        "如果出现情绪变化剧烈、睡眠不足或中毒。"
+      ],
+      "protocols": [
+        {
+          "id": "impulso-demora-distancia",
+          "title": "延迟并拉开距离",
+          "summary": "在冲动和行动之间增加时间和具体阻碍。",
+          "symbol": "pause.circle.fill",
+          "kind": "conflictPause",
+          "evidence": "supported",
+          "caution": "不要使用这个指南作为伤害或伤害他人的冲动唯一的回应。在这种情况下，立即寻求帮助，并不要独自一人。",
+          "steps": [
+            {
+              "id": "idd-1",
+              "title": "宣布延迟",
+              "instruction": "说：我不会在这十分钟内做出决定。推迟不等于永远否认。",
+              "durationSeconds": 15,
+              "phase": "prepare",
+              "accessibilityCue": "推迟决定十分钟。"
+            },
+            {
+              "id": "idd-2",
+              "title": "创造物理距离",
+              "instruction": "将物品、设备、卡片、物质或钥匙放在无法触及的地方，并改变空间。",
+              "durationSeconds": 30,
+              "phase": "move",
+              "accessibilityCue": "将你与行动的中间隔开"
+            },
+            {
+              "id": "idd-3",
+              "title": "添加一个障碍",
+              "instruction": "关闭应用程序，暂时阻止购买或交付给一个安全的人。",
+              "durationSeconds": 30,
+              "phase": "move",
+              "accessibilityCue": "添加一个实际障碍来阻碍冲动行动。"
+            },
+            {
+              "id": "idd-4",
+              "title": "告知他人。",
+              "instruction": "清晰地说：我有强烈的冲动，我需要你在我达到高峰时陪伴我。",
+              "durationSeconds": 25,
+              "phase": "reflect",
+              "accessibilityCue": "请求陪伴，同时降低紧急感"
+            },
+            {
+              "id": "idd-5",
+              "title": "检查后果",
+              "instruction": "当延误结束时，比较一下如果今天、明天和一个月后采取行动会发生什么。如果仍然危险，保持屏障并寻求帮助。",
+              "durationSeconds": 35,
+              "phase": "finish",
+              "accessibilityCue": "检查后果，然后再决定。"
+            }
+          ]
+        },
+        {
+          "id": "impulso-observar-ola",
+          "title": "观察冲动的浪潮",
+          "summary": "找到冲动在身体中的位置，观察它如何变化，而不立刻服从。",
+          "symbol": "water.waves",
+          "kind": "grounding",
+          "evidence": "promising",
+          "caution": "不要闭上眼睛，如果需要监控自己的安全。如果冲动危险或增加，停止练习并立即寻求帮助。",
+          "steps": [
+            {
+              "id": "ioo-1",
+              "title": "评分紧急程度",
+              "instruction": "从零到十的强度，你给它打分，不要试图得到一个确切的数字。",
+              "durationSeconds": 15,
+              "phase": "observe",
+              "accessibilityCue": "评估冲刺的近似强度。"
+            },
+            {
+              "id": "ioo-2",
+              "title": "找到",
+              "instruction": "注意表现于手的、下巴、胸部、腹部、腿部或其他部位的位置。",
+              "durationSeconds": 20,
+              "phase": "observe",
+              "accessibilityCue": "找到身体中的冲动感。"
+            },
+            {
+              "id": "ioo-3",
+              "title": "描述，而不是命令",
+              "instruction": "使用感官词汇，如压力、热量、运动或紧张，而不说我必须。",
+              "durationSeconds": 25,
+              "phase": "observe",
+              "accessibilityCue": "描述感觉而不将其转化为命令"
+            },
+            {
+              "id": "ioo-4",
+              "title": "观察变化。",
+              "instruction": "在下一分钟内，检查是否发生变化，即使只是稍微。",
+              "durationSeconds": 60,
+              "phase": "observe",
+              "accessibilityCue": "观察感觉在1分钟内如何变化。"
+            },
+            {
+              "id": "ioo-5",
+              "title": "选择安全的行为",
+              "instruction": "重新评分并选择一个与冲动不相容的替代方案：远离，打电话，与他人同行或保持距离。",
+              "durationSeconds": 30,
+              "phase": "finish",
+              "accessibilityCue": "选择一个与冲动不兼容的安全动作。"
+            }
+          ]
+        },
+        {
+          "id": "impulso-agua-fresca",
+          "title": "用凉水洗脸和手",
+          "summary": "用短暂的感官变化在行动前拉开距离，但不要使用极冷刺激。",
+          "symbol": "drop.fill",
+          "kind": "grounding",
+          "evidence": "promising",
+          "caution": "使用新鲜水，不要使用冰水；不要将脸部浸泡在水中或屏住呼吸。如果寒冷加重了疾病，请避免这样做。",
+          "steps": [
+            {
+              "id": "iaf-1",
+              "title": "创造距离",
+              "instruction": "将物品、应用程序或与冲动相关的地点移开，前往一个安全的洗手间。",
+              "durationSeconds": 12,
+              "phase": "prepare",
+              "accessibilityCue": "远离推动中心"
+            },
+            {
+              "id": "iaf-2",
+              "title": "使用新鲜的水",
+              "instruction": "将新鲜的水流过你的双手，如果舒服，轻轻地洒在脸颊上。",
+              "durationSeconds": 20,
+              "phase": "observe",
+              "accessibilityCue": "注意手和脸上的新鲜水。"
+            },
+            {
+              "id": "iaf-3",
+              "title": "保持屏障",
+              "instruction": "慢慢擦干并选择一个不相容的动作：打电话、步行或暂时锁定访问。",
+              "durationSeconds": 25,
+              "phase": "finish",
+              "accessibilityCue": "选择一个与冲动不兼容的安全动作。"
+            }
+          ]
+        }
+      ],
+      "practicalTips": [
+        {
+          "id": "impulso-tip-obstaculo",
+          "title": "添加一个实际障碍",
+          "detail": "将钥匙或卡片交还，结束会话或将物品移动到难以到达的地方。"
+        },
+        {
+          "id": "impulso-tip-sabor",
+          "title": "尝试一个安全的强烈味道",
+          "detail": "酸性饮料或香料可能会干扰自动驾驶；避免过敏和吞咽风险。"
+        },
+        {
+          "id": "impulso-tip-clave",
+          "title": "输入关键词",
+          "detail": "与他人达成共识，使用一个词来表示“现在不需要详细解释，但我需要陪伴”。"
+        }
+      ],
+      "sources": [
+        {
+          "id": "who-matters",
+          "title": "压力时期，做重要的事",
+          "organization": "世界卫生组织",
+          "url": "https://www.who.int/publications/i/item/9789240003927",
+          "note": "摆脱想法、地面感和受价值观引导的小动作"
+        },
+        {
+          "id": "who-stress-grounding",
+          "title": "处理压力",
+          "organization": "世界卫生组织",
+          "url": "https://www.emro.who.int/mhps/dealing_with_stress.html",
+          "note": "命名内在体验，减少活动并重新调整到环境。"
+        }
+      ]
+    }
+  ]
+}

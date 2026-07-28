@@ -1,0 +1,7 @@
+{
+"titulo": "Reject everything that disturbs your peace",
+"autor": "Yorj",
+"contenido": [
+"Refuse to listen to unpleasant conversations, whether internal or external. Refuse to listen to anything destructive. Close your mind to any sensation that threatens your inner peace. Build a wonderful world in the depths of your mind where there is only room for love. Tibetan Buddhist monks have an expression of neutrality impervious to all disturbance: \"Amitabha,\" which means \"Infinite Light.\" In this way, only love can enter."
+]
+}

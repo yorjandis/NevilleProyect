@@ -1,0 +1,935 @@
+id=gregg_001
+autor=gregg
+nota=
+fuente=Braden, G. (2007), Capítulo 1, La Matriz Divina, p. 22, New York: Hay House, Inc., ISBN: 978-1-4019-2177-4
+contexto=
+contexto_ids=
+texto=无论我们决定如何称呼这种神秘的“东西”，我们每个人都拥有它；而我们自身的这份能量，会与所有人的能量交融在一起，成为贯穿万物的能量场的一部分
+relacionadas=
+
+id=gregg_002
+autor=gregg
+nota=
+fuente=Braden, G. (2007), Capítulo 1, La Matriz Divina, p. 20, New York: Hay House, Inc., ISBN:978-1-4019-2177-4
+contexto=
+contexto_ids=
+texto=似乎我们离与地球、与我们的身体、与人类同胞以及与上帝的自然关系越远，我们就会变得越空虚。
+relacionadas=
+
+id=gregg_003
+autor=gregg
+nota=
+fuente=Braden, G. (2007), Introducción, La Matriz Divina, p. 10 , New York: Hay House, Inc., ISBN: 978-1-4019-2177-4
+contexto=
+contexto_ids=
+texto=现代科学发现，我们身体经历的每一种情绪都会经历化学变化，例如反映我们感受的 pH 值和激素。通过爱、同情和宽恕的“积极”体验，以及仇恨、判断和嫉妒的“消极”情绪，我们每个人都拥有在一天中的每时每刻肯定或否认自己存在的力量。
+relacionadas=
+
+id=gregg_004
+autor=gregg
+nota=
+fuente=Braden, G. (2007), Introducción, La Matriz Divina, p. 8 , New York: Hay House, Inc., ISBN: 978-1-4019-2177-4
+contexto=
+contexto_ids=
+texto=我们所看到的世界实际上是在更深层次的创造中发生的更真实的事情的投影。
+relacionadas=
+
+id=gregg_005
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+contexto_ids=
+texto=祷告不只是我们所做的事。祷告就是我们的本质
+relacionadas=
+
+id=gregg_006
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+contexto_ids=
+texto=如果这种感觉是祈祷，并且我们不断地感觉，那就意味着我们一直处于祈祷的状态。
+relacionadas=
+
+id=gregg_007
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+contexto_ids=
+texto=祝福可以被定义为一种思想、感觉或情感的品质，它使我们能够重新定义我们对现在或过去伤害我们的事物所怀有的感受。
+relacionadas=
+
+id=gregg_008
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+contexto_ids=
+texto=古老的传统指出，天上的天使和地上的天使之间的唯一区别是前者记得自己是天使。
+relacionadas=
+
+id=gregg_009
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+contexto_ids=
+texto=我们体内拥有与神圣矩阵连接所需的技术。这是通过脑心一致性来实现的。
+relacionadas=
+
+id=gregg_010
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+contexto_ids=
+texto=宽慰和渴望之间的微妙区别是区分请求和接受的力量。
+relacionadas=
+
+id=gregg_011
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+contexto_ids=
+texto=这种感觉就是祈祷，”这位西藏方丈说道，这符合美国原住民伟大导师的传统教义，也符合基督教和犹太教的传统。
+relacionadas=
+
+id=gregg_012
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+contexto_ids=
+texto=神圣矩阵是科学所描述的无限可能性的量子场。
+relacionadas=
+
+id=gregg_013
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+contexto_ids=
+texto=感觉是神的心智所识别的语言
+relacionadas=
+
+id=gregg_014
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+contexto_ids=
+texto=真正的祈祷是愿望已经实现的感觉。感受你想要体验的现实。深吸一口气，感受你的祈祷在每一个细节和形式上的圆满实现。然后，怀着感激之情，想想祈祷已经得到回应后你的生活会是什么样子。
+relacionadas=
+
+id=gregg_015
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+contexto_ids=
+texto=我转向我的朋友问：——如果你不求雨，你做了什么？ “这很简单，”他回答道。我开始感觉到雨了。我感受到了水落在我身上的感觉，以及赤脚站在我们城镇广场的泥泞中的感觉。我闻到了雨滴落在泥墙上的味道，也闻到了因为下大雨而胸口胀满地走过玉米地的兴奋。
+relacionadas=
+
+id=gregg_016
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+contexto_ids=
+texto=继续要求生产一些东西只会给我们想要改变的东西带来更大的力量——我的朋友说。当我们要求某件事发生时，我们就使它的缺失永久化。请求治愈的祈祷会给疾病带来更大的力量。祈雨的祈祷给干旱带来了力量……带着感觉祈求某件事发生，就是认识到我们的经验中缺乏它，量子场，然后，接收我们的意图并在我们的经验中产生这种缺乏。
+relacionadas=
+
+id=gregg_017
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=我们感受到的每一个想法和情感都有能力影响我们的现实。
+relacionadas=
+
+id=gregg_018
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=感恩是与矩阵联系的最强大的工具之一。
+relacionadas=
+
+id=gregg_019
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=不存在真正的分离：宇宙中的一切都是相互关联的。
+relacionadas=
+
+id=gregg_020
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=我们的情感是我们与宇宙场互动的语言。
+relacionadas=
+
+id=gregg_021
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=清晰的意图与连贯的情感相结合会激活现实的变化。
+relacionadas=
+
+id=gregg_022
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=微小的内部变化可以产生巨大的外部转变。
+relacionadas=
+
+id=gregg_023
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=培养爱和慈悲的状态不仅影响我们的生活，也影响我们的集体生活。
+relacionadas=
+
+id=gregg_024
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=我们专注的意识共同创造了我们所经历的现实。
+relacionadas=
+
+id=gregg_025
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=现在、过去和未来在矩阵中交织在一起。
+relacionadas=
+
+id=gregg_026
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=治愈过去的经历可以改变对现在和可能的未来的看法。
+relacionadas=
+
+id=gregg_027
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=用真实的情感来想象我们想要的东西，将现实印在矩阵上。
+relacionadas=
+
+id=gregg_028
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=感觉好像我们已经拥有了我们想要的东西比仅仅思考它更强大。
+relacionadas=
+
+id=gregg_029
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=头脑和心灵之间的一致性放大了我们意图的效果。
+relacionadas=
+
+id=gregg_030
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=冥想有助于使我们的意识与宇宙能量保持一致。
+relacionadas=
+
+id=gregg_031
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=每一种持续的负面情绪都会限制我们进入矩阵。
+relacionadas=
+
+id=gregg_032
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=分离的感觉只是一种幻觉；在内心深处，一切都是一。
+relacionadas=
+
+id=gregg_033
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=当我们专注于解决方案而不是问题时，就会激活来自场域的创造性回应。
+relacionadas=
+
+id=gregg_034
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=重复的想法充当矩阵解释和响应的信号。
+relacionadas=
+
+id=gregg_035
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=意图的力量并不取决于欲望的大小，而是取决于伴随它的清晰度和情感。
+relacionadas=
+
+id=gregg_036
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=真正的转变始于我们内部，然后才反映到外部。
+relacionadas=
+
+id=gregg_037
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=培养信任和耐心可以加强与矩阵的联系。
+relacionadas=
+
+id=gregg_038
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=我们的感知可以限制或扩展我们对现实的体验。
+relacionadas=
+
+id=gregg_039
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=出于同情心采取行动会产生超越直接和可见的影响。
+relacionadas=
+
+id=gregg_040
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=每时每刻都是将思想、心灵和精神与宇宙场域保持一致的机会。
+relacionadas=
+
+id=gregg_041
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=与矩阵的联系不需要复杂的公式，只需要存在和内在的连贯性。
+relacionadas=
+
+id=gregg_042
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=当我们的情绪和思想一致时，我们的现实就会改变得更快。
+relacionadas=
+
+id=gregg_043
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=能量场比我们的言语更能反应我们真实的感受。
+relacionadas=
+
+id=gregg_044
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=照顾我们的内心世界与我们的外在行为同样重要。
+relacionadas=
+
+id=gregg_045
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=矩阵反映了我们一贯持有的能量模式。
+relacionadas=
+
+id=gregg_046
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=在收到东西之前表达感激之情会激活宇宙场的积极反应。
+relacionadas=
+
+id=gregg_047
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=当我们改变感知和内部振动时，我们的环境就会改变。
+relacionadas=
+
+id=gregg_048
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=没有情感的意图力量较弱；无意识的情绪可以消散。
+relacionadas=
+
+id=gregg_049
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=每一个有意识的行动都让我们更接近与我们的愿望相符的现实体验。
+relacionadas=
+
+id=gregg_050
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=内部一致性就像一块磁铁，吸引与我们愿景一致的环境。
+relacionadas=
+
+id=gregg_051
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=我们深刻的感受比我们肤浅的想法对现实的影响更大。
+relacionadas=
+
+id=gregg_052
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=当我们协调意图、情感和行动时，我们就打开了通往以前不可想象的可能性的大门。
+relacionadas=
+
+id=gregg_053
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=每天练习存在和感恩可以加强我们与宇宙场的联系。
+relacionadas=
+
+id=gregg_054
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=改变我们的内心世界会自动改变我们体验生活的方式。
+relacionadas=
+
+id=gregg_055
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=每一个连贯的思想和情感就像一颗种子种在矩阵中，在我们的现实中成长。
+relacionadas=
+
+id=gregg_056
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=真正的韧性不是抵制变化，而是有意识地通过变化进行转变。
+relacionadas=
+
+id=gregg_057
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=心灵有它自己的智慧，它比纯粹的理性思维更能清晰地指导我们。
+relacionadas=
+
+id=gregg_058
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=当头脑和心灵保持一致时，我们的决定就会变得更加平衡和有效。
+relacionadas=
+
+id=gregg_059
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=心脏一致性可以减轻压力，让您平静地应对生活，而不是恐惧。
+relacionadas=
+
+id=gregg_060
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=情绪不是弱点，而是心灵用来引导我们的信号。
+relacionadas=
+
+id=gregg_061
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=韧性始于观察我们的反应而不认同它们的能力。
+relacionadas=
+
+id=gregg_062
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=当我们学会倾听而不是自动服从时，恐惧就会减弱。
+relacionadas=
+
+id=gregg_063
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=有意识的呼吸是恢复心脏和大脑之间一致性的直接工具。
+relacionadas=
+
+id=gregg_064
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=适应变化是一种可训练的技能，而不是一种固定的人格特质。
+relacionadas=
+
+id=gregg_065
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=当我们选择将挑战视为学习机会时，希望就会产生。
+relacionadas=
+
+id=gregg_066
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=心灵对真实性的反应比对极端自我要求的反应更好。
+relacionadas=
+
+id=gregg_067
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=当我们了解自己的极限并尊重它们时，个人的适应力就会增强。
+relacionadas=
+
+id=gregg_068
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=危机揭示了稳定时期隐藏的内部模式。
+relacionadas=
+
+id=gregg_069
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=来自场域的回应，比仓促的反应更有力量。
+relacionadas=
+
+id=gregg_070
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=韧性是建立在日常的小决定中的，而不仅仅是重大事件中。
+relacionadas=
+
+id=gregg_071
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=身体是检测我们何时处于一致或内部冲突的基本盟友。
+relacionadas=
+
+id=gregg_072
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=情绪灵活性使您能够在不失去个人身份的情况下进行适应。
+relacionadas=
+
+id=gregg_073
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=人际关系增强了个人和集体的适应力。
+relacionadas=
+
+id=gregg_074
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=持续学习是弹性系统的基本特征。
+relacionadas=
+
+id=gregg_075
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=当我们停止与现状作斗争时，内心的清晰度就会出现。
+relacionadas=
+
+id=gregg_076
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=韧性并不能消除痛苦，但可以防止痛苦变成长期的痛苦。
+relacionadas=
+
+id=gregg_077
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=情绪平衡是与我们的思想有意识的关系的结果。
+relacionadas=
+
+id=gregg_078
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=倾听内心的声音让我们的行为符合我们最深层的价值观。
+relacionadas=
+
+id=gregg_079
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=当我们接受不确定性作为生活的自然组成部分时，韧性就会增强。
+relacionadas=
+
+id=gregg_080
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=随心而活是一种日常实践，可以增强我们的适应能力和理解力。
+relacionadas=
+
+id=gregg_081
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=人类并不是他自己的不完整版本，而是具有被遗忘的内在能力的生命的功能齐全的表达。
+relacionadas=
+
+id=gregg_082
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=真正的人类进化并不包括在身体上增加技术，而是恢复思想、心灵和生物之间的一致性。
+relacionadas=
+
+id=gregg_083
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=我们的思想和情绪直接影响基因表达和身体的健康。
+relacionadas=
+
+id=gregg_084
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=心脏作为智力中枢，协调大脑，调节神经系统的平衡。
+relacionadas=
+
+id=gregg_085
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=情绪不是偶然的反应，而是旨在引导和保护我们的生物信号。
+relacionadas=
+
+id=gregg_086
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=情绪的连贯性创造了促进恢复力、思维清晰度和康复的内部状态。
+relacionadas=
+
+id=gregg_087
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=当我们的生活与自然生物节律脱节时，就会产生慢性压力。
+relacionadas=
+
+id=gregg_088
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=人类生物学对体验的情感意义的反应比对外部事件本身的反应更大。
+relacionadas=
+
+id=gregg_089
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=有意识地感受高涨的情绪是积极影响我们的身心状态的一种方式。
+relacionadas=
+
+id=gregg_090
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=直觉是智力的一种合法形式，产生于身体、情感和心灵的整合。
+relacionadas=
+
+id=gregg_091
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=将我们的内部决策委托给外部系统会削弱我们的生物和情感自主权。
+relacionadas=
+
+id=gregg_092
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=技术必须是人类有意识的延伸，而不是人类内在感知的替代品。
+relacionadas=
+
+id=gregg_093
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=人体有一种深刻的记忆，可以对安全感、平静感和归属感做出反应。
+relacionadas=
+
+id=gregg_094
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=我们的想法和感受之间的一致性是平衡生活的关键。
+relacionadas=
+
+id=gregg_095
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=真正的人的力量来自于情感的融合，而不是来自于情感的压抑。
+relacionadas=
+
+id=gregg_096
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=生活在持续受到威胁的状态下会改变生物学并限制我们的创造潜力。
+relacionadas=
+
+id=gregg_097
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=当心和脑协调一致时，决策就会变得更清晰、更有效。
+relacionadas=
+
+id=gregg_098
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=持续的感激之情是引发生物一致性的最简单、最有效的方法之一。
+relacionadas=
+
+id=gregg_099
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=当人类感到安全、被看见和有联系时，就会进行自我调节。
+relacionadas=
+
+id=gregg_100
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=当我们停止活在反应之中，并开始从临在中作出选择时，有意识的进化便开始了。
+relacionadas=
+
+id=gregg_101
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=健康不仅是指没有疾病，而且是一种整体协调的状态。
+relacionadas=
+
+id=gregg_102
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=记住我们是谁比试图成为其他人更具变革性。
+relacionadas=
+
+id=gregg_103
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=意识应用于日常生活是人类技术的最高形式。
+relacionadas=
+
+id=gregg_104
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=成为纯粹的人，意味着从一致性、情感责任和内在连接中生活。
+relacionadas=

@@ -1,0 +1,728 @@
+id=salud_001
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Deep breathing for two minutes a day reduces stress and improves mental clarity
+relacionadas=
+
+id=salud_002
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Walking after meals helps regulate glucose and improves digestion
+relacionadas=
+
+id=salud_003
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Going to sleep at the same time every night strengthens your circadian rhythm and daily energy
+relacionadas=
+
+id=salud_004
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Drinking water when you wake up activates your metabolism and supports natural detoxification
+relacionadas=
+
+id=salud_005
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Reducing ultra-processed foods improves mood and gut health
+relacionadas=
+
+id=salud_006
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Getting morning sunlight improves sleep and hormone production
+relacionadas=
+
+id=salud_007
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Practicing daily gratitude strengthens emotional health and reduces anxiety
+relacionadas=
+
+id=salud_008
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Strength training twice a week protects muscles and bones over the long term
+relacionadas=
+
+id=salud_009
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Eating slowly improves satiety and your relationship with food
+relacionadas=
+
+id=salud_010
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Disconnecting from your phone before bed supports deeper rest
+relacionadas=
+
+id=salud_011
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Contact with nature lowers cortisol and improves overall well-being
+relacionadas=
+
+id=salud_012
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Listening to your body helps avoid overtraining and prevents injuries
+relacionadas=
+
+id=salud_013
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Healthy social relationships are key to longevity
+relacionadas=
+
+id=salud_014
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Including protein in every meal helps maintain muscle mass as the years go by
+relacionadas=
+
+id=salud_015
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Meditating for five minutes a day improves focus and emotional regulation
+relacionadas=
+
+id=salud_016
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Avoiding screens during meals improves mindful digestion
+relacionadas=
+
+id=salud_017
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=A 12-hour overnight fast supports metabolic health
+relacionadas=
+
+id=salud_018
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Writing down your thoughts reduces mental load and clarifies emotions
+relacionadas=
+
+id=salud_019
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Good posture prevents pain and improves breathing
+relacionadas=
+
+id=salud_020
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Rest is as important as exercise for making progress
+relacionadas=
+
+id=salud_021
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Reducing added sugar supports steadier energy throughout the day
+relacionadas=
+
+id=salud_022
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Stretching when you wake up activates the body and reduces stiffness
+relacionadas=
+
+id=salud_023
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Saying no at the right time is also emotional self-care
+relacionadas=
+
+id=salud_024
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Nasal breathing improves oxygenation and calms the nervous system
+relacionadas=
+
+id=salud_025
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Eating real food nourishes you more than counting calories
+relacionadas=
+
+id=salud_026
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Consistency beats perfection in healthy habits
+relacionadas=
+
+id=salud_027
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Listening to relaxing music reduces accumulated mental tension
+relacionadas=
+
+id=salud_028
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Staying curious and learning protects cognitive health
+relacionadas=
+
+id=salud_029
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=A light dinner supports more restorative sleep
+relacionadas=
+
+id=salud_030
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Laughing often strengthens the immune system and lifts your mood
+relacionadas=
+
+id=salud_031
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=External order reduces internal mental noise
+relacionadas=
+
+id=salud_032
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Good hydration improves skin and cognitive function
+relacionadas=
+
+id=salud_033
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Practicing conscious silence helps regulate intense emotions
+relacionadas=
+
+id=salud_034
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Emotional flexibility makes it easier to adapt to change
+relacionadas=
+
+id=salud_035
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Prioritizing yourself is not selfish; it is whole-person health
+relacionadas=
+
+id=salud_036
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=A clean environment supports mental clarity and well-being
+relacionadas=
+
+id=salud_037
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Moving every hour reduces the impact of a sedentary lifestyle
+relacionadas=
+
+id=salud_038
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Slow breathing before bed improves sleep quality
+relacionadas=
+
+id=salud_039
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Listening to emotions helps prevent them from showing up as physical symptoms
+relacionadas=
+
+id=salud_040
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Investing in health today means gaining quality years tomorrow
+relacionadas=
+
+id=salud_041
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Eating enough fiber improves the gut microbiota
+relacionadas=
+
+id=salud_042
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Calm is a skill that is trained daily
+relacionadas=
+
+id=salud_043
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Fewer external stimuli support greater inner connection
+relacionadas=
+
+id=salud_044
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Resting well improves decisions, mood, and productivity
+relacionadas=
+
+id=salud_045
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Mental health is built through small daily habits
+relacionadas=
+
+id=salud_046
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Choosing simple foods reduces silent inflammation
+relacionadas=
+
+id=salud_047
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Conscious breathing is an anchor in stressful moments
+relacionadas=
+
+id=salud_048
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Caring for your energy is as important as caring for your time
+relacionadas=
+
+id=salud_049
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Longevity is based on sustainable habits, not extremes
+relacionadas=
+
+id=salud_050
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Listening to yourself each day is the foundation of holistic health
+relacionadas=
+
+id=salud_051
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Eating fermented foods supports a diverse gut microbiota
+relacionadas=
+
+id=salud_052
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=A variety of vegetables feeds different beneficial bacteria
+relacionadas=
+
+id=salud_053
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Soluble fiber improves digestive and metabolic health
+relacionadas=
+
+id=salud_054
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Eating real food reduces the inflammatory burden on the gut
+relacionadas=
+
+id=salud_055
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=A healthy microbiota directly influences mood
+relacionadas=
+
+id=salud_056
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Chewing well makes digestion and nutrient absorption easier
+relacionadas=
+
+id=salud_057
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Avoiding rushed meals protects gut health
+relacionadas=
+
+id=salud_058
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Properly prepared legumes nourish the microbiota
+relacionadas=
+
+id=salud_059
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Reducing artificial sweeteners supports bacterial balance
+relacionadas=
+
+id=salud_060
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=A healthy gut improves the immune response
+relacionadas=
+
+id=salud_061
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Including healthy fats supports the intestinal barrier
+relacionadas=
+
+id=salud_062
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Plant polyphenols feed protective bacteria
+relacionadas=
+
+id=salud_063
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=A balanced microbiota improves insulin sensitivity
+relacionadas=
+
+id=salud_064
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Excess alcohol disrupts the gut flora
+relacionadas=
+
+id=salud_065
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Eating regularly supports digestive rhythm
+relacionadas=
+
+id=salud_066
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Whole fruits are more beneficial than juices
+relacionadas=
+
+id=salud_067
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The microbiota participates in neurotransmitter production
+relacionadas=
+
+id=salud_068
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Reducing ultra-processed foods supports beneficial bacteria
+relacionadas=
+
+id=salud_069
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Mindful eating improves your relationship with food
+relacionadas=
+
+id=salud_070
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=A balanced gut reduces systemic inflammation
+relacionadas=
+
+id=salud_071
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Prebiotic foods nourish key intestinal bacteria
+relacionadas=
+
+id=salud_072
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Chronic stress negatively affects the microbiota
+relacionadas=
+
+id=salud_073
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=A simple diet makes daily digestion easier
+relacionadas=
+
+id=salud_074
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The microbiota adapts to what you eat frequently
+relacionadas=
+
+id=salud_075
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Avoiding late meals improves digestive rest
+relacionadas=
+
+id=salud_076
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Fresh foods support greater bacterial diversity
+relacionadas=
+
+id=salud_077
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Gut health influences mental clarity
+relacionadas=
+
+id=salud_078
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Listening to hunger signals improves eating habits
+relacionadas=
+
+id=salud_079
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=A cared-for microbiota supports healthy longevity
+relacionadas=
+
+id=salud_080
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Dietary consistency is key to a healthy gut
+relacionadas=
+
+id=salud_081
+autor=salud
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Whoever controls their dopamine controls their attention. Whoever controls their attention controls their life
+relacionadas=

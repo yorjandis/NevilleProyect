@@ -1,0 +1,48 @@
+Quantum entanglement, in physics, is a phenomenon where two particles share a state in such a way that a change in one instantly affects the other, regardless of the distance that separates them. Translating this directly to neuroscience is complex because the brain works at macroscopic and classical scales, not quantum, but conceptual analogies can be made to understand certain phenomena of neuronal connectivity and synchronization. I explain it to you step by step:
+
+
+
+🟢 Neural interconnection and synchronization
+
+In the brain, neurons do not function in isolation; They form very dense networks where the activity of one neuron can influence many others. This is observed, for example, in the synchronization of brain waves:
+    • Gamma waves (~30-100 Hz) are associated with attention and consciousness processes. Neurons in different regions of the brain can synchronize on these waves to process information coherently.
+    • In a sense, this synchronization reflects a functional “instant connection”: although not quantum, the state of one neuronal population is correlated with another.
+
+Analogy with entanglement: the activity of distant neuronal groups can be correlated without direct interaction at that instant, similar to how entangled particles maintain instantaneous correlations.
+
+
+
+🟢 Parallel and non-local processing
+
+The brain can process information in a distributed manner. For example:
+    • The perception of an object simultaneously involves the visual cortex, the parietal cortex and the temporal cortex.
+    • Changing information in one region can change global perception immediately.
+
+This resembles entanglement non-localism, where the state of one particle affects the state of another even though they are separated.
+
+
+
+🟢 Microtubule potentials and quantum theories
+
+Some researchers, such as Stuart Hameroff and Roger Penrose with the Orch OR theory, have proposed that microtubules within neurons could maintain coherent quantum states:
+    • These states could influence neuronal function at a macroscopic level.
+    • Quantum entanglement, if it occurred, would be a mechanism to synchronize information at the subneuronal level, faster and more efficient than classical synaptic signaling.
+
+Note: This theory is very controversial and there is no conclusive evidence that the brain actually uses quantum entanglement functionally.
+
+
+
+🟢 Practical conceptual example
+
+Imagine that two brain regions “A” and “B” are involved in recognizing a face:
+    • Classic: The signal travels from A to B through synapses and axons.
+    • Analogous to entanglement: A and B show highly correlated patterns of activity. If A is activated with a specific pattern, B instantly reflects a corresponding pattern, even before the physical signal fully arrives, thanks to the synchronization of networks and oscillations.
+
+Here it is not true quantum entanglement, but the instantaneous functional connection is analogous.
+
+
+
+🟢 In summary, from neuroscience, quantum entanglement can be used as a metaphor for:
+    1. Instantaneous functional correlation between brain regions.
+    2. Synchronization of remote neural networks.
+    3. Potential role of coherent subneural states (hypothetical) to integrate global information.

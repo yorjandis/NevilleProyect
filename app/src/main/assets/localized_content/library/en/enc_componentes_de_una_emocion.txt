@@ -1,0 +1,52 @@
+Primitive (automatic) and Conscious Components of an emotion.
+
+🟢 Primitive component: the bodily basis of emotion
+
+When we experience an emotion, the brain first activates rapid, automatic mechanisms that prepare the body to act. This includes:
+    • Autonomous Nervous System (ANS):
+    • Sympathetic → activates the “fight or flight” response: increases heart rate, dilates pupils, increases sweating, redistributes blood flow to muscles.
+    • Parasympathetic → regulates recovery and relaxation, decreases heart rate, promotes digestion.
+    • Release of hormones and peptides:
+    • Adrenaline and norepinephrine → increase energy and alertness.
+    • Cortisol → regulates stress and glucose availability.
+    • Oxytocin and endorphins → modulate pleasure, confidence and well-being.
+
+The important thing: These responses occur before we are aware of the emotion and are universal. That's why, for example, when faced with a sudden scare, our heart races even before we think “I'm scared.”
+    • This component is “primitive” because:
+    1. It is present in almost all vertebrates.
+    2. It is fast and automatic, no reasoning required.
+    3. It is the physical basis of what we later interpret as emotional sensation.
+
+
+
+🟢 Conscious component: cognitive interpretation
+
+Once these body signals are produced, the brain interprets them:
+    • Interoception: regions such as the insula and somatosensory cortex receive information from organs, muscles, and blood vessels about the internal state of the body.
+    • Cognitive evaluation: The prefrontal cortex and other areas integrate context, memory, and meaning. For example:
+    • If the heart beats fast and I am in a forest, I can interpret “I am afraid.”
+    • If my heart beats fast and I am running, I can interpret “I am exercising.”
+    • Result: conscious emotion arises from the combination of the body signal + contextual interpretation.
+
+This explains phenomena such as the James-Lange theory, which proposes that we feel the emotion because we perceive changes in the body, and the Schachter-Singer theory, which says that we need a cognitive interpretation of that bodily activation to label the emotion.
+
+
+
+🟢 How both components are integrated
+
+You can imagine emotion as a dialogue between body and brain:
+    1. Body sends automatic signals: heart rate, tension, hormones, sweat.
+    2. Brain receives these signals, evaluates the context, and produces the conscious experience of the emotion.
+    3. Feedback: Mindful interpretation can modulate the body's response (e.g., mindful breathing to calm anxiety).
+
+    • Practical example:
+    • You are in front of a snake → your heart races and adrenaline (primitive component) is released.
+    • Then your brain evaluates: “is it poisonous or is it a toy?” → the final emotion can be intense fear or mild surprise (cognitive component).
+
+
+
+🟢 Conclusion
+    • Emotions are hybrid:
+    • Primitive: automatic, universal, mediated by ANS and hormones.
+    • Cognitive: interpretive, conscious, influenced by experience and context.
+    • This integration allows the body to prepare the organism to act quickly, while the mind adjusts the emotion to the real situation, avoiding exaggerated or inappropriate responses.

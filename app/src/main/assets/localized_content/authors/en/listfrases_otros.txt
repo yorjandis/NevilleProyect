@@ -1,0 +1,144 @@
+id=otros_001
+autor=Rumi
+nota=
+fuente=
+contexto=Mind-body unity
+contexto_ids=Unidad mente-cuerpo
+texto=Blessing is what liberates
+Beyond ideas of right and wrong, there is a field. I will meet you there
+relacionadas=
+
+id=otros_002
+autor=Jalil Gibran
+nota=
+fuente=
+contexto=Mind-body unity
+contexto_ids=Unidad mente-cuerpo
+texto=Beyond ideas of right and wrong, there is a field. I will meet you there
+relacionadas=
+
+id=otros_003
+autor=Santa Catalina de Siena
+nota=
+fuente=
+contexto=Mind-body unity
+contexto_ids=Unidad mente-cuerpo
+texto=The force that created unimaginable splendors and inconceivable horrors has taken refuge within us, and it will follow our commands
+relacionadas=
+
+id=otros_004
+autor=Max Planck
+nota=Premio Nobel de Física de 1918. Para Neville, la conciencia es Dios, y todo surge de ella
+fuente=
+contexto=
+contexto_ids=
+texto=I regard consciousness as fundamental. I regard matter as derived from consciousness
+relacionadas=
+
+id=otros_005
+autor=Max Planck
+nota=Premio Nobel de Física de 1918
+fuente=
+contexto=
+contexto_ids=
+texto=For people of faith, God is at the beginning; for scientists, He is at the end of all their reflections
+relacionadas=
+
+id=otros_006
+autor=William James
+nota=filósofo y psicólogo estadounidense.Neville hablaba de la ley de la asunción: aquello que asumes como verdadero, aunque no lo veas, termina objetivándose
+fuente=
+contexto=
+contexto_ids=
+texto=Belief creates the fact
+relacionadas=
+
+id=otros_007
+autor=Max Planck
+nota=Premio Nobel de Física de 1918
+fuente=
+contexto=
+contexto_ids=
+texto=Science is the progressive approximation of humanity to the real world
+relacionadas=
+
+id=otros_008
+autor=Carl Gustav Jung
+nota=Médico psiquiatra, psicólogo y ensayista suizo
+fuente=
+contexto=
+contexto_ids=
+texto=Until you make the unconscious conscious, it will direct your life and you will call it fate
+relacionadas=
+
+id=otros_009
+autor=David Bohm
+nota=Físico estadounidense que hizo importantes contribuciones en los campos de la física teórica, la epistemología y la neuropsicología
+fuente=
+contexto=
+contexto_ids=
+texto=Mind and matter are not separate realities
+relacionadas=
+
+id=otros_010
+autor=Nikola Tesla
+nota=Inventor e ingeniero serbio nacionalizado estadounidense. Neville decía: “La imaginación es el taller de Dios.” Tesla literalmente construía sus inventos primero en la imaginación
+fuente=
+contexto=
+contexto_ids=
+texto=Everything I can imagine, I can create
+relacionadas=
+
+id=otros_011
+autor=Richard Feynman
+nota=Físico teórico estadounidense​​​. La realidad no es neutral: responde a la expectativa del observador, exactamente como Neville enseñaba
+fuente=
+contexto=
+contexto_ids=
+texto=What we believe deeply influences what we observe
+relacionadas=
+
+id=otros_012
+autor=Albert Einstein
+nota=(Físico teórico. Formulador de la Teoría de la Relatividad)Si se mantienen los mismos pensamientos y actitudes, se seguirán obteniendo los mismos resultados
+fuente=
+contexto=
+contexto_ids=
+texto=We cannot solve a problem by using the same thinking that created it
+relacionadas=
+
+id=otros_013
+autor=James Jeans
+nota=Físico, 1930
+fuente=
+contexto=
+contexto_ids=
+texto=The stream of knowledge is moving toward a non-mechanical reality in which the universe begins to look more like a great thought than a great machine
+relacionadas=
+
+id=otros_014
+autor=James Jeans
+nota=Físico, 1930
+fuente=
+contexto=
+contexto_ids=
+texto=Mind no longer appears to be an accidental intruder in the realm of matter... we must see it as the creator and governor of the realm of matter
+relacionadas=
+
+id=otros_015
+autor=Arthur Eddington
+nota=Físico, 1930
+fuente=
+contexto=
+contexto_ids=
+texto=Physicists today find it very difficult to accept the idea that mind is the substratum of all that exists...
+relacionadas=
+
+id=otros_016
+autor=Albert Einstein
+nota=(Físico teórico. Formulador de la Teoría de la Relatividad)
+fuente=
+contexto=
+contexto_ids=
+texto=The field is what governs and directs the behavior of matter
+relacionadas=

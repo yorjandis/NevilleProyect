@@ -1,0 +1,42 @@
+Interoception and emotions
+
+Interoception is the perception of the body's internal signals: heart rate, breathing, muscle tension, temperature, digestion, etc.
+    • These signals come from organs, muscles, blood vessels and nervous systems such as the enteric or the intrinsic heart.
+    • The brain (mainly the insula, somatosensory cortex, and prefrontal cortex) receives this information and continuously integrates it.
+
+This integration provides the brain with a dynamic “map” of the internal state of the body, on which the emotional experience is built.
+
+
+
+2️⃣ Cognitive interpretation of the body state
+    • The brain does not receive ready emotions, but rather physical and chemical signals: adrenaline, cortisol, muscle tension, etc.
+    • Conscious emotion arises when the brain interprets these signals within a context.
+    • Example: increased heart rate
+    • Context = job interview → interpretation = anxiety or nervousness
+    • Context = sports match → interpretation = excitement or enthusiasm
+    • This explains why the same physiological activation can produce different emotions depending on the situation.
+
+
+
+3️⃣ Body context and emotional response
+    • The “body context” includes all the physiological signals that indicate how the body is at this moment:
+    • State of sympathetic/parasympathetic activation
+    • Circulating hormones
+    • Muscular and visceral sensations
+    • Emotion is the interpretation of these signals: it is not simply the chemical signal, but the reading that the brain makes of them in relation to the situation.
+
+Complete example:
+    • You are walking and your heart races:
+    1. Body signal → high heart rate, rapid breathing.
+    2. Interoception → the brain perceives these internal signals.
+    3. Context → you hear a roar behind you.
+    4. Interpretation → “I'm afraid!” → the conscious emotion of fear arises.
+
+If instead of a roar you were running towards a goal, the same heart rate would be interpreted as enthusiasm or excitement, not fear.
+
+
+
+Conclusion
+    • The emotion is emergent, not simply chemical nor just cerebral: it arises from the cognitive interpretation of the internal state of the body.
+    • Interoception is the key, because it allows the brain to “read” how the body is at all times.
+    • The bodily and external context determines how that emotion is labeled and experienced.

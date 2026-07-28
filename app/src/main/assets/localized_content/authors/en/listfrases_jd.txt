@@ -1,0 +1,2708 @@
+id=jd_001
+autor=jd
+nota=
+fuente=
+contexto=Mind-body unity
+contexto_ids=context:unidad%20mente-cuerpo
+texto=The final product of an experience in three-dimensional reality is an emotion
+relacionadas=
+
+id=jd_002
+autor=jd
+nota=
+fuente=
+contexto=Mind-body unity
+contexto_ids=context:unidad%20mente-cuerpo
+texto=It is the environment that causes the disease, activating the genes that produce changes in the body
+relacionadas=
+
+id=jd_003
+autor=jd
+nota=
+fuente=
+contexto=Consciousness / mind as the primary cause,Mind-body unity
+contexto_ids=context:la%20conciencia%20%2F%20mente%20como%20causa%20primaria,context:unidad%20mente-cuerpo
+texto=Thoughts are the language of the brain and feelings are the language of the body. And how you think and feel determines your state of being. Your state of being determines your experiences and objective reality
+relacionadas=
+
+id=jd_004
+autor=jd
+nota=
+fuente=
+contexto=Breaking mental and emotional habits
+contexto_ids=context:ruptura%20de%20h%C3%A1bitos%20mentales%20y%20emocionales
+texto=Nothing changes in your life until you change
+relacionadas=
+
+id=jd_005
+autor=jd
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=We cannot attract anything into our lives that we feel separated from.
+relacionadas=
+
+id=jd_006
+autor=jd
+nota=
+fuente=
+contexto=Emotion or feeling as the activating force,Persistence and conscious repetition
+contexto_ids=context:la%20emoci%C3%B3n%20o%20el%20sentimiento%20como%20fuerza%20activadora,context:persistencia%20y%20repetici%C3%B3n%20consciente
+texto=When you overcome your emotions you dominate your creations
+relacionadas=
+
+id=jd_007
+autor=jd
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=It's not about what you want but who you become
+relacionadas=
+
+id=jd_008
+autor=jd
+nota=
+fuente=
+contexto=Identity and self-concept
+contexto_ids=context:identidad%20y%20auto-concepto
+texto=We don't see things as they are but as we are
+relacionadas=
+
+id=jd_009
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every time you interrupt an automatic pattern, you create space for choice.
+relacionadas=
+
+id=jd_010
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Visualizing your future in detail changes the way your brain acts today.
+relacionadas=
+
+id=jd_011
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Change does not require willpower, but conscious repetition.
+relacionadas=
+
+id=jd_012
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Your habits do not define you; your attention yes.
+relacionadas=
+
+id=jd_013
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Each conscious breath is a training for your mind.
+relacionadas=
+
+id=jd_014
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Feel success before you see it materialize and your brain will begin to create it.
+relacionadas=
+
+id=jd_015
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Gratitude is a chemical shortcut to elevated internal states.
+relacionadas=
+
+id=jd_016
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Autopilot only takes over when you stop observing.
+relacionadas=
+
+id=jd_017
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The identity you have today is the reflection of thoughts repeated yesterday.
+relacionadas=
+
+id=jd_018
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=To change your reality, first change the emotion that accompanies it.
+relacionadas=
+
+id=jd_019
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Don't wait for external circumstances; transform your world from within.
+relacionadas=
+
+id=jd_020
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Each disrupted mental habit opens a path for new neural connections.
+relacionadas=
+
+id=jd_021
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Repeating a positive thought strengthens the circuits that support your inner peace.
+relacionadas=
+
+id=jd_022
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The body always responds to the mind, not the other way around.
+relacionadas=
+
+id=jd_023
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=To observe without reacting is to train the mind for freedom.
+relacionadas=
+
+id=jd_024
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every day you choose consciousness is a day you reprogram your brain.
+relacionadas=
+
+id=jd_025
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Visualizing a goal without emotion is just imagination; adding feeling makes it real.
+relacionadas=
+
+id=jd_026
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=True transformation begins when you decide not to be a slave to the past.
+relacionadas=
+
+id=jd_027
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Deep change is consistent, patient and emotionally coherent.
+relacionadas=
+
+id=jd_028
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Your brain doesn't distinguish between what you imagine and what you experience.
+relacionadas=
+
+id=jd_029
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Stopping a negative thought is planting the seed of a positive pattern.
+relacionadas=
+
+id=jd_030
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every small conscious act creates big long-term changes.
+relacionadas=
+
+id=jd_031
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=You are not your emotions, you are the one who observes and directs them.
+relacionadas=
+
+id=jd_032
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=When you act like the person you want to be, your brain learns to follow you.
+relacionadas=
+
+id=jd_033
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Repeated stress strengthens old connections; sustained calm creates new ones.
+relacionadas=
+
+id=jd_034
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The secret is not to eliminate thoughts, but to redirect them.
+relacionadas=
+
+id=jd_035
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every mindful habit you practice is an investment in your mental future.
+relacionadas=
+
+id=jd_036
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The repetition of conscious actions turns learning into positive automatism.
+relacionadas=
+
+id=jd_037
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The more present you are, the less your past will control your future.
+relacionadas=
+
+id=jd_038
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Meditation is not escape, it is brain training.
+relacionadas=
+
+id=jd_039
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Your current identity is a reflection of the story your mind continues to tell.
+relacionadas=
+
+id=jd_040
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Creating a positive emotion is as powerful as changing a habit.
+relacionadas=
+
+id=jd_041
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every moment of mindfulness is a brick in the construction of your new mind.
+relacionadas=
+
+id=jd_042
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Clear intention + high emotion = effective neural change.
+relacionadas=
+
+id=jd_043
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Mental discipline is cultivating inner freedom.
+relacionadas=
+
+id=jd_044
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Your brain learns more from what you feel than what you think.
+relacionadas=
+
+id=jd_045
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Reprogramming your mind is a conscious act of self-love.
+relacionadas=
+
+id=jd_046
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Sustained emotions create chemistry; Sustained chemistry creates habits.
+relacionadas=
+
+id=jd_047
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=You don't change because you want to change, you change because you train your brain every day.
+relacionadas=
+
+id=jd_048
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Each detailed visualization acts as a rehearsal for your future reality.
+relacionadas=
+
+id=jd_049
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The present is the only tool you have to change your brain.
+relacionadas=
+
+id=jd_050
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=To observe a pattern without reacting is to deactivate its power over you.
+relacionadas=
+
+id=jd_051
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Profound mental change requires repetition, consistency and patience.
+relacionadas=
+
+id=jd_052
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Being aware of your thoughts is taking the helm of your life.
+relacionadas=
+
+id=jd_053
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Emotion consistent with your intention is the fuel of transformation.
+relacionadas=
+
+id=jd_054
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every habit you consciously choose redefines who you are.
+relacionadas=
+
+id=jd_055
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=When your mind and body work together, you create powerful internal states.
+relacionadas=
+
+id=jd_056
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The brain learns by experience; Give yourself experiences of success and calm.
+relacionadas=
+
+id=jd_057
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Your future is not predetermined, it is the sum of the thoughts you choose today.
+relacionadas=
+
+id=jd_058
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=We don't see things as they are but as we are.
+relacionadas=
+
+id=jd_059
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every thought you repeat becomes a habit that defines who you are.
+relacionadas=
+
+id=jd_060
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Observing your emotions without judging them allows you to free yourself from automatic patterns.
+relacionadas=
+
+id=jd_061
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Real change begins when you consciously decide to stop being your old self.
+relacionadas=
+
+id=jd_062
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Neuroplasticity shows that your brain can rewire itself if you repeat new thoughts.
+relacionadas=
+
+id=jd_063
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Visualizing your best version helps align you with the person you want to be.
+relacionadas=
+
+id=jd_064
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every heightened emotion you feel strengthens the patterns of your new self.
+relacionadas=
+
+id=jd_065
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Meditation is not relaxation, it is a tool to reprogram your mind and body.
+relacionadas=
+
+id=jd_066
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Being present in every action prevents the past from determining your future.
+relacionadas=
+
+id=jd_067
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Your emotional habits are the force that maintains your current identity.
+relacionadas=
+
+id=jd_068
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The first step towards a new you is simply to notice when you act automatically.
+relacionadas=
+
+id=jd_069
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The quantum field represents all the possibilities of who you can become.
+relacionadas=
+
+id=jd_070
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Feeling the emotion of your desired self causes your brain and body to begin to align.
+relacionadas=
+
+id=jd_071
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Repeating positive thoughts with emotion creates new neural connections.
+relacionadas=
+
+id=jd_072
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every time you choose a conscious reaction, you strengthen your personal power.
+relacionadas=
+
+id=jd_073
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Breaking patterns requires observing the past without letting it control your present.
+relacionadas=
+
+id=jd_074
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The subconscious mind stores the habits you repeat, positive or negative.
+relacionadas=
+
+id=jd_075
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Visualizing desired behaviors prepares the body to act differently.
+relacionadas=
+
+id=jd_076
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every conscious thought is a seed that can change your identity.
+relacionadas=
+
+id=jd_077
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Emotion is the energy that gives life to your new mental patterns.
+relacionadas=
+
+id=jd_078
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Noticing your automatic reactions allows you to choose another, more coherent response.
+relacionadas=
+
+id=jd_079
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every time you act as your new self, you strengthen that identity in your brain and body.
+relacionadas=
+
+id=jd_080
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Change doesn't happen just by thinking, but by feeling and acting like your best version.
+relacionadas=
+
+id=jd_081
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Breaking old habits requires awareness and constant repetition.
+relacionadas=
+
+id=jd_082
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Your body remembers even before your mind notices; change it through new emotions.
+relacionadas=
+
+id=jd_083
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=When you choose high emotions, you begin to reprogram old reaction patterns.
+relacionadas=
+
+id=jd_084
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The daily repetition of new thoughts and emotions consolidates the new identity.
+relacionadas=
+
+id=jd_085
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=You are not your memories or your past emotions; you can choose your present state.
+relacionadas=
+
+id=jd_086
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Meditation opens the door to changing patterns that seemed unalterable.
+relacionadas=
+
+id=jd_087
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Observing your body and breathing anchors you in the present and reduces automatic reactions.
+relacionadas=
+
+id=jd_088
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Conscious goal-directed intention creates coherence between mind and body.
+relacionadas=
+
+id=jd_089
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Visualizing results without emotion is less effective than feeling them as real.
+relacionadas=
+
+id=jd_090
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Emotional freedom is achieved by observing without reacting and choosing new responses.
+relacionadas=
+
+id=jd_091
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every old habit you interrupt opens space for new possibilities.
+relacionadas=
+
+id=jd_092
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Deep change combines conscious thought, heightened emotion, and coherent action.
+relacionadas=
+
+id=jd_093
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=By modifying your internal state, you transform your external experience.
+relacionadas=
+
+id=jd_094
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The constant practice of presence and meditation reprograms the mind and body.
+relacionadas=
+
+id=jd_095
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=When you feel gratitude, your brain connects to patterns of well-being and abundance.
+relacionadas=
+
+id=jd_096
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Each negative thought observed without reacting loses power over you.
+relacionadas=
+
+id=jd_097
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Creating new emotional habits is the key to changing your identity.
+relacionadas=
+
+id=jd_098
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The past only has power if you bring it to the present; observe it and release it.
+relacionadas=
+
+id=jd_099
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The new you is strengthened every time you act as if it already exists.
+relacionadas=
+
+id=jd_100
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Meditating on your best version every day accelerates personal transformation.
+relacionadas=
+
+id=jd_101
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Each repeated emotion becomes a pattern that conditions your biology.
+relacionadas=
+
+id=jd_102
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Clear intention is the first step to aligning mind and body with your new self.
+relacionadas=
+
+id=jd_103
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Acting consciously breaks autopilot and reinforces the chosen identity.
+relacionadas=
+
+id=jd_104
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Visualizing your ideal life from the present generates real changes in your behavior.
+relacionadas=
+
+id=jd_105
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Observing without reacting strengthens the power of choice and reduces negative patterns.
+relacionadas=
+
+id=jd_106
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every day that you act like your new self, it becomes your default state.
+relacionadas=
+
+id=jd_107
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Thoughts repeated with emotion are seeds that create your future reality.
+relacionadas=
+
+id=jd_108
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Permanent change happens when you live it internally, not just mentally.
+relacionadas=
+
+id=jd_109
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The body remembers the emotion more than the intention; feel your new self to consolidate it.
+relacionadas=
+
+id=jd_110
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Daily practice of heightened awareness and emotion rewires the mind and biology.
+relacionadas=
+
+id=jd_111
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=When you consciously choose, the past stops defining your present.
+relacionadas=
+
+id=jd_112
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The power to change lies in each present moment where you choose differently.
+relacionadas=
+
+id=jd_113
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every emotional and mental habit can be transformed if you repeat it with intention and feeling.
+relacionadas=
+
+id=jd_114
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The new you manifests when your thought, emotion and action are aligned.
+relacionadas=
+
+id=jd_115
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Profound change is not instantaneous, but it is inevitable with constant practice.
+relacionadas=
+
+id=jd_116
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Observing and feeling are the tools that allow us to reprogram unconscious habits.
+relacionadas=
+
+id=jd_117
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Your future identity begins in the present when you act from your best version.
+relacionadas=
+
+id=jd_118
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every time you consciously choose, you reinforce freedom over your life and emotions.
+relacionadas=
+
+id=jd_119
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The habit of observing and feeling your new identity strengthens your physical and mental existence.
+relacionadas=
+
+id=jd_120
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Personal transformation is achieved day by day, thought by thought, emotion by emotion.
+relacionadas=
+
+id=jd_121
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every thought you choose to repeat daily has the power to shape your biology.
+relacionadas=
+
+id=jd_122
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Your body responds to the emotions you experience most frequently; If you choose high emotions, your internal chemistry changes.
+relacionadas=
+
+id=jd_123
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=You are not your past: your mental habits can change and create a new version of yourself.
+relacionadas=
+
+id=jd_124
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Visualize your intention as if it were already real and accompany it with elevated emotion so that your body accepts it.
+relacionadas=
+
+id=jd_125
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Observing your thoughts without judgment allows you to interrupt limiting automatic patterns.
+relacionadas=
+
+id=jd_126
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Daily sustained gratitude transforms your body chemistry and strengthens your immune system.
+relacionadas=
+
+id=jd_127
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Each automatic reaction is an opportunity to consciously choose a new response.
+relacionadas=
+
+id=jd_128
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Your internal beliefs have the power to turn your gene expression on or off.
+relacionadas=
+
+id=jd_129
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The first step to change is to notice the patterns that keep you the same.
+relacionadas=
+
+id=jd_130
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=You don't need to wait for external changes: your mind can be the placebo that transforms your life.
+relacionadas=
+
+id=jd_131
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=If your thoughts can make you sick, they can also heal you.
+relacionadas=
+
+id=jd_132
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Repeating a positive thought accompanied by emotion creates new neural connections.
+relacionadas=
+
+id=jd_133
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Your brain doesn't distinguish between what you imagine and what you actually experience.
+relacionadas=
+
+id=jd_134
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Changing your internal chemistry starts with changing your thoughts and emotions.
+relacionadas=
+
+id=jd_135
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Each sustained emotion generates a physiological response that can make you sick or healthy.
+relacionadas=
+
+id=jd_136
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=When you observe your mental patterns, you discover what habits you want to transform.
+relacionadas=
+
+id=jd_137
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The conscious and unconscious minds can work together to create your new reality.
+relacionadas=
+
+id=jd_138
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Visualizing with detail and emotion prepares the body to accept the change as real.
+relacionadas=
+
+id=jd_139
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Being aware of your breathing calms the nervous system and opens space for transformation.
+relacionadas=
+
+id=jd_140
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Repeated stress keeps your body in a chemical state that limits health.
+relacionadas=
+
+id=jd_141
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Choosing high emotions daily reprograms your hormonal system and improves your well-being.
+relacionadas=
+
+id=jd_142
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every time you choose a conscious response, you interrupt an automatic pattern from your past.
+relacionadas=
+
+id=jd_143
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Real transformation is not thinking differently, but feeling differently in a sustained way.
+relacionadas=
+
+id=jd_144
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Sustained gratitude and joy change brain chemistry and strengthen the immune system.
+relacionadas=
+
+id=jd_145
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=By practicing meditation, you create a space where the mind and body can reprogram themselves.
+relacionadas=
+
+id=jd_146
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Each emotionally intense visualization leaves an “imprint” on your brain and cells.
+relacionadas=
+
+id=jd_147
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=You are not your automatic emotions; You can choose which one to hold and which to let go.
+relacionadas=
+
+id=jd_148
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Your clear intention directs the energy of your mind and body toward the desired change.
+relacionadas=
+
+id=jd_149
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Observing how you react to stress allows you to respond calmly and coherently.
+relacionadas=
+
+id=jd_150
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Changing mental habits requires conscious repetition and associated emotion.
+relacionadas=
+
+id=jd_151
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every thought you repeat generates neural connections that strengthen that pattern.
+relacionadas=
+
+id=jd_152
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The body acts according to the emotions it experiences and not only according to the orders of the mind.
+relacionadas=
+
+id=jd_153
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Practicing mindfulness allows you to notice automatic habits and replace them with others.
+relacionadas=
+
+id=jd_154
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Visualizing your ideal state of health activates self-healing mechanisms in your body.
+relacionadas=
+
+id=jd_155
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The profound change occurs when you feel your new identity as if it were already real.
+relacionadas=
+
+id=jd_156
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Don't underestimate the power of a thought accompanied by sustained positive emotion.
+relacionadas=
+
+id=jd_157
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Your mind can be the most powerful tool for your physical and emotional well-being.
+relacionadas=
+
+id=jd_158
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Each repeated emotional pattern leaves its mark on your biology; changing it requires active awareness.
+relacionadas=
+
+id=jd_159
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The daily practice of meditation and visualization reinforces the creation of new neural networks.
+relacionadas=
+
+id=jd_160
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=When you choose emotion over thought, you change your internal chemistry immediately.
+relacionadas=
+
+id=jd_161
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Each conscious response is a step towards creating your new identity.
+relacionadas=
+
+id=jd_162
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Observing your mental habits allows your brain to rewire itself into positive patterns.
+relacionadas=
+
+id=jd_163
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The body learns from what you feel more than what you think; Sustained emotion is key.
+relacionadas=
+
+id=jd_164
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every time you allow yourself to feel gratitude for no external reason, your mind and body harmonize.
+relacionadas=
+
+id=jd_165
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=True change requires more feeling than thinking; feel it as if it were already real.
+relacionadas=
+
+id=jd_166
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Mental reprogramming does not happen overnight, but with sustained daily practice.
+relacionadas=
+
+id=jd_167
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=When you consciously choose emotions and thoughts, your body interprets them as reality.
+relacionadas=
+
+id=jd_168
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The conscious repetition of new mental habits strengthens neuroplasticity.
+relacionadas=
+
+id=jd_169
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every time you interrupt an automatic pattern, you create space for transformation.
+relacionadas=
+
+id=jd_170
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Visualizing your ideal health and well-being activates physiological processes that support that reality.
+relacionadas=
+
+id=jd_171
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Each elevated emotion sustained for several minutes changes brain chemistry.
+relacionadas=
+
+id=jd_172
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Observing repetitive thoughts allows you to choose which ones to strengthen and which to let go.
+relacionadas=
+
+id=jd_173
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=When you act as your new identity, you train the body to respond differently.
+relacionadas=
+
+id=jd_174
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every moment of consciousness is an opportunity to reprogram your mind and your biology.
+relacionadas=
+
+id=jd_175
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The body responds to sustained emotion rather than thought intention; feel it as real.
+relacionadas=
+
+id=jd_176
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every day you observe, feel and consciously choose brings you closer to your transformation.
+relacionadas=
+
+id=jd_177
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=When you choose gratitude and joy as habits, your body releases health-promoting chemicals.
+relacionadas=
+
+id=jd_178
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Visualizing your goals with detail and emotion prepares your brain to achieve them.
+relacionadas=
+
+id=jd_179
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Changing a mental pattern requires replacing it with another repeated one with sustained emotion.
+relacionadas=
+
+id=jd_180
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The mind is the most powerful tool you have to influence your biology.
+relacionadas=
+
+id=jd_181
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The habit of observing without reacting strengthens your capacity for conscious choice.
+relacionadas=
+
+id=jd_182
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Each repeated visualization leaves an imprint on your brain, bringing you closer to your new state.
+relacionadas=
+
+id=jd_183
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=When you choose emotions that support your intention, your body adapts to that new reality.
+relacionadas=
+
+id=jd_184
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Each thought held with emotion creates a “program” that your body interprets as real.
+relacionadas=
+
+id=jd_185
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Real change is a process of feeling different for long enough to rewire your biology.
+relacionadas=
+
+id=jd_186
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The constant practice of meditation and visualization strengthens mind-body coherence.
+relacionadas=
+
+id=jd_187
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Your body aligns with the emotion you choose to hold, not just what you think.
+relacionadas=
+
+id=jd_188
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every thought, emotion and visualization is a seed that can germinate in your biology.
+relacionadas=
+
+id=jd_189
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Consciously choosing your daily emotions is the fastest way to reprogram your body and mind.
+relacionadas=
+
+id=jd_190
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every day you practice mindfulness, gratitude, and visualization, you become your own placebo.
+relacionadas=
+
+id=jd_191
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every thought you choose to hold creates a chemistry that shapes your body and your reality.
+relacionadas=
+
+id=jd_192
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=By feeling elevated emotions like gratitude and love, your body aligns with new possibilities.
+relacionadas=
+
+id=jd_193
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Breaking automatic mental patterns allows you to access your creative and transformative potential.
+relacionadas=
+
+id=jd_194
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Visualizing your desired future with detail and emotion activates neuroplasticity and opens new opportunities.
+relacionadas=
+
+id=jd_195
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The coherence between mind and heart generates an energy field that facilitates extraordinary changes.
+relacionadas=
+
+id=jd_196
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Each conscious meditation is an act of neuronal reprogramming that strengthens positive habits.
+relacionadas=
+
+id=jd_197
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Feeling that your goal has already been achieved is more powerful than simply imagining it.
+relacionadas=
+
+id=jd_198
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=When you change your internal energy, you begin to transform your external experience.
+relacionadas=
+
+id=jd_199
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Being observant of your emotions allows you to free yourself from limiting automatic responses.
+relacionadas=
+
+id=jd_200
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The daily practice of meditation and visualization consolidates new ways of being and living.
+relacionadas=
+
+id=jd_201
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every heightened emotion you feel acts like a magnet that attracts similar experiences.
+relacionadas=
+
+id=jd_202
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The future begins in the present when you focus your mind and heart on what you want to create.
+relacionadas=
+
+id=jd_203
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=By changing your subconscious beliefs, you reconfigure your biology and your destiny.
+relacionadas=
+
+id=jd_204
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Constant gratitude raises your vibration and opens the way to previously unimaginable possibilities.
+relacionadas=
+
+id=jd_205
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Observing your thoughts without judging them is the first step to freeing yourself from limiting patterns.
+relacionadas=
+
+id=jd_206
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The conscious mind is powerful, but the subconscious mind governs most of your decisions.
+relacionadas=
+
+id=jd_207
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every cell in your body responds to the energy you project with your thoughts and emotions.
+relacionadas=
+
+id=jd_208
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Visualizing a state of perfect health can activate the body's natural ability to regenerate.
+relacionadas=
+
+id=jd_209
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Personal transformation requires combining clear intention, heightened emotion, and consistent practice.
+relacionadas=
+
+id=jd_210
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=When you focus on what you want to be, the universe begins to rearrange itself to make it possible.
+relacionadas=
+
+id=jd_211
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Stress and anxiety are energetic habits; They can be replaced with calm and clarity through meditation.
+relacionadas=
+
+id=jd_212
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every small conscious change you make adds up and transforms your life in the long run.
+relacionadas=
+
+id=jd_213
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=By imagining and feeling your future, you not only visualize, but you reprogram your biology to achieve it.
+relacionadas=
+
+id=jd_214
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Cardiac and cerebral coherence generates an energy field that enhances the manifestation of objectives.
+relacionadas=
+
+id=jd_215
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Stopping automatically reacting to stimuli frees up space for creativity and personal freedom.
+relacionadas=
+
+id=jd_216
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Old mental habits can be replaced with new, more powerful thoughts and emotions.
+relacionadas=
+
+id=jd_217
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The power to change your life is in the ability to maintain the vision and emotion of what you want.
+relacionadas=
+
+id=jd_218
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Each deep meditation strengthens the connection between mind and body, promoting well-being and transformation.
+relacionadas=
+
+id=jd_219
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The universe responds to the energy you radiate, not just your conscious words or actions.
+relacionadas=
+
+id=jd_220
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=By feeling your goal as already achieved, your nervous system begins to act in coherence with it.
+relacionadas=
+
+id=jd_221
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Each repeated thought becomes a neural pattern that conditions your daily reality.
+relacionadas=
+
+id=jd_222
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=By focusing on what you want to be, rather than what you fear, you unleash the power of transformation.
+relacionadas=
+
+id=jd_223
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The daily practice of feeling elevated emotions prepares the body to receive the extraordinary.
+relacionadas=
+
+id=jd_224
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Being aware of your energy and thoughts allows you to break inherited limiting habits.
+relacionadas=
+
+id=jd_225
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Visualization is not fantasy; It is a training of the mind and biology towards a possible future.
+relacionadas=
+
+id=jd_226
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The time and energy you spend creating internally determines the external results you experience.
+relacionadas=
+
+id=jd_227
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Each prolonged negative emotion alters your body chemistry and limits your potential.
+relacionadas=
+
+id=jd_228
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=By practicing deep gratitude, your mind and body enter a state of optimal coherence.
+relacionadas=
+
+id=jd_229
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The power to create the extraordinary lies in the conscious repetition of elevated thoughts and emotions.
+relacionadas=
+
+id=jd_230
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Witnessing your life without attachment allows you to consciously choose the energy you desire to project.
+relacionadas=
+
+id=jd_231
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=By imagining your best version, you begin to generate changes in your biology that make it possible.
+relacionadas=
+
+id=jd_232
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=True change occurs when you combine clear intention, heightened emotion, and consistent practice.
+relacionadas=
+
+id=jd_233
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every cell in your body responds to the energy you project through your thoughts and emotions.
+relacionadas=
+
+id=jd_234
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Mindfulness allows you to identify limiting patterns and replace them with conscious habits.
+relacionadas=
+
+id=jd_235
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=By feeling gratitude for your future before it happens, your nervous system begins to align with it.
+relacionadas=
+
+id=jd_236
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=An open mind and a connected heart create a broader field of possibilities than limited logic.
+relacionadas=
+
+id=jd_237
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=As you change your perception of your internal reality, the external conditions you experience change.
+relacionadas=
+
+id=jd_238
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Each meditation focused on elevated emotions strengthens the connection between brain, heart and body.
+relacionadas=
+
+id=jd_239
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Stress and anxiety can be reduced by transforming automatic thoughts into conscious intentions.
+relacionadas=
+
+id=jd_240
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=By imagining positive outcomes and feeling them, you prepare your biology to make them come true.
+relacionadas=
+
+id=jd_241
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Consciously repeating thoughts and heightened emotions creates long-lasting new neural circuits.
+relacionadas=
+
+id=jd_242
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The coherent heart and mind generate energy that transforms everyday life into extraordinary life.
+relacionadas=
+
+id=jd_243
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Observing your emotions without judging them allows you to free yourself from old patterns that limit you.
+relacionadas=
+
+id=jd_244
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=By feeling gratitude and love in the present, you attract circumstances that reflect those emotions.
+relacionadas=
+
+id=jd_245
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Each positive mental habit practiced consistently strengthens the ability to manifest what is desired.
+relacionadas=
+
+id=jd_246
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Visualizing concrete results with detail and emotion is more powerful than just thinking about them.
+relacionadas=
+
+id=jd_247
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The energy you radiate determines the opportunities and relationships that arise in your life.
+relacionadas=
+
+id=jd_248
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=By focusing your mind and heart on what you want to create, your body begins to act cohesively.
+relacionadas=
+
+id=jd_249
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Real change does not come from willpower, but from the transformation of internal energy.
+relacionadas=
+
+id=jd_250
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Each deep, conscious meditation strengthens your mind's ability to manifest the extraordinary.
+relacionadas=
+
+id=jd_251
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The power to create your life is in the daily repetition of thoughts and emotions that reflect your desired future.
+relacionadas=
+
+id=jd_252
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Observing your mental habits allows you to consciously choose those that uplift and empower you.
+relacionadas=
+
+id=jd_253
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=By feeling that you are already the version you want to be, your biology adapts to that new reality.
+relacionadas=
+
+id=jd_254
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Conscious practice transforms the mind, body and everyday life into a space of creation.
+relacionadas=
+
+id=jd_255
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Each elevated emotion you choose to feel acts like a magnet that attracts similar experiences into your life.
+relacionadas=
+
+id=jd_256
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The coherent mind and heart generate an energy field that enhances the manifestation of the extraordinary.
+relacionadas=
+
+id=jd_257
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Observing your thoughts and emotions without attachment allows you to free yourself from patterns that limit your potential.
+relacionadas=
+
+id=jd_258
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=By imagining and feeling your desired future, you begin to reprogram your biology toward that reality.
+relacionadas=
+
+id=jd_259
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The discipline of daily meditation strengthens your mind's ability to create deep, lasting changes.
+relacionadas=
+
+id=jd_260
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Every thought and emotion you consciously choose contributes to manifesting a healthier, more fulfilling future.
+relacionadas=
+
+id=jd_261
+autor=jd
+nota=Si también puedo emocionarme por un evento futuro y esto es un acto creativo ¿Como puede decirse que una emoción es un registro del pasado?
+fuente=
+contexto=
+contexto_ids=
+texto=Emotion is a record of the past
+relacionadas=
+
+id=jd_262
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Most people are addicted to the emotions that stem from stress hormones. This addiction keeps you tied to your past and prevents you from focusing on your present and future.
+relacionadas=
+
+id=jd_263
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The emotions of anger, aggression, hatred, jealousy and envy, and insecurity, fear, anxiety, worry, vigilance, hopelessness, helplessness, guilt, shame, worthlessness, lack of importance and control, competition, derive from and are driven by stress hormones.
+relacionadas=
+
+id=jd_264
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=When you change your thoughts and feelings you stop signaling the same genes that are defining your current physical condition; and you begin to activate other genes in tune with that new state of being. Remember, genes are not the primary cause of your state of health, it is the environment that activates/deactivates genes that ultimately produce changes in the body. But the environment only has an effect through your particular reaction to that environment. So it is your internal reactions (thoughts + feelings) that turn genes on/off.
+relacionadas=
+
+id=jd_265
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Forgiveness is simply ending the emotion that binds you to a past experience. Once the emotion is gone, what remains is wisdom. Memory without the emotional baggage is called wisdom. And when you get over the emotion you no longer pay attention to your past.
+relacionadas=
+
+id=jd_266
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=There are genes dependent on the same experiences. When you stop having the same experiences you stop pointing to the same genes and that must cause a change in your body. Genes produce proteins that are responsible for the structure and function of your body.
+relacionadas=
+
+id=jd_267
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Feel gratitude, feel joy, feel inspiration, feel love. These are the feelings that we must create, since they automatically free us from the chains of the past and activate the genes of balance, happiness and longevity.
+relacionadas=
+
+id=jd_268
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=A belief is just a thought that you keep thinking over and over again, until it becomes fixed, automatic connections in your brain.
+relacionadas=
+
+id=jd_269
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Rehearsing the behavior installs circuits in your brain
+relacionadas=
+
+id=jd_270
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Continue feeling the emotion of the future and stop feeling that of the past, this will activate new circuits in your brain while you will attract the new reality to your present experience.
+relacionadas=
+
+id=jd_271
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=If you are feeling the feelings of your future as if it has already happened, you will not be looking for it. You only look for it when you feel like it hasn't happened. When it has already happened, you no longer seek it, which means you are not separated. That's when people had very powerful changes
+relacionadas=
+
+id=jd_272
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The gamma wave of the brain corresponds to the state of superconsciousness. This is achieved with cardiac and cerebral coherence
+relacionadas=
+
+id=jd_273
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=A thought is a pattern of neuronal activation and triggers the release of physiological responses in the body
+relacionadas=
+
+id=jd_274
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Where you put your attention you put your energy. If your attention is focused on problems, feelings and experiences from the past, you are giving away your energy and you cannot create from the past.
+relacionadas=
+
+id=jd_275
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=If you are not thinking and analyzing, you are slowing down your brain waves. This creates a state of natural relaxation
+relacionadas=
+
+id=jd_276
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The first step is to become aware of your unconscious thoughts. This way you stop your automatic reactions to life and allow yourself to observe yourself and change your thought patterns.
+relacionadas=
+
+id=jd_277
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=There is an elegant moment where you go from being someone to being nobody, from something to nothing, from somewhere to nowhere, from some time to no time, that is the moment when you become pure consciousness. That is the moment when you are no longer aware of the three-dimensional world because you have no attention on it.
+relacionadas=
+
+id=jd_278
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The probability that we are seeing the truth of reality is zero. We only observe in a small range of the immense spectrum of light and our observation is always based on our particular interpretation of that reality.
+relacionadas=
+
+id=jd_279
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=We found that if I push a person beyond the point where they normally stop, their comfort limit, the brain changes more. This is when they have their biggest changes
+relacionadas=
+
+id=jd_280
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Thoughts are the electrical charge in the quantum field and feelings are the magnetic charge in the quantum field and how you think and how you feel emit an electromagnetic signature that influences every atom of your life.
+relacionadas=
+
+id=jd_281
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The intentional thought sends an electrical signal to the quantum field and the feeling is the magnetic field that attracts the event back to you.
+relacionadas=
+
+id=jd_282
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Anything that controls the way we think and feel makes us a victim of it.
+relacionadas=
+
+id=jd_283
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Most people are unconsciously responding to the conditions of their environment, experiencing emotions that stem from stress hormones. Which makes us victims of the conditions that surround us. Make the conscious resolution to observe yourself and change your automatic reactions, capturing the moment of vulnerability and choosing a conscious response.
+relacionadas=
+
+id=jd_284
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=When you focus on an event or experience associated with a high emotional charge, the brain freezes the frame and takes a snapshot, associated with the emotion, and that is long-term memory. A brain circuit has been created that not only retains the memory of the experience but also causes the chemical release that recalls the feeling of the experience or memory.
+relacionadas=
+
+id=jd_285
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The creative act only needs a thought and an emotion, a stimulus and a response to bring an experience from the past or future to the present.
+relacionadas=
+
+id=jd_286
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Research shows that the long-term effects of stress hormones are pushing genetic buttons that are creating disease
+relacionadas=
+
+id=jd_287
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=A sustained, emotionally charged thought pattern maintained over time can modulate the neuroendocrine and immunological environment of the organism, favoring or hindering the appearance and evolution of pathological states.
+relacionadas=
+
+id=jd_288
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=If you can teach your body what your future feels like, before it manifests, you are giving it an emotional preview and your body, because it is so objective, will not see the difference between the emotion that the real experience produces and the emotion that you are producing just by thinking.
+relacionadas=
+
+id=jd_289
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The family past is what is known emotionally. The predictable future is the room of the autopilot, the unconscious self and the programs. They are both known. There is only one place where the unknown exists, which is the present moment.
+relacionadas=
+
+id=jd_290
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=If you can get your body to relax in the present moment and not be worried about what's going to happen next or what's going on around you, or why you need to eat, you need to pee, you need to move, you've overcome all your urges and you're ready to create.
+relacionadas=
+
+id=jd_291
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The coherent Alpha states of the brain correspond to the state of creation. In that state the brain suppresses the default mode network and the next thing that happens is that you start to see in photos and images, you start to dream and that is imagination. That is the creative state
+relacionadas=
+
+id=jd_292
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Emotion is energy and energy is frequency and frequency carries information. A thought and a feeling carry energy and information from your intention to the quantum field
+relacionadas=
+
+id=jd_293
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=When oxytocin is released, it filters into the amygdala in the brain and turns off or decreases the circuits that produce fear emotions. anxiety and insecurity, anger, pain and suffering
+relacionadas=
+
+id=jd_294
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=We see reality using pattern recognition. I memorize your face, now I know that person. And if the pattern matches, I know I am in the presence of that person.
+relacionadas=
+
+id=jd_295
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=The universe only gives us what we believe we are worthy of receiving.
+relacionadas=
+
+id=jd_296
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=All creation in three-dimensional reality takes time and energy. If you are creating from a state of lack, for example you see the car and you desire it, the manifestation can occur but it may take a long time to achieve it. On the other hand, if you are creating from a state of absolute consciousness, where you remove your attention from physical reality and time, then you accelerate manifestation because you are now the creative vortex and things will fall into your experience according to your feeling and intention.
+relacionadas=
+
+id=jd_297
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=You have to get into the habit of being emotionally connected to the future you want. You have to fall in love with that future
+relacionadas=
+
+id=jd_298
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Each thought has a frequency and that frequency, in the form of chemicals, is stored in the body (in your second center).
+relacionadas=
+
+id=jd_299
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=Neuroscience principle: Neurons that fire together connect stronger
+relacionadas=
+
+id=jd_300
+autor=jd
+nota=
+fuente=
+contexto=
+contexto_ids=
+texto=If you continue thinking the same way your life will stay the same and you will continue having the same experiences. The same thoughts generate the same chemicals that produce the same feelings and emotions. If you want your life to change you have to change the way you think and react.
+relacionadas=
+
+id=jd_301
+autor=jd
+nota=Tu cerebro es un registro del pasado. Si cada vez que te levantas por las mañanas traes a la mente los mismos pensamientos, y sentimientos asociados, entonces vives en el pasado y tendrás un futuro predecible. Decir Yo Soy o yo estoy es condicionar el tu futuro a un destino predecible.
+fuente= Serie La Fórmula, cap.5
+contexto=
+contexto_ids=
+texto=Every time you say I am, you are giving an order to your mind and your body towards a destiny.
+relacionadas=

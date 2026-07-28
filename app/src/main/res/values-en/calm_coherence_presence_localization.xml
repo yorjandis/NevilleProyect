@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="calm_title">Calm Space</string>
+  <string name="calm_background_content_description">Calm background</string>
+  <string name="calm_tap_sphere_hint">Tap a sphere to release its phrase.</string>
+  <string name="calm_particles">Particles</string>
+  <string name="calm_spheres">Spheres</string>
+  <string name="calm_fireflies">Fireflies</string>
+  <string name="calm_spheres_fireflies">Spheres + Fireflies</string>
+  <string name="calm_phrase_source">Phrase source</string>
+  <string name="calm_included_phrases">Included</string>
+  <string name="calm_personal_phrases">Personal</string>
+  <string name="calm_included_personal_phrases">Included + Personal</string>
+  <string name="calm_manage_personal_phrases">Manage personal phrases</string>
+  <string name="calm_sphere_count">Spheres: %1$d</string>
+  <string name="calm_firefly_count">Fireflies: %1$d</string>
+  <string name="calm_release_speed">Release speed: %1$d</string>
+  <string name="calm_background_music">Background music</string>
+  <string name="calm_keep_screen_on">Keep screen on</string>
+  <string name="calm_fixed_background">Fixed background</string>
+  <string name="calm_no_background">No background</string>
+  <string name="calm_random_masculine">Random</string>
+  <string name="calm_fixed_music">Fixed music</string>
+  <string name="calm_no_music">No music</string>
+  <string name="calm_random_feminine">Random</string>
+  <string name="calm_phrases_manager_title">Personal Calm Phrases</string>
+  <string name="calm_phrases_manager_intro">Create, edit, and delete phrases that can appear inside Calm Space particles.</string>
+  <string name="calm_new_phrase">New phrase</string>
+  <string name="calm_phrase_example">Example: I breathe and return to my center.</string>
+  <string name="calm_add">Add</string>
+  <string name="calm_no_personal_phrases">You do not have any personal phrases yet.</string>
+  <string name="calm_edit_phrase">Edit phrase</string>
+  <string name="calm_delete_phrase">Delete phrase</string>
+  <string name="calm_delete_phrase_question">Are you sure you want to delete this personal phrase?</string>
+  <string name="calm_enter_valid_phrase">Enter a valid phrase</string>
+  <string name="calm_phrase_empty">The phrase cannot be empty</string>
+  <string name="calm_phrase_exists">That phrase already exists</string>
+  <string name="calm_phrase_save_error">The phrase could not be saved</string>
+  <string name="calm_phrase_update_error">The phrase could not be updated</string>
+  <string name="calm_backgrounds_manager_title">Calm Space Backgrounds</string>
+  <string name="calm_add_files">Add from Files</string>
+  <string name="calm_add_gallery">Add from Gallery</string>
+  <string name="calm_no_custom_images">No custom images</string>
+  <string name="calm_tap_thumbnail">Tap the thumbnail to view it</string>
+  <string name="calm_preview_error">The preview could not be loaded.</string>
+  <string name="calm_delete_image">Delete image</string>
+  <string name="calm_delete_file_question">Delete %1$s?</string>
+  <string name="calm_image_added">Image added</string>
+  <string name="calm_image_import_error">The image could not be imported</string>
+  <string name="calm_music_manager_title">Calm Space Music</string>
+  <string name="calm_no_custom_music">No custom music</string>
+  <string name="calm_playing">Playing…</string>
+  <string name="calm_track_ready">Ready to play</string>
+  <string name="calm_play_error">Playback failed</string>
+  <string name="calm_stop">Stop</string>
+  <string name="calm_play">Play</string>
+  <string name="calm_delete_audio">Delete audio</string>
+  <string name="calm_music_added">Music added</string>
+  <string name="calm_audio_import_error">The audio could not be imported</string>
+  <string name="coherence_title">Heart–Brain Coherence</string>
+  <string name="coherence_disable_music">Turn music off</string>
+  <string name="coherence_enable_music">Turn music on</string>
+  <string name="coherence_statistics">Statistics</string>
+  <string name="coherence_skip">Skip</string>
+  <string name="coherence_setup_intro">Breathe in rhythm, focus on your heart, and elevate your inner state.</string>
+  <string name="coherence_current_emotional_state">Current emotional state</string>
+  <string name="coherence_available_time">Time available</string>
+  <string name="coherence_breathing_rhythm">Breathing rhythm</string>
+  <string name="coherence_breathing_rhythm_info">Breathing rhythm information</string>
+  <string name="coherence_intention">Intention</string>
+  <string name="coherence_optional">Optional</string>
+  <string name="coherence_before_score">Stress / calm before</string>
+  <string name="coherence_start_session">Start session</string>
+  <string name="coherence_resume">Resume</string>
+  <string name="coherence_pause">Pause</string>
+  <string name="coherence_finish">Finish</string>
+  <string name="coherence_prepare">Get ready</string>
+  <string name="coherence_inhale">Inhale</string>
+  <string name="coherence_exhale">Exhale</string>
+  <string name="coherence_breathing_starts_in">Breathing begins in %1$d</string>
+  <string name="coherence_final_evaluation">Final check-in</string>
+  <string name="coherence_perceived_calm">Perceived calm / coherence</string>
+  <string name="coherence_mental_clarity">Mental clarity</string>
+  <string name="coherence_heart_connection">Connection with your heart</string>
+  <string name="coherence_predominant_emotion_after">Predominant emotion afterward</string>
+  <string name="coherence_closing_word">Closing word</string>
+  <string name="coherence_closing_word_example">Example: peace, trust, gratitude</string>
+  <string name="coherence_save_session">Save session</string>
+  <string name="coherence_session_recorded">Session saved</string>
+  <string name="coherence_before_after">Before %1$d/10 · After %2$d/10</string>
+  <string name="coherence_summary_scores">Clarity %1$d/10 · Heart %2$d/10 · %3$s %4$s</string>
+  <string name="coherence_summary_word">Word: %1$s</string>
+  <string name="coherence_phases_started">Phases started: coherence preparation</string>
+  <string name="coherence_phases_completed">Phases completed: %1$s</string>
+  <string name="coherence_new_session">New</string>
+  <string name="coherence_rhythm_dialog_body">These slow patterns bring your breathing rate close to 4.5–6 breaths per minute. In heart-rate variability training, they are used to encourage broad heart-rhythm oscillations, stimulate the baroreflex, and support a regulated state.</string>
+  <string name="coherence_view_study">View study</string>
+  <string name="coherence_state_stress">Stress</string>
+  <string name="coherence_state_anxiety">Anxiety</string>
+  <string name="coherence_state_overwhelmed">Overwhelmed</string>
+  <string name="coherence_state_sad">Sadness</string>
+  <string name="coherence_state_tired">Tiredness</string>
+  <string name="coherence_state_neutral">Neutral</string>
+  <string name="coherence_state_calm">Calm</string>
+  <string name="coherence_state_good">Good</string>
+  <string name="coherence_state_grateful">Gratitude</string>
+  <string name="coherence_state_energetic">Energized</string>
+  <string name="coherence_phase_regulation">Regulation</string>
+  <string name="coherence_phase_heart">Heart connection</string>
+  <string name="coherence_phase_emotion">Elevated emotion</string>
+  <string name="coherence_phase_integration">Integration</string>
+  <string name="coherence_guidance_regulation">Breathe slowly. Let your body ease its pace and find stability.</string>
+  <string name="coherence_guidance_heart">Bring your attention to the center of your chest. Imagine the breath flowing in and out through your heart.</string>
+  <string name="coherence_guidance_gratitude">Recall a simple memory that brings genuine gratitude. Let the feeling grow in your chest.</string>
+  <string name="coherence_guidance_love">Think of someone, somewhere, or a moment that awakens love. Breathe into that feeling.</string>
+  <string name="coherence_guidance_peace">Picture a peaceful scene. Let peace become a physical sensation.</string>
+  <string name="coherence_guidance_joy">Recall a moment of pure joy. Smile gently and let your body recognize it.</string>
+  <string name="coherence_guidance_integration">Remain in silence. Anchor this coherence and let your intention become a felt experience.</string>
+  <string name="coherence_attention_jaw">Relax your jaw. Let your tongue rest and allow your face to soften.</string>
+  <string name="coherence_attention_shoulders">Lower your shoulders. Release any unnecessary effort in your neck and back.</string>
+  <string name="coherence_attention_weight">Feel the weight of your body. Let the support beneath you hold you.</string>
+  <string name="coherence_attention_chest">Notice your chest and sternum. Bring calm, effortless attention there.</string>
+  <string name="coherence_attention_abdomen">Soften your abdomen. Let your breath become spacious, slow, and comfortable.</string>
+  <string name="coherence_emotion_gratitude">Gratitude</string>
+  <string name="coherence_emotion_love">Love</string>
+  <string name="coherence_emotion_peace">Peace</string>
+  <string name="coherence_emotion_joy">Joy</string>
+  <string name="coherence_emotion_calm">Calm</string>
+  <string name="coherence_emotion_clarity">Clarity</string>
+  <string name="coherence_emotion_hope">Hope</string>
+  <string name="coherence_emotion_neutral">Neutral</string>
+  <string name="coherence_emotion_prompt">%1$s: allow this emotion to feel steady, expansive, and natural.</string>
+  <string name="coherence_emotion_prompt_intention">%1$s: allow this emotion to feel steady, expansive, and natural. Direct it toward your intention: %2$s</string>
+  <string name="coherence_integration_intention">Feel your intention as though it is already part of you: %1$s</string>
+  <string name="coherence_stats_title">Coherence Statistics</string>
+  <string name="coherence_your_practice">Your coherence practice</string>
+  <string name="coherence_sessions">Sessions</string>
+  <string name="coherence_total">total</string>
+  <string name="coherence_time">Time</string>
+  <string name="coherence_minutes">minutes</string>
+  <string name="coherence_current_streak">Current streak</string>
+  <string name="coherence_best_streak">Best streak</string>
+  <string name="coherence_days">days</string>
+  <string name="coherence_change">Change</string>
+  <string name="coherence_average">Average</string>
+  <string name="coherence_per_week">per week</string>
+  <string name="coherence_per_month">per month</string>
+  <string name="coherence_final_average">final average</string>
+  <string name="coherence_weekly_frequency">Weekly frequency</string>
+  <string name="coherence_perceived_quality">Perceived quality</string>
+  <string name="coherence_label">Coherence</string>
+  <string name="coherence_clarity">Clarity</string>
+  <string name="coherence_heart">Heart</string>
+  <string name="coherence_predominant_emotions">Predominant emotions</string>
+  <string name="coherence_not_enough_emotion_data">There is not enough emotional data yet.</string>
+  <string name="coherence_last_days_activity">Activity over the last %1$d days</string>
+  <string name="coherence_fitness_dots">Fitness-style dot view</string>
+  <string name="coherence_info">Information</string>
+  <string name="coherence_info_total_sessions_title">Total sessions</string>
+  <string name="coherence_info_total_sessions">Total number of recorded coherence sessions.</string>
+  <string name="coherence_info_total_time_title">Total time</string>
+  <string name="coherence_info_total_time">Total minutes of Heart–Brain Coherence practice.</string>
+  <string name="coherence_info_current_streak">Recent consecutive days with at least one coherence session.</string>
+  <string name="coherence_info_best_streak">Highest number of consecutive days with recorded sessions.</string>
+  <string name="coherence_info_average_change">Average difference between each session’s initial and final score.</string>
+  <string name="coherence_info_weekly_average">Average sessions per week across the available history.</string>
+  <string name="coherence_info_monthly_average">Average sessions per month across the full coherence history.</string>
+  <string name="coherence_info_final_average">Average perceived calm or coherence after sessions.</string>
+  <string name="coherence_info_weekly_frequency">Shows how many sessions were recorded on each day of the week.</string>
+  <string name="coherence_info_perceived_quality">Average final calm or coherence, mental clarity, and connection with the heart.</string>
+  <string name="coherence_info_perceived_coherence">Average calm or coherence rating at the end of a session.</string>
+  <string name="coherence_info_mental_clarity">Average mental clarity reported after each session.</string>
+  <string name="coherence_info_heart_connection">Average physical and emotional heart connection felt at the end.</string>
+  <string name="coherence_info_predominant_emotions">Ranks emotions selected after sessions and shows the three most frequent.</string>
+  <string name="coherence_info_emotion_ring">Each ring shows an emotion as a percentage of all recorded sessions.</string>
+  <string name="coherence_info_activity">Each dot represents one day. Change the range to review your consistency.</string>
+  <string-array name="coherence_welcome_phrases">
+    <item>Coherence is the secret language\nbetween your heart and mind</item>
+    <item>Everything you need\nalready lives within you</item>
+    <item>Enter your sacred space and let the magic unfold</item>
+    <item>When you enter coherence,\nyour biology remembers its wholeness</item>
+    <item>Today you choose to elevate your state\nand transform your reality</item>
+    <item>Let the mystery surround you\nand reveal its truth</item>
+    <item>Your heart knows the way;\nyour mind learns to follow</item>
+    <item>You are more powerful than you remember</item>
+    <item>Breathe and cross the threshold\nwhere your essence is revealed</item>
+    <item>Here begins the alignment\nbetween what you feel and who you are</item>
+    <item>Every heartbeat is a doorway\nto your natural balance</item>
+    <item>You are remembering who you are\nbeyond thought</item>
+    <item>Your heart knows the way\nto your state of wholeness</item><item>Surrender to your inner rhythm\nand let it guide you</item><item>When heart and mind meet,\na new state of being emerges</item>
+    <item>Today you create from coherence,\nnot from reaction</item><item>Trust what emerges\nwithout needing to understand it</item><item>Your heart sets the rhythm\nof your deepest truth</item>
+    <item>Today you choose to respond from calm,\nnot from impulse</item><item>Let that calm\nbecome clarity</item><item>Your energy responds\nto what you feel now</item>
+    <item>Today you choose elevation,\nopenness, and possibility</item><item>Let that frequency\nshape your reality</item><item>In this moment,\neverything reorganizes in your favor</item>
+    <item>You are the observer and creator\nof your experience</item><item>Allow transformation\nto unfold without resistance</item><item>Let the magic happen</item>
+  </string-array>
+  <string name="presence_title">Mindful Presence</string>
+  <string name="presence_short_title">Presence</string>
+  <string name="presence_back_to_present">Return to the Present</string>
+  <string name="presence_today_count">You have returned to the present %1$d times today.</string>
+  <string name="presence_milestone">You are doing wonderfully—keep coming back.</string>
+  <string name="presence_here">I am here</string>
+  <string name="presence_hide_mood">Hide mood</string>
+  <string name="presence_add_mood">Add mood</string>
+  <string name="presence_mood">Mood</string>
+  <string name="presence_mood_future">I feel my future now</string>
+  <string name="presence_mood_autopilot">Autopilot</string>
+  <string name="presence_mood_distracted">Distracted</string>
+  <string name="presence_mood_serene">Serene</string>
+  <string name="presence_mood_happy">Happy</string>
+  <string name="presence_mood_anxious">Anxious</string>
+  <string name="presence_mood_sad">Sad</string>
+  <string name="presence_mood_angry">Angry</string>
+  <string name="presence_mood_tired">Tired</string>
+  <string name="presence_mood_grateful">Grateful</string>
+  <string name="presence_show_all">Show all</string>
+  <string name="presence_select_visible_cards">Choose visible cards</string>
+  <string name="presence_change_appearance">Change appearance</string>
+  <string name="presence_reset_stats">Reset statistics</string>
+  <string name="presence_reset_title">Reset Presence statistics</string>
+  <string name="presence_reset_message">This will erase your entire Presence history. It cannot be undone.</string>
+  <string name="presence_delete_history">Erase all history</string>
+  <string name="presence_card_today">Today</string>
+  <string name="presence_card_streak">Streak</string>
+  <string name="presence_card_weekly_average">Weekly average</string>
+  <string name="presence_card_dominant_mood">Predominant mood</string>
+  <string name="presence_card_practical">Practical insights</string>
+  <string name="presence_card_daily_events">Daily events</string>
+  <string name="presence_card_today_moments">Today’s moments</string>
+  <string name="presence_card_ratio">Ratio</string>
+  <string name="presence_card_moods">Moods</string>
+  <string name="presence_today_returns">Today: returns</string>
+  <string name="presence_keep_going">Keep it up!</string>
+  <string name="presence_return_when_notice">Come back when you notice</string>
+  <string name="presence_current_streak">Current streak</string>
+  <string name="presence_consecutive_days">consecutive days</string>
+  <string name="presence_week_average">This week: daily average</string>
+  <string name="presence_returns">returns</string>
+  <string name="presence_dominant_mood">Predominant mood</string>
+  <string name="presence_no_records">No records</string>
+  <string name="presence_record_mood">Record a mood</string>
+  <string name="presence_record_percentage">%1$d%% of your records</string>
+  <string name="presence_practical_data">Practical insights</string>
+  <string name="presence_best_day">Most present day</string>
+  <string name="presence_best_day_value">Your most mindful day was %1$s.</string>
+  <string name="presence_no_best_day">No day stands out yet.</string>
+  <string name="presence_daily_average">Daily average</string>
+  <string name="presence_per_day">%1$s per day</string>
+  <string name="presence_weekly_trend">Weekly trend</string>
+  <string name="presence_no_trend">Not enough data for a trend.</string>
+  <string name="presence_new_activity">New activity this week.</string>
+  <string name="presence_same_as_last_week">The same as last week.</string>
+  <string name="presence_trend_change">%1$s%2$d%% %3$s present moments than last week.</string>
+  <string name="presence_more">more</string>
+  <string name="presence_less">fewer</string>
+  <string name="presence_critical_window">Critical window</string>
+  <string name="presence_critical_window_value">Autopilot is most concentrated between %1$s and %2$s.</string>
+  <string name="presence_no_critical_window">No critical window detected.</string>
+  <string name="presence_contextual_suggestion">Contextual suggestion</string>
+  <string name="presence_today_moments">Today’s moments of presence</string>
+  <string name="presence_no_events_today">No moments of presence have been recorded today.</string>
+  <string name="presence_ratio_title">Present-to-unconscious ratio</string>
+  <string name="presence_ratio_explanation">A higher value means there were more conscious returns among your recorded events.</string>
+  <string name="presence_moods_title">Moods</string>
+  <string name="presence_no_moods">No moods have been recorded yet.</string>
+  <string name="presence_days_format">%1$d days</string>
+  <string name="presence_present">Present</string>
+  <string name="presence_autopilot">Autopilot</string>
+  <string name="presence_info_body">This practice combines two gestures: waking up from autopilot and embodying your desired state now. Every tap gently interrupts an old habit and deliberately chooses an identity.</string>
+  <string name="presence_suggestion_no_data">There are not enough records in this range yet. Make one or two conscious returns today to begin revealing a useful pattern.</string>
+  <string name="presence_suggestion_few_days">Only a few days have records. Try a brief pause in mid-morning and another late in the afternoon to begin revealing your pattern.</string>
+  <string name="presence_suggestion_no_presence">Only autopilot moments appear so far. Choose an easy time, such as before lunch, to record a deliberate conscious return.</string>
+  <string name="presence_suggestion_window">Autopilot is concentrated between %1$s and %2$s. Try a 30-second pause just before that window.</string>
+  <string name="presence_suggestion_more_autopilot">There is more autopilot than presence in this range. Choose one daily transition as a cue to return to your body.</string>
+  <string name="presence_suggestion_no_autopilot">This range shows presence without any recorded autopilot moments. Add moments of distraction too for more accurate suggestions.</string>
+  <string name="presence_suggestion_balanced">Your records are fairly balanced. Choose a specific time of day and repeat a mindful pause there until it becomes a habit.</string>
+  <string-array name="coherence_session_phrases">
+    <item>I release effort and allow my body to become calm.</item>
+    <item>Each breath returns me to a state of balance.</item>
+    <item>I bring my attention to the peaceful space of my heart.</item>
+    <item>My heart and mind begin to breathe together.</item>
+    <item>I choose to feel gratitude, openness, and trust.</item>
+    <item>I let this elevated emotion fill my whole being.</item>
+    <item>This coherence settles gently within me.</item>
+    <item>I remain present and carry this state with me.</item>
+  </string-array>
+  <string name="presence_back">Back</string>
+  <string name="presence_days_short">%1$d d</string>
+  <string name="coherence_saving">Saving…</string>
+  <string name="coherence_minutes_value">%1$d minutes</string>
+  <string name="coherence_rhythm_value">%1$s sec / %2$s sec</string>
+  <string name="coherence_card_weekly_average_title">Weekly average</string>
+  <string name="coherence_card_monthly_average_title">Monthly average</string>
+  <string name="coherence_days_short">%1$d d</string>
+</resources>

@@ -1,0 +1,159 @@
+Episodic memory is a type of declarative (explicit) memory that allows us to remember specific personal experiences, located in a time and place, along with the emotional and sensory context in which they occurred. From neuroscience, it is not just “remembering facts”, but rather mentally reliving an episode of our life.
+
+
+
+🟢 What characterizes episodic memory?
+
+From a neuroscientific point of view, episodic memory has four key features:
+    1. Autobiographical
+The memory is “mine”. For example:
+“I remember my first day at work, I was nervous and it was hot.”
+
+    2. Contextual
+Includes where, when, and with whom the event occurred.
+
+    3. Multimodal
+Integrates visual, auditory, emotional, olfactory information, etc.
+
+    4. Autonoetic consciousness
+Endel Tulving's term: the ability to feel yourself mentally traveling to the past.
+
+
+
+🟢 Neuroanatomical bases of episodic memory
+
+Episodic memory does not live in a single region of the brain, but in a distributed network:
+
+🧠 Hippocampus (centerpiece)
+    • Acts as an index that links different elements of the episode.
+    • It does not store the complete memory, but rather how to reconstruct it.
+    • It is essential for the initial formation of episodic memories.
+
+📌 Example:
+
+The hippocampus unites place, a person's face, emotion, and conversation into a single coherent episode.
+
+
+
+🧠 Entorhinal cortex
+    • Gate of entry and exit of information to the hippocampus.
+    • Encodes spatial and temporal relationships.
+
+
+
+🧠 Prefrontal cortex
+    • Organize, select and recover memories.
+    • Decide what is relevant and when to access it.
+
+
+
+🧠 Amygdala
+    • Modulates episodic memory when there is emotional charge.
+    • Emotionally intense events are consolidated better.
+
+📌 Example:
+
+You clearly remember where you were when you received shocking news.
+
+
+
+🟢 How is a long-term episodic memory created?
+
+The process occurs in several phases:
+
+1️⃣ Coding
+    • Attention + meaning + emotion.
+    • If there is no attention, there is no episodic memory.
+
+📌 Practical example:
+
+Reading a text distracted → weak memory
+Live a novel and emotional experience → strong memory
+
+
+
+2️⃣ Consolidation
+    • Occurs hours or days later.
+    • Involves synaptic plasticity (LTP: long-term potentiation).
+    • Sleep, especially deep and REM sleep, is crucial.
+
+🛌 During sleep:
+    • The hippocampus “replays” memories.
+    • Information is progressively transferred to the neocortex.
+
+
+
+3️⃣ Long-term storage
+    • Over time, memories become less dependent on the hippocampus.
+    • They are distributed in cortical networks.
+
+📌 This explains why:
+
+Hippocampal lesions affect recent memories, but not so easily very old ones.
+
+
+
+4️⃣ Recovery
+    • The memory is reconstructed, not played like a video.
+    • Each retrieval can modify the memory (reconsolidation).
+
+
+
+🟢 Importance of episodic memory in long-term memory
+
+🔸 1. It is the basis of experiential learning
+
+We learn better from what we live than from what we read.
+
+📌 Example:
+
+A mistake made in a real investment is remembered much more than a theoretical rule.
+
+
+
+🔸 2. Build personal identity
+
+Our sense of “who I am” is based on episodic memories.
+    • Patients with episodic amnesia:
+    • They retain skills and knowledge.
+    • But they lose continuity of self.
+
+
+
+🔸 3. Allows you to imagine the future
+
+The brain uses episodic memory to simulate future scenarios.
+
+📌 Example:
+
+Imagining how you will feel about an important decision uses the same circuits as remembering the past.
+
+
+
+🔸 4. Influences decision making
+
+Previous experiences guide future choices.
+    • Gives emotional context to decisions.
+    • Accelerates adaptive learning.
+
+
+
+🟢 Integrative example
+
+Imagine that you learn to program a new technology:
+    • Read documentation → semantic memory.
+    • Solve a complex bug at 2 a.m., frustrated but satisfied → episodic memory.
+
+Years later:
+    • You may forget the exact syntax.
+    • But you will remember the experience, which helps you solve similar problems faster.
+
+
+
+🟢 In summary
+
+Episodic memory:
+    • It is the system that transforms lived experiences into lasting memories.
+    • Critically depends on the hippocampus and cortical networks.
+    • It is strengthened with attention, emotion, meaning and dream.
+    • It doesn't just store the past: it shapes who we are and how we decide.

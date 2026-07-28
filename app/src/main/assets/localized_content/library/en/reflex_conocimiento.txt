@@ -1,0 +1,8 @@
+{
+"titulo": "Knowledge",
+"autor": "Yorj",
+"contenido": [
+"Knowledge is synonymous with identification. To know something is to identify with it. Until we feel we are something, we do not truly know it. To feel the Father within you, to identify with Him, is to know the Father. Furthermore, when we identify with something, we not only come to know it, but we also become what we know. And yet another thing: the power within us is such that what we know comes to be expressed and felt in our lives."
+]
+}
+

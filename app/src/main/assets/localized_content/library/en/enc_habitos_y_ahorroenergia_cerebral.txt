@@ -1,0 +1,154 @@
+In neuroscience, the “energy savings” associated with the formation of habits is not a metaphor, but a measurable phenomenon at the metabolic, synaptic, and neural network organization levels. When a behavior is repeated, the brain changes which circuits are activated, how much energy they consume, and how information is transmitted. Let's go in parts.
+
+
+
+🟢 1. What does “saving energy” in the brain really mean?
+
+The brain consumes about 20–25% of the body's total energy expenditure, although it represents only ~2% of body weight.
+Most of this expense is due to:
+    • Action potentials
+    • Release of neurotransmitters
+    • Ionic reuptake (Na⁺/K⁺ pumps)
+    • Maintenance of active synapses
+
+When an action is new, the brain:
+    • Recruit many areas at once
+    • Fires neurons with high frequency
+    • Uses inefficient and redundant circuits
+
+With repetition, the system reorganizes itself to do the same thing with less neural activation.
+
+👉 Energy savings = fewer active neurons + lower firing rate + shorter and more specific routes.
+
+
+
+🟢 2. Changes at the circuit level: from the cortex to the habitual system
+
+Initial phase (new behavior)
+
+The activity predominates in:
+    • Prefrontal cortex (conscious control, planning)
+    • Anterior cingulate cortex (error monitoring)
+    • Hippocampus (explicit memory)
+
+These areas are:
+    • Highly energy demanding
+    • Slow
+    • Designed for flexible decisions
+
+Habitual phase (automated behavior)
+
+Control passes to:
+    • Basal ganglia, especially the dorsal striatum
+    • Sensorimotor circuits → response
+
+These structures:
+    • They work in “automatic mode”
+    • They use fewer neurons for the same behavioral output
+    • Require less conscious supervision
+
+📌 Result: the prefrontal cortex partially “turns off” for that task.
+
+
+
+🟢 3. Energy savings at the synaptic level
+
+a) Selective enhancement and pruning
+
+During repetition:
+    • Useful synapses are strengthened (LTP)
+    • Irrelevant synapses are weakened or eliminated (synaptic pruning)
+
+This implies:
+    • Fewer active synapses → less neurotransmitter release
+    • Less vesicular recycling → lower ATP consumption
+
+👉 The brain eliminates “secondary paths” and keeps the cheapest route energetically.
+
+Example
+
+Learn to drive:
+    • At the beginning: hundreds of conscious micro-decisions
+    • With habit: compact sequence of neuronal activation
+
+
+
+🟢 4. Decrease in neuronal firing (firing rate)
+
+Studies with fMRI and electrophysiology show that, after automation:
+    • Decreases the BOLD signal (oxygen consumption)
+    • Lowers the frequency of action potentials
+    • Increases the temporal precision of shots
+
+🧠 Same behavior → less “neural noise” → less energy expenditure
+
+This is crucial because:
+    • Each action potential costs ATP
+    • The Na⁺/K⁺ pump is one of the largest consumers of energy in the brain
+
+
+
+🟢 5. Myelination and speed: less expense due to efficiency
+
+The repetition of specific circuits induces:
+    • Increased myelin in frequently used axons
+
+Effects:
+    • Faster signals
+    • Less electrical loss
+    • Less need for repeated firing to ensure transmission
+
+📌 Myelin is like insulating an electric cable: same information, lower cost.
+
+
+
+🟢 6. Dopamine: from reward to predictive signal
+
+At the beginning of a behavior:
+    • Dopamine is released after reward
+
+With the habit:
+    • Dopamine is released earlier, before the signal that predicts the action
+
+This allows:
+    • Initiate the behavior without conscious evaluation
+    • Reduce the burden of results processing
+
+👉 The brain no longer “evaluates”: it executes.
+
+
+
+🟢 7. Why the brain looks for habits (evolutionary principle)
+
+From an adaptive point of view:
+    • Energy is limited
+    • Automating what is frequent frees up resources to:
+    • New
+    • Threats
+    • Creativity
+    • Learning
+
+📌 A brain that does not automate is metabolically exhausted.
+
+
+
+🟢 8. Complete practical example: brushing your teeth
+
+Beginner (child):
+    • High prefrontal activation
+    • Constant supervision
+    • Cognitive fatigue
+
+Adult with habit:
+    • Minimum basal activation
+    • You can think about something else
+    • Virtually without conscious effort
+
+👉 It's not that you "don't use your brain", it's that you use a cheaper circuit.
+
+
+
+🟢 9. Key takeaway idea
+
+A habit is not just a repeated behavior:
+It is an energetic reorganization of the brain to do the same thing with the minimum possible metabolic cost.

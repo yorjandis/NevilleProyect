@@ -1,0 +1,232 @@
+From neuroscience, memory is the ability of the nervous system to encode, store and retrieve information. It is not a static “file”, but rather a dynamic process that changes over time.
+
+Simply put:
+👉 Remembering is re-activating patterns of neuronal activity that already occurred before.
+
+Each memory is a network of neurons that activate together. The more times they activate together, the stronger that network becomes.
+
+“Neurons that fire together, wire together” (Hebb's principle).
+
+
+
+🟢 Types of memory (very important to understand how it works)
+
+🔸 Sensory memory
+    • Lasts milliseconds or seconds.
+    • Example: the afterimage when you close your eyes after looking at a light.
+
+🔸 Short-term memory / working memory
+    • Lasts seconds or minutes.
+    • Limited capacity (≈ 4–7 items).
+    • Example: remembering a number while dialing it.
+
+🧠 Key area: prefrontal cortex
+
+🔸 Long term memory
+
+Here's the interesting thing:
+
+🔸 Declarative memory (explicit)
+    • Episodic: personal memories (what did you do yesterday).
+    • Semantics: knowledge (capitals, concepts).
+
+🧠 Key area: hippocampus (to create the memory)
+
+🔸 Non-declarative (implicit) memory
+    • Habits and skills.
+    • Example: riding a bike, typing on a keyboard.
+
+🧠 Key areas:
+    • Basal ganglia
+    • Cerebellum
+
+
+
+🟢 How do you create a memory?
+
+Memory creation has three phases:
+
+1️⃣ Coding
+
+It is the moment when the brain decides if something is worth remembering.
+
+Key factors:
+    • Attention
+    • Emotion
+    • Meaning
+
+📌 Example:
+    • You read a sentence distracted → it is not encoded.
+    • You read something that surprises you → the brain says “this matters.”
+
+
+
+2️⃣ Consolidation
+
+It is the process by which a memory is stabilized.
+
+Here it happens:
+    • Synaptic plasticity
+    • Long-term potentiation (LTP)
+
+🧠 The hippocampus “repeats” information and distributes it to other areas of the brain, especially during deep sleep.
+
+📌 Example:
+    • You study today → you sleep well → tomorrow you remember better.
+
+
+
+3️⃣ Recovery
+
+Access the memory.
+
+Important:
+    • Remembering modifies the memory.
+    • Every time you remember something, you “rewrite” it.
+
+📌 Example:
+    • A childhood memory changes over time because you reinterpret it.
+
+
+
+🟢 4. Where is memory stored?
+
+👉 There is no single place where memories are kept.
+
+The memories are:
+    • Distributed in neural networks
+    • In different areas depending on the type of information
+
+Examples:
+    • Colors → visual cortex
+    • Sounds → auditory cortex
+    • Emotions → amygdala
+    • Context → hippocampus
+
+📌 A memory is like a neural “playlist”: if you activate one part, the rest turns on.
+
+
+
+🟢 5. The key role of synapses
+
+Memory lives in:
+    • The strength of synaptic connections
+    • The number of receivers
+    • The structure of the synapse
+
+Learning = physically changing the brain.
+
+It's not a metaphor:
+🧠 the brain remodels.
+
+
+
+🟢 6. How can we improve our ability to memorize?
+
+
+🔸1. Deep attention (without this there is no memory)
+
+Multitasking destroys coding.
+
+ What to do:
+    • Study without notifications
+    • 25–50 min blocks (Pomodoro type)
+
+ Example:
+    • 30 min concentrated > 3 hours distracted
+
+
+
+🔸2. Associate and give meaning
+
+The brain remembers relationships, not isolated data.
+
+ Techniques:
+    • Analogies
+    • Stories
+    • Mind maps
+
+ Example:
+    • Instead of memorizing “mitochondria,” think:
+“the powerhouse of the cell”
+
+
+
+🔸3. Excitement and surprise
+
+The amygdala enhances memory.
+
+ What to do:
+    • Study with curiosity
+    • Ask strange questions
+    • Teach others
+
+ Example:
+    • Explain a concept as if it were a story
+
+
+
+🔸4. Spaced repetition (key)
+
+Repeat in increasing intervals.
+
+ This strengthens the synapses.
+
+ Example:
+    • Day 1
+    • Day 3
+    • Day 7
+    • Day 21
+
+(Anki works great for this)
+
+
+
+🔸5. Active recovery (better than rereading)
+
+Try to remember without looking.
+
+ Examples:
+    • Ask yourself
+    • Take mock exams
+    • Write what you remember
+
+ Read ≠ learn
+ Remember = learn
+
+
+
+🔸6. Sleep well (non-negotiable)
+
+During sleep:
+    • Memories are consolidated
+    • Useless connections are cleaned
+
+❌ Sleep little = learn little
+
+
+
+🔸7. Physical exercise
+
+Increases:
+    • BDNF (neurotrophic factor)
+    • Neuroplasticity
+
+ Walking for 30 minutes improves memory more than it seems.
+
+
+
+🔸8. Nutrition and brain metabolism
+
+Important for memory:
+    • Omega-3
+    • Stable glucose
+    • Avoid sugar spikes
+
+ The brain is ~2% of body weight but consumes ~20% of energy.
+
+
+
+🟢 Key idea to close
+
+Memory is not storing information, it is transforming the brain

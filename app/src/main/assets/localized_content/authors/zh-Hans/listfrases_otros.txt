@@ -1,0 +1,144 @@
+id=otros_001
+autor=Rumi
+nota=
+fuente=
+contexto=身心合一
+contexto_ids=Unidad mente-cuerpo
+texto=祝福，正是让人解脱的力量
+在对与错的观念之外，有一片原野。我会在那里与你相遇
+relacionadas=
+
+id=otros_002
+autor=Jalil Gibran
+nota=
+fuente=
+contexto=身心合一
+contexto_ids=Unidad mente-cuerpo
+texto=在对与错的观念之外，有一片原野。我会在那里与你相遇
+relacionadas=
+
+id=otros_003
+autor=Santa Catalina de Siena
+nota=
+fuente=
+contexto=身心合一
+contexto_ids=Unidad mente-cuerpo
+texto=那股创造出不可想象的辉煌与难以设想的恐怖的力量，已经栖居在我们之内，并会听从我们的指令
+relacionadas=
+
+id=otros_004
+autor=Max Planck
+nota=Premio Nobel de Física de 1918. Para Neville, la conciencia es Dios, y todo surge de ella
+fuente=
+contexto=
+contexto_ids=
+texto=我认为意识是根本的。我认为物质是由意识派生而来的
+relacionadas=
+
+id=otros_005
+autor=Max Planck
+nota=Premio Nobel de Física de 1918
+fuente=
+contexto=
+contexto_ids=
+texto=对于有信仰的人来说，上帝在一切的开端；对于科学家来说，上帝在他们所有思考的终点
+relacionadas=
+
+id=otros_006
+autor=William James
+nota=filósofo y psicólogo estadounidense.Neville hablaba de la ley de la asunción: aquello que asumes como verdadero, aunque no lo veas, termina objetivándose
+fuente=
+contexto=
+contexto_ids=
+texto=信念创造事实
+relacionadas=
+
+id=otros_007
+autor=Max Planck
+nota=Premio Nobel de Física de 1918
+fuente=
+contexto=
+contexto_ids=
+texto=科学，是人类逐步接近真实世界的过程
+relacionadas=
+
+id=otros_008
+autor=Carl Gustav Jung
+nota=Médico psiquiatra, psicólogo y ensayista suizo
+fuente=
+contexto=
+contexto_ids=
+texto=除非你让无意识变得有意识，否则它会支配你的人生，而你会称之为命运
+relacionadas=
+
+id=otros_009
+autor=David Bohm
+nota=Físico estadounidense que hizo importantes contribuciones en los campos de la física teórica, la epistemología y la neuropsicología
+fuente=
+contexto=
+contexto_ids=
+texto=心灵与物质并不是彼此分离的现实
+relacionadas=
+
+id=otros_010
+autor=Nikola Tesla
+nota=Inventor e ingeniero serbio nacionalizado estadounidense. Neville decía: “La imaginación es el taller de Dios.” Tesla literalmente construía sus inventos primero en la imaginación
+fuente=
+contexto=
+contexto_ids=
+texto=凡是我能想象的，我都能创造
+relacionadas=
+
+id=otros_011
+autor=Richard Feynman
+nota=Físico teórico estadounidense​​​. La realidad no es neutral: responde a la expectativa del observador, exactamente como Neville enseñaba
+fuente=
+contexto=
+contexto_ids=
+texto=我们的信念会深刻影响我们所观察到的事物
+relacionadas=
+
+id=otros_012
+autor=Albert Einstein
+nota=(Físico teórico. Formulador de la Teoría de la Relatividad)Si se mantienen los mismos pensamientos y actitudes, se seguirán obteniendo los mismos resultados
+fuente=
+contexto=
+contexto_ids=
+texto=我们无法用制造问题的同一种思维去解决这个问题
+relacionadas=
+
+id=otros_013
+autor=James Jeans
+nota=Físico, 1930
+fuente=
+contexto=
+contexto_ids=
+texto=知识的洪流正流向一种非机械性的现实，在那里，宇宙开始显得更像一个伟大的思想，而不是一台伟大的机器
+relacionadas=
+
+id=otros_014
+autor=James Jeans
+nota=Físico, 1930
+fuente=
+contexto=
+contexto_ids=
+texto=心灵不再像是物质王国中偶然闯入的外来者……我们必须把它看作物质王国的创造者和治理者
+relacionadas=
+
+id=otros_015
+autor=Arthur Eddington
+nota=Físico, 1930
+fuente=
+contexto=
+contexto_ids=
+texto=如今的物理学家很难接受这样一种观念：心灵是一切存在的基底……
+relacionadas=
+
+id=otros_016
+autor=Albert Einstein
+nota=(Físico teórico. Formulador de la Teoría de la Relatividad)
+fuente=
+contexto=
+contexto_ids=
+texto=场，才是支配并引导物质行为的力量
+relacionadas=

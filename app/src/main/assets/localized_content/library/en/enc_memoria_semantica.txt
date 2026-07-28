@@ -1,0 +1,104 @@
+Semantic memory is one of the great systems of human memory and, from neuroscience, it is defined as the set of general and decontextualized knowledge that we have about the world: concepts, meanings, facts, rules and relationships between ideas. It does not depend on when or where we learned something, but on what we know.
+
+
+
+🟢 What type of information does it store?
+
+Semantic memory includes, for example:
+    • The meaning of words (“tree”, “justice”, “gravity”)
+    • General facts (“Paris is the capital of France”)
+    • Categories and concepts (“a dog is a mammal”)
+    • Rules and relationships (“fire burns”, “2 + 2 = 4”)
+
+🔸 Practical example
+You know that water boils at 100°C at sea level, even if you don't remember when or who taught you that. That's semantic memory.
+
+
+
+🟢 Difference with other types of memory
+
+From cognitive neuroscience, it is often compared to episodic memory
+
+Semantic memory:
+• General knowledge
+• Does not depend on context
+• more stable over time
+• "I know that..."
+
+Episodic memory:
+• Personal Experiences
+• Bound to time and place
+• More vulnerable to oblivion
+• "I remember..."
+
+🔸 Example
+    • Semantics: “Madrid is the capital of Spain”
+    • Episodic: “I remember my first trip to Madrid”
+
+Both are related, but they can be dissociated: there are patients who lose personal memories but retain general knowledge, and vice versa.
+
+
+
+🟢 Neuroanatomical bases
+
+From neuroscience, semantic memory is supported by a distributed network, not a single region:
+
+Key regions:
+    • Anterior temporal lobe: integration of meanings (key to concepts)
+    • Lateral temporal cortex: language and object processing
+    • Prefrontal cortex: access and use of knowledge
+    • Hippocampus: important in initial formation, but less necessary for long-term storage
+
+🧠 Important information
+In diseases such as semantic dementia, degeneration of the anterior temporal lobe is observed, which causes progressive loss of the meaning of words and objects.
+
+
+
+🟢 How is semantic memory formed?
+
+Neuroscience proposes that:
+    1. Information usually enters first as episodic
+    2. With repetition and time, it becomes abstract
+    3. It is consolidated as general knowledge (semantic)
+
+🔸 Everyday example
+The first few times you use a technical term (for example, “API”), you remember where you learned it. Years later, you just know what it means, without context. This transition is key in semantic consolidation.
+
+
+
+🟢 Importance of semantic memory
+
+Semantic memory is essential for:
+
+🔸 Language and communication
+
+Without it, we would not be able to understand or produce meaningful language.
+
+🔸 Abstract thinking
+
+It allows you to reason, categorize, infer and make analogies.
+
+🔸 Continuous learning
+
+All new learning is supported by semantically stored prior knowledge.
+
+🔸 Cognitive identity
+
+Although it may seem impersonal, it defines a large part of “who you are intellectually”: what you know, understand and master.
+
+
+
+🟢 Clinical and experimental evidence
+    • Patients with hippocampal amnesia may learn new facts slowly → suggests that the hippocampus is not the final store.
+    • In semantic aphasia, people see an object but cannot access its meaning.
+    • Neuroimaging studies show distributed activation according to the type of knowledge (visual, verbal, motor).
+
+
+
+🟢 In summary
+
+From neuroscience, semantic memory is:
+
+A general, stable, distributed knowledge system in the cerebral cortex, fundamental for language, thinking, and learning.
+
+Without semantic memory, we would not only forget data: we would lose the meaning of the world.

@@ -1,0 +1,140 @@
+Circadian rhythm regulation by sunlight is a profoundly biochemical process that connects the retina, brain, and cellular gene expression. Let's break it down step by step.
+
+
+
+🟢 Light as a primary biochemical signal
+
+When sunlight enters the eyes, it is not only useful for seeing. It activates special cells in the retina called intrinsically photosensitive ganglion cells (ipRGCs).
+
+These cells contain a photopigment called melanopsin, which is especially sensitive to blue light (~480 nm), which is very abundant in morning sunlight.
+
+What happens at the molecular level?
+    1. Photons activate melanopsin.
+    2. A G protein is activated (pathway similar to the visual transduction cascade).
+    3. An electrical signal is generated.
+    4. That signal travels through the retinohypothalamic tract to a key brain structure.
+
+
+
+🟢 The suprachiasmatic nucleus (SCN): the master clock
+
+The light signal reaches the suprachiasmatic nucleus, located in the hypothalamus.
+
+This nucleus is the “central clock” of the organism.
+
+What does it do biochemically?
+
+The SCN regulates the expression of clock genes within its neurons:
+    • CLOCK
+    • BMAL1
+    • PER (Period)
+    • CRY (Cryptochrome)
+
+These genes work in feedback loops:
+    1. CLOCK and BMAL1 activate the transcription of PER and CRY.
+    2. PER and CRY proteins accumulate.
+    3. When they reach a certain level, they inhibit CLOCK/BMAL1.
+    4. They degrade.
+    5. The cycle starts again (~24 hours).
+
+This mechanism is purely biochemical and occurs in almost all cells in the body.
+
+Light works by readjusting this molecular loop every day.
+
+
+
+🟢 Melatonin suppression
+
+One of the most important effects of sunlight is to inhibit the secretion of melatonin.
+
+The signal from the SCN reaches the pineal gland and inhibits the enzyme:
+    • AANAT (arylalkylamine N-acetyltransferase)
+
+This enzyme converts serotonin into melatonin.
+
+At night:
+    • Darkness → ↑ AANAT → ↑ melatonin
+
+With sunlight:
+    • SCN activation → ↓ AANAT → ↓ melatonin
+
+Melatonin is the biochemical signal of “it's night.”
+
+That's why morning sun exposure:
+    • Quickly lowers residual melatonin
+    • Marks the beginning of the biological cycle
+
+
+
+🟢 Regulation of cortisol and metabolism
+
+Sunlight also influences the hypothalamic-pituitary-adrenal (HPA) axis.
+
+The SCN modulates the release of:
+    • CRH → ACTH → cortisol
+
+Cortisol has a natural peak in the morning (Cortisol Awakening Response).
+
+This peak:
+    • Increases blood glucose
+    • Activates metabolism
+    • Increases alertness
+    • Synchronizes peripheral clocks (liver, muscle, adipose tissue)
+
+At a molecular level, cortisol acts on glucocorticoid receptors that also regulate clock genes in peripheral tissues.
+
+
+
+🟢 Peripheral clock synchronization
+
+Each organ has its own molecular clock.
+
+Examples:
+    • Liver → regulates gluconeogenesis depending on time of day
+    • Pancreas → modulates insulin sensitivity
+    • Intestine → rate of absorption
+    • Muscle → variation in energy efficiency
+
+Sunlight synchronizes the NSQ, and it synchronizes the entire system by:
+    • Nervous signals
+    • Cortisol
+    • Body temperature
+    • Eating rhythms
+
+Without adequate light, peripheral clocks become desynchronized.
+
+
+
+🟢 Biochemical consequences of not exposing yourself to the sun
+
+When sun exposure is insufficient:
+    • The circadian phase is delayed
+    • PER/CRY expression is altered
+    • Decreases the amplitude of the cortisol peak
+    • Insulin sensitivity is altered
+    • Increases basal inflammation (metabolic desynchronization)
+
+This explains why artificial light at night can induce:
+    • Metabolic alterations
+    • Higher cardiovascular risk
+    • Sleep problems
+
+
+
+🟢 Why is sunlight more powerful than artificial light?
+
+Because:
+    • Intensity: 10,000–100,000 lux (outdoor) vs 100–500 lux (indoor)
+    • Full spectrum
+    • High proportion of natural morning blue
+    • Signal consistent with human evolution
+
+Melanopsin needs sufficient intensity to robustly activate the circadian signal.
+
+
+
+🟢 Simplified biochemical summary
+
+Sunlight promotes the production of melanopsin which in turn produces SCN that regulates clock genes such as CLOCK/BMAL1/PER/CRY, these genes suppress melatonin and produce a physiological cortisol spike. All this leads to systemic synchronization of the organism. In code it would be:
+
+Sunlight → melanopsin → SCN → CLOCK/BMAL1/PER/CRY gene regulation → melatonin suppression + cortisol peak → systemic metabolic synchronization.

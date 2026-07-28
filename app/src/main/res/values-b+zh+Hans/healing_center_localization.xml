@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="healing_center_title">身心调适中心</string>
+    <string name="healing_check_title">安全检查</string>
+    <string name="healing_back">返回</string>
+    <string name="healing_close">关闭</string>
+    <string name="healing_add_favorite">添加到收藏</string>
+    <string name="healing_remove_favorite">取消收藏</string>
+    <string name="healing_favorite">已收藏</string>
+    <string name="healing_open_urgent_help">打开紧急求助</string>
+    <string name="healing_urgent_help">紧急求助</string>
+
+    <string name="healing_home_support_title">此刻的支持</string>
+    <string name="healing_home_support_subtitle">你不必把感受描述得很准确。</string>
+    <string name="healing_home_intro">选择最贴近你当下经历的情况。我们会先确认安全，再一步步引导你。</string>
+    <string name="healing_home_emergency_question">这可能是紧急情况吗？</string>
+    <string name="healing_home_emergency_detail">查看危险信号和你所在国家或地区的求助资源</string>
+    <string name="healing_guide_not_diagnosis">- 这是引导，不是诊断 -</string>
+    <string name="healing_search_hint">你现在感觉如何？</string>
+    <string name="healing_clear_search">清除搜索</string>
+    <string name="healing_what_is_happening">发生了什么？</string>
+    <string name="healing_results">搜索结果</string>
+    <string name="healing_no_matches">没有匹配结果</string>
+    <string name="healing_search_suggestion">可以试试搜索“恐惧”“工作”“怀疑”“愤怒”或“焦虑”等词。</string>
+    <string name="healing_premium_guides">高级实用引导</string>
+    <string name="healing_premium_explanation">紧急求助始终可以使用。身心调适中心的情境引导、调节技巧和说明属于高级内容。</string>
+    <string name="healing_unlock">解锁身心调适中心</string>
+    <string name="healing_unavailable">身心调适中心暂不可用</string>
+    <string name="healing_load_error">无法加载支持内容。</string>
+
+    <string name="healing_essential_now">此刻最重要的事</string>
+    <string name="healing_choose_practical_help">选择一种实用方法</string>
+    <string name="healing_small_resources">可以尝试的小方法</string>
+    <string name="healing_small_resources_hint">点击查看简单的辅助方法</string>
+    <string name="healing_hide_tips">收起建议</string>
+    <string name="healing_complementary_resources_note">这些是风险较低的辅助方法，有些人会觉得有用。每个人的感受不同，其中部分方法的证据也较有限：只保留对你有帮助、且不会加重不适的方法。</string>
+    <string name="healing_practical_tip_warning">任何方法一旦引起疼痛、头晕、麻木或加重不适，请立即停止。不要突然扭动或调整颈部与脊柱。</string>
+    <string name="healing_what_may_be_happening">你可能正在经历什么</string>
+    <string name="healing_body_mind_explanation_hint">点击了解身体和心理可能正在发生什么</string>
+    <string name="healing_hide_explanation">收起说明</string>
+    <string name="healing_body_learns">你的身体也会学习</string>
+    <string name="healing_neuroplasticity_note">心理、身体和环境会彼此影响。通过反复练习、学习和神经可塑性，你的神经系统可以逐渐形成新的反应方式。这并不意味着一个念头就能控制基因、保证康复，也不代表你需要为自己的感受负责。</string>
+    <string name="healing_when_to_seek_help">何时应该求助</string>
+    <string name="healing_warning_signs_hint">点击查看危险信号和紧急求助资源</string>
+    <string name="healing_hide_warning_signs">收起危险信号</string>
+    <string name="healing_view_local_urgent_help">查看我所在国家或地区的紧急求助</string>
+    <string name="healing_sources_and_evidence">资料来源与证据</string>
+    <string name="healing_sources_hint">点击查看参考资料</string>
+    <string name="healing_hide_sources">收起资料来源</string>
+    <string name="healing_open_source">打开资料来源</string>
+    <string name="healing_content_reviewed">内容版本 %1$s · 审核日期 %2$s</string>
+    <string name="healing_collapse">收起</string>
+    <string name="healing_expand">展开</string>
+    <string name="healing_informational_disclaimer">本引导仅提供身心健康教育与支持。不同技巧和建议的证据程度可能不同。本内容不作诊断，不能替代医疗照护，也不保证任何方法对所有人都有效。</string>
+    <string name="healing_stop_instruction">如果练习加重不适，或出现疼痛、严重头晕、呼吸困难，请立即停止。恢复自然呼吸，并在需要时寻求帮助。</string>
+    <string name="healing_evidence_supported">证据较充分</string>
+    <string name="healing_evidence_promising">证据显示有望有效</string>
+    <string name="healing_evidence_complementary">辅助方法</string>
+    <string name="healing_evidence_experimental">证据有限</string>
+    <string name="healing_duration_seconds">%1$d 秒</string>
+    <string name="healing_duration_minutes">%1$d 分钟</string>
+    <string name="healing_duration_minutes_seconds">%1$d 分 %2$d 秒</string>
+
+    <string name="healing_before_starting">开始之前</string>
+    <string name="healing_safety_intro">这项检查可以避免把可能需要紧急救助的情况误当成单纯的情绪反应。</string>
+    <string name="healing_seek_immediate_help">如有以下情况，请立即求助…</string>
+    <string name="healing_unsure_need_help">是的，我不确定或需要帮助</string>
+    <string name="healing_safety_confirmation">我已阅读以上信号，目前均未出现。我可以随时停止。</string>
+    <string name="healing_start_guide">开始引导</string>
+    <string-array name="healing_urgent_signals">
+        <item>存在即时危险，或你感觉自己可能会伤害自己或他人。</item>
+        <item>出现剧烈或新发的胸痛、胸部压迫感、昏厥，或严重呼吸困难。</item>
+        <item>突然无力、严重意识混乱、说话困难，或出现新的神经系统症状。</item>
+        <item>服用过量药物或危险物质，或遭受严重伤害。</item>
+        <item>你无法保证自身安全，或不确定这是否只是情绪反应。</item>
+    </string-array>
+
+    <string name="healing_step_progress">第 %1$d 步，共 %2$d 步</string>
+    <string name="healing_previous_step">上一步</string>
+    <string name="healing_continue">继续</string>
+    <string name="healing_pause">暂停</string>
+    <string name="healing_next_step">下一步</string>
+    <string name="healing_feedback_helped">有帮助</string>
+    <string name="healing_feedback_somewhat">有一点</string>
+    <string name="healing_feedback_not_helped">没有</string>
+    <string name="healing_guide_completed">引导已完成</string>
+    <string name="healing_completion_note">恢复自然呼吸，感受当下，不必强求某种特定结果。</string>
+    <string name="healing_feedback_question">这次练习对你来说怎么样？</string>
+    <string name="healing_feedback_privacy">你的回答不会被保存，只用于帮助你决定下一步。</string>
+    <string name="healing_feedback_not_helped_advice">可以尝试另一类方法，或向可信赖的人寻求支持。没有帮助的练习不必勉强重复。</string>
+    <string name="healing_feedback_helped_advice">需要时，你可以从收藏中再次使用这项技巧。</string>
+    <string name="healing_exit_guide">退出引导</string>
+    <string name="healing_need_urgent_help">我需要紧急帮助</string>
+
+    <string name="healing_immediate_danger_notice">如果存在即时危险，请不要继续自我调节练习。请拨打紧急服务电话，或请他人代为拨打。</string>
+    <string name="healing_check_signals">检查这些危险信号</string>
+    <string name="healing_country_or_region">国家或地区</string>
+    <string name="healing_change_country">更改国家或地区</string>
+    <string name="healing_help">求助</string>
+    <string name="healing_local_help_fallback">请查询当地紧急服务电话，或使用国际求助热线目录查找你所在国家或地区的可靠资源。</string>
+    <string name="healing_contacts_for">%1$s的求助联系方式</string>
+    <string name="healing_more_countries">其他国家或地区</string>
+    <string name="healing_services_change_notice">服务信息可能会有变动。拨打前请务必确认国家或地区、服务用途和资料来源。</string>
+    <string name="healing_call_number">拨打 %1$s</string>
+    <string name="healing_official_source">查看官方资料</string>
+    <string name="healing_international_directory">国际求助热线目录</string>
+    <string name="healing_emergencies">紧急服务</string>
+    <string name="healing_emergency_detail">适用于存在即时危险或医疗紧急情况。</string>
+    <string name="healing_region_unverified">我们尚未确认该地区是否有统一的紧急服务号码。请使用当地紧急服务电话，或查询国际热线目录。</string>
+    <string name="healing_region_detection_note">国家或地区来自设备设置，并非你的实时位置。拨打前请先确认。</string>
+    <string name="healing_contact_spain_024">为有自杀风险的人提供免费、保密的全天候支持。</string>
+    <string name="healing_contact_call_text_crisis">可拨打电话或发送短信，获取全天候危机支持。</string>
+    <string name="healing_contact_samaritans">提供免费、保密的全天候情绪支持。</string>
+    <string name="healing_contact_lifeline_au">提供全天候危机支持和自杀预防服务。</string>
+    <string name="healing_contact_nz_1737">可拨打电话或发送短信，与受过专业训练的咨询人员交谈。</string>
+    <string name="healing_contact_mexico">提供免费、全天候的专业心理健康指导。</string>
+</resources>

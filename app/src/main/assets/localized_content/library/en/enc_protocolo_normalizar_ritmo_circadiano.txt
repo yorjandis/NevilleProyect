@@ -1,0 +1,207 @@
+Practical, structured and physiologically coherent protocol to normalize the circadian rhythm from the molecular basis (melatonin, cortisol, peripheral clock genes, insulin sensitivity and body temperature).
+
+We will divide it into:
+    1. Biological principles
+    2. Detailed daily protocol
+    3. Adjustments according to chronotype
+    4. 14-day reset phase
+    5. Common mistakes
+
+
+
+🟢 Biological principles that we are going to use
+
+The circadian rhythm is mainly regulated by:
+    • Light (melanopsin → suprachiasmatic nucleus)
+    • Darkness (melatonin)
+    • Morning cortisol
+    • Feeding rhythm (liver)
+    • Body temperature
+    • Movement
+
+The key is not to “sleep more”, but to increase circadian amplitude (clarity between day and night signal).
+
+
+
+🟢 Optimal Daily Program
+
+Assuming target schedule:
+Sleep 23:00 – 7:00
+
+(Later I'll explain how to adapt it.)
+
+
+
+🔶 1. Within the first 10–20 minutes after waking up
+
+Objective: Trigger natural cortisol and suppress residual melatonin.
+
+✔ Go outside for 5–15 minutes (even if it's cloudy).
+✔ Without sunglasses.
+✔ Looking towards the horizon (not at the direct sun).
+
+Why it works:
+    • Activates melanopsin (~480 nm)
+    • Resets the suprachiasmatic nucleus
+    • Activates PER1/PER2 in peripheral tissues via cortisol
+
+If you can't get out:
+    • Artificial light ≥10,000 lux (less ideal but useful)
+
+
+🔶 2. Early movement (before 9:00)
+
+10–20 min of light walking or mobility.
+
+Effects:
+    • Increases body temperature
+    • Peak cortisol power
+    • Improves peripheral muscle synchronization
+
+Avoid HIIT on an empty stomach if you are very dysregulated.
+
+
+
+🔶 3. Coffee strategically
+
+Wait 60–90 minutes after waking up.
+
+Reason:
+You avoid interfering with the natural peak of cortisol and adenosine.
+
+
+
+🔶 4. First meal within 60–90 min after waking up
+
+Important for the liver.
+
+Ideal:
+    • Protein ≥30 g
+    • Healthy fats
+    • Moderate carbohydrates
+
+Example:
+Eggs + avocado + fruit or Greek yogurt + red fruits + nuts.
+
+This:
+    • Activates physiological insulin
+    • Synchronizes liver clock
+    • Activates mTOR early (where it should be)
+
+
+
+🔶 5. Second sun exposure (noon)
+
+10–20 minutes.
+
+Reinforces:
+    • Circadian amplitude
+    • Serotonin production
+    • Mood stability
+
+
+
+🔶 6. Ideal training: 15:00–18:00
+
+Here:
+    • Body temperature is higher
+    • Optimal neuromuscular performance
+    • Better glycemic tolerance
+
+Avoid intense training after 8:00 p.m. if you are out of sync.
+
+
+
+🔶 7. Sunset: transition signal
+
+Go outside for 5–10 minutes in low natural light.
+
+The reddish spectrum:
+    • Reduces melanopsin activation
+    • Facilitates progressive increase in melatonin
+
+
+
+🔶 8. 2–3 hours before bed
+
+Key rules:
+
+✔ Dim lights
+✔ Avoid intense blue light
+✔ No bright screens without filter
+✔ Light dinner
+
+Ideal dinner:
+    • Moderate protein
+    • Vegetables
+    • Low in refined carbohydrates
+
+Avoid:
+    • Alcohol
+    • Very fatty foods
+    • High glycemic loads
+
+
+
+🔶 9. 60 minutes before bed
+
+Fixed routine:
+    • Warm light
+    • Reading on paper
+    • Slow breathing (4-6 cycles/min)
+    • Room temperature 18–20°C
+
+The thermal drop facilitates melatonin.
+
+
+
+🟢 14 Day Reset Protocol (if you are very upset)
+
+For 2 weeks:
+    1. Fixed wake-up time (even weekends)
+    2. Mandatory sun exposure tomorrow
+    3. No naps >20 min
+    4. Zero screens 90 minutes before bed
+    5. Last meal 3 hours before bedtime
+    6. Alcohol-free
+
+The body needs consistent repetition to reset molecular phase.
+
+
+
+🟢 Adjustment according to chronotype
+
+If you are very nocturnal:
+    • Wake up 15 minutes earlier every 3 days.
+    • Mandatory immediate sun exposure.
+    • Very early dinner.
+
+If you are a very early riser:
+    • Keep bright light in the evening (until 7:00 p.m.).
+    • Dinner slightly later.
+    • Avoid going to bed excessively early.
+
+
+
+🟢 Signs that the protocol works
+
+✔ You wake up before the alarm
+✔ You are really hungry in the morning
+✔ Peak energy 9:00–12:00
+✔ Natural drowsiness 22:00–23:00
+✔ Deep sleep in first 90 min
+
+🟢 Mistakes that destroy rhythm
+    • Intense night light
+    • Eat at midnight
+    • Sleep late on weekends
+    • Train intensely at 10:00 p.m.
+    • Look at your cell phone in bed
+
+
+
+🟢 Ultra simplified version (5-3-1 rule)
+
+5 → minutes of sunlight upon waking
+3 → hours without eating before sleeping
+1 → fixed daily wake-up time

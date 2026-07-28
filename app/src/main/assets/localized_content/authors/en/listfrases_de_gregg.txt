@@ -1,0 +1,935 @@
+id=gregg_001
+autor=gregg
+nota=
+fuente=Braden, G. (2007), Capítulo 1, La Matriz Divina, p. 22, New York: Hay House, Inc., ISBN: 978-1-4019-2177-4
+contexto=
+contexto_ids=
+texto=Whatever we decide to call that mysterious “something,” we all have it; and ours intermingles with everyone else's as part of the energy field that permeates all things
+relacionadas=
+
+id=gregg_002
+autor=gregg
+nota=
+fuente=Braden, G. (2007), Capítulo 1, La Matriz Divina, p. 20, New York: Hay House, Inc., ISBN:978-1-4019-2177-4
+contexto=
+contexto_ids=
+texto=It seems that the further we move from our natural relationship with the earth, with our bodies, with our fellow humans and with God, the emptier we become.
+relacionadas=
+
+id=gregg_003
+autor=gregg
+nota=
+fuente=Braden, G. (2007), Introducción, La Matriz Divina, p. 10 , New York: Hay House, Inc., ISBN: 978-1-4019-2177-4
+contexto=
+contexto_ids=
+texto=Modern science has discovered that through every emotion we experience in our bodies, we also go through chemical changes such as pH and hormones that reflect our feelings. Through the “positive” experiences of love, compassion, and forgiveness, and the “negative” emotions of hate, judgment, and envy, each of us possesses the power to affirm or deny our existence every moment of the day.
+relacionadas=
+
+id=gregg_004
+autor=gregg
+nota=
+fuente=Braden, G. (2007), Introducción, La Matriz Divina, p. 8 , New York: Hay House, Inc., ISBN: 978-1-4019-2177-4
+contexto=
+contexto_ids=
+texto=What we see as our world is actually a projection of something even more real that is happening at a deeper level of creation.
+relacionadas=
+
+id=gregg_005
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+contexto_ids=
+texto=Prayer is more than what we do. Prayer is who we are
+relacionadas=
+
+id=gregg_006
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+contexto_ids=
+texto=If the feeling is prayer and we feel continuously, that means that we are always in a state of prayer.
+relacionadas=
+
+id=gregg_007
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+contexto_ids=
+texto=Blessing can be defined as a quality of thought, feeling or emotion that allows us to redefine the feelings we harbor about something that hurts us now or hurt us in the past.
+relacionadas=
+
+id=gregg_008
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+contexto_ids=
+texto=Ancient traditions point out that the only difference between the angels of Heaven and those of Earth is that the former remember that they are angels.
+relacionadas=
+
+id=gregg_009
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+contexto_ids=
+texto=Within us we have the necessary technology to connect with the Divine Matrix. This is achieved through brain-heart coherence.
+relacionadas=
+
+id=gregg_010
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+contexto_ids=
+texto=The subtle difference between relief and longing is the force that distinguishes asking from receiving.
+relacionadas=
+
+id=gregg_011
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+contexto_ids=
+texto=The feeling is prayer," the Tibetan abbot had said, in line with the teachings of the traditions of the great teachers of the Native Americans, and also of the Christian and Jewish traditions.
+relacionadas=
+
+id=gregg_012
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+contexto_ids=
+texto=The Divine Matrix is ​​the quantum field of infinite possibilities, described by science.
+relacionadas=
+
+id=gregg_013
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+contexto_ids=
+texto=Feeling is the language that the Mind of God recognizes
+relacionadas=
+
+id=gregg_014
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+contexto_ids=
+texto=True prayer is the feeling of desire already fulfilled. Feel the reality of what you want to experience. Take a deep breath and feel the fullness of your prayer come true in every detail and form possible. Then, feel gratitude and what your life is like with that prayer already answered.
+relacionadas=
+
+id=gregg_015
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+contexto_ids=
+texto=I turned to my friend and asked: —If you didn't ask for rain, what did you do? "It's very simple," he answered. I started to feel the rain. I felt the sensation of water falling on my body and what it felt like to stand in the mud with bare feet in our town square. I felt the smells of the rain falling on the mud walls of our houses and the excitement of walking through the corn fields with my chest full because it had rained heavily.
+relacionadas=
+
+id=gregg_016
+autor=gregg
+nota=
+fuente=Libro: Secreto de un Modo de Orar Olvidado
+contexto=
+contexto_ids=
+texto=Continuing to ask for something to be produced only gives greater strength to what we would like to change - said my friend. When we ask for something to happen, we perpetuate its lack. Prayers asking for healing give greater strength to the illness. The prayers that ask for rain give strength to the drought...To ask with feeling for something to happen is to recognize its lack in our experience, the quantum field, then, receives our intention and produces that lack in our experience.
+relacionadas=
+
+id=gregg_017
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Every thought and emotion we feel has the power to influence our reality.
+relacionadas=
+
+id=gregg_018
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Gratitude is one of the most powerful tools to connect with the Matrix.
+relacionadas=
+
+id=gregg_019
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=There is no real separation: everything in the universe is interconnected.
+relacionadas=
+
+id=gregg_020
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Our emotions are the language with which we interact with the universal field.
+relacionadas=
+
+id=gregg_021
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Clear intention combined with coherent emotions activates changes in reality.
+relacionadas=
+
+id=gregg_022
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Small internal changes can generate large external transformations.
+relacionadas=
+
+id=gregg_023
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Cultivating states of love and compassion impacts not only our lives, but also our collective lives.
+relacionadas=
+
+id=gregg_024
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Our focused consciousness co-creates the reality we experience.
+relacionadas=
+
+id=gregg_025
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=The present, past and future are intertwined in the Matrix.
+relacionadas=
+
+id=gregg_026
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Healing past experiences transforms the perception of the present and possible futures.
+relacionadas=
+
+id=gregg_027
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Visualizing what we desire with authentic emotions imprints that reality on the Matrix.
+relacionadas=
+
+id=gregg_028
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Feeling as if we already have what we want is more powerful than just thinking about it.
+relacionadas=
+
+id=gregg_029
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=The coherence between mind and heart amplifies the effect of our intention.
+relacionadas=
+
+id=gregg_030
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Meditation helps align our consciousness with universal energy.
+relacionadas=
+
+id=gregg_031
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Each sustained negative emotion can limit our access to the Matrix.
+relacionadas=
+
+id=gregg_032
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=The perception of separation is just an illusion; Deep down everything is one.
+relacionadas=
+
+id=gregg_033
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=By focusing on solutions rather than problems, we activate creative responses from the field.
+relacionadas=
+
+id=gregg_034
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Repetitive thoughts act as signals that the Matrix interprets and responds to.
+relacionadas=
+
+id=gregg_035
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=The power of intention does not depend on the size of the desire, but on the clarity and emotion that accompanies it.
+relacionadas=
+
+id=gregg_036
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=True transformation begins within us before being reflected outside.
+relacionadas=
+
+id=gregg_037
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Cultivating trust and patience strengthens the connection with the Matrix.
+relacionadas=
+
+id=gregg_038
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Our perception can limit or expand our experience of reality.
+relacionadas=
+
+id=gregg_039
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Acting from compassion generates effects that go beyond the immediate and visible.
+relacionadas=
+
+id=gregg_040
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Every moment is an opportunity to align mind, heart and spirit with the universal field.
+relacionadas=
+
+id=gregg_041
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=The connection with the Matrix does not require complicated formulas, only presence and internal coherence.
+relacionadas=
+
+id=gregg_042
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Our reality can change faster when our emotions and thoughts are coherent.
+relacionadas=
+
+id=gregg_043
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=The energy field responds to the authenticity of our feelings more than our words.
+relacionadas=
+
+id=gregg_044
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Taking care of our inner world is as important as our external actions.
+relacionadas=
+
+id=gregg_045
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=The Matrix reflects the energetic pattern that we consistently hold.
+relacionadas=
+
+id=gregg_046
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Feeling gratitude before receiving something activates positive responses from the universal field.
+relacionadas=
+
+id=gregg_047
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Our environment changes when we change our perception and internal vibration.
+relacionadas=
+
+id=gregg_048
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Intention without emotion has less force; Unintentional emotion can disperse.
+relacionadas=
+
+id=gregg_049
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Each conscious action brings us closer to the experience of a reality aligned with our desires.
+relacionadas=
+
+id=gregg_050
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Internal coherence acts like a magnet that attracts circumstances aligned with our vision.
+relacionadas=
+
+id=gregg_051
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=What we feel deeply has more influence on our reality than what we think superficially.
+relacionadas=
+
+id=gregg_052
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=When we harmonize intention, emotion and action, we open the door to possibilities previously unthinkable.
+relacionadas=
+
+id=gregg_053
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=The daily practice of presence and gratitude strengthens our connection to the universal field.
+relacionadas=
+
+id=gregg_054
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Transforming our internal world automatically transforms the way we experience life.
+relacionadas=
+
+id=gregg_055
+autor=gregg
+nota=
+fuente=Libro: La Matriz Divina
+contexto=
+contexto_ids=
+texto=Each coherent thought and emotion acts as a seed planted in the Matrix to grow in our reality.
+relacionadas=
+
+id=gregg_056
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=True resilience is not about resisting change, but about consciously transforming through it.
+relacionadas=
+
+id=gregg_057
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=The heart has its own intelligence that can guide us more clearly than purely rational thought.
+relacionadas=
+
+id=gregg_058
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=When mind and heart are in coherence, our decisions become more balanced and effective.
+relacionadas=
+
+id=gregg_059
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=Cardiac coherence reduces stress and allows you to respond to life with calm instead of fear.
+relacionadas=
+
+id=gregg_060
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=Emotions are not weaknesses, but signals that the heart uses to guide us.
+relacionadas=
+
+id=gregg_061
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=Resilience begins with the ability to observe our reactions without identifying with them.
+relacionadas=
+
+id=gregg_062
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=Fear weakens when we learn to listen to it without automatically obeying it.
+relacionadas=
+
+id=gregg_063
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=Conscious breathing is a direct tool to restore coherence between heart and brain.
+relacionadas=
+
+id=gregg_064
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=Adapting to change is a trainable skill, not a fixed personality trait.
+relacionadas=
+
+id=gregg_065
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=Hope arises when we choose to interpret challenges as learning opportunities.
+relacionadas=
+
+id=gregg_066
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=The heart responds better to authenticity than to extreme self-demand.
+relacionadas=
+
+id=gregg_067
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=Personal resilience is strengthened when we know our limits and respect them.
+relacionadas=
+
+id=gregg_068
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=Crises reveal internal patterns that remain hidden in times of stability.
+relacionadas=
+
+id=gregg_069
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=Responding with presence is more powerful than reacting quickly.
+relacionadas=
+
+id=gregg_070
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=Resilience is built in small everyday decisions, not just big events.
+relacionadas=
+
+id=gregg_071
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=The body is a fundamental ally to detect when we are in coherence or in internal conflict.
+relacionadas=
+
+id=gregg_072
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=Emotional flexibility allows you to adapt without losing personal identity.
+relacionadas=
+
+id=gregg_073
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=Human connection strengthens both individual and collective resilience.
+relacionadas=
+
+id=gregg_074
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=Continuous learning is an essential characteristic of resilient systems.
+relacionadas=
+
+id=gregg_075
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=Inner clarity arises when we stop fighting against what is.
+relacionadas=
+
+id=gregg_076
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=Resilience does not eliminate pain, but it prevents it from turning into prolonged suffering.
+relacionadas=
+
+id=gregg_077
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=Emotional balance is the result of a conscious relationship with our thoughts.
+relacionadas=
+
+id=gregg_078
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=Listening to the heart allows us to act aligned with our deepest values.
+relacionadas=
+
+id=gregg_079
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=Resilience flourishes when we accept uncertainty as a natural part of life.
+relacionadas=
+
+id=gregg_080
+autor=gregg
+nota=
+fuente=Libro: Resiliencia desde el Corazón
+contexto=
+contexto_ids=
+texto=Living from the heart is a daily practice that strengthens our ability to adapt and make sense.
+relacionadas=
+
+id=gregg_081
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=The human being is not an incomplete version of himself, but a fully functional expression of life with forgotten internal capacities.
+relacionadas=
+
+id=gregg_082
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=True human evolution does not consist of adding technology to the body, but rather recovering coherence between mind, heart and biology.
+relacionadas=
+
+id=gregg_083
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=Our thoughts and emotions directly influence genetic expression and the health of the body.
+relacionadas=
+
+id=gregg_084
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=The heart acts as an intelligence center that coordinates the brain and regulates the balance of the nervous system.
+relacionadas=
+
+id=gregg_085
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=Emotions are not accidental reactions, but biological signals designed to guide and protect us.
+relacionadas=
+
+id=gregg_086
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=Emotional coherence creates internal states that promote resilience, mental clarity and healing.
+relacionadas=
+
+id=gregg_087
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=Chronic stress arises when we live disconnected from our natural biological rhythms.
+relacionadas=
+
+id=gregg_088
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=Human biology responds more to the emotional meaning of an experience than to the external event itself.
+relacionadas=
+
+id=gregg_089
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=Consciously feeling high emotions is a way to actively influence our physical and mental state.
+relacionadas=
+
+id=gregg_090
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=Intuition is a legitimate form of intelligence that arises from the integration between body, emotion and mind.
+relacionadas=
+
+id=gregg_091
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=Delegating our internal decisions to external systems weakens our biological and emotional autonomy.
+relacionadas=
+
+id=gregg_092
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=Technology must be a conscious extension of the human being, not a substitute for his inner perception.
+relacionadas=
+
+id=gregg_093
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=The human body has a deep memory that responds to security, calm and a sense of belonging.
+relacionadas=
+
+id=gregg_094
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=Coherence between what we think and what we feel is key to a balanced life.
+relacionadas=
+
+id=gregg_095
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=True human strength comes from emotional integration, not from the suppression of emotions.
+relacionadas=
+
+id=gregg_096
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=Living in a state of constant threat alters biology and limits our creative potential.
+relacionadas=
+
+id=gregg_097
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=When the heart and brain are in coherence, decisions become clearer and more effective.
+relacionadas=
+
+id=gregg_098
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=Sustained gratitude is one of the simplest and most powerful ways to induce biological coherence.
+relacionadas=
+
+id=gregg_099
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=Human beings are designed to self-regulate when they feel safe, seen and connected.
+relacionadas=
+
+id=gregg_100
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=Conscious evolution begins when we stop living in reaction and begin to choose from presence.
+relacionadas=
+
+id=gregg_101
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=Health is not only the absence of disease, but a state of integral coherence.
+relacionadas=
+
+id=gregg_102
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=Remembering who we are is more transformative than trying to become something else.
+relacionadas=
+
+id=gregg_103
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=Consciousness applied to daily life is the highest form of human technology.
+relacionadas=
+
+id=gregg_104
+autor=gregg
+nota=
+fuente=Libro: Puramente Humanos
+contexto=
+contexto_ids=
+texto=Being purely human implies living from coherence, emotional responsibility and inner connection.
+relacionadas=

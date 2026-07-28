@@ -1,0 +1,180 @@
+The activation of peripheral clock genes is one of the most elegant mechanisms of metabolic coordination in the body. They do not depend directly on light (like the central clock), but on systemic signals that translate light information into biochemical changes in each tissue.
+
+Let's look at it from the molecular level to the tissue.
+
+
+
+🟢 Basic molecular architecture of the cellular clock
+
+In practically all cells there are the same components:
+
+Activator complex
+    • CLOCK
+    • BMAL1
+
+These two proteins form a heterodimer (CLOCK:BMAL1) that acts as a transcription factor.
+
+They bind to E-box sequences of DNA and activate the expression of:
+    • PER1, PER2, PER3
+    • CRY1, CRY2
+    • REV-ERBα
+    • RORα
+
+
+
+Inhibitory complex
+
+PER and CRY proteins:
+    1. They accumulate in the cytoplasm.
+    2. They are phosphorylated (by CK1ε/δ).
+    3. They enter the core.
+    4. They inhibit CLOCK:BMAL1.
+
+This creates a ~24 hour negative feedback loop.
+
+This mechanism occurs in:
+    • Liver
+    • Muscle
+    • Adipose tissue
+    • Pancreas
+    • Heart
+    • Immune system
+
+
+
+🟢 How are they activated in peripheral tissues?
+
+Here's the interesting thing: peripheral tissues do not receive direct light. They are synchronized by systemic signals that depend on the central clock located in the suprachiasmatic nucleus.
+
+The main synchronizing signals are:
+
+
+
+🔸 A) Cortisol
+
+Cortisol is probably the most important endocrine signal.
+
+Molecular mechanism:
+    1. Cortisol enters the cell.
+    2. Binds to the glucocorticoid receptor (GR).
+    3. The cortisol-GR complex is translocated to the nucleus.
+    4. It binds to GRE (Glucocorticoid Response Elements) sequences.
+
+Some PER genes have GRE in their promoter.
+
+Result:
+→ The morning cortisol peak activates PER1 and PER2.
+→ The peripheral clock phase is reset.
+
+This is literally a hormonal signal that “sets the tissues on time.”
+
+⸻
+
+🔸 B) Feeding rhythm (metabolic Zeitgeber)
+
+In liver and adipose tissue, the moment of eating is even more potent than cortisol.
+
+Active intake:
+    • Insulin
+    • mTOR
+    • AMPK
+    • SIRT1
+
+These pathways directly modify clock proteins.
+
+Example:
+    • AMPK phosphorylates CRY → promotes its degradation.
+    • SIRT1 deacetylates BMAL1 and PER → modulates cycle stability.
+
+This links energy state with circadian rhythm.
+
+
+
+🔸 C) Body temperature
+
+The daily oscillation of 1–1.5°C regulates the activity of heat-sensitive transcription factors such as HSF1.
+
+These can modulate the expression of PER and other clock genes.
+
+
+
+🔸 D) Autonomous nervous system
+
+The NSQ directly modulates:
+    • Hepatic sympathetic tone
+    • Release of norepinephrine
+
+The active adrenergic signal:
+    • cAMP pathways
+    • CREB
+    • PER Transcription
+
+
+
+🟢 Practical example: activation in the liver
+
+In the morning:
+    1. Sunlight → NSQ activated
+    2. Cortisol spike
+    3. Breakfast → insulin
+    4. Increased body temperature
+
+Everything converges in:
+    • Activation of CLOCK:BMAL1
+    • PER induction
+    • Programming of metabolic genes
+
+Regulated genes include:
+    • PEPCK (gluconeogenesis)
+    • G6Pase
+    • Lipogenic genes
+    • Mitochondrial enzymes
+
+The result is that the liver “anticipates” the arrival of nutrients.
+
+
+
+🟢 Circadian epigenetics
+
+Clock genes don't just activate metabolic genes. They modulate chromatin.
+
+CLOCK has histone acetyltransferase (HAT) activity.
+
+This means:
+
+→ Opens chromatin at specific times
+→ Allows organized temporal expression
+
+SIRT1 (NAD⁺ dependent) connects the redox state to the clock.
+
+That is why the circadian rhythm is linked to:
+    • Mitochondrial function
+    • Oxidative stress
+    • Cell longevity
+
+
+
+🟢 Peripheral desynchronization
+
+If the central and peripheral clocks become uncoupled (example: late eating, night light):
+    • The SCN may be in the “diurnal” phase
+    • The liver may be in a “night” phase
+
+This generates:
+    • Insulin resistance
+    • Greater lipogenesis
+    • Chronic inflammation
+    • Mitochondrial dysfunction
+
+Correct activation of peripheral clock genes maintains systemic metabolic coherence.
+
+
+
+🟢 Integrated molecular summary
+
+Light signal
+→ NSQ
+→ cortisol + nervous system + temperature + eating rhythms
+→ activation/inhibition of CLOCK-BMAL1
+→ PER/CRY oscillation
+→ temporal regulation of metabolism
