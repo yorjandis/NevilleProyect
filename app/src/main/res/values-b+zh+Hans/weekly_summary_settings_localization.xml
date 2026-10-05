@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="weekly_settings_title">每周总结</string>
+    <string name="weekly_settings_subtitle">选择回顾时间、开启提醒，并设置要保留的历史记录数量。</string>
+    <string name="weekly_settings_review_day">总结日</string>
+    <string name="weekly_settings_reminder_at_six">每周早上 6:00 提醒</string>
+    <string name="weekly_settings_availability">每周%1$s早上 6:00 起会收到提醒。</string>
+    <string name="weekly_settings_keep_records">保留 %1$d 条记录</string>
+    <string name="weekly_settings_cleanup_description">清理时将保留最近 %1$d 条每周总结，并删除更早的记录。</string>
+    <string name="weekly_settings_delete_old">删除旧回顾</string>
+    <string name="weekly_settings_delete_confirmation_title">删除旧的每周回顾？</string>
+    <string name="weekly_settings_delete_confirmation_body">将保留最近 %1$d 条总结，更早的记录会从此设备删除。</string>
+    <string name="weekly_settings_delete_action">删除旧记录</string>
+    <string name="weekly_settings_cleanup_result_title">清理历史记录</string>
+    <string name="weekly_settings_prune_none">没有需要删除的旧回顾。已保留最近 %1$d 条。</string>
+    <string name="weekly_settings_prune_one">已删除一条旧的每周回顾。已保留最近 %1$d 条。</string>
+    <string name="weekly_settings_prune_many">已删除 %1$d 条旧的每周回顾。已保留最近 %2$d 条。</string>
+    <string name="weekly_settings_prune_error">无法清理每周总结历史记录。</string>
+    <string name="weekly_settings_notification_permission_denied">未授予通知权限，因此没有开启每周提醒。</string>
+    <string name="weekly_settings_sunday">星期日</string>
+    <string name="weekly_settings_monday">星期一</string>
+    <string name="weekly_settings_tuesday">星期二</string>
+    <string name="weekly_settings_wednesday">星期三</string>
+    <string name="weekly_settings_thursday">星期四</string>
+    <string name="weekly_settings_friday">星期五</string>
+    <string name="weekly_settings_saturday">星期六</string>
+    <string name="weekly_notification_title">你的每周总结已准备好</string>
+    <string name="weekly_notification_body">花几分钟看看自己的进展，并选择下一个关注点。</string>
+    <string name="weekly_notification_channel">每周总结</string>
+    <string name="weekly_notification_channel_description">提醒你回顾每周进展。</string>
+</resources>

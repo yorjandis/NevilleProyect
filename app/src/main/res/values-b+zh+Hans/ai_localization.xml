@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_chat">聊天</string>
+    <string name="ai_short_label">AI</string>
+    <string name="ai_functions">AI 功能</string>
+    <string name="ai_action_key_points">要点</string>
+    <string name="ai_action_summary">总体摘要</string>
+    <string name="ai_action_practices">练习</string>
+    <string name="ai_action_practical_application">实际应用</string>
+    <string name="ai_action_interpret">解读</string>
+    <string name="ai_chat_with_ai">与 AI 聊天</string>
+    <string name="ai_interpret_with_ai">用 AI 解读</string>
+    <string name="ai_create_practical_application">创建实际应用</string>
+    <string name="ai_choose_knowledge_author">选择一位作者</string>
+    <string name="ai_choose_knowledge_author_explanation">回答将以该作者的知识为基础。</string>
+    <string name="ai_continue">继续</string>
+    <string name="ai_quote_by_author">%1$s 的语录</string>
+    <string name="ai_selected_text">所选文本</string>
+    <string name="ai_chat_title">AI 聊天</string>
+    <string name="ai_ask_author">向%1$s提问</string>
+    <string name="ai_close">关闭</string>
+    <string name="ai_accept">确定</string>
+    <string name="ai_change_author">更换作者</string>
+    <string name="ai_new_conversation">新对话</string>
+    <string name="ai_more_options">更多选项</string>
+    <string name="ai_conversation_history">对话历史</string>
+    <string name="ai_configure_openrouter">配置 OpenRouter</string>
+    <string name="ai_free_account_limit">此账户的免费额度：每天最多 %1$d 次请求。</string>
+    <string name="ai_openrouter_not_configured">OpenRouter 尚未配置</string>
+    <string name="ai_add_personal_key">添加个人密钥，仅使用免费模型。</string>
+    <string name="ai_thinking">思考中…</string>
+    <string name="ai_share_response">分享回答</string>
+    <string name="ai_share">分享</string>
+    <string name="ai_regenerate">重新生成</string>
+    <string name="ai_chat_note_title">聊天笔记</string>
+    <string name="ai_response_saved_notes">回答已保存到笔记</string>
+    <string name="ai_response_save_failed">无法将回答保存到笔记。</string>
+    <string name="ai_save_notes">保存到笔记</string>
+    <string name="ai_stop">停止</string>
+    <string name="ai_write_something">输入内容…</string>
+    <string name="ai_send">发送</string>
+    <string name="ai_suggestions">建议：</string>
+    <string name="ai_terms_title">人工智能使用条款</string>
+    <string name="ai_terms_body">人工智能可能生成不准确或有错误的回答。\n\n使用 AI 前，您必须接受以下条款：\n\n🟣 用户须自行负责核实和应用 AI 生成的回答。\n\n🟣 对于因使用或无法使用 AI 生成内容而导致的损害或损失，开发者不承担责任。\n\n这些条款可在 OpenRouter 设置中查看。</string>
+    <string name="ai_terms_accept">我接受</string>
+    <string name="ai_terms_not_accepted">当前状态：未接受</string>
+    <string name="ai_rename">重命名</string>
+    <string name="ai_save">保存</string>
+    <string name="ai_delete">删除</string>
+    <string name="ai_delete_conversation">删除对话</string>
+    <string name="ai_delete_conversation_message">“%1$s”及其全部历史记录将被删除。</string>
+    <string name="ai_no_text">没有可处理的文本。</string>
+    <string name="ai_generate_failed">无法生成回答。</string>
+    <string name="ai_processing_text">正在处理文本…</string>
+    <string name="ai_generate">生成</string>
+    <string name="ai_response_note_title">AI 回答</string>
+    <string name="ai_response_saved_short">回答已保存到笔记</string>
+    <string name="ai_save_failed_short">保存失败</string>
+    <string name="ai_settings_key_valid">密钥有效，可以使用。</string>
+    <string name="ai_settings_key_check_failed">无法验证密钥。</string>
+    <string name="ai_settings_create_key">如何创建密钥</string>
+    <string name="ai_settings_quick_guide">快速分步指南</string>
+    <string name="ai_settings_step1_title">打开 OpenRouter</string><string name="ai_settings_step1_detail">登录或创建账户。</string>
+    <string name="ai_settings_step2_title">创建密钥</string><string name="ai_settings_step2_detail">在“API Keys”中点击“Create API Key”。</string>
+    <string name="ai_settings_step3_title">为密钥命名</string><string name="ai_settings_step3_detail">使用容易识别的名称，例如“Neville”。</string>
+    <string name="ai_settings_step4_title">复制密钥</string><string name="ai_settings_step4_detail">OpenRouter 只会在创建时显示完整密钥。</string>
+    <string name="ai_settings_step5_title">返回 Neville</string><string name="ai_settings_step5_detail">粘贴到下方，然后点击“验证并保存”。</string>
+    <string name="ai_settings_open_keys">打开 OpenRouter 密钥页面</string>
+    <string name="ai_settings_key_safety">请为 Neville 创建专用密钥，不要分享；如怀疑已泄露，请立即撤销。</string>
+    <string name="ai_settings_personal_key">您的个人密钥</string>
+    <string name="ai_settings_replace_key">输入新密钥以替换已保存的密钥</string>
+    <string name="ai_settings_api_key">OpenRouter API 密钥</string>
+    <string name="ai_settings_key_stored">密钥已安全保存在此设备上</string>
+    <string name="ai_settings_checking">正在验证…</string>
+    <string name="ai_settings_check_stored">验证已保存的密钥</string>
+    <string name="ai_settings_check_save">验证并保存</string>
+    <string name="ai_settings_model">新对话使用的模型</string>
+    <string name="ai_settings_free_models_only">仅显示免费模型。每个对话创建后将固定使用所选模型。</string>
+    <string name="ai_settings_context_length">公布的最大上下文：%1$d 个 token</string>
+    <string name="ai_settings_auto_model">自动选择免费模型</string>
+    <string name="ai_settings_auto_model_description">OpenRouter 会自动选择可用的免费模型，并避开暂时过载的模型。</string>
+    <string name="ai_settings_privacy_usage">隐私与使用</string>
+    <string name="ai_settings_key_owned">密钥属于用户。Neville 不提供自有密钥，也不会通过中间服务器转发密钥。</string>
+    <string name="ai_settings_data_routing">使用 OpenRouter 时，问题和所需上下文会发送到 OpenRouter 及运行所选免费模型的提供商。</string>
+    <string name="ai_settings_never_paid">Neville 绝不会在未告知的情况下切换到付费模型。</string>
+    <string name="ai_settings_provider_privacy">查看提供商隐私信息</string>
+    <string name="ai_settings_free_limits">查看免费模型额度</string>
+    <string name="ai_settings_consent_revoked">权限已撤销。下次使用前会再次请求授权。</string>
+    <string name="ai_settings_revoke_consent">撤销分享对话的权限</string>
+    <string name="ai_settings_role">AI 采用的角色</string>
+    <string name="ai_settings_personal">个人化</string>
+    <string name="ai_settings_impersonal">非个人化</string>
+    <string name="ai_settings_personal_detail">AI 使用受作者启发的教学语气，但不会声称自己是该真实人物。</string>
+    <string name="ai_settings_impersonal_detail">AI 以第三人称解读作者的思想。</string>
+    <string name="ai_settings_new_conversations_only">更改仅适用于新对话。</string>
+    <string name="ai_settings_key_deleted">密钥已从此设备删除。</string>
+    <string name="ai_settings_delete_key">从此设备删除密钥</string>
+    <string name="ai_privacy_title">OpenRouter 隐私</string>
+    <string name="ai_privacy_online">OpenRouter 需要联网</string>
+    <string name="ai_privacy_optional">OpenRouter 为可选功能，仅在您使用 AI 功能时启用。</string>
+    <string name="ai_privacy_shared_title">会分享什么</string>
+    <string name="ai_privacy_shared_detail">问题或文本、所选操作、适用时的作者，以及生成回答所需的上下文。</string>
+    <string name="ai_privacy_with_whom">与谁分享</string>
+    <string name="ai_privacy_with_whom_detail">数据会使用您的密钥发送至 OpenRouter 以及运行所选免费模型的提供商。</string>
+    <string name="ai_privacy_not_happen">不会发生什么</string>
+    <string name="ai_privacy_not_happen_detail">不会选择付费模型；您的密钥不会保存在内容中，也不会发送到 Neville 服务器。</string>
+    <string name="ai_privacy_consent">我理解并授权在使用此选项时，将相关内容发送至 OpenRouter 和模型提供商。</string>
+    <string name="ai_privacy_terms_link">查看 OpenRouter 条款</string>
+    <string name="ai_privacy_policy_link">查看 OpenRouter 隐私政策</string>
+    <string name="ai_privacy_accept_continue">接受并继续</string>
+    <string name="ai_prefill_prompt">让我们谈谈这段文字：%1$s</string>
+    <string name="ai_error_conversation_missing">找不到该对话。</string>
+    <string name="ai_error_empty_message">请先输入消息再发送。</string>
+    <string name="ai_error_message_too_long">文本过长。每条消息最多允许 %1$d 个字符。</string>
+    <string name="ai_error_privacy_required">使用 OpenRouter 前请接受隐私声明。</string>
+    <string name="ai_error_generate">无法生成回答。</string>
+    <string name="ai_response_stopped">回答已停止。</string>
+    <string name="ai_error_operation">无法完成操作。</string>
+    <string name="ai_error_missing_key">请添加个人 OpenRouter 密钥以使用免费模型。</string>
+    <string name="ai_error_invalid_key">OpenRouter 密钥无效或无权访问 API。</string>
+    <string name="ai_error_credits">账户或密钥没有可用额度。Neville 绝不会切换到付费模型。</string>
+    <string name="ai_error_permission">OpenRouter 因权限或内容控制拒绝了请求。请检查密钥或改写文本。</string>
+    <string name="ai_error_rate_seconds">OpenRouter 暂时限制了免费模型。请约 %1$d 秒后重试。</string>
+    <string name="ai_error_rate">OpenRouter 暂时限制了账户或模型。请稍候并尝试自动选择免费模型。</string>
+    <string name="ai_error_invalid_request">OpenRouter 无法处理此请求，请尝试改写。</string>
+    <string name="ai_error_paid_model">此聊天仅允许使用 OpenRouter 免费模型。</string>
+    <string name="ai_error_model_unavailable">所选免费模型已不可用，请在设置中选择其他模型。</string>
+    <string name="ai_error_service_unavailable">OpenRouter 暂时不可用，请稍后重试。</string>
+    <string name="ai_error_offline">使用 OpenRouter 需要网络连接。</string>
+    <string name="ai_error_timeout">OpenRouter 响应超时，请重试。</string>
+    <string name="ai_error_network">无法连接 OpenRouter。</string>
+    <string name="ai_error_empty_response">OpenRouter 返回了空回答。</string>
+    <string name="ai_error_truncated">模型在完成回答前已达到生成上限。</string>
+    <string name="ai_error_filtered">提供商因安全过滤器中止了回答，请尝试改写请求。</string>
+    <string name="ai_error_http">OpenRouter 返回服务器错误（%1$s）。</string>
+    <string name="ai_error_api">无法完成 OpenRouter 请求。</string>
+    <string-array name="ai_suggestions_neville">
+        <item>什么是意识？</item><item>什么是修正法？</item><item>如何显化我的愿望？</item><item>我感到沮丧</item><item>我该如何祈祷？</item><item>如何应用你的教导？</item><item>我想改变</item><item>我感到停滞不前</item><item>什么是现实？</item><item>给我一个建议</item>
+    </string-array>
+    <string-array name="ai_suggestions_joe">
+        <item>如何从生存状态转向创造状态？</item><item>我应培养哪种提升性情绪？</item><item>如何观察自动化思维？</item><item>如何在未来发生前先感受它？</item><item>如何协调思想与情绪？</item><item>如何避免重新陷入情绪模式？</item>
+    </string-array>
+    <string-array name="ai_suggestions_bruce">
+        <item>环境如何影响我的细胞？</item><item>如何识别限制性信念？</item><item>压力如何影响身体？</item><item>如何重塑潜意识模式？</item><item>如何回到成长状态？</item><item>如何加强身心连接？</item>
+    </string-array>
+    <string-array name="ai_suggestions_gregg">
+        <item>如何让思维与心灵协调一致？</item><item>现在如何练习感恩？</item><item>哪种信念在塑造我的体验？</item><item>如何把恐惧转化为慈悲？</item><item>如何通过呼吸建立协调状态？</item><item>今天我想向世界传递什么意图？</item>
+    </string-array>
+</resources>

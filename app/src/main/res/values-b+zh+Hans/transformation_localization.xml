@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transformation_title">个人转变 · 21 天</string>
+    <string name="transformation_short_title">个人转变</string>
+    <string name="transformation_author_subtitle">引导练习、P.A.R.A.、日记与进度追踪</string>
+    <string name="transformation_open">打开</string>
+    <string name="transformation_notification_channel">个人转变</string>
+    <string name="transformation_notification_morning_title">你的转变练习</string>
+    <string name="transformation_notification_morning_body">呼吸，观察模式，并演练今天选择的新反应。</string>
+    <string name="transformation_notification_pause_title">P.A.R.A.</string>
+    <string name="transformation_notification_pause_body">觉察 · 延迟 · 调节 · 按照你的方案行动。</string>
+    <string name="transformation_notification_evening_title">每日回顾</string>
+    <string name="transformation_notification_evening_body">记录一个事件，总结学习并评估过程。</string>
+</resources>

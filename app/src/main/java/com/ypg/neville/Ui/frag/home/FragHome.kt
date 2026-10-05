@@ -682,10 +682,6 @@ class FragHome : Fragment() {
     }
 
     private fun openHomeAlternativeAccess(access: HomeAlternativeAccess) {
-        if (access.requiresPremium && !SubscriptionManager.hasActiveSubscriptionNow()) {
-            MainActivity.currentInstance()?.showSubscriptionPaywall()
-            return
-        }
         access.listElementLoaded?.let { frag_listado.elementLoaded = it }
         MainActivity.currentInstance()?.openDestinationAsSheet(access.destinationId)
     }
@@ -756,7 +752,8 @@ class FragHome : Fragment() {
         Voces("voces", "Voces", Icons.Rounded.Mic, HomeAlternativeGradient.Voice, R.id.frag_voice_recordings, requiresPremium = true),
         Anclas("anclas", "Anclas", Icons.Rounded.Favorite, HomeAlternativeGradient.Anchor, R.id.frag_emotional_anchors, requiresPremium = true),
         Cardio("cardio", "Coherencia", Icons.Rounded.Favorite, HomeAlternativeGradient.Coherence, R.id.frag_cardio_coherence, requiresPremium = true),
-        CentroSanador("centro_sanador", "Sanador", Icons.Rounded.HealthAndSafety, HomeAlternativeGradient.Healing, R.id.frag_healing_center),
+        CentroSanador("centro_sanador", "Sanador", Icons.Rounded.HealthAndSafety, HomeAlternativeGradient.Healing, R.id.frag_healing_center, requiresPremium = true),
+        Transformacion("transformacion", "Transformación", Icons.Rounded.Psychology, HomeAlternativeGradient.Joe, R.id.frag_transformation_protocol, requiresPremium = true),
         Notas("notas", "Notas", Icons.Rounded.EditNote, HomeAlternativeGradient.Notes, R.id.frag_notas),
         Frases("frases", "Frases", Icons.Rounded.Favorite, HomeAlternativeGradient.Phrase, R.id.frag_listado_frases),
         Enciclopedia("enciclopedia", "Enciclopedia", Icons.Rounded.MenuBook, HomeAlternativeGradient.Encyclopedia, R.id.frag_listado, "enciclopedia"),
@@ -786,6 +783,7 @@ class FragHome : Fragment() {
             HomeAlternativeAccess.Anclas -> R.string.home_access_anchors
             HomeAlternativeAccess.Cardio -> R.string.home_access_coherence
             HomeAlternativeAccess.CentroSanador -> R.string.healing_center_title
+            HomeAlternativeAccess.Transformacion -> R.string.transformation_short_title
             HomeAlternativeAccess.Notas -> R.string.home_access_notes
             HomeAlternativeAccess.Frases -> R.string.home_access_quotes
             HomeAlternativeAccess.Enciclopedia -> R.string.home_access_encyclopedia

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transformation_title">Personal Transformation · 21 Days</string>
+    <string name="transformation_short_title">Transformation</string>
+    <string name="transformation_author_subtitle">Guided practice, P.A.R.A., journal and progress tracking</string>
+    <string name="transformation_open">Open</string>
+    <string name="transformation_notification_channel">Personal transformation</string>
+    <string name="transformation_notification_morning_title">Your transformation practice</string>
+    <string name="transformation_notification_morning_body">Breathe, observe the pattern and rehearse your chosen response today.</string>
+    <string name="transformation_notification_pause_title">P.A.R.A.</string>
+    <string name="transformation_notification_pause_body">Perceive · Postpone · Regulate · Act according to your protocol.</string>
+    <string name="transformation_notification_evening_title">End-of-day review</string>
+    <string name="transformation_notification_evening_body">Record one episode, extract the lesson and assess your process.</string>
+</resources>

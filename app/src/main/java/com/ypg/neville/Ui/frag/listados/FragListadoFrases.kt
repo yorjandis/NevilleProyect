@@ -60,6 +60,7 @@ import com.ypg.neville.model.db.room.FraseEntity
 import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.utils.FraseContextActions
 import com.ypg.neville.model.subscription.SubscriptionManager
+import com.ypg.neville.feature.premiumpreview.PremiumFeatureId
 import com.ypg.neville.ui.theme.ContextMenuShape
 
 class FragListadoFrases : Fragment() {
@@ -226,11 +227,8 @@ class FragListadoFrases : Fragment() {
                                 text = { Text(optionLabel) },
                                 onClick = {
                                     if (isSourcePremium(option)) {
-                                        hostActivity?.showSubscriptionPaywall(
-                                            context.getString(
-                                                R.string.paywall_reason_category_format,
-                                                optionLabel
-                                            )
+                                        hostActivity?.showPremiumFeaturePreview(
+                                            PremiumFeatureId.EXTENDED_CONTENT
                                         )
                                     } else {
                                         selectedSource = option

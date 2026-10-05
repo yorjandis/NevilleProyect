@@ -167,6 +167,9 @@ class FragJoeDispenza : Fragment() {
                                 hasPremium = hasPremium,
                                 onResourceClick = { assetPath ->
                                     openAsset(assetPath, isPremiumPreview = !hasPremium)
+                                },
+                                onTransformationClick = {
+                                    MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_transformation_protocol)
                                 }
                             )
                         }
@@ -232,7 +235,8 @@ class FragJoeDispenza : Fragment() {
     private fun AuthorResourcesSection(
         cards: List<AccessCardPlaceholder>,
         hasPremium: Boolean,
-        onResourceClick: (String) -> Unit
+        onResourceClick: (String) -> Unit,
+        onTransformationClick: () -> Unit
     ) {
         val titleColor = Color(0xFF2A211A)
         val bodyColor = Color(0xFF3A3026)
@@ -273,7 +277,6 @@ class FragJoeDispenza : Fragment() {
                     .fillMaxWidth()
                     .padding(top = 10.dp)
             )
-            return
         }
 
         val seriesCards = cards.filter { it.menuItems.isNotEmpty() }
@@ -315,6 +318,47 @@ class FragJoeDispenza : Fragment() {
                 secondaryBtn = secondaryBtn,
                 onResourceClick = onResourceClick
             )
+        }
+
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 18.dp),
+            colors = CardDefaults.cardColors(containerColor = Color(0xFF39496F)),
+            shape = androidx.compose.foundation.shape.RoundedCornerShape(20.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Text(
+                        text = stringResource(R.string.transformation_title),
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp
+                    )
+                    Text(
+                        text = stringResource(R.string.transformation_author_subtitle),
+                        color = Color.White.copy(alpha = 0.82f),
+                        fontSize = 12.sp
+                    )
+                }
+                Button(
+                    onClick = onTransformationClick,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFFB8E3F6),
+                        contentColor = Color.Black
+                    )
+                ) {
+                    Text(
+                        text = if (hasPremium) stringResource(R.string.transformation_open) else "🔒",
+                        color = Color.Black
+                    )
+                }
+            }
         }
     }
 

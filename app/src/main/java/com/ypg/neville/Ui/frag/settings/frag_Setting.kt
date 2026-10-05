@@ -87,6 +87,7 @@ import com.ypg.neville.model.migration.MigrationFormat
 import com.ypg.neville.model.migration.MyAppMigrationService
 import com.ypg.neville.model.reminders.JournalDailyReminderManager
 import com.ypg.neville.model.subscription.SubscriptionManager
+import com.ypg.neville.feature.premiumpreview.PremiumFeatureId
 import com.ypg.neville.model.utils.ColorPickerManager
 import com.ypg.neville.model.utils.NewsContent
 import com.ypg.neville.model.utils.UiModalWindows
@@ -1071,7 +1072,9 @@ class frag_Setting : Fragment() {
                         }
 
                         if (!com.ypg.neville.model.subscription.SubscriptionManager.hasActiveSubscriptionNow()) {
-                            (activity as? MainActivity)?.showSubscriptionPaywall()
+                            (activity as? MainActivity)?.showPremiumFeaturePreview(
+                                PremiumFeatureId.PROTECTED_NOTES
+                            )
                             return@SwitchField
                         }
 

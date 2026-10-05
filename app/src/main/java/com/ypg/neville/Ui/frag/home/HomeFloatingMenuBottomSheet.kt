@@ -108,6 +108,7 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                                     "cardio" -> host?.openDestinationAsSheet(R.id.frag_cardio_coherence)
                                     "presencia" -> host?.openDestinationAsSheet(R.id.frag_presence)
                                     "centro_sanador" -> host?.openDestinationAsSheet(R.id.frag_healing_center)
+                                    "transformacion" -> host?.openDestinationAsSheet(R.id.frag_transformation_protocol)
                                     "ajustes" -> host?.openDestinationAsSheet(R.id.fragSetting)
                                     "premium" -> host?.showSubscriptionPaywall()
                                 }
@@ -405,6 +406,16 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                                     )
                                 },
                                 onClick = { showProductividad = false; onNavigate("presencia") }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.transformation_title)) },
+                                leadingIcon = {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_tips),
+                                        contentDescription = stringResource(R.string.transformation_title)
+                                    )
+                                },
+                                onClick = { showProductividad = false; onNavigate("transformacion") }
                             )
                             DropdownMenuItem(
                                 text = { Text(stringResource(R.string.healing_center_title)) },

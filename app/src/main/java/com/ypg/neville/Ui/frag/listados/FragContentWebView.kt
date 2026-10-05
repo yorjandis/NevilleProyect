@@ -57,6 +57,7 @@ import com.ypg.neville.model.utils.FraseContextActions
 import com.ypg.neville.model.utils.UiModalWindows
 import com.ypg.neville.model.utils.utilsFields
 import com.ypg.neville.model.subscription.SubscriptionManager
+import com.ypg.neville.feature.premiumpreview.PremiumFeatureId
 import com.ypg.neville.localization.AuthorContentLocalization
 import com.ypg.neville.localization.LibraryContentLocalization
 import com.ypg.neville.ui.render.BlockType
@@ -134,7 +135,9 @@ class FragContentWebView : Fragment() {
                                     if (SubscriptionManager.hasActiveSubscription(requireContext())) {
                                         showAiMenu = true
                                     } else {
-                                        MainActivity.currentInstance()?.showSubscriptionPaywall()
+                                        MainActivity.currentInstance()?.showPremiumFeaturePreview(
+                                            PremiumFeatureId.INTEGRATED_AI
+                                        )
                                     }
                                 },
                                 label = { Text(stringResource(R.string.ai_short_label), color = Color.Black) },
@@ -195,7 +198,9 @@ class FragContentWebView : Fragment() {
                                     if (hasPremium) {
                                         showPasteMenu = true
                                     } else {
-                                        MainActivity.currentInstance()?.showSubscriptionPaywall()
+                                        MainActivity.currentInstance()?.showPremiumFeaturePreview(
+                                            PremiumFeatureId.SMART_COPIED_TEXT
+                                        )
                                     }
                                 },
                                 label = {
@@ -467,6 +472,20 @@ class FragContentWebView : Fragment() {
                 listState = listState,
                 modifier = Modifier.fillMaxSize()
             )
+            if (isPremiumPreviewMode) {
+                Button(
+                    onClick = {
+                        MainActivity.currentInstance()?.showPremiumFeaturePreview(
+                            PremiumFeatureId.EXTENDED_CONTENT
+                        )
+                    },
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(bottom = 24.dp)
+                ) {
+                    Text(stringResource(R.string.premium_preview_cta))
+                }
+            }
         }
     }
 

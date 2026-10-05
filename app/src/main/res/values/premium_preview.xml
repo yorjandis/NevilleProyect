@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation,Typos">
+    <string name="premium_preview_close">Cerrar</string>
+    <string name="premium_preview_what_it_does">Lo que hará por ti</string>
+    <string name="premium_preview_practical_value">Valor práctico</string>
+    <string name="premium_preview_cta">Desbloquear esta función</string>
+    <string name="premium_preview_cta_detail">Ver la suscripción y la prueba disponible</string>
+    <string name="premium_preview_annual_note">Suscripción anual muy asequible, con una semana gratuita para que puedas probar todas las funciones.</string>
+    <string name="premium_preview_placeholder">Vista previa</string>
+    <string name="premium_preview_screenshot_accessibility">Vista previa %1$d de %2$s</string>
+    <string name="premium_preview_fullscreen_accessibility">Captura %1$d de %2$d: %3$s</string>
+
+    <string name="premium_preview_agenda_title">Agenda consciente</string>
+    <string name="premium_preview_agenda_description">Organiza actividades, tareas y compromisos en el tiempo, añade recordatorios y mantén a la vista aquello que merece tu atención.</string>
+    <string name="premium_preview_agenda_value">Libera carga mental, reduce olvidos y convierte tus prioridades en acciones concretas sin perder el equilibrio de tu día.</string>
+
+    <string name="premium_preview_healing_center_title">Centro Sanador</string>
+    <string name="premium_preview_healing_center_description">Accede a guías claras para momentos de ansiedad, miedo, estrés, bloqueo, conflicto o impulso, con prácticas explicadas paso a paso.</string>
+    <string name="premium_preview_healing_center_value">Comprende lo que ocurre en tu cuerpo y recupera capacidad de elección justo cuando más la necesitas, con un apoyo práctico siempre disponible.</string>
+
+    <string name="premium_preview_cardio_coherence_title">Coherencia cardio-cerebral</string>
+    <string name="premium_preview_cardio_coherence_description">Sigue un asistente de respiración y enfoque diseñado para favorecer un estado interno más ordenado, sereno y creativo.</string>
+    <string name="premium_preview_cardio_coherence_value">Crea una pausa de calidad en pocos minutos y entrena una respuesta más consciente ante la presión cotidiana.</string>
+
+    <string name="premium_preview_calm_space_title">Espacio Calma</string>
+    <string name="premium_preview_calm_space_description">Combina imágenes, música, sonidos y frases en una experiencia inmersiva pensada para ayudarte a bajar el ritmo y volver a ti.</string>
+    <string name="premium_preview_calm_space_value">Convierte cualquier pausa en un pequeño ritual de regulación que favorece descanso, claridad y aprendizaje.</string>
+
+    <string name="premium_preview_ai_title">Inteligencia Artificial integrada</string>
+    <string name="premium_preview_ai_description">Obtén resúmenes, interpretaciones, prácticas concretas y conversaciones contextualizadas en el campo de conocimiento de cada autor.</string>
+    <string name="premium_preview_ai_value">Pasa de leer a comprender y aplicar: convierte contenido complejo en ideas útiles para tu situación real y tus próximos pasos.</string>
+
+    <string name="premium_preview_creative_canvas_title">Lienzo creativo</string>
+    <string name="premium_preview_creative_canvas_description">Diseña composiciones visuales con tus frases e imágenes favoritas para compartir, imprimir o mantener como recordatorio personal.</string>
+    <string name="premium_preview_creative_canvas_value">Haz visible aquello en lo que deseas enfocarte y crea piezas personales capaces de acompañar y reforzar tu intención diaria.</string>
+
+    <string name="premium_preview_goals_title">Metas y transformación personal</string>
+    <string name="premium_preview_goals_description">Define objetivos claros, divídelos en unidades alcanzables, mide tu progreso y apóyate en programas prácticos para consolidar hábitos.</string>
+    <string name="premium_preview_goals_value">Convierte aspiraciones abstractas en un camino visible, refuerza tu constancia y celebra evidencia real de avance.</string>
+
+    <string name="premium_preview_protected_notes_title">Notas protegidas</string>
+    <string name="premium_preview_protected_notes_description">Añade una capa de privacidad a tus notas mediante biometría o contraseña y conserva tus reflexiones personales lejos de miradas ajenas.</string>
+    <string name="premium_preview_protected_notes_value">Escribe con mayor libertad y tranquilidad sabiendo que tu espacio íntimo permanece bajo tu control.</string>
+
+    <string name="premium_preview_presence_title">Presencia Consciente</string>
+    <string name="premium_preview_presence_description">Registra pequeños instantes de despertar, reconoce cuándo sales del piloto automático y observa la evolución de tus estados internos.</string>
+    <string name="premium_preview_presence_value">Entrena el hábito de volver al presente con un solo toque y transforma momentos cotidianos en oportunidades reales de conciencia.</string>
+
+    <string name="premium_preview_transformation_title">Transformación personal · 21 días</string>
+    <string name="premium_preview_transformation_description">Sigue un programa guiado para reconocer patrones automáticos, interrumpirlos y entrenar respuestas conscientes con prácticas, diario y seguimiento.</string>
+    <string name="premium_preview_transformation_value">Mantén foco y continuidad durante 21 días para que el aprendizaje deje de ser solo una idea y empiece a convertirse en experiencia.</string>
+
+    <string name="premium_preview_reminders_title">Recordatorios inteligentes</string>
+    <string name="premium_preview_reminders_description">Programa avisos para meditar, agradecer, visualizar, revisar tus metas o sostener cualquier práctica esencial para ti.</string>
+    <string name="premium_preview_reminders_value">Reduce la distancia entre saber lo que te hace bien y recordarlo en el momento adecuado para convertirlo en hábito.</string>
+
+    <string name="premium_preview_weekly_review_title">Revisión semanal guiada</string>
+    <string name="premium_preview_weekly_review_description">Cierra la semana con una síntesis de metas, agenda, diario, emociones, presencia, coherencia y logros, conservando cada revisión.</string>
+    <string name="premium_preview_weekly_review_value">Detecta patrones, reconoce avances y comienza la semana siguiente con aprendizaje acumulado en lugar de empezar de cero.</string>
+
+    <string name="premium_preview_daily_cycle_title">Ciclo consciente diario</string>
+    <string name="premium_preview_daily_cycle_description">Comienza la mañana con intención, observa tu presencia durante el día y ciérralo con una revisión que conserva lo aprendido en tu Diario.</string>
+    <string name="premium_preview_daily_cycle_value">Da continuidad a tu crecimiento con un ritmo sencillo: orientar, vivir con atención, integrar y usar lo aprendido al día siguiente.</string>
+
+    <string name="premium_preview_copied_text_title">Menú inteligente de texto</string>
+    <string name="premium_preview_copied_text_description">Selecciona fragmentos dentro de la app y accede de inmediato a acciones para guardar, interpretar, relacionar o transformar ese contenido.</string>
+    <string name="premium_preview_copied_text_value">Aprovecha una idea cuando te inspira sin romper el ritmo de lectura y conviértela en material útil con menos pasos.</string>
+
+    <string name="premium_preview_extended_content_title">Contenido extendido</string>
+    <string name="premium_preview_extended_content_description">Profundiza en lecturas, análisis, prácticas y materiales seleccionados que amplían las ideas principales de la aplicación.</string>
+    <string name="premium_preview_extended_content_value">Pasa de una primera inspiración a un aprendizaje estructurado que puedas comprender, revisar e incorporar a tu vida.</string>
+</resources>

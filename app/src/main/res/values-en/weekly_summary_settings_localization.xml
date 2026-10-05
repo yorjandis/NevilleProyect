@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="weekly_settings_title">Weekly summary</string>
+    <string name="weekly_settings_subtitle">Choose when to review it, enable its reminder, and control how much history to keep.</string>
+    <string name="weekly_settings_review_day">Summary day</string>
+    <string name="weekly_settings_reminder_at_six">Weekly reminder at 6:00 a.m.</string>
+    <string name="weekly_settings_availability">You will receive the reminder every %1$s from 6:00 a.m.</string>
+    <string name="weekly_settings_keep_records" tools:ignore="PluralsCandidate">Keep %1$d records</string>
+    <string name="weekly_settings_cleanup_description" tools:ignore="PluralsCandidate">Cleanup keeps the latest %1$d weekly summaries and deletes older records.</string>
+    <string name="weekly_settings_delete_old">Delete old reviews</string>
+    <string name="weekly_settings_delete_confirmation_title">Delete old weekly reviews?</string>
+    <string name="weekly_settings_delete_confirmation_body" tools:ignore="PluralsCandidate">The latest %1$d summaries will be kept. Older ones will be deleted from this device.</string>
+    <string name="weekly_settings_delete_action">Delete old records</string>
+    <string name="weekly_settings_cleanup_result_title">History cleanup</string>
+    <string name="weekly_settings_prune_none" tools:ignore="PluralsCandidate">There were no old reviews to delete. The latest %1$d are being kept.</string>
+    <string name="weekly_settings_prune_one" tools:ignore="PluralsCandidate">One old weekly review was deleted. The latest %1$d are being kept.</string>
+    <string name="weekly_settings_prune_many" tools:ignore="PluralsCandidate">%1$d old weekly reviews were deleted. The latest %2$d are being kept.</string>
+    <string name="weekly_settings_prune_error">The weekly summary history could not be cleaned up.</string>
+    <string name="weekly_settings_notification_permission_denied">The weekly reminder was not enabled because notification permission was not granted.</string>
+    <string name="weekly_settings_sunday">Sunday</string>
+    <string name="weekly_settings_monday">Monday</string>
+    <string name="weekly_settings_tuesday">Tuesday</string>
+    <string name="weekly_settings_wednesday">Wednesday</string>
+    <string name="weekly_settings_thursday">Thursday</string>
+    <string name="weekly_settings_friday">Friday</string>
+    <string name="weekly_settings_saturday">Saturday</string>
+    <string name="weekly_notification_title">Your weekly summary is ready</string>
+    <string name="weekly_notification_body">Take a few minutes to recognize your progress and choose your next focus.</string>
+    <string name="weekly_notification_channel">Weekly summary</string>
+    <string name="weekly_notification_channel_description">Reminders to review your weekly progress.</string>
+</resources>

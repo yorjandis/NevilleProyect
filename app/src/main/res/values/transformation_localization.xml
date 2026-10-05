@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transformation_title">Transformación personal · 21 días</string>
+    <string name="transformation_short_title">Transformación</string>
+    <string name="transformation_author_subtitle">Práctica guiada, P.A.R.A., diario y seguimiento</string>
+    <string name="transformation_open">Abrir</string>
+    <string name="transformation_notification_channel">Transformación personal</string>
+    <string name="transformation_notification_morning_title">Tu práctica de transformación</string>
+    <string name="transformation_notification_morning_body">Respira, observa el patrón y ensaya hoy tu respuesta elegida.</string>
+    <string name="transformation_notification_pause_title">P.A.R.A.</string>
+    <string name="transformation_notification_pause_body">Percibe · Aplaza · Regula · Actúa según tu protocolo.</string>
+    <string name="transformation_notification_evening_title">Cierre del día</string>
+    <string name="transformation_notification_evening_body">Registra un episodio, extrae el aprendizaje y valora el proceso.</string>
+</resources>

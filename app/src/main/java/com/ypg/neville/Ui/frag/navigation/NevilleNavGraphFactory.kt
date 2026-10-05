@@ -24,6 +24,7 @@ import com.ypg.neville.feature.morningdialog.ui.FragMyDay
 import com.ypg.neville.feature.presence.ui.FragPresence
 import com.ypg.neville.feature.voice.ui.FragVoiceRecordings
 import com.ypg.neville.feature.weeklysummary.ui.FragWeeklySummary
+import com.ypg.neville.feature.transformation.ui.FragTransformationProtocol
 
 fun buildNevilleNavGraph(navController: NavController, startDestination: Int): NavGraph {
     val provider = navController.navigatorProvider
@@ -97,6 +98,7 @@ fun buildNevilleNavGraph(navController: NavController, startDestination: Int): N
     addFragmentDestination(R.id.frag_healing_center, FragHealingCenter::class.java.name)
     addFragmentDestination(R.id.frag_ai_chat, FragAiChat::class.java.name)
     addFragmentDestination(R.id.frag_ai_text_tool, FragAiTextTool::class.java.name)
+    addFragmentDestination(R.id.frag_transformation_protocol, FragTransformationProtocol::class.java.name)
 
     graph.setStartDestination(startDestination)
     return graph

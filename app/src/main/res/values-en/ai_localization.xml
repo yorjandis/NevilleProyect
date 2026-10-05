@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_chat">Chat</string>
+    <string name="ai_short_label">AI</string>
+    <string name="ai_functions">AI features</string>
+    <string name="ai_action_key_points">Key points</string>
+    <string name="ai_action_summary">General summary</string>
+    <string name="ai_action_practices">Practices</string>
+    <string name="ai_action_practical_application">Practical application</string>
+    <string name="ai_action_interpret">Interpret</string>
+    <string name="ai_chat_with_ai">Chat with AI</string>
+    <string name="ai_interpret_with_ai">Interpret with AI</string>
+    <string name="ai_create_practical_application">Create practical application</string>
+    <string name="ai_choose_knowledge_author">Choose an author</string>
+    <string name="ai_choose_knowledge_author_explanation">Their knowledge will provide the basis for the response.</string>
+    <string name="ai_continue">Continue</string>
+    <string name="ai_quote_by_author">Quote by %1$s</string>
+    <string name="ai_selected_text">Selected text</string>
+    <string name="ai_chat_title">AI Chat</string>
+    <string name="ai_ask_author">Ask %1$s</string>
+    <string name="ai_close">Close</string>
+    <string name="ai_accept">OK</string>
+    <string name="ai_change_author">Change author</string>
+    <string name="ai_new_conversation">New conversation</string>
+    <string name="ai_more_options">More options</string>
+    <string name="ai_conversation_history">Conversation history</string>
+    <string name="ai_configure_openrouter">Configure OpenRouter</string>
+    <string name="ai_free_account_limit">Free limit for this account: up to %1$d requests per day.</string>
+    <string name="ai_openrouter_not_configured">OpenRouter is not configured</string>
+    <string name="ai_add_personal_key">Add your personal key to use free models exclusively.</string>
+    <string name="ai_thinking">Thinking…</string>
+    <string name="ai_share_response">Share response</string>
+    <string name="ai_share">Share</string>
+    <string name="ai_regenerate">Regenerate</string>
+    <string name="ai_chat_note_title">Chat note</string>
+    <string name="ai_response_saved_notes">The response was saved to Notes</string>
+    <string name="ai_response_save_failed">The response could not be saved to Notes.</string>
+    <string name="ai_save_notes">Save to Notes</string>
+    <string name="ai_stop">Stop</string>
+    <string name="ai_write_something">Write something…</string>
+    <string name="ai_send">Send</string>
+    <string name="ai_suggestions">Suggestions:</string>
+    <string name="ai_terms_title">Artificial Intelligence Terms of Use</string>
+    <string name="ai_terms_body">Artificial Intelligence may generate inaccurate answers or errors.\n\nTo use AI, you must accept the following terms:\n\n🟣 The user is solely responsible for verifying and applying the AI-generated response.\n\n🟣 The developer is not responsible for damage or loss resulting from the use of, or inability to use, AI-generated content.\n\nThese terms will remain available in the OpenRouter settings.</string>
+    <string name="ai_terms_accept">I accept</string>
+    <string name="ai_terms_not_accepted">Current value: Not accepted</string>
+    <string name="ai_rename">Rename</string>
+    <string name="ai_save">Save</string>
+    <string name="ai_delete">Delete</string>
+    <string name="ai_delete_conversation">Delete conversation</string>
+    <string name="ai_delete_conversation_message">“%1$s” and its entire history will be deleted.</string>
+    <string name="ai_no_text">There is no text to process.</string>
+    <string name="ai_generate_failed">The response could not be generated.</string>
+    <string name="ai_processing_text">Processing the text…</string>
+    <string name="ai_generate">Generate</string>
+    <string name="ai_response_note_title">AI response</string>
+    <string name="ai_response_saved_short">Response saved to Notes</string>
+    <string name="ai_save_failed_short">Could not save</string>
+    <string name="ai_settings_key_valid">The key is valid and ready to use.</string>
+    <string name="ai_settings_key_check_failed">The key could not be verified.</string>
+    <string name="ai_settings_create_key">How to create a key</string>
+    <string name="ai_settings_quick_guide">Quick step-by-step guide</string>
+    <string name="ai_settings_step1_title">Open OpenRouter</string><string name="ai_settings_step1_detail">Sign in or create an account.</string>
+    <string name="ai_settings_step2_title">Create a key</string><string name="ai_settings_step2_detail">Under “API Keys,” tap “Create API Key.”</string>
+    <string name="ai_settings_step3_title">Give it a name</string><string name="ai_settings_step3_detail">Use a recognizable name, such as “Neville.”</string>
+    <string name="ai_settings_step4_title">Copy the key</string><string name="ai_settings_step4_detail">OpenRouter only shows the complete secret when it is created.</string>
+    <string name="ai_settings_step5_title">Return to Neville</string><string name="ai_settings_step5_detail">Paste it below and tap “Verify and save.”</string>
+    <string name="ai_settings_open_keys">Open the OpenRouter keys page</string>
+    <string name="ai_settings_key_safety">Create a key exclusively for Neville, do not share it, and revoke it if you think it may have been exposed.</string>
+    <string name="ai_settings_personal_key">Your personal key</string>
+    <string name="ai_settings_replace_key">Enter a key to replace the saved one</string>
+    <string name="ai_settings_api_key">OpenRouter API key</string>
+    <string name="ai_settings_key_stored">Key stored securely on this device</string>
+    <string name="ai_settings_checking">Verifying…</string>
+    <string name="ai_settings_check_stored">Verify saved key</string>
+    <string name="ai_settings_check_save">Verify and save</string>
+    <string name="ai_settings_model">Model for new conversations</string>
+    <string name="ai_settings_free_models_only">Only free models are shown. The model is fixed when each conversation is created.</string>
+    <string name="ai_settings_context_length">Published maximum context: %1$d tokens</string>
+    <string name="ai_settings_auto_model">Automatic free selection</string>
+    <string name="ai_settings_auto_model_description">OpenRouter automatically selects an available free model and may avoid models that are temporarily overloaded.</string>
+    <string name="ai_settings_privacy_usage">Privacy and use</string>
+    <string name="ai_settings_key_owned">The key belongs to the user. Neville does not include its own key or send it through intermediary servers.</string>
+    <string name="ai_settings_data_routing">When using OpenRouter, questions and the required context are sent to OpenRouter and to the provider running the selected free model.</string>
+    <string name="ai_settings_never_paid">Neville will never silently switch to a paid model.</string>
+    <string name="ai_settings_provider_privacy">View provider privacy information</string>
+    <string name="ai_settings_free_limits">View free-model limits</string>
+    <string name="ai_settings_consent_revoked">Permission was revoked. Authorization will be requested before the next use.</string>
+    <string name="ai_settings_revoke_consent">Revoke permission to share conversations</string>
+    <string name="ai_settings_role">Role adopted by AI</string>
+    <string name="ai_settings_personal">Personal</string>
+    <string name="ai_settings_impersonal">Impersonal</string>
+    <string name="ai_settings_personal_detail">AI uses a teaching voice inspired by the author without claiming to be the real person.</string>
+    <string name="ai_settings_impersonal_detail">AI interprets the author’s ideas in the third person.</string>
+    <string name="ai_settings_new_conversations_only">The change applies to new conversations.</string>
+    <string name="ai_settings_key_deleted">The key was deleted from this device.</string>
+    <string name="ai_settings_delete_key">Delete key from this device</string>
+    <string name="ai_privacy_title">OpenRouter privacy</string>
+    <string name="ai_privacy_online">OpenRouter works online</string>
+    <string name="ai_privacy_optional">OpenRouter is optional and is activated only when you use AI features.</string>
+    <string name="ai_privacy_shared_title">What is shared</string>
+    <string name="ai_privacy_shared_detail">The question or text, the selected operation, the author when applicable, and the context required to generate the response.</string>
+    <string name="ai_privacy_with_whom">With whom</string>
+    <string name="ai_privacy_with_whom_detail">Data is sent to OpenRouter and to the provider running the selected free model, using your own key.</string>
+    <string name="ai_privacy_not_happen">What does not happen</string>
+    <string name="ai_privacy_not_happen_detail">Paid models are never selected, and your key is not stored in content or sent to Neville servers.</string>
+    <string name="ai_privacy_consent">I understand and authorize this content to be sent to OpenRouter and the model provider when I use this option.</string>
+    <string name="ai_privacy_terms_link">View OpenRouter terms</string>
+    <string name="ai_privacy_policy_link">View the OpenRouter privacy policy</string>
+    <string name="ai_privacy_accept_continue">Accept and continue</string>
+    <string name="ai_prefill_prompt">Let’s talk about this text: %1$s</string>
+    <string name="ai_error_conversation_missing">The conversation could not be found.</string>
+    <string name="ai_error_empty_message">Write a message before sending it.</string>
+    <string name="ai_error_message_too_long">The text is too long. A maximum of %1$d characters is allowed per message.</string>
+    <string name="ai_error_privacy_required">Accept the privacy notice before using OpenRouter.</string>
+    <string name="ai_error_generate">The response could not be generated.</string>
+    <string name="ai_response_stopped">Response stopped.</string>
+    <string name="ai_error_operation">The operation could not be completed.</string>
+    <string name="ai_error_missing_key">Add your personal OpenRouter key to use free models.</string>
+    <string name="ai_error_invalid_key">The OpenRouter key is invalid or does not have API access.</string>
+    <string name="ai_error_credits">The account or key has no available credit. Neville will never switch to a paid model.</string>
+    <string name="ai_error_permission">OpenRouter rejected the request because of permissions or content controls. Check the key or rephrase the text.</string>
+    <string name="ai_error_rate_seconds">OpenRouter has temporarily limited the free model. Try again in about %1$d seconds.</string>
+    <string name="ai_error_rate">OpenRouter has temporarily limited the account or model. Wait a moment and try automatic free selection.</string>
+    <string name="ai_error_invalid_request">OpenRouter could not process this request. Try rephrasing it.</string>
+    <string name="ai_error_paid_model">This chat allows only free OpenRouter models.</string>
+    <string name="ai_error_model_unavailable">The selected free model is no longer available. Choose another one in settings.</string>
+    <string name="ai_error_service_unavailable">OpenRouter is temporarily unavailable. Try again later.</string>
+    <string name="ai_error_offline">An internet connection is required to use OpenRouter.</string>
+    <string name="ai_error_timeout">OpenRouter took too long to respond. Try again.</string>
+    <string name="ai_error_network">Could not connect to OpenRouter.</string>
+    <string name="ai_error_empty_response">OpenRouter returned an empty response.</string>
+    <string name="ai_error_truncated">The model reached its generation limit before completing the response.</string>
+    <string name="ai_error_filtered">The provider stopped the response because of its safety filters. Try rephrasing the request.</string>
+    <string name="ai_error_http">OpenRouter returned a server error (%1$s).</string>
+    <string name="ai_error_api">The OpenRouter request could not be completed.</string>
+    <string-array name="ai_suggestions_neville">
+        <item>What is consciousness?</item><item>What is revision?</item><item>How do I manifest my desires?</item><item>I feel frustrated</item><item>How should I pray?</item><item>How do I apply your teachings?</item><item>I want to change</item><item>I feel stuck</item><item>What is reality?</item><item>Give me advice</item>
+    </string-array>
+    <string-array name="ai_suggestions_joe">
+        <item>How do I move from survival to creation?</item><item>Which elevated emotion should I cultivate?</item><item>How can I observe automatic thoughts?</item><item>How can I feel the future before it happens?</item><item>How do I align thoughts and emotions?</item><item>How do I avoid falling back into emotional patterns?</item>
+    </string-array>
+    <string-array name="ai_suggestions_bruce">
+        <item>How does the environment influence my cells?</item><item>How can I identify limiting beliefs?</item><item>How does stress affect my body?</item><item>How can I reprogram subconscious patterns?</item><item>How do I return to a state of growth?</item><item>How can I strengthen the mind-body connection?</item>
+    </string-array>
+    <string-array name="ai_suggestions_gregg">
+        <item>How can I create coherence between mind and heart?</item><item>How can I practice gratitude now?</item><item>Which belief shapes my experience?</item><item>How can I transform fear into compassion?</item><item>How can I use breathing to create coherence?</item><item>What intention do I want to send into the world today?</item>
+    </string-array>
+</resources>

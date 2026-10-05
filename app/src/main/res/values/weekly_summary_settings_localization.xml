@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="weekly_settings_title">Resumen semanal</string>
+    <string name="weekly_settings_subtitle">Elige cuándo revisarlo, activa su aviso y controla cuánto historial conservar.</string>
+    <string name="weekly_settings_review_day">Día del resumen</string>
+    <string name="weekly_settings_reminder_at_six">Recordatorio semanal a las 6:00</string>
+    <string name="weekly_settings_availability">Recibirás el recordatorio cada %1$s a partir de las 6:00.</string>
+    <string name="weekly_settings_keep_records" tools:ignore="PluralsCandidate">Conservar %1$d registros</string>
+    <string name="weekly_settings_cleanup_description" tools:ignore="PluralsCandidate">Al limpiar, se conservarán los últimos %1$d resúmenes semanales y se eliminarán los anteriores.</string>
+    <string name="weekly_settings_delete_old">Eliminar revisiones antiguas</string>
+    <string name="weekly_settings_delete_confirmation_title">¿Eliminar las revisiones semanales antiguas?</string>
+    <string name="weekly_settings_delete_confirmation_body" tools:ignore="PluralsCandidate">Se conservarán los últimos %1$d resúmenes. Los anteriores se eliminarán de este dispositivo.</string>
+    <string name="weekly_settings_delete_action">Eliminar registros antiguos</string>
+    <string name="weekly_settings_cleanup_result_title">Limpieza del historial</string>
+    <string name="weekly_settings_prune_none" tools:ignore="PluralsCandidate">No había revisiones antiguas que eliminar. Se conservan las últimas %1$d.</string>
+    <string name="weekly_settings_prune_one" tools:ignore="PluralsCandidate">Se eliminó una revisión semanal antigua. Se conservan las últimas %1$d.</string>
+    <string name="weekly_settings_prune_many" tools:ignore="PluralsCandidate">Se eliminaron %1$d revisiones semanales antiguas. Se conservan las últimas %2$d.</string>
+    <string name="weekly_settings_prune_error">No se pudo limpiar el historial del resumen semanal.</string>
+    <string name="weekly_settings_notification_permission_denied">El recordatorio semanal no se activó porque no se concedió el permiso de notificaciones.</string>
+    <string name="weekly_settings_sunday">Domingo</string>
+    <string name="weekly_settings_monday">Lunes</string>
+    <string name="weekly_settings_tuesday">Martes</string>
+    <string name="weekly_settings_wednesday">Miércoles</string>
+    <string name="weekly_settings_thursday">Jueves</string>
+    <string name="weekly_settings_friday">Viernes</string>
+    <string name="weekly_settings_saturday">Sábado</string>
+    <string name="weekly_notification_title">Tu resumen semanal está listo</string>
+    <string name="weekly_notification_body">Dedica unos minutos a reconocer tus avances y elegir tu próximo foco.</string>
+    <string name="weekly_notification_channel">Resumen semanal</string>
+    <string name="weekly_notification_channel_description">Avisos para revisar tu progreso semanal.</string>
+</resources>

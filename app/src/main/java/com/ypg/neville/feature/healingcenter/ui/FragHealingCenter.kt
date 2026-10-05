@@ -45,6 +45,7 @@ import com.ypg.neville.feature.healingcenter.domain.BundledHealingCatalogReposit
 import com.ypg.neville.feature.healingcenter.domain.HealingCatalog
 import com.ypg.neville.feature.healingcenter.domain.HealingProtocol
 import com.ypg.neville.feature.healingcenter.domain.HealingSituation
+import com.ypg.neville.feature.premiumpreview.PremiumFeatureId
 import com.ypg.neville.model.subscription.SubscriptionManager
 
 class FragHealingCenter : Fragment() {
@@ -56,7 +57,6 @@ class FragHealingCenter : Fragment() {
         setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
         setContent {
             com.ypg.neville.ui.theme.NevilleTheme {
-                val premiumReason = stringResource(R.string.paywall_reason_healing_center)
                 val localeTag = LocalConfiguration.current.locales[0].toLanguageTag()
                 val loadResult = remember(localeTag) {
                     runCatching { BundledHealingCatalogRepository(requireContext()).load() }
@@ -66,7 +66,9 @@ class FragHealingCenter : Fragment() {
                     preferences = remember { HealingCenterPreferences(requireContext().applicationContext) },
                     onClose = { requireActivity().onBackPressedDispatcher.onBackPressed() },
                     onShowPremium = {
-                        (requireActivity() as? MainActivity)?.showSubscriptionPaywall(premiumReason)
+                        (requireActivity() as? MainActivity)?.showPremiumFeaturePreview(
+                            PremiumFeatureId.HEALING_CENTER
+                        )
                     }
                 )
             }

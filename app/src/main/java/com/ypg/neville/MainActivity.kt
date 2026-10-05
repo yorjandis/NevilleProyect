@@ -47,6 +47,8 @@ import com.ypg.neville.model.utils.Utils
 import com.ypg.neville.model.utils.myListener_In_App_Update
 import com.ypg.neville.feature.morningdialog.notifications.MorningDialogStartup
 import com.ypg.neville.feature.morningdialog.ui.FragMorningDialog
+import com.ypg.neville.feature.premiumpreview.PremiumFeatureId
+import com.ypg.neville.feature.premiumpreview.PremiumFeaturePreviewDialog
 import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryBootstrap
 import com.ypg.neville.model.reminders.JournalDailyReminderManager
 import com.ypg.neville.model.subscription.SubscriptionManager
@@ -360,7 +362,7 @@ class MainActivity : AppCompatActivity() {
         if (destinationId == R.id.frag_home) return
         if (destinationId == R.id.frag_notas && shouldRequireNotesBiometricLock()) {
             if (!SubscriptionManager.hasActiveSubscriptionNow()) {
-                showSubscriptionPaywall(getString(R.string.paywall_reason_notes_biometric))
+                showPremiumFeaturePreview(PremiumFeatureId.PROTECTED_NOTES)
                 return
             }
             showNotesBiometricPrompt {
@@ -368,24 +370,17 @@ class MainActivity : AppCompatActivity() {
             }
             return
         }
+        val previewFeature = PremiumFeatureId.forDestination(destinationId)
+        if (previewFeature != null && !SubscriptionManager.hasActiveSubscriptionNow()) {
+            showPremiumFeaturePreview(previewFeature)
+            return
+        }
         if (
             (
-                destinationId == R.id.frag_metas ||
-                    destinationId == R.id.frag_lienzo ||
-                    destinationId == R.id.frag_reminders ||
-                    destinationId == R.id.frag_agenda ||
-                    destinationId == R.id.frag_morning_dialog ||
-                    destinationId == R.id.frag_my_day ||
-                    destinationId == R.id.frag_weekly_summary ||
-                    destinationId == R.id.frag_voice_recordings ||
-                    destinationId == R.id.frag_calm_space ||
-                    destinationId == R.id.frag_cardio_coherence ||
-                    destinationId == R.id.frag_presence ||
+                destinationId == R.id.frag_voice_recordings ||
                     destinationId == R.id.frag_emotional_anchors ||
                     destinationId == R.id.frag_emotional_anchor_create ||
-                    destinationId == R.id.frag_emotional_anchor_run ||
-                    destinationId == R.id.frag_ai_chat ||
-                    destinationId == R.id.frag_ai_text_tool
+                    destinationId == R.id.frag_emotional_anchor_run
                 ) &&
             !SubscriptionManager.hasActiveSubscriptionNow()
         ) {
@@ -415,6 +410,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleNotificationNavigationIntent(incomingIntent: Intent?) {
+        if (incomingIntent?.getBooleanExtra(EXTRA_OPEN_TRANSFORMATION_PROTOCOL, false) == true) {
+            openDestinationAsSheet(R.id.frag_transformation_protocol)
+            return
+        }
         if (incomingIntent?.getBooleanExtra(EXTRA_OPEN_DIARIO, false) == true) {
             bottomActive.value = "diario"
             openDestinationAsSheet(R.id.frag_diario)
@@ -432,7 +431,7 @@ class MainActivity : AppCompatActivity() {
         }
         if (incomingIntent?.getBooleanExtra(EXTRA_OPEN_MY_DAY, false) == true) {
             if (!SubscriptionManager.hasActiveSubscriptionNow()) {
-                showSubscriptionPaywall()
+                showPremiumFeaturePreview(PremiumFeatureId.CONSCIOUS_DAILY_CYCLE)
                 return
             }
             bottomActive.value = "my_day"
@@ -441,7 +440,7 @@ class MainActivity : AppCompatActivity() {
         }
         if (incomingIntent?.getBooleanExtra(EXTRA_OPEN_MORNING_DIALOG, false) == true) {
             if (!SubscriptionManager.hasActiveSubscriptionNow()) {
-                showSubscriptionPaywall()
+                showPremiumFeaturePreview(PremiumFeatureId.CONSCIOUS_DAILY_CYCLE)
                 return
             }
             bottomActive.value = "morning_dialog"
@@ -452,7 +451,7 @@ class MainActivity : AppCompatActivity() {
         val sessionId = incomingIntent?.getLongExtra(EXTRA_OPEN_MORNING_DIALOG_DETAIL_ID, -1L) ?: -1L
         if (sessionId > 0L) {
             if (!SubscriptionManager.hasActiveSubscriptionNow()) {
-                showSubscriptionPaywall()
+                showPremiumFeaturePreview(PremiumFeatureId.CONSCIOUS_DAILY_CYCLE)
                 return
             }
             bottomActive.value = "morning_dialog"
@@ -540,6 +539,13 @@ class MainActivity : AppCompatActivity() {
             .show(supportFragmentManager, SubscriptionPaywallDialog.TAG)
     }
 
+    fun showPremiumFeaturePreview(feature: PremiumFeatureId) {
+        if (SubscriptionManager.hasActiveSubscriptionNow()) return
+        if (supportFragmentManager.findFragmentByTag(PremiumFeaturePreviewDialog.TAG) != null) return
+        PremiumFeaturePreviewDialog.newInstance(feature)
+            .show(supportFragmentManager, PremiumFeaturePreviewDialog.TAG)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (QRManager.Request_Code) {
@@ -625,6 +631,7 @@ class MainActivity : AppCompatActivity() {
         const val EXTRA_OPEN_MORNING_DIALOG_DETAIL_ID = "extra_open_morning_dialog_detail_id"
         const val EXTRA_OPEN_MY_DAY = "extra_open_my_day"
         const val EXTRA_OPEN_WEEKLY_SUMMARY = "extra_open_weekly_summary"
+        const val EXTRA_OPEN_TRANSFORMATION_PROTOCOL = "extra_open_transformation_protocol"
         private var currentActivityRef: WeakReference<MainActivity>? = null
 
         @JvmStatic
