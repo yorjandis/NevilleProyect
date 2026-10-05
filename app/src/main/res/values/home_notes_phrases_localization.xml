@@ -49,6 +49,17 @@
     <string name="home_nav_reminders">Recordatorios</string>
     <string name="home_nav_daily_ritual">Ritual del día</string>
     <string name="home_nav_settings">Ajustes</string>
+    <string name="bottom_nav_authors_group">Autores</string>
+    <string name="bottom_nav_settings_title">Menú inferior de Inicio</string>
+    <string name="bottom_nav_settings_subtitle">Personaliza los cuatro accesos. El botón central de Inicio permanece fijo.</string>
+    <string name="bottom_nav_slot_outer_left">Izquierda exterior</string>
+    <string name="bottom_nav_slot_inner_left">Izquierda interior</string>
+    <string name="bottom_nav_slot_inner_right">Derecha interior</string>
+    <string name="bottom_nav_slot_outer_right">Derecha exterior</string>
+    <string name="bottom_nav_restore_defaults">Restablecer accesos</string>
+    <string name="bottom_nav_restore_defaults_description">Volver a Conferencias, Notas, Diario y Chat.</string>
+    <string name="bottom_nav_picker_title">Elegir acceso</string>
+    <string name="bottom_nav_picker_subtitle">Selecciona un acceso de Productividad, Recursos didácticos o Autores. Si ya está colocado, intercambiará su posición.</string>
     <string name="home_preview_label">%1$s (Vista previa)</string>
     <string name="home_subscription_active">Suscripción activa</string>
     <string name="home_extended_version">Versión extendida</string>

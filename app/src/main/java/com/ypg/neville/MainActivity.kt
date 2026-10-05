@@ -53,6 +53,8 @@ import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryBootstrap
 import com.ypg.neville.model.reminders.JournalDailyReminderManager
 import com.ypg.neville.model.subscription.SubscriptionManager
 import com.ypg.neville.ui.frag.HomeFloatingMenuBottomSheet
+import com.ypg.neville.ui.frag.BottomNavAccess
+import com.ypg.neville.ui.frag.BottomNavPreferences
 import com.ypg.neville.ui.frag.NevilleBottomNavBar
 import com.ypg.neville.ui.frag.SheetNavHostBottomSheet
 import com.ypg.neville.ui.frag.SubscriptionPaywallDialog
@@ -65,6 +67,7 @@ class MainActivity : AppCompatActivity() {
 
     private val toolbarColor = mutableStateOf<Int?>(null)
     private val bottomActive = mutableStateOf<String?>("home")
+    private val bottomNavAccesses = mutableStateOf(BottomNavAccess.defaults)
 
     private val toolbarAddNoteVisible = mutableStateOf(View.VISIBLE)
     private val toolbarAddFraseVisible = mutableStateOf(View.VISIBLE)
@@ -87,6 +90,7 @@ class MainActivity : AppCompatActivity() {
         val prefs = DbPreferences.default(this)
         val isDarkTheme = prefs.getBoolean("tema", true)
         homeAlternativeEnabled.value = prefs.getBoolean(FragHome.PREF_KEY_HOME_ALTERNATIVE_ENABLED, false)
+        bottomNavAccesses.value = BottomNavPreferences.load(prefs)
         FragHome.homeAlternativeEnabledState.value = homeAlternativeEnabled.value
         AppCompatDelegate.setDefaultNightMode(
             if (isDarkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
@@ -274,79 +278,35 @@ class MainActivity : AppCompatActivity() {
         NevilleBottomNavBar(
             activeId = bottomActive.value,
             tintColor = tintColor,
-            onConf = {
-                bottomActive.value = "conf"
-                frag_listado.elementLoaded = "autores/neville/conf"
-                openDestinationAsSheet(
-                    R.id.frag_listado,
-                    Bundle().apply {
-                        putBoolean(frag_listado.ARG_RETURN_HOME_ON_BACK, true)
-                    }
-                )
-            },
-            onNotas = {
-                bottomActive.value = "notas"
-                openDestinationAsSheet(R.id.frag_notas)
-            },
+            accesses = bottomNavAccesses.value,
+            onAccess = ::openBottomNavAccess,
             onHome = {
                 bottomActive.value = "home"
                 if (supportFragmentManager.findFragmentByTag(HomeFloatingMenuBottomSheet.TAG) == null) {
                     HomeFloatingMenuBottomSheet().show(supportFragmentManager, HomeFloatingMenuBottomSheet.TAG)
                 }
-            },
-            onDiario = {
-                bottomActive.value = "diario"
-                openDestinationAsSheet(R.id.frag_diario)
-            },
-            onChat = {
-                bottomActive.value = "chat"
-                openDestinationAsSheet(R.id.frag_ai_chat)
-            },
-            onLienzo = {
-                bottomActive.value = "lienzo"
-                openDestinationAsSheet(R.id.frag_lienzo)
-            },
-            onMetas = {
-                bottomActive.value = "metas"
-                openDestinationAsSheet(R.id.frag_metas)
-            },
-            onRecordatorios = {
-                bottomActive.value = "recordatorios"
-                openDestinationAsSheet(R.id.frag_reminders)
-            },
-            onAgenda = {
-                bottomActive.value = "agenda"
-                openDestinationAsSheet(R.id.frag_agenda)
-            },
-            onRitual = {
-                bottomActive.value = "morning_dialog"
-                openDestinationAsSheet(R.id.frag_morning_dialog)
-            },
-            onResumenSemanal = {
-                bottomActive.value = "weekly_summary"
-                openDestinationAsSheet(R.id.frag_weekly_summary)
-            },
-            onVoces = {
-                bottomActive.value = "voces"
-                openDestinationAsSheet(R.id.frag_voice_recordings)
-            },
-            onAnclas = {
-                bottomActive.value = "anclas"
-                openDestinationAsSheet(R.id.frag_emotional_anchors)
-            },
-            onCalma = {
-                bottomActive.value = "calma"
-                openDestinationAsSheet(R.id.frag_calm_space)
-            },
-            onCardio = {
-                bottomActive.value = "cardio"
-                openDestinationAsSheet(R.id.frag_cardio_coherence)
-            },
-            onPresence = {
-                bottomActive.value = "presence"
-                openDestinationAsSheet(R.id.frag_presence)
             }
         )
+    }
+
+    private fun openBottomNavAccess(access: BottomNavAccess) {
+        bottomActive.value = access.id
+        access.listContent?.let { frag_listado.elementLoaded = it }
+        val args = if (access == BottomNavAccess.Lectures) {
+            Bundle().apply { putBoolean(frag_listado.ARG_RETURN_HOME_ON_BACK, true) }
+        } else {
+            null
+        }
+        openDestinationAsSheet(access.destinationId, args)
+    }
+
+    fun updateBottomNavAccesses(accesses: List<BottomNavAccess>) {
+        if (accesses.size == BottomNavPreferences.SLOT_COUNT && accesses.distinct().size == accesses.size) {
+            bottomNavAccesses.value = accesses.toList()
+            if (bottomActive.value != "home" && bottomNavAccesses.value.none { it.id == bottomActive.value }) {
+                bottomActive.value = "home"
+            }
+        }
     }
 
     fun toggleHomeAlternativeMode(): Boolean {

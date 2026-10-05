@@ -29,23 +29,11 @@ import com.ypg.neville.R
 fun NevilleBottomNavBar(
     activeId: String?,
     tintColor: Color?,
-    onConf: () -> Unit,
-    onNotas: () -> Unit,
+    accesses: List<BottomNavAccess>,
+    onAccess: (BottomNavAccess) -> Unit,
     onHome: () -> Unit,
-    onDiario: () -> Unit,
-    onChat: () -> Unit,
-    onLienzo: () -> Unit,
-    onMetas: () -> Unit,
-    onRecordatorios: () -> Unit,
-    onAgenda: () -> Unit,
-    onRitual: () -> Unit,
-    onResumenSemanal: () -> Unit,
-    onVoces: () -> Unit,
-    onAnclas: () -> Unit,
-    onCalma: () -> Unit,
-    onCardio: () -> Unit,
-    onPresence: () -> Unit
 ) {
+    require(accesses.size == BottomNavPreferences.SLOT_COUNT)
     val barShape = RoundedCornerShape(30.dp)
     Box(
         modifier = Modifier
@@ -95,22 +83,16 @@ fun NevilleBottomNavBar(
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            BottomNavButton(
-                activeId = activeId,
-                id = "conf",
-                icon = R.drawable.ic_conf,
-                contentDescription = stringResource(R.string.home_nav_lectures),
-                onClick = onConf,
-                modifier = Modifier.weight(1f)
-            )
-            BottomNavButton(
-                activeId = activeId,
-                id = "notas",
-                icon = R.drawable.ic_note,
-                contentDescription = stringResource(R.string.home_nav_notes),
-                onClick = onNotas,
-                modifier = Modifier.weight(1f)
-            )
+            accesses.take(2).forEach { access ->
+                BottomNavButton(
+                    activeId = activeId,
+                    id = access.id,
+                    icon = access.iconRes,
+                    contentDescription = stringResource(access.labelRes),
+                    onClick = { onAccess(access) },
+                    modifier = Modifier.weight(1f)
+                )
+            }
             BottomNavButton(
                 activeId = activeId,
                 id = "home",
@@ -119,23 +101,16 @@ fun NevilleBottomNavBar(
                 onClick = onHome,
                 modifier = Modifier.weight(1f)
             )
-
-            BottomNavButton(
-                activeId = activeId,
-                id = "diario",
-                icon = R.drawable.ic_diario_pen_book,
-                contentDescription = stringResource(R.string.home_nav_diary),
-                onClick = onDiario,
-                modifier = Modifier.weight(1f)
-            )
-            BottomNavButton(
-                activeId = activeId,
-                id = "chat",
-                icon = R.drawable.ic_nav_chat,
-                contentDescription = stringResource(R.string.nav_chat),
-                onClick = onChat,
-                modifier = Modifier.weight(1f)
-            )
+            accesses.drop(2).forEach { access ->
+                BottomNavButton(
+                    activeId = activeId,
+                    id = access.id,
+                    icon = access.iconRes,
+                    contentDescription = stringResource(access.labelRes),
+                    onClick = { onAccess(access) },
+                    modifier = Modifier.weight(1f)
+                )
+            }
         }
     }
 }

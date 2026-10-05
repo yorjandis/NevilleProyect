@@ -26,11 +26,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -39,6 +42,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
@@ -61,6 +65,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.font.FontWeight
@@ -358,6 +363,8 @@ class frag_Setting : Fragment() {
         var weeklyReviewRecordsToKeep by remember {
             mutableStateOf(initialWeeklySummaryConfig.recordsToKeep)
         }
+        var bottomNavAccesses by remember { mutableStateOf(BottomNavPreferences.load(prefs)) }
+        var bottomNavPickerSlot by remember { mutableStateOf<Int?>(null) }
 
         var showFrequencyDialog by remember { mutableStateOf(false) }
         var showProviderDestinationDialog by remember { mutableStateOf(false) }
@@ -537,6 +544,38 @@ class frag_Setting : Fragment() {
                             "color_fondo_b",
                             context.getString(R.string.settings_gradient_bottom_color_picker_title)
                         )
+                    }
+                }
+            }
+
+            item {
+                SettingSection(
+                    title = stringResource(R.string.bottom_nav_settings_title),
+                    subtitle = stringResource(R.string.bottom_nav_settings_subtitle)
+                ) {
+                    val slotLabels = listOf(
+                        R.string.bottom_nav_slot_outer_left,
+                        R.string.bottom_nav_slot_inner_left,
+                        R.string.bottom_nav_slot_inner_right,
+                        R.string.bottom_nav_slot_outer_right
+                    )
+                    bottomNavAccesses.forEachIndexed { index, access ->
+                        if (index > 0) FieldDivider()
+                        ActionField(
+                            title = stringResource(slotLabels[index]),
+                            description = stringResource(access.labelRes)
+                        ) {
+                            bottomNavPickerSlot = index
+                        }
+                    }
+                    FieldDivider()
+                    ActionField(
+                        title = stringResource(R.string.bottom_nav_restore_defaults),
+                        description = stringResource(R.string.bottom_nav_restore_defaults_description)
+                    ) {
+                        bottomNavAccesses = BottomNavAccess.defaults
+                        BottomNavPreferences.save(prefs, bottomNavAccesses)
+                        (activity as? MainActivity)?.updateBottomNavAccesses(bottomNavAccesses)
                     }
                 }
             }
@@ -1404,6 +1443,91 @@ class frag_Setting : Fragment() {
 
                 }
             }
+        }
+
+        bottomNavPickerSlot?.let { slotIndex ->
+            AlertDialog(
+                onDismissRequest = { bottomNavPickerSlot = null },
+                title = { Text(stringResource(R.string.bottom_nav_picker_title)) },
+                text = {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Text(
+                            text = stringResource(R.string.bottom_nav_picker_subtitle),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        LazyColumn(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .heightIn(max = 440.dp),
+                            verticalArrangement = Arrangement.spacedBy(2.dp)
+                        ) {
+                            BottomNavAccessGroup.entries.forEach { group ->
+                                item(key = "group_${group.name}") {
+                                    Text(
+                                        text = stringResource(group.titleRes),
+                                        style = MaterialTheme.typography.titleSmall,
+                                        fontWeight = FontWeight.Bold,
+                                        color = MaterialTheme.colorScheme.primary,
+                                        modifier = Modifier.padding(top = 10.dp, bottom = 4.dp)
+                                    )
+                                }
+                                val groupAccesses = BottomNavAccess.entries.filter { it.group == group }
+                                items(
+                                    count = groupAccesses.size,
+                                    key = { groupAccesses[it].id }
+                                ) { accessIndex ->
+                                    val access = groupAccesses[accessIndex]
+                                    val isSelected = bottomNavAccesses[slotIndex] == access
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .clickable {
+                                                val updated = bottomNavAccesses.toMutableList()
+                                                val occupiedSlot = updated.indexOf(access)
+                                                if (occupiedSlot >= 0) {
+                                                    updated[occupiedSlot] = updated[slotIndex]
+                                                }
+                                                updated[slotIndex] = access
+                                                bottomNavAccesses = updated
+                                                BottomNavPreferences.save(prefs, updated)
+                                                (activity as? MainActivity)?.updateBottomNavAccesses(updated)
+                                                bottomNavPickerSlot = null
+                                            }
+                                            .padding(horizontal = 6.dp, vertical = 10.dp),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Icon(
+                                            painter = painterResource(access.iconRes),
+                                            contentDescription = null,
+                                            modifier = Modifier.size(24.dp),
+                                            tint = MaterialTheme.colorScheme.onSurface
+                                        )
+                                        Spacer(modifier = Modifier.size(12.dp))
+                                        Text(
+                                            text = stringResource(access.labelRes),
+                                            style = MaterialTheme.typography.bodyLarge,
+                                            modifier = Modifier.weight(1f)
+                                        )
+                                        if (isSelected) {
+                                            Text(
+                                                text = "✓",
+                                                style = MaterialTheme.typography.titleMedium,
+                                                color = MaterialTheme.colorScheme.primary
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                confirmButton = {
+                    TextButton(onClick = { bottomNavPickerSlot = null }) {
+                        Text(stringResource(R.string.settings_cancel))
+                    }
+                }
+            )
         }
 
         if (showWeeklyReviewCleanupConfirmation) {

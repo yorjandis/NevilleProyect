@@ -49,6 +49,17 @@
     <string name="home_nav_reminders">提醒</string>
     <string name="home_nav_daily_ritual">每日仪式</string>
     <string name="home_nav_settings">设置</string>
+    <string name="bottom_nav_authors_group">作者</string>
+    <string name="bottom_nav_settings_title">首页底部菜单</string>
+    <string name="bottom_nav_settings_subtitle">自定义四个快捷入口。中间的首页按钮始终保持固定。</string>
+    <string name="bottom_nav_slot_outer_left">左侧外位</string>
+    <string name="bottom_nav_slot_inner_left">左侧内位</string>
+    <string name="bottom_nav_slot_inner_right">右侧内位</string>
+    <string name="bottom_nav_slot_outer_right">右侧外位</string>
+    <string name="bottom_nav_restore_defaults">恢复快捷入口</string>
+    <string name="bottom_nav_restore_defaults_description">恢复为讲座、笔记、日记和聊天。</string>
+    <string name="bottom_nav_picker_title">选择快捷入口</string>
+    <string name="bottom_nav_picker_subtitle">从效率工具、学习资源或作者中选择。如果该入口已在菜单中，两个入口将交换位置。</string>
     <string name="home_preview_label">%1$s（预览）</string>
     <string name="home_subscription_active">订阅已生效</string>
     <string name="home_extended_version">扩展版</string>
