@@ -38,4 +38,7 @@ interface DiarioDao {
 
     @Query("UPDATE Diario SET capitulo = :capitulo, fechaM = :fechaModificacion WHERE id = :id")
     fun updateCapituloById(id: Long, capitulo: String, fechaModificacion: Long = System.currentTimeMillis())
+
+    @Query("UPDATE Diario SET fechaM = :fechaModificacion WHERE id = :id")
+    fun touch(id: Long, fechaModificacion: Long = System.currentTimeMillis())
 }

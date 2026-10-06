@@ -42,6 +42,7 @@ import com.ypg.neville.model.security.PostQuantumAesTextCrypto
         FraseEntity::class,
         ConfEntity::class,
         DiarioEntity::class,
+        DiarioAttachmentEntity::class,
         GoalEntity::class,
         GoalUnitEntity::class,
         ArchivedGoalEntity::class,
@@ -63,7 +64,7 @@ import com.ypg.neville.model.security.PostQuantumAesTextCrypto
         AiConversationEntity::class,
         AiMessageEntity::class
     ],
-    version = 30,
+    version = 31,
     exportSchema = false
 )
 abstract class NevilleRoomDatabase : RoomDatabase() {
@@ -73,6 +74,7 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
     abstract fun fraseDao(): FraseDao
     abstract fun confDao(): ConfDao
     abstract fun diarioDao(): DiarioDao
+    abstract fun diarioAttachmentDao(): DiarioAttachmentDao
     abstract fun goalDao(): GoalDao
     abstract fun goalUnitDao(): GoalUnitDao
     abstract fun archivedGoalDao(): ArchivedGoalDao
@@ -747,6 +749,29 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_30_31 = object : Migration(30, 31) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `diario_attachments` (" +
+                        "`id` TEXT NOT NULL, " +
+                        "`diarioId` INTEGER NOT NULL, " +
+                        "`fileName` TEXT NOT NULL, " +
+                        "`mimeType` TEXT NOT NULL, " +
+                        "`fileSize` INTEGER NOT NULL, " +
+                        "`createdAt` INTEGER NOT NULL, " +
+                        "`cryptoVersion` INTEGER NOT NULL, " +
+                        "`encryptedData` BLOB NOT NULL, " +
+                        "PRIMARY KEY(`id`), " +
+                        "FOREIGN KEY(`diarioId`) REFERENCES `Diario`(`id`) " +
+                        "ON UPDATE NO ACTION ON DELETE CASCADE)"
+                )
+                db.execSQL(
+                    "CREATE INDEX IF NOT EXISTS `index_diario_attachments_diarioId` " +
+                        "ON `diario_attachments` (`diarioId`)"
+                )
+            }
+        }
+
         private val ENCRYPT_PERSONAL_TEXT_ON_OPEN = object : Callback() {
             override fun onOpen(db: SupportSQLiteDatabase) {
                 PostQuantumAesTextCrypto.syncRecoveryKeyFromDatabase(db)
@@ -867,7 +892,8 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
                         MIGRATION_26_27,
                         MIGRATION_27_28,
                         MIGRATION_28_29,
-                        MIGRATION_29_30
+                        MIGRATION_29_30,
+                        MIGRATION_30_31
                     )
                     .addCallback(ENCRYPT_PERSONAL_TEXT_ON_OPEN)
                     .allowMainThreadQueries()

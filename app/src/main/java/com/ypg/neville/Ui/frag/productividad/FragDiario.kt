@@ -34,6 +34,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -56,6 +57,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -86,8 +88,10 @@ import com.ypg.neville.MainActivity
 import com.ypg.neville.R
 import com.ypg.neville.model.backup.BackupRestoreSignal
 import com.ypg.neville.model.db.room.DiarioEntity
+import com.ypg.neville.model.db.room.DiarioAttachmentRepository
 import com.ypg.neville.model.db.room.DiarioRepository
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
+import com.ypg.neville.model.db.room.PendingDiarioAttachment
 import com.ypg.neville.model.migration.CanonicalRecord
 import com.ypg.neville.model.migration.MigrationFormat
 import com.ypg.neville.model.migration.MyAppMigrationService
@@ -192,8 +196,14 @@ class FragDiario : Fragment() {
     private fun DiarioScreen() {
         val context = LocalContext.current
         val entradas = remember { mutableStateListOf<DiarioEntity>() }
+        val attachmentCounts = remember { mutableStateMapOf<Long, Int>() }
         val restoreTick by BackupRestoreSignal.restoreTick.collectAsState()
         val refreshTick = screenRefreshTick
+        val unknownErrorMessage = stringResource(R.string.common_unknown_error)
+        val attachmentPartialSaveErrorTemplate = stringResource(
+            R.string.diary_attachment_partial_save_error,
+            "%s"
+        )
         var authState by remember { mutableStateOf(DiarioAuthState.CHECKING) }
         var authMessage by remember { mutableStateOf(context.getString(R.string.diary_checking_biometrics)) }
 
@@ -236,6 +246,7 @@ class FragDiario : Fragment() {
         var filtroCapitulo by remember { mutableStateOf("") }
         var filtroEmocionKey by remember { mutableStateOf("all") }
         var filtroFav by remember { mutableStateOf(FavoritoFiltro.TODAS) }
+        var filtroSoloConAnexos by remember { mutableStateOf(false) }
         var filtroAntiguedad by remember { mutableStateOf(ageFilters.first()) }
 
         var emotionMenuId by remember { mutableStateOf<Long?>(null) }
@@ -244,9 +255,12 @@ class FragDiario : Fragment() {
         fun recargarEntradas() {
             dbExecutor.execute {
                 val data = diarioRepository().obtenerTodas()
+                val counts = diarioAttachmentRepository().attachmentCounts()
                 activity?.runOnUiThread {
                     entradas.clear()
                     entradas.addAll(data)
+                    attachmentCounts.clear()
+                    attachmentCounts.putAll(counts)
                 }
             }
         }
@@ -342,6 +356,7 @@ class FragDiario : Fragment() {
                     FavoritoFiltro.SOLO_NO_FAVORITAS -> !entry.isFav
                 }
             }
+            .filter { entry -> !filtroSoloConAnexos || (attachmentCounts[entry.id] ?: 0) > 0 }
             .filter { entry ->
                 val maxAge = filtroAntiguedad.maxAgeMillis
                 maxAge == null || (now - startOfDay(entry.fecha)) <= maxAge
@@ -538,6 +553,8 @@ class FragDiario : Fragment() {
                                         isExpanded = entradaExpandidaId == entrada.id,
                                         showEmotionMenu = emotionMenuId == entrada.id,
                                         showItemMenu = itemMenuId == entrada.id,
+                                        attachmentCount = attachmentCounts[entrada.id] ?: 0,
+                                        allEntries = entradas,
                                         selectionMode = manualSelectionMode,
                                         isSelected = entrada.id in entradasSeleccionadas,
                                         fechaTexto = stringResource(
@@ -590,7 +607,8 @@ class FragDiario : Fragment() {
                                         onDelete = {
                                             itemMenuId = null
                                             entradaAEliminar = entrada
-                                        }
+                                        },
+                                        onAttachmentsChanged = { recargarEntradas() }
                                     )
                                 }
                             }
@@ -702,6 +720,8 @@ class FragDiario : Fragment() {
                     onFiltroEmocionKeyChange = { filtroEmocionKey = it },
                     filtroFav = filtroFav,
                     onFiltroFavChange = { filtroFav = it },
+                    filtroSoloConAnexos = filtroSoloConAnexos,
+                    onFiltroSoloConAnexosChange = { filtroSoloConAnexos = it },
                     filtroAntiguedad = filtroAntiguedad,
                     filtrosAntiguedad = ageFilters,
                     onFiltroAntiguedadChange = { filtroAntiguedad = it },
@@ -711,6 +731,7 @@ class FragDiario : Fragment() {
                         filtroCapitulo = ""
                         filtroEmocionKey = "all"
                         filtroFav = FavoritoFiltro.TODAS
+                        filtroSoloConAnexos = false
                         filtroAntiguedad = ageFilters.first()
                     },
                     onHide = { showFilterPanel = false },
@@ -730,14 +751,14 @@ class FragDiario : Fragment() {
                     showEditor = false
                     newEntryDateMillis = null
                 },
-                onSave = { title, content, emotionKey, capitulo, isFav ->
+                onSave = { title, content, emotionKey, capitulo, isFav, pendingAttachments ->
                     if (title.isBlank()) {
                         Toast.makeText(context, context.getString(R.string.diary_title_required), Toast.LENGTH_SHORT).show()
                         false
                     } else {
                         dbExecutor.execute {
                             val existing = entradaEnEdicion
-                            if (existing == null) {
+                            val savedId = if (existing == null) {
                                 diarioRepository().insertar(
                                     title = title.trim(),
                                     content = content.trim().ifBlank { context.getString(R.string.diary_default_new_content) },
@@ -756,8 +777,25 @@ class FragDiario : Fragment() {
                                     isFav = isFav,
                                     fechaOriginal = existing.fecha
                                 )
+                                existing.id
+                            }
+                            var attachmentError: Throwable? = null
+                            pendingAttachments.forEach { pending ->
+                                runCatching {
+                                    diarioAttachmentRepository().insertPending(savedId, pending)
+                                }.onFailure { if (attachmentError == null) attachmentError = it }
                             }
                             activity?.runOnUiThread {
+                                attachmentError?.let { error ->
+                                    Toast.makeText(
+                                        context,
+                                        attachmentPartialSaveErrorTemplate.replace(
+                                            "%s",
+                                            error.message ?: unknownErrorMessage
+                                        ),
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
                                 showEditor = false
                                 newEntryDateMillis = null
                                 recargarEntradas()
@@ -1314,6 +1352,8 @@ class FragDiario : Fragment() {
         onFiltroEmocionKeyChange: (String) -> Unit,
         filtroFav: FavoritoFiltro,
         onFiltroFavChange: (FavoritoFiltro) -> Unit,
+        filtroSoloConAnexos: Boolean,
+        onFiltroSoloConAnexosChange: (Boolean) -> Unit,
         filtroAntiguedad: AgeFilter,
         filtrosAntiguedad: List<AgeFilter>,
         onFiltroAntiguedadChange: (AgeFilter) -> Unit,
@@ -1424,6 +1464,11 @@ class FragDiario : Fragment() {
                         onClick = { onFiltroFavChange(option) }
                     )
                 }
+                FilterChip(
+                    label = stringResource(R.string.diary_filter_with_attachments),
+                    selected = filtroSoloConAnexos,
+                    onClick = { onFiltroSoloConAnexosChange(!filtroSoloConAnexos) }
+                )
             }
 
             FlowRow(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -1489,7 +1534,7 @@ class FragDiario : Fragment() {
         emociones: List<DiarioEmotion>,
         capitulosExistentes: List<String>,
         onDismiss: () -> Unit,
-        onSave: (String, String, String, String, Boolean) -> Boolean
+        onSave: (String, String, String, String, Boolean, List<PendingDiarioAttachment>) -> Boolean
     ) {
         var titulo by remember(entradaEnEdicion?.id) { mutableStateOf(entradaEnEdicion?.title.orEmpty()) }
         var contenido by remember(entradaEnEdicion?.id) { mutableStateOf(entradaEnEdicion?.content.orEmpty()) }
@@ -1499,6 +1544,7 @@ class FragDiario : Fragment() {
             mutableStateOf(DiarioEmotion.fromStored(entradaEnEdicion?.emocion)?.key ?: DiarioEmotion.NEUTRAL.key)
         }
         var isFav by remember(entradaEnEdicion?.id) { mutableStateOf(entradaEnEdicion?.isFav ?: false) }
+        val pendingAttachments = remember(entradaEnEdicion?.id) { mutableStateListOf<PendingDiarioAttachment>() }
 
         Dialog(
             onDismissRequest = onDismiss,
@@ -1517,7 +1563,13 @@ class FragDiario : Fragment() {
                     ), RoundedCornerShape(16.dp))
                     .padding(8.dp)
             ) {
-                Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(max = 780.dp)
+                        .verticalScroll(rememberScrollState()),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
                     OutlinedTextField(
                         value = titulo,
                         onValueChange = { titulo = it },
@@ -1545,6 +1597,13 @@ class FragDiario : Fragment() {
                                 color = Color(0xFFE6ECEF)
                             )
                         }
+                    )
+
+                    PendingDiaryAttachmentsEditor(
+                        attachments = pendingAttachments,
+                        onAdd = { pendingAttachments.add(it) },
+                        onRemove = { id -> pendingAttachments.removeAll { it.id == id } },
+                        modifier = Modifier.fillMaxWidth()
                     )
 
                     Box(modifier = Modifier.fillMaxWidth()) {
@@ -1626,7 +1685,7 @@ class FragDiario : Fragment() {
                         Button(onClick = onDismiss, modifier = Modifier.padding(end = 50.dp)) {
                             Text(stringResource(R.string.common_close))
                         }
-                        Button(onClick = { onSave(titulo, contenido, emocionKey, capitulo, isFav) }) {
+                        Button(onClick = { onSave(titulo, contenido, emocionKey, capitulo, isFav, pendingAttachments.toList()) }) {
                             Text(stringResource(R.string.common_save))
                         }
                     }
@@ -1642,6 +1701,8 @@ class FragDiario : Fragment() {
         isExpanded: Boolean,
         showEmotionMenu: Boolean,
         showItemMenu: Boolean,
+        attachmentCount: Int,
+        allEntries: List<DiarioEntity>,
         selectionMode: Boolean,
         isSelected: Boolean,
         fechaTexto: String,
@@ -1656,7 +1717,8 @@ class FragDiario : Fragment() {
         onToggleItemMenu: () -> Unit,
         onChangeChapter: () -> Unit,
         onEdit: () -> Unit,
-        onDelete: () -> Unit
+        onDelete: () -> Unit,
+        onAttachmentsChanged: () -> Unit
     ) {
         val emotion = DiarioEmotion.fromStored(entrada.emocion) ?: DiarioEmotion.NEUTRAL
 
@@ -1779,6 +1841,24 @@ class FragDiario : Fragment() {
                         .clickable {
                             if (selectionMode) onToggleSelection() else onToggleFav()
                         }
+                )
+                if (attachmentCount > 0) {
+                    Text(
+                        text = "  📎 $attachmentCount",
+                        fontSize = 12.sp,
+                        color = Color(0xFF4D4D4D)
+                    )
+                }
+            }
+
+            if (isExpanded && !selectionMode) {
+                DiaryAttachmentsSection(
+                    entry = entrada,
+                    allEntries = allEntries,
+                    onChanged = onAttachmentsChanged,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp)
                 )
             }
         }
@@ -2175,6 +2255,9 @@ class FragDiario : Fragment() {
         val db = NevilleRoomDatabase.getInstance(requireContext().applicationContext)
         return DiarioRepository(db.diarioDao())
     }
+
+    private fun diarioAttachmentRepository(): DiarioAttachmentRepository =
+        DiarioAttachmentRepository(requireContext().applicationContext)
 
     private fun nombreCapitulo(entrada: DiarioEntity): String =
         entrada.capitulo.trim().ifEmpty { SIN_CAPITULO }

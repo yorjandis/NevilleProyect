@@ -77,6 +77,28 @@ object PostQuantumAesTextCrypto {
         return PREFIX_V2 + Base64.encodeToString(join(iv, encrypted), Base64.NO_WRAP)
     }
 
+    /** Encrypts binary private data with the same recoverable data key used by Diario text. */
+    fun encryptBytes(clearData: ByteArray, aad: String): ByteArray {
+        val cipher = Cipher.getInstance(TRANSFORMATION)
+        cipher.init(Cipher.ENCRYPT_MODE, SecretKeySpec(getOrCreateDataKey(), AES))
+        cipher.updateAAD(aad.toByteArray(Charsets.UTF_8))
+        return join(cipher.iv, cipher.doFinal(clearData))
+    }
+
+    fun decryptBytes(payload: ByteArray, aad: String): ByteArray {
+        require(payload.size > IV_SIZE_BYTES) { "Archivo cifrado inválido" }
+        val iv = payload.copyOfRange(0, IV_SIZE_BYTES)
+        val encrypted = payload.copyOfRange(IV_SIZE_BYTES, payload.size)
+        val cipher = Cipher.getInstance(TRANSFORMATION)
+        cipher.init(
+            Cipher.DECRYPT_MODE,
+            SecretKeySpec(getOrCreateDataKey(), AES),
+            GCMParameterSpec(GCM_TAG_BITS, iv)
+        )
+        cipher.updateAAD(aad.toByteArray(Charsets.UTF_8))
+        return cipher.doFinal(encrypted)
+    }
+
     fun decrypt(value: String, aad: String): String {
         return when {
             value.startsWith(PREFIX_V2) -> decryptV2(value, aad)

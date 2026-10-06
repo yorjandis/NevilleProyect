@@ -6,11 +6,19 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Permissions for version below the Android  11 (R) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    <uses-feature
+        android:name="android.hardware.camera.any"
+        android:required="false" />
+
     <queries>
         <package android:name="org.telegram.messenger"/>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
     </queries>
 
     <application
@@ -21,6 +29,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/diary_attachment_file_paths" />
+        </provider>
         <!-- Persists an AppCompat-selected language on Android 12 and earlier. -->
         <service
             android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
