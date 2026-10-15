@@ -80,6 +80,10 @@ dependencies {
 
     implementation 'androidx.core:core-ktx:1.19.0'
     implementation 'org.jsoup:jsoup:1.22.2'
+
+    // Traduccion e identificacion de idioma completamente on-device.
+    implementation 'com.google.mlkit:translate:17.0.3'
+    implementation 'com.google.mlkit:language-id:17.0.6'
     
     implementation 'com.google.android.play:asset-delivery:2.3.0'
     implementation 'com.google.android.play:feature-delivery:2.1.0'

@@ -59,6 +59,17 @@
     <string name="shared_import_understood">知道了</string>
     <string name="shared_import_default_title">已导入</string>
     <string name="shared_import_default_title_format">已导入：%1$s</string>
+    <string name="shared_import_translate_to">翻译成：</string>
+    <string name="shared_import_translate_with_google">使用 Google 翻译</string>
+    <string name="shared_import_translation_download_hint">首次翻译会通过 Wi-Fi 下载语言包。之后可离线使用，文本始终保留在设备上。</string>
+    <string name="shared_import_google_attribution">由 Google 提供的自动翻译，可能存在错误。</string>
+    <string name="shared_import_translation_failed_title">无法翻译</string>
+    <string name="shared_import_translation_failed_body">请检查 Wi-Fi 连接以下载语言包，然后重试。</string>
+    <string name="shared_import_translation_unsupported_source">无法检测到西班牙语、英语或中文文本。</string>
+    <string name="shared_import_already_in_language">文本已经是%1$s。</string>
+    <string name="translation_language_spanish">西班牙语</string>
+    <string name="translation_language_english">英语</string>
+    <string name="translation_language_mandarin_chinese">中文（普通话）</string>
 
     <string name="shared_dialog_new_quote_title">添加新语录</string>
     <string name="shared_dialog_new_quote_message">将自己的语录添加到语录库。</string>

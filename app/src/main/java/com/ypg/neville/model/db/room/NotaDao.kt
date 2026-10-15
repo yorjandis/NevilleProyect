@@ -25,6 +25,9 @@ interface NotaDao {
     @Query("SELECT * FROM notas WHERE id = :id LIMIT 1")
     fun getById(id: Long): NotaEntity?
 
+    @Query("SELECT * FROM notas WHERE syncId = :syncId LIMIT 1")
+    fun getBySyncId(syncId: String): NotaEntity?
+
     @Query("SELECT * FROM notas WHERE titulo = :titulo LIMIT 1")
     fun getByTitulo(titulo: String): NotaEntity?
 

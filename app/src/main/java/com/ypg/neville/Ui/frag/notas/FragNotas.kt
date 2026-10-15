@@ -4,19 +4,21 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
 import android.os.Bundle
+import android.provider.CalendarContract
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -60,7 +62,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -77,7 +78,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.graphics.TransformOrigin
@@ -86,79 +86,38 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
 import com.ypg.neville.feature.ai.ui.AiActionsMenuItem
 import com.ypg.neville.feature.ai.ui.AiNavigation
 import com.ypg.neville.feature.calmspace.data.CalmPersonalPhraseEntity
-import com.ypg.neville.model.backup.BackupRestoreSignal
+import com.ypg.neville.feature.translation.ui.NoteTranslationDialog
+import com.ypg.neville.feature.translation.ui.NoteTranslationDraft
+import com.ypg.neville.feature.reminders.ui.ReminderCreationDialog
+import com.ypg.neville.model.db.room.DiarioRepository
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
+import com.ypg.neville.model.db.room.NotaArithmeticCalculation
 import com.ypg.neville.model.db.room.NotaChecklistCodec
 import com.ypg.neville.model.db.room.NotaChecklistItem
+import com.ypg.neville.model.db.room.NotaChecklistItemKind
 import com.ypg.neville.model.db.room.NotaEntity
 import com.ypg.neville.model.db.room.NotaRepository
 import com.ypg.neville.model.db.utilsDB
-import com.ypg.neville.model.migration.CanonicalRecord
-import com.ypg.neville.model.migration.MigrationFormat
-import com.ypg.neville.model.migration.MyAppMigrationService
-import com.ypg.neville.model.migration.NevilleMigrationRoomBridge
+import com.ypg.neville.model.reminders.ReminderRepository
+import com.ypg.neville.model.reminders.ReminderScheduler
+import com.ypg.neville.model.subscription.SubscriptionManager
 import com.ypg.neville.model.utils.FraseContextActions
 import com.ypg.neville.model.utils.QRManager
 import java.text.DateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.Executors
-import kotlinx.coroutines.launch
 
 class FragNotas : Fragment() {
 
     private val dbExecutor = Executors.newSingleThreadExecutor()
     private val dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
     private var screenRefreshTick by mutableStateOf(0)
-    private lateinit var createSelectedMigrationExportLauncher: ActivityResultLauncher<String>
-    private var pendingSelectedMigrationPassword: CharArray? = null
-    private var pendingSelectedMigrationRecords: List<CanonicalRecord> = emptyList()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        createSelectedMigrationExportLauncher = registerForActivityResult(
-            ActivityResultContracts.CreateDocument("application/octet-stream")
-        ) { uri ->
-            val password = pendingSelectedMigrationPassword
-            val records = pendingSelectedMigrationRecords
-            pendingSelectedMigrationPassword = null
-            pendingSelectedMigrationRecords = emptyList()
-            if (uri == null || password == null) {
-                password?.fill('\u0000')
-                return@registerForActivityResult
-            }
-
-            lifecycleScope.launch {
-                val result = MyAppMigrationService(requireContext().applicationContext)
-                    .exportSelectedToUri(uri, password, records)
-                password.fill('\u0000')
-                result.onSuccess { export ->
-                    val count = export.countsByType.values.sum()
-                    Toast.makeText(
-                        requireContext(),
-                        resources.getQuantityString(R.plurals.notes_exported_count, count, count),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }.onFailure { error ->
-                    Toast.makeText(
-                        requireContext(),
-                        getString(
-                            R.string.notes_export_error,
-                            error.message ?: getString(R.string.common_unknown_error)
-                        ),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
-        }
-    }
-
     override fun onCreateView(
         inflater: android.view.LayoutInflater,
         container: ViewGroup?,
@@ -199,10 +158,13 @@ class FragNotas : Fragment() {
     private fun NotasScreen() {
         val context = LocalContext.current
         val notas = remember { mutableStateListOf<NotaEntity>() }
-        val restoreTick by BackupRestoreSignal.restoreTick.collectAsState()
         val refreshTick = screenRefreshTick
 
         var notaEnEdicion by remember { mutableStateOf<NotaEntity?>(null) }
+        var notaATraducir by remember { mutableStateOf<NotaEntity?>(null) }
+        var notaTituloCambiar by remember { mutableStateOf<NotaEntity?>(null) }
+        var nuevoTituloNota by remember { mutableStateOf("") }
+        var notaARecordatorio by remember { mutableStateOf<NotaEntity?>(null) }
         var notaAEliminar by remember { mutableStateOf<NotaEntity?>(null) }
         var categoriaARenombrar by remember { mutableStateOf<String?>(null) }
         var categoriaAMover by remember { mutableStateOf<String?>(null) }
@@ -217,8 +179,6 @@ class FragNotas : Fragment() {
         var categoriasPlegadasInicializadas by remember { mutableStateOf(false) }
         val notasSeleccionadas = remember { mutableStateListOf<Long>() }
         var selectionModeManual by remember { mutableStateOf(false) }
-        var showSelectedExportDialog by remember { mutableStateOf(false) }
-        var selectedExportPassword by remember { mutableStateOf("") }
 
         var showFabMenu by remember { mutableStateOf(false) }
         var showFilterPanel by remember { mutableStateOf(false) }
@@ -227,6 +187,20 @@ class FragNotas : Fragment() {
         var filtroContenido by remember { mutableStateOf("") }
         var filtroCategoria by remember { mutableStateOf("") }
         var filtroFav by remember { mutableStateOf(FavoritoFiltro.TODAS) }
+        val translationPremiumReason = stringResource(R.string.notes_translation_premium_reason)
+        val remindersPremiumReason = stringResource(R.string.notes_reminders_premium_reason)
+
+        fun requestNoteTranslation(nota: NotaEntity) {
+            val hasContent = nota.nota.isNotBlank() ||
+                NotaChecklistCodec.decode(nota.checklistJson).any { it.text.isNotBlank() }
+            if (!hasContent) {
+                Toast.makeText(context, R.string.notes_empty_note, Toast.LENGTH_SHORT).show()
+            } else if (!SubscriptionManager.hasActiveSubscriptionNow()) {
+                (activity as? MainActivity)?.showSubscriptionPaywall(translationPremiumReason)
+            } else {
+                notaATraducir = nota
+            }
+        }
 
         fun recargarNotas() {
             dbExecutor.execute {
@@ -240,12 +214,6 @@ class FragNotas : Fragment() {
 
         LaunchedEffect(Unit) {
             recargarNotas()
-        }
-
-        LaunchedEffect(restoreTick) {
-            if (restoreTick > 0L) {
-                recargarNotas()
-            }
         }
 
         LaunchedEffect(refreshTick) {
@@ -308,11 +276,6 @@ class FragNotas : Fragment() {
         fun clearSelection() {
             notasSeleccionadas.clear()
             selectionModeManual = false
-        }
-
-        fun exportSelectedToMigration() {
-            selectedExportPassword = ""
-            showSelectedExportDialog = true
         }
 
         fun passSelectedToFrases() {
@@ -421,7 +384,6 @@ class FragNotas : Fragment() {
                         onPassToFrases = ::passSelectedToFrases,
                         onPassToCalm = ::passSelectedToCalmPhrases,
                         onChangeCategory = { showSelectedCategoryDialog = true },
-                        onExportMigration = ::exportSelectedToMigration,
                         onCancel = ::clearSelection
                     )
                 }
@@ -458,6 +420,20 @@ class FragNotas : Fragment() {
                                         onEdit = {
                                             notaEnEdicion = nota
                                             showEditor = true
+                                        },
+                                        onTitleDoubleTap = {
+                                            notaTituloCambiar = nota
+                                            nuevoTituloNota = nota.titulo
+                                        },
+                                        onTranslate = { requestNoteTranslation(nota) },
+                                        onExportToReminder = {
+                                            if (!SubscriptionManager.hasActiveSubscriptionNow()) {
+                                                (activity as? MainActivity)?.showSubscriptionPaywall(
+                                                    remindersPremiumReason
+                                                )
+                                            } else {
+                                                notaARecordatorio = nota
+                                            }
                                         },
                                         onDelete = { notaAEliminar = nota },
                                         onRenameCategory = { categoriaARenombrar = it },
@@ -500,6 +476,20 @@ class FragNotas : Fragment() {
                                                 onEdit = {
                                                     notaEnEdicion = nota
                                                     showEditor = true
+                                                },
+                                                onTitleDoubleTap = {
+                                                    notaTituloCambiar = nota
+                                                    nuevoTituloNota = nota.titulo
+                                                },
+                                                onTranslate = { requestNoteTranslation(nota) },
+                                                onExportToReminder = {
+                                                    if (!SubscriptionManager.hasActiveSubscriptionNow()) {
+                                                        (activity as? MainActivity)?.showSubscriptionPaywall(
+                                                            remindersPremiumReason
+                                                        )
+                                                    } else {
+                                                        notaARecordatorio = nota
+                                                    }
                                                 },
                                                 onDelete = { notaAEliminar = nota },
                                                 onRenameCategory = { categoriaARenombrar = it },
@@ -641,63 +631,6 @@ class FragNotas : Fragment() {
             }
         }
 
-        if (showSelectedExportDialog) {
-            AlertDialog(
-                onDismissRequest = {
-                    selectedExportPassword = ""
-                    showSelectedExportDialog = false
-                },
-                title = { Text(stringResource(R.string.notes_export_selected_title)) },
-                text = {
-                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                        Text(
-                            stringResource(
-                                R.string.notes_export_selected_message,
-                                MigrationFormat.FILE_EXTENSION
-                            )
-                        )
-                        OutlinedTextField(
-                            value = selectedExportPassword,
-                            onValueChange = { selectedExportPassword = it },
-                            label = { Text(stringResource(R.string.common_file_password)) },
-                            visualTransformation = PasswordVisualTransformation(),
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    }
-                },
-                confirmButton = {
-                    TextButton(onClick = {
-                        val selected = notas.filter { it.id in notasSeleccionadas }
-                        if (selected.isEmpty()) {
-                            Toast.makeText(context, R.string.notes_select_at_least_one, Toast.LENGTH_LONG).show()
-                            return@TextButton
-                        }
-                        if (selectedExportPassword.isBlank()) {
-                            Toast.makeText(context, R.string.notes_enter_password, Toast.LENGTH_LONG).show()
-                            return@TextButton
-                        }
-                        val db = NevilleRoomDatabase.getInstance(context.applicationContext)
-                        pendingSelectedMigrationRecords = NevilleMigrationRoomBridge(db).exportSelectedRecords(notes = selected)
-                        pendingSelectedMigrationPassword = selectedExportPassword.toCharArray()
-                        selectedExportPassword = ""
-                        notasSeleccionadas.clear()
-                        showSelectedExportDialog = false
-                        createSelectedMigrationExportLauncher.launch("notas-${System.currentTimeMillis()}${MigrationFormat.FILE_EXTENSION}")
-                    }) {
-                        Text(stringResource(R.string.common_export))
-                    }
-                },
-                dismissButton = {
-                    TextButton(onClick = {
-                        selectedExportPassword = ""
-                        showSelectedExportDialog = false
-                    }) {
-                        Text(stringResource(R.string.common_cancel))
-                    }
-                }
-            )
-        }
-
         if (showConfirmDeleteSelected) {
             AlertDialog(
                 onDismissRequest = { showConfirmDeleteSelected = false },
@@ -792,7 +725,7 @@ class FragNotas : Fragment() {
                     } else if (!isChecklist && contenido.isBlank()) {
                         Toast.makeText(context, R.string.notes_content_required, Toast.LENGTH_SHORT).show()
                         false
-                    } else if (isChecklist && checklistItems.isEmpty()) {
+                    } else if (isChecklist && checklistItems.none(NotaChecklistItem::isTask)) {
                         Toast.makeText(context, R.string.notes_checklist_item_required, Toast.LENGTH_SHORT).show()
                         false
                     } else {
@@ -826,6 +759,155 @@ class FragNotas : Fragment() {
                             }
                         }
                         true
+                    }
+                }
+            )
+        }
+
+        notaATraducir?.let { note ->
+            NoteTranslationDialog(
+                note = note,
+                onDismiss = { notaATraducir = null },
+                onReplace = { draft: NoteTranslationDraft ->
+                    notaATraducir = null
+                    dbExecutor.execute {
+                        notaRepository().actualizar(
+                            id = note.id,
+                            titulo = note.titulo,
+                            nota = draft.body,
+                            fechaCreacionOriginal = note.fechaCreacion,
+                            isFav = note.isFav,
+                            categoria = note.categoria,
+                            isChecklist = note.isChecklist,
+                            checklistJson = if (note.isChecklist) {
+                                NotaChecklistCodec.encode(draft.checklistItems)
+                            } else {
+                                note.checklistJson
+                            }
+                        )
+                        activity?.runOnUiThread {
+                            recargarNotas()
+                            Toast.makeText(
+                                context,
+                                R.string.notes_translation_replaced,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                },
+                onCreateCopy = { draft: NoteTranslationDraft ->
+                    notaATraducir = null
+                    dbExecutor.execute {
+                        val inserted = notaRepository().insertar(
+                            titulo = note.titulo,
+                            nota = draft.body,
+                            isFav = note.isFav,
+                            categoria = note.categoria,
+                            isChecklist = note.isChecklist,
+                            checklistJson = if (note.isChecklist) {
+                                NotaChecklistCodec.encode(draft.checklistItems)
+                            } else {
+                                ""
+                            }
+                        )
+                        activity?.runOnUiThread {
+                            if (inserted > 0L) {
+                                recargarNotas()
+                            }
+                            Toast.makeText(
+                                context,
+                                if (inserted > 0L) {
+                                    R.string.notes_translation_copy_created
+                                } else {
+                                    R.string.notes_translation_save_failed
+                                },
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+            )
+        }
+
+        notaTituloCambiar?.let { note ->
+            AlertDialog(
+                onDismissRequest = { notaTituloCambiar = null },
+                title = { Text(stringResource(R.string.notes_edit_title)) },
+                text = {
+                    OutlinedTextField(
+                        value = nuevoTituloNota,
+                        onValueChange = { nuevoTituloNota = it },
+                        label = { Text(stringResource(R.string.notes_note_title)) },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true
+                    )
+                },
+                dismissButton = {
+                    TextButton(onClick = { notaTituloCambiar = null }) {
+                        Text(stringResource(R.string.common_cancel))
+                    }
+                },
+                confirmButton = {
+                    TextButton(onClick = {
+                        val title = nuevoTituloNota.trim()
+                        if (title.isBlank()) {
+                            Toast.makeText(
+                                context,
+                                R.string.notes_title_required,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            notaTituloCambiar = null
+                            dbExecutor.execute {
+                                notaRepository().actualizar(
+                                    id = note.id,
+                                    titulo = title,
+                                    nota = note.nota,
+                                    fechaCreacionOriginal = note.fechaCreacion,
+                                    isFav = note.isFav,
+                                    categoria = note.categoria,
+                                    isChecklist = note.isChecklist,
+                                    checklistJson = note.checklistJson
+                                )
+                                activity?.runOnUiThread {
+                                    recargarNotas()
+                                    Toast.makeText(
+                                        context,
+                                        R.string.notes_title_updated,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                        }
+                    }) {
+                        Text(stringResource(R.string.common_save))
+                    }
+                }
+            )
+        }
+
+        notaARecordatorio?.let { note ->
+            ReminderCreationDialog(
+                initialTitle = note.titulo,
+                initialMessage = buildNotaContent(note).ifBlank { note.titulo },
+                onDismiss = { notaARecordatorio = null },
+                onSave = { title, message, frequency ->
+                    notaARecordatorio = null
+                    dbExecutor.execute {
+                        val result = runCatching {
+                            val db = NevilleRoomDatabase.getInstance(context.applicationContext)
+                            val repository = ReminderRepository(db.reminderDao())
+                            val reminder = repository.create(title, message, frequency)
+                            ReminderScheduler.schedule(context.applicationContext, reminder)
+                        }
+                        activity?.runOnUiThread {
+                            Toast.makeText(
+                                context,
+                                if (result.isSuccess) R.string.notes_exported_to_reminders
+                                else R.string.notes_export_to_reminders_failed,
+                                if (result.isSuccess) Toast.LENGTH_SHORT else Toast.LENGTH_LONG
+                            ).show()
+                        }
                     }
                 }
             )
@@ -989,6 +1071,9 @@ class FragNotas : Fragment() {
         isExpanded: Boolean,
         onExpandChange: () -> Unit,
         onEdit: () -> Unit,
+        onTitleDoubleTap: () -> Unit,
+        onTranslate: () -> Unit,
+        onExportToReminder: () -> Unit,
         onDelete: () -> Unit,
         onRenameCategory: (String) -> Unit,
         onMoveCategory: (String) -> Unit,
@@ -1001,6 +1086,7 @@ class FragNotas : Fragment() {
         onToggleSelection: () -> Unit
     ) {
         val context = LocalContext.current
+        val tasksChooserTitle = stringResource(R.string.notes_tasks_chooser_title)
         val createdAt = dateFormat.format(Date(nota.fechaCreacion))
         val modifiedAt = dateFormat.format(Date(nota.fechaModificacion))
         NotaRow(
@@ -1012,6 +1098,8 @@ class FragNotas : Fragment() {
                 modifiedAt
             ),
             onEdit = onEdit,
+            onTitleDoubleTap = onTitleDoubleTap,
+            onTranslate = onTranslate,
             onDelete = onDelete,
             onRenameCategory = onRenameCategory,
             onMoveCategory = onMoveCategory,
@@ -1028,7 +1116,7 @@ class FragNotas : Fragment() {
             onToggleChecklistItem = { item ->
                 val updatedJson = NotaChecklistCodec.encode(
                     NotaChecklistCodec.decode(nota.checklistJson).map {
-                        if (it.id == item.id) it.copy(checked = !it.checked) else it
+                        if (it.id == item.id && it.isTask) it.copy(checked = !it.checked) else it
                     }
                 )
                 dbExecutor.execute {
@@ -1071,6 +1159,74 @@ class FragNotas : Fragment() {
                                                 }
                                             }
                                         }
+            },
+            onExportToDiario = {
+                val content = buildNotaContent(nota).trim().ifBlank { nota.titulo.trim() }
+                val title = nota.titulo.trim()
+                if (title.isBlank() || content.isBlank()) {
+                    Toast.makeText(context, R.string.notes_empty_note, Toast.LENGTH_SHORT).show()
+                    return@NotaRow
+                }
+                dbExecutor.execute {
+                    val result = runCatching {
+                        diarioRepository().insertar(
+                            title = title,
+                            content = content,
+                            emocion = "neutral",
+                            isFav = false
+                        )
+                    }
+                    activity?.runOnUiThread {
+                        Toast.makeText(
+                            context,
+                            if (result.isSuccess) R.string.notes_exported_to_diary
+                            else R.string.notes_export_to_diary_failed,
+                            if (result.isSuccess) Toast.LENGTH_SHORT else Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+            },
+            onExportToReminder = onExportToReminder,
+            onExportToCalendar = {
+                val eventStart = System.currentTimeMillis() + 5 * 60_000L
+                val intent = Intent(Intent.ACTION_INSERT).apply {
+                    data = CalendarContract.Events.CONTENT_URI
+                    putExtra(CalendarContract.Events.TITLE, nota.titulo.trim())
+                    putExtra(CalendarContract.Events.DESCRIPTION, buildNotaContent(nota))
+                    putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, eventStart)
+                    putExtra(CalendarContract.EXTRA_EVENT_END_TIME, eventStart + 60 * 60_000L)
+                }
+                runCatching { context.startActivity(intent) }
+                    .onFailure {
+                        Toast.makeText(
+                            context,
+                            R.string.notes_calendar_unavailable,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+            },
+            onExportToSystemTasks = {
+                val content = buildNotaContent(nota).ifBlank { nota.titulo }
+                val intent = Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_TITLE, nota.titulo)
+                    putExtra(Intent.EXTRA_SUBJECT, nota.titulo)
+                    putExtra(Intent.EXTRA_TEXT, content)
+                }
+                runCatching {
+                    context.startActivity(
+                        Intent.createChooser(
+                            intent,
+                            tasksChooserTitle
+                        )
+                    )
+                }.onFailure {
+                    Toast.makeText(
+                        context,
+                        R.string.notes_tasks_unavailable,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             },
             onExportToLienzo = {
                 FraseContextActions.cargarFraseEnLienzo(context, buildNotaPayload(nota))
@@ -1127,7 +1283,11 @@ class FragNotas : Fragment() {
         val checklist = if (nota.isChecklist) {
             NotaChecklistCodec.decode(nota.checklistJson)
                 .joinToString("\n") { item ->
-                    "${if (item.checked) "[x]" else "[ ]"} ${item.text}"
+                    if (item.isTask) {
+                        "${if (item.checked) "[x]" else "[ ]"} ${item.text}"
+                    } else {
+                        item.text
+                    }
                 }
                 .trim()
         } else {
@@ -1144,6 +1304,26 @@ class FragNotas : Fragment() {
         }
     }
 
+    private fun buildNotaContent(nota: NotaEntity): String {
+        val contenido = nota.nota.trim()
+        val checklist = if (nota.isChecklist) {
+            NotaChecklistCodec.decode(nota.checklistJson)
+                .joinToString("\n") { item ->
+                    if (item.isTask) {
+                        "${if (item.checked) "[x]" else "[ ]"} ${item.text}"
+                    } else {
+                        item.text
+                    }
+                }
+                .trim()
+        } else {
+            ""
+        }
+        return listOf(contenido, checklist)
+            .filter(String::isNotBlank)
+            .joinToString("\n\n")
+    }
+
     private fun buildNotaSearchText(nota: NotaEntity): String =
         buildString {
             append(nota.nota)
@@ -1158,6 +1338,11 @@ class FragNotas : Fragment() {
         return NotaRepository(db.notaDao())
     }
 
+    private fun diarioRepository(): DiarioRepository {
+        val db = NevilleRoomDatabase.getInstance(requireContext().applicationContext)
+        return DiarioRepository(db.diarioDao())
+    }
+
     @Composable
     private fun SelectedNotesBar(
         selectedCount: Int,
@@ -1165,7 +1350,6 @@ class FragNotas : Fragment() {
         onPassToFrases: () -> Unit,
         onPassToCalm: () -> Unit,
         onChangeCategory: () -> Unit,
-        onExportMigration: () -> Unit,
         onCancel: () -> Unit
     ) {
         Column(
@@ -1223,12 +1407,6 @@ class FragNotas : Fragment() {
                     onClick = onChangeCategory
                 ) {
                     Text(stringResource(R.string.notes_category), color = if (selectedCount > 0) Color.White else Color.Gray)
-                }
-                TextButton(
-                    enabled = selectedCount > 0,
-                    onClick = onExportMigration
-                ) {
-                    Text(stringResource(R.string.notes_export_ios), color = if (selectedCount > 0) Color.White else Color.Gray)
                 }
             }
         }
@@ -1410,6 +1588,14 @@ class FragNotas : Fragment() {
         }
         var showCategoryMenu by remember { mutableStateOf(false) }
 
+        fun normalizeChecklistOrder() {
+            val ordered = checklistItems.filter { it.kind == NotaChecklistItemKind.LEADING_NOTE } +
+                checklistItems.filter(NotaChecklistItem::isTask) +
+                checklistItems.filter { it.kind == NotaChecklistItemKind.TRAILING_NOTE }
+            checklistItems.clear()
+            checklistItems.addAll(ordered)
+        }
+
         Dialog(
             onDismissRequest = onDismiss,
             properties = DialogProperties(usePlatformDefaultWidth = false)
@@ -1509,7 +1695,7 @@ class FragNotas : Fragment() {
 
                     OutlinedTextField(
                         value = nota,
-                        onValueChange = { nota = it },
+                        onValueChange = { nota = NotaArithmeticCalculation.removeOperationAnnotations(it) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(200.dp),
@@ -1532,6 +1718,20 @@ class FragNotas : Fragment() {
                         }
                     )
 
+                    if (!isChecklist) {
+                        NotaArithmeticCalculation.calculate(nota)?.let { calculation ->
+                            Text(
+                                text = stringResource(
+                                    R.string.notes_sum_total,
+                                    calculation.formattedValue()
+                                ),
+                                color = Color(0xFF8FCBFF),
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 16.sp
+                            )
+                        }
+                    }
+
                     if (isChecklist) {
                         ChecklistEditorSection(
                             items = checklistItems,
@@ -1540,13 +1740,19 @@ class FragNotas : Fragment() {
                                     NotaChecklistItem(
                                         id = "item-${System.currentTimeMillis()}-${checklistItems.size}",
                                         text = "",
-                                        checked = false
+                                        checked = false,
+                                        kind = NotaChecklistItemKind.TASK
                                     )
                                 )
+                                normalizeChecklistOrder()
                             },
                             onTextChange = { item, text ->
                                 val index = checklistItems.indexOfFirst { it.id == item.id }
-                                if (index >= 0) checklistItems[index] = item.copy(text = text)
+                                if (index >= 0) {
+                                    checklistItems[index] = item.copy(
+                                        text = NotaArithmeticCalculation.removeOperationAnnotations(text)
+                                    )
+                                }
                             },
                             onCheckedChange = { item, checked ->
                                 val index = checklistItems.indexOfFirst { it.id == item.id }
@@ -1554,6 +1760,23 @@ class FragNotas : Fragment() {
                             },
                             onDelete = { item ->
                                 checklistItems.removeAll { it.id == item.id }
+                            },
+                            onToggleNoteBlock = { kind, enabled ->
+                                if (enabled) {
+                                    if (checklistItems.none { it.kind == kind }) {
+                                        checklistItems.add(
+                                            NotaChecklistItem(
+                                                id = "note-${kind.storageValue}-${System.currentTimeMillis()}",
+                                                text = "",
+                                                checked = false,
+                                                kind = kind
+                                            )
+                                        )
+                                        normalizeChecklistOrder()
+                                    }
+                                } else {
+                                    checklistItems.removeAll { it.kind == kind }
+                                }
                             }
                         )
                     }
@@ -1653,8 +1876,12 @@ class FragNotas : Fragment() {
         onAdd: () -> Unit,
         onTextChange: (NotaChecklistItem, String) -> Unit,
         onCheckedChange: (NotaChecklistItem, Boolean) -> Unit,
-        onDelete: (NotaChecklistItem) -> Unit
+        onDelete: (NotaChecklistItem) -> Unit,
+        onToggleNoteBlock: (NotaChecklistItemKind, Boolean) -> Unit
     ) {
+        val taskItems = items.filter(NotaChecklistItem::isTask)
+        val leadingNote = items.firstOrNull { it.kind == NotaChecklistItemKind.LEADING_NOTE }
+        val trailingNote = items.firstOrNull { it.kind == NotaChecklistItemKind.TRAILING_NOTE }
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -1682,7 +1909,14 @@ class FragNotas : Fragment() {
                 }
             }
 
-            if (items.isEmpty()) {
+            ChecklistNoteBlockEditor(
+                item = leadingNote,
+                kind = NotaChecklistItemKind.LEADING_NOTE,
+                onToggle = { onToggleNoteBlock(NotaChecklistItemKind.LEADING_NOTE, it) },
+                onTextChange = { text -> leadingNote?.let { item -> onTextChange(item, text) } }
+            )
+
+            if (taskItems.isEmpty()) {
                 Text(
                     text = stringResource(R.string.notes_add_first_item),
                     color = Color.White.copy(alpha = 0.72f),
@@ -1690,7 +1924,7 @@ class FragNotas : Fragment() {
                 )
             }
 
-            items.forEach { item ->
+            taskItems.forEach { item ->
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
@@ -1729,15 +1963,99 @@ class FragNotas : Fragment() {
                     }
                 }
             }
+
+            ChecklistNoteBlockEditor(
+                item = trailingNote,
+                kind = NotaChecklistItemKind.TRAILING_NOTE,
+                onToggle = { onToggleNoteBlock(NotaChecklistItemKind.TRAILING_NOTE, it) },
+                onTextChange = { text -> trailingNote?.let { item -> onTextChange(item, text) } }
+            )
+
+            NotaArithmeticCalculation.checklistSummary(items)?.let { summary ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = stringResource(R.string.notes_sum_total, summary.formattedTotal()),
+                        color = Color(0xFF8FCBFF),
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = stringResource(R.string.notes_pending_total, summary.formattedPending()),
+                        color = Color(0xFFFFB65C),
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
         }
     }
 
+    @Composable
+    private fun ChecklistNoteBlockEditor(
+        item: NotaChecklistItem?,
+        kind: NotaChecklistItemKind,
+        onToggle: (Boolean) -> Unit,
+        onTextChange: (String) -> Unit
+    ) {
+        val isLeading = kind == NotaChecklistItemKind.LEADING_NOTE
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onToggle(item == null) },
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Checkbox(
+                checked = item != null,
+                onCheckedChange = onToggle
+            )
+            Text(
+                text = stringResource(
+                    if (isLeading) R.string.notes_add_leading_note
+                    else R.string.notes_add_trailing_note
+                ),
+                color = Color.White,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
+
+        item?.let {
+            OutlinedTextField(
+                value = it.text,
+                onValueChange = onTextChange,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 90.dp),
+                shape = RoundedCornerShape(12.dp),
+                placeholder = {
+                    Text(
+                        stringResource(
+                            if (isLeading) R.string.notes_leading_note_placeholder
+                            else R.string.notes_trailing_note_placeholder
+                        ),
+                        color = Color.White.copy(alpha = 0.7f)
+                    )
+                },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = Color.White,
+                    cursorColor = Color.White,
+                    focusedBorderColor = Color.White,
+                    unfocusedBorderColor = Color.Gray
+                )
+            )
+        }
+    }
+
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     private fun NotaRow(
         nota: NotaEntity,
         isExpanded: Boolean,
         fechaTexto: String,
         onEdit: () -> Unit,
+        onTitleDoubleTap: () -> Unit,
+        onTranslate: () -> Unit,
         onDelete: () -> Unit,
         onRenameCategory: (String) -> Unit,
         onMoveCategory: (String) -> Unit,
@@ -1748,6 +2066,10 @@ class FragNotas : Fragment() {
         onToggleFav: () -> Unit,
         onToggleChecklistItem: (NotaChecklistItem) -> Unit,
         onExportToFrases: () -> Unit,
+        onExportToDiario: () -> Unit,
+        onExportToReminder: () -> Unit,
+        onExportToCalendar: () -> Unit,
+        onExportToSystemTasks: () -> Unit,
         onExportToLienzo: () -> Unit,
         onGenerateQr: () -> Unit,
         onShare: () -> Unit,
@@ -1782,6 +2104,10 @@ class FragNotas : Fragment() {
                     ),
                     shape = RoundedCornerShape(20.dp)
                 )
+                .animateContentSize(animationSpec = tween(durationMillis = 280))
+                .clickable {
+                    if (selectionMode) onToggleSelection() else onToggleExpand()
+                }
                 .padding(12.dp)
         ) {
             Row(
@@ -1806,7 +2132,16 @@ class FragNotas : Fragment() {
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(1f)
+                        .combinedClickable(
+                            onClick = {
+                                if (selectionMode) onToggleSelection() else onToggleExpand()
+                            },
+                            onDoubleClick = {
+                                if (!selectionMode) onTitleDoubleTap()
+                            }
+                        )
                 )
                 Icon(
                     painter = painterResource(id = R.drawable.ic_toolbar_favorite),
@@ -1820,7 +2155,14 @@ class FragNotas : Fragment() {
 
             if (isExpanded && nota.nota.isNotBlank()) {
                 Text(
-                    text = nota.nota,
+                    text = if (nota.isChecklist) {
+                        nota.nota
+                    } else {
+                        NotaArithmeticCalculation.annotateOperations(
+                            text = nota.nota,
+                            includeTrailingExpression = true
+                        )
+                    },
                     fontSize = 16.sp,
                     lineHeight = 20.sp,
                     overflow = TextOverflow.Clip,
@@ -1830,6 +2172,21 @@ class FragNotas : Fragment() {
                         .fillMaxWidth()
                         .clickable(onClick = onToggleExpand)
                 )
+
+                if (!nota.isChecklist) {
+                    NotaArithmeticCalculation.calculate(nota.nota)?.let { calculation ->
+                        Text(
+                            text = stringResource(
+                                R.string.notes_sum_total,
+                                calculation.formattedValue()
+                            ),
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF8FCBFF),
+                            modifier = Modifier.padding(top = 6.dp)
+                        )
+                    }
+                }
             }
 
             if (isExpanded && nota.isChecklist) {
@@ -1945,44 +2302,50 @@ class FragNotas : Fragment() {
                                     AiNavigation.openChat(requireContext(), aiContent)
                                 }
                             )
-                            DropdownMenuItem(
-                                text = { Text(stringResource(R.string.notes_change_category)) },
-                                onClick = {
+                            NoteOrganizeMenuItem(
+                                onTranslate = {
+                                    showContextMenu = false
+                                    onTranslate()
+                                },
+                                onChangeCategory = {
                                     showContextMenu = false
                                     onChangeNoteCategory(nota)
                                 }
                             )
-                            DropdownMenuItem(
-                                text = { Text(stringResource(R.string.notes_export_to_quotes)) },
-                                onClick = {
+                            NoteExportMenuItem(
+                                onExportToDiary = {
+                                    showContextMenu = false
+                                    onExportToDiario()
+                                },
+                                onExportToReminders = {
+                                    showContextMenu = false
+                                    onExportToReminder()
+                                },
+                                onExportToCalendar = {
+                                    showContextMenu = false
+                                    onExportToCalendar()
+                                },
+                                onExportToSystemTasks = {
+                                    showContextMenu = false
+                                    onExportToSystemTasks()
+                                },
+                                onExportToQuotes = {
                                     showContextMenu = false
                                     onExportToFrases()
-                                }
-                            )
-                            DropdownMenuItem(
-                                text = { Text(stringResource(R.string.notes_export_to_canvas)) },
-                                onClick = {
+                                },
+                                onExportToCanvas = {
                                     showContextMenu = false
                                     onExportToLienzo()
-                                }
-                            )
-                            DropdownMenuItem(
-                                text = { Text(stringResource(R.string.notes_generate_qr)) },
-                                onClick = {
+                                },
+                                onGenerateQr = {
                                     showContextMenu = false
                                     onGenerateQr()
-                                }
-                            )
-                            DropdownMenuItem(
-                                text = { Text(stringResource(R.string.notes_share_ellipsis)) },
-                                onClick = {
+                                },
+                                onShare = {
                                     showContextMenu = false
                                     onShare()
-                                }
-                            )
-                            DropdownMenuItem(
-                                text = { Text(stringResource(R.string.notes_copy_clipboard)) },
-                                onClick = {
+                                },
+                                onCopy = {
                                     showContextMenu = false
                                     onCopyToClipboard()
                                 }
@@ -2016,6 +2379,132 @@ class FragNotas : Fragment() {
     }
 
     @Composable
+    private fun NoteOrganizeMenuItem(
+        onTranslate: () -> Unit,
+        onChangeCategory: () -> Unit
+    ) {
+        var expanded by remember { mutableStateOf(false) }
+        Box {
+            DropdownMenuItem(
+                text = { Text(stringResource(R.string.notes_organize_transform)) },
+                trailingIcon = { Text("›") },
+                onClick = { expanded = true }
+            )
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                DropdownMenuItem(
+                    text = { Text(stringResource(R.string.notes_translate)) },
+                    onClick = {
+                        expanded = false
+                        onTranslate()
+                    }
+                )
+                DropdownMenuItem(
+                    text = { Text(stringResource(R.string.notes_change_category)) },
+                    onClick = {
+                        expanded = false
+                        onChangeCategory()
+                    }
+                )
+            }
+        }
+    }
+
+    @Composable
+    private fun NoteExportMenuItem(
+        onExportToDiary: () -> Unit,
+        onExportToReminders: () -> Unit,
+        onExportToCalendar: () -> Unit,
+        onExportToSystemTasks: () -> Unit,
+        onExportToQuotes: () -> Unit,
+        onExportToCanvas: () -> Unit,
+        onGenerateQr: () -> Unit,
+        onShare: () -> Unit,
+        onCopy: () -> Unit
+    ) {
+        var expanded by remember { mutableStateOf(false) }
+        Box {
+            DropdownMenuItem(
+                text = { Text(stringResource(R.string.notes_export_share)) },
+                trailingIcon = { Text("›") },
+                onClick = { expanded = true }
+            )
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                DropdownMenuItem(
+                    text = { Text(stringResource(R.string.notes_export_to_diary)) },
+                    onClick = {
+                        expanded = false
+                        onExportToDiary()
+                    }
+                )
+                DropdownMenuItem(
+                    text = { Text(stringResource(R.string.notes_export_to_reminders)) },
+                    onClick = {
+                        expanded = false
+                        onExportToReminders()
+                    }
+                )
+                DropdownMenuItem(
+                    text = { Text(stringResource(R.string.notes_export_to_system_calendar)) },
+                    onClick = {
+                        expanded = false
+                        onExportToCalendar()
+                    }
+                )
+                DropdownMenuItem(
+                    text = { Text(stringResource(R.string.notes_export_to_system_tasks)) },
+                    onClick = {
+                        expanded = false
+                        onExportToSystemTasks()
+                    }
+                )
+                DropdownMenuItem(
+                    text = { Text(stringResource(R.string.notes_export_to_quotes)) },
+                    onClick = {
+                        expanded = false
+                        onExportToQuotes()
+                    }
+                )
+                DropdownMenuItem(
+                    text = { Text(stringResource(R.string.notes_export_to_canvas)) },
+                    onClick = {
+                        expanded = false
+                        onExportToCanvas()
+                    }
+                )
+                DropdownMenuItem(
+                    text = { Text(stringResource(R.string.notes_generate_qr)) },
+                    onClick = {
+                        expanded = false
+                        onGenerateQr()
+                    }
+                )
+                DropdownMenuItem(
+                    text = { Text(stringResource(R.string.notes_share_ellipsis)) },
+                    onClick = {
+                        expanded = false
+                        onShare()
+                    }
+                )
+                DropdownMenuItem(
+                    text = { Text(stringResource(R.string.notes_copy_clipboard)) },
+                    onClick = {
+                        expanded = false
+                        onCopy()
+                    }
+                )
+            }
+        }
+    }
+
+    @Composable
     private fun ChecklistPreview(
         items: List<NotaChecklistItem>,
         isExpanded: Boolean,
@@ -2031,32 +2520,73 @@ class FragNotas : Fragment() {
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             visibleItems.forEach { item ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable(
-                            enabled = canCollapseExpand,
-                            onClick = onToggleExpand
-                        ),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Checkbox(
-                        checked = item.checked,
-                        onCheckedChange = { onToggleItem(item) }
-                    )
+                if (item.isTask) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable(
+                                enabled = canCollapseExpand,
+                                onClick = onToggleExpand
+                            ),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Checkbox(
+                            checked = item.checked,
+                            onCheckedChange = { onToggleItem(item) }
+                        )
+                        Text(
+                            text = NotaArithmeticCalculation.annotateOperations(
+                                text = item.text,
+                                includeTrailingExpression = true,
+                                maximumOperationCount = 1
+                            ),
+                            fontSize = 15.sp,
+                            lineHeight = 18.sp,
+                            color = Color.White,
+                            maxLines = if (isExpanded) Int.MAX_VALUE else 1,
+                            overflow = if (isExpanded) TextOverflow.Clip else TextOverflow.Ellipsis,
+                            modifier = Modifier
+                                .weight(1f)
+                                .clickable(
+                                    enabled = canCollapseExpand,
+                                    onClick = onToggleExpand
+                                )
+                        )
+                    }
+                } else {
                     Text(
                         text = item.text,
-                        fontSize = 15.sp,
-                        lineHeight = 18.sp,
+                        fontSize = 14.sp,
+                        lineHeight = 19.sp,
                         color = Color.White,
                         maxLines = if (isExpanded) Int.MAX_VALUE else 1,
                         overflow = if (isExpanded) TextOverflow.Clip else TextOverflow.Ellipsis,
                         modifier = Modifier
-                            .weight(1f)
-                            .clickable(
-                                enabled = canCollapseExpand,
-                                onClick = onToggleExpand
-                            )
+                            .fillMaxWidth()
+                            .background(Color(0x33334C63), RoundedCornerShape(10.dp))
+                            .padding(10.dp)
+                    )
+                }
+            }
+
+            NotaArithmeticCalculation.checklistSummary(items)?.let { summary ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 4.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = stringResource(R.string.notes_sum_total, summary.formattedTotal()),
+                        color = Color(0xFF8FCBFF),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp
+                    )
+                    Text(
+                        text = stringResource(R.string.notes_pending_total, summary.formattedPending()),
+                        color = Color(0xFFFFB65C),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp
                     )
                 }
             }

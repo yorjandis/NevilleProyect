@@ -6,8 +6,23 @@ import org.json.JSONObject
 data class NotaChecklistItem(
     val id: String,
     val text: String,
-    val checked: Boolean
-)
+    val checked: Boolean,
+    val kind: NotaChecklistItemKind = NotaChecklistItemKind.TASK
+) {
+    val isTask: Boolean
+        get() = kind == NotaChecklistItemKind.TASK
+}
+
+enum class NotaChecklistItemKind(val storageValue: String) {
+    TASK("task"),
+    LEADING_NOTE("leadingNote"),
+    TRAILING_NOTE("trailingNote");
+
+    companion object {
+        fun fromStorageValue(value: String): NotaChecklistItemKind =
+            entries.firstOrNull { it.storageValue == value } ?: TASK
+    }
+}
 
 object NotaChecklistCodec {
     fun decode(json: String): List<NotaChecklistItem> {
@@ -19,7 +34,12 @@ object NotaChecklistCodec {
                 NotaChecklistItem(
                     id = item.optString("id").ifBlank { "item-$index" },
                     text = item.optString("text"),
-                    checked = item.optBoolean("checked", false)
+                    checked = if (item.has("checked")) {
+                        item.optBoolean("checked", false)
+                    } else {
+                        item.optBoolean("isChecked", false)
+                    },
+                    kind = NotaChecklistItemKind.fromStorageValue(item.optString("kind", "task"))
                 )
             }.filter { it.text.isNotBlank() }
         }.getOrDefault(emptyList())
@@ -36,6 +56,8 @@ object NotaChecklistCodec {
                         .put("id", item.id)
                         .put("text", item.text)
                         .put("checked", item.checked)
+                        .put("isChecked", item.checked)
+                        .put("kind", item.kind.storageValue)
                 )
             }
         return array.toString()

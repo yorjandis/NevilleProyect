@@ -69,6 +69,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.fragment.app.Fragment
 import com.ypg.neville.R
+import com.ypg.neville.localization.GoalContentLocalization
 import com.ypg.neville.model.db.room.ArchivedUnitEntity
 import com.ypg.neville.model.db.room.GoalUnitEntity
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
@@ -76,6 +77,8 @@ import com.ypg.neville.model.metas.ArchivedGoalCardState
 import com.ypg.neville.model.metas.GoalCardState
 import com.ypg.neville.model.metas.GoalCompletionBasis
 import com.ypg.neville.model.metas.GoalDayPeriod
+import com.ypg.neville.model.metas.GoalExample
+import com.ypg.neville.model.metas.GoalExamples
 import com.ypg.neville.model.metas.GoalScheduleType
 import com.ypg.neville.model.metas.HabitPreset
 import com.ypg.neville.model.metas.MetasRepository
@@ -1074,6 +1077,7 @@ class FragMetas : Fragment() {
         var weeklyDaysText by remember { mutableStateOf("3") }
         var dayPeriod by remember { mutableStateOf(GoalDayPeriod.ANYTIME) }
         var showDescription by remember { mutableStateOf(false) }
+        var showGoalExamples by remember { mutableStateOf(false) }
         val specificDates = remember { mutableStateListOf<Long>() }
         var notifyOnUnitAvailable by remember { mutableStateOf(false) }
         var habitTitleFilter by remember { mutableStateOf("") }
@@ -1116,6 +1120,35 @@ class FragMetas : Fragment() {
             val contentOk = habitContentFilter.isBlank() ||
                 habit.description.contains(habitContentFilter.trim(), ignoreCase = true)
             titleOk && contentOk
+        }
+
+        fun applyExample(example: GoalExample) {
+            title = example.title
+            description = example.details
+            amountText = example.amount.toString()
+            frequencyText = example.frequency.toString()
+            selectedUnit = example.intervalUnit
+            executionTargetText = example.executionTargetValue.toEditableNumber()
+            customUnitLabel = example.customUnitLabel
+            completionBasis = example.completionBasis
+            durationValueText = example.durationValue.toString()
+            durationUnit = example.durationUnit
+            scheduleType = example.scheduleType
+            weeklyDaysText = example.weeklyDaysPerWeek.toString()
+            dayPeriod = example.androidDayPeriod
+            notifyOnUnitAvailable = false
+            showDescription = example.details.isNotBlank()
+            specificDates.clear()
+            val reference = java.util.Calendar.getInstance()
+            example.specificDateOffsets.forEach { offset ->
+                specificDates.add(
+                    (reference.clone() as java.util.Calendar).apply {
+                        add(java.util.Calendar.DAY_OF_MONTH, offset)
+                    }.timeInMillis
+                )
+            }
+            selectedTab = 0
+            showGoalExamples = false
         }
 
         LaunchedEffect(Unit) {
@@ -1168,11 +1201,27 @@ class FragMetas : Fragment() {
                         )
                         .padding(12.dp)
                 ) {
-                    Text(stringResource(R.string.goals_new_title),
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFFFF9800)
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            stringResource(R.string.goals_new_title),
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFFFF9800),
+                            modifier = Modifier.weight(1f)
+                        )
+                        if (selectedTab == 0) {
+                            TextButton(onClick = { showGoalExamples = true }) {
+                                Text(
+                                    text = "💡 ${stringResource(R.string.goals_examples_menu)}",
+                                    color = Color.Black,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                        }
+                    }
                     Spacer(modifier = Modifier.height(8.dp))
 
                     PrimaryTabRow(
@@ -1631,6 +1680,126 @@ class FragMetas : Fragment() {
                 onDismiss = { previewPrograma = null }
             )
         }
+
+        if (showGoalExamples) {
+            val context = LocalContext.current
+            GoalExamplesDialog(
+                examples = remember(context) {
+                    GoalContentLocalization.localizedExamples(context, GoalExamples.all)
+                },
+                onDismiss = { showGoalExamples = false },
+                onSelect = ::applyExample
+            )
+        }
+    }
+
+    @Composable
+    private fun GoalExamplesDialog(
+        examples: List<GoalExample>,
+        onDismiss: () -> Unit,
+        onSelect: (GoalExample) -> Unit
+    ) {
+        Dialog(
+            onDismissRequest = onDismiss,
+            properties = DialogProperties(usePlatformDefaultWidth = false)
+        ) {
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth(0.96f)
+                    .fillMaxSize()
+                    .padding(vertical = 18.dp),
+                shape = RoundedCornerShape(20.dp),
+                color = Color(0xFFF4F2EE)
+            ) {
+                Column(modifier = Modifier.fillMaxSize()) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 18.dp, top = 10.dp, end = 8.dp, bottom = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = stringResource(R.string.goals_examples_title),
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.weight(1f)
+                        )
+                        TextButton(onClick = onDismiss) {
+                            Text(stringResource(R.string.common_close))
+                        }
+                    }
+
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = androidx.compose.foundation.layout.PaddingValues(
+                            start = 14.dp,
+                            end = 14.dp,
+                            bottom = 18.dp
+                        ),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        items(examples, key = { it.id }) { example ->
+                            val accent = Color(example.accentArgb)
+                            Card(
+                                modifier = Modifier.fillMaxWidth(),
+                                shape = RoundedCornerShape(18.dp),
+                                colors = CardDefaults.cardColors(containerColor = Color.White)
+                            ) {
+                                Column(
+                                    modifier = Modifier.padding(16.dp),
+                                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                                ) {
+                                    Row(
+                                        verticalAlignment = Alignment.Top,
+                                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                                    ) {
+                                        Box(
+                                            modifier = Modifier
+                                                .background(accent, RoundedCornerShape(12.dp))
+                                                .padding(10.dp),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text(example.emoji, style = MaterialTheme.typography.titleLarge)
+                                        }
+                                        Column(modifier = Modifier.weight(1f)) {
+                                            Text(
+                                                text = example.category.uppercase(Locale.ROOT),
+                                                style = MaterialTheme.typography.labelSmall,
+                                                fontWeight = FontWeight.Bold,
+                                                color = accent
+                                            )
+                                            Text(
+                                                text = example.title,
+                                                style = MaterialTheme.typography.titleMedium,
+                                                fontWeight = FontWeight.Bold,
+                                                color = Color(0xFF1B1B1B)
+                                            )
+                                        }
+                                    }
+                                    Text(
+                                        text = example.details,
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = Color(0xFF555555)
+                                    )
+                                    Text(
+                                        text = "⚙ ${example.configurationSummary}",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = Color(0xFF666666)
+                                    )
+                                    Button(
+                                        onClick = { onSelect(example) },
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Text(stringResource(R.string.goals_example_use))
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     //Vista de resumen de un programa
@@ -2020,6 +2189,9 @@ class FragMetas : Fragment() {
     private fun formatDate(epoch: Long): String {
         return SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date(epoch))
     }
+
+    private fun Double.toEditableNumber(): String =
+        if (this % 1.0 == 0.0) toInt().toString() else toString()
 
     private fun formatRemaining(ms: Long): String {
         val secs = (ms / 1000L).coerceAtLeast(0)

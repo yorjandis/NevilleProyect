@@ -4,14 +4,12 @@ import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.app.TimePickerDialog
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.appcompat.app.AppCompatDelegate
@@ -36,7 +34,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
@@ -55,7 +52,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -66,8 +62,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -81,22 +75,16 @@ import com.ypg.neville.feature.cardiocoherence.data.CardioCoherencePreferences
 import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryRepository
 import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryReviewDay
 import com.ypg.neville.feature.weeklysummary.domain.WeeklySummarySettings
-import androidx.lifecycle.lifecycleScope
 import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
-import com.ypg.neville.model.backup.CloudBackupManager
-import com.ypg.neville.model.migration.ImportPolicy
-import com.ypg.neville.model.migration.ImportPreview
-import com.ypg.neville.model.migration.MigrationFormat
-import com.ypg.neville.model.migration.MyAppMigrationService
 import com.ypg.neville.model.reminders.JournalDailyReminderManager
 import com.ypg.neville.model.subscription.SubscriptionManager
 import com.ypg.neville.feature.premiumpreview.PremiumFeatureId
 import com.ypg.neville.model.utils.ColorPickerManager
 import com.ypg.neville.model.utils.NewsContent
 import com.ypg.neville.model.utils.UiModalWindows
-import kotlinx.coroutines.launch
+import com.ypg.neville.ui.wirelesssync.WirelessSyncActivity
 
 class frag_Setting : Fragment() {
 
@@ -105,171 +93,7 @@ class frag_Setting : Fragment() {
         data object Error : WeeklyCleanupResult
     }
 
-    private lateinit var pickProviderFolderLauncher: ActivityResultLauncher<Uri?>
-    private lateinit var createProviderBackupFileLauncher: ActivityResultLauncher<String>
-    private lateinit var pickBackupFileLauncher: ActivityResultLauncher<Array<String>>
-    private lateinit var createMigrationExportFileLauncher: ActivityResultLauncher<String>
-    private lateinit var pickMigrationImportFileLauncher: ActivityResultLauncher<Array<String>>
-    private var settingsUiRefreshTick by mutableStateOf(0)
-    private var pendingRestorePassphrase: String? = null
-    private var pendingMigrationPassphrase: CharArray? = null
-    private var migrationImportPreview: ImportPreview? by mutableStateOf(null)
-    private var migrationStatusMessage: String? by mutableStateOf(null)
-    private var migrationResultDialogMessage: String? by mutableStateOf(null)
-    private var migrationResultIsError by mutableStateOf(false)
-    private var recoveredPassphraseMessage: String? by mutableStateOf(null)
     private val notesBiometricLockPrefKey = "notes_biometric_lock_enabled"
-    private val defaultBackupFileName = "neville_backup_latest.nvbak"
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        pickProviderFolderLauncher = registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
-            if (uri == null) {
-                return@registerForActivityResult
-            }
-
-            val manager = CloudBackupManager(requireContext().applicationContext)
-            val result = manager.connectProvider(uri)
-            result.onSuccess { provider ->
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.settings_provider_connected_toast, provider.displayName),
-                    Toast.LENGTH_SHORT
-                ).show()
-                settingsUiRefreshTick++
-            }.onFailure { error ->
-                Toast.makeText(
-                    requireContext(),
-                    error.message ?: getString(R.string.settings_provider_connect_error),
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
-
-        createProviderBackupFileLauncher = registerForActivityResult(
-            ActivityResultContracts.CreateDocument("application/octet-stream")
-        ) { uri ->
-            if (uri == null) {
-                return@registerForActivityResult
-            }
-
-            val manager = CloudBackupManager(requireContext().applicationContext)
-            val result = manager.connectProvider(uri)
-            result.onSuccess { provider ->
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.settings_provider_connected_toast, provider.displayName),
-                    Toast.LENGTH_SHORT
-                ).show()
-                settingsUiRefreshTick++
-            }.onFailure { error ->
-                Toast.makeText(
-                    requireContext(),
-                    error.message ?: getString(R.string.settings_provider_connect_error),
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
-
-        pickBackupFileLauncher = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-            if (uri == null) {
-                pendingRestorePassphrase = null
-                return@registerForActivityResult
-            }
-
-            lifecycleScope.launch {
-                val manager = CloudBackupManager(requireContext().applicationContext)
-                val passphrase = pendingRestorePassphrase
-                pendingRestorePassphrase = null
-                when (val result = manager.restoreFromBackup(uri, passphrase)) {
-                    is CloudBackupManager.RestoreResult.Success -> {
-                        Toast.makeText(
-                            requireContext(),
-                            getString(R.string.settings_restore_complete),
-                            Toast.LENGTH_LONG
-                        ).show()
-                        settingsUiRefreshTick++
-                    }
-                    is CloudBackupManager.RestoreResult.Error -> {
-                        Toast.makeText(
-                            requireContext(),
-                            getString(R.string.settings_restore_error, result.reason),
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                }
-            }
-        }
-
-        createMigrationExportFileLauncher = registerForActivityResult(
-            ActivityResultContracts.CreateDocument("application/octet-stream")
-        ) { uri ->
-            val passphrase = pendingMigrationPassphrase
-            pendingMigrationPassphrase = null
-            if (uri == null || passphrase == null) {
-                passphrase?.fill('\u0000')
-                migrationStatusMessage = null
-                migrationResultDialogMessage = null
-                migrationImportPreview = null
-                return@registerForActivityResult
-            }
-
-            lifecycleScope.launch {
-                val result = MyAppMigrationService(requireContext().applicationContext).exportToUri(uri, passphrase)
-                passphrase.fill('\u0000')
-                result.onSuccess { export ->
-                    migrationStatusMessage = buildExportSummary(export.countsByType)
-                    migrationResultDialogMessage = migrationStatusMessage
-                    migrationResultIsError = false
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.settings_migration_file_created, MigrationFormat.FILE_EXTENSION),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }.onFailure { error ->
-                    migrationStatusMessage = getString(
-                        R.string.settings_migration_export_error,
-                        error.message ?: getString(R.string.settings_unknown_error)
-                    )
-                    migrationResultDialogMessage = migrationStatusMessage
-                    migrationResultIsError = true
-                    Toast.makeText(requireContext(), migrationStatusMessage, Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-
-        pickMigrationImportFileLauncher = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-            val passphrase = pendingMigrationPassphrase
-            pendingMigrationPassphrase = null
-            if (uri == null || passphrase == null) {
-                passphrase?.fill('\u0000')
-                migrationStatusMessage = null
-                migrationResultDialogMessage = null
-                migrationImportPreview = null
-                return@registerForActivityResult
-            }
-
-            lifecycleScope.launch {
-                val result = MyAppMigrationService(requireContext().applicationContext).previewFromUri(uri, passphrase)
-                passphrase.fill('\u0000')
-                result.onSuccess { preview ->
-                    migrationImportPreview = preview
-                    migrationStatusMessage = buildPreviewSummary(preview)
-                }.onFailure { error ->
-                    migrationImportPreview = null
-                    migrationStatusMessage = getString(
-                        R.string.settings_migration_read_error,
-                        error.message ?: getString(R.string.settings_invalid_password_or_file)
-                    )
-                    migrationResultDialogMessage = migrationStatusMessage
-                    migrationResultIsError = true
-                    Toast.makeText(requireContext(), migrationStatusMessage, Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-
-    }
 
     override fun onCreateView(
         inflater: android.view.LayoutInflater,
@@ -289,9 +113,6 @@ class frag_Setting : Fragment() {
     private fun SettingsScreen() {
         val context = LocalContext.current
         val prefs = remember { DbPreferences.default(context) }
-        val backupManager = remember { CloudBackupManager(context.applicationContext) }
-        val coroutineScope = rememberCoroutineScope()
-        val refreshTick = settingsUiRefreshTick
         val initialJournalConfig = remember { JournalDailyReminderManager.readConfig(context) }
         val initialWeeklySummaryConfig = remember { WeeklySummarySettings.readConfig(context) }
 
@@ -366,28 +187,11 @@ class frag_Setting : Fragment() {
         var bottomNavAccesses by remember { mutableStateOf(BottomNavPreferences.load(prefs)) }
         var bottomNavPickerSlot by remember { mutableStateOf<Int?>(null) }
 
-        var showFrequencyDialog by remember { mutableStateOf(false) }
-        var showProviderDestinationDialog by remember { mutableStateOf(false) }
-        var showRestoreDialog by remember { mutableStateOf(false) }
-        var showBackupWarningDialog by remember { mutableStateOf(false) }
         var showJournalTimeDialog by remember { mutableStateOf(false) }
         var showJournalMessageDialog by remember { mutableStateOf(false) }
         var showPresencePhraseDialog by remember { mutableStateOf(false) }
         var showCardioPhrasesDialog by remember { mutableStateOf(false) }
-        var showPassphraseDialog by remember { mutableStateOf(false) }
-        var showDeletePassphraseDialog by remember { mutableStateOf(false) }
-        var showRecoveryGuideDialog by remember { mutableStateOf(false) }
         var journalMessageInput by remember { mutableStateOf(journalReminderCustomMessage) }
-        var currentPassphraseInput by remember { mutableStateOf("") }
-        var deleteCurrentPassphraseInput by remember { mutableStateOf("") }
-        var passphraseInput by remember { mutableStateOf("") }
-        var passphraseConfirmInput by remember { mutableStateOf("") }
-        var restorePassphraseInput by remember { mutableStateOf("") }
-        var migrationExportPassphraseInput by remember { mutableStateOf("") }
-        var migrationImportPassphraseInput by remember { mutableStateOf("") }
-        var showPassphrasePlainText by remember { mutableStateOf(false) }
-        var showMigrationExportDialog by remember { mutableStateOf(false) }
-        var showMigrationImportDialog by remember { mutableStateOf(false) }
         var showWeeklyReviewDayMenu by remember { mutableStateOf(false) }
         var showWeeklyReviewCleanupConfirmation by remember { mutableStateOf(false) }
         var weeklyReviewCleanupResult by remember {
@@ -411,11 +215,6 @@ class frag_Setting : Fragment() {
             }
         }
 
-        val providerInfo = remember(refreshTick) { backupManager.getProviderInfo() }
-        val backupFrequency = remember(refreshTick) { backupManager.getFrequency() }
-        val lastBackupAt = remember(refreshTick) { backupManager.getLastBackupTimestamp() }
-        val lastBackupError = remember(refreshTick) { backupManager.getLastBackupError() }
-        val hasSavedPassphrase = remember(refreshTick) { backupManager.hasSavedPassphrase() }
         val hasPremiumSubscription = SubscriptionManager.hasActiveSubscriptionNow()
 
         fun saveAuthorsAggregate() {
@@ -1211,189 +1010,19 @@ class frag_Setting : Fragment() {
 
             item {
                 SettingSection(
-                    title = stringResource(R.string.settings_backup_title),
-                    subtitle = stringResource(R.string.settings_backup_subtitle)
-                ) {
-                    Text(
-                        text = stringResource(R.string.settings_encryption_active),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color(0xFFFF9800)
-                    )
-                    FieldDivider()
-                    ActionField(
-                        title = if (providerInfo == null) stringResource(R.string.settings_connect_provider) else stringResource(R.string.settings_provider_connected),
-                        description = providerInfo?.let {
-                            "${it.displayName} (${it.authority}) · ${it.destinationKind.toUiLabel(context)}"
-                        } ?: stringResource(R.string.settings_provider_description)
-                    ) {
-                        showProviderDestinationDialog = true
-                    }
-                    if (providerInfo != null) {
-                        FieldDivider()
-                        ActionField(
-                            title = stringResource(R.string.settings_disconnect_provider),
-                            description = stringResource(R.string.settings_disconnect_provider_description)
-                        ) {
-                            backupManager.disconnectProvider()
-                            settingsUiRefreshTick++
-                            Toast.makeText(context, context.getString(R.string.settings_provider_disconnected), Toast.LENGTH_SHORT).show()
-                        }
-                    }
-
-                    FieldDivider()
-                    ActionField(
-                        title = if (hasSavedPassphrase) stringResource(R.string.settings_update_encryption_key) else stringResource(R.string.settings_configure_encryption_key),
-                        description = if (hasSavedPassphrase) {
-                            stringResource(R.string.settings_key_protects_description)
-                        } else {
-                            stringResource(R.string.settings_key_required_description)
-                        }
-                    ) {
-                        currentPassphraseInput = ""
-                        passphraseInput = ""
-                        passphraseConfirmInput = ""
-                        showPassphrasePlainText = false
-                        showPassphraseDialog = true
-                    }
-
-                    if (hasSavedPassphrase) {
-                        FieldDivider()
-                        ActionField(
-                            title = stringResource(R.string.settings_delete_saved_key),
-                            description = stringResource(R.string.settings_current_key_required)
-                        ) {
-                            deleteCurrentPassphraseInput = ""
-                            showDeletePassphraseDialog = true
-                        }
-                    }
-
-                    if (hasSavedPassphrase) {
-                        FieldDivider()
-                        ActionField(
-                            title = stringResource(R.string.settings_recover_password_biometrics),
-                            description = stringResource(R.string.settings_recover_password_biometrics_description)
-                        ) {
-                            val canAuth = BiometricManager.from(context).canAuthenticate(
-                                BiometricManager.Authenticators.BIOMETRIC_STRONG or
-                                    BiometricManager.Authenticators.BIOMETRIC_WEAK
-                            )
-                            if (canAuth != BiometricManager.BIOMETRIC_SUCCESS) {
-                                Toast.makeText(
-                                    context,
-                                    context.getString(R.string.settings_biometric_unavailable),
-                                    Toast.LENGTH_LONG
-                                ).show()
-                                return@ActionField
-                            }
-                            launchBiometricRecovery()
-                        }
-                    }
-
-                    FieldDivider()
-                    ActionField(
-                        title = stringResource(R.string.settings_recovery_guide),
-                        description = stringResource(R.string.settings_recovery_guide_description)
-                    ) {
-                        showRecoveryGuideDialog = true
-                    }
-
-                    FieldDivider()
-                    ActionField(
-                        title = stringResource(R.string.settings_backup_frequency),
-                        description = backupFrequency.toUiLabel(context)
-                    ) {
-                        showFrequencyDialog = true
-                    }
-
-                    FieldDivider()
-                    ActionField(
-                        title = stringResource(R.string.settings_backup_now),
-                        description = if (hasSavedPassphrase) {
-                            stringResource(R.string.settings_backup_now_description)
-                        } else {
-                            stringResource(R.string.settings_backup_key_required_action)
-                        }
-                    ) {
-                        if (!hasSavedPassphrase) {
-                            Toast.makeText(
-                                context,
-                                context.getString(R.string.settings_configure_key_first),
-                                Toast.LENGTH_LONG
-                            ).show()
-                            return@ActionField
-                        }
-                        showBackupWarningDialog = true
-                    }
-
-                    FieldDivider()
-                    ActionField(
-                        title = stringResource(R.string.settings_restore_from_backup),
-                        description = stringResource(R.string.settings_restore_from_backup_description)
-                    ) {
-                        showRestoreDialog = true
-                    }
-
-                    FieldDivider(padding = 8.dp)
-                    Text(
-                        text = stringResource(R.string.settings_last_backup, backupManager.formatTimestamp(lastBackupAt)),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    if (!lastBackupError.isNullOrBlank()) {
-                        Text(
-                            text = stringResource(R.string.settings_last_error, lastBackupError),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.error
-                        )
-                    }
-                }
-            }
-
-            item {
-                SettingSection(
-                    title = stringResource(R.string.settings_migration_title),
-                    subtitle = stringResource(R.string.settings_migration_subtitle)
+                    title = stringResource(R.string.settings_wireless_sync_title),
+                    subtitle = stringResource(R.string.settings_wireless_sync_subtitle)
                 ) {
                     ActionField(
-                        title = stringResource(R.string.settings_export_to_ios),
-                        description = stringResource(R.string.settings_export_to_ios_description, MigrationFormat.FILE_EXTENSION)
+                        title = stringResource(R.string.wireless_sync_title),
+                        description = stringResource(R.string.wireless_sync_settings_description)
                     ) {
-                        authenticateForMigration(
-                            title = context.getString(R.string.settings_export_data),
-                            subtitle = context.getString(R.string.settings_export_authentication)
+                        authenticateForWirelessSync(
+                            title = context.getString(R.string.wireless_sync_title),
+                            subtitle = context.getString(R.string.wireless_sync_authentication)
                         ) {
-                            migrationStatusMessage = null
-                            migrationResultDialogMessage = null
-                            migrationImportPreview = null
-                            migrationImportPassphraseInput = ""
-                            migrationExportPassphraseInput = ""
-                            showMigrationExportDialog = true
+                            startActivity(Intent(context, WirelessSyncActivity::class.java))
                         }
-                    }
-                    FieldDivider()
-                    ActionField(
-                        title = stringResource(R.string.settings_import_from_ios),
-                        description = stringResource(R.string.settings_import_from_ios_description, MigrationFormat.FILE_EXTENSION)
-                    ) {
-                        authenticateForMigration(
-                            title = context.getString(R.string.settings_import_data),
-                            subtitle = context.getString(R.string.settings_import_authentication)
-                        ) {
-                            migrationStatusMessage = null
-                            migrationResultDialogMessage = null
-                            migrationImportPreview = null
-                            migrationExportPassphraseInput = ""
-                            migrationImportPassphraseInput = ""
-                            showMigrationImportDialog = true
-                        }
-                    }
-                    migrationStatusMessage?.takeIf { it.isNotBlank() }?.let { message ->
-                        FieldDivider(padding = 8.dp)
-                        Text(
-                            text = message,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
                     }
                 }
             }
@@ -1606,246 +1235,6 @@ class frag_Setting : Fragment() {
             )
         }
 
-        if (showMigrationExportDialog) {
-            AlertDialog(
-                onDismissRequest = {
-                    migrationExportPassphraseInput = ""
-                    pendingMigrationPassphrase = null
-                    showMigrationExportDialog = false
-                },
-                title = { Text(stringResource(R.string.settings_export_to_ios_dialog)) },
-                text = {
-                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                        Text(stringResource(R.string.settings_migration_password_hint))
-                        OutlinedTextField(
-                            value = migrationExportPassphraseInput,
-                            onValueChange = { migrationExportPassphraseInput = it },
-                            label = { Text(stringResource(R.string.settings_export_password)) },
-                            visualTransformation = PasswordVisualTransformation(),
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    }
-                },
-                confirmButton = {
-                    TextButton(onClick = {
-                        val passphrase = migrationExportPassphraseInput.toCharArray()
-                        if (passphrase.isEmpty()) {
-                            Toast.makeText(context, context.getString(R.string.settings_enter_password), Toast.LENGTH_LONG).show()
-                            return@TextButton
-                        }
-                        pendingMigrationPassphrase = passphrase
-                        migrationExportPassphraseInput = ""
-                        showMigrationExportDialog = false
-                        val fileName = "neville-${System.currentTimeMillis()}${MigrationFormat.FILE_EXTENSION}"
-                        createMigrationExportFileLauncher.launch(fileName)
-                    }) {
-                        Text(stringResource(R.string.settings_create_file))
-                    }
-                },
-                dismissButton = {
-                    TextButton(onClick = {
-                        migrationExportPassphraseInput = ""
-                        pendingMigrationPassphrase = null
-                        showMigrationExportDialog = false
-                    }) {
-                        Text(stringResource(R.string.settings_cancel))
-                    }
-                }
-            )
-        }
-
-        if (showMigrationImportDialog) {
-            AlertDialog(
-                onDismissRequest = {
-                    migrationImportPassphraseInput = ""
-                    pendingMigrationPassphrase = null
-                    showMigrationImportDialog = false
-                },
-                title = { Text(stringResource(R.string.settings_import_from_ios_dialog)) },
-                text = {
-                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                        Text(stringResource(R.string.settings_import_memory_only_hint))
-                        OutlinedTextField(
-                            value = migrationImportPassphraseInput,
-                            onValueChange = { migrationImportPassphraseInput = it },
-                            label = { Text(stringResource(R.string.settings_file_password)) },
-                            visualTransformation = PasswordVisualTransformation(),
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    }
-                },
-                confirmButton = {
-                    TextButton(onClick = {
-                        val passphrase = migrationImportPassphraseInput.toCharArray()
-                        if (passphrase.isEmpty()) {
-                            Toast.makeText(context, context.getString(R.string.settings_enter_the_password), Toast.LENGTH_LONG).show()
-                            return@TextButton
-                        }
-                        pendingMigrationPassphrase = passphrase
-                        migrationImportPassphraseInput = ""
-                        showMigrationImportDialog = false
-                        pickMigrationImportFileLauncher.launch(arrayOf("application/octet-stream", "*/*"))
-                    }) {
-                        Text(stringResource(R.string.settings_select_file))
-                    }
-                },
-                dismissButton = {
-                    TextButton(onClick = {
-                        migrationImportPassphraseInput = ""
-                        pendingMigrationPassphrase = null
-                        showMigrationImportDialog = false
-                    }) {
-                        Text(stringResource(R.string.settings_cancel))
-                    }
-                }
-            )
-        }
-
-        migrationImportPreview?.let { preview ->
-            AlertDialog(
-                onDismissRequest = {
-                    migrationImportPreview = null
-                    migrationStatusMessage = null
-                    migrationExportPassphraseInput = ""
-                    migrationImportPassphraseInput = ""
-                    pendingMigrationPassphrase = null
-                },
-                title = { Text(stringResource(R.string.settings_import_preview)) },
-                text = {
-                    Column(
-                        modifier = Modifier.heightIn(max = 420.dp).verticalScroll(rememberScrollState()),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        Text(stringResource(R.string.settings_import_source, preview.manifest.optString("sourcePlatform"), preview.records.size))
-                        Text(stringResource(R.string.settings_items, migrationCountsInline(preview.countsByType)))
-                        if (preview.conflicts.isNotEmpty()) {
-                            Text(
-                                stringResource(R.string.settings_conflicts_skipped, preview.conflicts.size),
-                                color = MaterialTheme.colorScheme.error
-                            )
-                            migrationConflictSummaryLines(preview).forEach { line ->
-                                Text(line, style = MaterialTheme.typography.bodySmall)
-                            }
-                        }
-                        if (preview.errors.isNotEmpty()) {
-                            Text(stringResource(R.string.settings_errors_count, preview.errors.size), color = MaterialTheme.colorScheme.error)
-                            preview.errors.take(5).forEach { error ->
-                                Text(error, style = MaterialTheme.typography.bodySmall)
-                            }
-                        }
-                    }
-                },
-                confirmButton = {
-                    TextButton(
-                        enabled = preview.errors.isEmpty(),
-                        onClick = {
-                            coroutineScope.launch {
-                                val result = MyAppMigrationService(context.applicationContext)
-                                    .importPreview(preview, ImportPolicy.SkipExisting)
-                                result.onSuccess { summary ->
-                                    migrationStatusMessage = buildImportSummary(summary)
-                                    migrationResultDialogMessage = migrationStatusMessage
-                                    migrationResultIsError = false
-                                    migrationImportPreview = null
-                                    Toast.makeText(context, context.getString(R.string.settings_import_complete), Toast.LENGTH_LONG).show()
-                                }.onFailure { error ->
-                                    migrationStatusMessage = context.getString(
-                                        R.string.settings_import_error,
-                                        error.message ?: context.getString(R.string.settings_unknown_error)
-                                    )
-                                    migrationResultDialogMessage = migrationStatusMessage
-                                    migrationResultIsError = true
-                                    Toast.makeText(context, migrationStatusMessage, Toast.LENGTH_LONG).show()
-                                }
-                            }
-                        }
-                    ) {
-                        Text(stringResource(R.string.settings_import_skipping_conflicts))
-                    }
-                },
-                dismissButton = {
-                    TextButton(onClick = {
-                        migrationImportPreview = null
-                        migrationStatusMessage = null
-                        migrationExportPassphraseInput = ""
-                        migrationImportPassphraseInput = ""
-                        pendingMigrationPassphrase = null
-                    }) {
-                        Text(stringResource(R.string.settings_cancel))
-                    }
-                }
-            )
-        }
-
-        migrationResultDialogMessage?.let { message ->
-            AlertDialog(
-                onDismissRequest = { migrationResultDialogMessage = null },
-                title = {
-                    Text(
-                        if (migrationResultIsError) {
-                            stringResource(R.string.settings_migration_failed)
-                        } else {
-                            stringResource(R.string.settings_migration_summary)
-                        }
-                    )
-                },
-                text = {
-                    Text(message)
-                },
-                confirmButton = {
-                    TextButton(onClick = { migrationResultDialogMessage = null }) {
-                        Text(stringResource(R.string.settings_close))
-                    }
-                }
-            )
-        }
-
-        if (showBackupWarningDialog) {
-            AlertDialog(
-                onDismissRequest = { showBackupWarningDialog = false },
-                title = { Text(stringResource(R.string.settings_backup_recovery_key)) },
-                text = {
-                    Text(
-                        stringResource(R.string.settings_backup_recovery_warning)
-                    )
-                },
-                confirmButton = {
-                    TextButton(onClick = {
-                        showBackupWarningDialog = false
-                        coroutineScope.launch {
-                            when (val result = backupManager.backupNow()) {
-                                is CloudBackupManager.BackupResult.Success -> {
-                                    settingsUiRefreshTick++
-                                    Toast.makeText(
-                                        context,
-                                        context.getString(R.string.settings_backup_created, result.fileName),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
-                                is CloudBackupManager.BackupResult.Error -> {
-                                    settingsUiRefreshTick++
-                                    Toast.makeText(
-                                        context,
-                                        context.getString(R.string.settings_backup_error, result.reason),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
-                            }
-                        }
-                    }) {
-                        Text(stringResource(R.string.settings_create_backup))
-                    }
-                },
-                dismissButton = {
-                    TextButton(onClick = { showBackupWarningDialog = false }) {
-                        Text(stringResource(R.string.settings_cancel))
-                    }
-                }
-            )
-        }
-
         if (showPresencePhraseDialog) {
             AlertDialog(
                 onDismissRequest = { showPresencePhraseDialog = false },
@@ -1957,108 +1346,6 @@ class frag_Setting : Fragment() {
             )
         }
 
-        if (showFrequencyDialog) {
-            AlertDialog(
-                onDismissRequest = { showFrequencyDialog = false },
-                title = { Text(stringResource(R.string.settings_backup_frequency_dialog)) },
-                text = {
-                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        FrequencyOption(
-                            title = stringResource(R.string.settings_frequency_manual),
-                            selected = backupFrequency == CloudBackupManager.BackupFrequency.MANUAL
-                        ) {
-                            backupManager.setFrequency(CloudBackupManager.BackupFrequency.MANUAL)
-                                .onSuccess {
-                                    settingsUiRefreshTick++
-                                    showFrequencyDialog = false
-                                }
-                                .onFailure { error ->
-                                    Toast.makeText(
-                                        context,
-                                        error.message ?: context.getString(R.string.settings_frequency_save_error),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
-                        }
-                        FrequencyOption(
-                            title = stringResource(R.string.settings_frequency_daily),
-                            selected = backupFrequency == CloudBackupManager.BackupFrequency.DAILY
-                        ) {
-                            backupManager.setFrequency(CloudBackupManager.BackupFrequency.DAILY)
-                                .onSuccess {
-                                    settingsUiRefreshTick++
-                                    showFrequencyDialog = false
-                                }
-                                .onFailure { error ->
-                                    Toast.makeText(
-                                        context,
-                                        error.message ?: context.getString(R.string.settings_frequency_save_error),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
-                        }
-                        FrequencyOption(
-                            title = stringResource(R.string.settings_frequency_weekly),
-                            selected = backupFrequency == CloudBackupManager.BackupFrequency.WEEKLY
-                        ) {
-                            backupManager.setFrequency(CloudBackupManager.BackupFrequency.WEEKLY)
-                                .onSuccess {
-                                    settingsUiRefreshTick++
-                                    showFrequencyDialog = false
-                                }
-                                .onFailure { error ->
-                                    Toast.makeText(
-                                        context,
-                                        error.message ?: context.getString(R.string.settings_frequency_save_error),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
-                        }
-                    }
-                },
-                confirmButton = {
-                    TextButton(onClick = { showFrequencyDialog = false }) {
-                        Text(stringResource(R.string.settings_close))
-                    }
-                }
-            )
-        }
-
-        if (showProviderDestinationDialog) {
-            AlertDialog(
-                onDismissRequest = { showProviderDestinationDialog = false },
-                title = { Text(stringResource(R.string.settings_connect_provider_dialog)) },
-                text = {
-                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text(stringResource(R.string.settings_provider_destination_prompt))
-                        TextButton(
-                            modifier = Modifier.fillMaxWidth(),
-                            onClick = {
-                                showProviderDestinationDialog = false
-                                pickProviderFolderLauncher.launch(null)
-                            }
-                        ) {
-                            Text(stringResource(R.string.settings_provider_folder_option))
-                        }
-                        TextButton(
-                            modifier = Modifier.fillMaxWidth(),
-                            onClick = {
-                                showProviderDestinationDialog = false
-                                createProviderBackupFileLauncher.launch(defaultBackupFileName)
-                            }
-                        ) {
-                            Text(stringResource(R.string.settings_provider_cloud_file_option))
-                        }
-                    }
-                },
-                confirmButton = {
-                    TextButton(onClick = { showProviderDestinationDialog = false }) {
-                        Text(stringResource(R.string.settings_close))
-                    }
-                }
-            )
-        }
-
         if (showJournalTimeDialog) {
             DisposableEffect(Unit) {
                 val dialog = TimePickerDialog(
@@ -2116,351 +1403,6 @@ class frag_Setting : Fragment() {
             )
         }
 
-        if (showRestoreDialog) {
-            AlertDialog(
-                onDismissRequest = { showRestoreDialog = false },
-                title = { Text(stringResource(R.string.settings_restore_database_dialog)) },
-                text = {
-                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text(stringResource(R.string.settings_restore_database_warning))
-                        OutlinedTextField(
-                            value = restorePassphraseInput,
-                            onValueChange = { restorePassphraseInput = it },
-                            label = { Text(stringResource(R.string.settings_encryption_key)) },
-                            visualTransformation = PasswordVisualTransformation(),
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                            singleLine = true
-                        )
-                    }
-                },
-                confirmButton = {
-                    TextButton(onClick = {
-                        showRestoreDialog = false
-                        pendingRestorePassphrase = restorePassphraseInput.trim().ifBlank { null }
-                        restorePassphraseInput = ""
-                        pickBackupFileLauncher.launch(arrayOf("application/octet-stream", "application/zip", "*/*"))
-                    }) {
-                        Text(stringResource(R.string.settings_continue))
-                    }
-                },
-                dismissButton = {
-                    TextButton(onClick = {
-                        restorePassphraseInput = ""
-                        showRestoreDialog = false
-                    }) {
-                        Text(stringResource(R.string.settings_cancel))
-                    }
-                }
-            )
-        }
-
-        if (showPassphraseDialog) {
-            AlertDialog(
-                onDismissRequest = { showPassphraseDialog = false },
-                title = {
-                    Text(
-                        if (hasSavedPassphrase) {
-                            stringResource(R.string.settings_update_encryption_key_dialog)
-                        } else {
-                            stringResource(R.string.settings_backup_encryption_key_dialog)
-                        }
-                    )
-                },
-                text = {
-                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text(stringResource(R.string.settings_encryption_key_hint))
-                        SwitchField(
-                            title = stringResource(R.string.settings_show_password),
-                            description = stringResource(R.string.settings_show_password_description),
-                            checked = showPassphrasePlainText,
-                            onCheckedChange = { showPassphrasePlainText = it }
-                        )
-                        if (hasSavedPassphrase) {
-                            OutlinedTextField(
-                                value = currentPassphraseInput,
-                                onValueChange = { currentPassphraseInput = it },
-                                label = { Text(stringResource(R.string.settings_current_key)) },
-                                visualTransformation = if (showPassphrasePlainText) {
-                                    androidx.compose.ui.text.input.VisualTransformation.None
-                                } else {
-                                    PasswordVisualTransformation()
-                                },
-                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                                singleLine = true
-                            )
-                        }
-                        OutlinedTextField(
-                            value = passphraseInput,
-                            onValueChange = { passphraseInput = it },
-                            label = { Text(stringResource(R.string.settings_new_key)) },
-                            visualTransformation = if (showPassphrasePlainText) {
-                                androidx.compose.ui.text.input.VisualTransformation.None
-                            } else {
-                                PasswordVisualTransformation()
-                            },
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                            singleLine = true
-                        )
-                        OutlinedTextField(
-                            value = passphraseConfirmInput,
-                            onValueChange = { passphraseConfirmInput = it },
-                            label = { Text(stringResource(R.string.settings_confirm_key)) },
-                            visualTransformation = if (showPassphrasePlainText) {
-                                androidx.compose.ui.text.input.VisualTransformation.None
-                            } else {
-                                PasswordVisualTransformation()
-                            },
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                            singleLine = true
-                        )
-                    }
-                },
-                confirmButton = {
-                    TextButton(onClick = {
-                        val pass = passphraseInput.trim()
-                        val passConfirm = passphraseConfirmInput.trim()
-                        if (pass != passConfirm) {
-                            Toast.makeText(context, context.getString(R.string.settings_keys_do_not_match), Toast.LENGTH_LONG).show()
-                            return@TextButton
-                        }
-                        val result = if (hasSavedPassphrase) {
-                            backupManager.updatePassphrase(
-                                currentPassphrase = currentPassphraseInput.trim(),
-                                newPassphrase = pass
-                            )
-                        } else {
-                            backupManager.savePassphrase(pass)
-                        }
-                        result.onSuccess {
-                            settingsUiRefreshTick++
-                            showPassphraseDialog = false
-                            currentPassphraseInput = ""
-                            passphraseInput = ""
-                            passphraseConfirmInput = ""
-                            showPassphrasePlainText = false
-                            Toast.makeText(context, context.getString(R.string.settings_key_saved), Toast.LENGTH_SHORT).show()
-                        }.onFailure { error ->
-                            Toast.makeText(context, error.message ?: context.getString(R.string.settings_key_save_error), Toast.LENGTH_LONG).show()
-                        }
-                    }) {
-                        Text(stringResource(R.string.settings_save))
-                    }
-                },
-                dismissButton = {
-                    TextButton(onClick = {
-                        currentPassphraseInput = ""
-                        passphraseInput = ""
-                        passphraseConfirmInput = ""
-                        showPassphrasePlainText = false
-                        showPassphraseDialog = false
-                    }) {
-                        Text(stringResource(R.string.settings_cancel))
-                    }
-                }
-            )
-        }
-
-        if (showDeletePassphraseDialog) {
-            AlertDialog(
-                onDismissRequest = { showDeletePassphraseDialog = false },
-                title = { Text(stringResource(R.string.settings_delete_encryption_key_dialog)) },
-                text = {
-                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text(stringResource(R.string.settings_delete_encryption_key_hint))
-                        OutlinedTextField(
-                            value = deleteCurrentPassphraseInput,
-                            onValueChange = { deleteCurrentPassphraseInput = it },
-                            label = { Text(stringResource(R.string.settings_current_key)) },
-                            visualTransformation = PasswordVisualTransformation(),
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                            singleLine = true
-                        )
-                    }
-                },
-                confirmButton = {
-                    TextButton(onClick = {
-                        backupManager.deletePassphrase(deleteCurrentPassphraseInput.trim())
-                            .onSuccess {
-                                settingsUiRefreshTick++
-                                deleteCurrentPassphraseInput = ""
-                                showDeletePassphraseDialog = false
-                                Toast.makeText(context, context.getString(R.string.settings_key_deleted), Toast.LENGTH_SHORT).show()
-                            }
-                            .onFailure { error ->
-                                Toast.makeText(
-                                    context,
-                                    error.message ?: context.getString(R.string.settings_key_delete_error),
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
-                    }) { Text(stringResource(R.string.settings_delete)) }
-                },
-                dismissButton = {
-                    TextButton(onClick = {
-                        deleteCurrentPassphraseInput = ""
-                        showDeletePassphraseDialog = false
-                    }) { Text(stringResource(R.string.settings_cancel)) }
-                }
-            )
-        }
-
-        if (!recoveredPassphraseMessage.isNullOrBlank()) {
-            AlertDialog(
-                onDismissRequest = { recoveredPassphraseMessage = null },
-                title = { Text(stringResource(R.string.settings_encryption_password_dialog)) },
-                text = {
-                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text(stringResource(R.string.settings_biometric_recovery_success))
-                        Text(
-                            text = recoveredPassphraseMessage.orEmpty(),
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                    }
-                },
-                confirmButton = {
-                    TextButton(onClick = { recoveredPassphraseMessage = null }) {
-                        Text(stringResource(R.string.settings_close))
-                    }
-                }
-            )
-        }
-
-        if (showRecoveryGuideDialog) {
-            AlertDialog(
-                onDismissRequest = { showRecoveryGuideDialog = false },
-                title = { Text(stringResource(R.string.settings_recovery_guide_dialog)) },
-                text = {
-                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text(stringResource(R.string.settings_recovery_guide_step_1))
-                        Text(stringResource(R.string.settings_recovery_guide_step_2))
-                        Text(stringResource(R.string.settings_recovery_guide_step_3))
-                        Text(stringResource(R.string.settings_recovery_guide_step_4))
-                    }
-                },
-                confirmButton = {
-                    TextButton(onClick = { showRecoveryGuideDialog = false }) {
-                        Text(stringResource(R.string.settings_understood))
-                    }
-                }
-            )
-        }
-    }
-
-    @Composable
-    private fun FrequencyOption(
-        title: String,
-        selected: Boolean,
-        onClick: () -> Unit
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable(onClick = onClick)
-                .padding(vertical = 4.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Text(
-                text = if (selected) stringResource(R.string.settings_selected) else "",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.primary
-            )
-        }
-    }
-
-    private fun CloudBackupManager.ProviderDestinationKind.toUiLabel(context: android.content.Context): String {
-        return when (this) {
-            CloudBackupManager.ProviderDestinationKind.TREE -> context.getString(R.string.settings_destination_folder)
-            CloudBackupManager.ProviderDestinationKind.DOCUMENT -> context.getString(R.string.settings_destination_file)
-        }
-    }
-
-    private fun buildExportSummary(countsByType: Map<String, Int>): String {
-        val total = countsByType.values.sum()
-        return buildString {
-            appendLine(getString(R.string.settings_export_complete))
-            appendLine(getString(R.string.settings_total_exported, total))
-            appendMigrationCounts(countsByType)
-        }.trim()
-    }
-
-    private fun buildPreviewSummary(preview: ImportPreview): String {
-        return buildString {
-            appendLine(getString(R.string.settings_preview_ready))
-            appendLine(getString(R.string.settings_total_detected, preview.records.size))
-            appendMigrationCounts(preview.countsByType)
-            if (preview.conflicts.isNotEmpty()) appendLine(getString(R.string.settings_conflicts_count, preview.conflicts.size))
-            if (preview.errors.isNotEmpty()) appendLine(getString(R.string.settings_errors_count, preview.errors.size))
-        }.trim()
-    }
-
-    private fun buildImportSummary(summary: com.ypg.neville.model.migration.MigrationSummary): String {
-        return buildString {
-            appendLine(getString(R.string.settings_import_complete))
-            appendLine(getString(R.string.settings_inserted_count, summary.inserted))
-            appendLine(getString(R.string.settings_updated_count, summary.updated))
-            appendLine(getString(R.string.settings_skipped_count, summary.skipped))
-            appendLine(getString(R.string.settings_conflicts_count, summary.conflicts))
-            appendLine(getString(R.string.settings_errors_count, summary.errors))
-        }.trim()
-    }
-
-    private fun StringBuilder.appendMigrationCounts(countsByType: Map<String, Int>) {
-        if (countsByType.isEmpty()) {
-            appendLine(getString(R.string.settings_no_items))
-            return
-        }
-        appendLine(getString(R.string.settings_by_type))
-        countsByType.toSortedMap().forEach { (type, count) ->
-            appendLine("- ${migrationTypeLabel(type)}: $count")
-        }
-    }
-
-    private fun migrationCountsInline(countsByType: Map<String, Int>): String {
-        if (countsByType.isEmpty()) return getString(R.string.settings_no_items_lowercase)
-        return countsByType.toSortedMap()
-            .map { (type, count) -> "${migrationTypeLabel(type, count)}: $count" }
-            .joinToString("; ")
-    }
-
-    private fun migrationConflictSummaryLines(preview: ImportPreview): List<String> {
-        return preview.conflicts
-            .groupingBy { it.type }
-            .eachCount()
-            .toSortedMap()
-            .map { (type, count) ->
-                getString(
-                    if (count == 1) R.string.settings_existing_item_skipped_singular else R.string.settings_existing_item_skipped_plural,
-                    migrationTypeLabel(type, count),
-                    count
-                )
-            }
-    }
-
-    private fun migrationTypeLabel(type: String): String {
-        return migrationTypeLabel(type, 1)
-    }
-
-    private fun migrationTypeLabel(type: String, count: Int): String {
-        val singular = count == 1
-        return when (type) {
-            "note" -> getString(if (singular) R.string.settings_type_note else R.string.settings_type_notes)
-            "diary_entry" -> getString(if (singular) R.string.settings_type_diary_entry else R.string.settings_type_diary_entries)
-            "agenda_entry" -> getString(if (singular) R.string.settings_type_agenda_entry else R.string.settings_type_agenda_entries)
-            "goal" -> getString(if (singular) R.string.settings_type_goal else R.string.settings_type_goals)
-            "archived_goal" -> getString(if (singular) R.string.settings_type_archived_goal else R.string.settings_type_archived_goals)
-            "personal_phrase" -> getString(if (singular) R.string.settings_type_personal_quote else R.string.settings_type_personal_quotes)
-            "personal_reflection" -> getString(if (singular) R.string.settings_type_personal_reflection else R.string.settings_type_personal_reflections)
-            "day_ritual_archive" -> getString(if (singular) R.string.settings_type_archived_ritual else R.string.settings_type_archived_rituals)
-            "calm_personal_phrase" -> getString(if (singular) R.string.settings_type_calm_quote else R.string.settings_type_calm_quotes)
-            else -> type
-        }
     }
 
     @Composable
@@ -2693,63 +1635,6 @@ class frag_Setting : Fragment() {
         HorizontalDivider(modifier = Modifier.padding(vertical = padding))
     }
 
-    private fun CloudBackupManager.BackupFrequency.toUiLabel(context: android.content.Context): String {
-        return when (this) {
-            CloudBackupManager.BackupFrequency.MANUAL -> context.getString(R.string.settings_frequency_manual_description)
-            CloudBackupManager.BackupFrequency.DAILY -> context.getString(R.string.settings_frequency_daily)
-            CloudBackupManager.BackupFrequency.WEEKLY -> context.getString(R.string.settings_frequency_weekly)
-        }
-    }
-
-    private fun launchBiometricRecovery() {
-        val context = context ?: return
-        runCatching {
-            val executor = ContextCompat.getMainExecutor(context)
-            val prompt = BiometricPrompt(
-                this,
-                executor,
-                object : BiometricPrompt.AuthenticationCallback() {
-                    override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-                        val manager = CloudBackupManager(requireContext().applicationContext)
-                        manager.getPassphraseForBiometricRecovery()
-                            .onSuccess { passphrase ->
-                                recoveredPassphraseMessage = passphrase
-                            }
-                            .onFailure { error ->
-                                Toast.makeText(
-                                    requireContext(),
-                                    error.message ?: getString(R.string.settings_key_recovery_error),
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
-                    }
-
-                    override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-                        Toast.makeText(requireContext(), errString, Toast.LENGTH_SHORT).show()
-                    }
-                }
-            )
-
-            val promptInfo = BiometricPrompt.PromptInfo.Builder()
-                .setTitle(getString(R.string.settings_key_recovery_title))
-                .setSubtitle(getString(R.string.settings_key_recovery_authentication))
-                .setNegativeButtonText(getString(R.string.settings_cancel))
-                .setAllowedAuthenticators(
-                    BiometricManager.Authenticators.BIOMETRIC_STRONG or
-                        BiometricManager.Authenticators.BIOMETRIC_WEAK
-                )
-                .build()
-
-            prompt.authenticate(promptInfo)
-        }.onFailure { error ->
-            Toast.makeText(
-                requireContext(),
-                error.message ?: getString(R.string.settings_biometric_start_error),
-                Toast.LENGTH_LONG
-            ).show()
-        }
-    }
-
     private fun authenticateForNotesLockChange(onSuccess: () -> Unit) {
         val context = context ?: return
         val canAuth = BiometricManager.from(context).canAuthenticate(
@@ -2801,7 +1686,7 @@ class frag_Setting : Fragment() {
         }
     }
 
-    private fun authenticateForMigration(
+    private fun authenticateForWirelessSync(
         title: String,
         subtitle: String,
         onSuccess: () -> Unit
@@ -2814,7 +1699,7 @@ class frag_Setting : Fragment() {
         if (canAuth != BiometricManager.BIOMETRIC_SUCCESS) {
             Toast.makeText(
                 context,
-                getString(R.string.settings_migration_authentication_required),
+                getString(R.string.settings_wireless_sync_authentication_required),
                 Toast.LENGTH_LONG
             ).show()
             return

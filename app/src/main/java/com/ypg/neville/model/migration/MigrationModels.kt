@@ -70,10 +70,10 @@ data class MigrationSummary(
     }
 }
 
-data class ExportResult(
+data class EncryptedExport(
     val exportId: String,
     val countsByType: Map<String, Int>,
-    val bytesWritten: Int
+    val bytes: ByteArray
 )
 
 data class ImportPreview(
@@ -86,5 +86,6 @@ data class ImportPreview(
 
 enum class ImportPolicy {
     SkipExisting,
-    OverwriteExisting
+    OverwriteExisting,
+    NewerWins
 }

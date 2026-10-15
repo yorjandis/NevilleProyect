@@ -39,6 +39,7 @@ class NotaRepository(private val notaDao: NotaDao) {
         isChecklist: Boolean = false,
         checklistJson: String = ""
     ) {
+        val syncId = notaDao.getById(id)?.syncId.orEmpty()
         val item = SecureRoomText.encryptNota(NotaEntity(
             id = id,
             titulo = titulo,
@@ -48,7 +49,8 @@ class NotaRepository(private val notaDao: NotaDao) {
             isFav = isFav,
             categoria = categoria.trim(),
             isChecklist = isChecklist,
-            checklistJson = checklistJson
+            checklistJson = checklistJson,
+            syncId = syncId
         ))
         notaDao.update(item)
         WeeklySummaryEventLogger.log(WeeklySummaryEventType.NOTES_MODIFIED, targetKey = id.toString())

@@ -32,5 +32,8 @@ data class NotaEntity(
     val isChecklist: Boolean = false,
 
     @ColumnInfo(name = "checklistJson")
-    val checklistJson: String = ""
+    val checklistJson: String = "",
+
+    @ColumnInfo(name = "syncId")
+    val syncId: String = ""
 )

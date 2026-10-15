@@ -128,7 +128,6 @@
     <string name="home_no_favorite_conference">There are no favorite lectures. The included lectures will be loaded</string>
 
     <string name="notes_title">Notes</string>
-    <string name="notes_export_error">Export failed: %1$s</string>
     <string name="notes_select_at_least_one">Select at least one note</string>
     <string name="notes_empty">No notes yet</string>
     <string name="notes_no_filter_results">No notes match the current filters</string>
@@ -140,9 +139,6 @@
     <string name="notes_hide_filters">Hide filters</string>
     <string name="notes_show_filters">Show filters</string>
     <string name="notes_menu">Notes menu</string>
-    <string name="notes_export_selected_title">Export selected notes</string>
-    <string name="notes_export_selected_message">A %1$s file containing only the selected notes will be created.</string>
-    <string name="notes_enter_password">Enter a password</string>
     <string name="notes_delete_selected_title">Delete selected notes</string>
     <string name="notes_change_category">Change category</string>
     <string name="notes_title_required">Enter a title</string>
@@ -165,7 +161,6 @@
     <string name="notes_to_quotes">To Quotes</string>
     <string name="notes_to_calm_quotes">To Calm Quotes</string>
     <string name="notes_category">Category</string>
-    <string name="notes_export_ios">Export for iOS</string>
     <string name="notes_filters">Filters</string>
     <string name="notes_search_title">Search titles</string>
     <string name="notes_search_content">Search notes</string>
@@ -183,6 +178,12 @@
     <string name="notes_add_first_item">Add your first item</string>
     <string name="notes_checklist_item">Item</string>
     <string name="notes_delete_checklist_item">Delete item</string>
+    <string name="notes_add_leading_note">Add note at the beginning</string>
+    <string name="notes_leading_note_placeholder">Checklist introduction</string>
+    <string name="notes_add_trailing_note">Add note at the end</string>
+    <string name="notes_trailing_note_placeholder">Checklist closing text</string>
+    <string name="notes_sum_total">Total: %1$s</string>
+    <string name="notes_pending_total">Pending: %1$s</string>
     <string name="notes_selected">Note selected</string>
     <string name="notes_select_note">Select note</string>
     <string name="notes_edit_category">Edit category</string>
@@ -190,8 +191,43 @@
     <string name="notes_delete_category_notes">Delete notes in this category</string>
     <string name="notes_edit_note">Edit note</string>
     <string name="notes_note_context_menu">Note menu</string>
+    <string name="notes_translate">Translate</string>
+    <string name="notes_translation_title">Translation</string>
+    <string name="notes_translation_preview">Preview</string>
+    <string name="notes_translation_source_language">Source language</string>
+    <string name="notes_translation_automatic">Detect automatically</string>
+    <string name="notes_translation_detected">Detected: %1$s</string>
+    <string name="notes_translation_not_detected">Not detected</string>
+    <string name="notes_translation_translating">Translating…</string>
+    <string name="notes_translation_actions">Translation actions</string>
+    <string name="notes_translation_original">Original text</string>
+    <string name="notes_translation_replace">Replace note</string>
+    <string name="notes_translation_new_note">New note</string>
+    <string name="notes_translation_same_language">The source and destination languages are the same.</string>
+    <string name="notes_translation_source_unsupported">Couldn’t detect the source language. Select Spanish, English, or Mandarin Chinese and try again.</string>
+    <string name="notes_translation_failed">Couldn’t translate the text. Check your Wi-Fi connection to download the language, then try again.</string>
+    <string name="notes_translation_premium_reason">Note translation is part of the Extended Version.</string>
+    <string name="notes_translation_replaced">The note was replaced with the translation</string>
+    <string name="notes_translation_copy_created">The translation was saved as a new note</string>
+    <string name="notes_translation_save_failed">Couldn’t save the translation</string>
     <string name="notes_export_to_quotes">Export to Quotes</string>
     <string name="notes_export_to_canvas">Export to Canvas</string>
+    <string name="notes_edit_title">Edit note title</string>
+    <string name="notes_title_updated">Title updated</string>
+    <string name="notes_organize_transform">Organize and transform</string>
+    <string name="notes_export_share">Export and share</string>
+    <string name="notes_export_to_diary">Export to Diary</string>
+    <string name="notes_exported_to_diary">Note exported to Diary</string>
+    <string name="notes_export_to_diary_failed">Couldn’t export the note to Diary</string>
+    <string name="notes_export_to_reminders">Export to Reminders</string>
+    <string name="notes_exported_to_reminders">Reminder created successfully</string>
+    <string name="notes_export_to_reminders_failed">Couldn’t create the reminder</string>
+    <string name="notes_reminders_premium_reason">Exporting notes to Reminders is part of the Extended Version.</string>
+    <string name="notes_export_to_system_calendar">System Calendar</string>
+    <string name="notes_calendar_unavailable">No compatible calendar app was found</string>
+    <string name="notes_export_to_system_tasks">Android Tasks</string>
+    <string name="notes_tasks_chooser_title">Create task with…</string>
+    <string name="notes_tasks_unavailable">No compatible task app was found</string>
     <string name="notes_generate_qr">Generate QR code</string>
     <string name="notes_share_ellipsis">Share…</string>
     <string name="notes_copy_clipboard">Copy to clipboard</string>
@@ -215,7 +251,6 @@
     <string name="notes_move_category_message">Move the notes in “%1$s” to:</string>
     <string name="notes_no_other_category">No other category is available.</string>
     <string name="notes_target_category">Destination category</string>
-    <plurals name="notes_exported_count"><item quantity="one">Exported %1$d note</item><item quantity="other">Exported %1$d notes</item></plurals>
     <plurals name="notes_moved_to_quotes_count"><item quantity="one">Sent %1$d note to Quotes</item><item quantity="other">Sent %1$d notes to Quotes</item></plurals>
     <plurals name="notes_moved_to_calm_count"><item quantity="one">Sent %1$d note to Calm Quotes</item><item quantity="other">Sent %1$d notes to Calm Quotes</item></plurals>
     <plurals name="notes_delete_selected_message"><item quantity="one">Delete %1$d note? This can’t be undone.</item><item quantity="other">Delete %1$d notes? This can’t be undone.</item></plurals>

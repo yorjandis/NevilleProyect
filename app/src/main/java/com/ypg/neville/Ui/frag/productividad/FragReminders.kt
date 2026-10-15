@@ -52,6 +52,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import com.ypg.neville.R
+import com.ypg.neville.feature.reminders.ui.ReminderCreationDialog
 import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
 import com.ypg.neville.model.reminders.ReminderEntity
@@ -227,8 +228,7 @@ class FragReminders : Fragment() {
         }
 
         if (showCreate) {
-            ReminderEditorDialog(
-                initial = null,
+            ReminderCreationDialog(
                 onDismiss = { showCreate = false },
                 onSave = { title, message, frequency ->
                     dbExecutor.execute {

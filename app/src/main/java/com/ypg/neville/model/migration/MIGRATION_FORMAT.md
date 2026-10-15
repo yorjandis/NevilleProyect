@@ -1,8 +1,8 @@
-# `YPGEXP-2` / `.ypgexp` format
+# `YPGEXP-2` encrypted wireless payload
 
-Version: `2`. This is the only supported contract; `MYAPPEXPORT-1` and PBKDF2 files are intentionally rejected.
+Version: `2`. This is the only supported contract; legacy `MYAPPEXPORT-1` and PBKDF2 payloads are intentionally rejected.
 
-The file is portable between Android and iOS. It never contains a native SQLite/Core Data store.
+The payload is portable between Android and iOS. It never contains a native SQLite/Core Data store and is exchanged only through the local wireless synchronization transport.
 
 Canonical records must contain decrypted/plain user data. Platform-specific encryption used inside SQLite, Room, Core Data, or other local persistence layers must be removed before writing `data.ndjson`, then reapplied by the target platform when importing into its own local store.
 
@@ -38,7 +38,7 @@ The header contains exactly:
 
 Passwords are normalized to NFC and encoded as UTF-8 without a NUL terminator. New exports require at least 15 Unicode code points and at most 1024 UTF-8 bytes. Imports enforce only the maximum.
 
-The encrypted payload must contain ciphertext followed by the 16-byte GCM tag. Salt and nonce are generated independently with `SecureRandom` for every file.
+The encrypted payload must contain ciphertext followed by the 16-byte GCM tag. Salt and nonce are generated independently with `SecureRandom` for every transfer.
 
 ## Plaintext package
 
@@ -52,7 +52,7 @@ data.ndjson bytes
 
 The plaintext is kept in memory by the Android implementation and should not be written to disk.
 
-Defensive limits are 4096 header bytes, 1 MiB manifest bytes, 512 MiB plaintext bytes, and 536875136 total file bytes. Header constants, JSON number types, canonical Base64, salt/nonce lengths, and payload length are checked before running Argon2id.
+Defensive limits are 4096 header bytes, 1 MiB manifest bytes, 512 MiB plaintext bytes, and 536875136 total encrypted payload bytes. Header constants, JSON number types, canonical Base64, salt/nonce lengths, and payload length are checked before running Argon2id.
 
 ## `manifest.json`
 
@@ -88,7 +88,7 @@ Android currently exports:
 - `day_ritual_archive`
 - `calm_personal_phrase`
 
-Imports are idempotent. Existing identical records are skipped; same stable ID or duplicate content with different payload is reported as an `ImportConflict` and not overwritten by the default UI.
+Imports are idempotent. Existing identical records are skipped; same stable ID or duplicate content with different payload is reported as an `ImportConflict` and not overwritten by the wireless synchronization flow.
 
 Duplicate content rules for auto-increment-backed local entities:
 

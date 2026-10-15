@@ -59,6 +59,17 @@
     <string name="shared_import_understood">Entendido</string>
     <string name="shared_import_default_title">Importado</string>
     <string name="shared_import_default_title_format">Importado: %1$s</string>
+    <string name="shared_import_translate_to">Traducir al:</string>
+    <string name="shared_import_translate_with_google">Traducir con Google</string>
+    <string name="shared_import_translation_download_hint">La primera traducción descarga los idiomas por Wi-Fi. Después funciona sin conexión y el texto permanece en el dispositivo.</string>
+    <string name="shared_import_google_attribution">Traducción automática de Google. Puede contener errores.</string>
+    <string name="shared_import_translation_failed_title">No se pudo traducir</string>
+    <string name="shared_import_translation_failed_body">Comprueba la conexión Wi-Fi para descargar el idioma e inténtalo de nuevo.</string>
+    <string name="shared_import_translation_unsupported_source">No se pudo detectar texto en español, inglés o chino mandarín.</string>
+    <string name="shared_import_already_in_language">El texto ya está en %1$s.</string>
+    <string name="translation_language_spanish">Español</string>
+    <string name="translation_language_english">Inglés</string>
+    <string name="translation_language_mandarin_chinese">Chino mandarín</string>
 
     <string name="shared_dialog_new_quote_title">Añadir una nueva frase</string>
     <string name="shared_dialog_new_quote_message">Añade tus propias frases a la biblioteca.</string>

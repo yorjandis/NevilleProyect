@@ -29,5 +29,8 @@ data class DiarioEntity(
     val fechaM: Long = System.currentTimeMillis(),
 
     @ColumnInfo(name = "isFav")
-    val isFav: Boolean = false
+    val isFav: Boolean = false,
+
+    @ColumnInfo(name = "syncId")
+    val syncId: String = ""
 )

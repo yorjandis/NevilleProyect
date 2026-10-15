@@ -8,7 +8,6 @@ import java.time.Instant
 import java.util.Base64
 
 object MigrationFormat {
-    const val FILE_EXTENSION = ".ypgexp"
     const val FORMAT_NAME = "com.ypg.neville.ndjson.export"
     const val FORMAT_VERSION = 2
     const val SCHEMA_VERSION = 1

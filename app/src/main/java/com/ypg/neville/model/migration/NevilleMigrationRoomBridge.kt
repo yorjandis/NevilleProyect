@@ -37,18 +37,6 @@ class NevilleMigrationRoomBridge(
         }
     }
 
-    fun exportSelectedRecords(
-        notes: List<NotaEntity> = emptyList(),
-        diaryEntries: List<DiarioEntity> = emptyList(),
-        agendaEntries: List<AgendaItemEntity> = emptyList()
-    ): List<CanonicalRecord> {
-        return buildList {
-            notes.map(SecureRoomText::decryptNota).forEach { add(it.toCanonical()) }
-            diaryEntries.map(SecureRoomText::decryptDiario).forEach { add(it.toCanonical()) }
-            agendaEntries.forEach { add(it.toCanonical()) }
-        }
-    }
-
     fun findConflicts(records: List<CanonicalRecord>): List<ImportConflict> {
         return records.mapNotNull { record ->
             when (record.type) {
@@ -93,17 +81,23 @@ class NevilleMigrationRoomBridge(
 
     private fun importOne(record: CanonicalRecord, policy: ImportPolicy): MigrationSummary {
         return when (record.type) {
-            TYPE_NOTE -> importAutoIdRecord(
-                record,
-                db.notaDao().getAll().map(SecureRoomText::decryptNota).map { it.toCanonical() }
-            ) {
-                db.notaDao().insert(SecureRoomText.encryptNota(record.toNotaEntity()))
+            TYPE_NOTE -> {
+                val stored = db.notaDao().getAll().firstOrNull {
+                    SecureRoomText.decryptNota(it).toCanonical().id == record.id
+                }
+                val existing = stored?.let(SecureRoomText::decryptNota)
+                importStableRecord(record, existing?.toCanonical(), policy) {
+                    db.notaDao().insert(SecureRoomText.encryptNota(record.toNotaEntity(stored?.id ?: 0)))
+                }
             }
-            TYPE_DIARY -> importAutoIdRecord(
-                record,
-                db.diarioDao().getAll().map(SecureRoomText::decryptDiario).map { it.toCanonical() }
-            ) {
-                db.diarioDao().insert(SecureRoomText.encryptDiario(record.toDiarioEntity()))
+            TYPE_DIARY -> {
+                val stored = db.diarioDao().getAll().firstOrNull {
+                    SecureRoomText.decryptDiario(it).toCanonical().id == record.id
+                }
+                val existing = stored?.let(SecureRoomText::decryptDiario)
+                importStableRecord(record, existing?.toCanonical(), policy) {
+                    db.diarioDao().insert(SecureRoomText.encryptDiario(record.toDiarioEntity(stored?.id ?: 0)))
+                }
             }
             TYPE_AGENDA -> importStableRecord(record, db.agendaItemDao().findById(record.id)?.toCanonical(), policy) {
                 db.agendaItemDao().insert(record.toAgendaEntity())
@@ -151,11 +145,20 @@ class NevilleMigrationRoomBridge(
             return MigrationSummary(inserted = 1)
         }
         if (recordsEquivalent(existing, record)) return MigrationSummary(skipped = 1)
-        return if (policy == ImportPolicy.OverwriteExisting) {
-            insertOrReplace()
-            MigrationSummary(updated = 1)
-        } else {
-            MigrationSummary(conflicts = 1)
+        return when (policy) {
+            ImportPolicy.SkipExisting -> MigrationSummary(conflicts = 1)
+            ImportPolicy.OverwriteExisting -> {
+                insertOrReplace()
+                MigrationSummary(updated = 1)
+            }
+            ImportPolicy.NewerWins -> when {
+                record.updatedAt > existing.updatedAt -> {
+                    insertOrReplace()
+                    MigrationSummary(updated = 1)
+                }
+                record.updatedAt < existing.updatedAt -> MigrationSummary(skipped = 1)
+                else -> MigrationSummary(conflicts = 1)
+            }
         }
     }
 
@@ -264,7 +267,8 @@ class NevilleMigrationRoomBridge(
             .put("favorite", isFav)
             .put("isChecklist", isChecklist)
             .put("checklistJson", checklistJson)
-        return CanonicalRecord(TYPE_NOTE, MigrationIds.stableId(TYPE_NOTE, created, titulo, nota), created, updated, payload = payload)
+        val canonicalId = syncId.ifBlank { MigrationIds.stableId(TYPE_NOTE, "android", id) }
+        return CanonicalRecord(TYPE_NOTE, canonicalId, created, updated, payload = payload)
     }
 
     private fun DiarioEntity.toCanonical(): CanonicalRecord {
@@ -276,7 +280,8 @@ class NevilleMigrationRoomBridge(
             .put("emotion", emocion)
             .put("chapter", capitulo)
             .put("favorite", isFav)
-        return CanonicalRecord(TYPE_DIARY, MigrationIds.stableId(TYPE_DIARY, created, title, content), created, updated, payload = payload)
+        val canonicalId = syncId.ifBlank { MigrationIds.stableId(TYPE_DIARY, "android", id) }
+        return CanonicalRecord(TYPE_DIARY, canonicalId, created, updated, payload = payload)
     }
 
     private fun AgendaItemEntity.toCanonical(): CanonicalRecord {
@@ -419,8 +424,9 @@ class NevilleMigrationRoomBridge(
             .put("completedDate", completedDate)
     }
 
-    private fun CanonicalRecord.toNotaEntity(): NotaEntity {
+    private fun CanonicalRecord.toNotaEntity(localId: Long = 0): NotaEntity {
         return NotaEntity(
+            id = localId,
             titulo = payload.getString("title"),
             nota = payload.getString("body"),
             fechaCreacion = MigrationFormat.isoToMillis(createdAt),
@@ -428,19 +434,22 @@ class NevilleMigrationRoomBridge(
             isFav = payload.optBoolean("favorite", false),
             categoria = payload.optString("category", ""),
             isChecklist = payload.optBoolean("isChecklist", false),
-            checklistJson = payload.optString("checklistJson", "")
+            checklistJson = payload.optString("checklistJson", ""),
+            syncId = id
         )
     }
 
-    private fun CanonicalRecord.toDiarioEntity(): DiarioEntity {
+    private fun CanonicalRecord.toDiarioEntity(localId: Long = 0): DiarioEntity {
         return DiarioEntity(
+            id = localId,
             content = payload.getString("body"),
             title = payload.getString("title"),
             emocion = payload.optString("emotion", "\uD83D\uDE0C"),
             capitulo = payload.optString("chapter", ""),
             fecha = MigrationFormat.isoToMillis(createdAt),
             fechaM = MigrationFormat.isoToMillis(updatedAt),
-            isFav = payload.optBoolean("favorite", false)
+            isFav = payload.optBoolean("favorite", false),
+            syncId = id
         )
     }
 

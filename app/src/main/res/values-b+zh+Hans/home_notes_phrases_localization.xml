@@ -128,7 +128,6 @@
     <string name="home_no_favorite_conference">暂无收藏的讲座，将加载内置讲座</string>
 
     <string name="notes_title">笔记</string>
-    <string name="notes_export_error">导出失败：%1$s</string>
     <string name="notes_select_at_least_one">请至少选择一条笔记</string>
     <string name="notes_empty">还没有笔记</string>
     <string name="notes_no_filter_results">没有符合当前筛选条件的笔记</string>
@@ -140,9 +139,6 @@
     <string name="notes_hide_filters">收起筛选</string>
     <string name="notes_show_filters">显示筛选</string>
     <string name="notes_menu">笔记菜单</string>
-    <string name="notes_export_selected_title">导出所选笔记</string>
-    <string name="notes_export_selected_message">将创建一个只包含所选笔记的 %1$s 文件。</string>
-    <string name="notes_enter_password">请输入密码</string>
     <string name="notes_delete_selected_title">删除所选笔记</string>
     <string name="notes_change_category">更改分类</string>
     <string name="notes_title_required">请输入标题</string>
@@ -165,7 +161,6 @@
     <string name="notes_to_quotes">发送到语录</string>
     <string name="notes_to_calm_quotes">发送到静心语录</string>
     <string name="notes_category">分类</string>
-    <string name="notes_export_ios">导出到 iOS</string>
     <string name="notes_filters">筛选</string>
     <string name="notes_search_title">搜索标题</string>
     <string name="notes_search_content">搜索笔记内容</string>
@@ -183,6 +178,12 @@
     <string name="notes_add_first_item">添加第一个项目</string>
     <string name="notes_checklist_item">项目</string>
     <string name="notes_delete_checklist_item">删除项目</string>
+    <string name="notes_add_leading_note">在开头添加说明</string>
+    <string name="notes_leading_note_placeholder">清单开头说明</string>
+    <string name="notes_add_trailing_note">在结尾添加说明</string>
+    <string name="notes_trailing_note_placeholder">清单结尾说明</string>
+    <string name="notes_sum_total">总计：%1$s</string>
+    <string name="notes_pending_total">待完成：%1$s</string>
     <string name="notes_selected">已选择笔记</string>
     <string name="notes_select_note">选择笔记</string>
     <string name="notes_edit_category">编辑分类</string>
@@ -190,8 +191,43 @@
     <string name="notes_delete_category_notes">删除此分类中的笔记</string>
     <string name="notes_edit_note">编辑笔记</string>
     <string name="notes_note_context_menu">笔记操作菜单</string>
+    <string name="notes_translate">翻译</string>
+    <string name="notes_translation_title">翻译</string>
+    <string name="notes_translation_preview">预览</string>
+    <string name="notes_translation_source_language">源语言</string>
+    <string name="notes_translation_automatic">自动检测</string>
+    <string name="notes_translation_detected">检测到：%1$s</string>
+    <string name="notes_translation_not_detected">未检测到</string>
+    <string name="notes_translation_translating">正在翻译…</string>
+    <string name="notes_translation_actions">翻译操作</string>
+    <string name="notes_translation_original">原文</string>
+    <string name="notes_translation_replace">替换笔记</string>
+    <string name="notes_translation_new_note">新建笔记</string>
+    <string name="notes_translation_same_language">源语言和目标语言相同。</string>
+    <string name="notes_translation_source_unsupported">无法检测源语言。请选择西班牙语、英语或中文，然后重试。</string>
+    <string name="notes_translation_failed">无法翻译文本。请检查 Wi-Fi 连接以下载语言包，然后重试。</string>
+    <string name="notes_translation_premium_reason">笔记翻译属于扩展版功能。</string>
+    <string name="notes_translation_replaced">笔记已替换为译文</string>
+    <string name="notes_translation_copy_created">译文已保存为新笔记</string>
+    <string name="notes_translation_save_failed">无法保存译文</string>
     <string name="notes_export_to_quotes">导出到语录</string>
     <string name="notes_export_to_canvas">导出到画布</string>
+    <string name="notes_edit_title">编辑笔记标题</string>
+    <string name="notes_title_updated">标题已更新</string>
+    <string name="notes_organize_transform">整理与转换</string>
+    <string name="notes_export_share">导出与分享</string>
+    <string name="notes_export_to_diary">导出到日记</string>
+    <string name="notes_exported_to_diary">笔记已导出到日记</string>
+    <string name="notes_export_to_diary_failed">无法将笔记导出到日记</string>
+    <string name="notes_export_to_reminders">导出到提醒</string>
+    <string name="notes_exported_to_reminders">提醒已成功创建</string>
+    <string name="notes_export_to_reminders_failed">无法创建提醒</string>
+    <string name="notes_reminders_premium_reason">将笔记导出到提醒属于扩展版功能。</string>
+    <string name="notes_export_to_system_calendar">系统日历</string>
+    <string name="notes_calendar_unavailable">未找到兼容的日历应用</string>
+    <string name="notes_export_to_system_tasks">Android 任务</string>
+    <string name="notes_tasks_chooser_title">使用以下应用创建任务…</string>
+    <string name="notes_tasks_unavailable">未找到兼容的任务应用</string>
     <string name="notes_generate_qr">生成二维码</string>
     <string name="notes_share_ellipsis">分享…</string>
     <string name="notes_copy_clipboard">复制到剪贴板</string>
@@ -215,7 +251,6 @@
     <string name="notes_move_category_message">将“%1$s”中的笔记移至：</string>
     <string name="notes_no_other_category">没有其他可用分类。</string>
     <string name="notes_target_category">目标分类</string>
-    <plurals name="notes_exported_count"><item quantity="other">已导出 %1$d 条笔记</item></plurals>
     <plurals name="notes_moved_to_quotes_count"><item quantity="other">已将 %1$d 条笔记发送到“语录”</item></plurals>
     <plurals name="notes_moved_to_calm_count"><item quantity="other">已将 %1$d 条笔记发送到“静心语录”</item></plurals>
     <plurals name="notes_delete_selected_message"><item quantity="other">要删除 %1$d 条笔记吗？此操作无法撤销。</item></plurals>

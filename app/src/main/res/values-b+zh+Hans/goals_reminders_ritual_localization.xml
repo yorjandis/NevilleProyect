@@ -79,6 +79,9 @@
     <string name="goals_info">信息</string>
     <string name="goals_no_information">暂无信息</string>
     <string name="goals_new_title">新目标</string>
+    <string name="goals_examples_menu">示例</string>
+    <string name="goals_examples_title">目标灵感</string>
+    <string name="goals_example_use">使用此示例</string>
     <string name="goals_create_tab">创建目标</string>
     <string name="goals_habits_tab">习惯</string>
     <string name="goals_programs_tab">计划</string>

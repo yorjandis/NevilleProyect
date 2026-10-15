@@ -37,6 +37,7 @@ class DiarioRepository(private val diarioDao: DiarioDao) {
         isFav: Boolean,
         fechaOriginal: Long
     ) {
+        val syncId = diarioDao.getById(id)?.syncId.orEmpty()
         val item = SecureRoomText.encryptDiario(DiarioEntity(
             id = id,
             title = title,
@@ -45,7 +46,8 @@ class DiarioRepository(private val diarioDao: DiarioDao) {
             capitulo = capitulo.trim(),
             fecha = fechaOriginal,
             fechaM = System.currentTimeMillis(),
-            isFav = isFav
+            isFav = isFav,
+            syncId = syncId
         ))
         diarioDao.update(item)
         WeeklySummaryEventLogger.log(WeeklySummaryEventType.JOURNAL_MODIFIED, targetKey = id.toString())

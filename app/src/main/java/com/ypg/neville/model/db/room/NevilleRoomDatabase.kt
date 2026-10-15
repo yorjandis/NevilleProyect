@@ -64,7 +64,7 @@ import com.ypg.neville.model.security.PostQuantumAesTextCrypto
         AiConversationEntity::class,
         AiMessageEntity::class
     ],
-    version = 31,
+    version = 32,
     exportSchema = false
 )
 abstract class NevilleRoomDatabase : RoomDatabase() {
@@ -772,6 +772,13 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_31_32 = object : Migration(31, 32) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE `notas` ADD COLUMN `syncId` TEXT NOT NULL DEFAULT ''")
+                db.execSQL("ALTER TABLE `Diario` ADD COLUMN `syncId` TEXT NOT NULL DEFAULT ''")
+            }
+        }
+
         private val ENCRYPT_PERSONAL_TEXT_ON_OPEN = object : Callback() {
             override fun onOpen(db: SupportSQLiteDatabase) {
                 PostQuantumAesTextCrypto.syncRecoveryKeyFromDatabase(db)
@@ -893,7 +900,8 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
                         MIGRATION_27_28,
                         MIGRATION_28_29,
                         MIGRATION_29_30,
-                        MIGRATION_30_31
+                        MIGRATION_30_31,
+                        MIGRATION_31_32
                     )
                     .addCallback(ENCRYPT_PERSONAL_TEXT_ON_OPEN)
                     .allowMainThreadQueries()

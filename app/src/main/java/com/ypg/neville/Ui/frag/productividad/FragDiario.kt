@@ -4,17 +4,10 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.shrinkVertically
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
@@ -32,6 +25,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -42,11 +36,25 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.Sort
+import androidx.compose.material.icons.automirrored.rounded.ViewList
+import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.AttachFile
+import androidx.compose.material.icons.rounded.BarChart
+import androidx.compose.material.icons.rounded.Book
+import androidx.compose.material.icons.rounded.CalendarMonth
+import androidx.compose.material.icons.rounded.Checklist
+import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.FilterList
+import androidx.compose.material.icons.rounded.MoreHoriz
+import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -54,7 +62,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
@@ -73,7 +80,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -83,25 +89,37 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
-import com.ypg.neville.model.backup.BackupRestoreSignal
 import com.ypg.neville.model.db.room.DiarioEntity
 import com.ypg.neville.model.db.room.DiarioAttachmentRepository
 import com.ypg.neville.model.db.room.DiarioRepository
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
 import com.ypg.neville.model.db.room.PendingDiarioAttachment
-import com.ypg.neville.model.migration.CanonicalRecord
-import com.ypg.neville.model.migration.MigrationFormat
-import com.ypg.neville.model.migration.MyAppMigrationService
-import com.ypg.neville.model.migration.NevilleMigrationRoomBridge
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.Executors
-import kotlinx.coroutines.launch
+
+/**
+ * Ajustes visuales manuales de la mascota de la cabecera del Diario.
+ *
+ * - [menuRowHeightDp]: altura que la cabecera reserva antes del listado de tarjetas.
+ * - [sizeDp]: tamaño total de la imagen.
+ * - [offsetXDp]: valores positivos desplazan la mascota hacia la derecha.
+ * - [offsetYDp]: valores positivos desplazan la mascota hacia abajo.
+ *
+ * Para evitar que la mascota se superponga al listado, aumenta [menuRowHeightDp]
+ * junto con [sizeDp]. Ambos valores son independientes para permitir ajustar
+ * manualmente la proporción y la posición visual.
+ */
+private object DiarioMascotLayout {
+    const val menuRowHeightDp = 176
+    const val sizeDp = 160
+    const val offsetXDp = 10
+    const val offsetYDp = 5
+}
 
 class FragDiario : Fragment() {
 
@@ -109,9 +127,6 @@ class FragDiario : Fragment() {
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
     private val monthFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
     private var screenRefreshTick by mutableStateOf(0)
-    private lateinit var createSelectedMigrationExportLauncher: ActivityResultLauncher<String>
-    private var pendingSelectedMigrationPassword: CharArray? = null
-    private var pendingSelectedMigrationRecords: List<CanonicalRecord> = emptyList()
 
     private val emotions = DiarioEmotion.entries
     private val ageFilters = listOf(
@@ -123,40 +138,6 @@ class FragDiario : Fragment() {
         AgeFilter(R.string.diary_age_six_months, 180L * DAY_MS),
         AgeFilter(R.string.diary_age_one_year, 365L * DAY_MS)
     )
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        createSelectedMigrationExportLauncher = registerForActivityResult(
-            ActivityResultContracts.CreateDocument("application/octet-stream")
-        ) { uri ->
-            val password = pendingSelectedMigrationPassword
-            val records = pendingSelectedMigrationRecords
-            pendingSelectedMigrationPassword = null
-            pendingSelectedMigrationRecords = emptyList()
-            if (uri == null || password == null) {
-                password?.fill('\u0000')
-                return@registerForActivityResult
-            }
-            lifecycleScope.launch {
-                val result = MyAppMigrationService(requireContext().applicationContext)
-                    .exportSelectedToUri(uri, password, records)
-                password.fill('\u0000')
-                result.onSuccess { export ->
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.diary_exported_count, export.countsByType.values.sum()),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }.onFailure { error ->
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.diary_export_error, error.message ?: getString(R.string.common_unknown_error)),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
-        }
-    }
 
     override fun onCreateView(
         inflater: android.view.LayoutInflater,
@@ -197,7 +178,6 @@ class FragDiario : Fragment() {
         val context = LocalContext.current
         val entradas = remember { mutableStateListOf<DiarioEntity>() }
         val attachmentCounts = remember { mutableStateMapOf<Long, Int>() }
-        val restoreTick by BackupRestoreSignal.restoreTick.collectAsState()
         val refreshTick = screenRefreshTick
         val unknownErrorMessage = stringResource(R.string.common_unknown_error)
         val attachmentPartialSaveErrorTemplate = stringResource(
@@ -222,17 +202,17 @@ class FragDiario : Fragment() {
         var pendingBatchEmotion by remember { mutableStateOf<DiarioEmotion?>(null) }
         var showBatchChapterPicker by remember { mutableStateOf(false) }
         var showBatchDeleteConfirmation by remember { mutableStateOf(false) }
-        var showSelectedExportDialog by remember { mutableStateOf(false) }
-        var selectedExportPassword by remember { mutableStateOf("") }
 
         var titleDialogTarget by remember { mutableStateOf<DiarioEntity?>(null) }
         var titleDialogText by remember { mutableStateOf("") }
 
         var showEditor by remember { mutableStateOf(false) }
         var newEntryDateMillis by remember { mutableStateOf<Long?>(null) }
-        var showFabMenu by remember { mutableStateOf(false) }
+        var showActionsMenu by remember { mutableStateOf(false) }
+        var showFiltersMenu by remember { mutableStateOf(false) }
         var showFilterPanel by remember { mutableStateOf(false) }
         var showStats by remember { mutableStateOf(false) }
+        var groupedByChapter by remember { mutableStateOf(false) }
 
         var showCalendarPanel by remember { mutableStateOf(false) }
         var hideCalendarGrid by remember { mutableStateOf(false) }
@@ -320,12 +300,6 @@ class FragDiario : Fragment() {
             )
         }
 
-        LaunchedEffect(restoreTick) {
-            if (restoreTick > 0L) {
-                recargarEntradas()
-            }
-        }
-
         LaunchedEffect(refreshTick) {
             recargarEntradas()
         }
@@ -390,6 +364,67 @@ class FragDiario : Fragment() {
             entradaExpandidaId = null
         }
 
+        val diaryEntryCard: @Composable (DiarioEntity) -> Unit = { entrada ->
+            DiarioRow(
+                entrada = entrada,
+                isExpanded = entradaExpandidaId == entrada.id,
+                showEmotionMenu = emotionMenuId == entrada.id,
+                showItemMenu = itemMenuId == entrada.id,
+                attachmentCount = attachmentCounts[entrada.id] ?: 0,
+                allEntries = entradas,
+                selectionMode = manualSelectionMode,
+                isSelected = entrada.id in entradasSeleccionadas,
+                fechaTexto = stringResource(
+                    R.string.diary_dates,
+                    dateFormat.format(Date(entrada.fechaM)),
+                    dateFormat.format(Date(entrada.fecha))
+                ),
+                onToggleSelection = { toggleBatchSelection(entrada.id) },
+                onStartSelection = {
+                    itemMenuId = null
+                    emotionMenuId = null
+                    manualSelectionMode = true
+                    if (entrada.id !in entradasSeleccionadas) entradasSeleccionadas.add(entrada.id)
+                },
+                onToggleExpand = {
+                    entradaExpandidaId = if (entradaExpandidaId == entrada.id) null else entrada.id
+                },
+                onContentDoubleTap = {
+                    entradaEnEdicion = entrada
+                    showEditor = true
+                },
+                onTitleDoubleTap = {
+                    titleDialogTarget = entrada
+                    titleDialogText = entrada.title
+                },
+                onToggleFav = { toggleFavorite(entrada.id, entrada.isFav) },
+                onToggleEmotionMenu = {
+                    emotionMenuId = if (emotionMenuId == entrada.id) null else entrada.id
+                },
+                onChangeEmotion = { emotion ->
+                    emotionMenuId = null
+                    updateEntrada(target = entrada, newEmotionKey = emotion.key)
+                },
+                onToggleItemMenu = {
+                    itemMenuId = if (itemMenuId == entrada.id) null else entrada.id
+                },
+                onChangeChapter = {
+                    itemMenuId = null
+                    entradaACambiarCapitulo = entrada
+                },
+                onEdit = {
+                    itemMenuId = null
+                    entradaEnEdicion = entrada
+                    showEditor = true
+                },
+                onDelete = {
+                    itemMenuId = null
+                    entradaAEliminar = entrada
+                },
+                onAttachmentsChanged = { recargarEntradas() }
+            )
+        }
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -429,37 +464,80 @@ class FragDiario : Fragment() {
                     .fillMaxSize()
                     .padding(horizontal = 8.dp)
             ) {
-                Text(
-                    text = stringResource(R.string.diary_title),
-                    fontSize = 28.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 8.dp, end = 8.dp, top = 10.dp, bottom = 8.dp)
+                DiarioTopActions(
+                    showActionsMenu = showActionsMenu,
+                    onShowActionsMenuChange = { showActionsMenu = it },
+                    showFiltersMenu = showFiltersMenu,
+                    onShowFiltersMenuChange = { showFiltersMenu = it },
+                    showCalendar = showCalendarPanel,
+                    selectionMode = manualSelectionMode,
+                    groupedByChapter = groupedByChapter,
+                    favoritesOnly = filtroFav == FavoritoFiltro.SOLO_FAVORITAS,
+                    attachmentsOnly = filtroSoloConAnexos,
+                    sortMode = sortMode,
+                    onStatistics = {
+                        showActionsMenu = false
+                        showStats = true
+                    },
+                    onWeeklySummary = {
+                        showActionsMenu = false
+                        MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_weekly_summary)
+                    },
+                    onToggleSelection = {
+                        showActionsMenu = false
+                        manualSelectionMode = !manualSelectionMode
+                        if (!manualSelectionMode) entradasSeleccionadas.clear()
+                    },
+                    onToggleCalendar = {
+                        showActionsMenu = false
+                        showCalendarPanel = !showCalendarPanel
+                        if (!showCalendarPanel) selectedCalendarDayMillis = null
+                    },
+                    onShowAll = {
+                        showFiltersMenu = false
+                        groupedByChapter = false
+                        filtroTitulo = ""
+                        filtroContenido = ""
+                        filtroCapitulo = ""
+                        filtroEmocionKey = "all"
+                        filtroFav = FavoritoFiltro.TODAS
+                        filtroSoloConAnexos = false
+                        filtroAntiguedad = ageFilters.first()
+                        selectedCalendarDayMillis = null
+                    },
+                    onGroupByChapter = {
+                        showFiltersMenu = false
+                        groupedByChapter = true
+                    },
+                    onShowFavorites = {
+                        showFiltersMenu = false
+                        groupedByChapter = false
+                        filtroFav = FavoritoFiltro.SOLO_FAVORITAS
+                    },
+                    onShowAttachments = {
+                        showFiltersMenu = false
+                        groupedByChapter = false
+                        filtroSoloConAnexos = true
+                    },
+                    onDetailedFilters = {
+                        showFiltersMenu = false
+                        showFilterPanel = !showFilterPanel
+                    },
+                    onToggleSort = {
+                        showFiltersMenu = false
+                        sortMode = if (sortMode == SortMode.CREATION) SortMode.MODIFICATION else SortMode.CREATION
+                    },
+                    onNewEntry = {
+                        entradaEnEdicion = null
+                        newEntryDateMillis = null
+                        showEditor = true
+                    }
                 )
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp, vertical = 4.dp),
-                    horizontalArrangement = Arrangement.End,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_calendar_toggle),
-                        contentDescription = if (showCalendarPanel) stringResource(R.string.common_hide_calendar) else stringResource(R.string.common_show_calendar),
-                        tint = if (showCalendarPanel) Color(0xFF0F4C6E) else Color(0xFF1F2D36),
-                        modifier = Modifier
-                            .padding(end = 4.dp)
-                            .size(24.dp)
-                            .clickable {
-                                showCalendarPanel = !showCalendarPanel
-                                if (!showCalendarPanel) selectedCalendarDayMillis = null
-                            }
-                    )
-                    if (selectedCalendarDayMillis != null) {
+                if (selectedCalendarDayMillis != null) {
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                         TextButton(onClick = { selectedCalendarDayMillis = null }) {
-                            Text(stringResource(R.string.diary_clear_date_selection))
+                            Text(stringResource(R.string.diary_clear_date_selection), color = Color.Black)
                         }
                     }
                 }
@@ -498,10 +576,6 @@ class FragDiario : Fragment() {
                 if (manualSelectionMode) {
                     BatchSelectionBar(
                         selectedCount = entradasSeleccionadas.size,
-                        onExport = {
-                            selectedExportPassword = ""
-                            showSelectedExportDialog = true
-                        },
                         onChangeEmotion = { showBatchEmotionPicker = true },
                         onChangeChapter = { showBatchChapterPicker = true },
                         onDelete = { showBatchDeleteConfirmation = true },
@@ -526,184 +600,39 @@ class FragDiario : Fragment() {
                             .fillMaxSize()
                             .padding(top = 6.dp),
                         verticalArrangement = Arrangement.spacedBy(10.dp),
-                        contentPadding = PaddingValues(bottom = if (showFilterPanel) 230.dp else 96.dp)
+                        contentPadding = PaddingValues(bottom = if (showFilterPanel) 230.dp else 32.dp)
                     ) {
-                        entradasAgrupadas.forEach { (capitulo, entradasCapitulo) ->
-                            item(key = "capitulo-$capitulo") {
-                                ChapterHeader(
-                                    capitulo = capitulo,
-                                    cantidad = entradasCapitulo.size,
-                                    isCollapsed = capitulo in capitulosPlegados,
-                                    onToggle = {
-                                        if (capitulo in capitulosPlegados) {
-                                            capitulosPlegados.remove(capitulo)
-                                        } else {
-                                            capitulosPlegados.add(capitulo)
-                                        }
-                                    },
-                                    onRename = { capituloARenombrar = capitulo },
-                                    onMove = { capituloAMover = capitulo },
-                                    onDelete = { capituloAEliminar = capitulo }
-                                )
-                            }
-                            if (capitulo !in capitulosPlegados) {
-                                items(entradasCapitulo, key = { it.id }) { entrada ->
-                                    DiarioRow(
-                                        entrada = entrada,
-                                        isExpanded = entradaExpandidaId == entrada.id,
-                                        showEmotionMenu = emotionMenuId == entrada.id,
-                                        showItemMenu = itemMenuId == entrada.id,
-                                        attachmentCount = attachmentCounts[entrada.id] ?: 0,
-                                        allEntries = entradas,
-                                        selectionMode = manualSelectionMode,
-                                        isSelected = entrada.id in entradasSeleccionadas,
-                                        fechaTexto = stringResource(
-                                            R.string.diary_dates,
-                                            dateFormat.format(Date(entrada.fechaM)),
-                                            dateFormat.format(Date(entrada.fecha))
-                                        ),
-                                        onToggleSelection = { toggleBatchSelection(entrada.id) },
-                                        onStartSelection = {
-                                            itemMenuId = null
-                                            emotionMenuId = null
-                                            manualSelectionMode = true
-                                            if (entrada.id !in entradasSeleccionadas) {
-                                                entradasSeleccionadas.add(entrada.id)
+                        if (groupedByChapter) {
+                            entradasAgrupadas.forEach { (capitulo, entradasCapitulo) ->
+                                item(key = "capitulo-$capitulo") {
+                                    ChapterHeader(
+                                        capitulo = capitulo,
+                                        cantidad = entradasCapitulo.size,
+                                        isCollapsed = capitulo in capitulosPlegados,
+                                        onToggle = {
+                                            if (capitulo in capitulosPlegados) {
+                                                capitulosPlegados.remove(capitulo)
+                                            } else {
+                                                capitulosPlegados.add(capitulo)
                                             }
                                         },
-                                        onToggleExpand = {
-                                            entradaExpandidaId = if (entradaExpandidaId == entrada.id) null else entrada.id
-                                        },
-                                        onContentDoubleTap = {
-                                            entradaEnEdicion = entrada
-                                            showEditor = true
-                                        },
-                                        onTitleDoubleTap = {
-                                            titleDialogTarget = entrada
-                                            titleDialogText = entrada.title
-                                        },
-                                        onToggleFav = {
-                                            toggleFavorite(entrada.id, entrada.isFav)
-                                        },
-                                        onToggleEmotionMenu = {
-                                            emotionMenuId = if (emotionMenuId == entrada.id) null else entrada.id
-                                        },
-                                        onChangeEmotion = { emotion ->
-                                            emotionMenuId = null
-                                            updateEntrada(target = entrada, newEmotionKey = emotion.key)
-                                        },
-                                        onToggleItemMenu = {
-                                            itemMenuId = if (itemMenuId == entrada.id) null else entrada.id
-                                        },
-                                        onChangeChapter = {
-                                            itemMenuId = null
-                                            entradaACambiarCapitulo = entrada
-                                        },
-                                        onEdit = {
-                                            itemMenuId = null
-                                            entradaEnEdicion = entrada
-                                            showEditor = true
-                                        },
-                                        onDelete = {
-                                            itemMenuId = null
-                                            entradaAEliminar = entrada
-                                        },
-                                        onAttachmentsChanged = { recargarEntradas() }
+                                        onRename = { capituloARenombrar = capitulo },
+                                        onMove = { capituloAMover = capitulo },
+                                        onDelete = { capituloAEliminar = capitulo }
                                     )
                                 }
+                                if (capitulo !in capitulosPlegados) {
+                                    items(entradasCapitulo, key = { it.id }) { entrada ->
+                                        diaryEntryCard(entrada)
+                                    }
+                                }
+                            }
+                        } else {
+                            items(filtered, key = { it.id }) { entrada ->
+                                diaryEntryCard(entrada)
                             }
                         }
                     }
-                }
-            }
-
-            Column(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(end = 20.dp, bottom = if (showFilterPanel) 160.dp else 20.dp),
-                horizontalAlignment = Alignment.End,
-                verticalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                AnimatedVisibility(
-                    visible = showFabMenu,
-                    enter = expandVertically(
-                        expandFrom = Alignment.Bottom,
-                        animationSpec = tween(durationMillis = 260)
-                    ) + fadeIn(animationSpec = tween(durationMillis = 220)),
-                    exit = shrinkVertically(
-                        shrinkTowards = Alignment.Bottom,
-                        animationSpec = tween(durationMillis = 220)
-                    ) + fadeOut(animationSpec = tween(durationMillis = 180))
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.End,
-                        verticalArrangement = Arrangement.spacedBy(10.dp)
-                    ) {
-                        FabActionItem(
-                            label = stringResource(R.string.diary_new_entry),
-                            iconRes = R.drawable.ic_note_add,
-                            onClick = {
-                                showFabMenu = false
-                                entradaEnEdicion = null
-                                newEntryDateMillis = null
-                                showEditor = true
-                            }
-                        )
-                        FabActionItem(
-                            label = stringResource(R.string.diary_statistics),
-                            iconRes = R.drawable.ic_item,
-                            onClick = {
-                                showFabMenu = false
-                                showStats = true
-                            }
-                        )
-                        FabActionItem(
-                            label = stringResource(R.string.diary_weekly_summary),
-                            iconRes = R.drawable.ic_calendar_toggle,
-                            onClick = {
-                                showFabMenu = false
-                                MainActivity.currentInstance()?.openDestinationAsSheet(R.id.frag_weekly_summary)
-                            }
-                        )
-                        FabActionItem(
-                            label = if (manualSelectionMode) stringResource(R.string.common_exit_multi_select) else stringResource(R.string.common_multi_select),
-                            iconRes = R.drawable.ic_list,
-                            onClick = {
-                                showFabMenu = false
-                                manualSelectionMode = !manualSelectionMode
-                                if (!manualSelectionMode) {
-                                    entradasSeleccionadas.clear()
-                                }
-                            }
-                        )
-                        FabActionItem(
-                            label = if (showFilterPanel) stringResource(R.string.diary_hide_filters) else stringResource(R.string.diary_show_filters),
-                            iconRes = R.drawable.ic_show,
-                            onClick = {
-                                showFabMenu = false
-                                showFilterPanel = !showFilterPanel
-                            }
-                        )
-                        FabActionItem(
-                            label = if (sortMode == SortMode.CREATION) stringResource(R.string.diary_sort_creation) else stringResource(R.string.diary_sort_modification),
-                            iconRes = R.drawable.ic_refress,
-                            onClick = {
-                                showFabMenu = false
-                                sortMode = if (sortMode == SortMode.CREATION) SortMode.MODIFICATION else SortMode.CREATION
-                            }
-                        )
-                    }
-                }
-
-                FloatingActionButton(
-                    onClick = { showFabMenu = !showFabMenu },
-                    containerColor = colorResource(id = R.color.light_blue_200),
-                    contentColor = Color.Black
-                ) {
-                    Icon(
-                        painter = painterResource(id = if (showFabMenu) R.drawable.ic_abajo else R.drawable.ic_menu_open),
-                        contentDescription = stringResource(R.string.diary_menu)
-                    )
                 }
             }
 
@@ -747,6 +676,8 @@ class FragDiario : Fragment() {
                 entradaEnEdicion = entradaEnEdicion,
                 emociones = emotions,
                 capitulosExistentes = capitulosExistentes,
+                allEntries = entradas,
+                onAttachmentsChanged = { recargarEntradas() },
                 onDismiss = {
                     showEditor = false
                     newEntryDateMillis = null
@@ -1081,58 +1012,6 @@ class FragDiario : Fragment() {
             }
         }
 
-        if (showSelectedExportDialog) {
-            AlertDialog(
-                onDismissRequest = {
-                    selectedExportPassword = ""
-                    showSelectedExportDialog = false
-                },
-                title = { Text(stringResource(R.string.diary_export_selected_title)) },
-                text = {
-                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                        Text(stringResource(R.string.diary_export_selected_description, MigrationFormat.FILE_EXTENSION))
-                        OutlinedTextField(
-                            value = selectedExportPassword,
-                            onValueChange = { selectedExportPassword = it },
-                            label = { Text(stringResource(R.string.common_file_password)) },
-                            visualTransformation = PasswordVisualTransformation(),
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    }
-                },
-                confirmButton = {
-                    TextButton(onClick = {
-                        val selected = entradas.filter { it.id in entradasSeleccionadas }
-                        if (selected.isEmpty()) {
-                            Toast.makeText(context, context.getString(R.string.diary_select_entry), Toast.LENGTH_LONG).show()
-                            return@TextButton
-                        }
-                        if (selectedExportPassword.isBlank()) {
-                            Toast.makeText(context, context.getString(R.string.diary_enter_password), Toast.LENGTH_LONG).show()
-                            return@TextButton
-                        }
-                        val db = NevilleRoomDatabase.getInstance(context.applicationContext)
-                        pendingSelectedMigrationRecords = NevilleMigrationRoomBridge(db).exportSelectedRecords(diaryEntries = selected)
-                        pendingSelectedMigrationPassword = selectedExportPassword.toCharArray()
-                        selectedExportPassword = ""
-                        entradasSeleccionadas.clear()
-                        manualSelectionMode = false
-                        showSelectedExportDialog = false
-                        createSelectedMigrationExportLauncher.launch("diario-${System.currentTimeMillis()}${MigrationFormat.FILE_EXTENSION}")
-                    }) {
-                        Text(stringResource(R.string.common_export))
-                    }
-                },
-                dismissButton = {
-                    TextButton(onClick = {
-                        selectedExportPassword = ""
-                        showSelectedExportDialog = false
-                    }) {
-                        Text(stringResource(R.string.common_cancel))
-                    }
-                }
-            )
-        }
     }
 
     @OptIn(ExperimentalFoundationApi::class)
@@ -1264,7 +1143,6 @@ class FragDiario : Fragment() {
     @Composable
     private fun BatchSelectionBar(
         selectedCount: Int,
-        onExport: () -> Unit,
         onChangeEmotion: () -> Unit,
         onChangeChapter: () -> Unit,
         onDelete: () -> Unit,
@@ -1285,9 +1163,6 @@ class FragDiario : Fragment() {
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier.padding(end = 10.dp)
             )
-            TextButton(onClick = onExport) {
-                Text(stringResource(R.string.common_export), color = Color.White)
-            }
             TextButton(onClick = onChangeEmotion) {
                 Text(stringResource(R.string.diary_emotion), color = Color.White)
             }
@@ -1500,31 +1375,198 @@ class FragDiario : Fragment() {
     }
 
     @Composable
-    private fun FabActionItem(label: String, iconRes: Int, onClick: () -> Unit) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+    private fun DiarioTopActions(
+        showActionsMenu: Boolean,
+        onShowActionsMenuChange: (Boolean) -> Unit,
+        showFiltersMenu: Boolean,
+        onShowFiltersMenuChange: (Boolean) -> Unit,
+        showCalendar: Boolean,
+        selectionMode: Boolean,
+        groupedByChapter: Boolean,
+        favoritesOnly: Boolean,
+        attachmentsOnly: Boolean,
+        sortMode: SortMode,
+        onStatistics: () -> Unit,
+        onWeeklySummary: () -> Unit,
+        onToggleSelection: () -> Unit,
+        onToggleCalendar: () -> Unit,
+        onShowAll: () -> Unit,
+        onGroupByChapter: () -> Unit,
+        onShowFavorites: () -> Unit,
+        onShowAttachments: () -> Unit,
+        onDetailedFilters: () -> Unit,
+        onToggleSort: () -> Unit,
+        onNewEntry: () -> Unit
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                // Esta altura forma parte del layout: el listado comienza debajo
+                // de ella y no se superpone a la mascota.
+                .height(DiarioMascotLayout.menuRowHeightDp.dp)
+                .padding(horizontal = 8.dp, vertical = 4.dp)
         ) {
-            Text(
-                text = label,
-                color = Color(0xFFEAF2F7),
-                fontSize = 12.sp,
+            Image(
+                painter = painterResource(R.drawable.peti_escribe),
+                contentDescription = null,
                 modifier = Modifier
-                    .background(Color(0xC2343E46), RoundedCornerShape(10.dp))
-                    .padding(horizontal = 10.dp, vertical = 6.dp)
+                    .align(Alignment.CenterStart)
+                    .offset(
+                        x = DiarioMascotLayout.offsetXDp.dp,
+                        y = DiarioMascotLayout.offsetYDp.dp
+                    )
+                    // requiredSize evita que la altura fija de la barra superior
+                    // limite el crecimiento manual de la mascota.
+                    .requiredSize(DiarioMascotLayout.sizeDp.dp)
             )
-            FloatingActionButton(
-                onClick = onClick,
-                containerColor = Color(0xFFCFDAE3),
-                contentColor = Color(0xFF1A2A33),
-                modifier = Modifier.size(42.dp)
+
+            Row(
+                modifier = Modifier.align(Alignment.CenterEnd),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    painter = painterResource(id = iconRes),
-                    contentDescription = label,
-                    modifier = Modifier.size(18.dp)
+                Box {
+                    DiarioTopActionButton(
+                        icon = Icons.Rounded.MoreHoriz,
+                        contentDescription = stringResource(R.string.diary_actions_menu),
+                        onClick = { onShowActionsMenuChange(true) }
+                    )
+                    DropdownMenu(
+                        expanded = showActionsMenu,
+                        onDismissRequest = { onShowActionsMenuChange(false) }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.diary_statistics)) },
+                            leadingIcon = { Icon(Icons.Rounded.BarChart, contentDescription = null) },
+                            onClick = onStatistics
+                        )
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.diary_weekly_summary)) },
+                            leadingIcon = { Icon(Icons.Rounded.CalendarMonth, contentDescription = null) },
+                            onClick = onWeeklySummary
+                        )
+                        DropdownMenuItem(
+                            text = {
+                                Text(
+                                    if (selectionMode) stringResource(R.string.common_exit_multi_select)
+                                    else stringResource(R.string.common_multi_select)
+                                )
+                            },
+                            leadingIcon = { Icon(Icons.Rounded.Checklist, contentDescription = null) },
+                            onClick = onToggleSelection
+                        )
+                        DropdownMenuItem(
+                            text = {
+                                Text(
+                                    if (showCalendar) stringResource(R.string.common_hide_calendar)
+                                    else stringResource(R.string.common_show_calendar)
+                                )
+                            },
+                            leadingIcon = { Icon(Icons.Rounded.CalendarMonth, contentDescription = null) },
+                            onClick = onToggleCalendar
+                        )
+                    }
+                }
+
+                Box {
+                    DiarioTopActionButton(
+                        icon = Icons.Rounded.FilterList,
+                        contentDescription = stringResource(R.string.diary_filter_menu),
+                        onClick = { onShowFiltersMenuChange(true) }
+                    )
+                    DropdownMenu(
+                        expanded = showFiltersMenu,
+                        onDismissRequest = { onShowFiltersMenuChange(false) }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.diary_all_entries)) },
+                            leadingIcon = { Icon(Icons.AutoMirrored.Rounded.ViewList, contentDescription = null) },
+                            onClick = onShowAll
+                        )
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.diary_by_chapters)) },
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Rounded.Book,
+                                    contentDescription = null,
+                                    tint = if (groupedByChapter) Color(0xFFE58A00) else Color.Unspecified
+                                )
+                            },
+                            onClick = onGroupByChapter
+                        )
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.diary_favorites)) },
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Rounded.Favorite,
+                                    contentDescription = null,
+                                    tint = if (favoritesOnly) Color(0xFFD32F2F) else Color.Unspecified
+                                )
+                            },
+                            onClick = onShowFavorites
+                        )
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.diary_filter_with_attachments)) },
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Rounded.AttachFile,
+                                    contentDescription = null,
+                                    tint = if (attachmentsOnly) Color(0xFFE58A00) else Color.Unspecified
+                                )
+                            },
+                            onClick = onShowAttachments
+                        )
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.diary_detailed_filters)) },
+                            leadingIcon = { Icon(Icons.Rounded.Tune, contentDescription = null) },
+                            onClick = onDetailedFilters
+                        )
+                        DropdownMenuItem(
+                            text = {
+                                Text(
+                                    if (sortMode == SortMode.CREATION) stringResource(R.string.diary_sort_creation)
+                                    else stringResource(R.string.diary_sort_modification)
+                                )
+                            },
+                            leadingIcon = { Icon(Icons.AutoMirrored.Rounded.Sort, contentDescription = null) },
+                            onClick = onToggleSort
+                        )
+                    }
+                }
+
+                DiarioTopActionButton(
+                    icon = Icons.Rounded.Add,
+                    contentDescription = stringResource(R.string.diary_new_entry),
+                    accent = true,
+                    onClick = onNewEntry
                 )
             }
+        }
+    }
+
+    @Composable
+    private fun DiarioTopActionButton(
+        icon: androidx.compose.ui.graphics.vector.ImageVector,
+        contentDescription: String,
+        accent: Boolean = false,
+        onClick: () -> Unit
+    ) {
+        IconButton(
+            onClick = onClick,
+            modifier = Modifier
+                .size(44.dp)
+                .background(
+                    color = if (accent) Color(0xFFFF9500) else Color.White.copy(alpha = 0.78f),
+                    shape = CircleShape
+                )
+                .border(1.dp, Color.Black.copy(alpha = 0.24f), CircleShape)
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = contentDescription,
+                tint = Color(0xFF202629),
+                modifier = Modifier.size(23.dp)
+            )
         }
     }
 
@@ -1533,6 +1575,8 @@ class FragDiario : Fragment() {
         entradaEnEdicion: DiarioEntity?,
         emociones: List<DiarioEmotion>,
         capitulosExistentes: List<String>,
+        allEntries: List<DiarioEntity>,
+        onAttachmentsChanged: () -> Unit,
         onDismiss: () -> Unit,
         onSave: (String, String, String, String, Boolean, List<PendingDiarioAttachment>) -> Boolean
     ) {
@@ -1599,11 +1643,23 @@ class FragDiario : Fragment() {
                         }
                     )
 
+                    entradaEnEdicion?.let { existingEntry ->
+                        DiaryAttachmentsSection(
+                            entry = existingEntry,
+                            allEntries = allEntries,
+                            onChanged = onAttachmentsChanged,
+                            modifier = Modifier.fillMaxWidth(),
+                            showAddButton = false,
+                            darkTheme = true
+                        )
+                    }
+
                     PendingDiaryAttachmentsEditor(
                         attachments = pendingAttachments,
                         onAdd = { pendingAttachments.add(it) },
                         onRemove = { id -> pendingAttachments.removeAll { it.id == id } },
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        showTitle = entradaEnEdicion == null
                     )
 
                     Box(modifier = Modifier.fillMaxWidth()) {
@@ -1784,22 +1840,6 @@ class FragDiario : Fragment() {
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.clickable(onClick = onToggleSelection)
                     )
-                } else {
-                    Box {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_menu_open),
-                            contentDescription = stringResource(R.string.common_options),
-                            tint = Color.Black,
-                            modifier = Modifier
-                                .size(20.dp)
-                                .clickable(onClick = onToggleItemMenu)
-                        )
-                        DropdownMenu(expanded = showItemMenu, onDismissRequest = onToggleItemMenu) {
-                            DropdownMenuItem(text = { Text(stringResource(R.string.diary_change_chapter)) }, onClick = onChangeChapter)
-                            DropdownMenuItem(text = { Text(stringResource(R.string.common_edit)) }, onClick = onEdit)
-                            DropdownMenuItem(text = { Text(stringResource(R.string.common_delete)) }, onClick = onDelete)
-                        }
-                    }
                 }
             }
 
@@ -1822,35 +1862,6 @@ class FragDiario : Fragment() {
                     )
             )
 
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = fechaTexto,
-                    fontSize = 11.sp,
-                    lineHeight = 14.sp,
-                    color = Color(0xFF4D4D4D),
-                    modifier = Modifier.weight(1f)
-                )
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_toolbar_favorite),
-                    contentDescription = stringResource(R.string.diary_favorite),
-                    tint = if (entrada.isFav) Color(0xFFD32F2F) else Color(0xFF888888),
-                    modifier = Modifier.size(24.dp)
-                        .clickable {
-                            if (selectionMode) onToggleSelection() else onToggleFav()
-                        }
-                )
-                if (attachmentCount > 0) {
-                    Text(
-                        text = "  📎 $attachmentCount",
-                        fontSize = 12.sp,
-                        color = Color(0xFF4D4D4D)
-                    )
-                }
-            }
-
             if (isExpanded && !selectionMode) {
                 DiaryAttachmentsSection(
                     entry = entrada,
@@ -1860,6 +1871,87 @@ class FragDiario : Fragment() {
                         .fillMaxWidth()
                         .padding(top = 10.dp)
                 )
+
+                androidx.compose.material3.HorizontalDivider(
+                    modifier = Modifier.padding(top = 10.dp, bottom = 8.dp),
+                    color = Color.Black.copy(alpha = 0.12f)
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        if (entrada.capitulo.isNotBlank()) {
+                            Text(
+                                text = "${stringResource(R.string.diary_chapter)}: ${entrada.capitulo}",
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = Color(0xFF4D4D4D),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                        Text(
+                            text = fechaTexto,
+                            fontSize = 11.sp,
+                            lineHeight = 14.sp,
+                            color = Color(0xFF4D4D4D)
+                        )
+                    }
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_toolbar_favorite),
+                        contentDescription = stringResource(R.string.diary_favorite),
+                        tint = if (entrada.isFav) Color(0xFFD32F2F) else Color(0xFF888888),
+                        modifier = Modifier
+                            .size(24.dp)
+                            .clickable(onClick = onToggleFav)
+                    )
+                    Box(modifier = Modifier.padding(start = 10.dp)) {
+                        Icon(
+                            imageVector = Icons.Rounded.MoreHoriz,
+                            contentDescription = stringResource(R.string.common_options),
+                            tint = Color.Black,
+                            modifier = Modifier
+                                .size(22.dp)
+                                .clickable(onClick = onToggleItemMenu)
+                        )
+                        DropdownMenu(expanded = showItemMenu, onDismissRequest = onToggleItemMenu) {
+                            DropdownMenuItem(text = { Text(stringResource(R.string.diary_change_chapter)) }, onClick = onChangeChapter)
+                            DropdownMenuItem(text = { Text(stringResource(R.string.common_edit)) }, onClick = onEdit)
+                            DropdownMenuItem(text = { Text(stringResource(R.string.common_delete)) }, onClick = onDelete)
+                        }
+                    }
+                }
+            }
+
+            if (!selectionMode) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 4.dp),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    if (attachmentCount > 0 && !isExpanded) {
+                        Text(
+                            text = "📎 $attachmentCount",
+                            fontSize = 12.sp,
+                            color = Color(0xFF4D4D4D),
+                            modifier = Modifier.padding(end = 8.dp)
+                        )
+                    }
+                    Text(
+                        text = if (isExpanded) "⌃" else "⌄",
+                        color = Color.Black.copy(alpha = 0.48f),
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .size(32.dp)
+                            .clickable(onClick = onToggleExpand)
+                    )
+                }
             }
         }
     }
@@ -2359,9 +2451,8 @@ class FragDiario : Fragment() {
 private fun diarioBackgroundBrush(): Brush {
     return Brush.verticalGradient(
         colors = listOf(
-            Color(0xFFE2B645),
-            Color(0xFFF1B882),
-            Color(0xFFB3ABA1)
+            Color(0xFF738080),
+            Color(0xFFFF9500)
         )
     )
 }

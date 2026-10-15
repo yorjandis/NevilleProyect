@@ -79,6 +79,9 @@
     <string name="goals_info">Info</string>
     <string name="goals_no_information">No information</string>
     <string name="goals_new_title">New goal</string>
+    <string name="goals_examples_menu">Examples</string>
+    <string name="goals_examples_title">Ideas for your goals</string>
+    <string name="goals_example_use">Use this example</string>
     <string name="goals_create_tab">Create goal</string>
     <string name="goals_habits_tab">Habits</string>
     <string name="goals_programs_tab">Programs</string>

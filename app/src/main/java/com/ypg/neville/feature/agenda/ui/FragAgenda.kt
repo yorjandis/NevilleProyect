@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -74,7 +72,6 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -86,10 +83,6 @@ import com.ypg.neville.feature.agenda.data.AgendaPriority
 import com.ypg.neville.feature.agenda.data.AgendaRepository
 import com.ypg.neville.R
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
-import com.ypg.neville.model.migration.CanonicalRecord
-import com.ypg.neville.model.migration.MigrationFormat
-import com.ypg.neville.model.migration.MyAppMigrationService
-import com.ypg.neville.model.migration.NevilleMigrationRoomBridge
 import com.ypg.neville.model.reminders.ReminderFrequency
 import com.ypg.neville.model.reminders.ReminderRepository
 import com.ypg.neville.model.reminders.ReminderScheduler
@@ -99,53 +92,10 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import java.util.concurrent.Executors
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
 
 class FragAgenda : Fragment() {
 
     private val dbExecutor = Executors.newSingleThreadExecutor()
-    private lateinit var createSelectedMigrationExportLauncher: ActivityResultLauncher<String>
-    private var pendingSelectedMigrationPassword: CharArray? = null
-    private var pendingSelectedMigrationRecords: List<CanonicalRecord> = emptyList()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        createSelectedMigrationExportLauncher = registerForActivityResult(
-            ActivityResultContracts.CreateDocument("application/octet-stream")
-        ) { uri ->
-            val password = pendingSelectedMigrationPassword
-            val records = pendingSelectedMigrationRecords
-            pendingSelectedMigrationPassword = null
-            pendingSelectedMigrationRecords = emptyList()
-            if (uri == null || password == null) {
-                password?.fill('\u0000')
-                return@registerForActivityResult
-            }
-            lifecycleScope.launch {
-                val result = MyAppMigrationService(requireContext().applicationContext)
-                    .exportSelectedToUri(uri, password, records)
-                password.fill('\u0000')
-                result.onSuccess { export ->
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.agenda_exported_count, export.countsByType.values.sum()),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }.onFailure { error ->
-                    Toast.makeText(
-                        requireContext(),
-                        getString(
-                            R.string.agenda_export_error,
-                            error.message ?: getString(R.string.common_unknown_error)
-                        ),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
-        }
-    }
-
     override fun onCreateView(
         inflater: android.view.LayoutInflater,
         container: ViewGroup?,
@@ -186,8 +136,6 @@ class FragAgenda : Fragment() {
         var menuExpanded by remember { mutableStateOf(false) }
         var deleteTarget by remember { mutableStateOf<List<AgendaItemEntity>>(emptyList()) }
         var alertMessage by remember { mutableStateOf<String?>(null) }
-        var showSelectedExportDialog by remember { mutableStateOf(false) }
-        var selectedExportPassword by remember { mutableStateOf("") }
 
         fun reload() {
             dbExecutor.execute {
@@ -301,15 +249,6 @@ class FragAgenda : Fragment() {
                                 },
                                 onDeleteSelected = {
                                     deleteTarget = listedItems.filter { it.id in selectedIds }
-                                    menuExpanded = false
-                                },
-                                onExportSelected = {
-                                    if (selectedIds.isEmpty()) {
-                                        alertMessage = context.getString(R.string.agenda_select_activity_to_export)
-                                    } else {
-                                        selectedExportPassword = ""
-                                        showSelectedExportDialog = true
-                                    }
                                     menuExpanded = false
                                 },
                                 onMarkSelected = {
@@ -479,59 +418,6 @@ class FragAgenda : Fragment() {
                     }) { Text(stringResource(R.string.common_delete)) }
                 },
                 dismissButton = { TextButton(onClick = { deleteTarget = emptyList() }) { Text(stringResource(R.string.common_cancel)) } }
-            )
-        }
-
-        if (showSelectedExportDialog) {
-            AlertDialog(
-                onDismissRequest = {
-                    selectedExportPassword = ""
-                    showSelectedExportDialog = false
-                },
-                title = { Text(stringResource(R.string.agenda_export_selected_title)) },
-                text = {
-                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                        Text(stringResource(R.string.agenda_export_selected_description, MigrationFormat.FILE_EXTENSION))
-                        OutlinedTextField(
-                            value = selectedExportPassword,
-                            onValueChange = { selectedExportPassword = it },
-                            label = { Text(stringResource(R.string.common_file_password)) },
-                            visualTransformation = PasswordVisualTransformation(),
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    }
-                },
-                confirmButton = {
-                    TextButton(onClick = {
-                        val selected = listedItems.filter { it.id in selectedIds }
-                        if (selected.isEmpty()) {
-                            alertMessage = context.getString(R.string.agenda_select_activity_to_export)
-                            return@TextButton
-                        }
-                        if (selectedExportPassword.isBlank()) {
-                            alertMessage = context.getString(R.string.common_enter_file_password)
-                            return@TextButton
-                        }
-                        val db = NevilleRoomDatabase.getInstance(context.applicationContext)
-                        pendingSelectedMigrationRecords = NevilleMigrationRoomBridge(db).exportSelectedRecords(agendaEntries = selected)
-                        pendingSelectedMigrationPassword = selectedExportPassword.toCharArray()
-                        selectedExportPassword = ""
-                        selectedIds.clear()
-                        multiSelectionMode = false
-                        showSelectedExportDialog = false
-                        createSelectedMigrationExportLauncher.launch("agenda-${System.currentTimeMillis()}${MigrationFormat.FILE_EXTENSION}")
-                    }) {
-                        Text(stringResource(R.string.common_export))
-                    }
-                },
-                dismissButton = {
-                    TextButton(onClick = {
-                        selectedExportPassword = ""
-                        showSelectedExportDialog = false
-                    }) {
-                        Text(stringResource(R.string.common_cancel))
-                    }
-                }
             )
         }
 
@@ -1239,7 +1125,6 @@ class FragAgenda : Fragment() {
         onDeleteWeek: () -> Unit,
         onToggleSelection: () -> Unit,
         onDeleteSelected: () -> Unit,
-        onExportSelected: () -> Unit,
         onMarkSelected: () -> Unit,
         onClearSelectedCheck: () -> Unit,
         onActivateSelectedReminders: () -> Unit,
@@ -1250,7 +1135,6 @@ class FragAgenda : Fragment() {
             DropdownMenuItem(text = { Text(stringResource(R.string.agenda_delete_current_week)) }, onClick = onDeleteWeek)
             DropdownMenuItem(text = { Text(if (multiSelectionMode) stringResource(R.string.common_exit_multi_select) else stringResource(R.string.common_multi_select)) }, onClick = onToggleSelection)
             if (multiSelectionMode) {
-                DropdownMenuItem(text = { Text(stringResource(R.string.common_export_selected)) }, onClick = onExportSelected)
                 DropdownMenuItem(text = { Text(stringResource(R.string.common_delete_selected)) }, onClick = onDeleteSelected)
                 DropdownMenuItem(text = { Text(stringResource(R.string.agenda_mark_selected_completed)) }, onClick = onMarkSelected)
                 DropdownMenuItem(text = { Text(stringResource(R.string.agenda_clear_selected_check)) }, onClick = onClearSelectedCheck)

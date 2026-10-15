@@ -1,6 +1,7 @@
 package com.ypg.neville.localization
 
 import android.content.Context
+import com.ypg.neville.model.metas.GoalExample
 import com.ypg.neville.model.metas.HabitPreset
 import com.ypg.neville.model.metas.ProgramaPreestablecido
 import com.ypg.neville.model.metas.UnitInfo
@@ -15,6 +16,33 @@ object GoalContentLocalization {
     private const val ROOT = "localized_content/goals"
     private val habitCatalogs = ConcurrentHashMap<String, JSONObject>()
     private val programCatalogs = ConcurrentHashMap<String, JSONObject>()
+    private val exampleCatalogs = ConcurrentHashMap<String, JSONObject>()
+
+    fun localizedExamples(
+        context: Context,
+        fallbacks: List<GoalExample>
+    ): List<GoalExample> {
+        val languageFolder = languageFolder(context) ?: return fallbacks
+        val catalog = exampleCatalog(context, languageFolder)
+        return fallbacks.map { fallback ->
+            val translation = catalog.optJSONObject(fallback.id) ?: return@map fallback
+            fallback.copy(
+                category = translation.optString("category")
+                    .takeIf(String::isNotBlank) ?: fallback.category,
+                title = translation.optString("title")
+                    .takeIf(String::isNotBlank) ?: fallback.title,
+                details = translation.optString("details")
+                    .takeIf(String::isNotBlank) ?: fallback.details,
+                configurationSummary = translation.optString("configurationSummary")
+                    .takeIf(String::isNotBlank) ?: fallback.configurationSummary,
+                customUnitLabel = if (translation.has("customUnitLabel")) {
+                    translation.optString("customUnitLabel")
+                } else {
+                    fallback.customUnitLabel
+                }
+            )
+        }
+    }
 
     fun localizedHabit(
         context: Context,
@@ -81,6 +109,11 @@ object GoalContentLocalization {
     private fun programCatalog(context: Context, languageFolder: String): JSONObject =
         programCatalogs.getOrPut(languageFolder) {
             readCatalog(context, languageFolder, "GoalPrograms.json")
+        }
+
+    private fun exampleCatalog(context: Context, languageFolder: String): JSONObject =
+        exampleCatalogs.getOrPut(languageFolder) {
+            readCatalog(context, languageFolder, "GoalExamples.json")
         }
 
     private fun readCatalog(context: Context, languageFolder: String, fileName: String): JSONObject =

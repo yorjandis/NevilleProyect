@@ -59,6 +59,17 @@
     <string name="shared_import_understood">Got it</string>
     <string name="shared_import_default_title">Imported</string>
     <string name="shared_import_default_title_format">Imported: %1$s</string>
+    <string name="shared_import_translate_to">Translate to:</string>
+    <string name="shared_import_translate_with_google">Translate with Google</string>
+    <string name="shared_import_translation_download_hint">The first translation downloads the languages over Wi-Fi. It then works offline and the text remains on this device.</string>
+    <string name="shared_import_google_attribution">Automatic translation by Google. It may contain errors.</string>
+    <string name="shared_import_translation_failed_title">Couldn’t translate</string>
+    <string name="shared_import_translation_failed_body">Check your Wi-Fi connection to download the language, then try again.</string>
+    <string name="shared_import_translation_unsupported_source">Couldn’t detect Spanish, English, or Mandarin Chinese text.</string>
+    <string name="shared_import_already_in_language">The text is already in %1$s.</string>
+    <string name="translation_language_spanish">Spanish</string>
+    <string name="translation_language_english">English</string>
+    <string name="translation_language_mandarin_chinese">Mandarin Chinese</string>
 
     <string name="shared_dialog_new_quote_title">Add a new quote</string>
     <string name="shared_dialog_new_quote_message">Add your own quotes to the library.</string>

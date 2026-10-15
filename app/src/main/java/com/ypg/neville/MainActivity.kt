@@ -38,6 +38,7 @@ import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.commitNow
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.work.WorkManager
 import com.ypg.neville.model.preferences.DbPreferences
 import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.utils.QRManager
@@ -103,6 +104,7 @@ class MainActivity : AppCompatActivity() {
         JournalDailyReminderManager.initialize(this)
         MorningDialogStartup.sync(this)
         WeeklySummaryBootstrap.initialize(this)
+        WorkManager.getInstance(this).cancelUniqueWork("cloud_backup_periodic")
 
         toolbarColor.value = prefs.getInt("color_marcos", 0).takeIf { it != 0 }
 

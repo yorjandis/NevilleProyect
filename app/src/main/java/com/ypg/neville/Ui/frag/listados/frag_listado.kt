@@ -67,7 +67,6 @@ import com.ypg.neville.MainActivity
 import com.ypg.neville.R
 import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryEventLogger
 import com.ypg.neville.feature.weeklysummary.domain.WeeklySummaryEventType
-import com.ypg.neville.model.backup.BackupRestoreSignal
 import com.ypg.neville.model.db.DatabaseHelper
 import com.ypg.neville.model.db.utilsDB
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
@@ -115,7 +114,6 @@ class frag_listado : Fragment() {
     private fun ListadoScreen(navController: NavController) {
         val context = LocalContext.current
         val subscriptionState by SubscriptionManager.uiState.collectAsState()
-        val restoreTick by BackupRestoreSignal.restoreTick.collectAsState()
         val hasPremium = subscriptionState.isActive && subscriptionState.isEntitlementVerified
         val prefs = remember { DbPreferences.default(context) }
         val listado = remember { mutableStateListOf<String>() }
@@ -185,7 +183,7 @@ class frag_listado : Fragment() {
             reflexiones.addAll(personalizadas + assets)
         }
 
-        LaunchedEffect(elementLoaded, restoreTick) {
+        LaunchedEffect(elementLoaded) {
             if (isReflexionesView) {
                 recargarReflexiones()
                 filtroReflexionTitulo = ""

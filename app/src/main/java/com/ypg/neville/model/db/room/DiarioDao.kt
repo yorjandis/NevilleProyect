@@ -25,6 +25,9 @@ interface DiarioDao {
     @Query("SELECT * FROM Diario WHERE id = :id LIMIT 1")
     fun getById(id: Long): DiarioEntity?
 
+    @Query("SELECT * FROM Diario WHERE syncId = :syncId LIMIT 1")
+    fun getBySyncId(syncId: String): DiarioEntity?
+
     @Query("UPDATE Diario SET title = :title, content = :content, fechaM = :fechaModificacion WHERE id = :id")
     fun updateTitleAndContentById(
         id: Long,
