@@ -305,4 +305,8 @@
     <string name="diary_stats_weekday_thu">四</string>
     <string name="diary_stats_weekday_fri">五</string>
     <string name="diary_stats_weekday_sat">六</string>
+    <string name="diary_attachments_premium_title">日记加密附件</string>
+    <string name="diary_attachments_premium_description">为日记条目添加文件、照片和文档。每个附件始终与对应回忆关联，并受到强加密保护。</string>
+    <string name="diary_attachments_premium_required">日记附件需要高级版权限。</string>
+    <string name="paywall_reason_diary_attachments">日记加密附件包含在年度订阅中。</string>
 </resources>

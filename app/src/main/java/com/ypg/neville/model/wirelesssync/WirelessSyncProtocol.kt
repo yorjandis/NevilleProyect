@@ -12,7 +12,8 @@ import javax.crypto.spec.SecretKeySpec
 
 enum class WirelessSyncDirection(val wireValue: String) {
     AndroidToIos("android_to_ios"),
-    IosToAndroid("ios_to_android");
+    IosToAndroid("ios_to_android"),
+    Bidirectional("bidirectional");
 
     companion object {
         fun fromWire(value: String): WirelessSyncDirection = entries.first { it.wireValue == value }
@@ -31,7 +32,8 @@ data class WirelessSessionDescriptor(
     val serviceName: String,
     val secret: String,
     val expiresAtEpochSeconds: Long,
-    val network: WirelessNetworkCredentials?
+    val network: WirelessNetworkCredentials?,
+    val includedTypes: Set<String>?
 ) {
     fun toQrPayload(): String {
         val json = JSONObject()
@@ -41,6 +43,9 @@ data class WirelessSessionDescriptor(
             .put("service", serviceName)
             .put("secret", secret)
             .put("expires", expiresAtEpochSeconds)
+        includedTypes?.let { types ->
+            json.put("types", org.json.JSONArray(types.sorted()))
+        }
         network?.let {
             json.put(
                 "network",
@@ -56,7 +61,7 @@ data class WirelessSessionDescriptor(
     fun secretBytes(): ByteArray = decodeUrl(secret)
 
     companion object {
-        const val VERSION = 1
+        const val VERSION = 2
         const val SERVICE_TYPE = "_nevillesync._tcp"
         const val URI_PREFIX = "neville://sync/"
 
@@ -78,6 +83,11 @@ data class WirelessSessionDescriptor(
                 expiresAtEpochSeconds = json.getLong("expires"),
                 network = networkJson?.let {
                     WirelessNetworkCredentials(it.getString("ssid"), it.getString("password"))
+                },
+                includedTypes = json.optJSONArray("types")?.let { values ->
+                    buildSet {
+                        repeat(values.length()) { index -> add(values.getString(index)) }
+                    }
                 }
             ).also {
                 require(it.secretBytes().size == 32) { "Clave de sesión inválida" }
@@ -94,6 +104,65 @@ data class WirelessSessionDescriptor(
             Base64.URL_SAFE or Base64.NO_WRAP or Base64.NO_PADDING
         )
     }
+}
+
+data class WirelessImportResult(
+    val inserted: Int,
+    val updated: Int,
+    val skipped: Int,
+    val conflicts: Int,
+    val errors: Int,
+    val message: String
+) {
+    fun toJsonBytes(): ByteArray = JSONObject()
+        .put("inserted", inserted)
+        .put("updated", updated)
+        .put("skipped", skipped)
+        .put("conflicts", conflicts)
+        .put("errors", errors)
+        .put("message", message)
+        .toString()
+        .toByteArray(Charsets.UTF_8)
+
+    companion object {
+        val Empty = WirelessImportResult(0, 0, 0, 0, 0, "")
+
+        fun from(summary: com.ypg.neville.model.migration.MigrationSummary, message: String) =
+            WirelessImportResult(
+                summary.inserted,
+                summary.updated,
+                summary.skipped,
+                summary.conflicts,
+                summary.errors,
+                message
+            )
+
+        fun fromJson(bytes: ByteArray): WirelessImportResult {
+            val json = JSONObject(String(bytes, Charsets.UTF_8))
+            return WirelessImportResult(
+                inserted = json.getInt("inserted"),
+                updated = json.getInt("updated"),
+                skipped = json.getInt("skipped"),
+                conflicts = json.getInt("conflicts"),
+                errors = json.getInt("errors"),
+                message = json.optString("message")
+            )
+        }
+    }
+}
+
+data class WirelessTransferSummary(
+    val direction: WirelessSyncDirection,
+    val sent: Int,
+    val received: Int,
+    val localImport: WirelessImportResult,
+    val remoteImport: WirelessImportResult
+) {
+    val totalInserted: Int get() = localImport.inserted + remoteImport.inserted
+    val totalUpdated: Int get() = localImport.updated + remoteImport.updated
+    val totalSkipped: Int get() = localImport.skipped + remoteImport.skipped
+    val totalConflicts: Int get() = localImport.conflicts + remoteImport.conflicts
+    val totalErrors: Int get() = localImport.errors + remoteImport.errors
 }
 
 internal object WirelessFrameCodec {

@@ -5,6 +5,7 @@ import com.ypg.neville.feature.calmspace.data.CalmPersonalPhraseEntity
 import com.ypg.neville.feature.morningdialog.data.RitualDiaryExportEntity
 import com.ypg.neville.model.db.room.ArchivedGoalEntity
 import com.ypg.neville.model.db.room.ArchivedUnitEntity
+import com.ypg.neville.model.db.room.DiarioAttachmentEntity
 import com.ypg.neville.model.db.room.DiarioEntity
 import com.ypg.neville.model.db.room.FraseEntity
 import com.ypg.neville.model.db.room.GoalEntity
@@ -13,6 +14,7 @@ import com.ypg.neville.model.db.room.NevilleRoomDatabase
 import com.ypg.neville.model.db.room.NotaEntity
 import com.ypg.neville.model.db.room.ReflexionEntity
 import com.ypg.neville.model.db.room.SecureRoomText
+import com.ypg.neville.model.security.PostQuantumAesTextCrypto
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -22,7 +24,13 @@ class NevilleMigrationRoomBridge(
     fun exportRecords(): List<CanonicalRecord> {
         return buildList {
             db.notaDao().getAll().map(SecureRoomText::decryptNota).forEach { add(it.toCanonical()) }
-            db.diarioDao().getAll().map(SecureRoomText::decryptDiario).forEach { add(it.toCanonical()) }
+            db.diarioDao().getAll().map(SecureRoomText::decryptDiario).forEach { diary ->
+                val parentRecord = diary.toCanonical()
+                add(parentRecord)
+                db.diarioAttachmentDao().getForDiario(diary.id).forEach { attachment ->
+                    add(attachment.toCanonical(parentRecord))
+                }
+            }
             db.agendaItemDao().loadAll().forEach { add(it.toCanonical()) }
             db.goalDao().getAll().forEach { goal ->
                 add(goal.toCanonical(db.goalUnitDao().getByGoalId(goal.id)))
@@ -48,6 +56,13 @@ class NevilleMigrationRoomBridge(
                     record,
                     db.diarioDao().getAll().map(SecureRoomText::decryptDiario).map { it.toCanonical() }
                 )
+                TYPE_DIARY_ATTACHMENT -> db.diarioAttachmentDao().getById(record.id)?.let { existing ->
+                    val parent = db.diarioDao().getById(existing.diarioId)
+                        ?.let(SecureRoomText::decryptDiario)
+                        ?.toCanonical()
+                        ?: return@let ImportConflict(record.type, record.id, "El anexo local no tiene una entrada asociada")
+                    stableConflict(record, existing.toCanonical(parent))
+                }
                 TYPE_AGENDA -> db.agendaItemDao().findById(record.id)?.let {
                     stableConflict(record, it.toCanonical())
                 }
@@ -72,8 +87,19 @@ class NevilleMigrationRoomBridge(
     ): MigrationSummary {
         var summary = MigrationSummary()
         db.runInTransaction {
-            records.forEach { record ->
+            val diaryRecords = records
+                .filter { it.type == TYPE_DIARY }
+                .associateBy { it.id }
+            records.filter { it.type != TYPE_DIARY_ATTACHMENT }.forEach { record ->
                 summary += importOne(record, policy)
+            }
+            records.filter { it.type == TYPE_DIARY_ATTACHMENT }.forEach { record ->
+                val parentId = record.payload.optString("parentDiaryId")
+                summary += importDiaryAttachment(
+                    record = record,
+                    parentRecord = diaryRecords[parentId],
+                    policy = policy
+                )
             }
         }
         return summary
@@ -91,9 +117,7 @@ class NevilleMigrationRoomBridge(
                 }
             }
             TYPE_DIARY -> {
-                val stored = db.diarioDao().getAll().firstOrNull {
-                    SecureRoomText.decryptDiario(it).toCanonical().id == record.id
-                }
+                val stored = findStoredDiary(record)
                 val existing = stored?.let(SecureRoomText::decryptDiario)
                 importStableRecord(record, existing?.toCanonical(), policy) {
                     db.diarioDao().insert(SecureRoomText.encryptDiario(record.toDiarioEntity(stored?.id ?: 0)))
@@ -134,6 +158,99 @@ class NevilleMigrationRoomBridge(
         }
     }
 
+    private fun importDiaryAttachment(
+        record: CanonicalRecord,
+        parentRecord: CanonicalRecord?,
+        policy: ImportPolicy
+    ): MigrationSummary {
+        requireNotNull(parentRecord) { "El anexo no tiene una entrada del Diario asociada" }
+        val diary = requireNotNull(findStoredDiary(parentRecord)) {
+            "No se encontró la entrada del Diario asociada al anexo"
+        }
+        val clearData = MigrationFormat.decodeBase64(record.payload.getString("data"))
+        require(record.payload.optLong("fileSize", -1L) == clearData.size.toLong()) {
+            "El tamaño declarado del anexo no coincide"
+        }
+        val incomingDigest = record.payload.getString("sha256").lowercase()
+        require(incomingDigest.isNotBlank() && MigrationIds.sha256Hex(clearData) == incomingDigest) {
+            "La huella del anexo no coincide con su contenido"
+        }
+
+        val attachmentDao = db.diarioAttachmentDao()
+        val existing = attachmentDao.getById(record.id)
+        if (existing == null) {
+            attachmentDao.upsert(record.toAttachmentEntity(diary.id, clearData))
+            db.diarioDao().touch(
+                diary.id,
+                maxOf(diary.fechaM, MigrationFormat.isoToMillis(record.updatedAt))
+            )
+            return MigrationSummary(inserted = 1)
+        }
+
+        val isEquivalent = MigrationIds.sha256Hex(decryptedAttachmentData(existing)) == incomingDigest &&
+            existing.fileName == record.payload.getString("fileName") &&
+            existing.mimeType == record.payload.getString("mimeType") &&
+            existing.diarioId == diary.id
+        if (isEquivalent) return MigrationSummary(skipped = 1)
+
+        val shouldReplace = when (policy) {
+            ImportPolicy.SkipExisting -> return MigrationSummary(conflicts = 1)
+            ImportPolicy.OverwriteExisting -> true
+            ImportPolicy.NewerWins -> {
+                val localUpdatedAt = existing.updatedAt
+                val incomingUpdatedAt = MigrationFormat.isoToMillis(record.updatedAt)
+                when {
+                    incomingUpdatedAt > localUpdatedAt -> true
+                    incomingUpdatedAt < localUpdatedAt -> return MigrationSummary(skipped = 1)
+                    else -> return MigrationSummary(conflicts = 1)
+                }
+            }
+            ImportPolicy.NewerWinsIncomingOnTie -> {
+                val localUpdatedAt = existing.updatedAt
+                val incomingUpdatedAt = MigrationFormat.isoToMillis(record.updatedAt)
+                if (incomingUpdatedAt < localUpdatedAt) return MigrationSummary(skipped = 1)
+                true
+            }
+            ImportPolicy.NewerWinsExistingOnTie -> {
+                val localUpdatedAt = existing.updatedAt
+                val incomingUpdatedAt = MigrationFormat.isoToMillis(record.updatedAt)
+                if (incomingUpdatedAt <= localUpdatedAt) return MigrationSummary(skipped = 1)
+                true
+            }
+        }
+
+        if (shouldReplace) {
+            attachmentDao.upsert(record.toAttachmentEntity(diary.id, clearData))
+            db.diarioDao().touch(
+                diary.id,
+                maxOf(diary.fechaM, MigrationFormat.isoToMillis(record.updatedAt))
+            )
+        }
+        return MigrationSummary(updated = 1)
+    }
+
+    private fun findStoredDiary(record: CanonicalRecord): DiarioEntity? {
+        val stored = db.diarioDao().getAll()
+        stored.firstOrNull { entity ->
+            SecureRoomText.decryptDiario(entity).toCanonical().id == record.id
+        }?.let { return it }
+
+        val incomingKey = duplicateKey(record) ?: return null
+        return stored.firstOrNull { entity ->
+            duplicateKey(SecureRoomText.decryptDiario(entity).toCanonical()) == incomingKey
+        }
+    }
+
+    private fun decryptedAttachmentData(attachment: DiarioAttachmentEntity): ByteArray {
+        require(attachment.cryptoVersion == 1) { "Versión de cifrado de anexo no compatible" }
+        return PostQuantumAesTextCrypto.decryptBytes(
+            attachment.encryptedData,
+            attachmentAad(attachment.id)
+        )
+    }
+
+    private fun attachmentAad(id: String): String = "diary-attachment:$id"
+
     private fun importStableRecord(
         record: CanonicalRecord,
         existing: CanonicalRecord?,
@@ -152,12 +269,32 @@ class NevilleMigrationRoomBridge(
                 MigrationSummary(updated = 1)
             }
             ImportPolicy.NewerWins -> when {
-                record.updatedAt > existing.updatedAt -> {
+                MigrationFormat.isoToMillis(record.updatedAt) > MigrationFormat.isoToMillis(existing.updatedAt) -> {
                     insertOrReplace()
                     MigrationSummary(updated = 1)
                 }
-                record.updatedAt < existing.updatedAt -> MigrationSummary(skipped = 1)
+                MigrationFormat.isoToMillis(record.updatedAt) < MigrationFormat.isoToMillis(existing.updatedAt) -> MigrationSummary(skipped = 1)
                 else -> MigrationSummary(conflicts = 1)
+            }
+            ImportPolicy.NewerWinsIncomingOnTie -> {
+                val incomingUpdatedAt = MigrationFormat.isoToMillis(record.updatedAt)
+                val existingUpdatedAt = MigrationFormat.isoToMillis(existing.updatedAt)
+                if (incomingUpdatedAt >= existingUpdatedAt) {
+                    insertOrReplace()
+                    MigrationSummary(updated = 1)
+                } else {
+                    MigrationSummary(skipped = 1)
+                }
+            }
+            ImportPolicy.NewerWinsExistingOnTie -> {
+                val incomingUpdatedAt = MigrationFormat.isoToMillis(record.updatedAt)
+                val existingUpdatedAt = MigrationFormat.isoToMillis(existing.updatedAt)
+                if (incomingUpdatedAt > existingUpdatedAt) {
+                    insertOrReplace()
+                    MigrationSummary(updated = 1)
+                } else {
+                    MigrationSummary(skipped = 1)
+                }
             }
         }
     }
@@ -249,10 +386,23 @@ class NevilleMigrationRoomBridge(
     }
 
     private fun recordsEquivalent(left: CanonicalRecord, right: CanonicalRecord): Boolean {
-        return left.type == right.type &&
-            left.id == right.id &&
+        if (left.type != right.type) return false
+        if (left.type == TYPE_DIARY_ATTACHMENT) {
+            return left.id == right.id &&
+                left.payload.optString("sha256") == right.payload.optString("sha256") &&
+                left.payload.optString("parentDiaryId") == right.payload.optString("parentDiaryId") &&
+                left.payload.optString("fileName") == right.payload.optString("fileName") &&
+                left.payload.optString("mimeType") == right.payload.optString("mimeType")
+        }
+        if (left.id == right.id) {
+            return left.createdAt == right.createdAt &&
+                left.updatedAt == right.updatedAt &&
+                left.payload.toString() == right.payload.toString()
+        }
+        val leftKey = duplicateKey(left)
+        val rightKey = duplicateKey(right)
+        return leftKey != null && leftKey == rightKey &&
             left.createdAt == right.createdAt &&
-            left.updatedAt == right.updatedAt &&
             left.payload.toString() == right.payload.toString()
     }
 
@@ -282,6 +432,24 @@ class NevilleMigrationRoomBridge(
             .put("favorite", isFav)
         val canonicalId = syncId.ifBlank { MigrationIds.stableId(TYPE_DIARY, "android", id) }
         return CanonicalRecord(TYPE_DIARY, canonicalId, created, updated, payload = payload)
+    }
+
+    private fun DiarioAttachmentEntity.toCanonical(parentRecord: CanonicalRecord): CanonicalRecord {
+        val clearData = decryptedAttachmentData(this)
+        val payload = JSONObject()
+            .put("parentDiaryId", parentRecord.id)
+            .put("fileName", fileName)
+            .put("mimeType", mimeType)
+            .put("fileSize", clearData.size.toLong())
+            .put("sha256", MigrationIds.sha256Hex(clearData))
+            .put("data", MigrationFormat.encodeBase64(clearData))
+        return CanonicalRecord(
+            type = TYPE_DIARY_ATTACHMENT,
+            id = id,
+            createdAt = MigrationFormat.millisToIso(createdAt),
+            updatedAt = MigrationFormat.millisToIso(updatedAt),
+            payload = payload
+        )
     }
 
     private fun AgendaItemEntity.toCanonical(): CanonicalRecord {
@@ -453,6 +621,23 @@ class NevilleMigrationRoomBridge(
         )
     }
 
+    private fun CanonicalRecord.toAttachmentEntity(
+        diarioId: Long,
+        clearData: ByteArray
+    ): DiarioAttachmentEntity {
+        return DiarioAttachmentEntity(
+            id = id,
+            diarioId = diarioId,
+            fileName = payload.getString("fileName"),
+            mimeType = payload.optString("mimeType", "application/octet-stream"),
+            fileSize = clearData.size.toLong(),
+            createdAt = MigrationFormat.isoToMillis(createdAt),
+            updatedAt = MigrationFormat.isoToMillis(updatedAt),
+            cryptoVersion = 1,
+            encryptedData = PostQuantumAesTextCrypto.encryptBytes(clearData, attachmentAad(id))
+        )
+    }
+
     private fun CanonicalRecord.toAgendaEntity(): AgendaItemEntity {
         return AgendaItemEntity(
             id = id,
@@ -602,6 +787,7 @@ class NevilleMigrationRoomBridge(
     companion object {
         const val TYPE_NOTE = "note"
         const val TYPE_DIARY = "diary_entry"
+        const val TYPE_DIARY_ATTACHMENT = "diary_attachment"
         const val TYPE_AGENDA = "agenda_entry"
         const val TYPE_GOAL = "goal"
         const val TYPE_ARCHIVED_GOAL = "archived_goal"

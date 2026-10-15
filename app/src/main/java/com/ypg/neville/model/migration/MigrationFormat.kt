@@ -10,7 +10,7 @@ import java.util.Base64
 object MigrationFormat {
     const val FORMAT_NAME = "com.ypg.neville.ndjson.export"
     const val FORMAT_VERSION = 2
-    const val SCHEMA_VERSION = 1
+    const val SCHEMA_VERSION = 2
     const val MAGIC = "YPGEXP-2"
     const val CIPHER = "AES-256-GCM"
     const val KDF = "ARGON2ID"

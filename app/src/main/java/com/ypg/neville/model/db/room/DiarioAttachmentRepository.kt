@@ -8,6 +8,7 @@ import android.net.Uri
 import androidx.core.content.FileProvider
 import androidx.documentfile.provider.DocumentFile
 import com.ypg.neville.model.security.PostQuantumAesTextCrypto
+import com.ypg.neville.model.subscription.SubscriptionManager
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.UUID
@@ -33,6 +34,7 @@ class DiarioAttachmentRepository(
         attachmentDao.getCounts().associate { it.diarioId to it.count }
 
     fun readPending(uri: Uri): PendingDiarioAttachment {
+        requirePremiumAccess()
         val resolver = context.contentResolver
         val document = DocumentFile.fromSingleUri(context, uri)
         val mimeType = resolver.getType(uri).orEmpty().ifBlank { "application/octet-stream" }
@@ -48,15 +50,18 @@ class DiarioAttachmentRepository(
     }
 
     fun insertPending(diarioId: Long, pending: PendingDiarioAttachment): DiarioAttachmentEntity {
+        requirePremiumAccess()
         require(diarioDao.getById(diarioId) != null) { "La entrada del Diario ya no existe" }
         val attachmentId = UUID.randomUUID().toString()
+        val now = System.currentTimeMillis()
         val entity = DiarioAttachmentEntity(
             id = attachmentId,
             diarioId = diarioId,
             fileName = pending.fileName,
             mimeType = pending.mimeType,
             fileSize = pending.data.size.toLong(),
-            createdAt = System.currentTimeMillis(),
+            createdAt = now,
+            updatedAt = now,
             encryptedData = PostQuantumAesTextCrypto.encryptBytes(
                 pending.data,
                 attachmentAad(attachmentId)
@@ -70,6 +75,7 @@ class DiarioAttachmentRepository(
     }
 
     fun importUris(diarioId: Long, uris: List<Uri>): Int {
+        requirePremiumAccess()
         var imported = 0
         uris.forEach { uri ->
             insertPending(diarioId, readPending(uri))
@@ -79,6 +85,7 @@ class DiarioAttachmentRepository(
     }
 
     fun rename(attachment: DiarioAttachmentEntity, proposedName: String) {
+        requirePremiumAccess()
         val trimmed = proposedName.trim()
         require(trimmed.isNotEmpty()) { "El nombre del archivo no puede estar vacío" }
         val existingExtension = attachment.fileName.substringAfterLast('.', "")
@@ -88,22 +95,24 @@ class DiarioAttachmentRepository(
             "$trimmed.$existingExtension"
         }
         database.runInTransaction {
-            attachmentDao.rename(attachment.id, finalName)
+            attachmentDao.rename(attachment.id, finalName, System.currentTimeMillis())
             diarioDao.touch(attachment.diarioId)
         }
     }
 
     fun move(attachment: DiarioAttachmentEntity, destinationDiarioId: Long) {
+        requirePremiumAccess()
         if (attachment.diarioId == destinationDiarioId) return
         require(diarioDao.getById(destinationDiarioId) != null) { "La entrada de destino ya no existe" }
         database.runInTransaction {
-            attachmentDao.move(attachment.id, destinationDiarioId)
+            attachmentDao.move(attachment.id, destinationDiarioId, System.currentTimeMillis())
             diarioDao.touch(attachment.diarioId)
             diarioDao.touch(destinationDiarioId)
         }
     }
 
     fun delete(attachment: DiarioAttachmentEntity) {
+        requirePremiumAccess()
         database.runInTransaction {
             attachmentDao.delete(attachment)
             diarioDao.touch(attachment.diarioId)
@@ -111,12 +120,14 @@ class DiarioAttachmentRepository(
     }
 
     fun exportTo(attachment: DiarioAttachmentEntity, destination: Uri) {
+        requirePremiumAccess()
         val clearData = decryptedData(attachment)
         context.contentResolver.openOutputStream(destination, "w")?.use { it.write(clearData) }
             ?: error("No se pudo crear el archivo de destino")
     }
 
     fun decryptedData(attachment: DiarioAttachmentEntity): ByteArray {
+        requirePremiumAccess()
         require(attachment.cryptoVersion == 1) { "Versión de cifrado no compatible" }
         return PostQuantumAesTextCrypto.decryptBytes(
             attachment.encryptedData,
@@ -129,28 +140,33 @@ class DiarioAttachmentRepository(
         clearData: ByteArray,
         mimeType: String
     ): DiarioAttachmentEntity {
+        requirePremiumAccess()
         require(mimeType.startsWith("image/")) { "El archivo editado debe ser una imagen" }
         val encryptedData = PostQuantumAesTextCrypto.encryptBytes(
             clearData,
             attachmentAad(attachment.id)
         )
+        val updatedAt = System.currentTimeMillis()
         database.runInTransaction {
             attachmentDao.replaceData(
                 id = attachment.id,
                 mimeType = mimeType,
                 fileSize = clearData.size.toLong(),
-                encryptedData = encryptedData
+                encryptedData = encryptedData,
+                updatedAt = updatedAt
             )
             diarioDao.touch(attachment.diarioId)
         }
         return attachment.copy(
             mimeType = mimeType,
             fileSize = clearData.size.toLong(),
-            encryptedData = encryptedData
+            encryptedData = encryptedData,
+            updatedAt = updatedAt
         )
     }
 
     fun openAttachment(attachment: DiarioAttachmentEntity) {
+        requirePremiumAccess()
         val cacheDirectory = File(context.cacheDir, "diary_attachments").apply { mkdirs() }
         val safeName = attachment.fileName
             .replace(Regex("[^A-Za-z0-9._ -]"), "_")
@@ -204,6 +220,12 @@ class DiarioAttachmentRepository(
     }
 
     private fun attachmentAad(id: String): String = "diary-attachment:$id"
+
+    private fun requirePremiumAccess() {
+        check(SubscriptionManager.hasVerifiedActiveSubscriptionNow()) {
+            context.getString(com.ypg.neville.R.string.diary_attachments_premium_required)
+        }
+    }
 
     companion object {
         private const val IMAGE_QUALITY = 82

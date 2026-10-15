@@ -25,6 +25,7 @@ data class DiarioAttachmentEntity(
     val mimeType: String,
     val fileSize: Long,
     val createdAt: Long,
+    val updatedAt: Long = createdAt,
     val cryptoVersion: Int = 1,
     val encryptedData: ByteArray
 )

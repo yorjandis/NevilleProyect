@@ -22,8 +22,12 @@ object MigrationIds {
     }
 
     fun sha256Hex(value: String): String {
+        return sha256Hex(value.toByteArray(Charsets.UTF_8))
+    }
+
+    fun sha256Hex(value: ByteArray): String {
         return MessageDigest.getInstance("SHA-256")
-            .digest(value.toByteArray(Charsets.UTF_8))
+            .digest(value)
             .joinToString("") { "%02x".format(it) }
     }
 }

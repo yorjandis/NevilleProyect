@@ -16,7 +16,8 @@ class MyAppMigrationService(
 ) {
     suspend fun exportBytes(
         password: CharArray,
-        includedTypes: Set<String>? = null
+        includedTypes: Set<String>? = null,
+        allowEmpty: Boolean = false
     ): Result<EncryptedExport> {
         return withContext(Dispatchers.IO) {
             runCatching {
@@ -25,9 +26,13 @@ class MyAppMigrationService(
                     NevilleRoomDatabase.getInstance(context.applicationContext)
                 )
                 val records = bridge.exportRecords().let { all ->
-                    if (includedTypes.isNullOrEmpty()) all else all.filter { it.type in includedTypes }
+                    if (includedTypes.isNullOrEmpty()) all else all.filter {
+                        it.type in includedTypes ||
+                            (it.type == NevilleMigrationRoomBridge.TYPE_DIARY_ATTACHMENT &&
+                                NevilleMigrationRoomBridge.TYPE_DIARY in includedTypes)
+                    }
                 }
-                require(records.isNotEmpty()) { "No hay elementos para transferir" }
+                require(allowEmpty || records.isNotEmpty()) { "No hay elementos para transferir" }
                 encryptRecords(password, records)
             }
         }

@@ -305,4 +305,8 @@
     <string name="diary_stats_weekday_thu">J</string>
     <string name="diary_stats_weekday_fri">V</string>
     <string name="diary_stats_weekday_sat">S</string>
+    <string name="diary_attachments_premium_title">Anexos cifrados en el Diario</string>
+    <string name="diary_attachments_premium_description">Añade archivos, fotos y documentos a tus entradas. Cada anexo permanece unido a su recuerdo y protegido mediante cifrado fuerte.</string>
+    <string name="diary_attachments_premium_required">Los anexos del Diario requieren acceso Premium.</string>
+    <string name="paywall_reason_diary_attachments">Los anexos cifrados del Diario forman parte de la suscripción anual.</string>
 </resources>

@@ -87,5 +87,7 @@ data class ImportPreview(
 enum class ImportPolicy {
     SkipExisting,
     OverwriteExisting,
-    NewerWins
+    NewerWins,
+    NewerWinsIncomingOnTie,
+    NewerWinsExistingOnTie
 }

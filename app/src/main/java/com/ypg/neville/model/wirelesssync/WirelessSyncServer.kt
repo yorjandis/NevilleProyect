@@ -39,7 +39,7 @@ sealed interface WirelessSyncServerState {
     data class Ready(val descriptor: WirelessSessionDescriptor) : WirelessSyncServerState
     data object Connected : WirelessSyncServerState
     data object Transferring : WirelessSyncServerState
-    data class Completed(val message: String) : WirelessSyncServerState
+    data class Completed(val summary: WirelessTransferSummary) : WirelessSyncServerState
     data class Failed(val message: String) : WirelessSyncServerState
 }
 
@@ -95,7 +95,8 @@ class WirelessSyncServer(
             serviceName = serviceName,
             secret = secret,
             expiresAtEpochSeconds = System.currentTimeMillis() / 1000 + SESSION_TTL_SECONDS,
-            network = networkCredentials
+            network = networkCredentials,
+            includedTypes = includedTypes
         )
         registerService(serviceName, sessionId, socket.localPort)
         mutableState.value = WirelessSyncServerState.Ready(descriptor)
@@ -114,6 +115,7 @@ class WirelessSyncServer(
         when (direction) {
             WirelessSyncDirection.AndroidToIos -> sendPackage(input, output, descriptor)
             WirelessSyncDirection.IosToAndroid -> receivePackage(input, output, descriptor)
+            WirelessSyncDirection.Bidirectional -> synchronizeBothWays(input, output, descriptor)
         }
     }
 
@@ -158,11 +160,17 @@ class WirelessSyncServer(
             WirelessFrameCodec.write(output, WirelessFrameCodec.PACKAGE, export.bytes)
             val result = WirelessFrameCodec.read(input)
             require(result.type == WirelessFrameCodec.RESULT) { "El iPhone no confirmó la importación" }
-            val message = JSONObject(String(result.payload, Charsets.UTF_8)).optString(
-                "message",
-                "Transferencia completada"
+            val remoteResult = WirelessImportResult.fromJson(result.payload)
+            mutableState.value = WirelessSyncServerState.Completed(
+                WirelessTransferSummary(
+                    direction = direction,
+                    sent = export.countsByType.values.sum(),
+                    received = 0,
+                    localImport = WirelessImportResult.Empty,
+                    remoteImport = remoteResult
+                )
             )
-            mutableState.value = WirelessSyncServerState.Completed(message)
+            export.bytes.fill(0)
         } finally {
             password.fill('\u0000')
         }
@@ -177,25 +185,85 @@ class WirelessSyncServer(
         require(frame.type == WirelessFrameCodec.PACKAGE) { "No se recibió ningún paquete" }
         val password = descriptor.secret.toCharArray()
         try {
-            val preview = migrationService.previewBytes(frame.payload, password).getOrThrow()
-            require(preview.errors.isEmpty()) { "El paquete contiene registros inválidos" }
-            val summary = migrationService.importPreview(preview, ImportPolicy.NewerWins).getOrThrow()
-            val message = summary.localizedMessage()
-            val result = JSONObject()
-                .put("inserted", summary.inserted)
-                .put("updated", summary.updated)
-                .put("skipped", summary.skipped)
-                .put("conflicts", summary.conflicts)
-                .put("errors", summary.errors)
-                .put("message", message)
-                .toString()
-                .toByteArray(Charsets.UTF_8)
-            WirelessFrameCodec.write(output, WirelessFrameCodec.RESULT, result)
-            mutableState.value = WirelessSyncServerState.Completed(message)
+            val (received, localResult) = importPackage(frame.payload, password, ImportPolicy.NewerWins)
+            WirelessFrameCodec.write(output, WirelessFrameCodec.RESULT, localResult.toJsonBytes())
+            mutableState.value = WirelessSyncServerState.Completed(
+                WirelessTransferSummary(
+                    direction = direction,
+                    sent = 0,
+                    received = received,
+                    localImport = localResult,
+                    remoteImport = WirelessImportResult.Empty
+                )
+            )
         } finally {
             password.fill('\u0000')
             frame.payload.fill(0)
         }
+    }
+
+    private suspend fun synchronizeBothWays(
+        input: DataInputStream,
+        output: DataOutputStream,
+        descriptor: WirelessSessionDescriptor
+    ) {
+        val password = descriptor.secret.toCharArray()
+        var outgoingBytes: ByteArray? = null
+        try {
+            // Both snapshots are created before either side imports, preventing the
+            // first half of the exchange from contaminating the return package.
+            val export = migrationService.exportBytes(
+                password,
+                includedTypes,
+                allowEmpty = true
+            ).getOrThrow()
+            outgoingBytes = export.bytes
+            WirelessFrameCodec.write(output, WirelessFrameCodec.PACKAGE, export.bytes)
+
+            val iosImportFrame = WirelessFrameCodec.read(input)
+            require(iosImportFrame.type == WirelessFrameCodec.RESULT) {
+                "El iPhone no confirmó la primera parte de la sincronización"
+            }
+            val remoteResult = WirelessImportResult.fromJson(iosImportFrame.payload)
+
+            val incomingFrame = WirelessFrameCodec.read(input)
+            require(incomingFrame.type == WirelessFrameCodec.PACKAGE) {
+                "No se recibió el paquete de retorno del iPhone"
+            }
+            try {
+                val (received, localResult) = importPackage(
+                    incomingFrame.payload,
+                    password,
+                    ImportPolicy.NewerWinsExistingOnTie
+                )
+                WirelessFrameCodec.write(output, WirelessFrameCodec.RESULT, localResult.toJsonBytes())
+                mutableState.value = WirelessSyncServerState.Completed(
+                    WirelessTransferSummary(
+                        direction = direction,
+                        sent = export.countsByType.values.sum(),
+                        received = received,
+                        localImport = localResult,
+                        remoteImport = remoteResult
+                    )
+                )
+            } finally {
+                incomingFrame.payload.fill(0)
+            }
+        } finally {
+            outgoingBytes?.fill(0)
+            password.fill('\u0000')
+        }
+    }
+
+    private suspend fun importPackage(
+        bytes: ByteArray,
+        password: CharArray,
+        policy: ImportPolicy
+    ): Pair<Int, WirelessImportResult> {
+        val preview = migrationService.previewBytes(bytes, password).getOrThrow()
+        require(preview.errors.isEmpty()) { "El paquete contiene registros inválidos" }
+        val summary = migrationService.importPreview(preview, policy).getOrThrow()
+        return preview.records.size to WirelessImportResult.from(summary, summary.localizedMessage())
     }
 
     private fun MigrationSummary.localizedMessage(): String {

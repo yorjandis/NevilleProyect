@@ -305,4 +305,8 @@
     <string name="diary_stats_weekday_thu">T</string>
     <string name="diary_stats_weekday_fri">F</string>
     <string name="diary_stats_weekday_sat">S</string>
+    <string name="diary_attachments_premium_title">Encrypted Journal attachments</string>
+    <string name="diary_attachments_premium_description">Add files, photos, and documents to your entries. Each attachment stays connected to its memory and protected with strong encryption.</string>
+    <string name="diary_attachments_premium_required">Journal attachments require Premium access.</string>
+    <string name="paywall_reason_diary_attachments">Encrypted Journal attachments are included with the annual subscription.</string>
 </resources>
