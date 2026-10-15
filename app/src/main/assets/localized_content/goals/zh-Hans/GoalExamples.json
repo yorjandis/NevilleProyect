@@ -1,0 +1,212 @@
+{
+  "meditacion-diaria": {
+    "category": "身心健康",
+    "title": "冥想 10 分钟",
+    "details": "每天早晨留出一段安静的时间，专注呼吸，以更清醒平和的状态开始新的一天。",
+    "configurationSummary": "每天 · 早晨 · 持续 30 天",
+    "customUnitLabel": "分钟"
+  },
+  "caminar-cinco-km": {
+    "category": "健康",
+    "title": "步行 5 公里",
+    "details": "进行一次节奏稍快的步行，逐步提升耐力，同时让头脑放松下来。",
+    "configurationSummary": "每周一、周三和周五 · 下午 · 共 36 次",
+    "customUnitLabel": "公里"
+  },
+  "leer-libros": {
+    "category": "学习",
+    "title": "阅读 20 页",
+    "details": "每晚读一会儿书，用阅读替代一部分屏幕时间，并让进度持续积累。",
+    "configurationSummary": "每天 · 夜间 · 共 25 次",
+    "customUnitLabel": "页"
+  },
+  "entrenamiento-fuerza": {
+    "category": "运动",
+    "title": "进行 45 分钟力量训练",
+    "details": "完成一套包含热身、主要动作和放松整理的完整力量训练。",
+    "configurationSummary": "每周二、周四和周六 · 18:30 · 共 24 次",
+    "customUnitLabel": "分钟"
+  },
+  "ahorro-mensual": {
+    "category": "财务",
+    "title": "每月存下 100 欧元",
+    "details": "月初先把储蓄金额转出，并与日常消费账户分开存放。",
+    "configurationSummary": "每月 · 100 欧元 · 共 12 次",
+    "customUnitLabel": "欧元"
+  },
+  "llamar-familia": {
+    "category": "人际关系",
+    "title": "给家人打电话",
+    "details": "留出一段不赶时间的通话，聊聊彼此的近况，用心维护重要的关系。",
+    "configurationSummary": "每周日 · 下午 · 共 12 次通话",
+    "customUnitLabel": "次通话"
+  },
+  "beber-agua": {
+    "category": "健康",
+    "title": "每天喝 8 杯水",
+    "details": "把饮水分散在一天中，并在当天结束时记录自己是否达到了充足的饮水量。",
+    "configurationSummary": "每天 · 8 杯 · 持续 30 天",
+    "customUnitLabel": "杯"
+  },
+  "ordenar-casa": {
+    "category": "家居",
+    "title": "整理家中的一个区域",
+    "details": "选择一个抽屉、柜子或角落，清理不再需要的物品，并整理成容易长期保持的状态。",
+    "configurationSummary": "每周六 · 早晨 · 共 8 个区域",
+    "customUnitLabel": "个区域"
+  },
+  "estudiar-idioma": {
+    "category": "学习",
+    "title": "学习外语 30 分钟",
+    "details": "在一次简短但稳定的学习中，结合词汇、理解和口语练习。",
+    "configurationSummary": "每周一至周五 · 20:00 · 持续 3 个月",
+    "customUnitLabel": "分钟"
+  },
+  "escritura-creativa": {
+    "category": "创意",
+    "title": "写作 500 字",
+    "details": "先专注完成初稿，不边写边修改，让故事、日记或个人项目持续向前推进。",
+    "configurationSummary": "每 2 天 · 早晨 · 共 30 次",
+    "customUnitLabel": "字"
+  },
+  "desconexion-digital": {
+    "category": "数字健康",
+    "title": "远离手机 2 小时",
+    "details": "把手机放到拿不到的地方，每周给自己一个没有社交媒体和通知打扰的下午。",
+    "configurationSummary": "每周日 · 17:00 · 共 12 次",
+    "customUnitLabel": "小时"
+  },
+  "revisiones-preventivas": {
+    "category": "规划",
+    "title": "完成预防性健康检查",
+    "details": "设置三个里程碑：预约、完成检查，以及查看并妥善保存检查结果。",
+    "configurationSummary": "3 个指定日期 · 分别在 7、30 和 60 天后",
+    "customUnitLabel": "项检查"
+  },
+  "pausa-visual": {
+    "category": "数字健康",
+    "title": "让眼睛休息 20 秒",
+    "details": "把视线从屏幕移开，注视远处的物体，缓解高强度工作时的视觉疲劳。",
+    "configurationSummary": "每 30 分钟 · 20 秒 · 共 12 次",
+    "customUnitLabel": "秒"
+  },
+  "pausa-activa": {
+    "category": "健康",
+    "title": "进行 5 分钟活动休息",
+    "details": "站起来活动肩部和髋部，再走动片刻，打断长时间久坐。",
+    "configurationSummary": "每 2 小时 · 5 分钟 · 共 8 次",
+    "customUnitLabel": "分钟"
+  },
+  "revision-semanal": {
+    "category": "规划",
+    "title": "进行每周复盘",
+    "details": "回顾承诺和进展，处理未完成事项，并选出下一周最重要的三件事。",
+    "configurationSummary": "每周 · 30 分钟 · 持续 3 个月",
+    "customUnitLabel": "分钟"
+  },
+  "salida-naturaleza": {
+    "category": "身心健康",
+    "title": "在自然环境中度过 90 分钟",
+    "details": "去公园、森林或其他自然环境中从容散步，并有意识地观察和感受周围的一切。",
+    "configurationSummary": "每 2 周 · 90 分钟 · 持续 6 个月",
+    "customUnitLabel": "分钟"
+  },
+  "limpieza-digital-mensual": {
+    "category": "整理",
+    "title": "整理 50 个电子文件",
+    "details": "删除重复文件，归档有用资料并清空下载目录，让数字空间保持清晰易用。",
+    "configurationSummary": "每月 · 50 个文件 · 共 6 次",
+    "customUnitLabel": "个文件"
+  },
+  "chequeo-anual": {
+    "category": "健康",
+    "title": "完成年度预防性体检",
+    "details": "向医疗专业人员了解适合自己年龄和病史的检查项目，并及时跟进检查结果。",
+    "configurationSummary": "每年 · 1 次体检 · 持续 3 年",
+    "customUnitLabel": "次体检"
+  },
+  "diario-gratitud": {
+    "category": "身心健康",
+    "title": "写下 3 件值得感恩的事",
+    "details": "记录具体的经历、重要的人或细微的美好时刻，培养对一天更平衡的看法。",
+    "configurationSummary": "每周一、周三和周五 · 夜间 · 持续 8 周",
+    "customUnitLabel": "件"
+  },
+  "luz-natural": {
+    "category": "睡眠",
+    "title": "接受 15 分钟自然光照",
+    "details": "在一天开始时到户外接触自然光，帮助调节昼夜节律、提升白天清醒度并改善夜间睡眠。",
+    "configurationSummary": "每天 · 早晨 · 持续 6 周",
+    "customUnitLabel": "分钟"
+  },
+  "planificar-comidas": {
+    "category": "营养",
+    "title": "规划 5 顿健康餐",
+    "details": "选择简单的菜式，检查现有食材并列出购物清单，减少临时冲动选择。",
+    "configurationSummary": "每周日 · 11:00 · 持续 3 个月",
+    "customUnitLabel": "顿饭"
+  },
+  "yoga-matutino": {
+    "category": "运动",
+    "title": "练习瑜伽 25 分钟",
+    "details": "结合关节活动、呼吸和基础体式，让身体在清晨舒展开来，也让注意力更集中。",
+    "configurationSummary": "每周二和周四 · 07:00 · 持续 8 周",
+    "customUnitLabel": "分钟"
+  },
+  "trabajo-profundo": {
+    "category": "效率",
+    "title": "完成 90 分钟深度工作",
+    "details": "关闭通知，明确一项重要任务，并在过程中不切换情境，专注完成核心工作。",
+    "configurationSummary": "每周一至周五 · 09:00 · 共 40 次",
+    "customUnitLabel": "分钟"
+  },
+  "cocinar-cenas-saludables": {
+    "category": "营养",
+    "title": "做一顿健康晚餐",
+    "details": "用少加工的食材准备晚餐，搭配蔬菜、蛋白质和适量主食。",
+    "configurationSummary": "每周一、周三和周日 · 夜间 · 共 24 顿",
+    "customUnitLabel": "顿晚餐"
+  },
+  "rutina-sueno": {
+    "category": "睡眠",
+    "title": "完成 30 分钟睡前流程",
+    "details": "调暗灯光，放下电子屏幕，为第二天做好准备，并在睡前进行一项安静放松的活动。",
+    "configurationSummary": "每天 · 夜间 · 持续 6 周",
+    "customUnitLabel": "分钟"
+  },
+  "reflexion-terapeutica": {
+    "category": "自我觉察",
+    "title": "完成 4 次引导式反思",
+    "details": "利用每次反思识别重复模式、准备问题、记录领悟，并确定一个切实可行的下一步。",
+    "configurationSummary": "4 个指定日期 · 下午 · 每 2 周一次",
+    "customUnitLabel": "次"
+  },
+  "revision-valores": {
+    "category": "个人成长",
+    "title": "审视自己的价值观和优先事项",
+    "details": "写下现阶段真正重要的事、时间实际花在了哪里，以及自己想做出的一项具体调整。",
+    "configurationSummary": "4 个指定日期 · 夜间 · 分别在 1、3、6 和 12 个月后",
+    "customUnitLabel": "次审视"
+  },
+  "aprendizaje-primeros-auxilios": {
+    "category": "学习",
+    "title": "完成一门急救课程",
+    "details": "把学习分成四个里程碑：基础理论、实践技能、紧急情况复习和最终考核。",
+    "configurationSummary": "4 个指定日期 · 任意时间 · 在 2 个月内完成",
+    "customUnitLabel": "个模块"
+  },
+  "acto-amabilidad": {
+    "category": "人际关系",
+    "title": "有意识地做一件善意小事",
+    "details": "主动提供帮助，具体地表达感谢，或全心倾听一个人，不期待任何回报。",
+    "configurationSummary": "每周二和周五 · 下午 · 持续 10 周",
+    "customUnitLabel": "件"
+  },
+  "voluntariado": {
+    "category": "人生意义",
+    "title": "为公益投入 2 小时",
+    "details": "定期参与符合个人价值观、也回应社区实际需要的本地公益项目。",
+    "configurationSummary": "每月 · 2 小时 · 共 6 次",
+    "customUnitLabel": "小时"
+  }
+}

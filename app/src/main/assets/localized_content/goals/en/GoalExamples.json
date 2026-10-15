@@ -1,0 +1,212 @@
+{
+  "meditacion-diaria": {
+    "category": "Well-being",
+    "title": "Meditate for 10 minutes",
+    "details": "Set aside a quiet moment each morning to breathe and begin the day with a clearer mind.",
+    "configurationSummary": "Every day · morning · for 30 days",
+    "customUnitLabel": "minutes"
+  },
+  "caminar-cinco-km": {
+    "category": "Health",
+    "title": "Walk 5 km",
+    "details": "Take a brisk walk to build stamina and clear your mind.",
+    "configurationSummary": "Mondays, Wednesdays, and Fridays · afternoon · 36 walks",
+    "customUnitLabel": "km"
+  },
+  "leer-libros": {
+    "category": "Learning",
+    "title": "Read 20 pages",
+    "details": "Make progress in a book each night and replace a little screen time with reading.",
+    "configurationSummary": "Every day · evening · 25 reading sessions",
+    "customUnitLabel": "pages"
+  },
+  "entrenamiento-fuerza": {
+    "category": "Fitness",
+    "title": "Strength train for 45 minutes",
+    "details": "Complete a full strength session with a warm-up, main exercises, and a cool-down.",
+    "configurationSummary": "Tuesdays, Thursdays, and Saturdays · 6:30 PM · 24 workouts",
+    "customUnitLabel": "minutes"
+  },
+  "ahorro-mensual": {
+    "category": "Finances",
+    "title": "Save €100 each month",
+    "details": "Set the money aside at the start of the month and keep it separate from everyday spending.",
+    "configurationSummary": "Every month · €100 · 12 deposits",
+    "customUnitLabel": "euros"
+  },
+  "llamar-familia": {
+    "category": "Relationships",
+    "title": "Call my family",
+    "details": "Make time for an unhurried conversation to catch up and nurture the relationships that matter.",
+    "configurationSummary": "Sundays · afternoon · 12 calls",
+    "customUnitLabel": "call"
+  },
+  "beber-agua": {
+    "category": "Health",
+    "title": "Drink 8 glasses of water",
+    "details": "At the end of the day, record whether you stayed well hydrated by drinking regularly throughout the day.",
+    "configurationSummary": "Every day · 8 glasses · for 30 days",
+    "customUnitLabel": "glasses"
+  },
+  "ordenar-casa": {
+    "category": "Home",
+    "title": "Declutter one area at home",
+    "details": "Choose a drawer, cupboard, or corner, remove what you no longer need, and organize it in a way that is easy to maintain.",
+    "configurationSummary": "Saturdays · morning · 8 areas",
+    "customUnitLabel": "area"
+  },
+  "estudiar-idioma": {
+    "category": "Learning",
+    "title": "Study a language for 30 minutes",
+    "details": "Combine vocabulary, comprehension, and speaking practice in a short but consistent session.",
+    "configurationSummary": "Monday through Friday · 8:00 PM · for 3 months",
+    "customUnitLabel": "minutes"
+  },
+  "escritura-creativa": {
+    "category": "Creativity",
+    "title": "Write 500 words",
+    "details": "Draft without editing so you can make steady progress on a story, journal, or personal project.",
+    "configurationSummary": "Every 2 days · morning · 30 writing sessions",
+    "customUnitLabel": "words"
+  },
+  "desconexion-digital": {
+    "category": "Digital well-being",
+    "title": "Stay off my phone for 2 hours",
+    "details": "Leave your phone out of reach and enjoy one afternoon each week without social media or notifications.",
+    "configurationSummary": "Sundays · 5:00 PM · 12 times",
+    "customUnitLabel": "hours"
+  },
+  "revisiones-preventivas": {
+    "category": "Planning",
+    "title": "Complete my preventive health checkups",
+    "details": "Plan three milestones: book the appointment, attend the checkup, and review or file the results.",
+    "configurationSummary": "3 specific dates · in 7, 30, and 60 days",
+    "customUnitLabel": "checkup"
+  },
+  "pausa-visual": {
+    "category": "Digital health",
+    "title": "Rest my eyes for 20 seconds",
+    "details": "Look away from the screen and focus on something in the distance to ease eye strain during an intensive workday.",
+    "configurationSummary": "Every 30 minutes · 20 seconds · 12 times",
+    "customUnitLabel": "seconds"
+  },
+  "pausa-activa": {
+    "category": "Health",
+    "title": "Take a 5-minute movement break",
+    "details": "Stand up, loosen your shoulders and hips, and walk around briefly to break up long periods of sitting.",
+    "configurationSummary": "Every 2 hours · 5 minutes · 8 breaks",
+    "customUnitLabel": "minutes"
+  },
+  "revision-semanal": {
+    "category": "Planning",
+    "title": "Do a weekly review",
+    "details": "Review your commitments, celebrate progress, close open loops, and choose your top three priorities for the coming week.",
+    "configurationSummary": "Every week · 30 minutes · for 3 months",
+    "customUnitLabel": "minutes"
+  },
+  "salida-naturaleza": {
+    "category": "Well-being",
+    "title": "Spend 90 minutes in nature",
+    "details": "Visit a park, forest, or other natural setting, walk at an easy pace, and pay mindful attention to your surroundings.",
+    "configurationSummary": "Every 2 weeks · 90 minutes · for 6 months",
+    "customUnitLabel": "minutes"
+  },
+  "limpieza-digital-mensual": {
+    "category": "Organization",
+    "title": "Organize 50 digital files",
+    "details": "Delete duplicates, archive useful documents, and clear your downloads folder to keep your digital space manageable.",
+    "configurationSummary": "Every month · 50 files · 6 times",
+    "customUnitLabel": "files"
+  },
+  "chequeo-anual": {
+    "category": "Health",
+    "title": "Get an annual preventive checkup",
+    "details": "Ask a healthcare professional which screenings suit your age and medical history, then follow up on the results.",
+    "configurationSummary": "Every year · 1 checkup · for 3 years",
+    "customUnitLabel": "checkup"
+  },
+  "diario-gratitud": {
+    "category": "Well-being",
+    "title": "Write down 3 things I am grateful for",
+    "details": "Note specific experiences, people, or small positive moments to develop a more balanced view of your day.",
+    "configurationSummary": "Mondays, Wednesdays, and Fridays · evening · for 8 weeks",
+    "customUnitLabel": "things"
+  },
+  "luz-natural": {
+    "category": "Sleep",
+    "title": "Get 15 minutes of natural light",
+    "details": "Go outside early in the day to support your circadian rhythm, daytime alertness, and nighttime sleep.",
+    "configurationSummary": "Every day · morning · for 6 weeks",
+    "customUnitLabel": "minutes"
+  },
+  "planificar-comidas": {
+    "category": "Nutrition",
+    "title": "Plan 5 healthy meals",
+    "details": "Choose simple dishes, check the ingredients you already have, and prepare a shopping list to reduce impulse choices.",
+    "configurationSummary": "Sundays · 11:00 AM · for 3 months",
+    "customUnitLabel": "meals"
+  },
+  "yoga-matutino": {
+    "category": "Movement",
+    "title": "Practice yoga for 25 minutes",
+    "details": "Combine mobility, breathing, and foundational poses to begin the day with an active body and a focused mind.",
+    "configurationSummary": "Tuesdays and Thursdays · 7:00 AM · for 8 weeks",
+    "customUnitLabel": "minutes"
+  },
+  "trabajo-profundo": {
+    "category": "Productivity",
+    "title": "Complete 90 minutes of deep work",
+    "details": "Work on one important priority with notifications off, a clearly defined task, and no context switching.",
+    "configurationSummary": "Monday through Friday · 9:00 AM · 40 sessions",
+    "customUnitLabel": "minutes"
+  },
+  "cocinar-cenas-saludables": {
+    "category": "Nutrition",
+    "title": "Cook a healthy dinner",
+    "details": "Prepare a dinner based on minimally processed foods, with vegetables, protein, and a sensible portion size.",
+    "configurationSummary": "Mondays, Wednesdays, and Sundays · evening · 24 dinners",
+    "customUnitLabel": "dinner"
+  },
+  "rutina-sueno": {
+    "category": "Sleep",
+    "title": "Complete a 30-minute bedtime routine",
+    "details": "Dim the lights, put screens away, prepare for the next day, and do something calming before bed.",
+    "configurationSummary": "Every day · evening · for 6 weeks",
+    "customUnitLabel": "minutes"
+  },
+  "reflexion-terapeutica": {
+    "category": "Self-awareness",
+    "title": "Complete 4 guided reflection sessions",
+    "details": "Use each session to identify patterns, prepare questions, record insights, and choose one practical next step.",
+    "configurationSummary": "4 specific dates · afternoon · every 2 weeks",
+    "customUnitLabel": "session"
+  },
+  "revision-valores": {
+    "category": "Personal growth",
+    "title": "Review my values and priorities",
+    "details": "Write about what matters now, what is receiving your time, and one concrete adjustment you want to make.",
+    "configurationSummary": "4 specific dates · evening · in 1, 3, 6, and 12 months",
+    "customUnitLabel": "review"
+  },
+  "aprendizaje-primeros-auxilios": {
+    "category": "Learning",
+    "title": "Complete a first aid course",
+    "details": "Break the course into four milestones: core theory, practical skills, emergency review, and final assessment.",
+    "configurationSummary": "4 specific dates · any time · over 2 months",
+    "customUnitLabel": "module"
+  },
+  "acto-amabilidad": {
+    "category": "Relationships",
+    "title": "Perform one intentional act of kindness",
+    "details": "Offer help, express specific appreciation, or give someone your full attention without expecting anything in return.",
+    "configurationSummary": "Tuesdays and Fridays · afternoon · for 10 weeks",
+    "customUnitLabel": "act"
+  },
+  "voluntariado": {
+    "category": "Purpose",
+    "title": "Give 2 hours to a cause",
+    "details": "Contribute regularly to a local initiative that aligns with your values and your community's needs.",
+    "configurationSummary": "Every month · 2 hours · 6 times",
+    "customUnitLabel": "hours"
+  }
+}

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="wireless_sync_title">Wireless transfer</string>
+    <string name="wireless_sync_android_explanation">Android creates the secure link. Open Transfer Data on the iPhone and scan the code.</string>
+    <string name="wireless_sync_authentication">Authenticate to transfer your data securely</string>
+    <string name="wireless_sync_settings_description">Send or receive data directly through an encrypted local connection.</string>
+    <string name="wireless_sync_direction">Direction</string>
+    <string name="wireless_sync_send_to_iphone">Send to iPhone</string>
+    <string name="wireless_sync_receive_from_iphone">Receive from iPhone</string>
+    <string name="wireless_sync_everything">Transfer everything</string>
+    <string name="wireless_sync_connection">Connection</string>
+    <string name="wireless_sync_same_wifi">Same Wi-Fi</string>
+    <string name="wireless_sync_direct">Direct connection</string>
+    <string name="wireless_sync_wifi_hint">Both devices must be connected to the same Wi-Fi network.</string>
+    <string name="wireless_sync_direct_hint">Android will create a temporary local network without Internet access.</string>
+    <string name="wireless_sync_create_link">Create secure link</string>
+    <string name="wireless_sync_preparing">Preparing connection…</string>
+    <string name="wireless_sync_connected">iPhone connected. Verifying the session…</string>
+    <string name="wireless_sync_transferring">Transferring and importing…</string>
+    <string name="wireless_sync_completed">Transfer complete</string>
+    <string name="wireless_sync_close">Close</string>
+    <string name="wireless_sync_cancel">Cancel</string>
+    <string name="wireless_sync_permission_denied">Nearby devices permission is required to create a direct connection.</string>
+    <string name="wireless_sync_scan_on_iphone">Scan this code from the iPhone</string>
+    <string name="wireless_sync_qr_description">QR code for the secure link</string>
+    <string name="wireless_sync_link_expires">This single-use link expires in three minutes.</string>
+    <string name="wireless_sync_notes">Notes</string>
+    <string name="wireless_sync_diary">Journal</string>
+    <string name="wireless_sync_agenda">Schedule</string>
+    <string name="wireless_sync_goals">Active goals</string>
+    <string name="wireless_sync_archived_goals">Archived goals</string>
+    <string name="wireless_sync_phrases">Personal phrases</string>
+    <string name="wireless_sync_reflections">Personal reflections</string>
+    <string name="wireless_sync_rituals">Rituals</string>
+    <string name="wireless_sync_calm_phrases">Calm Space phrases</string>
+    <string name="wireless_sync_info_action">Information about transfers</string>
+    <string name="wireless_sync_info_title">About data transfer</string>
+    <string name="wireless_sync_info_utility_title">A simple way to move your data</string>
+    <string name="wireless_sync_info_utility">Transfer your information directly between your Android device and an iPhone. You can send all compatible content or select only the categories you need.</string>
+    <string name="wireless_sync_info_security_title">A private and secure operation</string>
+    <string name="wireless_sync_info_security">Your information is protected with strong encryption and travels only between the two linked devices. Your data is never published or stored on external services.</string>
+    <string name="wireless_sync_info_content_title">Content you can transfer</string>
+    <string name="wireless_sync_info_close">Close</string>
+</resources>
