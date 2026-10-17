@@ -339,8 +339,7 @@ class MainActivity : AppCompatActivity() {
         }
         if (
             (
-                destinationId == R.id.frag_voice_recordings ||
-                    destinationId == R.id.frag_emotional_anchors ||
+                destinationId == R.id.frag_emotional_anchors ||
                     destinationId == R.id.frag_emotional_anchor_create ||
                     destinationId == R.id.frag_emotional_anchor_run
                 ) &&

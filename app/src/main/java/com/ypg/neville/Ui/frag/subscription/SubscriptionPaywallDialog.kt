@@ -20,13 +20,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.material.icons.outlined.CalendarMonth
+import androidx.compose.material.icons.outlined.AttachFile
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.ContentPaste
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Event
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Lock
-import androidx.compose.material.icons.outlined.Mic
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Psychology
@@ -428,9 +428,9 @@ class SubscriptionPaywallDialog : DialogFragment() {
                 R.string.premium_emotional_anchors_description
             ),
             PremiumFeature(
-                Icons.Outlined.Mic,
-                R.string.premium_voice_notes_title,
-                R.string.premium_voice_notes_description
+                Icons.Outlined.AttachFile,
+                R.string.diary_attachments_premium_title,
+                R.string.diary_attachments_premium_description
             ),
             PremiumFeature(
                 Icons.Outlined.Event,

@@ -61,7 +61,7 @@ Required fields:
 - `format`
 - `formatVersion`
 - `createdAt`
-- `sourcePlatform`: `ios` or `android`
+- `sourcePlatform`: `ios`, `macos`, or `android`
 - `sourceAppVersion`
 - `schemaVersion`
 - `contentSummary`
@@ -97,3 +97,7 @@ Duplicate content rules for auto-increment-backed local entities:
 - `personal_phrase`: `payload.phrase`
 
 Dates and native database IDs are not used for those duplicate checks.
+
+Voice notes use the same note type as iOS. Their body starts with the marker
+`\u200B[[VOICE-NOTE]]`; the optional `voiceAudioData` field contains Base64-encoded
+audio and `voiceAudioFileExtension` identifies its format (normally `m4a`).

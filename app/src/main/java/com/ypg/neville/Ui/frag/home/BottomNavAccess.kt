@@ -37,7 +37,6 @@ enum class BottomNavAccess(
     Reminders("recordatorios", BottomNavAccessGroup.PRODUCTIVITY, R.string.home_nav_reminders, R.drawable.ic_calendar_toggle, R.id.frag_reminders),
     Ritual("morning_dialog", BottomNavAccessGroup.PRODUCTIVITY, R.string.home_nav_daily_ritual, R.drawable.ic_calendar_toggle, R.id.frag_morning_dialog),
     WeeklySummary("weekly_summary", BottomNavAccessGroup.PRODUCTIVITY, R.string.weekly_summary_title, R.drawable.ic_item, R.id.frag_weekly_summary),
-    Voice("voces", BottomNavAccessGroup.PRODUCTIVITY, R.string.voice_notes_title, R.drawable.ic_audio, R.id.frag_voice_recordings),
     Anchors("anclas", BottomNavAccessGroup.PRODUCTIVITY, R.string.anchors_title, R.drawable.ic_tips, R.id.frag_emotional_anchors),
     Calm("calma", BottomNavAccessGroup.PRODUCTIVITY, R.string.calm_title, R.drawable.ic_show, R.id.frag_calm_space),
     Coherence("cardio", BottomNavAccessGroup.PRODUCTIVITY, R.string.coherence_title, R.drawable.ic_tips, R.id.frag_cardio_coherence),

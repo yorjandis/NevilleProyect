@@ -143,7 +143,7 @@ class MyAppMigrationService(
         require(stringField(manifest, "format") == MigrationFormat.FORMAT_NAME) { "Formato no soportado" }
         require(intField(manifest, "formatVersion") == MigrationFormat.FORMAT_VERSION) { "Versión de formato no soportada" }
         require(intField(manifest, "schemaVersion") <= MigrationFormat.SCHEMA_VERSION) { "Schema no soportado" }
-        require(stringField(manifest, "sourcePlatform") in setOf("ios", "android")) { "Plataforma de origen inválida" }
+        require(stringField(manifest, "sourcePlatform") in setOf("ios", "macos", "android")) { "Plataforma de origen inválida" }
         val encryption = manifest.getJSONObject("encryption")
         require(stringField(encryption, "cipher") == MigrationFormat.CIPHER) { "Cifrado no soportado" }
         require(stringField(encryption, "kdf") == MigrationFormat.KDF) { "KDF no soportado" }

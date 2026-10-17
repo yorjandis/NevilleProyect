@@ -102,7 +102,6 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                                     "agenda" -> host?.openDestinationAsSheet(R.id.frag_agenda)
                                     "dialogo_matutino" -> host?.openDestinationAsSheet(R.id.frag_morning_dialog)
                                     "resumen_semanal" -> host?.openDestinationAsSheet(R.id.frag_weekly_summary)
-                                    "voces" -> host?.openDestinationAsSheet(R.id.frag_voice_recordings)
                                     "anclas" -> host?.openDestinationAsSheet(R.id.frag_emotional_anchors)
                                     "calma" -> host?.openDestinationAsSheet(R.id.frag_calm_space)
                                     "cardio" -> host?.openDestinationAsSheet(R.id.frag_cardio_coherence)
@@ -356,16 +355,6 @@ class HomeFloatingMenuBottomSheet : DialogFragment() {
                                     )
                                 },
                                 onClick = { showProductividad = false; onNavigate("resumen_semanal") }
-                            )
-                            DropdownMenuItem(
-                                text = { Text(stringResource(R.string.voice_notes_title)) },
-                                leadingIcon = {
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.ic_audio),
-                                        contentDescription = stringResource(R.string.voice_notes_title)
-                                    )
-                                },
-                                onClick = { showProductividad = false; onNavigate("voces") }
                             )
                             DropdownMenuItem(
                                 text = { Text(stringResource(R.string.anchors_title)) },

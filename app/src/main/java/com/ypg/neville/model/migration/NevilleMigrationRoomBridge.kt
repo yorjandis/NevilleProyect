@@ -12,6 +12,7 @@ import com.ypg.neville.model.db.room.GoalEntity
 import com.ypg.neville.model.db.room.GoalUnitEntity
 import com.ypg.neville.model.db.room.NevilleRoomDatabase
 import com.ypg.neville.model.db.room.NotaEntity
+import com.ypg.neville.model.db.room.NotaRepository
 import com.ypg.neville.model.db.room.ReflexionEntity
 import com.ypg.neville.model.db.room.SecureRoomText
 import com.ypg.neville.model.security.PostQuantumAesTextCrypto
@@ -23,7 +24,9 @@ class NevilleMigrationRoomBridge(
 ) {
     fun exportRecords(): List<CanonicalRecord> {
         return buildList {
-            db.notaDao().getAll().map(SecureRoomText::decryptNota).forEach { add(it.toCanonical()) }
+            // This also materializes audio left by the removed standalone voice-notes
+            // tool into the note BLOB before a wireless export can omit it.
+            NotaRepository(db.notaDao()).obtenerTodas().forEach { add(it.toCanonical()) }
             db.diarioDao().getAll().map(SecureRoomText::decryptDiario).forEach { diary ->
                 val parentRecord = diary.toCanonical()
                 add(parentRecord)
@@ -113,7 +116,11 @@ class NevilleMigrationRoomBridge(
                 }
                 val existing = stored?.let(SecureRoomText::decryptNota)
                 importStableRecord(record, existing?.toCanonical(), policy) {
-                    db.notaDao().insert(SecureRoomText.encryptNota(record.toNotaEntity(stored?.id ?: 0)))
+                    db.notaDao().insert(
+                        SecureRoomText.encryptNota(
+                            record.toNotaEntity(stored?.id ?: 0, existing)
+                        )
+                    )
                 }
             }
             TYPE_DIARY -> {
@@ -394,6 +401,14 @@ class NevilleMigrationRoomBridge(
                 left.payload.optString("fileName") == right.payload.optString("fileName") &&
                 left.payload.optString("mimeType") == right.payload.optString("mimeType")
         }
+        if (left.type == TYPE_NOTE) {
+            val sameIdentityAndDates = if (left.id == right.id) {
+                left.createdAt == right.createdAt && left.updatedAt == right.updatedAt
+            } else {
+                duplicateKey(left) == duplicateKey(right) && left.createdAt == right.createdAt
+            }
+            return sameIdentityAndDates && notePayloadsEquivalent(left.payload, right.payload)
+        }
         if (left.id == right.id) {
             return left.createdAt == right.createdAt &&
                 left.updatedAt == right.updatedAt &&
@@ -404,6 +419,28 @@ class NevilleMigrationRoomBridge(
         return leftKey != null && leftKey == rightKey &&
             left.createdAt == right.createdAt &&
             left.payload.toString() == right.payload.toString()
+    }
+
+    /**
+     * iOS versions that already understand the voice-note marker do not yet add
+     * the optional audio keys to their canonical payload. Missing keys therefore
+     * mean "audio not supplied", not "delete the audio".
+     */
+    private fun notePayloadsEquivalent(left: JSONObject, right: JSONObject): Boolean {
+        val commonFieldsMatch = left.optString("title") == right.optString("title") &&
+            left.optString("body") == right.optString("body") &&
+            left.optString("category") == right.optString("category") &&
+            left.optBoolean("favorite", false) == right.optBoolean("favorite", false) &&
+            left.optBoolean("isChecklist", false) == right.optBoolean("isChecklist", false) &&
+            left.optString("checklistJson") == right.optString("checklistJson")
+        if (!commonFieldsMatch) return false
+
+        val audioMatches = !left.has("voiceAudioData") || !right.has("voiceAudioData") ||
+            left.optString("voiceAudioData") == right.optString("voiceAudioData")
+        val extensionMatches = !left.has("voiceAudioFileExtension") ||
+            !right.has("voiceAudioFileExtension") ||
+            left.optString("voiceAudioFileExtension") == right.optString("voiceAudioFileExtension")
+        return audioMatches && extensionMatches
     }
 
     private fun NotaEntity.toCanonical(): CanonicalRecord {
@@ -417,6 +454,10 @@ class NevilleMigrationRoomBridge(
             .put("favorite", isFav)
             .put("isChecklist", isChecklist)
             .put("checklistJson", checklistJson)
+        voiceAudioData?.takeIf(ByteArray::isNotEmpty)?.let { audio ->
+            payload.put("voiceAudioData", MigrationFormat.encodeBase64(audio))
+            payload.put("voiceAudioFileExtension", voiceAudioFileExtension)
+        }
         val canonicalId = syncId.ifBlank { MigrationIds.stableId(TYPE_NOTE, "android", id) }
         return CanonicalRecord(TYPE_NOTE, canonicalId, created, updated, payload = payload)
     }
@@ -592,7 +633,12 @@ class NevilleMigrationRoomBridge(
             .put("completedDate", completedDate)
     }
 
-    private fun CanonicalRecord.toNotaEntity(localId: Long = 0): NotaEntity {
+    private fun CanonicalRecord.toNotaEntity(
+        localId: Long = 0,
+        existing: NotaEntity? = null
+    ): NotaEntity {
+        val suppliesAudio = payload.has("voiceAudioData")
+        val suppliesExtension = payload.has("voiceAudioFileExtension")
         return NotaEntity(
             id = localId,
             titulo = payload.getString("title"),
@@ -603,7 +649,19 @@ class NevilleMigrationRoomBridge(
             categoria = payload.optString("category", ""),
             isChecklist = payload.optBoolean("isChecklist", false),
             checklistJson = payload.optString("checklistJson", ""),
-            syncId = id
+            syncId = id,
+            voiceAudioData = if (suppliesAudio) {
+                payload.optString("voiceAudioData", "")
+                    .takeIf(String::isNotBlank)
+                    ?.let(MigrationFormat::decodeBase64)
+            } else {
+                existing?.voiceAudioData
+            },
+            voiceAudioFileExtension = if (suppliesExtension) {
+                payload.optString("voiceAudioFileExtension", "")
+            } else {
+                existing?.voiceAudioFileExtension.orEmpty()
+            }
         )
     }
 

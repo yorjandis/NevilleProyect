@@ -2,6 +2,8 @@ package com.ypg.neville.ui.frag
 
 import android.Manifest
 import android.content.Intent
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.MediaStore
@@ -35,6 +37,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -54,11 +57,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.FileProvider
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import com.ypg.neville.R
 import com.ypg.neville.model.db.room.DiarioAttachmentEntity
 import com.ypg.neville.model.db.room.DiarioAttachmentRepository
 import com.ypg.neville.model.db.room.DiarioEntity
 import com.ypg.neville.model.db.room.PendingDiarioAttachment
+import com.ypg.neville.model.subscription.SubscriptionManager
+import com.ypg.neville.ui.frag.SubscriptionPaywallDialog
 import java.io.File
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -73,6 +79,19 @@ internal fun PendingDiaryAttachmentsEditor(
     enabled: Boolean = true,
     showTitle: Boolean = true
 ) {
+    val context = LocalContext.current
+    val subscriptionState by SubscriptionManager.uiState.collectAsState()
+    val hasPremiumAccess = subscriptionState.isActive && subscriptionState.isEntitlementVerified
+
+    if (!hasPremiumAccess) {
+        DiaryAttachmentsPremiumPrompt(
+            modifier = modifier,
+            darkTheme = true,
+            onClick = { showDiaryAttachmentsPaywall(context) }
+        )
+        return
+    }
+
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(6.dp)) {
         if (showTitle) {
             Text(
@@ -120,6 +139,8 @@ internal fun DiaryAttachmentsSection(
     darkTheme: Boolean = false
 ) {
     val context = LocalContext.current
+    val subscriptionState by SubscriptionManager.uiState.collectAsState()
+    val hasPremiumAccess = subscriptionState.isActive && subscriptionState.isEntitlementVerified
     val repository = remember { DiarioAttachmentRepository(context.applicationContext) }
     val scope = rememberCoroutineScope()
     var refresh by remember { mutableIntStateOf(0) }
@@ -165,6 +186,15 @@ internal fun DiaryAttachmentsSection(
 
     LaunchedEffect(entry.id, refresh) {
         attachments = withContext(Dispatchers.IO) { repository.attachmentsFor(entry.id) }
+    }
+
+    if (!hasPremiumAccess) {
+        DiaryAttachmentsPremiumPrompt(
+            modifier = modifier,
+            darkTheme = darkTheme,
+            onClick = { showDiaryAttachmentsPaywall(context) }
+        )
+        return
     }
 
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -520,4 +550,36 @@ private fun attachmentIcon(mimeType: String): String = when {
     mimeType.contains("spreadsheet") || mimeType.contains("excel") -> "📊"
     mimeType.contains("presentation") || mimeType.contains("powerpoint") -> "📽️"
     else -> "📎"
+}
+
+@Composable
+private fun DiaryAttachmentsPremiumPrompt(
+    modifier: Modifier = Modifier,
+    darkTheme: Boolean,
+    onClick: () -> Unit
+) {
+    Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(6.dp)) {
+        Button(onClick = onClick, modifier = Modifier.fillMaxWidth()) {
+            Text("🔒  ${stringResource(R.string.diary_attachments_premium_title)}")
+        }
+        Text(
+            text = stringResource(R.string.diary_attachments_premium_description),
+            color = if (darkTheme) Color(0xFFD6DCE0) else Color(0xFF66757D),
+            fontSize = 12.sp
+        )
+    }
+}
+
+private fun showDiaryAttachmentsPaywall(context: Context) {
+    val activity = context.findFragmentActivity() ?: return
+    if (activity.supportFragmentManager.findFragmentByTag(SubscriptionPaywallDialog.TAG) != null) return
+    SubscriptionPaywallDialog.newInstance(
+        context.getString(R.string.paywall_reason_diary_attachments)
+    ).show(activity.supportFragmentManager, SubscriptionPaywallDialog.TAG)
+}
+
+private tailrec fun Context.findFragmentActivity(): FragmentActivity? = when (this) {
+    is FragmentActivity -> this
+    is ContextWrapper -> baseContext.findFragmentActivity()
+    else -> null
 }

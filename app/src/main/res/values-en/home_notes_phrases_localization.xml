@@ -139,6 +139,18 @@
     <string name="notes_hide_filters">Hide filters</string>
     <string name="notes_show_filters">Show filters</string>
     <string name="notes_menu">Notes menu</string>
+    <string name="notes_calculation_help_action">Calculation information</string>
+    <string name="notes_calculation_help_title">Calculations in Notes</string>
+    <string name="notes_calculation_help_syntax_title">Syntax</string>
+    <string name="notes_calculation_help_syntax_body">Each operation must start with an = sign. You can leave spaces immediately after the sign, but write the expression without spaces.\nExample: Purchase = 10+2*3</string>
+    <string name="notes_calculation_help_rules_title">Rules</string>
+    <string name="notes_calculation_help_rules_body">• Available operators: +, -, * and /.\n• You can use a comma or a period for decimals.\n• Multiplication and division are calculated before addition and subtraction.\n• Negative values are supported, for example: =-10+2.\n• Parentheses and percentages are not supported.\n• Invalid expressions and division by zero are not calculated.</string>
+    <string name="notes_calculation_help_examples_title">Examples</string>
+    <string name="notes_calculation_help_examples_body">Food =10+2*3  →  16\nTransport =4.5/2  →  2.25\n\nWhen the note is displayed, the result appears next to each operation.</string>
+    <string name="notes_calculation_help_total_title">Total</string>
+    <string name="notes_calculation_help_total_body">The Total adds the results of every valid operation in the text. In the example above it is 18.25. It updates while you edit the note.</string>
+    <string name="notes_calculation_help_checklist_title">Checklist calculations</string>
+    <string name="notes_calculation_help_checklist_body">Only the first operation in each task is counted. The description and the opening or closing notes are not included in the calculation.\n\nExample:\n☑ Bread =2+3\n☐ Milk =4\nTotal: 9 · Pending: 4\n\nTotal includes every task. Pending subtracts checked tasks and updates when you check or uncheck items.</string>
     <string name="notes_delete_selected_title">Delete selected notes</string>
     <string name="notes_change_category">Change category</string>
     <string name="notes_title_required">Enter a title</string>
@@ -260,4 +272,23 @@
     <plurals name="notes_moved_count"><item quantity="one">Moved %1$d note</item><item quantity="other">Moved %1$d notes</item></plurals>
     <plurals name="notes_selected_count"><item quantity="one">%1$d selected</item><item quantity="other">%1$d selected</item></plurals>
     <plurals name="notes_more_count"><item quantity="one">+%1$d more</item><item quantity="other">+%1$d more</item></plurals>
+
+    <string name="notes_new_voice_note">New voice note</string>
+    <string name="notes_voice_note">Voice note</string>
+    <string name="notes_manage_voice_note">Manage voice note</string>
+    <string name="notes_convert_to_voice_note">Convert to voice note</string>
+    <string name="notes_record_audio">Record audio</string>
+    <string name="notes_recording_in_progress">Recording voice note…</string>
+    <string name="notes_re_record_audio">Re-record</string>
+    <string name="notes_play_audio">Play audio</string>
+    <string name="notes_stop_audio">Stop audio</string>
+    <string name="notes_associated_text_optional">Associated note (optional)</string>
+    <string name="notes_recording_required">Record audio before saving the voice note.</string>
+    <string name="notes_mic_permission_denied">Microphone permission is required to record voice notes.</string>
+    <string name="notes_voice_title_label">Voice note title</string>
+    <string name="notes_required">Required</string>
+    <string name="notes_voice_recording_time">Duration: %1$s / %2$s</string>
+    <string name="notes_stop_recording">Stop recording</string>
+    <string name="notes_voice_record_error">The audio could not be recorded.</string>
+    <string name="notes_voice_play_error">The audio could not be played.</string>
 </resources>

@@ -124,8 +124,6 @@
     <string name="premium_scientific_evidence_description">Explore research related to these teachings through clear, easy-to-read summaries.</string>
     <string name="premium_emotional_anchors_title">Emotional Anchors</string>
     <string name="premium_emotional_anchors_description">Use a guided cognitive tool to navigate moments of stress.</string>
-    <string name="premium_voice_notes_title">Voice notes</string>
-    <string name="premium_voice_notes_description">Record and replay ideas or reflections without having to write them down.</string>
     <string name="premium_weekly_summary_title">Weekly Summary</string>
     <string name="premium_weekly_summary_description">Review key statistics and keep a history of your progress over time.</string>
     <string name="premium_protected_notes_title">Protected notes</string>

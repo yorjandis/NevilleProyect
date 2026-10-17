@@ -10,14 +10,21 @@ class AndroidVoicePlayerEngine : VoicePlayerEngine {
     override fun play(filePath: String, onCompletion: () -> Unit) {
         stop()
 
-        val player = MediaPlayer().apply {
-            setDataSource(filePath)
-            setOnCompletionListener {
-                stop()
-                onCompletion()
+        val player = MediaPlayer()
+        try {
+            player.apply {
+                setDataSource(filePath)
+                setOnCompletionListener {
+                    stop()
+                    onCompletion()
+                }
+                prepare()
+                start()
             }
-            prepare()
-            start()
+        } catch (error: Throwable) {
+            runCatching { player.reset() }
+            player.release()
+            throw error
         }
 
         mediaPlayer = player

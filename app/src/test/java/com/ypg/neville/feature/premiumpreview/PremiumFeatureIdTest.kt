@@ -29,7 +29,6 @@ class PremiumFeatureIdTest {
         expected.forEach { (destination, feature) ->
             assertEquals(feature, PremiumFeatureId.forDestination(destination))
         }
-        assertNull(PremiumFeatureId.forDestination(R.id.frag_voice_recordings))
         assertNull(PremiumFeatureId.forDestination(R.id.frag_emotional_anchors))
     }
 

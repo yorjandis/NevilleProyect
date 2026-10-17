@@ -1,8 +1,10 @@
 package com.ypg.neville.ui.frag
 
+import android.Manifest
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.CalendarContract
 import android.view.View
@@ -48,6 +50,10 @@ import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.FolderOpen
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Stop
+import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
@@ -61,6 +67,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -86,11 +93,17 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.fragment.app.Fragment
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import com.ypg.neville.MainActivity
 import com.ypg.neville.R
 import com.ypg.neville.feature.ai.ui.AiActionsMenuItem
 import com.ypg.neville.feature.ai.ui.AiNavigation
 import com.ypg.neville.feature.calmspace.data.CalmPersonalPhraseEntity
+import com.ypg.neville.feature.voice.media.AndroidVoicePlayerEngine
+import com.ypg.neville.feature.voice.media.AndroidVoiceRecorderEngine
+import com.ypg.neville.feature.voice.media.VoiceNoteAudioStore
 import com.ypg.neville.feature.translation.ui.NoteTranslationDialog
 import com.ypg.neville.feature.translation.ui.NoteTranslationDraft
 import com.ypg.neville.feature.reminders.ui.ReminderCreationDialog
@@ -109,9 +122,12 @@ import com.ypg.neville.model.subscription.SubscriptionManager
 import com.ypg.neville.model.utils.FraseContextActions
 import com.ypg.neville.model.utils.QRManager
 import java.text.DateFormat
+import java.io.File
 import java.util.Date
 import java.util.Locale
+import java.util.UUID
 import java.util.concurrent.Executors
+import kotlinx.coroutines.delay
 
 class FragNotas : Fragment() {
 
@@ -173,6 +189,10 @@ class FragNotas : Fragment() {
         var showSelectedCategoryDialog by remember { mutableStateOf(false) }
         var showConfirmDeleteSelected by remember { mutableStateOf(false) }
         var showEditor by remember { mutableStateOf(false) }
+        var showVoiceEditor by remember { mutableStateOf(false) }
+        var voiceNoteInEdition by remember { mutableStateOf<NotaEntity?>(null) }
+        var playingVoiceNoteId by remember { mutableStateOf<Long?>(null) }
+        val voicePlayer = remember { AndroidVoicePlayerEngine() }
         var notaExpandidaId by remember { mutableStateOf<Long?>(null) }
         var modoLista by remember { mutableStateOf(NotasListMode.POR_CATEGORIAS) }
         val categoriasPlegadas = remember { mutableStateListOf<String>() }
@@ -182,6 +202,7 @@ class FragNotas : Fragment() {
 
         var showFabMenu by remember { mutableStateOf(false) }
         var showFilterPanel by remember { mutableStateOf(false) }
+        var showArithmeticHelp by remember { mutableStateOf(false) }
 
         var filtroTitulo by remember { mutableStateOf("") }
         var filtroContenido by remember { mutableStateOf("") }
@@ -191,7 +212,7 @@ class FragNotas : Fragment() {
         val remindersPremiumReason = stringResource(R.string.notes_reminders_premium_reason)
 
         fun requestNoteTranslation(nota: NotaEntity) {
-            val hasContent = nota.nota.isNotBlank() ||
+            val hasContent = nota.noteDisplayText.isNotBlank() ||
                 NotaChecklistCodec.decode(nota.checklistJson).any { it.text.isNotBlank() }
             if (!hasContent) {
                 Toast.makeText(context, R.string.notes_empty_note, Toast.LENGTH_SHORT).show()
@@ -210,6 +231,10 @@ class FragNotas : Fragment() {
                     notas.addAll(data)
                 }
             }
+        }
+
+        DisposableEffect(Unit) {
+            onDispose { voicePlayer.release() }
         }
 
         LaunchedEffect(Unit) {
@@ -276,6 +301,21 @@ class FragNotas : Fragment() {
         fun clearSelection() {
             notasSeleccionadas.clear()
             selectionModeManual = false
+        }
+
+        fun toggleVoicePlayback(nota: NotaEntity) {
+            if (playingVoiceNoteId == nota.id) {
+                voicePlayer.stop()
+                playingVoiceNoteId = null
+                return
+            }
+            runCatching {
+                val file = VoiceNoteAudioStore.playbackFile(context, nota)
+                voicePlayer.play(file.absolutePath) { playingVoiceNoteId = null }
+                playingVoiceNoteId = nota.id
+            }.onFailure {
+                Toast.makeText(context, R.string.notes_voice_play_error, Toast.LENGTH_LONG).show()
+            }
         }
 
         fun passSelectedToFrases() {
@@ -368,14 +408,26 @@ class FragNotas : Fragment() {
                 .padding(8.dp)
         ) {
             Column(modifier = Modifier.fillMaxSize()) {
-                Text(
-                    text = stringResource(R.string.notes_title),
-                    fontSize = 26.sp,
-                    fontWeight = FontWeight.Bold,
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 12.dp, end = 12.dp, top = 8.dp)
-                )
+                        .padding(start = 12.dp, end = 4.dp, top = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = stringResource(R.string.notes_title),
+                        fontSize = 26.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f)
+                    )
+                    IconButton(onClick = { showArithmeticHelp = true }) {
+                        Icon(
+                            imageVector = Icons.Rounded.Info,
+                            contentDescription = stringResource(R.string.notes_calculation_help_action),
+                            tint = Color(0xFF0B2F55)
+                        )
+                    }
+                }
 
                 if (selectionMode) {
                     SelectedNotesBar(
@@ -418,14 +470,23 @@ class FragNotas : Fragment() {
                                             notaExpandidaId = if (notaExpandidaId == nota.id) null else nota.id
                                         },
                                         onEdit = {
-                                            notaEnEdicion = nota
-                                            showEditor = true
+                                            if (nota.isVoiceNote) {
+                                                voiceNoteInEdition = nota
+                                                showVoiceEditor = true
+                                            } else {
+                                                notaEnEdicion = nota
+                                                showEditor = true
+                                            }
                                         },
                                         onTitleDoubleTap = {
                                             notaTituloCambiar = nota
                                             nuevoTituloNota = nota.titulo
                                         },
                                         onTranslate = { requestNoteTranslation(nota) },
+                                        onConvertToVoice = {
+                                            voiceNoteInEdition = nota
+                                            showVoiceEditor = true
+                                        },
                                         onExportToReminder = {
                                             if (!SubscriptionManager.hasActiveSubscriptionNow()) {
                                                 (activity as? MainActivity)?.showSubscriptionPaywall(
@@ -445,6 +506,8 @@ class FragNotas : Fragment() {
                                         selected = nota.id in notasSeleccionadas,
                                         selectionMode = selectionMode,
                                         onToggleSelection = { toggleNotaSelection(nota.id) },
+                                        isVoicePlaying = playingVoiceNoteId == nota.id,
+                                        onToggleVoicePlayback = { toggleVoicePlayback(nota) }
                                     )
                                 }
                             } else {
@@ -474,14 +537,23 @@ class FragNotas : Fragment() {
                                                     notaExpandidaId = if (notaExpandidaId == nota.id) null else nota.id
                                                 },
                                                 onEdit = {
-                                                    notaEnEdicion = nota
-                                                    showEditor = true
+                                                    if (nota.isVoiceNote) {
+                                                        voiceNoteInEdition = nota
+                                                        showVoiceEditor = true
+                                                    } else {
+                                                        notaEnEdicion = nota
+                                                        showEditor = true
+                                                    }
                                                 },
                                                 onTitleDoubleTap = {
                                                     notaTituloCambiar = nota
                                                     nuevoTituloNota = nota.titulo
                                                 },
                                                 onTranslate = { requestNoteTranslation(nota) },
+                                                onConvertToVoice = {
+                                                    voiceNoteInEdition = nota
+                                                    showVoiceEditor = true
+                                                },
                                                 onExportToReminder = {
                                                     if (!SubscriptionManager.hasActiveSubscriptionNow()) {
                                                         (activity as? MainActivity)?.showSubscriptionPaywall(
@@ -501,6 +573,8 @@ class FragNotas : Fragment() {
                                                 selected = nota.id in notasSeleccionadas,
                                                 selectionMode = selectionMode,
                                                 onToggleSelection = { toggleNotaSelection(nota.id) },
+                                                isVoicePlaying = playingVoiceNoteId == nota.id,
+                                                onToggleVoicePlayback = { toggleVoicePlayback(nota) }
                                             )
                                         }
                                     }
@@ -542,6 +616,15 @@ class FragNotas : Fragment() {
                                 showFabMenu = false
                                 notaEnEdicion = null
                                 showEditor = true
+                            }
+                        )
+                        FabActionItem(
+                            label = stringResource(R.string.notes_new_voice_note),
+                            iconRes = R.drawable.ic_mic,
+                            onClick = {
+                                showFabMenu = false
+                                voiceNoteInEdition = null
+                                showVoiceEditor = true
                             }
                         )
                         FabActionItem(
@@ -631,6 +714,10 @@ class FragNotas : Fragment() {
             }
         }
 
+        if (showArithmeticHelp) {
+            ArithmeticHelpDialog(onDismiss = { showArithmeticHelp = false })
+        }
+
         if (showConfirmDeleteSelected) {
             AlertDialog(
                 onDismissRequest = { showConfirmDeleteSelected = false },
@@ -653,7 +740,10 @@ class FragNotas : Fragment() {
                     TextButton(onClick = {
                         val toDelete = selectedNotas
                         dbExecutor.execute {
-                            toDelete.forEach(notaRepository()::eliminar)
+                            toDelete.forEach {
+                                VoiceNoteAudioStore.deleteMaterializedAudio(context, it)
+                                notaRepository().eliminar(it)
+                            }
                             activity?.runOnUiThread {
                                 showConfirmDeleteSelected = false
                                 clearSelection()
@@ -764,6 +854,51 @@ class FragNotas : Fragment() {
             )
         }
 
+        if (showVoiceEditor) {
+            VoiceNoteEditorDialog(
+                notaEnEdicion = voiceNoteInEdition,
+                categoriasExistentes = categoriasExistentes,
+                onDismiss = {
+                    showVoiceEditor = false
+                    voiceNoteInEdition = null
+                },
+                onSave = { titulo, texto, categoria, audioData, extension ->
+                    dbExecutor.execute {
+                        val existing = voiceNoteInEdition
+                        if (existing == null) {
+                            notaRepository().insertar(
+                                titulo = titulo,
+                                nota = NotaEntity.voiceBody(texto),
+                                categoria = categoria,
+                                syncId = UUID.randomUUID().toString(),
+                                voiceAudioData = audioData,
+                                voiceAudioFileExtension = extension
+                            )
+                        } else {
+                            VoiceNoteAudioStore.deleteMaterializedAudio(context, existing)
+                            notaRepository().actualizar(
+                                id = existing.id,
+                                titulo = titulo,
+                                nota = NotaEntity.voiceBody(texto),
+                                fechaCreacionOriginal = existing.fechaCreacion,
+                                isFav = existing.isFav,
+                                categoria = categoria,
+                                isChecklist = false,
+                                checklistJson = "",
+                                voiceAudioData = audioData,
+                                voiceAudioFileExtension = extension
+                            )
+                        }
+                        activity?.runOnUiThread {
+                            showVoiceEditor = false
+                            voiceNoteInEdition = null
+                            recargarNotas()
+                        }
+                    }
+                }
+            )
+        }
+
         notaATraducir?.let { note ->
             NoteTranslationDialog(
                 note = note,
@@ -774,7 +909,7 @@ class FragNotas : Fragment() {
                         notaRepository().actualizar(
                             id = note.id,
                             titulo = note.titulo,
-                            nota = draft.body,
+                            nota = if (note.isVoiceNote) NotaEntity.voiceBody(draft.body) else draft.body,
                             fechaCreacionOriginal = note.fechaCreacion,
                             isFav = note.isFav,
                             categoria = note.categoria,
@@ -783,7 +918,9 @@ class FragNotas : Fragment() {
                                 NotaChecklistCodec.encode(draft.checklistItems)
                             } else {
                                 note.checklistJson
-                            }
+                            },
+                            voiceAudioData = note.voiceAudioData,
+                            voiceAudioFileExtension = note.voiceAudioFileExtension
                         )
                         activity?.runOnUiThread {
                             recargarNotas()
@@ -1050,6 +1187,7 @@ class FragNotas : Fragment() {
                 confirmButton = {
                     TextButton(onClick = {
                         dbExecutor.execute {
+                            VoiceNoteAudioStore.deleteMaterializedAudio(context, target)
                             notaRepository().eliminar(target)
                             activity?.runOnUiThread {
                                 notaAEliminar = null
@@ -1073,6 +1211,7 @@ class FragNotas : Fragment() {
         onEdit: () -> Unit,
         onTitleDoubleTap: () -> Unit,
         onTranslate: () -> Unit,
+        onConvertToVoice: () -> Unit,
         onExportToReminder: () -> Unit,
         onDelete: () -> Unit,
         onRenameCategory: (String) -> Unit,
@@ -1083,9 +1222,13 @@ class FragNotas : Fragment() {
         onReload: () -> Unit,
         selected: Boolean,
         selectionMode: Boolean,
-        onToggleSelection: () -> Unit
+        onToggleSelection: () -> Unit,
+        isVoicePlaying: Boolean,
+        onToggleVoicePlayback: () -> Unit
     ) {
         val context = LocalContext.current
+        val shareTitle = stringResource(R.string.notes_share_title)
+        val qrHint = stringResource(R.string.notes_qr_import_hint)
         val tasksChooserTitle = stringResource(R.string.notes_tasks_chooser_title)
         val createdAt = dateFormat.format(Date(nota.fechaCreacion))
         val modifiedAt = dateFormat.format(Date(nota.fechaModificacion))
@@ -1100,6 +1243,7 @@ class FragNotas : Fragment() {
             onEdit = onEdit,
             onTitleDoubleTap = onTitleDoubleTap,
             onTranslate = onTranslate,
+            onConvertToVoice = onConvertToVoice,
             onDelete = onDelete,
             onRenameCategory = onRenameCategory,
             onMoveCategory = onMoveCategory,
@@ -1134,31 +1278,32 @@ class FragNotas : Fragment() {
                 }
             },
             onExportToFrases = {
-                                        val frase = buildNotaPayload(nota).trim().ifBlank { nota.titulo.trim() }
-                                        if (frase.isBlank()) {
-                                            Toast.makeText(context, R.string.notes_empty_note, Toast.LENGTH_SHORT).show()
-                                            return@NotaRow
-                                        }
-                                        dbExecutor.execute {
-                                            val result = utilsDB.insertNewFrase(
-                                                context,
-                                                frase,
-                                                "Notas",
-                                                nota.titulo.trim(),
-                                                "0"
-                                            )
-                                            activity?.runOnUiThread {
-                                                if (result >= 0) {
-                                                    Toast.makeText(context, R.string.notes_exported_to_quotes, Toast.LENGTH_SHORT).show()
-                                                } else {
-                                                    Toast.makeText(
-                                                        context,
-                                                        context.getString(R.string.notes_export_to_quotes_failed),
-                                                        Toast.LENGTH_LONG
-                                                    ).show()
-                                                }
-                                            }
-                                        }
+                val frase = buildNotaPayload(nota).trim().ifBlank { nota.titulo.trim() }
+                if (frase.isBlank()) {
+                    Toast.makeText(context, R.string.notes_empty_note, Toast.LENGTH_SHORT).show()
+                    return@NotaRow
+                }
+                val appContext = context.applicationContext
+                dbExecutor.execute {
+                    val result = utilsDB.insertNewFrase(
+                        appContext,
+                        frase,
+                        "Notas",
+                        nota.titulo.trim(),
+                        "0"
+                    )
+                    activity?.runOnUiThread {
+                        if (result >= 0) {
+                            Toast.makeText(appContext, R.string.notes_exported_to_quotes, Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(
+                                appContext,
+                                R.string.notes_export_to_quotes_failed,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                }
             },
             onExportToDiario = {
                 val content = buildNotaContent(nota).trim().ifBlank { nota.titulo.trim() }
@@ -1232,17 +1377,17 @@ class FragNotas : Fragment() {
                 FraseContextActions.cargarFraseEnLienzo(context, buildNotaPayload(nota))
             },
             onGenerateQr = {
-                                        val payload = buildNotaPayload(nota)
-                                        if (payload.isBlank()) {
-                                            Toast.makeText(context, R.string.notes_empty_note, Toast.LENGTH_SHORT).show()
-                                        } else {
-                                            QRManager.ShowQRDialog(
-                                                context,
-                                                payload,
-                                                context.getString(R.string.notes_share_title),
-                                                context.getString(R.string.notes_qr_import_hint)
-                                            )
-                                        }
+                val payload = buildNotaPayload(nota)
+                if (payload.isBlank()) {
+                    Toast.makeText(context, R.string.notes_empty_note, Toast.LENGTH_SHORT).show()
+                } else {
+                    QRManager.ShowQRDialog(
+                        context,
+                        payload,
+                        shareTitle,
+                        qrHint
+                    )
+                }
             },
             onShare = {
                                         val payload = buildNotaPayload(nota)
@@ -1256,7 +1401,7 @@ class FragNotas : Fragment() {
                                             context.startActivity(
                                                 Intent.createChooser(
                                                     intent,
-                                                    context.getString(R.string.notes_share_title)
+                                                    shareTitle
                                                 )
                                             )
                                         }
@@ -1273,13 +1418,15 @@ class FragNotas : Fragment() {
             },
             selected = selected,
             selectionMode = selectionMode,
-            onToggleSelection = onToggleSelection
+            onToggleSelection = onToggleSelection,
+            isVoicePlaying = isVoicePlaying,
+            onToggleVoicePlayback = onToggleVoicePlayback
         )
     }
 
     private fun buildNotaPayload(nota: NotaEntity): String {
         val titulo = nota.titulo.trim()
-        val contenido = nota.nota.trim()
+        val contenido = nota.noteDisplayText.trim()
         val checklist = if (nota.isChecklist) {
             NotaChecklistCodec.decode(nota.checklistJson)
                 .joinToString("\n") { item ->
@@ -1305,7 +1452,7 @@ class FragNotas : Fragment() {
     }
 
     private fun buildNotaContent(nota: NotaEntity): String {
-        val contenido = nota.nota.trim()
+        val contenido = nota.noteDisplayText.trim()
         val checklist = if (nota.isChecklist) {
             NotaChecklistCodec.decode(nota.checklistJson)
                 .joinToString("\n") { item ->
@@ -1326,7 +1473,7 @@ class FragNotas : Fragment() {
 
     private fun buildNotaSearchText(nota: NotaEntity): String =
         buildString {
-            append(nota.nota)
+            append(nota.noteDisplayText)
             if (nota.isChecklist) {
                 append('\n')
                 NotaChecklistCodec.decode(nota.checklistJson).forEach { appendLine(it.text) }
@@ -1341,6 +1488,62 @@ class FragNotas : Fragment() {
     private fun diarioRepository(): DiarioRepository {
         val db = NevilleRoomDatabase.getInstance(requireContext().applicationContext)
         return DiarioRepository(db.diarioDao())
+    }
+
+    @Composable
+    private fun ArithmeticHelpDialog(onDismiss: () -> Unit) {
+        AlertDialog(
+            onDismissRequest = onDismiss,
+            title = {
+                Text(
+                    text = stringResource(R.string.notes_calculation_help_title),
+                    fontWeight = FontWeight.Bold
+                )
+            },
+            text = {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(max = 520.dp)
+                        .verticalScroll(rememberScrollState()),
+                    verticalArrangement = Arrangement.spacedBy(14.dp)
+                ) {
+                    ArithmeticHelpSection(
+                        title = stringResource(R.string.notes_calculation_help_syntax_title),
+                        body = stringResource(R.string.notes_calculation_help_syntax_body)
+                    )
+                    ArithmeticHelpSection(
+                        title = stringResource(R.string.notes_calculation_help_rules_title),
+                        body = stringResource(R.string.notes_calculation_help_rules_body)
+                    )
+                    ArithmeticHelpSection(
+                        title = stringResource(R.string.notes_calculation_help_examples_title),
+                        body = stringResource(R.string.notes_calculation_help_examples_body)
+                    )
+                    ArithmeticHelpSection(
+                        title = stringResource(R.string.notes_calculation_help_total_title),
+                        body = stringResource(R.string.notes_calculation_help_total_body)
+                    )
+                    ArithmeticHelpSection(
+                        title = stringResource(R.string.notes_calculation_help_checklist_title),
+                        body = stringResource(R.string.notes_calculation_help_checklist_body)
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = onDismiss) {
+                    Text(stringResource(R.string.common_close))
+                }
+            }
+        )
+    }
+
+    @Composable
+    private fun ArithmeticHelpSection(title: String, body: String) {
+        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Text(text = title, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+            Text(text = body, fontSize = 14.sp, lineHeight = 20.sp)
+        }
     }
 
     @Composable
@@ -1567,6 +1770,270 @@ class FragNotas : Fragment() {
                 )
             }
         }
+    }
+
+    @Composable
+    private fun VoiceNoteEditorDialog(
+        notaEnEdicion: NotaEntity?,
+        categoriasExistentes: List<String>,
+        onDismiss: () -> Unit,
+        onSave: (String, String, String, ByteArray, String) -> Unit
+    ) {
+        val context = LocalContext.current
+        val recorder = remember { AndroidVoiceRecorderEngine(context.applicationContext) }
+        val player = remember { AndroidVoicePlayerEngine() }
+        var titulo by remember(notaEnEdicion?.id) { mutableStateOf(notaEnEdicion?.titulo.orEmpty()) }
+        var texto by remember(notaEnEdicion?.id) {
+            mutableStateOf(notaEnEdicion?.voiceNoteAssociatedText.orEmpty())
+        }
+        var categoria by remember(notaEnEdicion?.id) { mutableStateOf(notaEnEdicion?.categoria.orEmpty()) }
+        var audioData by remember(notaEnEdicion?.id) { mutableStateOf(notaEnEdicion?.voiceAudioData) }
+        var audioExtension by remember(notaEnEdicion?.id) {
+            mutableStateOf(notaEnEdicion?.voiceAudioFileExtension.orEmpty().ifBlank { VoiceNoteAudioStore.DEFAULT_EXTENSION })
+        }
+        var recordingFile by remember { mutableStateOf<File?>(null) }
+        var recordingStartedAt by remember { mutableStateOf(0L) }
+        var elapsedMs by remember { mutableStateOf(0L) }
+        var isRecording by remember { mutableStateOf(false) }
+        var isPlaying by remember { mutableStateOf(false) }
+        var showCategoryMenu by remember { mutableStateOf(false) }
+
+        fun stopRecording() {
+            if (!isRecording) return
+            val file = recordingFile
+            val duration = runCatching { recorder.stop() }.getOrElse {
+                recorder.cancel()
+                0L
+            }
+            isRecording = false
+            elapsedMs = duration
+            if (duration > 0L && file != null) {
+                runCatching { VoiceNoteAudioStore.readRecording(file) }
+                    .onSuccess {
+                        audioData = it
+                        audioExtension = file.extension.ifBlank { VoiceNoteAudioStore.DEFAULT_EXTENSION }
+                    }
+                    .onFailure {
+                        Toast.makeText(context, R.string.notes_voice_record_error, Toast.LENGTH_LONG).show()
+                    }
+            }
+            file?.delete()
+            recordingFile = null
+        }
+
+        fun beginRecording() {
+            player.stop()
+            isPlaying = false
+            runCatching {
+                val file = VoiceNoteAudioStore.newRecordingFile(context)
+                recordingFile = file
+                recorder.start(file.absolutePath)
+                recordingStartedAt = android.os.SystemClock.elapsedRealtime()
+                elapsedMs = 0L
+                isRecording = true
+            }.onFailure {
+                recordingFile?.delete()
+                recordingFile = null
+                Toast.makeText(context, R.string.notes_voice_record_error, Toast.LENGTH_LONG).show()
+            }
+        }
+
+        val microphonePermissionLauncher = rememberLauncherForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { granted ->
+            if (granted) {
+                beginRecording()
+            } else {
+                Toast.makeText(context, R.string.notes_mic_permission_denied, Toast.LENGTH_LONG).show()
+            }
+        }
+
+        fun requestRecording() {
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+                beginRecording()
+            } else {
+                microphonePermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+            }
+        }
+
+        DisposableEffect(Unit) {
+            onDispose {
+                recorder.release()
+                player.release()
+                recordingFile?.delete()
+            }
+        }
+
+        LaunchedEffect(isRecording) {
+            while (isRecording) {
+                elapsedMs = android.os.SystemClock.elapsedRealtime() - recordingStartedAt
+                if (elapsedMs >= AndroidVoiceRecorderEngine.MAX_RECORD_MS) {
+                    stopRecording()
+                } else {
+                    delay(250L)
+                }
+            }
+        }
+
+        Dialog(
+            onDismissRequest = { if (!isRecording) onDismiss() },
+            properties = DialogProperties(usePlatformDefaultWidth = false)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(0.94f)
+                    .background(Color(0xFFF4F7FA), RoundedCornerShape(24.dp))
+                    .padding(20.dp)
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Text(
+                    text = stringResource(
+                        if (notaEnEdicion == null) R.string.notes_new_voice_note
+                        else R.string.notes_manage_voice_note
+                    ),
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                OutlinedTextField(
+                    value = titulo,
+                    onValueChange = { titulo = it },
+                    label = { Text(stringResource(R.string.notes_voice_title_label)) },
+                    supportingText = { Text(stringResource(R.string.notes_required)) },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                OutlinedTextField(
+                    value = texto,
+                    onValueChange = { texto = it },
+                    label = { Text(stringResource(R.string.notes_associated_text_optional)) },
+                    minLines = 4,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Box {
+                    OutlinedTextField(
+                        value = categoria,
+                        onValueChange = { categoria = it },
+                        label = { Text(stringResource(R.string.notes_category)) },
+                        trailingIcon = {
+                            IconButton(onClick = { showCategoryMenu = true }) {
+                                Icon(Icons.Default.Folder, contentDescription = stringResource(R.string.notes_select_category))
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    DropdownMenu(
+                        expanded = showCategoryMenu,
+                        onDismissRequest = { showCategoryMenu = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.notes_uncategorized)) },
+                            onClick = { categoria = ""; showCategoryMenu = false }
+                        )
+                        categoriasExistentes.forEach { item ->
+                            DropdownMenuItem(
+                                text = { Text(item) },
+                                onClick = { categoria = item; showCategoryMenu = false }
+                            )
+                        }
+                    }
+                }
+
+                Text(
+                    text = stringResource(
+                        R.string.notes_voice_recording_time,
+                        formatVoiceDuration(elapsedMs),
+                        formatVoiceDuration(AndroidVoiceRecorderEngine.MAX_RECORD_MS.toLong())
+                    ),
+                    fontWeight = FontWeight.SemiBold
+                )
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Button(
+                        onClick = { if (isRecording) stopRecording() else requestRecording() },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Icon(
+                            imageVector = if (isRecording) Icons.Default.Stop else Icons.Default.Mic,
+                            contentDescription = null
+                        )
+                        Spacer(Modifier.width(6.dp))
+                        Text(
+                            stringResource(
+                                if (isRecording) R.string.notes_stop_recording
+                                else if (audioData == null || audioData?.isEmpty() == true) R.string.notes_record_audio
+                                else R.string.notes_re_record_audio
+                            )
+                        )
+                    }
+                    if (audioData?.isNotEmpty() == true) {
+                        Button(
+                            enabled = !isRecording,
+                            onClick = {
+                                if (isPlaying) {
+                                    player.stop()
+                                    isPlaying = false
+                                } else {
+                                    runCatching {
+                                        val preview = VoiceNoteAudioStore.previewFile(
+                                            context,
+                                            requireNotNull(audioData),
+                                            audioExtension
+                                        )
+                                        player.play(preview.absolutePath) { isPlaying = false }
+                                        isPlaying = true
+                                    }.onFailure {
+                                        Toast.makeText(context, R.string.notes_voice_play_error, Toast.LENGTH_LONG).show()
+                                    }
+                                }
+                            }
+                        ) {
+                            Icon(
+                                imageVector = if (isPlaying) Icons.Default.Stop else Icons.Default.PlayArrow,
+                                contentDescription = null
+                            )
+                        }
+                    }
+                }
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    TextButton(
+                        enabled = !isRecording,
+                        onClick = onDismiss
+                    ) { Text(stringResource(R.string.common_cancel)) }
+                    TextButton(
+                        enabled = !isRecording,
+                        onClick = {
+                            when {
+                                titulo.isBlank() -> Toast.makeText(
+                                    context,
+                                    R.string.notes_title_required,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                audioData == null || audioData?.isEmpty() == true -> Toast.makeText(
+                                    context,
+                                    R.string.notes_recording_required,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                else -> onSave(
+                                    titulo.trim(),
+                                    texto,
+                                    categoria.trim(),
+                                    requireNotNull(audioData),
+                                    audioExtension
+                                )
+                            }
+                        }
+                    ) { Text(stringResource(R.string.common_save)) }
+                }
+            }
+        }
+    }
+
+    private fun formatVoiceDuration(durationMs: Long): String {
+        val totalSeconds = durationMs.coerceAtLeast(0L) / 1_000L
+        return "%d:%02d".format(Locale.ROOT, totalSeconds / 60L, totalSeconds % 60L)
     }
 
     @Composable
@@ -2056,6 +2523,7 @@ class FragNotas : Fragment() {
         onEdit: () -> Unit,
         onTitleDoubleTap: () -> Unit,
         onTranslate: () -> Unit,
+        onConvertToVoice: () -> Unit,
         onDelete: () -> Unit,
         onRenameCategory: (String) -> Unit,
         onMoveCategory: (String) -> Unit,
@@ -2076,7 +2544,9 @@ class FragNotas : Fragment() {
         onCopyToClipboard: () -> Unit,
         selected: Boolean,
         selectionMode: Boolean,
-        onToggleSelection: () -> Unit
+        onToggleSelection: () -> Unit,
+        isVoicePlaying: Boolean,
+        onToggleVoicePlayback: () -> Unit
     ) {
         var showContextMenu by remember(nota.id) { mutableStateOf(false) }
         var showCategoryMenu by remember(nota.id, nota.categoria) { mutableStateOf(false) }
@@ -2084,7 +2554,7 @@ class FragNotas : Fragment() {
         val aiContent = remember(nota.titulo, nota.nota, nota.checklistJson) {
             buildList {
                 add(nota.titulo)
-                if (nota.nota.isNotBlank()) add(nota.nota)
+                if (nota.noteDisplayText.isNotBlank()) add(nota.noteDisplayText)
                 addAll(checklistItems.map { it.text }.filter { it.isNotBlank() })
             }.joinToString("\n\n")
         }
@@ -2143,6 +2613,21 @@ class FragNotas : Fragment() {
                             }
                         )
                 )
+                if (nota.isVoiceNote) {
+                    IconButton(
+                        enabled = nota.hasVoiceAudio,
+                        onClick = onToggleVoicePlayback,
+                        modifier = Modifier.size(36.dp)
+                    ) {
+                        Icon(
+                            imageVector = if (isVoicePlaying) Icons.Default.Stop else Icons.Default.PlayArrow,
+                            contentDescription = stringResource(
+                                if (isVoicePlaying) R.string.notes_stop_audio else R.string.notes_play_audio
+                            ),
+                            tint = if (nota.hasVoiceAudio) Color.White else Color.White.copy(alpha = 0.35f)
+                        )
+                    }
+                }
                 Icon(
                     painter = painterResource(id = R.drawable.ic_toolbar_favorite),
                     contentDescription = stringResource(R.string.notes_favorite),
@@ -2153,13 +2638,15 @@ class FragNotas : Fragment() {
                 )
             }
 
-            if (isExpanded && nota.nota.isNotBlank()) {
+            if (isExpanded && nota.noteDisplayText.isNotBlank()) {
                 Text(
                     text = if (nota.isChecklist) {
-                        nota.nota
+                        nota.noteDisplayText
+                    } else if (nota.isVoiceNote) {
+                        nota.voiceNoteAssociatedText
                     } else {
                         NotaArithmeticCalculation.annotateOperations(
-                            text = nota.nota,
+                            text = nota.noteDisplayText,
                             includeTrailingExpression = true
                         )
                     },
@@ -2173,8 +2660,8 @@ class FragNotas : Fragment() {
                         .clickable(onClick = onToggleExpand)
                 )
 
-                if (!nota.isChecklist) {
-                    NotaArithmeticCalculation.calculate(nota.nota)?.let { calculation ->
+                if (!nota.isChecklist && !nota.isVoiceNote) {
+                    NotaArithmeticCalculation.calculate(nota.noteDisplayText)?.let { calculation ->
                         Text(
                             text = stringResource(
                                 R.string.notes_sum_total,
@@ -2303,6 +2790,9 @@ class FragNotas : Fragment() {
                                 }
                             )
                             NoteOrganizeMenuItem(
+                                canConvertToVoice = !nota.isChecklist &&
+                                    !nota.isVoiceNote &&
+                                    nota.noteDisplayText.isNotBlank(),
                                 onTranslate = {
                                     showContextMenu = false
                                     onTranslate()
@@ -2310,6 +2800,10 @@ class FragNotas : Fragment() {
                                 onChangeCategory = {
                                     showContextMenu = false
                                     onChangeNoteCategory(nota)
+                                },
+                                onConvertToVoice = {
+                                    showContextMenu = false
+                                    onConvertToVoice()
                                 }
                             )
                             NoteExportMenuItem(
@@ -2380,8 +2874,10 @@ class FragNotas : Fragment() {
 
     @Composable
     private fun NoteOrganizeMenuItem(
+        canConvertToVoice: Boolean,
         onTranslate: () -> Unit,
-        onChangeCategory: () -> Unit
+        onChangeCategory: () -> Unit,
+        onConvertToVoice: () -> Unit
     ) {
         var expanded by remember { mutableStateOf(false) }
         Box {
@@ -2409,6 +2905,15 @@ class FragNotas : Fragment() {
                         onChangeCategory()
                     }
                 )
+                if (canConvertToVoice) {
+                    DropdownMenuItem(
+                        text = { Text(stringResource(R.string.notes_convert_to_voice_note)) },
+                        onClick = {
+                            expanded = false
+                            onConvertToVoice()
+                        }
+                    )
+                }
             }
         }
     }

@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 37
     namespace 'com.ypg.neville'
 
     defaultConfig {
         applicationId "com.ypg.neville"
         minSdk 23
-        targetSdk 32
+        targetSdk 35
         versionCode 701001
         versionName "1.0.1"
 
@@ -26,8 +26,8 @@ android {
         compose true
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 }
 

@@ -19,6 +19,8 @@ preferencia). Conserva exactamente el nombre y la capitalización indicados:
 - `recordatorios`: `Recordatorios_1` a `Recordatorios_3`
 - `revision_semanal`: `ResumenSemanal_1` y `ResumenSemanal_2`
 
-Mientras una captura declarada no exista, la app muestra un marcador visual en
-su lugar. Las carpetas sin nombres en esta lista corresponden a presentaciones
-que no necesitan galería, igual que en iOS.
+Si una carpeta ya contiene alguna captura declarada, la app muestra únicamente
+las capturas disponibles y oculta los huecos pendientes. Cuando todavía no hay
+ningún archivo, conserva los marcadores visuales previstos. Las carpetas sin
+nombres en esta lista corresponden a presentaciones que no necesitan galería,
+igual que en iOS.

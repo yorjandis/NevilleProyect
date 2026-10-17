@@ -66,6 +66,7 @@ import com.ypg.neville.model.wirelesssync.WirelessSessionDescriptor
 import com.ypg.neville.model.wirelesssync.WirelessSyncDirection
 import com.ypg.neville.model.wirelesssync.WirelessSyncServer
 import com.ypg.neville.model.wirelesssync.WirelessSyncServerState
+import com.ypg.neville.model.wirelesssync.WirelessTransferSummary
 
 class WirelessSyncActivity : ComponentActivity() {
     private var activeServer by mutableStateOf<WirelessSyncServer?>(null)
@@ -189,6 +190,12 @@ private fun WirelessSyncScreen(
     if (showInfo) {
         WirelessSyncInfoDialog(onDismiss = { showInfo = false })
     }
+    if (state is WirelessSyncServerState.Completed) {
+        WirelessTransferSummaryDialog(
+            summary = (state as WirelessSyncServerState.Completed).summary,
+            onDismiss = { onStop(); onClose() }
+        )
+    }
 
     Column(
         modifier = Modifier
@@ -220,20 +227,28 @@ private fun WirelessSyncScreen(
 
         if (state is WirelessSyncServerState.Idle || state is WirelessSyncServerState.Failed) {
             Text(stringResource(R.string.wireless_sync_direction), fontWeight = FontWeight.SemiBold)
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 FilterChip(
                     selected = direction == WirelessSyncDirection.AndroidToIos,
                     onClick = { direction = WirelessSyncDirection.AndroidToIos },
-                    label = { Text(stringResource(R.string.wireless_sync_send_to_iphone)) }
+                    label = { Text(stringResource(R.string.wireless_sync_send_to_iphone)) },
+                    modifier = Modifier.fillMaxWidth()
                 )
                 FilterChip(
                     selected = direction == WirelessSyncDirection.IosToAndroid,
                     onClick = { direction = WirelessSyncDirection.IosToAndroid },
-                    label = { Text(stringResource(R.string.wireless_sync_receive_from_iphone)) }
+                    label = { Text(stringResource(R.string.wireless_sync_receive_from_iphone)) },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                FilterChip(
+                    selected = direction == WirelessSyncDirection.Bidirectional,
+                    onClick = { direction = WirelessSyncDirection.Bidirectional },
+                    label = { Text(stringResource(R.string.wireless_sync_bidirectional)) },
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
 
-            if (direction == WirelessSyncDirection.AndroidToIos) {
+            if (direction != WirelessSyncDirection.IosToAndroid) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Checkbox(checked = transferEverything, onCheckedChange = { transferEverything = it })
                     Text(stringResource(R.string.wireless_sync_everything))
@@ -291,7 +306,7 @@ private fun WirelessSyncScreen(
                 onClick = {
                     onStart(
                         direction,
-                        if (direction == WirelessSyncDirection.AndroidToIos && !transferEverything) selectedTypes else null,
+                        if (direction != WirelessSyncDirection.IosToAndroid && !transferEverything) selectedTypes else null,
                         direct
                     )
                 },
@@ -309,10 +324,6 @@ private fun WirelessSyncScreen(
             WirelessSyncServerState.Transferring -> Text(stringResource(R.string.wireless_sync_transferring))
             is WirelessSyncServerState.Completed -> {
                 Text(stringResource(R.string.wireless_sync_completed), fontWeight = FontWeight.Bold)
-                Text(current.message)
-                Button(onClick = { onStop(); onClose() }, modifier = Modifier.fillMaxWidth()) {
-                    Text(stringResource(R.string.wireless_sync_close))
-                }
             }
             is WirelessSyncServerState.Failed -> {
                 Text(current.message, color = MaterialTheme.colorScheme.error)
@@ -325,6 +336,88 @@ private fun WirelessSyncScreen(
                 Text(stringResource(R.string.wireless_sync_cancel))
             }
         }
+    }
+}
+
+@Composable
+private fun WirelessTransferSummaryDialog(
+    summary: WirelessTransferSummary,
+    onDismiss: () -> Unit
+) {
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(usePlatformDefaultWidth = false)
+    ) {
+        Surface(
+            modifier = Modifier
+                .fillMaxWidth(0.92f)
+                .widthIn(max = 560.dp),
+            shape = RoundedCornerShape(28.dp),
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 6.dp
+        ) {
+            Column(
+                modifier = Modifier.padding(24.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    stringResource(
+                        if (summary.direction == WirelessSyncDirection.Bidirectional) {
+                            R.string.wireless_sync_summary_sync_title
+                        } else {
+                            R.string.wireless_sync_summary_transfer_title
+                        }
+                    ),
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    stringResource(
+                        if (summary.direction == WirelessSyncDirection.Bidirectional) {
+                            R.string.wireless_sync_summary_sync_message
+                        } else {
+                            R.string.wireless_sync_summary_transfer_message
+                        }
+                    ),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(16.dp),
+                    color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.55f)
+                ) {
+                    Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+                        SummaryRow(R.string.wireless_sync_summary_sent, summary.sent)
+                        SummaryRow(R.string.wireless_sync_summary_received, summary.received)
+                        SummaryRow(R.string.wireless_sync_summary_inserted, summary.totalInserted)
+                        SummaryRow(R.string.wireless_sync_summary_updated, summary.totalUpdated)
+                        SummaryRow(R.string.wireless_sync_summary_unchanged, summary.totalSkipped)
+                        if (summary.totalConflicts > 0) {
+                            SummaryRow(R.string.wireless_sync_summary_conflicts, summary.totalConflicts)
+                        }
+                        if (summary.totalErrors > 0) {
+                            SummaryRow(R.string.wireless_sync_summary_errors, summary.totalErrors)
+                        }
+                    }
+                }
+                Button(onClick = onDismiss, modifier = Modifier.fillMaxWidth()) {
+                    Text(stringResource(R.string.wireless_sync_close))
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun SummaryRow(labelRes: Int, value: Int) {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(stringResource(labelRes))
+        Text(value.toString(), fontWeight = FontWeight.SemiBold)
     }
 }
 

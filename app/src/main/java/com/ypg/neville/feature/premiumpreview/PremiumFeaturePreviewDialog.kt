@@ -152,6 +152,7 @@ private fun PremiumFeaturePreview(
     onOpenPurchase: () -> Unit
 ) {
     var fullscreenIndex by remember { mutableStateOf<Int?>(null) }
+    val displayedScreenshotNames = rememberDisplayedScreenshotNames(feature)
 
     Box(
         modifier = Modifier
@@ -179,8 +180,8 @@ private fun PremiumFeaturePreview(
                 textAlign = TextAlign.Center
             )
 
-            if (feature.screenshotNames.isNotEmpty()) {
-                ScreenshotGallery(feature) { fullscreenIndex = it }
+            if (displayedScreenshotNames.isNotEmpty()) {
+                ScreenshotGallery(feature, displayedScreenshotNames) { fullscreenIndex = it }
             }
 
             PremiumValueCard(feature)
@@ -208,6 +209,7 @@ private fun PremiumFeaturePreview(
     fullscreenIndex?.let { initialIndex ->
         ScreenshotFullscreenDialog(
             feature = feature,
+            screenshotNames = displayedScreenshotNames,
             initialIndex = initialIndex,
             onClose = { fullscreenIndex = null }
         )
@@ -256,12 +258,16 @@ private fun BoxScope.AnimatedBackgroundGlow() {
 }
 
 @Composable
-private fun ScreenshotGallery(feature: PremiumFeatureId, onOpen: (Int) -> Unit) {
+private fun ScreenshotGallery(
+    feature: PremiumFeatureId,
+    screenshotNames: List<String>,
+    onOpen: (Int) -> Unit
+) {
     LazyRow(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        itemsIndexed(feature.screenshotNames, key = { _, name -> name }) { index, name ->
+        itemsIndexed(screenshotNames, key = { _, name -> name }) { index, name ->
             ScreenshotCard(feature, name, index, onOpen)
         }
     }
@@ -416,6 +422,7 @@ private fun PremiumPurchaseCallToAction(onOpenPurchase: () -> Unit) {
 @Composable
 private fun ScreenshotFullscreenDialog(
     feature: PremiumFeatureId,
+    screenshotNames: List<String>,
     initialIndex: Int,
     onClose: () -> Unit
 ) {
@@ -424,18 +431,18 @@ private fun ScreenshotFullscreenDialog(
         properties = DialogProperties(usePlatformDefaultWidth = false, decorFitsSystemWindows = false)
     ) {
         val pagerState = rememberPagerState(
-            initialPage = initialIndex.coerceIn(feature.screenshotNames.indices),
-            pageCount = { feature.screenshotNames.size }
+            initialPage = initialIndex.coerceIn(screenshotNames.indices),
+            pageCount = { screenshotNames.size }
         )
         val title = stringResource(feature.titleRes)
 
         Box(Modifier.fillMaxSize().background(Color.Black)) {
             HorizontalPager(state = pagerState, modifier = Modifier.fillMaxSize()) { page ->
-                val image = rememberPremiumScreenshot(feature, feature.screenshotNames[page])
+                val image = rememberPremiumScreenshot(feature, screenshotNames[page])
                 val description = stringResource(
                     R.string.premium_preview_fullscreen_accessibility,
                     page + 1,
-                    feature.screenshotNames.size,
+                    screenshotNames.size,
                     title
                 )
                 Box(
@@ -465,7 +472,7 @@ private fun ScreenshotFullscreenDialog(
                 }
             }
 
-            if (feature.screenshotNames.size > 1) {
+            if (screenshotNames.size > 1) {
                 Row(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
@@ -474,7 +481,7 @@ private fun ScreenshotFullscreenDialog(
                         .padding(horizontal = 12.dp, vertical = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(7.dp)
                 ) {
-                    feature.screenshotNames.indices.forEach { index ->
+                    screenshotNames.indices.forEach { index ->
                         Box(
                             Modifier
                                 .size(if (index == pagerState.currentPage) 8.dp else 6.dp)
@@ -500,6 +507,31 @@ private fun ScreenshotFullscreenDialog(
             }
         }
     }
+}
+
+@Composable
+private fun rememberDisplayedScreenshotNames(feature: PremiumFeatureId): List<String> {
+    val context = LocalContext.current
+    return remember(feature) {
+        val availableAssetFiles = runCatching {
+            context.assets.list(feature.assetPath)?.toSet().orEmpty()
+        }.getOrDefault(emptySet())
+
+        selectDisplayedScreenshotNames(feature.screenshotNames, availableAssetFiles)
+    }
+}
+
+internal fun selectDisplayedScreenshotNames(
+    declaredNames: List<String>,
+    availableAssetFiles: Set<String>
+): List<String> {
+    val availableNames = declaredNames.filter { name ->
+        PREMIUM_SCREENSHOT_EXTENSIONS.any { extension ->
+            "$name.$extension" in availableAssetFiles
+        }
+    }
+
+    return availableNames.ifEmpty { declaredNames }
 }
 
 @Composable
@@ -570,7 +602,7 @@ private fun rememberPremiumScreenshot(feature: PremiumFeatureId, screenshotName:
     val context = LocalContext.current
     return remember(feature, screenshotName) {
         val basePath = "${feature.assetPath}/$screenshotName"
-        listOf("png", "webp", "jpg", "jpeg")
+        PREMIUM_SCREENSHOT_EXTENSIONS
             .firstNotNullOfOrNull { extension ->
                 runCatching {
                     context.assets.open("$basePath.$extension").use { stream ->
@@ -580,6 +612,8 @@ private fun rememberPremiumScreenshot(feature: PremiumFeatureId, screenshotName:
             }
     }
 }
+
+private val PREMIUM_SCREENSHOT_EXTENSIONS = listOf("png", "webp", "jpg", "jpeg")
 
 private fun featureIcon(feature: PremiumFeatureId): ImageVector = when (feature) {
     PremiumFeatureId.AGENDA -> Icons.Rounded.CalendarMonth

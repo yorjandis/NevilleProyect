@@ -19,6 +19,15 @@
     <string name="weekly_summary_available">Resumen disponible</string>
     <string name="weekly_summary_unavailable">Sin resumen generado</string>
     <string name="weekly_summary_open">Abrir</string>
+    <string name="weekly_summary_history_options">Opciones del historial</string>
+    <string name="weekly_summary_select_all">Seleccionar todo</string>
+    <string name="weekly_summary_select_none">Nada</string>
+    <string name="weekly_summary_invert_selection">Invertir selección</string>
+    <string name="weekly_summary_delete_from_history">Eliminar del historial</string>
+    <string name="weekly_summary_delete_title">Eliminar del historial</string>
+    <string name="weekly_summary_delete_one_message">¿Eliminar del historial el resumen de la semana del %1$s? Esta acción no se puede deshacer.</string>
+    <string name="weekly_summary_delete_many_message">¿Eliminar del historial los %1$d resúmenes seleccionados? Esta acción no se puede deshacer.</string>
+    <string name="weekly_summary_no_history_for_month">No hay resúmenes registrados en este mes.</string>
     <string name="weekly_section_notes">Notas</string>
     <string name="weekly_section_journal">Diario</string>
     <string name="weekly_section_conferences">Conferencias</string>

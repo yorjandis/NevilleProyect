@@ -124,8 +124,6 @@
     <string name="premium_scientific_evidence_description">通过清晰易读的摘要，了解与这些理念相关的研究。</string>
     <string name="premium_emotional_anchors_title">情绪锚定</string>
     <string name="premium_emotional_anchors_description">通过引导式认知工具，应对压力时刻。</string>
-    <string name="premium_voice_notes_title">语音笔记</string>
-    <string name="premium_voice_notes_description">无需书写，也能录制并回听想法或感悟。</string>
     <string name="premium_weekly_summary_title">每周总结</string>
     <string name="premium_weekly_summary_description">查看关键统计数据，并持续保留个人成长记录。</string>
     <string name="premium_protected_notes_title">笔记保护</string>

@@ -263,8 +263,6 @@
     <string name="premium_scientific_evidence_description">Explora investigaciones que respaldan estas enseñanzas en resúmenes fáciles de consultar.</string>
     <string name="premium_emotional_anchors_title">Anclas Emocionales</string>
     <string name="premium_emotional_anchors_description">Utiliza una herramienta cognitiva guiada para afrontar momentos de estrés.</string>
-    <string name="premium_voice_notes_title">Notas de voz</string>
-    <string name="premium_voice_notes_description">Graba y reproduce ideas o reflexiones sin necesidad de escribirlas.</string>
     <string name="premium_weekly_summary_title">Resumen Semanal</string>
     <string name="premium_weekly_summary_description">Consulta estadísticas generales y conserva un histórico de tu evolución.</string>
     <string name="premium_protected_notes_title">Notas protegidas</string>

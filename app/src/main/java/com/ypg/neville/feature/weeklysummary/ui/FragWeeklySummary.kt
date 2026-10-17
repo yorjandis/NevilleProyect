@@ -10,10 +10,13 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,11 +28,17 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberSwipeToDismissBoxState
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.automirrored.rounded.ShowChart
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -37,6 +46,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,6 +61,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
@@ -68,6 +79,7 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.concurrent.Executors
+import kotlinx.coroutines.launch
 import kotlin.math.max
 
 class FragWeeklySummary : Fragment() {
@@ -249,6 +261,14 @@ class FragWeeklySummary : Fragment() {
                             onSelectSummary = {
                                 selected = it
                                 tab = "resumen"
+                            },
+                            onDeleteSummaries = { weekStarts ->
+                                if (weekStarts.isNotEmpty()) {
+                                    dbExecutor.execute {
+                                        repository.deleteSummaries(weekStarts)
+                                        activity?.runOnUiThread { reload() }
+                                    }
+                                }
                             }
                         )
                     }
@@ -281,22 +301,47 @@ private fun WeeklySummaryTab(
         }
 
         item {
-            Row(
+            val locale = LocalConfiguration.current.locales[0]
+            val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+                .withLocale(locale)
+            val columnCount = 3
+
+            Column(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                summaries.take(6).forEach { summary ->
-                    AssistChip(
-                        onClick = { onSelect(summary) },
-                        label = {
+                summaries.take(6).chunked(columnCount).forEach { rowSummaries ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        rowSummaries.forEach { summary ->
                             val start = Instant.ofEpochMilli(summary.weekStartMillis)
                                 .atZone(ZoneId.systemDefault())
                                 .toLocalDate()
-                            val locale = LocalConfiguration.current.locales[0]
-                            Text(start.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale)))
-                        },
-                        colors = AssistChipDefaults.assistChipColors(containerColor = Color.White)
-                    )
+
+                            AssistChip(
+                                onClick = { onSelect(summary) },
+                                label = {
+                                    Text(
+                                        text = start.format(formatter),
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                },
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .height(40.dp),
+                                colors = AssistChipDefaults.assistChipColors(
+                                    containerColor = Color.White
+                                )
+                            )
+                        }
+
+                        repeat(columnCount - rowSummaries.size) {
+                            Spacer(modifier = Modifier.weight(1f))
+                        }
+                    }
                 }
             }
         }
@@ -494,13 +539,23 @@ private fun WeeklyHistoryTab(
     zoneId: ZoneId,
     onPrevMonth: () -> Unit,
     onNextMonth: () -> Unit,
-    onSelectSummary: (WeeklySummaryEntity) -> Unit
+    onSelectSummary: (WeeklySummaryEntity) -> Unit,
+    onDeleteSummaries: (Set<Long>) -> Unit
 ) {
     val locale = LocalConfiguration.current.locales[0]
     val formatter = DateTimeFormatter.ofPattern("MMMM yyyy", locale)
     val dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale)
     val weekStarts = WeeklySummaryRepository.weekStartsForMonth(monthCursor.withDayOfMonth(1), zoneId)
     val summaryByWeek = summaries.associateBy { it.weekStartMillis }
+    val registeredWeekStarts = weekStarts.filter { it in summaryByWeek }
+    val availableWeekStarts = registeredWeekStarts.toSet()
+    var selectionMode by remember { mutableStateOf(false) }
+    var selectedWeekStarts by remember { mutableStateOf(emptySet<Long>()) }
+    var pendingBatchDelete by remember { mutableStateOf<Set<Long>?>(null) }
+
+    LaunchedEffect(monthCursor) {
+        selectedWeekStarts = emptySet()
+    }
 
     LazyColumn(
         modifier = Modifier
@@ -528,6 +583,78 @@ private fun WeeklyHistoryTab(
         }
 
         item {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.White.copy(alpha = 0.92f), RoundedCornerShape(16.dp))
+                    .padding(horizontal = 12.dp, vertical = 8.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = if (selectionMode) {
+                            stringResource(
+                                R.string.common_selected_count,
+                                selectedWeekStarts.size
+                            )
+                        } else {
+                            stringResource(R.string.weekly_summary_history_options)
+                        },
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.weight(1f)
+                    )
+                    TextButton(
+                        onClick = {
+                            selectionMode = !selectionMode
+                            selectedWeekStarts = emptySet()
+                        }
+                    ) {
+                        Text(
+                            stringResource(
+                                if (selectionMode) R.string.common_cancel
+                                else R.string.common_select
+                            )
+                        )
+                    }
+                }
+
+                if (selectionMode) {
+                    FlowRow(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalArrangement = Arrangement.spacedBy(2.dp)
+                    ) {
+                        TextButton(onClick = { selectedWeekStarts = availableWeekStarts }) {
+                            Text(stringResource(R.string.weekly_summary_select_all))
+                        }
+                        TextButton(onClick = { selectedWeekStarts = emptySet() }) {
+                            Text(stringResource(R.string.weekly_summary_select_none))
+                        }
+                        TextButton(
+                            onClick = {
+                                selectedWeekStarts = availableWeekStarts - selectedWeekStarts
+                            }
+                        ) {
+                            Text(stringResource(R.string.weekly_summary_invert_selection))
+                        }
+                        TextButton(
+                            enabled = selectedWeekStarts.isNotEmpty(),
+                            onClick = { pendingBatchDelete = selectedWeekStarts }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Delete,
+                                contentDescription = null
+                            )
+                            Text(stringResource(R.string.weekly_summary_delete_from_history))
+                        }
+                    }
+                }
+            }
+        }
+
+        item {
             Text(
                 text = stringResource(R.string.weekly_summary_month_calendar),
                 color = Color.White,
@@ -536,55 +663,251 @@ private fun WeeklyHistoryTab(
             )
         }
 
-        items(weekStarts) { weekStart ->
+        if (registeredWeekStarts.isEmpty()) {
+            item {
+                Text(
+                    text = stringResource(R.string.weekly_summary_no_history_for_month),
+                    color = Color.White,
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 12.dp)
+                )
+            }
+        }
+
+        items(registeredWeekStarts, key = { it }) { weekStart ->
             val summary = summaryByWeek[weekStart]
             val monday = Instant.ofEpochMilli(weekStart).atZone(zoneId).toLocalDate()
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.White.copy(alpha = 0.92f), RoundedCornerShape(16.dp))
-                    .padding(10.dp)
-                    .border(1.dp, if (summary != null) Color(0xFF3B82F6) else Color.Transparent, RoundedCornerShape(16.dp)),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(stringResource(R.string.weekly_summary_week_of, monday.format(dateFormatter)), fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
-                    Text(
-                        text = if (summary != null) stringResource(R.string.weekly_summary_available) else stringResource(R.string.weekly_summary_unavailable),
-                        color = if (summary != null) Color(0xFF0A7C2F) else Color(0xFF6B7280),
-                        fontSize = 17.sp
-                    )
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(4.dp),
-                        modifier = Modifier.padding(top = 6.dp)
-                    ) {
-                        for (d in 0..6) {
-                            val day = monday.plusDays(d.toLong())
-                            Box(
-                                modifier = Modifier
-                                    .size(32.dp)
-                                    .background(
-                                        if (d == 0) Color(0xFFE8EEF9) else Color(0xFFF3F4F6),
-                                        CircleShape
-                                    ),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(day.dayOfMonth.toString(), fontSize = 12.sp)
-                            }
-                        }
+            WeeklyHistoryCard(
+                summary = summary,
+                monday = monday,
+                dateFormatter = dateFormatter,
+                selectionMode = selectionMode,
+                selected = weekStart in selectedWeekStarts,
+                onToggleSelection = {
+                    selectedWeekStarts = if (weekStart in selectedWeekStarts) {
+                        selectedWeekStarts - weekStart
+                    } else {
+                        selectedWeekStarts + weekStart
                     }
-                }
+                },
+                onOpen = { summary?.let(onSelectSummary) },
+                onDelete = { onDeleteSummaries(setOf(weekStart)) }
+            )
+        }
+    }
 
-                if (summary != null) {
-                    AssistChip(
-                        onClick = { onSelectSummary(summary) },
-                        label = { Text(stringResource(R.string.weekly_summary_open)) },
-                        colors = AssistChipDefaults.assistChipColors(containerColor = Color(0xFFDDEBFF))
+    pendingBatchDelete?.let { weekStartsToDelete ->
+        AlertDialog(
+            onDismissRequest = { pendingBatchDelete = null },
+            title = { Text(stringResource(R.string.weekly_summary_delete_title)) },
+            text = {
+                Text(
+                    stringResource(
+                        R.string.weekly_summary_delete_many_message,
+                        weekStartsToDelete.size
+                    )
+                )
+            },
+            dismissButton = {
+                TextButton(onClick = { pendingBatchDelete = null }) {
+                    Text(stringResource(R.string.common_cancel))
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        onDeleteSummaries(weekStartsToDelete)
+                        pendingBatchDelete = null
+                        selectedWeekStarts = emptySet()
+                        selectionMode = false
+                    }
+                ) {
+                    Text(stringResource(R.string.common_delete))
+                }
+            }
+        )
+    }
+}
+
+@Composable
+private fun WeeklyHistoryCard(
+    summary: WeeklySummaryEntity?,
+    monday: LocalDate,
+    dateFormatter: DateTimeFormatter,
+    selectionMode: Boolean,
+    selected: Boolean,
+    onToggleSelection: () -> Unit,
+    onOpen: () -> Unit,
+    onDelete: () -> Unit
+) {
+    val dismissState = rememberSwipeToDismissBoxState()
+    val coroutineScope = rememberCoroutineScope()
+    var showDeleteConfirmation by remember { mutableStateOf(false) }
+
+    SwipeToDismissBox(
+        state = dismissState,
+        modifier = Modifier.fillMaxWidth(),
+        enableDismissFromStartToEnd = false,
+        enableDismissFromEndToStart = summary != null && !selectionMode,
+        gesturesEnabled = summary != null && !selectionMode,
+        onDismiss = { direction ->
+            if (direction == SwipeToDismissBoxValue.EndToStart && summary != null) {
+                showDeleteConfirmation = true
+            }
+        },
+        backgroundContent = {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color(0xFFB91C1C), RoundedCornerShape(16.dp))
+                    .padding(horizontal = 24.dp),
+                contentAlignment = Alignment.CenterEnd
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Delete,
+                        contentDescription = null,
+                        tint = Color.White
+                    )
+                    Text(
+                        text = stringResource(R.string.common_delete),
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
                     )
                 }
             }
         }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.White.copy(alpha = 0.96f), RoundedCornerShape(16.dp))
+                .border(
+                    width = 1.dp,
+                    color = when {
+                        selected -> Color(0xFF7C3AED)
+                        summary != null -> Color(0xFF3B82F6)
+                        else -> Color.Transparent
+                    },
+                    shape = RoundedCornerShape(16.dp)
+                )
+                .clickable(enabled = selectionMode && summary != null) {
+                    onToggleSelection()
+                }
+                .padding(horizontal = 16.dp, vertical = 10.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = stringResource(
+                            R.string.weekly_summary_week_of,
+                            monday.format(dateFormatter)
+                        ),
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Text(
+                        text = if (summary != null) {
+                            stringResource(R.string.weekly_summary_available)
+                        } else {
+                            stringResource(R.string.weekly_summary_unavailable)
+                        },
+                        color = if (summary != null) {
+                            Color(0xFF0A7C2F)
+                        } else {
+                            Color(0xFF6B7280)
+                        },
+                        fontSize = 17.sp
+                    )
+                }
+
+                if (summary != null) {
+                    if (selectionMode) {
+                        Checkbox(
+                            checked = selected,
+                            onCheckedChange = { onToggleSelection() }
+                        )
+                    } else {
+                        AssistChip(
+                            onClick = onOpen,
+                            label = { Text(stringResource(R.string.weekly_summary_open)) },
+                            modifier = Modifier.padding(start = 12.dp, end = 4.dp),
+                            colors = AssistChipDefaults.assistChipColors(
+                                containerColor = Color(0xFFDDEBFF)
+                            )
+                        )
+                    }
+                }
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                for (dayOffset in 0..6) {
+                    val day = monday.plusDays(dayOffset.toLong())
+                    Box(
+                        modifier = Modifier
+                            .size(32.dp)
+                            .background(
+                                if (dayOffset == 0) Color(0xFFE8EEF9)
+                                else Color(0xFFF3F4F6),
+                                CircleShape
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(day.dayOfMonth.toString(), fontSize = 12.sp)
+                    }
+                }
+            }
+        }
+    }
+
+    if (showDeleteConfirmation) {
+        AlertDialog(
+            onDismissRequest = {
+                showDeleteConfirmation = false
+                coroutineScope.launch { dismissState.reset() }
+            },
+            title = { Text(stringResource(R.string.weekly_summary_delete_title)) },
+            text = {
+                Text(
+                    stringResource(
+                        R.string.weekly_summary_delete_one_message,
+                        monday.format(dateFormatter)
+                    )
+                )
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        showDeleteConfirmation = false
+                        coroutineScope.launch { dismissState.reset() }
+                    }
+                ) {
+                    Text(stringResource(R.string.common_cancel))
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showDeleteConfirmation = false
+                        onDelete()
+                    }
+                ) {
+                    Text(stringResource(R.string.common_delete))
+                }
+            }
+        )
     }
 }
 

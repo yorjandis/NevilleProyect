@@ -138,6 +138,18 @@
     <string name="notes_hide_filters">Ocultar filtros</string>
     <string name="notes_show_filters">Mostrar filtros</string>
     <string name="notes_menu">Menú de notas</string>
+    <string name="notes_calculation_help_action">Información sobre cálculos</string>
+    <string name="notes_calculation_help_title">Cálculos en Notas</string>
+    <string name="notes_calculation_help_syntax_title">Sintaxis</string>
+    <string name="notes_calculation_help_syntax_body">Cada operación debe comenzar con el signo =. Puedes dejar espacios justo después del signo, pero escribe la expresión sin espacios.\nEjemplo: Compra = 10+2*3</string>
+    <string name="notes_calculation_help_rules_title">Reglas</string>
+    <string name="notes_calculation_help_rules_body">• Operadores disponibles: +, -, * y /.\n• Puedes usar coma o punto para los decimales.\n• La multiplicación y la división se calculan antes que la suma y la resta.\n• Se admiten valores negativos, por ejemplo: =-10+2.\n• No se admiten paréntesis ni porcentajes.\n• Las expresiones incorrectas y las divisiones entre cero no se calculan.</string>
+    <string name="notes_calculation_help_examples_title">Ejemplos</string>
+    <string name="notes_calculation_help_examples_body">Comida =10+2*3  →  16\nTransporte =4,5/2  →  2,25\n\nAl mostrar la nota, el resultado aparece junto a cada operación.</string>
+    <string name="notes_calculation_help_total_title">Suma total</string>
+    <string name="notes_calculation_help_total_body">La Suma total añade los resultados de todas las operaciones válidas del texto. En el ejemplo anterior es 18,25. Se actualiza mientras editas la nota.</string>
+    <string name="notes_calculation_help_checklist_title">Cálculos en checklist</string>
+    <string name="notes_calculation_help_checklist_body">En cada tarea solo cuenta la primera operación. La descripción y las notas de inicio o cierre no forman parte del cálculo.\n\nEjemplo:\n☑ Pan =2+3\n☐ Leche =4\nSuma total: 9 · Pendiente: 4\n\nLa Suma total incluye todas las tareas. Pendiente descuenta las tareas marcadas y se actualiza al marcar o desmarcar elementos.</string>
     <string name="notes_delete_selected_title">Eliminar notas seleccionadas</string>
     <string name="notes_change_category">Cambiar categoría</string>
     <string name="notes_title_required">Debes escribir un título</string>
@@ -259,4 +271,23 @@
     <plurals name="notes_moved_count"><item quantity="one">%1$d nota movida</item><item quantity="other">%1$d notas movidas</item></plurals>
     <plurals name="notes_selected_count"><item quantity="one">%1$d seleccionada</item><item quantity="other">%1$d seleccionadas</item></plurals>
     <plurals name="notes_more_count"><item quantity="one">+%1$d más</item><item quantity="other">+%1$d más</item></plurals>
+
+    <string name="notes_new_voice_note">Nueva nota de voz</string>
+    <string name="notes_voice_note">Nota de voz</string>
+    <string name="notes_manage_voice_note">Gestionar nota de voz</string>
+    <string name="notes_convert_to_voice_note">Convertir en nota de voz</string>
+    <string name="notes_record_audio">Grabar audio</string>
+    <string name="notes_recording_in_progress">Grabando nota de voz…</string>
+    <string name="notes_re_record_audio">Volver a grabar</string>
+    <string name="notes_play_audio">Reproducir audio</string>
+    <string name="notes_stop_audio">Detener audio</string>
+    <string name="notes_associated_text_optional">Nota asociada (opcional)</string>
+    <string name="notes_recording_required">Graba el audio antes de guardar la nota de voz.</string>
+    <string name="notes_mic_permission_denied">Se requiere permiso de micrófono para grabar notas de voz.</string>
+    <string name="notes_voice_title_label">Título de la nota de voz</string>
+    <string name="notes_required">Obligatorio</string>
+    <string name="notes_voice_recording_time">Duración: %1$s / %2$s</string>
+    <string name="notes_stop_recording">Detener grabación</string>
+    <string name="notes_voice_record_error">No se pudo grabar el audio.</string>
+    <string name="notes_voice_play_error">No se pudo reproducir el audio.</string>
 </resources>

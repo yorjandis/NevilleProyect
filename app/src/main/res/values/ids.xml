@@ -20,7 +20,6 @@
     <item name="frag_agenda" type="id" />
     <item name="frag_morning_dialog" type="id" />
     <item name="frag_my_day" type="id" />
-    <item name="frag_voice_recordings" type="id" />
     <item name="frag_emotional_anchors" type="id" />
     <item name="frag_emotional_anchor_create" type="id" />
     <item name="frag_emotional_anchor_run" type="id" />

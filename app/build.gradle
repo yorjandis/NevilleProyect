@@ -14,8 +14,8 @@ android {
         minSdk 24
         //noinspection OldTargetApi
         targetSdk 36
-        versionCode 72
-        versionName "3.0.14"
+        versionCode 73
+        versionName "3.0.15"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig = signingConfigs.debug
     }

@@ -714,7 +714,6 @@ class FragHome : Fragment() {
         Flame("flame", "Fuego", listOf(Color(0xFFE53935), Color(0xFFFF9800))),
         Ritual("ritual", "Ritual", listOf(Color(0xFFE91E63), Color(0xFFFF8A3D))),
         Summary("summary", "Resumen", listOf(Color(0xFF607D8B), Color(0xFF00BCD4))),
-        Voice("voice", "Voz", listOf(Color(0xFF00ACC1), Color(0xFF1976D2))),
         Anchor("anchor", "Ancla", listOf(Color(0xFFFF7A92), Color(0xFFE53935))),
         Coherence("coherence", "Coherencia", listOf(Color(0xFF3F51B5), Color(0xFF26A69A))),
         Notes("notes", "Notas", listOf(Color(0xFF00BCD4), Color(0xFF1976D2))),
@@ -749,7 +748,6 @@ class FragHome : Fragment() {
         Ritual("ritual", "Ritual", Icons.Rounded.WbSunny, HomeAlternativeGradient.Ritual, R.id.frag_morning_dialog, requiresPremium = true),
         MiDia("mi_dia", "Mi día", Icons.Rounded.Timeline, HomeAlternativeGradient.Summary, R.id.frag_my_day, requiresPremium = true),
         Resumen("resumen", "Resumen", Icons.Rounded.GraphicEq, HomeAlternativeGradient.Summary, R.id.frag_weekly_summary, requiresPremium = true),
-        Voces("voces", "Voces", Icons.Rounded.Mic, HomeAlternativeGradient.Voice, R.id.frag_voice_recordings, requiresPremium = true),
         Anclas("anclas", "Anclas", Icons.Rounded.Favorite, HomeAlternativeGradient.Anchor, R.id.frag_emotional_anchors, requiresPremium = true),
         Cardio("cardio", "Coherencia", Icons.Rounded.Favorite, HomeAlternativeGradient.Coherence, R.id.frag_cardio_coherence, requiresPremium = true),
         CentroSanador("centro_sanador", "Sanador", Icons.Rounded.HealthAndSafety, HomeAlternativeGradient.Healing, R.id.frag_healing_center, requiresPremium = true),
@@ -779,7 +777,6 @@ class FragHome : Fragment() {
             HomeAlternativeAccess.Ritual -> R.string.home_access_ritual
             HomeAlternativeAccess.MiDia -> R.string.home_access_my_day
             HomeAlternativeAccess.Resumen -> R.string.home_access_summary
-            HomeAlternativeAccess.Voces -> R.string.home_access_voice
             HomeAlternativeAccess.Anclas -> R.string.home_access_anchors
             HomeAlternativeAccess.Cardio -> R.string.home_access_coherence
             HomeAlternativeAccess.CentroSanador -> R.string.healing_center_title
@@ -809,7 +806,6 @@ class FragHome : Fragment() {
             HomeAlternativeGradient.Flame -> R.string.home_gradient_flame
             HomeAlternativeGradient.Ritual -> R.string.home_gradient_ritual
             HomeAlternativeGradient.Summary -> R.string.home_gradient_summary
-            HomeAlternativeGradient.Voice -> R.string.home_gradient_voice
             HomeAlternativeGradient.Anchor -> R.string.home_gradient_anchor
             HomeAlternativeGradient.Coherence -> R.string.home_gradient_coherence
             HomeAlternativeGradient.Notes -> R.string.home_gradient_notes

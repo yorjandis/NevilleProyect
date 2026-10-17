@@ -139,6 +139,18 @@
     <string name="notes_hide_filters">收起筛选</string>
     <string name="notes_show_filters">显示筛选</string>
     <string name="notes_menu">笔记菜单</string>
+    <string name="notes_calculation_help_action">计算说明</string>
+    <string name="notes_calculation_help_title">笔记中的计算</string>
+    <string name="notes_calculation_help_syntax_title">语法</string>
+    <string name="notes_calculation_help_syntax_body">每个运算必须以等号 = 开头。等号后可以留空格，但表达式内部不要留空格。\n示例：购物 = 10+2*3</string>
+    <string name="notes_calculation_help_rules_title">规则</string>
+    <string name="notes_calculation_help_rules_body">• 支持的运算符：+、-、* 和 /。\n• 小数可使用逗号或点。\n• 先计算乘除，再计算加减。\n• 支持负数，例如：=-10+2。\n• 不支持括号和百分号。\n• 无效表达式和除以零不会参与计算。</string>
+    <string name="notes_calculation_help_examples_title">示例</string>
+    <string name="notes_calculation_help_examples_body">餐费 =10+2*3  →  16\n交通 =4.5/2  →  2.25\n\n显示笔记时，每个运算的结果会出现在其旁边。</string>
+    <string name="notes_calculation_help_total_title">总计</string>
+    <string name="notes_calculation_help_total_body">总计会把正文中所有有效运算的结果相加。上面的示例总计为 18.25。编辑笔记时会实时更新。</string>
+    <string name="notes_calculation_help_checklist_title">清单中的计算</string>
+    <string name="notes_calculation_help_checklist_body">每个任务只计算第一个运算。清单说明以及开头或结尾的备注不会参与计算。\n\n示例：\n☑ 面包 =2+3\n☐ 牛奶 =4\n总计：9 · 待完成：4\n\n总计包含所有任务；待完成会扣除已勾选任务，并在勾选或取消勾选时更新。</string>
     <string name="notes_delete_selected_title">删除所选笔记</string>
     <string name="notes_change_category">更改分类</string>
     <string name="notes_title_required">请输入标题</string>
@@ -260,4 +272,23 @@
     <plurals name="notes_moved_count"><item quantity="other">已移动 %1$d 条笔记</item></plurals>
     <plurals name="notes_selected_count"><item quantity="other">已选择 %1$d 条</item></plurals>
     <plurals name="notes_more_count"><item quantity="other">还有 %1$d 项</item></plurals>
+
+    <string name="notes_new_voice_note">新建语音笔记</string>
+    <string name="notes_voice_note">语音笔记</string>
+    <string name="notes_manage_voice_note">管理语音笔记</string>
+    <string name="notes_convert_to_voice_note">转换为语音笔记</string>
+    <string name="notes_record_audio">录制音频</string>
+    <string name="notes_recording_in_progress">正在录制语音笔记…</string>
+    <string name="notes_re_record_audio">重新录制</string>
+    <string name="notes_play_audio">播放音频</string>
+    <string name="notes_stop_audio">停止音频</string>
+    <string name="notes_associated_text_optional">关联文本（可选）</string>
+    <string name="notes_recording_required">请在保存语音笔记前录制音频。</string>
+    <string name="notes_mic_permission_denied">录制语音笔记需要麦克风权限。</string>
+    <string name="notes_voice_title_label">语音笔记标题</string>
+    <string name="notes_required">必填</string>
+    <string name="notes_voice_recording_time">时长：%1$s / %2$s</string>
+    <string name="notes_stop_recording">停止录制</string>
+    <string name="notes_voice_record_error">无法录制音频。</string>
+    <string name="notes_voice_play_error">无法播放音频。</string>
 </resources>

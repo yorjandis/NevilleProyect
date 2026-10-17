@@ -17,18 +17,28 @@ class WeeklySummaryRepository(
         ensureSectionOrderSeeded()
 
         val lastClosedBoundary = WeeklySummaryTime.previousMondayBoundary(nowMillis, zoneId)
-        dao.getAllSummariesDesc()
-            .filter { it.weekEndMillis <= lastClosedBoundary }
-            .forEach { stored ->
-                dao.upsertSummary(buildSummary(stored.weekStartMillis, stored.weekEndMillis))
-            }
-        val firstBoundaryToGenerate = computeFirstBoundaryToGenerate(lastClosedBoundary, zoneId)
+        val deletedWeekStarts = dao.getDeletedWeekStarts().toHashSet()
+        val existingWeekStarts = dao.getAllSummaryWeekStarts().toHashSet()
+        val lastClosedDate = Instant.ofEpochMilli(lastClosedBoundary)
+            .atZone(zoneId)
+            .toLocalDate()
+        var weekStartDate = firstWeekStartToGenerate(
+            lastClosedDate = lastClosedDate,
+            existingWeekStarts = existingWeekStarts,
+            zoneId = zoneId
+        )
 
-        var boundary = firstBoundaryToGenerate
-        while (boundary <= lastClosedBoundary) {
-            val weekStart = boundary - WEEK_MS
-            dao.upsertSummary(buildSummary(weekStart, boundary))
-            boundary += WEEK_MS
+        while (weekStartDate.isBefore(lastClosedDate)) {
+            val weekStart = WeeklySummaryTime.weekBoundaryAtMonday3(weekStartDate, zoneId)
+            val weekEnd = WeeklySummaryTime.weekBoundaryAtMonday3(
+                weekStartDate.plusWeeks(1),
+                zoneId
+            )
+            if (weekStart !in existingWeekStarts && weekStart !in deletedWeekStarts) {
+                dao.upsertSummary(buildSummary(weekStart, weekEnd))
+                existingWeekStarts += weekStart
+            }
+            weekStartDate = weekStartDate.plusWeeks(1)
         }
 
         dao.purgeOldEvents(nowMillis - (180L * DAY_MS))
@@ -40,6 +50,10 @@ class WeeklySummaryRepository(
 
     fun getAllSummariesDesc(): List<WeeklySummaryEntity> {
         return dao.getAllSummariesDesc()
+    }
+
+    fun deleteSummaries(weekStarts: Collection<Long>): Int {
+        return dao.deleteSummaries(weekStarts.distinct())
     }
 
     fun deleteOldSummaries(keepLatest: Int): Int {
@@ -193,12 +207,11 @@ class WeeklySummaryRepository(
         )
     }
 
-    private fun computeFirstBoundaryToGenerate(lastClosedBoundary: Long, zoneId: ZoneId): Long {
-        val fromSummary = dao.maxSummaryWeekEnd()
-        if (fromSummary != null) {
-            return fromSummary
-        }
-
+    private fun firstWeekStartToGenerate(
+        lastClosedDate: LocalDate,
+        existingWeekStarts: Set<Long>,
+        zoneId: ZoneId
+    ): LocalDate {
         val minEventTs = listOfNotNull(
             dao.minEventTimestamp(),
             dao.minCardioCoherenceRecordTimestamp(),
@@ -206,12 +219,15 @@ class WeeklySummaryRepository(
                 LocalDate.ofEpochDay(epochDay).atStartOfDay(zoneId).toInstant().toEpochMilli()
             }
         ).minOrNull()
-        if (minEventTs == null) {
-            return lastClosedBoundary + WEEK_MS
+        val firstEventWeekStart = minEventTs?.let { eventTimestamp ->
+            WeeklySummaryTime.previousMondayBoundary(eventTimestamp, zoneId)
         }
+        val firstKnownWeekStart = (existingWeekStarts + listOfNotNull(firstEventWeekStart))
+            .minOrNull()
 
-        val eventWeekBoundary = WeeklySummaryTime.previousMondayBoundary(minEventTs, zoneId) + WEEK_MS
-        return eventWeekBoundary
+        return firstKnownWeekStart?.let { boundary ->
+            Instant.ofEpochMilli(boundary).atZone(zoneId).toLocalDate()
+        } ?: lastClosedDate.minusWeeks(1)
     }
 
     private fun buildSummary(weekStartMillis: Long, weekEndMillis: Long): WeeklySummaryEntity {
@@ -257,8 +273,6 @@ class WeeklySummaryRepository(
 
     companion object {
         private const val DAY_MS = 24L * 60L * 60L * 1000L
-        private const val WEEK_MS = 7L * DAY_MS
-
         const val SECTION_NOTES = "notes"
         const val SECTION_JOURNAL = "journal"
         const val SECTION_CONFERENCES = "conferences"

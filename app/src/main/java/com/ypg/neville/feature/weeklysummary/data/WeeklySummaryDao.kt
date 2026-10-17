@@ -18,13 +18,41 @@ interface WeeklySummaryDao {
     @Query("SELECT * FROM weekly_summaries ORDER BY weekStartMillis DESC")
     fun getAllSummariesDesc(): List<WeeklySummaryEntity>
 
+    @Query("SELECT weekStartMillis FROM weekly_summaries")
+    fun getAllSummaryWeekStarts(): List<Long>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertDeletionMarkers(items: List<WeeklySummaryDeletionEntity>)
+
+    @Query("SELECT weekStartMillis FROM weekly_summary_deletions")
+    fun getDeletedWeekStarts(): List<Long>
+
+    @Query("DELETE FROM weekly_summaries WHERE weekStartMillis IN (:weekStarts)")
+    fun deleteSummariesByWeekStart(weekStarts: List<Long>): Int
+
+    @Transaction
+    fun deleteSummaries(weekStarts: List<Long>): Int {
+        if (weekStarts.isEmpty()) return 0
+        insertDeletionMarkers(
+            weekStarts.distinct().map { weekStart ->
+                WeeklySummaryDeletionEntity(weekStartMillis = weekStart)
+            }
+        )
+        return deleteSummariesByWeekStart(weekStarts)
+    }
+
     @Query(
-        "DELETE FROM weekly_summaries " +
+        "SELECT weekStartMillis FROM weekly_summaries " +
             "WHERE weekStartMillis NOT IN (" +
             "SELECT weekStartMillis FROM weekly_summaries " +
             "ORDER BY weekStartMillis DESC LIMIT :keepLatest)"
     )
-    fun deleteSummariesOlderThanLatest(keepLatest: Int): Int
+    fun getSummaryWeekStartsOlderThanLatest(keepLatest: Int): List<Long>
+
+    @Transaction
+    fun deleteSummariesOlderThanLatest(keepLatest: Int): Int {
+        return deleteSummaries(getSummaryWeekStartsOlderThanLatest(keepLatest))
+    }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun upsertSectionOrder(items: List<WeeklySummarySectionOrderEntity>)

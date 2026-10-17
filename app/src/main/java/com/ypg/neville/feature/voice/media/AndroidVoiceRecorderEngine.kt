@@ -24,16 +24,22 @@ class AndroidVoiceRecorderEngine(
             MediaRecorder()
         }
 
-        newRecorder.apply {
-            setAudioSource(MediaRecorder.AudioSource.MIC)
-            setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-            setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-            setAudioEncodingBitRate(96_000)
-            setAudioSamplingRate(44_100)
-            setMaxDuration(MAX_RECORD_MS)
-            setOutputFile(outputFilePath)
-            prepare()
-            start()
+        try {
+            newRecorder.apply {
+                setAudioSource(MediaRecorder.AudioSource.MIC)
+                setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+                setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+                setAudioEncodingBitRate(96_000)
+                setAudioSamplingRate(44_100)
+                setMaxDuration(MAX_RECORD_MS)
+                setOutputFile(outputFilePath)
+                prepare()
+                start()
+            }
+        } catch (error: Throwable) {
+            runCatching { newRecorder.reset() }
+            newRecorder.release()
+            throw error
         }
 
         recorder = newRecorder

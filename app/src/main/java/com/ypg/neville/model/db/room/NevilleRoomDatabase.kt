@@ -26,11 +26,10 @@ import com.ypg.neville.feature.morningdialog.data.RitualDiaryExportEntity
 import com.ypg.neville.feature.presence.data.PresenceEventDao
 import com.ypg.neville.feature.presence.data.PresenceEventEntity
 import com.ypg.neville.feature.weeklysummary.data.WeeklySummaryDao
+import com.ypg.neville.feature.weeklysummary.data.WeeklySummaryDeletionEntity
 import com.ypg.neville.feature.weeklysummary.data.WeeklySummaryEntity
 import com.ypg.neville.feature.weeklysummary.data.WeeklySummaryEventEntity
 import com.ypg.neville.feature.weeklysummary.data.WeeklySummarySectionOrderEntity
-import com.ypg.neville.feature.voice.data.VoiceRecordingDao
-import com.ypg.neville.feature.voice.data.VoiceRecordingEntity
 import com.ypg.neville.model.reminders.ReminderDao
 import com.ypg.neville.model.reminders.ReminderEntity
 import com.ypg.neville.model.security.PostQuantumAesTextCrypto
@@ -48,12 +47,12 @@ import com.ypg.neville.model.security.PostQuantumAesTextCrypto
         ArchivedGoalEntity::class,
         ArchivedUnitEntity::class,
         ReminderEntity::class,
-        VoiceRecordingEntity::class,
         EmotionalAnchorEntity::class,
         PreferenceEntity::class,
         MorningDialogSessionEntity::class,
         RitualDiaryExportEntity::class,
         WeeklySummaryEntity::class,
+        WeeklySummaryDeletionEntity::class,
         WeeklySummaryEventEntity::class,
         WeeklySummarySectionOrderEntity::class,
         CalmPersonalPhraseEntity::class,
@@ -64,7 +63,7 @@ import com.ypg.neville.model.security.PostQuantumAesTextCrypto
         AiConversationEntity::class,
         AiMessageEntity::class
     ],
-    version = 33,
+    version = 36,
     exportSchema = false
 )
 abstract class NevilleRoomDatabase : RoomDatabase() {
@@ -80,7 +79,6 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
     abstract fun archivedGoalDao(): ArchivedGoalDao
     abstract fun archivedUnitDao(): ArchivedUnitDao
     abstract fun reminderDao(): ReminderDao
-    abstract fun voiceRecordingDao(): VoiceRecordingDao
     abstract fun emotionalAnchorDao(): EmotionalAnchorDao
     abstract fun preferenceDao(): PreferenceDao
     abstract fun morningDialogDao(): MorningDialogDao
@@ -143,6 +141,7 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
                         "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                         "`title` TEXT NOT NULL, " +
                         "`link` TEXT NOT NULL, " +
+                        "`type` TEXT NOT NULL, " +
                         "`fav` TEXT NOT NULL, " +
                         "`nota` TEXT NOT NULL, " +
                         "`shared` TEXT NOT NULL)"
@@ -398,142 +397,88 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
                         "`goalsJson` TEXT NOT NULL, " +
                         "`identity` TEXT NOT NULL, " +
                         "`emotionsJson` TEXT NOT NULL, " +
-                        "`anticipatedSituationsJson` TEXT NOT NULL, " +
-                        "`consciousResponsesJson` TEXT NOT NULL, " +
-                        "`completed` INTEGER NOT NULL)"
+                        "`MorningDialogResult` TEXT NOT NULL, " +
+                        "`isComplete` INTEGER NOT NULL DEFAULT 0)"
                 )
-                db.execSQL(
-                    "CREATE UNIQUE INDEX IF NOT EXISTS `index_morning_dialog_sessions_sessionDateEpochDay` " +
-                        "ON `morning_dialog_sessions` (`sessionDateEpochDay`)"
-                )
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_morning_dialog_sessions_sessionDateEpochDay` ON `morning_dialog_sessions` (`sessionDateEpochDay`)")
             }
         }
 
         private val MIGRATION_14_15 = object : Migration(14, 15) {
             override fun migrate(db: SupportSQLiteDatabase) {
-                db.execSQL(
-                    "ALTER TABLE `morning_dialog_sessions` " +
-                        "ADD COLUMN `noteText` TEXT NOT NULL DEFAULT ''"
-                )
+                db.execSQL("ALTER TABLE `morning_dialog_sessions` ADD COLUMN `sessionNote` TEXT NOT NULL DEFAULT ''")
             }
         }
 
         private val MIGRATION_15_16 = object : Migration(15, 16) {
             override fun migrate(db: SupportSQLiteDatabase) {
                 db.execSQL(
-                    "CREATE TABLE IF NOT EXISTS `ritual_diary_exports` (" +
-                        "`sessionId` INTEGER NOT NULL, " +
-                        "`diarioId` INTEGER NOT NULL, " +
-                        "`createdAt` INTEGER NOT NULL, " +
-                        "PRIMARY KEY(`sessionId`))"
+                    "CREATE TABLE IF NOT EXISTS `evening_ritual_reviews` (" +
+                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`sessionDateEpochDay` INTEGER NOT NULL, " +
+                        "`completedAtEpochMillis` INTEGER NOT NULL, " +
+                        "`energy` INTEGER NOT NULL, " +
+                        "`predominantEmotionId` TEXT NOT NULL, " +
+                        "`whatWentWell` TEXT NOT NULL, " +
+                        "`learning` TEXT NOT NULL, " +
+                        "`autopilotMoment` TEXT NOT NULL, " +
+                        "`gratitude` TEXT NOT NULL, " +
+                        "`tomorrowPreparation` TEXT NOT NULL, " +
+                        "`identityAlignment` INTEGER NOT NULL, " +
+                        "`suggestion` TEXT NOT NULL, " +
+                        "`agendaCompletedCount` INTEGER NOT NULL, " +
+                        "`agendaTotalCount` INTEGER NOT NULL, " +
+                        "`goalUnitsCompletedCount` INTEGER NOT NULL, " +
+                        "`presenceReturns` INTEGER NOT NULL, " +
+                        "`automaticPilotEvents` INTEGER NOT NULL, " +
+                        "`coherenceSessionsCount` INTEGER NOT NULL, " +
+                        "`journalEntryRequested` INTEGER NOT NULL, " +
+                        "`journalEntryCreated` INTEGER NOT NULL, " +
+                        "`journalEntryId` INTEGER)"
                 )
                 db.execSQL(
-                    "CREATE INDEX IF NOT EXISTS `index_ritual_diary_exports_diarioId` " +
-                        "ON `ritual_diary_exports` (`diarioId`)"
+                    "CREATE UNIQUE INDEX IF NOT EXISTS `index_evening_ritual_reviews_sessionDateEpochDay` " +
+                        "ON `evening_ritual_reviews` (`sessionDateEpochDay`)"
                 )
             }
         }
 
         private val MIGRATION_16_17 = object : Migration(16, 17) {
             override fun migrate(db: SupportSQLiteDatabase) {
-                db.execSQL(
-                    "CREATE TABLE IF NOT EXISTS `weekly_summaries` (" +
-                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-                        "`weekStartMillis` INTEGER NOT NULL, " +
-                        "`weekEndMillis` INTEGER NOT NULL, " +
-                        "`generatedAtMillis` INTEGER NOT NULL, " +
-                        "`notesCreated` INTEGER NOT NULL, " +
-                        "`notesModified` INTEGER NOT NULL, " +
-                        "`notesDeleted` INTEGER NOT NULL, " +
-                        "`journalCreated` INTEGER NOT NULL, " +
-                        "`journalModified` INTEGER NOT NULL, " +
-                        "`journalDeleted` INTEGER NOT NULL, " +
-                        "`conferencesRead` INTEGER NOT NULL, " +
-                        "`goalsCreated` INTEGER NOT NULL, " +
-                        "`goalsCompleted` INTEGER NOT NULL, " +
-                        "`goalsInProgress` INTEGER NOT NULL, " +
-                        "`remindersCreated` INTEGER NOT NULL, " +
-                        "`remindersModified` INTEGER NOT NULL, " +
-                        "`remindersDeleted` INTEGER NOT NULL, " +
-                        "`voiceCreated` INTEGER NOT NULL, " +
-                        "`voiceDeleted` INTEGER NOT NULL, " +
-                        "`emotionalAnchorsCreated` INTEGER NOT NULL, " +
-                        "`emotionalAnchorsUsed` INTEGER NOT NULL, " +
-                        "`morningRitualsCompleted` INTEGER NOT NULL, " +
-                        "`cardioCoherenceSessions` INTEGER NOT NULL, " +
-                        "`cardioCoherenceMinutes` INTEGER NOT NULL, " +
-                        "`cardioCoherenceScoreDelta` INTEGER NOT NULL, " +
-                        "`personalPhrasesCreated` INTEGER NOT NULL, " +
-                        "`personalPhrasesModified` INTEGER NOT NULL, " +
-                        "`personalPhrasesDeleted` INTEGER NOT NULL, " +
-                        "`encyclopediaAccessed` INTEGER NOT NULL)"
-                )
-                db.execSQL(
-                    "CREATE UNIQUE INDEX IF NOT EXISTS `index_weekly_summaries_weekStartMillis` " +
-                        "ON `weekly_summaries` (`weekStartMillis`)"
-                )
-
-                db.execSQL(
-                    "CREATE TABLE IF NOT EXISTS `weekly_summary_events` (" +
-                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-                        "`eventType` TEXT NOT NULL, " +
-                        "`targetKey` TEXT NOT NULL, " +
-                        "`timestamp` INTEGER NOT NULL)"
-                )
-                db.execSQL("CREATE INDEX IF NOT EXISTS `index_weekly_summary_events_timestamp` ON `weekly_summary_events` (`timestamp`)")
-                db.execSQL("CREATE INDEX IF NOT EXISTS `index_weekly_summary_events_eventType` ON `weekly_summary_events` (`eventType`)")
-                db.execSQL("CREATE INDEX IF NOT EXISTS `index_weekly_summary_events_targetKey` ON `weekly_summary_events` (`targetKey`)")
-
-                db.execSQL(
-                    "CREATE TABLE IF NOT EXISTS `weekly_summary_section_order` (" +
-                        "`sectionKey` TEXT NOT NULL, " +
-                        "`position` INTEGER NOT NULL, " +
-                        "PRIMARY KEY(`sectionKey`))"
-                )
+                db.execSQL("ALTER TABLE `notas` ADD COLUMN `categoria` TEXT NOT NULL DEFAULT ''")
             }
         }
 
         private val MIGRATION_17_18 = object : Migration(17, 18) {
             override fun migrate(db: SupportSQLiteDatabase) {
                 db.execSQL(
-                    "CREATE TABLE IF NOT EXISTS `calm_personal_phrases` (" +
-                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-                        "`phrase` TEXT NOT NULL, " +
-                        "`createdAt` INTEGER NOT NULL, " +
-                        "`updatedAt` INTEGER NOT NULL)"
+                    "CREATE TABLE IF NOT EXISTS `weekly_summaries` (" +
+                        "`id` TEXT NOT NULL, " +
+                        "`weekStartMillis` INTEGER NOT NULL, " +
+                        "`agendaCompletedCount` INTEGER NOT NULL, " +
+                        "`agendaTotalCount` INTEGER NOT NULL, " +
+                        "`goalUnitsCompletedCount` INTEGER NOT NULL, " +
+                        "`coherenceSessionsCount` INTEGER NOT NULL, " +
+                        "`coherenceAverageBeforeScore` INTEGER NOT NULL, " +
+                        "`coherenceAverageAfterScore` INTEGER NOT NULL, " +
+                        "`coherenceScoreDelta` INTEGER NOT NULL, " +
+                        "`presenceReturns` INTEGER NOT NULL, " +
+                        "`automaticPilotEvents` INTEGER NOT NULL, " +
+                        "`eveningRitualsCompleted` INTEGER NOT NULL, " +
+                        "`ritualCyclesCompleted` INTEGER NOT NULL, " +
+                        "`eveningAverageEnergy` INTEGER NOT NULL, " +
+                        "`eveningAverageIdentityAlignment` INTEGER NOT NULL, " +
+                        "`eveningPresenceReturns` INTEGER NOT NULL, " +
+                        "`eveningGoalUnitsCompleted` INTEGER NOT NULL, " +
+                        "PRIMARY KEY(`id`))"
                 )
-                db.execSQL(
-                    "CREATE UNIQUE INDEX IF NOT EXISTS `index_calm_personal_phrases_phrase` " +
-                        "ON `calm_personal_phrases` (`phrase`)"
-                )
-                db.execSQL(
-                    "CREATE INDEX IF NOT EXISTS `index_calm_personal_phrases_updatedAt` " +
-                        "ON `calm_personal_phrases` (`updatedAt`)"
-                )
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_weekly_summaries_weekStartMillis` ON `weekly_summaries` (`weekStartLMillis`)")
             }
         }
 
         private val MIGRATION_18_19 = object : Migration(18, 19) {
             override fun migrate(db: SupportSQLiteDatabase) {
-                db.execSQL(
-                    "CREATE TABLE IF NOT EXISTS `cardio_coherence_records` (" +
-                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-                        "`dateEpochMillis` INTEGER NOT NULL, " +
-                        "`durationMinutes` INTEGER NOT NULL, " +
-                        "`initialState` TEXT NOT NULL, " +
-                        "`intention` TEXT NOT NULL, " +
-                        "`beforeScore` INTEGER NOT NULL, " +
-                        "`afterScore` INTEGER NOT NULL, " +
-                        "`phasesCompleted` TEXT NOT NULL)"
-                )
-                db.execSQL(
-                    "CREATE INDEX IF NOT EXISTS `index_cardio_coherence_records_dateEpochMillis` " +
-                        "ON `cardio_coherence_records` (`dateEpochMillis`)"
-                )
-                db.execSQL(
-                    "CREATE INDEX IF NOT EXISTS `index_cardio_coherence_records_initialState` " +
-                        "ON `cardio_coherence_records` (`initialState`)"
-                )
+                db.execSQL("ALTER TABLE `Diario` ADD COLUMN `capitulo` TEXT NOT NULL DEFAULT ''")
             }
         }
 
@@ -685,7 +630,7 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
                 db.execSQL("ALTER TABLE `weekly_summaries` ADD COLUMN `eveningAverageIdentityAlignment` INTEGER NOT NULL DEFAULT 0")
                 db.execSQL("ALTER TABLE `weekly_summaries` ADD COLUMN `eveningPresenceReturns` INTEGER NOT NULL DEFAULT 0")
                 db.execSQL("ALTER TABLE `weekly_summaries` ADD COLUMN `eveningGoalUnitsCompleted` INTEGER NOT NULL DEFAULT 0")
-                db.execSQL("ALTER TABLE `evening_ritual_reviews` ADD COLUMN `dayContextFingerprint` TEXT NOT NULL DEFAULT ''")
+                db.execSQL("ALTER TABLE `evening_ritual_reviews` ADD COLUMN `dayLContextFingerprint` TEXT NOT NULL DEFAULT ''")
             }
         }
 
@@ -789,6 +734,76 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
                     "UPDATE `diario_attachments` SET `updatedAt` = `createdAt` " +
                         "WHERE `updatedAt` = 0"
                 )
+            }
+        }
+
+        private val MIGRATION_33_34 = object : Migration(33, 34) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                if (!columnExists(db, "notas", "audioPath")) {
+                    db.execSQL("ALTER TABLE `notas` ADD COLUMN `audioPath` TEXT NOT NULL DEFAULT ''")
+                }
+            }
+        }
+
+        private val MIGRATION_34_35 = object : Migration(34, 35) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                if (!columnExists(db, "notas", "audioPath")) {
+                    db.execSQL("ALTER TABLE `notas` ADD COLUMN `audioPath` TEXT NOT NULL DEFAULT ''")
+                }
+                if (!columnExists(db, "notas", "voiceAudioData")) {
+                    db.execSQL("ALTER TABLE `notas` ADD COLUMN `voiceAudioData` BLOB")
+                }
+                if (!columnExists(db, "notas", "voiceAudioFileExtension")) {
+                    db.execSQL(
+                        "ALTER TABLE `notas` ADD COLUMN `voiceAudioFileExtension` " +
+                            "TEXT NOT NULL DEFAULT ''"
+                    )
+                }
+                if (tableExists(db, "voice_recordings")) {
+                    db.execSQL(
+                        "INSERT INTO `notas` (" +
+                            "`titulo`, `nota`, `fechaCreacion`, `fechaModificacion`, `isFav`, " +
+                            "`categoria`, `isChecklist`, `checklistJson`, `syncId`, `audioPath`, " +
+                            "`voiceAudioData`, `voiceAudioFileExtension`) " +
+                            "SELECT `title`, ?, `createdAt`, `updatedAt`, 0, '', 0, '', " +
+                            "'android-legacy-voice-' || `id`, `filePath`, NULL, 'm4a' " +
+                            "FROM `voice_recordings`",
+                        arrayOf(NotaEntity.VOICE_NOTE_MARKER)
+                    )
+                    db.execSQL("DROP TABLE `voice_recordings`")
+                }
+            }
+        }
+
+        private val MIGRATION_35_36 = object : Migration(35, 36) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `weekly_summary_deletions` (" +
+                        "`weekStartMillis` INTEGER NOT NULL, " +
+                        "`deletedAtMillis` INTEGER NOT NULL, " +
+                        "PRIMARY KEY(`weekStartMillis`))"
+                )
+            }
+        }
+
+        private fun tableExists(db: SupportSQLiteDatabase, tableName: String): Boolean {
+            return db.query(
+                "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = ? LIMIT 1",
+                arrayOf(tableName)
+            ).use { it.moveToFirst() }
+        }
+
+        private fun columnExists(
+            db: SupportSQLiteDatabase,
+            tableName: String,
+            columnName: String
+        ): Boolean {
+            return db.query("PRAGMA table_info(`$tableName`)").use { cursor ->
+                val nameIndex = cursor.getColumnIndex("name")
+                while (cursor.moveToNext()) {
+                    if (nameIndex >= 0 && cursor.getString(nameIndex) == columnName) return@use true
+                }
+                false
             }
         }
 
@@ -915,7 +930,10 @@ abstract class NevilleRoomDatabase : RoomDatabase() {
                         MIGRATION_29_30,
                         MIGRATION_30_31,
                         MIGRATION_31_32,
-                        MIGRATION_32_33
+                        MIGRATION_32_33,
+                        MIGRATION_33_34,
+                        MIGRATION_34_35,
+                        MIGRATION_35_36
                     )
                     .addCallback(ENCRYPT_PERSONAL_TEXT_ON_OPEN)
                     .allowMainThreadQueries()
